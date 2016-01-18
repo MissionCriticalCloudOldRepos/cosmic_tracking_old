@@ -1,4 +1,5 @@
 //
+
 // Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -48,6 +49,9 @@ import com.cloud.resource.ResourceWrapper;
 @ResourceWrapper(handles =  MigrateCommand.class)
 public final class LibvirtMigrateCommandWrapper extends CommandWrapper<MigrateCommand, Answer, LibvirtComputingResource> {
 
+    private static final String CONTENTS_WILDCARD = ".*";
+    private static final String GRAPHICS_ELEM_END = "/graphics>";
+    private static final String GRAPHICS_ELEM_START = "<graphics";
     private static final Logger s_logger = Logger.getLogger(LibvirtMigrateCommandWrapper.class);
 
     @Override
@@ -90,9 +94,11 @@ public final class LibvirtMigrateCommandWrapper extends CommandWrapper<MigrateCo
 
                                Use VIR_DOMAIN_XML_SECURE (value = 1) prior to v1.0.0.
              */
-            int xmlFlag = conn.getLibVirVersion() >= 1000000 ? 8 : 1; // 1000000 equals v1.0.0
+            final int xmlFlag = conn.getLibVirVersion() >= 1000000 ? 8 : 1; // 1000000 equals v1.0.0
 
-            xmlDesc = dm.getXMLDesc(xmlFlag).replace(libvirtComputingResource.getPrivateIp(), command.getDestinationIp());
+            final String target = command.getDestinationIp();
+            xmlDesc = dm.getXMLDesc(xmlFlag);
+            xmlDesc = replaceIpForVNCInDescFile(xmlDesc, target);
 
             dconn = libvirtUtilitiesHelper.retrieveQemuConnection("qemu+tcp://" + command.getDestinationIp() + "/system");
 
@@ -189,5 +195,25 @@ public final class LibvirtMigrateCommandWrapper extends CommandWrapper<MigrateCo
         }
 
         return new MigrateAnswer(command, result == null, result, null);
+    }
+
+    /**
+     * This function assumes an qemu machine desription containing a single graphics element like
+     *     <graphics type='vnc' port='5900' autoport='yes' listen='10.10.10.1'>
+     *       <listen type='address' address='10.10.10.1'/>
+     *     </graphics>
+     * @param xmlDesc the qemu xml description
+     * @param source the ip address to migrate from
+     * @param target the ip address to migrate to
+     * @return the new xmlDesc
+     */
+    String replaceIpForVNCInDescFile(String xmlDesc, final String target) {
+        final int begin = xmlDesc.indexOf(GRAPHICS_ELEM_START);
+        final int end = xmlDesc.lastIndexOf(GRAPHICS_ELEM_END) + GRAPHICS_ELEM_END.length();
+        String graphElem = xmlDesc.substring(begin, end);
+        graphElem = graphElem.replaceAll("listen='[a-zA-Z0-9\\.]*'", "listen='" + target + "'");
+        graphElem = graphElem.replaceAll("address='[a-zA-Z0-9\\.]*'", "address='" + target + "'");
+        xmlDesc = xmlDesc.replaceAll(GRAPHICS_ELEM_START + CONTENTS_WILDCARD + GRAPHICS_ELEM_END, graphElem);
+        return xmlDesc;
     }
 }
