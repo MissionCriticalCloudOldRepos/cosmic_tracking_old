@@ -209,11 +209,15 @@ public final class LibvirtMigrateCommandWrapper extends CommandWrapper<MigrateCo
      */
     String replaceIpForVNCInDescFile(String xmlDesc, final String target) {
         final int begin = xmlDesc.indexOf(GRAPHICS_ELEM_START);
-        final int end = xmlDesc.lastIndexOf(GRAPHICS_ELEM_END) + GRAPHICS_ELEM_END.length();
-        String graphElem = xmlDesc.substring(begin, end);
-        graphElem = graphElem.replaceAll("listen='[a-zA-Z0-9\\.]*'", "listen='" + target + "'");
-        graphElem = graphElem.replaceAll("address='[a-zA-Z0-9\\.]*'", "address='" + target + "'");
-        xmlDesc = xmlDesc.replaceAll(GRAPHICS_ELEM_START + CONTENTS_WILDCARD + GRAPHICS_ELEM_END, graphElem);
+        if (begin >= 0) {
+            final int end = xmlDesc.lastIndexOf(GRAPHICS_ELEM_END) + GRAPHICS_ELEM_END.length();
+            if ( end > GRAPHICS_ELEM_END.length()) {
+                String graphElem = xmlDesc.substring(begin, end);
+                graphElem = graphElem.replaceAll("listen='[a-zA-Z0-9\\.]*'", "listen='" + target + "'");
+                graphElem = graphElem.replaceAll("address='[a-zA-Z0-9\\.]*'", "address='" + target + "'");
+                xmlDesc = xmlDesc.replaceAll(GRAPHICS_ELEM_START + CONTENTS_WILDCARD + GRAPHICS_ELEM_END, graphElem);
+            }
+        }
         return xmlDesc;
     }
 }
