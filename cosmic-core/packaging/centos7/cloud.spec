@@ -162,6 +162,7 @@ echo Doing CloudStack build
 
 %build
 
+mkdir -p build
 cp packaging/centos7/replace.properties build/replace.properties
 echo VERSION=%{_maventag} >> build/replace.properties
 echo PACKAGE=%{name} >> build/replace.properties
