@@ -22,9 +22,9 @@
   <name>Apache CloudStack Cloud Services</name>
   <packaging>pom</packaging>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
-    <artifactId>cloudstack</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <groupId>cloud.cosmic</groupId>
+    <artifactId>cosmic-core</artifactId>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <build>

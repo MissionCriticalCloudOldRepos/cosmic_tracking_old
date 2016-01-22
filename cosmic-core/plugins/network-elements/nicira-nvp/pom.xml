@@ -24,17 +24,17 @@
   <artifactId>cloud-plugin-network-nvp</artifactId>
   <name>Apache CloudStack Plugin - Network Nicira NVP</name>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloudstack-plugins</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-utils</artifactId>
-      <version>4.8.0-SNAPSHOT</version>
+      <version>5.0.0-SNAPSHOT</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -57,19 +57,6 @@
       </testResource>
     </testResources>
     <plugins>
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>cloudstack-checklicence</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>

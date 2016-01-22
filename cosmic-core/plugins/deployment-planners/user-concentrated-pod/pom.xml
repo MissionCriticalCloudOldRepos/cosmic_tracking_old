@@ -21,9 +21,9 @@
   <artifactId>cloud-plugin-planner-user-concentrated-pod</artifactId>
   <name>Apache CloudStack Plugin - User Concentrated Pod Deployment Planner</name>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloudstack-plugins</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 </project>

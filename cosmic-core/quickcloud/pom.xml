@@ -22,9 +22,9 @@
   <artifactId>cloud-quickcloud</artifactId>
   <name>Apache CloudStack Framework - QuickCloud</name>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloud-maven-standard</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../maven-standard/pom.xml</relativePath>
   </parent>
 </project>

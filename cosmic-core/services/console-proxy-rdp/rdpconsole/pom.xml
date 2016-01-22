@@ -25,9 +25,9 @@
   <name>Apache CloudStack Console Proxy - RDP Client</name>
 
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloudstack-services</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -62,7 +62,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-utils</artifactId>
       <version>${project.version}</version>
     </dependency>

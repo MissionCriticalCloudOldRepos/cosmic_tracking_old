@@ -22,19 +22,19 @@
   <artifactId>cloud-plugin-network-cisco-vnmc</artifactId>
   <name>Apache CloudStack Plugin - Cisco VNMC</name>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloudstack-plugins</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <dependencies>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-hypervisor-vmware</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-vmware-base</artifactId>
       <version>${project.version}</version>
     </dependency>

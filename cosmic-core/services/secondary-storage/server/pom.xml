@@ -21,9 +21,9 @@
   <artifactId>cloud-secondary-storage</artifactId>
   <name>Apache CloudStack Secondary Storage Service</name>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloudstack-service-secondary-storage</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
     <properties>
@@ -44,12 +44,12 @@
     </dependency>
     <!-- required deps for the systemvm -->
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-agent</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-server</artifactId>
       <version>${project.version}</version>
     </dependency>
