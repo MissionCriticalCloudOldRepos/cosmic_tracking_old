@@ -22,9 +22,9 @@
   <name>Apache CloudStack IAM Service</name>
   <packaging>pom</packaging>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloudstack-services</artifactId>
-    <version>4.7.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <build>
@@ -37,17 +37,17 @@
   <!-- 
   <dependencies>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-utils</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>

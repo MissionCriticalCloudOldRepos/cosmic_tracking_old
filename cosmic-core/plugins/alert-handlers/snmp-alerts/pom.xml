@@ -21,8 +21,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>cloudstack-plugins</artifactId>
-    <groupId>org.apache.cloudstack</groupId>
-    <version>4.8.0-SNAPSHOT</version>
+    <groupId>cloud.cosmic</groupId>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>

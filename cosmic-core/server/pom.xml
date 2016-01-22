@@ -13,9 +13,9 @@
   <artifactId>cloud-server</artifactId>
   <name>Apache CloudStack Server</name>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
-    <artifactId>cloudstack</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <groupId>cloud.cosmic</groupId>
+    <artifactId>cosmic-core</artifactId>
+    <version>5.0.0-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
@@ -28,17 +28,17 @@
       <artifactId>spring-web</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-cluster</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-security</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -53,7 +53,7 @@
       <version>${cs.httpcore.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-jobs</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -78,7 +78,7 @@
       <artifactId>commons-codec</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-utils</artifactId>
       <version>${project.version}</version>
       <exclusions>
@@ -89,7 +89,7 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
@@ -106,32 +106,32 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-engine-schema</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-ipc</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-events</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-config</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.cloudstack</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-engine-components-api</artifactId>
       <version>${project.version}</version>
     </dependency>

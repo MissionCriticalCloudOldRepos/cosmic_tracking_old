@@ -13,9 +13,9 @@
   <artifactId>cloud-plugin-database-mysqlha</artifactId>
   <name>Apache CloudStack Plugin - MySQL HA Strategy</name>
   <parent>
-    <groupId>org.apache.cloudstack</groupId>
+    <groupId>cloud.cosmic</groupId>
     <artifactId>cloudstack-plugins</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <dependencies>
