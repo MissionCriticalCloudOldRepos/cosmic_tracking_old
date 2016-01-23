@@ -1,4 +1,4 @@
 [submodule "cosmic-core"]
 	path = cosmic-core
-	url = git@github.com:MissionCriticalCloud/cosmic-core.git
+	url = https://github.com/MissionCriticalCloud/cosmic-core.git
 	branch = master
