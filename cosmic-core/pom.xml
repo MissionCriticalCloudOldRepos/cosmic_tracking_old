@@ -788,15 +788,6 @@
       </modules>
     </profile>
     <profile>
-      <id>impatient</id>
-      <properties>
-        <marvin.config>tools/devcloud/devcloud.cfg</marvin.config>
-      </properties>
-      <modules>
-        <module>developer</module>
-      </modules>
-    </profile>
-    <profile>
       <id>vmware</id>
       <activation>
         <property>
