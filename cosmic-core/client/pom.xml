@@ -12,7 +12,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-client-ui</artifactId>
-  <name>Apache CloudStack Client UI</name>
+  <name>Cosmic Client UI</name>
   <packaging>war</packaging>
   <parent>
     <groupId>cloud.cosmic</groupId>
@@ -647,7 +647,7 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
           <executions>
             <execution>
-              <id>cloudstack-checkstyle</id>
+              <id>cosmic-checkstyle</id>
               <phase>none</phase>
               <inherited>false</inherited>
             </execution>
@@ -794,7 +794,7 @@
           </plugin>
           <plugin>
             <groupId>cloud.cosmic</groupId>
-            <artifactId>Wix-cloudstack-maven-plugin</artifactId>
+            <artifactId>Wix-cosmic-maven-plugin</artifactId>
             <version>${project.version}</version>
             <executions>
               <execution>
