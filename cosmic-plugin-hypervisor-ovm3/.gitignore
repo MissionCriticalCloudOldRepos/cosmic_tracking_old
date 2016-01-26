@@ -1,0 +1,10 @@
+/bin/
+
+# Eclipse project file
+.checkstyle
+.classpath
+.project
+.settings/
+
+# Build target
+target/
