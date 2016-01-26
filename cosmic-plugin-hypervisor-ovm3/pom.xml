@@ -24,7 +24,7 @@
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-plugins</artifactId>
     <version>5.0.0-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
+    <relativePath>../cosmic-core/plugins/pom.xml</relativePath>
   </parent>
   <dependencies>
     <dependency>
