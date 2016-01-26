@@ -590,20 +590,6 @@ configurePaloAltoFirewall=1
 listPaloAltoFirewalls=1
 listPaloAltoFirewallNetworks=1
 
-####Netapp integration commands
-createVolumeOnFiler=15
-destroyVolumeOnFiler=15
-listVolumesOnFiler=15
-createLunOnFiler=15
-destroyLunOnFiler=15
-listLunsOnFiler=15
-associateLun=15
-dissociateLun=15
-createPool=15
-deletePool=15
-modifyPool=15
-listPools=15
-
 #### netscaler load balancer commands
 addNetscalerLoadBalancer=1
 deleteNetscalerLoadBalancer=1
