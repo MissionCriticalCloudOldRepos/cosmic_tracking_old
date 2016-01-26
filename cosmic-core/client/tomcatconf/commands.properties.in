@@ -614,12 +614,6 @@ deleteBrocadeVcsDevice=1
 listBrocadeVcsDevices=1
 listBrocadeVcsDeviceNetworks=1
 
-#### bigswitch bcf commands
-
-addBigSwitchBcfDevice=1
-deleteBigSwitchBcfDevice=1
-listBigSwitchBcfDevices=1
-
 #### stratosphere ssp commands
 
 addStratosphereSsp=1

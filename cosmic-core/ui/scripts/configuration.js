@@ -2295,7 +2295,7 @@
                                         //p.s. Netscaler is supported in both vpc and non-vpc
                                         if ($useVpc.is(':visible') && $useVpcCb.is(':checked')) { //*** vpc ***
                                             $optionsOfProviders.each(function(index) {
-                                                if ($(this).val() == 'InternalLbVm' || $(this).val() == 'VpcVirtualRouter' || $(this).val() == 'Netscaler'  || $(this).val() == 'NuageVsp' || $(this).val() == 'NuageVspVpc' || $(this).val() == 'BigSwitchBcf') {
+                                                if ($(this).val() == 'InternalLbVm' || $(this).val() == 'VpcVirtualRouter' || $(this).val() == 'Netscaler'  || $(this).val() == 'NuageVsp' || $(this).val() == 'NuageVspVpc') {
                                                     $(this).attr('disabled', false);
                                                 } else {
                                                     $(this).attr('disabled', true);
@@ -3587,29 +3587,25 @@
                                             });
                                             networkServiceObjs.push({
                                                 name: 'Gateway',
-                                                provider: [{name: 'VpcVirtualRouter'},
-                                                           {name: 'BigSwitchBcf'}]
+                                                provider: [{name: 'VpcVirtualRouter'}]
                                             });
                                             networkServiceObjs.push({
                                                 name: 'StaticNat',
                                                 provider: [
                                                        {name: 'VpcVirtualRouter'},
-                                                       {name: 'NuageVsp'},
-                                                       {name: 'BigSwitchBcf'}]
+                                                       {name: 'NuageVsp'}]
                                             });
                                             networkServiceObjs.push({
                                                 name: 'SourceNat',
                                                 provider: [
                                                        {name: 'VpcVirtualRouter'},
-                                                       {name: 'NuageVsp'},
-                                                       {name: 'BigSwitchBcf'}]
+                                                       {name: 'NuageVsp'}]
                                             });
                                             networkServiceObjs.push({
                                                 name: 'NetworkACL',
                                                 provider: [
                                                        {name: 'VpcVirtualRouter'},
-                                                       {name: 'NuageVsp'},
-                                                       {name: 'BigSwitchBcf'}]
+                                                       {name: 'NuageVsp'}]
                                             });
                                             networkServiceObjs.push({
                                                 name: 'PortForwarding',
@@ -3621,14 +3617,12 @@
                                             });
                                             networkServiceObjs.push({
                                                 name: 'Vpn',
-                                                provider: [{name: 'VpcVirtualRouter'},
-                                                           {name: 'BigSwitchBcf'}]
+                                                provider: [{name: 'VpcVirtualRouter'}]
                                             });
 
                                             networkServiceObjs.push({
                                                 name: 'Connectivity',
                                                 provider: [
-                                                    {name: 'BigSwitchBcf'},
                                                     {name: 'NiciraNvp'},
                                                     {name: 'Ovs'},
                                                     {name: 'JuniperContrailVpcRouter'},
