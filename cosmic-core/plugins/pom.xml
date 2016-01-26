@@ -67,7 +67,6 @@
     <module>hypervisors/baremetal</module>
     <module>hypervisors/ucs</module>
     <module>hypervisors/hyperv</module>
-    <module>hypervisors/ovm3</module>
     <module>network-elements/elastic-loadbalancer</module>
     <module>network-elements/ovs</module>
     <module>network-elements/juniper-contrail</module>
