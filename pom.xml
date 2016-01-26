@@ -101,6 +101,7 @@
 
   <modules>
     <module>cosmic-core</module>
+    <module>cosmic-plugin-hypervisor-ovm3</module>
   </modules>
 
   <dependencyManagement>
