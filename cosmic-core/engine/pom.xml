@@ -19,7 +19,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-engine</artifactId>
-  <name>Apache CloudStack Cloud Engine</name>
+  <name>Cosmic Cloud Engine</name>
   <packaging>pom</packaging>
   <parent>
     <groupId>cloud.cosmic</groupId>
@@ -35,7 +35,7 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
           <executions>
             <execution>
-              <id>cloudstack-checkstyle</id>
+              <id>cosmic-checkstyle</id>
               <phase>none</phase>
               <inherited>false</inherited>
             </execution>

@@ -12,7 +12,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-engine-storage-integration-test</artifactId>
-  <name>Apache CloudStack Engine Storage integration test Component</name>
+  <name>Cosmic Engine Storage integration test Component</name>
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cloud-engine</artifactId>

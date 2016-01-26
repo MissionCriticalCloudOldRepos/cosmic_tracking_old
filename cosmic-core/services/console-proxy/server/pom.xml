@@ -19,10 +19,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-console-proxy</artifactId>
-  <name>Apache CloudStack Console Proxy - Server</name>
+  <name>Cosmic Console Proxy - Server</name>
   <parent>
     <groupId>cloud.cosmic</groupId>
-    <artifactId>cloudstack-service-console-proxy</artifactId>
+    <artifactId>cosmic-service-console-proxy</artifactId>
     <version>5.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
@@ -46,7 +46,7 @@
     </dependency>
     <dependency>
       <groupId>rdpclient</groupId>
-      <artifactId>cloudstack-service-console-proxy-rdpclient</artifactId>
+      <artifactId>cosmic-service-console-proxy-rdpclient</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

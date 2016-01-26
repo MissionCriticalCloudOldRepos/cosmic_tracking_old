@@ -20,12 +20,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>cloud.cosmic</groupId>
-    <artifactId>cloudstack-plugins</artifactId>
+    <artifactId>cosmic-plugins</artifactId>
     <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>cloud-plugin-hypervisor-baremetal</artifactId>
-  <name>Apache CloudStack Plugin - Hypervisor Baremetal</name>
+  <name>Cosmic Plugin - Hypervisor Baremetal</name>
   <dependencies>
       <dependency>
         <groupId>commons-lang</groupId>

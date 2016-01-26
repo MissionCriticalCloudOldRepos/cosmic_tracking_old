@@ -13,9 +13,9 @@
   <artifactId>cosmic-core</artifactId>
   <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Apache CloudStack</name>
-  <description>Apache CloudStack is an IaaS (“Infrastructure as a Service”) cloud orchestration platform.</description>
-  <url>http://www.cloudstack.org</url>
+  <name>Cosmic</name>
+  <description>Cosmic is an IaaS (“Infrastructure as a Service”) cloud orchestration platform.</description>
+  <url>http://www.cosmic.cloud</url>
 
   <licenses>
     <license>
@@ -353,7 +353,7 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <executions>
           <execution>
-            <id>cloudstack-checkstyle</id>
+            <id>cosmic-checkstyle</id>
             <phase>none</phase>
             <inherited>false</inherited>
           </execution>
@@ -375,7 +375,7 @@
           </dependencies>
           <executions>
             <execution>
-              <id>cloudstack-checkstyle</id>
+              <id>cosmic-checkstyle</id>
               <phase>validate</phase>
               <goals>
                 <goal>check</goal>
@@ -398,7 +398,7 @@
           <version>${cs.mycila.license.version}</version>
           <executions>
             <execution>
-              <id>cloudstack-checklicence</id>
+              <id>cosmic-checklicence</id>
               <phase>process-classes</phase>
               <goals>
                 <goal>check</goal>
@@ -691,7 +691,7 @@
           </configuration>
           <executions>
             <execution>
-              <id>cloudstack-pmd</id>
+              <id>cosmic-pmd</id>
               <goals>
                 <goal>check</goal>
                 <goal>cpd-check</goal>

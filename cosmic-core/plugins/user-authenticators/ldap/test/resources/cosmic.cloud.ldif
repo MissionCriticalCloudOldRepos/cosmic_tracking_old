@@ -16,13 +16,13 @@
 # under the License.
 version: 1
 
-dn: dc=cloudstack,dc=org
+dn: dc=cosmic,dc=org
 objectClass: dcObject
 objectClass: organization
-dc: cloudstack
-o: cloudstack
+dc: cosmic
+o: cosmic
 
-dn: cn=Ryan Murphy,dc=cloudstack,dc=org
+dn: cn=Ryan Murphy,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -30,22 +30,22 @@ objectClass: top
 cn: Ryan Murphy
 sn: Murphy
 givenName: Ryan
-mail: rmurphy@cloudstack.org
+mail: rmurphy@cosmic.cloud
 uid: rmurphy
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Barbara Brewer,dc=cloudstack,dc=org
+dn: cn=Barbara Brewer,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 cn: Barbara Brewer
 sn: Brewer
-mail: bbrewer@cloudstack.org
+mail: bbrewer@cosmic.cloud
 uid: bbrewer
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Zak Wilkinson,dc=cloudstack,dc=org
+dn: cn=Zak Wilkinson,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -56,7 +56,7 @@ sn: Wilkinson
 uid: zwilkinson
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Archie Shingleton,dc=cloudstack,dc=org
+dn: cn=Archie Shingleton,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -64,11 +64,11 @@ objectClass: top
 cn: Archie Shingleton
 sn: Shingleton
 givenName: Archie
-mail: ashingleton@cloudstack.org
+mail: ashingleton@cosmic.cloud
 uid: ashingleton
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Cletus Pears,dc=cloudstack,dc=org
+dn: cn=Cletus Pears,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -76,11 +76,11 @@ objectClass: top
 cn: Cletus Pears
 sn: Pears
 givenName: Cletus
-mail: cpears@cloudstack.org
+mail: cpears@cosmic.cloud
 uid: cpears
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Teisha Milewski,dc=cloudstack,dc=org
+dn: cn=Teisha Milewski,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -88,11 +88,11 @@ objectClass: top
 cn: Teisha Milewski
 sn: Milewski
 givenName: Teisha
-mail: tmilewski@cloudstack.org
+mail: tmilewski@cosmic.cloud
 uid: tmilewski
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Eloy Para,dc=cloudstack,dc=org
+dn: cn=Eloy Para,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -100,11 +100,11 @@ objectClass: top
 cn: Eloy Para
 sn: Para
 givenName: Eloy
-mail: epara@cloudstack.org
+mail: epara@cosmic.cloud
 uid: epara
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Elaine Lamb,dc=cloudstack,dc=org
+dn: cn=Elaine Lamb,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -112,11 +112,11 @@ objectClass: top
 cn: Elaine Lamb
 sn: Lamb
 givenName: Elaine
-mail: elamb@cloudstack.org
+mail: elamb@cosmic.cloud
 uid: elamb
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Soon Griffen,dc=cloudstack,dc=org
+dn: cn=Soon Griffen,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -124,11 +124,11 @@ objectClass: top
 cn: Soon Griffen
 sn: Griffen
 givenName: Soon
-mail: sgriffen@cloudstack.org
+mail: sgriffen@cosmic.cloud
 uid: sgriffen
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Tran Neisler,dc=cloudstack,dc=org
+dn: cn=Tran Neisler,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -136,11 +136,11 @@ objectClass: top
 cn: Tran Neisler
 sn: Neisler
 givenName: Tran
-mail: tneisler@cloudstack.org
+mail: tneisler@cosmic.cloud
 uid: tneisler
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Mirella Zeck,dc=cloudstack,dc=org
+dn: cn=Mirella Zeck,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -148,11 +148,11 @@ objectClass: top
 cn: Mirella Zeck
 sn: Zeck
 givenName: Mirella
-mail: mzeck@cloudstack.org
+mail: mzeck@cosmic.cloud
 uid: mzeck
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Greg Hoskin,dc=cloudstack,dc=org
+dn: cn=Greg Hoskin,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -160,11 +160,11 @@ objectClass: top
 cn: Greg Hoskin
 sn: Hoskin
 givenName: Greg
-mail: ghoskin@cloudstack.org
+mail: ghoskin@cosmic.cloud
 uid: ghoskin
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Johanne Runyon,dc=cloudstack,dc=org
+dn: cn=Johanne Runyon,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -172,11 +172,11 @@ objectClass: top
 cn: Johanne Runyon
 sn: Runyon
 givenName: Johanne
-mail: jrunyon@cloudstack.org
+mail: jrunyon@cosmic.cloud
 uid: jrunyon
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Mabelle Waiters,dc=cloudstack,dc=org
+dn: cn=Mabelle Waiters,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -184,11 +184,11 @@ objectClass: top
 cn: Mabelle Waiters
 sn: Waiters
 givenName: Mabelle
-mail: mwaiters@cloudstack.org
+mail: mwaiters@cosmic.cloud
 uid: mwaiters
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Phillip Fruge,dc=cloudstack,dc=org
+dn: cn=Phillip Fruge,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -196,11 +196,11 @@ objectClass: top
 cn: Phillip Fruge
 sn: Fruge
 givenName: Phillip
-mail: pfruge@cloudstack.org
+mail: pfruge@cosmic.cloud
 uid: pfruge
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Jayna Ridenhour,dc=cloudstack,dc=org
+dn: cn=Jayna Ridenhour,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -208,11 +208,11 @@ objectClass: top
 cn: Jayna Ridenhour
 sn: Ridenhour
 givenName: Jayna
-mail: jridenhour@cloudstack.org
+mail: jridenhour@cosmic.cloud
 uid: jridenhour
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Marlyn Mandujano,dc=cloudstack,dc=org
+dn: cn=Marlyn Mandujano,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -220,11 +220,11 @@ objectClass: top
 cn: Marlyn Mandujano
 sn: Mandujano
 givenName: Marlyn
-mail: mmandujano@cloudstack.org
+mail: mmandujano@cosmic.cloud
 uid: mmandujano
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Shaunna Scherer,dc=cloudstack,dc=org
+dn: cn=Shaunna Scherer,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -232,11 +232,11 @@ objectClass: top
 cn: Shaunna Scherer
 sn: Scherer
 givenName: Shaunna
-mail: sscherer@cloudstack.org
+mail: sscherer@cosmic.cloud
 uid: sscherer
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Adriana Bozek,dc=cloudstack,dc=org
+dn: cn=Adriana Bozek,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -244,11 +244,11 @@ objectClass: top
 cn: Adriana Bozek
 sn: Bozek
 givenName: Adriana
-mail: abozek@cloudstack.org
+mail: abozek@cosmic.cloud
 uid: abozek
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Silvana Chipman,dc=cloudstack,dc=org
+dn: cn=Silvana Chipman,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -256,11 +256,11 @@ objectClass: top
 cn: Silvana Chipman
 sn: Chipman
 givenName: Silvana
-mail: schipman@cloudstack.org
+mail: schipman@cosmic.cloud
 uid: schipman
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Marion Wasden,dc=cloudstack,dc=org
+dn: cn=Marion Wasden,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -268,11 +268,11 @@ objectClass: top
 cn: Marion Wasden
 sn: Wasden
 givenName: Marion
-mail: mwasden@cloudstack.org
+mail: mwasden@cosmic.cloud
 uid: mwasden
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Anisa Casson,dc=cloudstack,dc=org
+dn: cn=Anisa Casson,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -280,11 +280,11 @@ objectClass: top
 cn: Anisa Casson
 sn: Casson
 givenName: Anisa
-mail: acasson@cloudstack.org
+mail: acasson@cosmic.cloud
 uid: acasson
 userpassword:: cGFzc3dvcmQ=
 
-dn: cn=Noel King,dc=cloudstack,dc=org
+dn: cn=Noel King,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -292,12 +292,12 @@ objectClass: top
 cn: Noel King
 sn: King
 givenName: Noel
-mail: nking@cloudstack.org
+mail: nking@cosmic.cloud
 uid: nking
 userpassword:: cGFzc3dvcmQ=
 
 
-dn: cn=Cammy Petri,dc=cloudstack,dc=org
+dn: cn=Cammy Petri,dc=cosmic,dc=org
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -305,7 +305,7 @@ objectClass: top
 cn: Cammy Petri
 sn: Petri
 givenName: Cammy
-mail: cpetri@cloudstack.org
+mail: cpetri@cosmic.cloud
 uid: cpetri
 userpassword:: cGFzc3dvcmQ=
 
