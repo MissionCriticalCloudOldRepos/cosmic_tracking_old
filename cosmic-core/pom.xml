@@ -31,7 +31,6 @@
   </organization>
 
   <modules>
-    <module>tools/checkstyle</module>
     <module>api</module>
     <module>agent</module>
     <module>core</module>
@@ -347,51 +346,8 @@
     </testResources>
     <outputDirectory>${basedir}/${cs.target.dir}/classes</outputDirectory>
     <testOutputDirectory>${basedir}/${cs.target.dir}/test-classes</testOutputDirectory>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>cosmic-checkstyle</id>
-            <phase>none</phase>
-            <inherited>false</inherited>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${cs.checkstyle.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>cloud.cosmic</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>${project.version}</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>cosmic-checkstyle</id>
-              <phase>validate</phase>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <failsOnError>true</failsOnError>
-            <configLocation>cloud-style.xml</configLocation>
-            <consoleOutput>true</consoleOutput>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-            <sourceDirectory>${project.basedir}</sourceDirectory>
-            <includes>**\/*.java</includes>
-            <excludes>**\/deps\/,**\/test\/,**\/target\/,**\/bin\/,**\/*.xml,**\/*.ini,**\/*.sh,**\/*.bat,**\/apidoc\/</excludes>
-          </configuration>
-        </plugin>
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
@@ -671,33 +627,6 @@
               <format>xml</format>
             </formats>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.3</version>
-          <dependencies>
-            <dependency>
-              <groupId>cloud.cosmic</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>${project.version}</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <failOnViolation>false</failOnViolation>
-            <rulesets>
-              <ruleset>cloud-pmd.xml</ruleset>
-            </rulesets>
-          </configuration>
-          <executions>
-            <execution>
-              <id>cosmic-pmd</id>
-              <goals>
-                <goal>check</goal>
-                <goal>cpd-check</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
