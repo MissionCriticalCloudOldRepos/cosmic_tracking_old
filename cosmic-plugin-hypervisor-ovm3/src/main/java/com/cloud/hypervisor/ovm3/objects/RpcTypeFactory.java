@@ -21,67 +21,70 @@ import org.apache.ws.commons.util.NamespaceContextImpl;
 import org.apache.xmlrpc.common.TypeFactoryImpl;
 import org.apache.xmlrpc.common.XmlRpcController;
 import org.apache.xmlrpc.common.XmlRpcStreamConfig;
+import org.apache.xmlrpc.parser.AtomicParser;
 import org.apache.xmlrpc.parser.NullParser;
 import org.apache.xmlrpc.parser.TypeParser;
-import org.apache.xmlrpc.parser.AtomicParser;
 import org.apache.xmlrpc.serializer.NullSerializer;
 import org.apache.xmlrpc.serializer.TypeSerializer;
 import org.apache.xmlrpc.serializer.TypeSerializerImpl;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.ContentHandler;
 
 public class RpcTypeFactory extends TypeFactoryImpl {
 
-    public RpcTypeFactory(XmlRpcController pController) {
-        super(pController);
+  public RpcTypeFactory(XmlRpcController controller) {
+    super(controller);
+  }
+
+  @Override
+  public TypeParser getParser(XmlRpcStreamConfig config,
+      NamespaceContextImpl context, String uri, String localName) {
+    if ("".equals(uri) && NullSerializer.NIL_TAG.equals(localName)) {
+      return new NullParser();
+    } else if ("i8".equals(localName)) {
+      return new LongTypeParser();
+    } else {
+      return super.getParser(config, context, uri, localName);
     }
+  }
+
+  @Override
+  public TypeSerializer getSerializer(XmlRpcStreamConfig config,
+      Object object) throws SAXException {
+    if (object instanceof Long) {
+      return new LongTypeSerializer();
+    } else {
+      return super.getSerializer(config, object);
+    }
+  }
+
+  private class LongTypeSerializer extends TypeSerializerImpl {
+    /*
+     * Tag name of an i8 value.
+     */
+    public static final String I8_TAG = "i8";
+    /*
+     * Fully qualified name of an i8 value.
+     */
+    public static final String EX_I8_TAG = "i8";
 
     @Override
-    public TypeParser getParser(XmlRpcStreamConfig pConfig,
-            NamespaceContextImpl pContext, String pURI, String pLocalName) {
-        if ("".equals(pURI) && NullSerializer.NIL_TAG.equals(pLocalName)) {
-            return new NullParser();
-        } else if ("i8".equals(pLocalName)) {
-            return new LongTypeParser();
-        } else {
-            return super.getParser(pConfig, pContext, pURI, pLocalName);
-        }
+    public void write(ContentHandler handler, Object object)
+        throws SAXException {
+      write(handler, I8_TAG, EX_I8_TAG, object.toString());
     }
+  }
 
-    public TypeSerializer getSerializer(XmlRpcStreamConfig pConfig,
-            Object pObject) throws SAXException {
-        if (pObject instanceof Long) {
-            return new LongTypeSerializer();
-        } else {
-            return super.getSerializer(pConfig, pObject);
-        }
+  private class LongTypeParser extends AtomicParser {
+    @Override
+    protected void setResult(String result) throws SAXException {
+      try {
+        super.setResult(Long.valueOf(result.trim()));
+      } catch (final NumberFormatException e) {
+        throw new SAXParseException("Failed to parse long value: "
+            + result, getDocumentLocator());
+      }
     }
-
-    private class LongTypeSerializer extends TypeSerializerImpl {
-        /*
-         * Tag name of an i8 value.
-         */
-        public static final String I8_TAG = "i8";
-        /*
-         * Fully qualified name of an i8 value.
-         */
-        public static final String EX_I8_TAG = "i8";
-        @Override
-        public void write(ContentHandler pHandler, Object pObject)
-                throws SAXException {
-            write(pHandler, I8_TAG, EX_I8_TAG, pObject.toString());
-        }
-    }
-
-    private class LongTypeParser extends AtomicParser {
-        protected void setResult(String pResult) throws SAXException {
-            try {
-                super.setResult(Long.valueOf(pResult.trim()));
-            } catch (NumberFormatException e) {
-                throw new SAXParseException("Failed to parse long value: "
-                        + pResult, getDocumentLocator());
-            }
-        }
-    }
+  }
 }

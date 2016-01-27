@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckOnHostCommand;
@@ -34,50 +32,52 @@ import com.cloud.hypervisor.Hypervisor;
 import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 
+import org.apache.log4j.Logger;
+
 public class Ovm3Investigator extends AdapterBase implements Investigator {
-    private static final Logger LOGGER = Logger.getLogger(Ovm3Investigator.class);
-    @Inject
-    HostDao hostDao;
-    @Inject
-    AgentManager agentMgr;
-    @Inject
-    ResourceManager resourceMgr;
+  private static final Logger LOGGER = Logger.getLogger(Ovm3Investigator.class);
+  @Inject
+  HostDao hostDao;
+  @Inject
+  AgentManager agentMgr;
+  @Inject
+  ResourceManager resourceMgr;
 
-    @Override
-    public boolean isVmAlive(com.cloud.vm.VirtualMachine vm, Host host) throws UnknownVM {
-        LOGGER.debug("isVmAlive: " + vm.getHostName() + " on " + host.getName());
-        if (host.getHypervisorType() != Hypervisor.HypervisorType.Ovm3) {
-            throw new UnknownVM();
+  @Override
+  public boolean isVmAlive(com.cloud.vm.VirtualMachine vm, Host host) throws UnknownVM {
+    LOGGER.debug("isVmAlive: " + vm.getHostName() + " on " + host.getName());
+    if (host.getHypervisorType() != Hypervisor.HypervisorType.Ovm3) {
+      throw new UnknownVM();
+    }
+    final Status status = isAgentAlive(host);
+    if (status == null) {
+      return false;
+    }
+    return status == Status.Up ? true : false;
+  }
+
+  @Override
+  public Status isAgentAlive(Host agent) {
+    LOGGER.debug("isAgentAlive: " + agent.getName());
+    if (agent.getHypervisorType() != Hypervisor.HypervisorType.Ovm3) {
+      return null;
+    }
+    final CheckOnHostCommand cmd = new CheckOnHostCommand(agent);
+    final List<HostVO> neighbors = resourceMgr.listHostsInClusterByStatus(agent.getClusterId(), Status.Up);
+    for (final HostVO neighbor : neighbors) {
+      if (neighbor.getId() == agent.getId() || neighbor.getHypervisorType() != Hypervisor.HypervisorType.Ovm3) {
+        continue;
+      }
+      try {
+        final Answer answer = agentMgr.easySend(neighbor.getId(), cmd);
+        if (answer != null) {
+          return answer.getResult() ? Status.Down : Status.Up;
         }
-        Status status = isAgentAlive(host);
-        if (status == null) {
-            return false;
-        }
-        return status == Status.Up ? true : false;
+      } catch (final Exception e) {
+        LOGGER.error("Failed to send command to host: " + neighbor.getId(), e);
+      }
     }
 
-    @Override
-    public Status isAgentAlive(Host agent) {
-        LOGGER.debug("isAgentAlive: " + agent.getName());
-        if (agent.getHypervisorType() != Hypervisor.HypervisorType.Ovm3) {
-            return null;
-        }
-        CheckOnHostCommand cmd = new CheckOnHostCommand(agent);
-        List<HostVO> neighbors = resourceMgr.listHostsInClusterByStatus(agent.getClusterId(), Status.Up);
-        for (HostVO neighbor : neighbors) {
-            if (neighbor.getId() == agent.getId() || neighbor.getHypervisorType() != Hypervisor.HypervisorType.Ovm3) {
-                continue;
-            }
-            try {
-                Answer answer = agentMgr.easySend(neighbor.getId(), cmd);
-                if (answer != null) {
-                    return answer.getResult() ? Status.Down : Status.Up;
-                }
-            } catch (Exception e) {
-                LOGGER.error("Failed to send command to host: " + neighbor.getId(), e);
-            }
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

@@ -40,124 +40,125 @@ import org.xml.sax.XMLReader;
  * Connection
  */
 public class ConnectionTest extends Connection {
-    private final Logger LOGGER = Logger.getLogger(ConnectionTest.class);
-    XmlTestResultTest results = new XmlTestResultTest();
-    String result;
-    List<String> multiRes = new ArrayList<String>();
-    String hostIp;
-    private Map<String, String> methodResponse = new HashMap<String, String>();
+  private final Logger LOGGER = Logger.getLogger(ConnectionTest.class);
+  XmlTestResultTest results = new XmlTestResultTest();
+  String result;
+  List<String> multiRes = new ArrayList<String>();
+  String hostIp;
+  private final Map<String, String> methodResponse = new HashMap<String, String>();
 
-    public ConnectionTest() {
-    }
+  public ConnectionTest() {
+  }
 
-    @Override
-    public Object callTimeoutInSec(String method, List<?> params, int timeout,
-            boolean debug) throws XmlRpcException {
-        XmlRpcStreamConfig config = new XmlRpcHttpRequestConfigImpl();
-        XmlRpcClient client = new XmlRpcClient();
-        client.setTypeFactory(new RpcTypeFactory(client));
-        XmlRpcResponseParser parser = new XmlRpcResponseParser(
-                (XmlRpcStreamRequestConfig) config, client.getTypeFactory());
-        XMLReader xr = SAXParsers.newXMLReader();
-        xr.setContentHandler(parser);
-        try {
-            String result = null;
-            if (getMethodResponse(method) != null) {
-                result = getMethodResponse(method);
-                LOGGER.debug("methodresponse call: " + method + " - " + params);
-                LOGGER.trace("methodresponse reply: " + result);
-            }
-            if (result == null && multiRes.size() >= 0) {
-                result = getResult();
-                LOGGER.debug("getresult call: " + method + " - " + params);
-                LOGGER.trace("getresult reply: " + result);
-            }
-            xr.parse(new InputSource(new StringReader(result)));
-        } catch (Exception e) {
-            throw new XmlRpcException("Exception: " + e.getMessage(), e);
-        }
-        if (parser.getErrorCode() != 0) {
-            throw new XmlRpcException("Fault received[" + parser.getErrorCode()
-                    + "]: " + parser.getErrorMessage());
-        }
-        return parser.getResult();
+  @Override
+  public Object callTimeoutInSec(String method, List<?> params, int timeout,
+      boolean debug) throws XmlRpcException {
+    final XmlRpcStreamConfig config = new XmlRpcHttpRequestConfigImpl();
+    final XmlRpcClient client = new XmlRpcClient();
+    client.setTypeFactory(new RpcTypeFactory(client));
+    final XmlRpcResponseParser parser = new XmlRpcResponseParser(
+        (XmlRpcStreamRequestConfig) config, client.getTypeFactory());
+    final XMLReader xr = SAXParsers.newXMLReader();
+    xr.setContentHandler(parser);
+    try {
+      String result = null;
+      if (getMethodResponse(method) != null) {
+        result = getMethodResponse(method);
+        LOGGER.debug("methodresponse call: " + method + " - " + params);
+        LOGGER.trace("methodresponse reply: " + result);
+      }
+      if (result == null && multiRes.size() >= 0) {
+        result = getResult();
+        LOGGER.debug("getresult call: " + method + " - " + params);
+        LOGGER.trace("getresult reply: " + result);
+      }
+      xr.parse(new InputSource(new StringReader(result)));
+    } catch (final Exception e) {
+      throw new XmlRpcException("Exception: " + e.getMessage(), e);
     }
+    if (parser.getErrorCode() != 0) {
+      throw new XmlRpcException("Fault received[" + parser.getErrorCode()
+      + "]: " + parser.getErrorMessage());
+    }
+    return parser.getResult();
+  }
 
-    public void setMethodResponse(String method, String response) {
-        methodResponse.put(method, response);
-    }
+  public void setMethodResponse(String method, String response) {
+    methodResponse.put(method, response);
+  }
 
-    public String getMethodResponse(String method) {
-        if (methodResponse.containsKey(method)) {
-            return methodResponse.get(method);
-        }
-        return null;
+  public String getMethodResponse(String method) {
+    if (methodResponse.containsKey(method)) {
+      return methodResponse.get(method);
     }
+    return null;
+  }
 
-    public void removeMethodResponse(String method) {
-        if (methodResponse.containsKey(method)) {
-            methodResponse.remove(method);
-        }
+  public void removeMethodResponse(String method) {
+    if (methodResponse.containsKey(method)) {
+      methodResponse.remove(method);
     }
+  }
 
-    public void setResult(String res) {
-        multiRes = new ArrayList<String>();
-        multiRes.add(0, res);
-    }
+  public void setResult(String res) {
+    multiRes = new ArrayList<String>();
+    multiRes.add(0, res);
+  }
 
-    public void setResult(List<String> l) {
-        multiRes = new ArrayList<String>();
-        multiRes.addAll(l);
-    }
+  public void setResult(List<String> l) {
+    multiRes = new ArrayList<String>();
+    multiRes.addAll(l);
+  }
 
-    public void setNull() {
-        multiRes = new ArrayList<String>();
-        multiRes.add(0, null);
-    }
+  public void setNull() {
+    multiRes = new ArrayList<String>();
+    multiRes.add(0, null);
+  }
 
-    /* result chainsing */
-    public void addResult(String e) {
-        multiRes.add(e);
-    }
+  /* result chainsing */
+  public void addResult(String e) {
+    multiRes.add(e);
+  }
 
-    public void addNull() {
-        multiRes.add(null);
-    }
+  public void addNull() {
+    multiRes.add(null);
+  }
 
-    public String getResult() {
-        return popResult();
-    }
+  public String getResult() {
+    return popResult();
+  }
 
-    public String popResult() {
-        String res = multiRes.get(0);
-        if (multiRes.size() > 1)
-            multiRes.remove(0);
-        return res;
+  public String popResult() {
+    final String res = multiRes.get(0);
+    if (multiRes.size() > 1) {
+      multiRes.remove(0);
     }
+    return res;
+  }
 
-    public List<String> resultList() {
-        return multiRes;
-    }
+  public List<String> resultList() {
+    return multiRes;
+  }
 
-    @Test
-    public void testConnection() {
-        String host = "ovm-1";
-        String user = "admin";
-        String pass = "password";
-        Integer port = 8899;
-        List<?> emptyParams = new ArrayList<Object>();
-        Connection con = new Connection(host, port, user, pass);
-        results.basicStringTest(con.getIp(), host);
-        results.basicStringTest(con.getUserName(), user);
-        results.basicStringTest(con.getPassword(), pass);
-        results.basicIntTest(con.getPort(), port);
-        try {
-            con.callTimeoutInSec("ping", emptyParams, 1);
-            // con.call("ping", emptyParams, 1, false);
-        } catch (XmlRpcException e) {
-            // TODO Auto-generated catch block
-            System.out.println("Exception: " + e);
-        }
-        new Connection(host, user, pass);
+  @Test
+  public void testConnection() {
+    final String host = "ovm-1";
+    final String user = "admin";
+    final String pass = "password";
+    final Integer port = 8899;
+    final List<?> emptyParams = new ArrayList<Object>();
+    final Connection con = new Connection(host, port, user, pass);
+    results.basicStringTest(con.getIp(), host);
+    results.basicStringTest(con.getUserName(), user);
+    results.basicStringTest(con.getPassword(), pass);
+    results.basicIntTest(con.getPort(), port);
+    try {
+      con.callTimeoutInSec("ping", emptyParams, 1);
+      // con.call("ping", emptyParams, 1, false);
+    } catch (final XmlRpcException e) {
+      // TODO Auto-generated catch block
+      System.out.println("Exception: " + e);
     }
+    new Connection(host, user, pass);
+  }
 }

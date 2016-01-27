@@ -22,11 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.cloudstack.storage.to.TemplateObjectTO;
-import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
-import org.apache.xmlrpc.XmlRpcException;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.GetVmStatsAnswer;
 import com.cloud.agent.api.GetVmStatsCommand;
@@ -59,408 +54,383 @@ import com.cloud.storage.Volume;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VirtualMachine.State;
 
+import org.apache.cloudstack.storage.to.TemplateObjectTO;
+import org.apache.cloudstack.storage.to.VolumeObjectTO;
+import org.apache.log4j.Logger;
+import org.apache.xmlrpc.XmlRpcException;
+
 public class Ovm3VmSupport {
-    private final Logger LOGGER = Logger.getLogger(Ovm3VmSupport.class);
-    private OvmObject ovmObject = new OvmObject();
-    private ResourceManager resourceMgr;
-    private Connection c;
-    private Ovm3HypervisorNetwork network;
-    private Ovm3Configuration config;
-    private Ovm3HypervisorSupport hypervisor;
-    private Ovm3StorageProcessor processor;
-    private Ovm3StoragePool pool;
-    private final Map<String, Map<String, String>> vmStats = new ConcurrentHashMap<String, Map<String, String>>();
-    public Ovm3VmSupport(Connection conn,
-            Ovm3Configuration ovm3config,
-            Ovm3HypervisorSupport ovm3hyper,
-            Ovm3StorageProcessor ovm3stp,
-            Ovm3StoragePool ovm3sp,
-            Ovm3HypervisorNetwork ovm3hvn) {
-        c = conn;
-        config = ovm3config;
-        hypervisor = ovm3hyper;
-        pool = ovm3sp;
-        processor = ovm3stp;
-        network = ovm3hvn;
-    }
-    public Boolean createVifs(Xen.Vm vm, VirtualMachineTO spec)
-            throws Ovm3ResourceException {
-        if (spec.getNics() != null) {
-            NicTO[] nics = spec.getNics();
-            return createVifs(vm, nics);
-        } else {
-            LOGGER.info("No nics for vm " + spec.getName());
-            return false;
-        }
-    }
 
-    private Boolean createVifs(Xen.Vm vm, NicTO[] nics)
-            throws Ovm3ResourceException {
-        for (NicTO nic : nics) {
-            if (!createVif(vm, nic)) {
-                return false;
-            }
-        }
-        return true;
-    }
+  private final Logger logger = Logger.getLogger(Ovm3VmSupport.class);
+  private final OvmObject ovmObject = new OvmObject();
+  private ResourceManager resourceMgr;
+  private final Connection connection;
+  private final Ovm3HypervisorNetwork network;
+  private final Ovm3Configuration config;
+  private final Ovm3HypervisorSupport hypervisor;
+  private final Ovm3StorageProcessor processor;
+  private final Ovm3StoragePool pool;
+  private final Map<String, Map<String, String>> vmStats = new ConcurrentHashMap<String, Map<String, String>>();
 
-    /* should add bitrates and latency... */
-    private Boolean createVif(Xen.Vm vm, NicTO nic)
-            throws Ovm3ResourceException {
-        try {
-            String net = network.getNetwork(nic);
-            if (net != null) {
-                LOGGER.debug("Adding vif " + nic.getDeviceId() + " "
-                        + nic.getMac() + " " + net + " to " + vm.getVmName());
-                vm.addVif(nic.getDeviceId(), net, nic.getMac());
-            } else {
-                LOGGER.debug("Unable to add vif " + nic.getDeviceId()
-                        + " no network for " + vm.getVmName());
-                return false;
-            }
-        } catch (Exception e) {
-            String msg = "Unable to add vif " + nic.getType() + " for "
-                    + vm.getVmName() + " " + e.getMessage();
-            LOGGER.debug(msg);
-            throw new Ovm3ResourceException(msg);
-        }
-        return true;
-    }
-    private Boolean deleteVif(Xen.Vm vm, NicTO nic)
-            throws Ovm3ResourceException {
-        /* here we should use the housekeeping of VLANs/Networks etc..
-         * so we can clean after the last VM is gone
-         */
-        try {
-            String net = network.getNetwork(nic);
-            if (net != null) {
-                LOGGER.debug("Removing vif " + nic.getDeviceId() + " " + " "
-                        + nic.getMac() + " " + net + " from " + vm.getVmName());
-                vm.removeVif(net, nic.getMac());
-            } else {
-                LOGGER.debug("Unable to remove vif " + nic.getDeviceId()
-                        + " no network for " + vm.getVmName());
-                return false;
-            }
-        } catch (Exception e) {
-            String msg = "Unable to remove vif " + nic.getType() + " for "
-                    + vm.getVmName() + " " + e.getMessage();
-            LOGGER.debug(msg);
-            throw new Ovm3ResourceException(msg);
-        }
-        return true;
-    }
+  public Ovm3VmSupport(Connection conn,
+      Ovm3Configuration ovm3config,
+      Ovm3HypervisorSupport ovm3hyper,
+      Ovm3StorageProcessor ovm3stp,
+      Ovm3StoragePool ovm3sp,
+      Ovm3HypervisorNetwork ovm3hvn) {
+    connection = conn;
+    config = ovm3config;
+    hypervisor = ovm3hyper;
+    pool = ovm3sp;
+    processor = ovm3stp;
+    network = ovm3hvn;
+  }
 
-    /* Migration should make sure both HVs are the same ? */
-    public PrepareForMigrationAnswer execute(PrepareForMigrationCommand cmd) {
-        VirtualMachineTO vm = cmd.getVirtualMachine();
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Preparing host for migrating " + vm.getName());
-        }
-        NicTO[] nics = vm.getNics();
-        try {
-            for (NicTO nic : nics) {
-                network.getNetwork(nic);
-            }
-            hypervisor.setVmState(vm.getName(), State.Migrating);
-            LOGGER.debug("VM " + vm.getName() + " is in Migrating state");
-            return new PrepareForMigrationAnswer(cmd);
-        } catch (Ovm3ResourceException e) {
-            LOGGER.error("Catch Exception " + e.getClass().getName()
-                    + " prepare for migration failed due to: " + e.getMessage());
-            return new PrepareForMigrationAnswer(cmd, e);
-        }
+  public Boolean createVifs(Xen.Vm vm, VirtualMachineTO spec)
+      throws Ovm3ResourceException {
+    if (spec.getNics() != null) {
+      final NicTO[] nics = spec.getNics();
+      return createVifs(vm, nics);
+    } else {
+      logger.info("No nics for vm " + spec.getName());
+      return false;
     }
+  }
 
-    /* do migrations of VMs in a simple way just inside a cluster for now */
-    public MigrateAnswer execute(final MigrateCommand cmd) {
-        final String vmName = cmd.getVmName();
-        String destUuid = cmd.getHostGuid();
-        String destIp = cmd.getDestinationIp();
-        State state = State.Error;
-        /*
-         * TODO: figure out non pooled migration, works from CLI but not from
-         * the agent... perhaps pause the VM and then migrate it ? for now just
-         * stop the VM.
-         */
-        String msg = "Migrating " + vmName + " to " + destIp;
-        LOGGER.info(msg);
-        if (!config.getAgentInOvm3Cluster() && !config.getAgentInOvm3Pool()) {
-            try {
-                Xen xen = new Xen(c);
-                Xen.Vm vm = xen.getRunningVmConfig(vmName);
-                HostVO destHost = resourceMgr.findHostByGuid(destUuid);
-                if (destHost == null) {
-                    msg = "Unable to find migration target host in DB "
-                            + destUuid + " with ip " + destIp;
-                    LOGGER.info(msg);
-                    return new MigrateAnswer(cmd, false, msg, null);
-                }
-                xen.stopVm(ovmObject.deDash(vm.getVmRootDiskPoolId()),
-                        vm.getVmUuid());
-                msg = destHost.toString();
-                state = State.Stopping;
-                return new MigrateAnswer(cmd, false, msg, null);
-            } catch (Ovm3ResourceException e) {
-                msg = "Unpooled VM Migrate of " + vmName + " to " + destUuid
-                        + " failed due to: " + e.getMessage();
-                LOGGER.debug(msg, e);
-                return new MigrateAnswer(cmd, false, msg, null);
-            } finally {
-                /* shouldn't we just reinitialize completely as a last resort ? */
-                hypervisor.setVmState(vmName, state);
-            }
-        } else {
-            try {
-                Xen xen = new Xen(c);
-                Xen.Vm vm = xen.getRunningVmConfig(vmName);
-                if (vm == null) {
-                    state = State.Stopped;
-                    msg = vmName + " is no running on " + config.getAgentHostname();
-                    return new MigrateAnswer(cmd, false, msg, null);
-                }
-                /* not a storage migration!!! */
-                xen.migrateVm(ovmObject.deDash(vm.getVmRootDiskPoolId()),
-                        vm.getVmUuid(), destIp);
-                state = State.Stopping;
-                msg = "Migration of " + vmName + " successfull";
-                return new MigrateAnswer(cmd, true, msg, null);
-            } catch (Ovm3ResourceException e) {
-                msg = "Pooled VM Migrate" + ": Migration of " + vmName + " to "
-                        + destIp + " failed due to " + e.getMessage();
-                LOGGER.debug(msg, e);
-                return new MigrateAnswer(cmd, false, msg, null);
-            } finally {
-                hypervisor.setVmState(vmName, state);
-            }
-        }
+  private Boolean createVifs(Xen.Vm vm, NicTO[] nics)
+      throws Ovm3ResourceException {
+    for (final NicTO nic : nics) {
+      if (!createVif(vm, nic)) {
+        return false;
+      }
     }
+    return true;
+  }
 
+  /* should add bitrates and latency... */
+  private Boolean createVif(Xen.Vm vm, NicTO nic)
+      throws Ovm3ResourceException {
+    try {
+      final String net = network.getNetwork(nic);
+      if (net != null) {
+        logger.debug("Adding vif " + nic.getDeviceId() + " "
+            + nic.getMac() + " " + net + " to " + vm.getVmName());
+        vm.addVif(nic.getDeviceId(), net, nic.getMac());
+      } else {
+        logger.debug("Unable to add vif " + nic.getDeviceId() + " no network for " + vm.getVmName());
+        return false;
+      }
+    } catch (final Exception e) {
+      final String msg = "Unable to add vif " + nic.getType() + " for "
+          + vm.getVmName() + " " + e.getMessage();
+      logger.debug(msg);
+      throw new Ovm3ResourceException(msg);
+    }
+    return true;
+  }
+
+  private Boolean deleteVif(Xen.Vm vm, NicTO nic)
+      throws Ovm3ResourceException {
     /*
+     * here we should use the housekeeping of VLANs/Networks etc.. so we can clean after the last VM is gone
      */
-    public GetVncPortAnswer execute(GetVncPortCommand cmd) {
-        try {
-            Xen host = new Xen(c);
-            Xen.Vm vm = host.getRunningVmConfig(cmd.getName());
-            Integer vncPort = vm.getVncPort();
-            LOGGER.debug("get vnc port for " + cmd.getName() + ": " + vncPort);
-            return new GetVncPortAnswer(cmd, c.getIp(), vncPort);
-        } catch (Ovm3ResourceException e) {
-            LOGGER.debug("get vnc port for " + cmd.getName() + " failed", e);
-            return new GetVncPortAnswer(cmd, e.getMessage());
-        }
+    try {
+      final String net = network.getNetwork(nic);
+      if (net != null) {
+        logger.debug("Removing vif " + nic.getDeviceId() + " " + " "
+            + nic.getMac() + " " + net + " from " + vm.getVmName());
+        vm.removeVif(net, nic.getMac());
+      } else {
+        logger.debug("Unable to remove vif " + nic.getDeviceId() + " no network for " + vm.getVmName());
+        return false;
+      }
+    } catch (final Exception e) {
+      final String msg = "Unable to remove vif " + nic.getType() + " for "
+          + vm.getVmName() + " " + e.getMessage();
+      logger.debug(msg);
+      throw new Ovm3ResourceException(msg);
     }
+    return true;
+  }
 
-    private VmStatsEntry getVmStat(String vmName) {
-        CloudstackPlugin cSp = new CloudstackPlugin(c);
-        Map<String, String> oldVmStats = null;
-        Map<String, String> newVmStats = null;
-        VmStatsEntry stats = new VmStatsEntry();
-        try {
-            if (vmStats.containsKey(vmName)) {
-                oldVmStats = new HashMap<String, String>();
-                oldVmStats.putAll(vmStats.get(vmName));
-            }
-            newVmStats = cSp.ovsDomUStats(vmName);
-        } catch (Ovm3ResourceException e) {
-            LOGGER.info("Unable to retrieve stats from " + vmName, e);
-            return stats;
+  /* Migration should make sure both HVs are the same ? */
+  public PrepareForMigrationAnswer execute(PrepareForMigrationCommand cmd) {
+    final VirtualMachineTO vm = cmd.getVirtualMachine();
+    if (logger.isDebugEnabled()) {
+      logger.debug("Preparing host for migrating " + vm.getName());
+    }
+    final NicTO[] nics = vm.getNics();
+    try {
+      for (final NicTO nic : nics) {
+        network.getNetwork(nic);
+      }
+      hypervisor.setVmState(vm.getName(), State.Migrating);
+      logger.debug("VM " + vm.getName() + " is in Migrating state");
+      return new PrepareForMigrationAnswer(cmd);
+    } catch (final Ovm3ResourceException e) {
+      logger.error("Catch Exception " + e.getClass().getName()
+          + " prepare for migration failed due to: " + e.getMessage());
+      return new PrepareForMigrationAnswer(cmd, e);
+    }
+  }
+
+  /* do migrations of VMs in a simple way just inside a cluster for now */
+  public MigrateAnswer execute(final MigrateCommand cmd) {
+    final String vmName = cmd.getVmName();
+    final String destUuid = cmd.getHostGuid();
+    final String destIp = cmd.getDestinationIp();
+    State state = State.Error;
+    /*
+     * TODO: figure out non pooled migration, works from CLI but not from the agent... perhaps pause the VM and then
+     * migrate it ? for now just stop the VM.
+     */
+    String msg = "Migrating " + vmName + " to " + destIp;
+    logger.info(msg);
+    if (!config.getAgentInOvm3Cluster() && !config.getAgentInOvm3Pool()) {
+      try {
+        final Xen xen = new Xen(connection);
+        final Xen.Vm vm = xen.getRunningVmConfig(vmName);
+        final HostVO destHost = resourceMgr.findHostByGuid(destUuid);
+        if (destHost == null) {
+          msg = "Unable to find migration target host in DB "
+              + destUuid + " with ip " + destIp;
+          logger.info(msg);
+          return new MigrateAnswer(cmd, false, msg, null);
         }
-        if (oldVmStats == null) {
-            LOGGER.debug("No old stats retrieved stats from " + vmName);
-            stats.setNumCPUs(1);
-            stats.setNetworkReadKBs(0);
-            stats.setNetworkWriteKBs(0);
-            stats.setDiskReadKBs(0);
-            stats.setDiskWriteKBs(0);
-            stats.setDiskReadIOs(0);
-            stats.setDiskWriteIOs(0);
-            stats.setCPUUtilization(0);
-            stats.setEntityType("vm");
+        xen.stopVm(ovmObject.deDash(vm.getVmRootDiskPoolId()),
+            vm.getVmUuid());
+        msg = destHost.toString();
+        state = State.Stopping;
+        return new MigrateAnswer(cmd, false, msg, null);
+      } catch (final Ovm3ResourceException e) {
+        msg = "Unpooled VM Migrate of " + vmName + " to " + destUuid
+            + " failed due to: " + e.getMessage();
+        logger.debug(msg, e);
+        return new MigrateAnswer(cmd, false, msg, null);
+      } finally {
+        /* shouldn't we just reinitialize completely as a last resort ? */
+        hypervisor.setVmState(vmName, state);
+      }
+    } else {
+      try {
+        final Xen xen = new Xen(connection);
+        final Xen.Vm vm = xen.getRunningVmConfig(vmName);
+        if (vm == null) {
+          state = State.Stopped;
+          msg = vmName + " is no running on " + config.getAgentHostname();
+          return new MigrateAnswer(cmd, false, msg, null);
+        }
+        /* not a storage migration!!! */
+        xen.migrateVm(ovmObject.deDash(vm.getVmRootDiskPoolId()),
+            vm.getVmUuid(), destIp);
+        state = State.Stopping;
+        msg = "Migration of " + vmName + " successfull";
+        return new MigrateAnswer(cmd, true, msg, null);
+      } catch (final Ovm3ResourceException e) {
+        msg = "Pooled VM Migrate" + ": Migration of " + vmName + " to "
+            + destIp + " failed due to " + e.getMessage();
+        logger.debug(msg, e);
+        return new MigrateAnswer(cmd, false, msg, null);
+      } finally {
+        hypervisor.setVmState(vmName, state);
+      }
+    }
+  }
+
+  /*
+   */
+  public GetVncPortAnswer execute(GetVncPortCommand cmd) {
+    try {
+      final Xen host = new Xen(connection);
+      final Xen.Vm vm = host.getRunningVmConfig(cmd.getName());
+      final Integer vncPort = vm.getVncPort();
+      logger.debug("get vnc port for " + cmd.getName() + ": " + vncPort);
+      return new GetVncPortAnswer(cmd, connection.getIp(), vncPort);
+    } catch (final Ovm3ResourceException e) {
+      logger.debug("get vnc port for " + cmd.getName() + " failed", e);
+      return new GetVncPortAnswer(cmd, e.getMessage());
+    }
+  }
+
+  public GetVmStatsAnswer execute(GetVmStatsCommand cmd) {
+    final List<String> vmNames = cmd.getVmNames();
+    final Map<String, VmStatsEntry> vmStatsNameMap = new HashMap<String, VmStatsEntry>();
+    for (final String vmName : vmNames) {
+      final VmStatsEntry e = getVmStat(vmName);
+      vmStatsNameMap.put(vmName, e);
+    }
+    return new GetVmStatsAnswer(cmd,
+        (HashMap<String, VmStatsEntry>) vmStatsNameMap);
+  }
+
+  public PlugNicAnswer execute(PlugNicCommand cmd) {
+    final Answer ans = plugNunplugNic(cmd.getNic(), cmd.getVmName(), true);
+    return new PlugNicAnswer(cmd, ans.getResult(), ans.getDetails());
+  }
+
+  public UnPlugNicAnswer execute(UnPlugNicCommand cmd) {
+    final Answer ans = plugNunplugNic(cmd.getNic(), cmd.getVmName(), false);
+    return new UnPlugNicAnswer(cmd, ans.getResult(), ans.getDetails());
+  }
+
+  private VmStatsEntry getVmStat(String vmName) {
+    final CloudstackPlugin cSp = new CloudstackPlugin(connection);
+    Map<String, String> oldVmStats = null;
+    Map<String, String> newVmStats = null;
+    final VmStatsEntry stats = new VmStatsEntry();
+    try {
+      if (vmStats.containsKey(vmName)) {
+        oldVmStats = new HashMap<String, String>();
+        oldVmStats.putAll(vmStats.get(vmName));
+      }
+      newVmStats = cSp.ovsDomUStats(vmName);
+    } catch (final Ovm3ResourceException e) {
+      logger.info("Unable to retrieve stats from " + vmName, e);
+      return stats;
+    }
+    if (oldVmStats == null) {
+      logger.debug("No old stats retrieved stats from " + vmName);
+      stats.setNumCPUs(1);
+      stats.setNetworkReadKBs(0);
+      stats.setNetworkWriteKBs(0);
+      stats.setDiskReadKBs(0);
+      stats.setDiskWriteKBs(0);
+      stats.setDiskReadIOs(0);
+      stats.setDiskWriteIOs(0);
+      stats.setCPUUtilization(0);
+      stats.setEntityType("vm");
+    } else {
+      logger.debug("Retrieved new stats from " + vmName);
+      final int cpus = Integer.parseInt(newVmStats.get("vcpus"));
+      stats.setNumCPUs(cpus);
+      stats.setNetworkReadKBs(doubleMin(newVmStats.get("rx_bytes"), oldVmStats.get("rx_bytes")));
+      stats.setNetworkWriteKBs(doubleMin(newVmStats.get("tx_bytes"), oldVmStats.get("tx_bytes")));
+      stats.setDiskReadKBs(doubleMin(newVmStats.get("rd_bytes"), oldVmStats.get("rd_bytes")));
+      stats.setDiskWriteKBs(doubleMin(newVmStats.get("rw_bytes"), oldVmStats.get("rw_bytes")));
+      stats.setDiskReadIOs(doubleMin(newVmStats.get("rd_ops"), oldVmStats.get("rd_ops")));
+      stats.setDiskWriteIOs(doubleMin(newVmStats.get("rw_ops"), oldVmStats.get("rw_ops")));
+      final Double dCpu = doubleMin(newVmStats.get("cputime"), oldVmStats.get("cputime"));
+      final Double dTime = doubleMin(newVmStats.get("uptime"), oldVmStats.get("uptime"));
+      final Double cpupct = dCpu / dTime * 100 * cpus;
+      stats.setCPUUtilization(cpupct);
+      stats.setEntityType("vm");
+    }
+    ((ConcurrentHashMap<String, Map<String, String>>) vmStats).put(
+        vmName, newVmStats);
+    return stats;
+  }
+
+  private Double doubleMin(String operatorX, String operatorY) {
+    try {
+      return Double.parseDouble(operatorX) - Double.parseDouble(operatorY);
+    } catch (final NullPointerException e) {
+      return 0D;
+    }
+  }
+
+  /* This is not create for us, but really start */
+  /*
+   * public boolean startVm(String repoId, String vmId) throws XmlRpcException { Xen host = new Xen(c); try { if
+   * (host.getRunningVmConfig(vmId) == null) { LOGGER.error("Create VM " + vmId + " first on " + c.getIp()); return
+   * false; } else { LOGGER.info("VM " + vmId + " exists on " + c.getIp()); } host.startVm(repoId, vmId); } catch
+   * (Exception e) { LOGGER.error("Failed to start VM " + vmId + " on " + c.getIp() + " " + e.getMessage()); return
+   * false; } return true; }
+   */
+  /*
+   * TODO: OVM already cleans stuff up, just not the extra bridges which we don't want right now, as we'd have to keep a
+   * state table of which vlans need to stay on the host!? A map with vlanid -> list-o-hosts
+   */
+  private void cleanupNetwork(List<String> vifs) throws XmlRpcException {
+    /* peel out vif info for vlan stuff */
+  }
+
+  public void cleanup(Xen.Vm vm) {
+    try {
+      cleanupNetwork(vm.getVmVifs());
+    } catch (final XmlRpcException e) {
+      logger.info("Clean up network for " + vm.getVmName() + " failed", e);
+    }
+    final String vmName = vm.getVmName();
+    /* should become a single entity */
+    vmStats.remove(vmName);
+  }
+
+  /*
+   * Add rootdisk, datadisk and iso's
+   */
+  public Boolean createVbds(Xen.Vm vm, VirtualMachineTO spec) {
+    if (spec.getDisks() == null) {
+      logger.info("No disks defined for " + vm.getVmName());
+      return false;
+    }
+    for (final DiskTO disk : spec.getDisks()) {
+      try {
+        if (disk.getType() == Volume.Type.ROOT) {
+          final VolumeObjectTO vol = (VolumeObjectTO) disk.getData();
+          final String diskFile = processor.getVirtualDiskPath(vol.getUuid(), vol.getDataStore().getUuid());
+          vm.addRootDisk(diskFile);
+          vm.setPrimaryPoolUuid(vol.getDataStore().getUuid());
+          logger.debug("Adding root disk: " + diskFile);
+        } else if (disk.getType() == Volume.Type.ISO) {
+          final DataTO isoTo = disk.getData();
+          if (isoTo.getPath() != null) {
+            final TemplateObjectTO template = (TemplateObjectTO) isoTo;
+            final DataStoreTO store = template.getDataStore();
+            if (!(store instanceof NfsTO)) {
+              throw new CloudRuntimeException(
+                  "unsupported protocol");
+            }
+            final NfsTO nfsStore = (NfsTO) store;
+            final String secPoolUuid = pool.setupSecondaryStorage(nfsStore.getUrl());
+            final String isoPath = config.getAgentSecStoragePath() + "/"
+                + secPoolUuid + "/"
+                + template.getPath();
+            vm.addIso(isoPath);
+            /* check if secondary storage is mounted */
+            logger.debug("Adding ISO: " + isoPath);
+          }
+        } else if (disk.getType() == Volume.Type.DATADISK) {
+          final VolumeObjectTO vol = (VolumeObjectTO) disk.getData();
+          final String diskFile = processor.getVirtualDiskPath(vol.getUuid(), vol.getDataStore().getUuid());
+          vm.addDataDisk(diskFile);
+          logger.debug("Adding data disk: "
+              + diskFile);
         } else {
-            LOGGER.debug("Retrieved new stats from " + vmName);
-            int cpus = Integer.parseInt(newVmStats.get("vcpus"));
-            stats.setNumCPUs(cpus);
-            stats.setNetworkReadKBs(doubleMin(newVmStats.get("rx_bytes"), oldVmStats.get("rx_bytes")));
-            stats.setNetworkWriteKBs(doubleMin(newVmStats.get("tx_bytes"), oldVmStats.get("tx_bytes")));
-            stats.setDiskReadKBs(doubleMin(newVmStats.get("rd_bytes"), oldVmStats.get("rd_bytes")));
-            stats.setDiskWriteKBs(doubleMin(newVmStats.get("rw_bytes"), oldVmStats.get("rw_bytes")));
-            stats.setDiskReadIOs(doubleMin(newVmStats.get("rd_ops"), oldVmStats.get("rd_ops")));
-            stats.setDiskWriteIOs(doubleMin(newVmStats.get("rw_ops"), oldVmStats.get("rw_ops")));
-            Double dCpu = doubleMin(newVmStats.get("cputime"), oldVmStats.get("cputime"));
-            Double dTime = doubleMin(newVmStats.get("uptime"), oldVmStats.get("uptime"));
-            Double cpupct = dCpu / dTime * 100 * cpus;
-            stats.setCPUUtilization(cpupct);
-            stats.setEntityType("vm");
+          throw new CloudRuntimeException("Unknown disk type: "
+              + disk.getType());
         }
-        ((ConcurrentHashMap<String, Map<String, String>>) vmStats).put(
-                vmName, newVmStats);
-        return stats;
+      } catch (final Exception e) {
+        logger.debug("CreateVbds failed", e);
+        throw new CloudRuntimeException("Exception" + e.getMessage(), e);
+      }
     }
-    private Double doubleMin(String x, String y) {
-        try {
-            return (Double.parseDouble(x) - Double.parseDouble(y));
-        } catch (NullPointerException e) {
-            return 0D;
-        }
-    }
+    return true;
+  }
 
-    public GetVmStatsAnswer execute(GetVmStatsCommand cmd) {
-        List<String> vmNames = cmd.getVmNames();
-        Map<String, VmStatsEntry> vmStatsNameMap = new HashMap<String, VmStatsEntry>();
-        for (String vmName : vmNames) {
-            VmStatsEntry e = getVmStat(vmName);
-            vmStatsNameMap.put(vmName, e);
-        }
-        return new GetVmStatsAnswer(cmd,
-                (HashMap<String, VmStatsEntry>) vmStatsNameMap);
+  private Answer plugNunplugNic(NicTO nic, String vmName, Boolean plug) {
+    try {
+      final Xen xen = new Xen(connection);
+      final Xen.Vm vm = xen.getVmConfig(vmName);
+      /* check running */
+      if (vm == null) {
+        return new Answer(null, false,
+            "Unable to execute command due to missing VM");
+      }
+      // setup the NIC in the VM config.
+      if (plug) {
+        createVif(vm, nic);
+        vm.setupVifs();
+      } else {
+        deleteVif(vm, nic);
+      }
+      // execute the change
+      xen.configureVm(ovmObject.deDash(vm.getPrimaryPoolUuid()),
+          vm.getVmUuid());
+    } catch (final Ovm3ResourceException e) {
+      final String msg = "Unable to execute command due to " + e.toString();
+      logger.debug(msg);
+      return new Answer(null, false, msg);
     }
-
-    /* This is not create for us, but really start */
-/*
-    public boolean startVm(String repoId, String vmId) throws XmlRpcException {
-        Xen host = new Xen(c);
-        try {
-            if (host.getRunningVmConfig(vmId) == null) {
-                LOGGER.error("Create VM " + vmId + " first on " + c.getIp());
-                return false;
-            } else {
-                LOGGER.info("VM " + vmId + " exists on " + c.getIp());
-            }
-            host.startVm(repoId, vmId);
-        } catch (Exception e) {
-            LOGGER.error("Failed to start VM " + vmId + " on " + c.getIp()
-                    + " " + e.getMessage());
-            return false;
-        }
-        return true;
-    }
-*/
-    /*
-     * TODO: OVM already cleans stuff up, just not the extra bridges which we
-     * don't want right now, as we'd have to keep a state table of which vlans
-     * need to stay on the host!? A map with vlanid -> list-o-hosts
-     */
-    private void cleanupNetwork(List<String> vifs) throws XmlRpcException {
-        /* peel out vif info for vlan stuff */
-    }
-
-    public void cleanup(Xen.Vm vm) {
-        try {
-            cleanupNetwork(vm.getVmVifs());
-        } catch (XmlRpcException e) {
-            LOGGER.info("Clean up network for " + vm.getVmName() + " failed", e);
-        }
-        String vmName = vm.getVmName();
-        /* should become a single entity */
-        vmStats.remove(vmName);
-    }
-
-    /*
-     * Add rootdisk, datadisk and iso's
-     */
-    public Boolean createVbds(Xen.Vm vm, VirtualMachineTO spec) {
-        if (spec.getDisks() == null) {
-            LOGGER.info("No disks defined for " + vm.getVmName());
-            return false;
-        }
-        for (DiskTO disk : spec.getDisks()) {
-            try {
-                if (disk.getType() == Volume.Type.ROOT) {
-                    VolumeObjectTO vol = (VolumeObjectTO) disk.getData();
-                    String diskFile = processor.getVirtualDiskPath(vol.getUuid(),  vol.getDataStore().getUuid());
-                    vm.addRootDisk(diskFile);
-                    vm.setPrimaryPoolUuid(vol.getDataStore().getUuid());
-                    LOGGER.debug("Adding root disk: " + diskFile);
-                } else if (disk.getType() == Volume.Type.ISO) {
-                    DataTO isoTO = disk.getData();
-                    if (isoTO.getPath() != null) {
-                        TemplateObjectTO template = (TemplateObjectTO) isoTO;
-                        DataStoreTO store = template.getDataStore();
-                        if (!(store instanceof NfsTO)) {
-                            throw new CloudRuntimeException(
-                                    "unsupported protocol");
-                        }
-                        NfsTO nfsStore = (NfsTO) store;
-                        String secPoolUuid = pool.setupSecondaryStorage(nfsStore
-                                .getUrl());
-                        String isoPath = config.getAgentSecStoragePath() + "/"
-                                + secPoolUuid + "/"
-                                + template.getPath();
-                        vm.addIso(isoPath);
-                        /* check if secondary storage is mounted */
-                        LOGGER.debug("Adding ISO: " + isoPath);
-                    }
-                } else if (disk.getType() == Volume.Type.DATADISK) {
-                    VolumeObjectTO vol = (VolumeObjectTO) disk.getData();
-                    String diskFile = processor.getVirtualDiskPath(vol.getUuid(),  vol.getDataStore().getUuid());
-                    vm.addDataDisk(diskFile);
-                    LOGGER.debug("Adding data disk: "
-                            + diskFile);
-                } else {
-                    throw new CloudRuntimeException("Unknown disk type: "
-                            + disk.getType());
-                }
-            } catch (Exception e) {
-                LOGGER.debug("CreateVbds failed", e);
-                throw new CloudRuntimeException("Exception" + e.getMessage(), e);
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Implements the unplug and plug feature for Nics, the boolan decides
-     * to either plug (true) or unplug (false)
-     *
-     * @param nic
-     * @param vmName
-     * @param plug
-     * @return
-     */
-    private Answer plugNunplugNic(NicTO nic, String vmName, Boolean plug) {
-        try {
-            Xen xen = new Xen(c);
-            Xen.Vm vm = xen.getVmConfig(vmName);
-            /* check running */
-            if (vm == null) {
-                return new Answer(null, false,
-                        "Unable to execute command due to missing VM");
-            }
-            // setup the NIC in the VM config.
-            if (plug) {
-                createVif(vm, nic);
-                vm.setupVifs();
-            } else {
-                deleteVif(vm, nic);
-            }
-            // execute the change
-            xen.configureVm(ovmObject.deDash(vm.getPrimaryPoolUuid()),
-                    vm.getVmUuid());
-        } catch (Ovm3ResourceException e) {
-            String msg = "Unable to execute command due to " + e.toString();
-            LOGGER.debug(msg);
-            return new Answer(null, false, msg);
-        }
-        return new Answer(null, true, "success");
-    }
-    /**
-     * PlugNicAnswer: plug a network interface into a VM
-     * @param cmd
-     * @return
-     */
-    public PlugNicAnswer execute(PlugNicCommand cmd) {
-        Answer ans = plugNunplugNic(cmd.getNic(), cmd.getVmName(), true);
-        return new PlugNicAnswer(cmd, ans.getResult(), ans.getDetails());
-    }
-
-    /**
-     * UnPlugNicAnswer: remove a nic from a VM
-     * @param cmd
-     * @return
-     */
-    public UnPlugNicAnswer execute(UnPlugNicCommand cmd) {
-        Answer ans = plugNunplugNic(cmd.getNic(), cmd.getVmName(), false);
-        return new UnPlugNicAnswer(cmd, ans.getResult(), ans.getDetails());
-    }
+    return new Answer(null, true, "success");
+  }
 }

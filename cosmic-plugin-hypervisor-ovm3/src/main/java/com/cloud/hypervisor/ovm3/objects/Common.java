@@ -18,43 +18,25 @@
 package com.cloud.hypervisor.ovm3.objects;
 
 public class Common extends OvmObject {
-    public Common(Connection c) {
-        setClient(c);
-    }
 
-    /*
-     * get_api_version, <class 'agent.api.common.Common'>
-     */
-    public Integer getApiVersion() throws Ovm3ResourceException {
-        Object[] x = (Object[]) callWrapper("get_api_version");
-        return (Integer) x[0];
-    }
+  public Common(Connection connection) {
+    setClient(connection);
+  }
 
-    /*
-     * sleep, <class 'agent.api.common.Common'> argument: secs - default: None
-     */
-    public Boolean sleep(int seconds) throws Ovm3ResourceException {
-        return nullIsTrueCallWrapper("sleep", seconds);
-    }
+  public Integer getApiVersion() throws Ovm3ResourceException {
+    final Object[] x = (Object[]) callWrapper("get_api_version");
+    return (Integer) x[0];
+  }
 
-    /*
-     * dispatch, <class 'agent.api.common.Common'> argument: uri - default: None
-     * argument: func - default: None
-     */
-    /*
-     * normally used to push commands to other hosts in a cluster: * dispatch
-     * function join_server_pool to server
-     * https://oracle:******@192.168.1.67:8899/api/3/
-     */
-    public <T> String dispatch(String url, String function, T... args) throws Ovm3ResourceException {
-        return callString("dispatch", url, function, args);
-    }
+  public Boolean sleep(int seconds) throws Ovm3ResourceException {
+    return nullIsTrueCallWrapper("sleep", seconds);
+  }
 
-    /*
-     * echo, <class 'agent.api.common.Common'> argument: msg - default: None
-     */
-    public String echo(String msg) throws Ovm3ResourceException {
-        return callString("echo", msg);
-    }
+  public <T> String dispatch(String url, String function, T... args) throws Ovm3ResourceException {
+    return callString("dispatch", url, function, args);
+  }
 
+  public String echo(String msg) throws Ovm3ResourceException {
+    return callString("echo", msg);
+  }
 }
