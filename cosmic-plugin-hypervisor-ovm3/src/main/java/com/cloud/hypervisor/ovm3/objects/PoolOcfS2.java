@@ -24,7 +24,8 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 public class PoolOcfS2 extends OvmObject {
-  private static final Logger LOGGER = Logger.getLogger(PoolOcfS2.class);
+
+  private final Logger logger = Logger.getLogger(PoolOcfS2.class);
   private Map<String, String> poolFileSystem = new HashMap<String, String>();
   private String poolFsTarget;
   private String poolFsType;
@@ -109,7 +110,7 @@ public class PoolOcfS2 extends OvmObject {
       return nullIsTrueCallWrapper("create_pool_filesystem", type, target,
           clustername, fsid, nfsbaseid, managerid, fsid);
     } else if (hasPoolFs(fsid)) {
-      LOGGER.debug("PoolFs already exists on this host: " + fsid);
+      logger.debug("PoolFs already exists on this host: " + fsid);
       return true;
     } else {
       throw new Ovm3ResourceException("Unable to add pool filesystem to host, "
