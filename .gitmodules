@@ -6,3 +6,7 @@
 	path = cosmic-plugin-hypervisor-ovm3
 	url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-ovm3.git
         branch = master
+[submodule "cosmic-plugin-hypervisor-kvm"]
+	path = cosmic-plugin-hypervisor-kvm
+	url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git
+	branch = master
