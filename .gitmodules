@@ -13,3 +13,8 @@
 [submodule "cosmic-plugin-networking-nicira-nvp"]
 	path = cosmic-plugin-networking-nicira-nvp
 	url = git@github.com:MissionCriticalCloud/cosmic-plugin-networking-nicira-nvp.git
+        branch = master
+[submodule "cosmic-plugin-hypervisor-xenserver"]
+	path = cosmic-plugin-hypervisor-xenserver
+	url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git
+	branch = master
