@@ -870,7 +870,7 @@
                                                     var data = {
                                                         id: args.context.multiRule[0].id,
                                                         zoneid: args.context.multiRule[0].zoneid,
-                                                        domainid: args.data.domainid,
+                                                        domainid: args.data.domainid
                                                     };
                                                     if (args.data.account) {
                                                         $.extend(data, {
@@ -7461,7 +7461,7 @@
                                             return 'label.metrics';
                                         }
                                     }
-                                },
+                                }
                             },
 
                             detailView: {
