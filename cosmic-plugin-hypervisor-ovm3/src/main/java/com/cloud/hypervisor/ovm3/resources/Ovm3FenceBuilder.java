@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.FenceAnswer;
 import com.cloud.agent.api.FenceCommand;
@@ -39,79 +37,79 @@ import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
 
+import org.apache.log4j.Logger;
+
 public class Ovm3FenceBuilder extends AdapterBase implements FenceBuilder {
-    Map<String, Object> fenceParams;
-    private static final Logger LOGGER = Logger.getLogger(Ovm3FenceBuilder.class);
-    @Inject
-    AgentManager agentMgr;
-    @Inject
-    ResourceManager resourceMgr;
+  Map<String, Object> fenceParams;
+  private static final Logger LOGGER = Logger.getLogger(Ovm3FenceBuilder.class);
+  @Inject
+  AgentManager agentMgr;
+  @Inject
+  ResourceManager resourceMgr;
 
+  @Override
+  public boolean configure(String name, Map<String, Object> params)
+      throws ConfigurationException {
+    fenceParams = params;
+    return true;
+  }
 
-    @Override
-    public boolean configure(String name, Map<String, Object> params)
-            throws ConfigurationException {
-        fenceParams = params;
-        return true;
+  @Override
+  public boolean start() {
+    /* start the agent here ? */
+    return true;
+  }
+
+  @Override
+  public boolean stop() {
+    /* stop the agent here ? */
+    return true;
+  }
+
+  public Ovm3FenceBuilder() {
+    super();
+  }
+
+  @Override
+  public Boolean fenceOff(VirtualMachine vm, Host host) {
+    if (host.getHypervisorType() != HypervisorType.Ovm3) {
+      LOGGER.debug("Don't know how to fence non Ovm3 hosts "
+          + host.getHypervisorType());
+      return null;
+    } else {
+      LOGGER.debug("Fencing " + vm + " on host " + host
+          + " with params: " + fenceParams);
     }
 
-    @Override
-    public boolean start() {
-        /* start the agent here ? */
-        return true;
-    }
+    final List<HostVO> hosts = resourceMgr.listAllHostsInCluster(host.getClusterId());
+    final FenceCommand fence = new FenceCommand(vm, host);
 
-    @Override
-    public boolean stop() {
-        /* stop the agent here ? */
-        return true;
-    }
-
-    public Ovm3FenceBuilder() {
-        super();
-    }
-
-    @Override
-    public Boolean fenceOff(VirtualMachine vm, Host host) {
-        if (host.getHypervisorType() != HypervisorType.Ovm3) {
-            LOGGER.debug("Don't know how to fence non Ovm3 hosts "
-                    + host.getHypervisorType());
-            return null;
-        } else {
-            LOGGER.debug("Fencing " + vm + " on host " + host
-                    + " with params: "+ fenceParams );
+    for (final HostVO h : hosts) {
+      if (h.getHypervisorType() == HypervisorType.Ovm3
+          && h.getStatus() == Status.Up
+          && h.getId() != host.getId()) {
+        FenceAnswer answer;
+        try {
+          answer = (FenceAnswer) agentMgr.send(h.getId(), fence);
+        } catch (AgentUnavailableException | OperationTimedoutException e) {
+          if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Moving on to the next host because "
+                + h.toString() + " is unavailable", e);
+          }
+          continue;
         }
-
-        List<HostVO> hosts = resourceMgr.listAllHostsInCluster(host
-                .getClusterId());
-        FenceCommand fence = new FenceCommand(vm, host);
-
-        for (HostVO h : hosts) {
-            if (h.getHypervisorType() == HypervisorType.Ovm3 &&
-                    h.getStatus() == Status.Up &&
-                    h.getId() != host.getId()) {
-                FenceAnswer answer;
-                try {
-                    answer = (FenceAnswer) agentMgr.send(h.getId(), fence);
-                } catch (AgentUnavailableException | OperationTimedoutException e) {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Moving on to the next host because "
-                                + h.toString() + " is unavailable", e);
-                    }
-                    continue;
-                }
-                if (answer != null && answer.getResult()) {
-                    return true;
-                }
-            }
+        if (answer != null && answer.getResult()) {
+          return true;
         }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Unable to fence off " + vm.toString() + " on "
-                    + host.toString());
-        }
-
-        return false;
+      }
     }
+
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("Unable to fence off " + vm.toString() + " on "
+          + host.toString());
+    }
+
+    return false;
+  }
 
 }

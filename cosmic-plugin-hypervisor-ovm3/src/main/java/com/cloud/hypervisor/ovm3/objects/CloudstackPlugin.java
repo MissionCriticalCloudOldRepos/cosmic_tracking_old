@@ -23,164 +23,167 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 public class CloudstackPlugin extends OvmObject {
-    private static final Logger LOGGER = Logger
-            .getLogger(CloudstackPlugin.class);
-    private boolean checkstoragestarted = false;
-    public CloudstackPlugin(Connection c) {
-        setClient(c);
+  private static final Logger LOGGER = Logger.getLogger(CloudstackPlugin.class);
+  private boolean checkstoragestarted = false;
+
+  public CloudstackPlugin(Connection connection) {
+    setClient(connection);
+  }
+
+  public String getVncPort(String vmName) throws Ovm3ResourceException {
+    return (String) callWrapper("get_vncport", vmName);
+  }
+
+  public boolean ovsUploadSshKey(String key, String content) throws Ovm3ResourceException {
+    return nullIsFalseCallWrapper("ovs_upload_ssh_key", key, content);
+  }
+
+  public boolean ovsUploadFile(String path, String file, String content) throws Ovm3ResourceException {
+    return nullIsFalseCallWrapper("ovs_upload_file", path, file, content);
+  }
+
+  public boolean ovsDomrUploadFile(String domr, String path, String file,
+      String content) throws Ovm3ResourceException {
+    return nullIsFalseCallWrapper("ovs_domr_upload_file", domr, path, file,
+        content);
+  }
+
+  public static class ReturnCode {
+    private final Map<String, Object> returnCode = new HashMap<String, Object>() {
+      {
+        put("rc", null);
+        put("exit", null);
+        put("err", null);
+        put("out", null);
+      }
+
+      private static final long serialVersionUID = 5L;
+    };
+
+    public ReturnCode() {
     }
 
-    public String getVncPort(String vmName) throws Ovm3ResourceException {
-        return (String) callWrapper("get_vncport", vmName);
+    public void setValues(Map<String, String> mapValues) {
+      returnCode.putAll(mapValues);
     }
 
-    public boolean ovsUploadSshKey(String key, String content) throws Ovm3ResourceException{
-        return nullIsFalseCallWrapper("ovs_upload_ssh_key", key, content);
+    public Boolean getRc() throws Ovm3ResourceException {
+      final Object rc = returnCode.get("rc");
+      Long code = 1L;
+      if (rc instanceof Integer) {
+        code = new Long((Integer) rc);
+      } else if (rc instanceof Long) {
+        code = (Long) rc;
+      } else {
+        LOGGER.debug("Incorrect return code: " + rc);
+        return false;
+      }
+      returnCode.put("exit", code);
+      if (code != 0) {
+        return false;
+      }
+      return true;
     }
 
-    public boolean ovsUploadFile(String path, String file, String content) throws Ovm3ResourceException {
-        return nullIsFalseCallWrapper("ovs_upload_file", path, file, content);
+    public String getStdOut() {
+      return (String) returnCode.get("out");
     }
 
-    public boolean ovsDomrUploadFile(String domr, String path, String file,
-            String content) throws Ovm3ResourceException {
-        return nullIsFalseCallWrapper("ovs_domr_upload_file", domr, path, file,
-                content);
+    public String getStdErr() {
+      return (String) returnCode.get("err");
     }
 
-    public static class ReturnCode {
-        private Map<String, Object> returnCode = new HashMap<String, Object>() {
-            {
-                put("rc", null);
-                put("exit", null);
-                put("err", null);
-                put("out", null);
-            }
-            private static final long serialVersionUID = 5L;
-        };
-        public ReturnCode() {
-        }
+    public Integer getExit() {
+      if (returnCode.get("exit") == null) {
+        returnCode.put("exit", returnCode.get("rc"));
+      }
+      return ((Long) returnCode.get("exit")).intValue();
+    }
+  }
 
-        public void setValues(Map<String, String> m) {
-            returnCode.putAll(m);
-        }
+  @SuppressWarnings("unchecked")
+  public ReturnCode domrExec(String ip, String cmd) throws Ovm3ResourceException {
+    final ReturnCode rc = new ReturnCode();
+    rc.setValues((Map<String, String>) callWrapper("exec_domr", ip, cmd));
+    return rc;
+  }
 
-        public Boolean getRc() throws Ovm3ResourceException {
-            Object rc = returnCode.get("rc");
-            Long c = 1L;
-            if (rc instanceof Integer) {
-                c = new Long((Integer) rc);
-            } else if (rc instanceof Long) {
-                c = (Long) rc;
-            } else {
-                LOGGER.debug("Incorrect return code: " + rc);
-                return false;
-            }
-            returnCode.put("exit", c);
-            if (c != 0) {
-                return false;
-            }
-            return true;
-        }
+  public boolean dom0CheckPort(String ip, Integer port, Integer retries,
+      Integer interval) throws Ovm3ResourceException {
+    Boolean checkResult = false;
+    /* should deduct the interval from the timeout and sleep on it */
+    final Integer sleep = interval;
+    try {
+      while (!checkResult && retries > 0) {
+        checkResult = nullIsFalseCallWrapper("check_dom0_port", ip, port, interval);
+        retries--;
+        Thread.sleep(sleep * 1000);
+      }
+    } catch (final Exception e) {
+      LOGGER.error("Dom0 port check failed: " + e);
+    }
+    return checkResult;
+  }
 
-        public String getStdOut() {
-            return (String) returnCode.get("out");
-        }
+  @SuppressWarnings("unchecked")
+  public Map<String, String> ovsDom0Stats(String bridge) throws Ovm3ResourceException {
+    return (Map<String, String>) callWrapper(
+        "ovs_dom0_stats", bridge);
+  }
 
-        public String getStdErr() {
-            return (String) returnCode.get("err");
-        }
+  @SuppressWarnings("unchecked")
+  public Map<String, String> ovsDomUStats(String domain) throws Ovm3ResourceException {
+    return (Map<String, String>) callWrapper(
+        "ovs_domU_stats", domain);
+  }
 
-        public Integer getExit() {
-            if (returnCode.get("exit") == null) {
-                returnCode.put("exit", returnCode.get("rc"));
-            }
-            return ((Long) returnCode.get("exit")).intValue();
-        }
-    }
+  public boolean domrCheckPort(String ip, Integer port) throws Ovm3ResourceException {
+    return (Boolean) callWrapper("check_domr_port", ip, port);
+  }
 
-    public ReturnCode domrExec(String ip, String cmd) throws Ovm3ResourceException {
-        ReturnCode rc = new ReturnCode();
-        rc.setValues((Map<String, String>) callWrapper("exec_domr", ip, cmd));
-        return rc;
-    }
+  public boolean domrCheckSsh(String ip) throws Ovm3ResourceException {
+    return (Boolean) callWrapper("check_domr_ssh", ip);
+  }
 
-    /**
-     * Checks a tcp port of a host reachable from dom0
-     * @param ip
-     * @param port
-     * @param retries
-     * @param interval
-     * @return
-     * @throws Ovm3ResourceException
-     */
-    public boolean dom0CheckPort(String ip, Integer port, Integer retries,
-            Integer interval) throws Ovm3ResourceException {
-        Boolean x = false;
-        /* should deduct the interval from the timeout and sleep on it */
-        Integer sleep = interval;
-        try {
-            while (!x && retries > 0) {
-                x = nullIsFalseCallWrapper("check_dom0_port", ip, port, interval);
-                retries--;
-                Thread.sleep(sleep * 1000);
-            }
-        } catch (Exception e) {
-            LOGGER.error("Dom0 port check failed: " + e);
-        }
-        return x;
-    }
+  public boolean ovsControlInterface(String dev, String cidr) throws Ovm3ResourceException {
+    return (Boolean) callWrapper("ovs_control_interface", dev, cidr);
+  }
 
-    public Map<String, String> ovsDom0Stats(String bridge) throws Ovm3ResourceException {
-        return (Map<String, String>) callWrapper(
-                "ovs_dom0_stats", bridge);
-    }
+  public boolean ping(String host) throws Ovm3ResourceException {
+    return (Boolean) callWrapper("ping", host);
+  }
 
-    public Map<String, String> ovsDomUStats(String domain) throws Ovm3ResourceException {
-        return (Map<String, String>) callWrapper(
-                "ovs_domU_stats", domain);
-    }
+  public boolean ovsCheckFile(String file) throws Ovm3ResourceException {
+    return (Boolean) callWrapper("ovs_check_file", file);
+  }
 
-    public boolean domrCheckPort(String ip, Integer port) throws Ovm3ResourceException{
-        return (Boolean) callWrapper("check_domr_port", ip, port);
-    }
+  public boolean dom0HasIp(String ovm3PoolVip) throws Ovm3ResourceException {
+    return (Boolean) callWrapper("check_dom0_ip", ovm3PoolVip);
+  }
 
-    public boolean domrCheckSsh(String ip) throws Ovm3ResourceException {
-        return (Boolean) callWrapper("check_domr_ssh", ip);
-    }
+  public boolean dom0CheckStorageHealthCheck(String path, String script, String guid, Integer timeout,
+      Integer interval) throws Ovm3ResourceException {
+    final Object[] x = (Object[]) callWrapper("check_dom0_storage_health_check", path, script, guid, timeout, interval);
+    final Boolean running = (Boolean) x[0];
+    checkstoragestarted = (Boolean) x[1];
+    return running;
+  }
 
-    public boolean ovsControlInterface(String dev, String cidr) throws Ovm3ResourceException {
-        return (Boolean) callWrapper("ovs_control_interface", dev, cidr);
-    }
+  public boolean dom0CheckStorageHealthCheck() {
+    return checkstoragestarted;
+  }
 
-    public boolean ping(String host) throws Ovm3ResourceException {
-        return (Boolean) callWrapper("ping", host);
-    }
+  /* return something else in the future */
+  public boolean dom0CheckStorageHealth(String path, String script, String guid, Integer timeout)
+      throws Ovm3ResourceException {
+    return (Boolean) callWrapper("check_dom0_storage_health", path, script, guid, timeout);
+  }
 
-    public boolean ovsCheckFile(String file) throws Ovm3ResourceException {
-        return (Boolean) callWrapper("ovs_check_file", file);
-    }
+  public boolean ovsMkdirs(String dir) throws Ovm3ResourceException {
+    return nullIsTrueCallWrapper("ovs_mkdirs", dir);
+  }
 
-    public boolean dom0HasIp(String ovm3PoolVip) throws Ovm3ResourceException {
-        return (Boolean) callWrapper("check_dom0_ip", ovm3PoolVip);
-    }
-    public boolean dom0CheckStorageHealthCheck(String path, String script, String guid, Integer timeout, Integer interval) throws Ovm3ResourceException {
-        Object[] x = (Object[]) callWrapper("check_dom0_storage_health_check", path, script, guid, timeout, interval);
-        Boolean running = (Boolean) x[0];
-        checkstoragestarted = (Boolean) x[1];
-        return running;
-    }
-    public boolean dom0CheckStorageHealthCheck() {
-        return checkstoragestarted;
-    }
-    /* return something else in the future */
-    public boolean dom0CheckStorageHealth(String path, String script, String guid, Integer timeout) throws Ovm3ResourceException {
-        return (Boolean) callWrapper("check_dom0_storage_health", path, script, guid, timeout);
-    }
-    public boolean ovsMkdirs(String dir) throws Ovm3ResourceException{
-        return nullIsTrueCallWrapper("ovs_mkdirs", dir);
-    }
-    public boolean ovsMkdirs(String dir, Integer mode) throws Ovm3ResourceException{
-        return nullIsTrueCallWrapper("ovs_mkdirs", dir, mode);
-    }
+  public boolean ovsMkdirs(String dir, Integer mode) throws Ovm3ResourceException {
+    return nullIsTrueCallWrapper("ovs_mkdirs", dir, mode);
+  }
 }
