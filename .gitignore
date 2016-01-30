@@ -42,3 +42,6 @@ fabric.properties
 # Eclipse project settings
 .project
 .settings/
+
+# RPM packaging
+dist/
