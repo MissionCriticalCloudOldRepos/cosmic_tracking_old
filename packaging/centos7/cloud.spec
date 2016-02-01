@@ -313,10 +313,6 @@ cp cosmic-core/usage/target/dependencies/* ${RPM_BUILD_ROOT}%{_datadir}/%{name}-
 install -D packaging/systemd/cloudstack-usage.service ${RPM_BUILD_ROOT}%{_unitdir}/%{name}-usage.service
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/log/%{name}/usage/
 
-# CLI
-cp -r cosmic-core/cloud-cli/cloudtool ${RPM_BUILD_ROOT}%{python_sitearch}/
-install cosmic-core/cloud-cli/cloudapis/cloud.py ${RPM_BUILD_ROOT}%{python_sitearch}/cloudapis.py
-
 # MYSQL HA
 if [ "x%{_ossnoss}" == "xnoredist" ] ; then
   mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}-mysql-ha/lib
@@ -332,8 +328,6 @@ install -D cosmic-core/tools/whisker/NOTICE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%
 install -D cosmic-core/tools/whisker/LICENSE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%{name}-agent-%{version}/LICENSE
 install -D cosmic-core/tools/whisker/NOTICE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%{name}-usage-%{version}/NOTICE
 install -D cosmic-core/tools/whisker/LICENSE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%{name}-usage-%{version}/LICENSE
-install -D cosmic-core/tools/whisker/NOTICE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%{name}-cli-%{version}/NOTICE
-install -D cosmic-core/tools/whisker/LICENSE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%{name}-cli-%{version}/LICENSE
 if [ "x%{_ossnoss}" == "xnoredist" ] ; then
   install -D cosmic-core/tools/whisker/LICENSE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%{name}-mysql-ha-%{version}/LICENSE
   install -D cosmic-core/tools/whisker/NOTICE ${RPM_BUILD_ROOT}%{_defaultdocdir}/%{name}-mysql-ha-%{version}/NOTICE
@@ -517,13 +511,6 @@ fi
 %attr(0644,root,root) %{_sysconfdir}/%{name}/usage/log4j-cloud.xml
 %{_defaultdocdir}/%{name}-usage-%{version}/LICENSE
 %{_defaultdocdir}/%{name}-usage-%{version}/NOTICE
-
-%files cli
-%attr(0644,root,root) %{python_sitearch}/cloudapis.py
-%attr(0644,root,root) %{python_sitearch}/cloudtool/__init__.py
-%attr(0644,root,root) %{python_sitearch}/cloudtool/utils.py
-%{_defaultdocdir}/%{name}-cli-%{version}/LICENSE
-%{_defaultdocdir}/%{name}-cli-%{version}/NOTICE
 
 %if "%{_ossnoss}" == "noredist"
 %files mysql-ha
