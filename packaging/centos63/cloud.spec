@@ -103,7 +103,6 @@ Obsoletes: cloud-core < 4.1.0
 Obsoletes: cloud-deps < 4.1.0
 Obsoletes: cloud-python < 4.1.0
 Obsoletes: cloud-setup < 4.1.0
-Obsoletes: cloud-cli < 4.1.0
 Obsoletes: cloud-daemonize < 4.1.0
 Group:   System Environment/Libraries
 %description common
@@ -339,10 +338,6 @@ install -D usage/target/transformed/log4j-cloud_usage.xml ${RPM_BUILD_ROOT}%{_sy
 cp usage/target/dependencies/* ${RPM_BUILD_ROOT}%{_datadir}/%{name}-usage/lib/
 install -D packaging/centos63/cloud-usage.rc ${RPM_BUILD_ROOT}/%{_sysconfdir}/init.d/%{name}-usage
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/log/%{name}/usage/
-
-# CLI
-cp -r cloud-cli/cloudtool ${RPM_BUILD_ROOT}%{python_sitearch}/
-install cloud-cli/cloudapis/cloud.py ${RPM_BUILD_ROOT}%{python_sitearch}/cloudapis.py
 
 # MYSQL HA
 if [ "x%{_ossnoss}" == "xnoredist" ] ; then
@@ -620,13 +615,6 @@ fi
 %attr(0644,root,root) %{_sysconfdir}/%{name}/usage/log4j-cloud.xml
 %{_defaultdocdir}/%{name}-usage-%{version}/LICENSE
 %{_defaultdocdir}/%{name}-usage-%{version}/NOTICE
-
-%files cli
-%attr(0644,root,root) %{python_sitearch}/cloudapis.py
-%attr(0644,root,root) %{python_sitearch}/cloudtool/__init__.py
-%attr(0644,root,root) %{python_sitearch}/cloudtool/utils.py
-%{_defaultdocdir}/%{name}-cli-%{version}/LICENSE
-%{_defaultdocdir}/%{name}-cli-%{version}/NOTICE
 
 %if "%{_ossnoss}" == "noredist"
 %files mysql-ha
