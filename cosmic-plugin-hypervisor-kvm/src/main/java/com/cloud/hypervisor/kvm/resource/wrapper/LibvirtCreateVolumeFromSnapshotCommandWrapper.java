@@ -33,38 +33,41 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.exception.CloudRuntimeException;
 
-@ResourceWrapper(handles =  CreateVolumeFromSnapshotCommand.class)
-public final class LibvirtCreateVolumeFromSnapshotCommandWrapper extends CommandWrapper<CreateVolumeFromSnapshotCommand, Answer, LibvirtComputingResource> {
+@ResourceWrapper(handles = CreateVolumeFromSnapshotCommand.class)
+public final class LibvirtCreateVolumeFromSnapshotCommandWrapper
+    extends CommandWrapper<CreateVolumeFromSnapshotCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final CreateVolumeFromSnapshotCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        try {
+  @Override
+  public Answer execute(final CreateVolumeFromSnapshotCommand command,
+      final LibvirtComputingResource libvirtComputingResource) {
+    try {
 
-            String snapshotPath = command.getSnapshotUuid();
-            final int index = snapshotPath.lastIndexOf("/");
-            snapshotPath = snapshotPath.substring(0, index);
+      String snapshotPath = command.getSnapshotUuid();
+      final int index = snapshotPath.lastIndexOf("/");
+      snapshotPath = snapshotPath.substring(0, index);
 
-            final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
-            final KVMStoragePool secondaryPool = storagePoolMgr.getStoragePoolByURI(command.getSecondaryStorageUrl() + snapshotPath);
-            final KVMPhysicalDisk snapshot = secondaryPool.getPhysicalDisk(command.getSnapshotName());
+      final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+      final KVMStoragePool secondaryPool = storagePoolMgr.getStoragePoolByURI(
+          command.getSecondaryStorageUrl() + snapshotPath);
+      final KVMPhysicalDisk snapshot = secondaryPool.getPhysicalDisk(command.getSnapshotName());
 
-            final String primaryUuid = command.getPrimaryStoragePoolNameLabel();
+      final String primaryUuid = command.getPrimaryStoragePoolNameLabel();
 
-            final StorageFilerTO pool = command.getPool();
-            final KVMStoragePool primaryPool = storagePoolMgr.getStoragePool(pool.getType(), primaryUuid);
+      final StorageFilerTO pool = command.getPool();
+      final KVMStoragePool primaryPool = storagePoolMgr.getStoragePool(pool.getType(), primaryUuid);
 
-            final String volUuid = UUID.randomUUID().toString();
-            final KVMPhysicalDisk disk = storagePoolMgr.copyPhysicalDisk(snapshot, volUuid, primaryPool, 0);
+      final String volUuid = UUID.randomUUID().toString();
+      final KVMPhysicalDisk disk = storagePoolMgr.copyPhysicalDisk(snapshot, volUuid, primaryPool, 0);
 
-            if (disk == null) {
-                throw new NullPointerException("Disk was not successfully copied to the new storage.");
-            }
+      if (disk == null) {
+        throw new NullPointerException("Disk was not successfully copied to the new storage.");
+      }
 
-            return new CreateVolumeFromSnapshotAnswer(command, true, "", disk.getName());
-        } catch (final CloudRuntimeException e) {
-            return new CreateVolumeFromSnapshotAnswer(command, false, e.toString(), null);
-        } catch (final Exception e) {
-            return new CreateVolumeFromSnapshotAnswer(command, false, e.toString(), null);
-        }
+      return new CreateVolumeFromSnapshotAnswer(command, true, "", disk.getName());
+    } catch (final CloudRuntimeException e) {
+      return new CreateVolumeFromSnapshotAnswer(command, false, e.toString(), null);
+    } catch (final Exception e) {
+      return new CreateVolumeFromSnapshotAnswer(command, false, e.toString(), null);
     }
+  }
 }

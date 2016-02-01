@@ -19,10 +19,10 @@
 
 package com.cloud.hypervisor.kvm.resource;
 
+import java.util.List;
+
 import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.DiskDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.InterfaceDef;
-
-import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -40,7 +40,7 @@ public class LibvirtDomainXMLParserTest extends TestCase {
     final InterfaceDef.NicModel ifModel = InterfaceDef.NicModel.VIRTIO;
     final InterfaceDef.GuestNetType ifType = InterfaceDef.GuestNetType.BRIDGE;
 
-    final String diskLabel ="vda";
+    final String diskLabel = "vda";
     final String diskPath = "/var/lib/libvirt/images/my-test-image.qcow2";
 
     final String xml = "<domain type='kvm' id='10'>" +
@@ -173,7 +173,7 @@ public class LibvirtDomainXMLParserTest extends TestCase {
     final LibvirtDomainXMLParser parser = new LibvirtDomainXMLParser();
     parser.parseDomainXML(xml);
 
-    assertEquals(vncPort - 5900, (int)parser.getVncPort());
+    assertEquals(vncPort - 5900, (int) parser.getVncPort());
 
     final List<DiskDef> disks = parser.getDisks();
     /* Disk 0 is the first disk, the QCOW2 file backed virto disk */

@@ -26,53 +26,55 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.proxy.ConsoleProxyLoadAnswer;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ServerResource;
 
-public abstract class LibvirtConsoleProxyLoadCommandWrapper<T extends Command, A extends Answer, R extends ServerResource> extends CommandWrapper<Command, Answer, ServerResource> {
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtConsoleProxyLoadCommandWrapper.class);
+public abstract class LibvirtConsoleProxyLoadCommandWrapper<T extends Command, A extends Answer, R extends ServerResource>
+    extends CommandWrapper<Command, Answer, ServerResource> {
 
-    public Answer executeProxyLoadScan(final Command cmd, final long proxyVmId, final String proxyVmName, final String proxyManagementIp, final int cmdPort) {
-        String result = null;
+  private static final Logger s_logger = Logger.getLogger(LibvirtConsoleProxyLoadCommandWrapper.class);
 
-        final StringBuffer sb = new StringBuffer();
-        sb.append("http://").append(proxyManagementIp).append(":" + cmdPort).append("/cmd/getstatus");
+  public Answer executeProxyLoadScan(final Command cmd, final long proxyVmId, final String proxyVmName,
+      final String proxyManagementIp, final int cmdPort) {
+    String result = null;
 
-        boolean success = true;
-        try {
-            final URL url = new URL(sb.toString());
-            final URLConnection conn = url.openConnection();
+    final StringBuffer sb = new StringBuffer();
+    sb.append("http://").append(proxyManagementIp).append(":" + cmdPort).append("/cmd/getstatus");
 
-            final InputStream is = conn.getInputStream();
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-            final StringBuilder sb2 = new StringBuilder();
-            String line = null;
-            try {
-                while ((line = reader.readLine()) != null) {
-                    sb2.append(line + "\n");
-                }
-                result = sb2.toString();
-            } catch (final IOException e) {
-                success = false;
-            } finally {
-                try {
-                    is.close();
-                } catch (final IOException e) {
-                    s_logger.warn("Exception when closing , console proxy address : " + proxyManagementIp);
-                    success = false;
-                }
-            }
-        } catch (final IOException e) {
-            s_logger.warn("Unable to open console proxy command port url, console proxy address : " + proxyManagementIp);
-            success = false;
+    boolean success = true;
+    try {
+      final URL url = new URL(sb.toString());
+      final URLConnection conn = url.openConnection();
+
+      final InputStream is = conn.getInputStream();
+      final BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+      final StringBuilder sb2 = new StringBuilder();
+      String line = null;
+      try {
+        while ((line = reader.readLine()) != null) {
+          sb2.append(line + "\n");
         }
-
-        return new ConsoleProxyLoadAnswer(cmd, proxyVmId, proxyVmName, success, result);
+        result = sb2.toString();
+      } catch (final IOException e) {
+        success = false;
+      } finally {
+        try {
+          is.close();
+        } catch (final IOException e) {
+          s_logger.warn("Exception when closing , console proxy address : " + proxyManagementIp);
+          success = false;
+        }
+      }
+    } catch (final IOException e) {
+      s_logger.warn("Unable to open console proxy command port url, console proxy address : " + proxyManagementIp);
+      success = false;
     }
+
+    return new ConsoleProxyLoadAnswer(cmd, proxyVmId, proxyVmName, success, result);
+  }
 }

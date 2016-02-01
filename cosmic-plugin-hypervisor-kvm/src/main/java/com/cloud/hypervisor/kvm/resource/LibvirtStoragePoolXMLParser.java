@@ -32,90 +32,93 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class LibvirtStoragePoolXMLParser {
-    private static final Logger s_logger = Logger.getLogger(LibvirtStoragePoolXMLParser.class);
+  private static final Logger s_logger = Logger.getLogger(LibvirtStoragePoolXMLParser.class);
 
-    public LibvirtStoragePoolDef parseStoragePoolXML(String poolXML) {
-        DocumentBuilder builder;
-        try {
-            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+  public LibvirtStoragePoolDef parseStoragePoolXML(String poolXML) {
+    DocumentBuilder builder;
+    try {
+      builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(poolXML));
-            Document doc = builder.parse(is);
+      InputSource is = new InputSource();
+      is.setCharacterStream(new StringReader(poolXML));
+      Document doc = builder.parse(is);
 
-            Element rootElement = doc.getDocumentElement();
-            String type = rootElement.getAttribute("type");
+      Element rootElement = doc.getDocumentElement();
+      String type = rootElement.getAttribute("type");
 
-            String uuid = getTagValue("uuid", rootElement);
+      String uuid = getTagValue("uuid", rootElement);
 
-            String poolName = getTagValue("name", rootElement);
+      String poolName = getTagValue("name", rootElement);
 
-            Element source = (Element)rootElement.getElementsByTagName("source").item(0);
-            String host = getAttrValue("host", "name", source);
-            String format = getAttrValue("format", "type", source);
+      Element source = (Element) rootElement.getElementsByTagName("source").item(0);
+      String host = getAttrValue("host", "name", source);
+      String format = getAttrValue("format", "type", source);
 
-            if (type.equalsIgnoreCase("rbd")) {
-                int port = Integer.parseInt(getAttrValue("host", "port", source));
-                String pool = getTagValue("name", source);
+      if (type.equalsIgnoreCase("rbd")) {
+        int port = Integer.parseInt(getAttrValue("host", "port", source));
+        String pool = getTagValue("name", source);
 
-                Element auth = (Element)source.getElementsByTagName("auth").item(0);
+        Element auth = (Element) source.getElementsByTagName("auth").item(0);
 
-                if (auth != null) {
-                    String authUsername = auth.getAttribute("username");
-                    String authType = auth.getAttribute("type");
-                    return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(type.toUpperCase()), poolName, uuid, host, port, pool, authUsername,
-                            LibvirtStoragePoolDef.AuthenticationType.valueOf(authType.toUpperCase()), uuid);
-                } else {
-                    return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(type.toUpperCase()), poolName, uuid, host, port, pool, "");
-                }
-                /* Gluster is a sub-type of LibvirtStoragePoolDef.poolType.NETFS, need to check format */
-            } else if (format != null && format.equalsIgnoreCase("glusterfs")) {
-                /* libvirt does not return the default port, but requires it for a disk-definition */
-                int port = 24007;
-
-                String path = getAttrValue("dir", "path", source);
-
-                Element target = (Element) rootElement.getElementsByTagName(
-                        "target").item(0);
-                String targetPath = getTagValue("path", target);
-
-                String portValue = getAttrValue("host", "port", source);
-                if (portValue != null && !portValue.isEmpty())
-                    port = Integer.parseInt(portValue);
-
-                return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(format.toUpperCase()),
-                        poolName, uuid, host, port, path, targetPath);
-            } else {
-                String path = getAttrValue("dir", "path", source);
-
-                Element target = (Element)rootElement.getElementsByTagName("target").item(0);
-                String targetPath = getTagValue("path", target);
-
-                return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(type.toUpperCase()), poolName, uuid, host, path, targetPath);
-            }
-        } catch (ParserConfigurationException e) {
-            s_logger.debug(e.toString());
-        } catch (SAXException e) {
-            s_logger.debug(e.toString());
-        } catch (IOException e) {
-            s_logger.debug(e.toString());
+        if (auth != null) {
+          String authUsername = auth.getAttribute("username");
+          String authType = auth.getAttribute("type");
+          return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(type.toUpperCase()), poolName, uuid,
+              host, port, pool, authUsername,
+              LibvirtStoragePoolDef.AuthenticationType.valueOf(authType.toUpperCase()), uuid);
+        } else {
+          return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(type.toUpperCase()), poolName, uuid,
+              host, port, pool, "");
         }
-        return null;
-    }
+        /* Gluster is a sub-type of LibvirtStoragePoolDef.poolType.NETFS, need to check format */
+      } else if (format != null && format.equalsIgnoreCase("glusterfs")) {
+        /* libvirt does not return the default port, but requires it for a disk-definition */
+        int port = 24007;
 
-    private static String getTagValue(String tag, Element eElement) {
-        NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-        Node nValue = nlList.item(0);
+        String path = getAttrValue("dir", "path", source);
 
-        return nValue.getNodeValue();
-    }
+        Element target = (Element) rootElement.getElementsByTagName(
+            "target").item(0);
+        String targetPath = getTagValue("path", target);
 
-    private static String getAttrValue(String tag, String attr, Element eElement) {
-        NodeList tagNode = eElement.getElementsByTagName(tag);
-        if (tagNode.getLength() == 0) {
-            return null;
-        }
-        Element node = (Element)tagNode.item(0);
-        return node.getAttribute(attr);
+        String portValue = getAttrValue("host", "port", source);
+        if (portValue != null && !portValue.isEmpty())
+          port = Integer.parseInt(portValue);
+
+        return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(format.toUpperCase()),
+            poolName, uuid, host, port, path, targetPath);
+      } else {
+        String path = getAttrValue("dir", "path", source);
+
+        Element target = (Element) rootElement.getElementsByTagName("target").item(0);
+        String targetPath = getTagValue("path", target);
+
+        return new LibvirtStoragePoolDef(LibvirtStoragePoolDef.PoolType.valueOf(type.toUpperCase()), poolName, uuid,
+            host, path, targetPath);
+      }
+    } catch (ParserConfigurationException e) {
+      s_logger.debug(e.toString());
+    } catch (SAXException e) {
+      s_logger.debug(e.toString());
+    } catch (IOException e) {
+      s_logger.debug(e.toString());
     }
+    return null;
+  }
+
+  private static String getTagValue(String tag, Element eElement) {
+    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+    Node nValue = nlList.item(0);
+
+    return nValue.getNodeValue();
+  }
+
+  private static String getAttrValue(String tag, String attr, Element eElement) {
+    NodeList tagNode = eElement.getElementsByTagName(tag);
+    if (tagNode.getLength() == 0) {
+      return null;
+    }
+    Element node = (Element) tagNode.item(0);
+    return node.getAttribute(attr);
+  }
 }

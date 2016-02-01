@@ -19,8 +19,6 @@
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.check.CheckSshAnswer;
 import com.cloud.agent.api.check.CheckSshCommand;
@@ -29,30 +27,33 @@ import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-@ResourceWrapper(handles =  CheckSshCommand.class)
-public final class LibvirtCheckSshCommandWrapper extends CommandWrapper<CheckSshCommand, Answer, LibvirtComputingResource> {
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtOvsVpcRoutingPolicyConfigCommandWrapper.class);
+@ResourceWrapper(handles = CheckSshCommand.class)
+public final class LibvirtCheckSshCommandWrapper
+    extends CommandWrapper<CheckSshCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final CheckSshCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        final String vmName = command.getName();
-        final String privateIp = command.getIp();
-        final int cmdPort = command.getPort();
+  private static final Logger s_logger = Logger.getLogger(LibvirtOvsVpcRoutingPolicyConfigCommandWrapper.class);
 
-        if (s_logger.isDebugEnabled()) {
-            s_logger.debug("Ping command port, " + privateIp + ":" + cmdPort);
-        }
+  @Override
+  public Answer execute(final CheckSshCommand command, final LibvirtComputingResource libvirtComputingResource) {
+    final String vmName = command.getName();
+    final String privateIp = command.getIp();
+    final int cmdPort = command.getPort();
 
-        final VirtualRoutingResource virtRouterResource = libvirtComputingResource.getVirtRouterResource();
-        if (!virtRouterResource.connect(privateIp, cmdPort)) {
-            return new CheckSshAnswer(command, "Can not ping System vm " + vmName + " because of a connection failure");
-        }
-
-        if (s_logger.isDebugEnabled()) {
-            s_logger.debug("Ping command port succeeded for vm " + vmName);
-        }
-
-        return new CheckSshAnswer(command);
+    if (s_logger.isDebugEnabled()) {
+      s_logger.debug("Ping command port, " + privateIp + ":" + cmdPort);
     }
+
+    final VirtualRoutingResource virtRouterResource = libvirtComputingResource.getVirtRouterResource();
+    if (!virtRouterResource.connect(privateIp, cmdPort)) {
+      return new CheckSshAnswer(command, "Can not ping System vm " + vmName + " because of a connection failure");
+    }
+
+    if (s_logger.isDebugEnabled()) {
+      s_logger.debug("Ping command port succeeded for vm " + vmName);
+    }
+
+    return new CheckSshAnswer(command);
+  }
 }

@@ -29,43 +29,45 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class LibvirtXMLParser extends DefaultHandler {
-    private static final Logger s_logger = Logger.getLogger(LibvirtXMLParser.class);
-    protected static final SAXParserFactory s_spf;
-    static {
-        s_spf = SAXParserFactory.newInstance();
+  private static final Logger s_logger = Logger.getLogger(LibvirtXMLParser.class);
+  protected static final SAXParserFactory s_spf;
 
-    }
-    protected SAXParser _sp;
-    protected boolean _initialized = false;
+  static {
+    s_spf = SAXParserFactory.newInstance();
 
-    public LibvirtXMLParser() {
-        try {
-            _sp = s_spf.newSAXParser();
-            _initialized = true;
-        } catch (ParserConfigurationException e) {
-            s_logger.trace("Ignoring xml parser error.", e);
-        } catch (SAXException e) {
-            s_logger.trace("Ignoring xml parser error.", e);
-        }
-    }
+  }
 
-    public boolean parseDomainXML(String domXML) {
-        if (!_initialized) {
-            return false;
-        }
-        try {
-            _sp.parse(new InputSource(new StringReader(domXML)), this);
-            return true;
-        } catch (SAXException se) {
-            s_logger.warn(se.getMessage());
-        } catch (IOException ie) {
-            s_logger.error(ie.getMessage());
-        }
-        return false;
-    }
+  protected SAXParser _sp;
+  protected boolean _initialized = false;
 
-    @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+  public LibvirtXMLParser() {
+    try {
+      _sp = s_spf.newSAXParser();
+      _initialized = true;
+    } catch (ParserConfigurationException e) {
+      s_logger.trace("Ignoring xml parser error.", e);
+    } catch (SAXException e) {
+      s_logger.trace("Ignoring xml parser error.", e);
     }
+  }
+
+  public boolean parseDomainXML(String domXML) {
+    if (!_initialized) {
+      return false;
+    }
+    try {
+      _sp.parse(new InputSource(new StringReader(domXML)), this);
+      return true;
+    } catch (SAXException se) {
+      s_logger.warn(se.getMessage());
+    } catch (IOException ie) {
+      s_logger.error(ie.getMessage());
+    }
+    return false;
+  }
+
+  @Override
+  public void characters(char[] ch, int start, int length) throws SAXException {
+  }
 
 }

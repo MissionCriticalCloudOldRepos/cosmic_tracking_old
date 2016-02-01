@@ -21,299 +21,298 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import com.cloud.utils.script.Script;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import com.cloud.utils.script.Script;
 
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
-
+import org.junit.Ignore;
+import org.junit.Test;
 
 @Ignore
 public class QemuImgTest {
 
-    @Test
-    public void testCreateAndInfo() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+  @Test
+  public void testCreateAndInfo() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
 
-        /* 10TB virtual_size */
-        long size = 10995116277760l;
-        QemuImgFile file = new QemuImgFile(filename, size, PhysicalDiskFormat.QCOW2);
+    /* 10TB virtual_size */
+    long size = 10995116277760l;
+    QemuImgFile file = new QemuImgFile(filename, size, PhysicalDiskFormat.QCOW2);
 
-        QemuImg qemu = new QemuImg(0);
-        qemu.create(file);
-        Map<String, String> info = qemu.info(file);
+    QemuImg qemu = new QemuImg(0);
+    qemu.create(file);
+    Map<String, String> info = qemu.info(file);
 
-        if (info == null) {
-            fail("We didn't get any information back from qemu-img");
-        }
-
-        Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
-        assertEquals(Long.valueOf(size), Long.valueOf(infoSize));
-
-        String infoPath = info.get(new String("image"));
-        assertEquals(filename, infoPath);
-
-        File f = new File(filename);
-        f.delete();
-
+    if (info == null) {
+      fail("We didn't get any information back from qemu-img");
     }
 
-    @Test
-    public void testCreateAndInfoWithOptions() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
+    assertEquals(Long.valueOf(size), Long.valueOf(infoSize));
 
-        /* 10TB virtual_size */
-        long size = 10995116277760l;
-        QemuImgFile file = new QemuImgFile(filename, size, PhysicalDiskFormat.QCOW2);
-        String clusterSize = "131072";
-        Map<String, String> options = new HashMap<String, String>();
+    String infoPath = info.get(new String("image"));
+    assertEquals(filename, infoPath);
 
-        options.put("cluster_size", clusterSize);
+    File f = new File(filename);
+    f.delete();
 
-        QemuImg qemu = new QemuImg(0);
-        qemu.create(file, options);
-        Map<String, String> info = qemu.info(file);
+  }
 
-        Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
-        assertEquals(Long.valueOf(size), Long.valueOf(infoSize));
+  @Test
+  public void testCreateAndInfoWithOptions() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
 
-        String infoPath = info.get(new String("image"));
-        assertEquals(filename, infoPath);
+    /* 10TB virtual_size */
+    long size = 10995116277760l;
+    QemuImgFile file = new QemuImgFile(filename, size, PhysicalDiskFormat.QCOW2);
+    String clusterSize = "131072";
+    Map<String, String> options = new HashMap<String, String>();
 
-        String infoClusterSize = info.get(new String("cluster_size"));
-        assertEquals(clusterSize, infoClusterSize);
+    options.put("cluster_size", clusterSize);
 
-        File f = new File(filename);
-        f.delete();
+    QemuImg qemu = new QemuImg(0);
+    qemu.create(file, options);
+    Map<String, String> info = qemu.info(file);
 
+    Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
+    assertEquals(Long.valueOf(size), Long.valueOf(infoSize));
+
+    String infoPath = info.get(new String("image"));
+    assertEquals(filename, infoPath);
+
+    String infoClusterSize = info.get(new String("cluster_size"));
+    assertEquals(clusterSize, infoClusterSize);
+
+    File f = new File(filename);
+    f.delete();
+
+  }
+
+  @Test
+  public void testCreateSparseVolume() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+
+    /* 10TB virtual_size */
+    long size = 10995116277760l;
+    QemuImgFile file = new QemuImgFile(filename, size, PhysicalDiskFormat.QCOW2);
+    String preallocation = "metadata";
+    Map<String, String> options = new HashMap<String, String>();
+
+    options.put("preallocation", preallocation);
+
+    QemuImg qemu = new QemuImg(0);
+    qemu.create(file, options);
+
+    String allocatedSize = Script.runSimpleBashScript(String.format("ls -alhs %s | awk '{print $1}'", file));
+    String declaredSize = Script.runSimpleBashScript(String.format("ls -alhs %s | awk '{print $6}'", file));
+
+    assertFalse(allocatedSize.equals(declaredSize));
+
+    File f = new File(filename);
+    f.delete();
+
+  }
+
+  @Test
+  public void testCreateAndResize() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+
+    long startSize = 20480;
+    long endSize = 40960;
+    QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.QCOW2);
+
+    try {
+      QemuImg qemu = new QemuImg(0);
+      qemu.create(file);
+      qemu.resize(file, endSize);
+      Map<String, String> info = qemu.info(file);
+
+      if (info == null) {
+        fail("We didn't get any information back from qemu-img");
+      }
+
+      Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
+      assertEquals(Long.valueOf(endSize), Long.valueOf(infoSize));
+    } catch (QemuImgException e) {
+      fail(e.getMessage());
     }
 
-    @Test
-    public void testCreateSparseVolume() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    File f = new File(filename);
+    f.delete();
 
-        /* 10TB virtual_size */
-        long size = 10995116277760l;
-        QemuImgFile file = new QemuImgFile(filename, size, PhysicalDiskFormat.QCOW2);
-        String preallocation = "metadata";
-        Map<String, String> options = new HashMap<String, String>();
+  }
 
-        options.put("preallocation", preallocation);
+  @Test
+  public void testCreateAndResizeDeltaPositive() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
 
-        QemuImg qemu = new QemuImg(0);
-        qemu.create(file, options);
+    long startSize = 20480;
+    long increment = 20480;
+    QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.RAW);
 
-        String allocatedSize = Script.runSimpleBashScript(String.format("ls -alhs %s | awk '{print $1}'", file));
-        String declaredSize  = Script.runSimpleBashScript(String.format("ls -alhs %s | awk '{print $6}'", file));
+    try {
+      QemuImg qemu = new QemuImg(0);
+      qemu.create(file);
+      qemu.resize(file, increment, true);
+      Map<String, String> info = qemu.info(file);
 
-        assertFalse(allocatedSize.equals(declaredSize));
+      if (info == null) {
+        fail("We didn't get any information back from qemu-img");
+      }
 
-        File f = new File(filename);
-        f.delete();
-
+      Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
+      assertEquals(Long.valueOf(startSize + increment), Long.valueOf(infoSize));
+    } catch (QemuImgException e) {
+      fail(e.getMessage());
     }
 
-    @Test
-    public void testCreateAndResize() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    File f = new File(filename);
+    f.delete();
+  }
 
-        long startSize = 20480;
-        long endSize = 40960;
-        QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.QCOW2);
+  @Test
+  public void testCreateAndResizeDeltaNegative() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
 
-        try {
-            QemuImg qemu = new QemuImg(0);
-            qemu.create(file);
-            qemu.resize(file, endSize);
-            Map<String, String> info = qemu.info(file);
+    long startSize = 81920;
+    long increment = -40960;
+    QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.RAW);
 
-            if (info == null) {
-                fail("We didn't get any information back from qemu-img");
-            }
+    try {
+      QemuImg qemu = new QemuImg(0);
+      qemu.create(file);
+      qemu.resize(file, increment, true);
+      Map<String, String> info = qemu.info(file);
 
-            Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
-            assertEquals(Long.valueOf(endSize), Long.valueOf(infoSize));
-        } catch (QemuImgException e) {
-            fail(e.getMessage());
-        }
+      if (info == null) {
+        fail("We didn't get any information back from qemu-img");
+      }
 
-        File f = new File(filename);
-        f.delete();
-
+      Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
+      assertEquals(Long.valueOf(startSize + increment), Long.valueOf(infoSize));
+    } catch (QemuImgException e) {
+      fail(e.getMessage());
     }
 
-    @Test
-    public void testCreateAndResizeDeltaPositive() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    File f = new File(filename);
+    f.delete();
+  }
 
-        long startSize = 20480;
-        long increment = 20480;
-        QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.RAW);
+  @Test(expected = QemuImgException.class)
+  public void testCreateAndResizeFail() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
 
-        try {
-            QemuImg qemu = new QemuImg(0);
-            qemu.create(file);
-            qemu.resize(file, increment, true);
-            Map<String, String> info = qemu.info(file);
+    long startSize = 20480;
 
-            if (info == null) {
-                fail("We didn't get any information back from qemu-img");
-            }
+    /* Negative new size, expect failure */
+    long endSize = -1;
+    QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.QCOW2);
 
-            Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
-            assertEquals(Long.valueOf(startSize + increment), Long.valueOf(infoSize));
-        } catch (QemuImgException e) {
-            fail(e.getMessage());
-        }
+    QemuImg qemu = new QemuImg(0);
+    try {
+      qemu.create(file);
+      qemu.resize(file, endSize);
+    } finally {
+      File f = new File(filename);
+      f.delete();
+    }
+  }
 
-        File f = new File(filename);
-        f.delete();
+  @Test(expected = QemuImgException.class)
+  public void testCreateAndResizeZero() throws QemuImgException {
+    String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+
+    long startSize = 20480;
+    QemuImgFile file = new QemuImgFile(filename, 20480, PhysicalDiskFormat.QCOW2);
+
+    QemuImg qemu = new QemuImg(0);
+    qemu.create(file);
+    qemu.resize(file, 0);
+
+    File f = new File(filename);
+    f.delete();
+
+  }
+
+  @Test
+  public void testCreateWithBackingFile() throws QemuImgException {
+    String firstFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    String secondFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
+
+    QemuImgFile firstFile = new QemuImgFile(firstFileName, 20480, PhysicalDiskFormat.QCOW2);
+    QemuImgFile secondFile = new QemuImgFile(secondFileName, PhysicalDiskFormat.QCOW2);
+
+    QemuImg qemu = new QemuImg(0);
+    qemu.create(firstFile);
+    qemu.create(secondFile, firstFile);
+
+    Map<String, String> info = qemu.info(secondFile);
+    if (info == null) {
+      fail("We didn't get any information back from qemu-img");
     }
 
-    @Test
-    public void testCreateAndResizeDeltaNegative() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    String backingFile = info.get(new String("backing_file"));
+    if (backingFile == null) {
+      fail("The second file does not have a property backing_file! Create failed?");
+    }
+  }
 
-        long startSize = 81920;
-        long increment = -40960;
-        QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.RAW);
+  @Test
+  public void testConvertBasic() throws QemuImgException {
+    long srcSize = 20480;
+    String srcFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    String destFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
 
-        try {
-            QemuImg qemu = new QemuImg(0);
-            qemu.create(file);
-            qemu.resize(file, increment, true);
-            Map<String, String> info = qemu.info(file);
+    QemuImgFile srcFile = new QemuImgFile(srcFileName, srcSize);
+    QemuImgFile destFile = new QemuImgFile(destFileName);
 
-            if (info == null) {
-                fail("We didn't get any information back from qemu-img");
-            }
-
-            Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
-            assertEquals(Long.valueOf(startSize + increment), Long.valueOf(infoSize));
-        } catch (QemuImgException e) {
-            fail(e.getMessage());
-        }
-
-        File f = new File(filename);
-        f.delete();
+    QemuImg qemu = new QemuImg(0);
+    qemu.create(srcFile);
+    qemu.convert(srcFile, destFile);
+    Map<String, String> info = qemu.info(destFile);
+    if (info == null) {
+      fail("We didn't get any information back from qemu-img");
     }
 
-    @Test(expected = QemuImgException.class)
-    public void testCreateAndResizeFail() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    File sf = new File(srcFileName);
+    sf.delete();
 
-        long startSize = 20480;
+    File df = new File(destFileName);
+    df.delete();
 
-        /* Negative new size, expect failure */
-        long endSize = -1;
-        QemuImgFile file = new QemuImgFile(filename, startSize, PhysicalDiskFormat.QCOW2);
+  }
 
-        QemuImg qemu = new QemuImg(0);
-        try {
-            qemu.create(file);
-            qemu.resize(file, endSize);
-        } finally {
-            File f = new File(filename);
-            f.delete();
-        }
-    }
+  @Test
+  public void testConvertAdvanced() throws QemuImgException {
+    long srcSize = 4019200;
+    String srcFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    String destFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    PhysicalDiskFormat srcFormat = PhysicalDiskFormat.RAW;
+    PhysicalDiskFormat destFormat = PhysicalDiskFormat.QCOW2;
 
-    @Test(expected = QemuImgException.class)
-    public void testCreateAndResizeZero() throws QemuImgException {
-        String filename = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    QemuImgFile srcFile = new QemuImgFile(srcFileName, srcSize, srcFormat);
+    QemuImgFile destFile = new QemuImgFile(destFileName, destFormat);
 
-        long startSize = 20480;
-        QemuImgFile file = new QemuImgFile(filename, 20480, PhysicalDiskFormat.QCOW2);
+    QemuImg qemu = new QemuImg(0);
+    qemu.create(srcFile);
+    qemu.convert(srcFile, destFile);
 
-        QemuImg qemu = new QemuImg(0);
-        qemu.create(file);
-        qemu.resize(file, 0);
+    Map<String, String> info = qemu.info(destFile);
 
-        File f = new File(filename);
-        f.delete();
+    PhysicalDiskFormat infoFormat = PhysicalDiskFormat.valueOf(info.get(new String("format")).toUpperCase());
+    assertEquals(destFormat, infoFormat);
 
-    }
+    Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
+    assertEquals(Long.valueOf(srcSize), Long.valueOf(infoSize));
 
-    @Test
-    public void testCreateWithBackingFile() throws QemuImgException {
-        String firstFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
-        String secondFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
+    File sf = new File(srcFileName);
+    sf.delete();
 
-        QemuImgFile firstFile = new QemuImgFile(firstFileName, 20480, PhysicalDiskFormat.QCOW2);
-        QemuImgFile secondFile = new QemuImgFile(secondFileName, PhysicalDiskFormat.QCOW2);
+    File df = new File(destFileName);
+    df.delete();
 
-        QemuImg qemu = new QemuImg(0);
-        qemu.create(firstFile);
-        qemu.create(secondFile, firstFile);
-
-        Map<String, String> info = qemu.info(secondFile);
-        if (info == null) {
-            fail("We didn't get any information back from qemu-img");
-        }
-
-        String backingFile = info.get(new String("backing_file"));
-        if (backingFile == null) {
-            fail("The second file does not have a property backing_file! Create failed?");
-        }
-    }
-
-    @Test
-    public void testConvertBasic() throws QemuImgException {
-        long srcSize = 20480;
-        String srcFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
-        String destFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
-
-        QemuImgFile srcFile = new QemuImgFile(srcFileName, srcSize);
-        QemuImgFile destFile = new QemuImgFile(destFileName);
-
-        QemuImg qemu = new QemuImg(0);
-        qemu.create(srcFile);
-        qemu.convert(srcFile, destFile);
-        Map<String, String> info = qemu.info(destFile);
-        if (info == null) {
-            fail("We didn't get any information back from qemu-img");
-        }
-
-        File sf = new File(srcFileName);
-        sf.delete();
-
-        File df = new File(destFileName);
-        df.delete();
-
-    }
-
-    @Test
-    public void testConvertAdvanced() throws QemuImgException {
-        long srcSize = 4019200;
-        String srcFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
-        String destFileName = "/tmp/" + UUID.randomUUID() + ".qcow2";
-        PhysicalDiskFormat srcFormat = PhysicalDiskFormat.RAW;
-        PhysicalDiskFormat destFormat = PhysicalDiskFormat.QCOW2;
-
-        QemuImgFile srcFile = new QemuImgFile(srcFileName, srcSize, srcFormat);
-        QemuImgFile destFile = new QemuImgFile(destFileName, destFormat);
-
-        QemuImg qemu = new QemuImg(0);
-        qemu.create(srcFile);
-        qemu.convert(srcFile, destFile);
-
-        Map<String, String> info = qemu.info(destFile);
-
-        PhysicalDiskFormat infoFormat = PhysicalDiskFormat.valueOf(info.get(new String("format")).toUpperCase());
-        assertEquals(destFormat, infoFormat);
-
-        Long infoSize = Long.parseLong(info.get(new String("virtual_size")));
-        assertEquals(Long.valueOf(srcSize), Long.valueOf(infoSize));
-
-        File sf = new File(srcFileName);
-        sf.delete();
-
-        File df = new File(destFileName);
-        df.delete();
-
-    }
+  }
 }

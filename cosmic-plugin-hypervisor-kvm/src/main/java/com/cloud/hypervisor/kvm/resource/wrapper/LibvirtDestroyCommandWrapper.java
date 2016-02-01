@@ -19,8 +19,6 @@
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.storage.DestroyCommand;
 import com.cloud.agent.api.to.VolumeTO;
@@ -31,22 +29,25 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.exception.CloudRuntimeException;
 
-@ResourceWrapper(handles =  DestroyCommand.class)
-public final class LibvirtDestroyCommandWrapper extends CommandWrapper<DestroyCommand, Answer, LibvirtComputingResource> {
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtDestroyCommandWrapper.class);
+@ResourceWrapper(handles = DestroyCommand.class)
+public final class LibvirtDestroyCommandWrapper
+    extends CommandWrapper<DestroyCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final DestroyCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        final VolumeTO vol = command.getVolume();
-        try {
-            final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
-            final KVMStoragePool pool = storagePoolMgr.getStoragePool(vol.getPoolType(), vol.getPoolUuid());
-            pool.deletePhysicalDisk(vol.getPath(), null);
-            return new Answer(command, true, "Success");
-        } catch (final CloudRuntimeException e) {
-            s_logger.debug("Failed to delete volume: " + e.toString());
-            return new Answer(command, false, e.toString());
-        }
+  private static final Logger s_logger = Logger.getLogger(LibvirtDestroyCommandWrapper.class);
+
+  @Override
+  public Answer execute(final DestroyCommand command, final LibvirtComputingResource libvirtComputingResource) {
+    final VolumeTO vol = command.getVolume();
+    try {
+      final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+      final KVMStoragePool pool = storagePoolMgr.getStoragePool(vol.getPoolType(), vol.getPoolUuid());
+      pool.deletePhysicalDisk(vol.getPath(), null);
+      return new Answer(command, true, "Success");
+    } catch (final CloudRuntimeException e) {
+      s_logger.debug("Failed to delete volume: " + e.toString());
+      return new Answer(command, false, e.toString());
     }
+  }
 }

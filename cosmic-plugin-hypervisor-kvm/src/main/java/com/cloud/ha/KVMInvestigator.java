@@ -41,7 +41,8 @@ public class KVMInvestigator extends AdapterBase implements Investigator {
 
   @Override
   public Status isAgentAlive(Host agent) {
-    if (agent.getHypervisorType() != Hypervisor.HypervisorType.KVM && agent.getHypervisorType() != Hypervisor.HypervisorType.LXC) {
+    if (agent.getHypervisorType() != Hypervisor.HypervisorType.KVM
+        && agent.getHypervisorType() != Hypervisor.HypervisorType.LXC) {
       return null;
     }
     Status hostStatus = null;
@@ -62,7 +63,8 @@ public class KVMInvestigator extends AdapterBase implements Investigator {
 
     final List<HostVO> neighbors = _resourceMgr.listHostsInClusterByStatus(agent.getClusterId(), Status.Up);
     for (final HostVO neighbor : neighbors) {
-      if (neighbor.getId() == agent.getId() || neighbor.getHypervisorType() != Hypervisor.HypervisorType.KVM && neighbor.getHypervisorType() != Hypervisor.HypervisorType.LXC) {
+      if (neighbor.getId() == agent.getId() || neighbor.getHypervisorType() != Hypervisor.HypervisorType.KVM
+          && neighbor.getHypervisorType() != Hypervisor.HypervisorType.LXC) {
         continue;
       }
       s_logger.debug("Investigating host:" + agent.getId() + " via neighbouring host:" + neighbor.getId());
@@ -70,7 +72,8 @@ public class KVMInvestigator extends AdapterBase implements Investigator {
         final Answer answer = _agentMgr.easySend(neighbor.getId(), cmd);
         if (answer != null) {
           neighbourStatus = answer.getResult() ? Status.Down : Status.Up;
-          s_logger.debug("Neighbouring host:" + neighbor.getId() + " returned status:" + neighbourStatus + " for the investigated host:" + agent.getId());
+          s_logger.debug("Neighbouring host:" + neighbor.getId() + " returned status:" + neighbourStatus
+              + " for the investigated host:" + agent.getId());
           if (neighbourStatus == Status.Up) {
             break;
           }

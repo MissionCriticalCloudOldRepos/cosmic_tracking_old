@@ -32,22 +32,25 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.storage.template.TemplateProp;
 
-@ResourceWrapper(handles =  ModifyStoragePoolCommand.class)
-public final class LibvirtModifyStoragePoolCommandWrapper extends CommandWrapper<ModifyStoragePoolCommand, Answer, LibvirtComputingResource> {
+@ResourceWrapper(handles = ModifyStoragePoolCommand.class)
+public final class LibvirtModifyStoragePoolCommandWrapper
+    extends CommandWrapper<ModifyStoragePoolCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final ModifyStoragePoolCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
-        final KVMStoragePool storagepool =
-                storagePoolMgr.createStoragePool(command.getPool().getUuid(), command.getPool().getHost(), command.getPool().getPort(), command.getPool().getPath(), command.getPool()
-                        .getUserInfo(), command.getPool().getType());
-        if (storagepool == null) {
-            return new Answer(command, false, " Failed to create storage pool");
-        }
-
-        final Map<String, TemplateProp> tInfo = new HashMap<String, TemplateProp>();
-        final ModifyStoragePoolAnswer answer = new ModifyStoragePoolAnswer(command, storagepool.getCapacity(), storagepool.getAvailable(), tInfo);
-
-        return answer;
+  @Override
+  public Answer execute(final ModifyStoragePoolCommand command,
+      final LibvirtComputingResource libvirtComputingResource) {
+    final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+    final KVMStoragePool storagepool = storagePoolMgr.createStoragePool(command.getPool().getUuid(),
+        command.getPool().getHost(), command.getPool().getPort(), command.getPool().getPath(),
+        command.getPool().getUserInfo(), command.getPool().getType());
+    if (storagepool == null) {
+      return new Answer(command, false, " Failed to create storage pool");
     }
+
+    final Map<String, TemplateProp> tInfo = new HashMap<String, TemplateProp>();
+    final ModifyStoragePoolAnswer answer = new ModifyStoragePoolAnswer(command, storagepool.getCapacity(),
+        storagepool.getAvailable(), tInfo);
+
+    return answer;
+  }
 }

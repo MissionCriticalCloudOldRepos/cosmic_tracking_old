@@ -19,9 +19,6 @@
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
-import org.libvirt.Connect;
-import org.libvirt.LibvirtException;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckVirtualMachineAnswer;
 import com.cloud.agent.api.CheckVirtualMachineCommand;
@@ -30,24 +27,29 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.vm.VirtualMachine.PowerState;
 
-@ResourceWrapper(handles =  CheckVirtualMachineCommand.class)
-public final class LibvirtCheckVirtualMachineCommandWrapper extends CommandWrapper<CheckVirtualMachineCommand, Answer, LibvirtComputingResource> {
+import org.libvirt.Connect;
+import org.libvirt.LibvirtException;
 
-    @Override
-    public Answer execute(final CheckVirtualMachineCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        try {
-            final LibvirtUtilitiesHelper libvirtUtilitiesHelper = libvirtComputingResource.getLibvirtUtilitiesHelper();
+@ResourceWrapper(handles = CheckVirtualMachineCommand.class)
+public final class LibvirtCheckVirtualMachineCommandWrapper
+    extends CommandWrapper<CheckVirtualMachineCommand, Answer, LibvirtComputingResource> {
 
-            final Connect conn = libvirtUtilitiesHelper.getConnectionByVmName(command.getVmName());
-            final PowerState state = libvirtComputingResource.getVmState(conn, command.getVmName());
-            Integer vncPort = null;
-            if (state == PowerState.PowerOn) {
-                vncPort = libvirtComputingResource.getVncPort(conn, command.getVmName());
-            }
+  @Override
+  public Answer execute(final CheckVirtualMachineCommand command,
+      final LibvirtComputingResource libvirtComputingResource) {
+    try {
+      final LibvirtUtilitiesHelper libvirtUtilitiesHelper = libvirtComputingResource.getLibvirtUtilitiesHelper();
 
-            return new CheckVirtualMachineAnswer(command, state, vncPort);
-        } catch (final LibvirtException e) {
-            return new CheckVirtualMachineAnswer(command, e.getMessage());
-        }
+      final Connect conn = libvirtUtilitiesHelper.getConnectionByVmName(command.getVmName());
+      final PowerState state = libvirtComputingResource.getVmState(conn, command.getVmName());
+      Integer vncPort = null;
+      if (state == PowerState.PowerOn) {
+        vncPort = libvirtComputingResource.getVncPort(conn, command.getVmName());
+      }
+
+      return new CheckVirtualMachineAnswer(command, state, vncPort);
+    } catch (final LibvirtException e) {
+      return new CheckVirtualMachineAnswer(command, e.getMessage());
     }
+  }
 }

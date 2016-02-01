@@ -21,12 +21,6 @@ package com.cloud.hypervisor.kvm.resource.wrapper;
 
 import java.io.File;
 
-import org.apache.cloudstack.storage.command.RevertSnapshotCommand;
-import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
-import org.apache.cloudstack.storage.to.SnapshotObjectTO;
-import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.to.DataStoreTO;
 import com.cloud.agent.api.to.NfsTO;
@@ -40,56 +34,64 @@ import com.cloud.storage.Storage.StoragePoolType;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
-@ResourceWrapper(handles =  RevertSnapshotCommand.class)
-public final class LibvirtRevertSnapshotCommandWrapper extends CommandWrapper<RevertSnapshotCommand, Answer, LibvirtComputingResource> {
+import org.apache.cloudstack.storage.command.RevertSnapshotCommand;
+import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
+import org.apache.cloudstack.storage.to.SnapshotObjectTO;
+import org.apache.cloudstack.storage.to.VolumeObjectTO;
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtRevertSnapshotCommandWrapper.class);
+@ResourceWrapper(handles = RevertSnapshotCommand.class)
+public final class LibvirtRevertSnapshotCommandWrapper
+    extends CommandWrapper<RevertSnapshotCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final RevertSnapshotCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        SnapshotObjectTO snapshot = command.getData();
-        VolumeObjectTO volume = snapshot.getVolume();
-        PrimaryDataStoreTO primaryStore = (PrimaryDataStoreTO) volume.getDataStore();
-        DataStoreTO snapshotImageStore = snapshot.getDataStore();
-        if (!(snapshotImageStore instanceof NfsTO)) {
-            return new Answer(command, false, "revert snapshot on object storage is not implemented yet");
-        }
-        NfsTO nfsImageStore = (NfsTO) snapshotImageStore;
+  private static final Logger s_logger = Logger.getLogger(LibvirtRevertSnapshotCommandWrapper.class);
 
-        String secondaryStoragePoolUrl = nfsImageStore.getUrl();
-
-        String volumePath = volume.getPath();
-        String snapshotPath = null;
-        String snapshotRelPath = null;
-        KVMStoragePool secondaryStoragePool = null;
-        try {
-            final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
-            secondaryStoragePool = storagePoolMgr.getStoragePoolByURI(secondaryStoragePoolUrl);
-            String ssPmountPath = secondaryStoragePool.getLocalPath();
-            snapshotRelPath = snapshot.getPath();
-            snapshotPath = ssPmountPath + File.separator + snapshotRelPath;
-
-            KVMPhysicalDisk snapshotDisk = storagePoolMgr.getPhysicalDisk(primaryStore.getPoolType(),
-                    primaryStore.getUuid(), volumePath);
-            KVMStoragePool primaryPool = snapshotDisk.getPool();
-
-            if (primaryPool.getType() == StoragePoolType.RBD) {
-                return new Answer(command, false, "revert snapshot to RBD is not implemented yet");
-            } else {
-                Script cmd = new Script(libvirtComputingResource.manageSnapshotPath(), libvirtComputingResource.getCmdsTimeout(), s_logger);
-                cmd.add("-v", snapshotPath);
-                cmd.add("-n", snapshotDisk.getName());
-                cmd.add("-p", snapshotDisk.getPath());
-                String result = cmd.execute();
-                if (result != null) {
-                    s_logger.debug("Failed to revert snaptshot: " + result);
-                    return new Answer(command, false, result);
-                }
-            }
-
-            return new Answer(command, true, "RevertSnapshotCommand executes successfully");
-        } catch (CloudRuntimeException e) {
-            return new Answer(command, false, e.toString());
-        }
+  @Override
+  public Answer execute(final RevertSnapshotCommand command, final LibvirtComputingResource libvirtComputingResource) {
+    SnapshotObjectTO snapshot = command.getData();
+    VolumeObjectTO volume = snapshot.getVolume();
+    PrimaryDataStoreTO primaryStore = (PrimaryDataStoreTO) volume.getDataStore();
+    DataStoreTO snapshotImageStore = snapshot.getDataStore();
+    if (!(snapshotImageStore instanceof NfsTO)) {
+      return new Answer(command, false, "revert snapshot on object storage is not implemented yet");
     }
+    NfsTO nfsImageStore = (NfsTO) snapshotImageStore;
+
+    String secondaryStoragePoolUrl = nfsImageStore.getUrl();
+
+    String volumePath = volume.getPath();
+    String snapshotPath = null;
+    String snapshotRelPath = null;
+    KVMStoragePool secondaryStoragePool = null;
+    try {
+      final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+      secondaryStoragePool = storagePoolMgr.getStoragePoolByURI(secondaryStoragePoolUrl);
+      String ssPmountPath = secondaryStoragePool.getLocalPath();
+      snapshotRelPath = snapshot.getPath();
+      snapshotPath = ssPmountPath + File.separator + snapshotRelPath;
+
+      KVMPhysicalDisk snapshotDisk = storagePoolMgr.getPhysicalDisk(primaryStore.getPoolType(),
+          primaryStore.getUuid(), volumePath);
+      KVMStoragePool primaryPool = snapshotDisk.getPool();
+
+      if (primaryPool.getType() == StoragePoolType.RBD) {
+        return new Answer(command, false, "revert snapshot to RBD is not implemented yet");
+      } else {
+        Script cmd = new Script(libvirtComputingResource.manageSnapshotPath(),
+            libvirtComputingResource.getCmdsTimeout(), s_logger);
+        cmd.add("-v", snapshotPath);
+        cmd.add("-n", snapshotDisk.getName());
+        cmd.add("-p", snapshotDisk.getPath());
+        String result = cmd.execute();
+        if (result != null) {
+          s_logger.debug("Failed to revert snaptshot: " + result);
+          return new Answer(command, false, result);
+        }
+      }
+
+      return new Answer(command, true, "RevertSnapshotCommand executes successfully");
+    } catch (CloudRuntimeException e) {
+      return new Answer(command, false, e.toString());
+    }
+  }
 }

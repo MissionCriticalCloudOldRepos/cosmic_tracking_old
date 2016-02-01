@@ -19,33 +19,35 @@
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
-import org.apache.log4j.Logger;
-import org.libvirt.Connect;
-import org.libvirt.LibvirtException;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.NetworkRulesSystemVmCommand;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-@ResourceWrapper(handles =  NetworkRulesSystemVmCommand.class)
-public final class LibvirtNetworkRulesSystemVmCommandWrapper extends CommandWrapper<NetworkRulesSystemVmCommand, Answer, LibvirtComputingResource> {
+import org.apache.log4j.Logger;
+import org.libvirt.Connect;
+import org.libvirt.LibvirtException;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtOvsVpcRoutingPolicyConfigCommandWrapper.class);
+@ResourceWrapper(handles = NetworkRulesSystemVmCommand.class)
+public final class LibvirtNetworkRulesSystemVmCommandWrapper
+    extends CommandWrapper<NetworkRulesSystemVmCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final NetworkRulesSystemVmCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        boolean success = false;
-        try {
-            final LibvirtUtilitiesHelper libvirtUtilitiesHelper = libvirtComputingResource.getLibvirtUtilitiesHelper();
+  private static final Logger s_logger = Logger.getLogger(LibvirtOvsVpcRoutingPolicyConfigCommandWrapper.class);
 
-            final Connect conn = libvirtUtilitiesHelper.getConnectionByVmName(command.getVmName());
-            success = libvirtComputingResource.configureDefaultNetworkRulesForSystemVm(conn, command.getVmName());
-        } catch (final LibvirtException e) {
-            s_logger.trace("Ignoring libvirt error.", e);
-        }
+  @Override
+  public Answer execute(final NetworkRulesSystemVmCommand command,
+      final LibvirtComputingResource libvirtComputingResource) {
+    boolean success = false;
+    try {
+      final LibvirtUtilitiesHelper libvirtUtilitiesHelper = libvirtComputingResource.getLibvirtUtilitiesHelper();
 
-        return new Answer(command, success, "");
+      final Connect conn = libvirtUtilitiesHelper.getConnectionByVmName(command.getVmName());
+      success = libvirtComputingResource.configureDefaultNetworkRulesForSystemVm(conn, command.getVmName());
+    } catch (final LibvirtException e) {
+      s_logger.trace("Ignoring libvirt error.", e);
     }
+
+    return new Answer(command, success, "");
+  }
 }

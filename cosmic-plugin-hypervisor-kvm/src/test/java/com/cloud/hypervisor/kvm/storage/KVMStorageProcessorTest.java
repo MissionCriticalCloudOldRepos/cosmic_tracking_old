@@ -24,17 +24,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class KVMStorageProcessorTest {
-    @Before
-    public void setUp() throws ConfigurationException {
-    }
+  @Before
+  public void setUp() throws ConfigurationException {
+  }
 
-    @Test
-    public void testCloneVolumeFromBaseTemplate() throws Exception {
+  @Test
+  public void testCloneVolumeFromBaseTemplate() throws Exception {
 
-    }
+  }
 
-    @Test
-    public void testCopyVolumeFromImageCacheToPrimary() throws Exception {
+  @Test
+  public void testCopyVolumeFromImageCacheToPrimary() throws Exception {
 
-    }
+  }
 }

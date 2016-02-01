@@ -24,8 +24,6 @@ import java.io.IOException;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CreatePrivateTemplateFromSnapshotCommand;
 import com.cloud.agent.api.storage.CreatePrivateTemplateAnswer;
@@ -43,73 +41,78 @@ import com.cloud.storage.template.TemplateLocation;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
-@ResourceWrapper(handles =  CreatePrivateTemplateFromSnapshotCommand.class)
-public final class LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper extends CommandWrapper<CreatePrivateTemplateFromSnapshotCommand, Answer, LibvirtComputingResource> {
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper.class);
+@ResourceWrapper(handles = CreatePrivateTemplateFromSnapshotCommand.class)
+public final class LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper
+    extends CommandWrapper<CreatePrivateTemplateFromSnapshotCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final CreatePrivateTemplateFromSnapshotCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        final LibvirtUtilitiesHelper libvirtUtilitiesHelper = libvirtComputingResource.getLibvirtUtilitiesHelper();
+  private static final Logger s_logger = Logger.getLogger(LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper.class);
 
-        final String templateFolder = command.getAccountId() + File.separator + command.getNewTemplateId();
-        final String templateInstallFolder = "template/tmpl/" + templateFolder;
-        final String tmplName = libvirtUtilitiesHelper.generateUUIDName();
-        final String tmplFileName = tmplName + ".qcow2";
+  @Override
+  public Answer execute(final CreatePrivateTemplateFromSnapshotCommand command,
+      final LibvirtComputingResource libvirtComputingResource) {
+    final LibvirtUtilitiesHelper libvirtUtilitiesHelper = libvirtComputingResource.getLibvirtUtilitiesHelper();
 
-        KVMStoragePool secondaryPool = null;
-        KVMStoragePool snapshotPool = null;
-        final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+    final String templateFolder = command.getAccountId() + File.separator + command.getNewTemplateId();
+    final String templateInstallFolder = "template/tmpl/" + templateFolder;
+    final String tmplName = libvirtUtilitiesHelper.generateUUIDName();
+    final String tmplFileName = tmplName + ".qcow2";
 
-        try {
-            String snapshotPath = command.getSnapshotUuid();
-            final int index = snapshotPath.lastIndexOf("/");
-            snapshotPath = snapshotPath.substring(0, index);
+    KVMStoragePool secondaryPool = null;
+    KVMStoragePool snapshotPool = null;
+    final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
 
-            snapshotPool = storagePoolMgr.getStoragePoolByURI(command.getSecondaryStorageUrl() + snapshotPath);
-            secondaryPool = storagePoolMgr.getStoragePoolByURI(command.getSecondaryStorageUrl());
+    try {
+      String snapshotPath = command.getSnapshotUuid();
+      final int index = snapshotPath.lastIndexOf("/");
+      snapshotPath = snapshotPath.substring(0, index);
 
-            final KVMPhysicalDisk snapshot = snapshotPool.getPhysicalDisk(command.getSnapshotName());
+      snapshotPool = storagePoolMgr.getStoragePoolByURI(command.getSecondaryStorageUrl() + snapshotPath);
+      secondaryPool = storagePoolMgr.getStoragePoolByURI(command.getSecondaryStorageUrl());
 
-            final String templatePath = secondaryPool.getLocalPath() + File.separator + templateInstallFolder;
+      final KVMPhysicalDisk snapshot = snapshotPool.getPhysicalDisk(command.getSnapshotName());
 
-            final StorageLayer storage = libvirtComputingResource.getStorage();
-            storage.mkdirs(templatePath);
+      final String templatePath = secondaryPool.getLocalPath() + File.separator + templateInstallFolder;
 
-            final String tmplPath = templateInstallFolder + File.separator + tmplFileName;
-            final String createTmplPath = libvirtComputingResource.createTmplPath();
-            final int cmdsTimeout = libvirtComputingResource.getCmdsTimeout();
+      final StorageLayer storage = libvirtComputingResource.getStorage();
+      storage.mkdirs(templatePath);
 
-            final Script scriptCommand = new Script(createTmplPath, cmdsTimeout, s_logger);
-            scriptCommand.add("-t", templatePath);
-            scriptCommand.add("-n", tmplFileName);
-            scriptCommand.add("-f", snapshot.getPath());
-            scriptCommand.execute();
+      final String tmplPath = templateInstallFolder + File.separator + tmplFileName;
+      final String createTmplPath = libvirtComputingResource.createTmplPath();
+      final int cmdsTimeout = libvirtComputingResource.getCmdsTimeout();
 
-            final Processor qcow2Processor = libvirtUtilitiesHelper.buildQCOW2Processor(storage);
-            final FormatInfo info = qcow2Processor.process(templatePath, null, tmplName);
-            final TemplateLocation loc = libvirtUtilitiesHelper.buildTemplateLocation(storage, templatePath);
+      final Script scriptCommand = new Script(createTmplPath, cmdsTimeout, s_logger);
+      scriptCommand.add("-t", templatePath);
+      scriptCommand.add("-n", tmplFileName);
+      scriptCommand.add("-f", snapshot.getPath());
+      scriptCommand.execute();
 
-            loc.create(1, true, tmplName);
-            loc.addFormat(info);
-            loc.save();
+      final Processor qcow2Processor = libvirtUtilitiesHelper.buildQCOW2Processor(storage);
+      final FormatInfo info = qcow2Processor.process(templatePath, null, tmplName);
+      final TemplateLocation loc = libvirtUtilitiesHelper.buildTemplateLocation(storage, templatePath);
 
-            return new CreatePrivateTemplateAnswer(command, true, "", tmplPath, info.virtualSize, info.size, tmplName, info.format);
-        } catch (final ConfigurationException e) {
-            return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
-        } catch (final InternalErrorException e) {
-            return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
-        } catch (final IOException e) {
-            return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
-        } catch (final CloudRuntimeException e) {
-            return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
-        } finally {
-            if (secondaryPool != null) {
-                storagePoolMgr.deleteStoragePool(secondaryPool.getType(), secondaryPool.getUuid());
-            }
-            if (snapshotPool != null) {
-                storagePoolMgr.deleteStoragePool(snapshotPool.getType(), snapshotPool.getUuid());
-            }
-        }
+      loc.create(1, true, tmplName);
+      loc.addFormat(info);
+      loc.save();
+
+      return new CreatePrivateTemplateAnswer(command, true, "", tmplPath, info.virtualSize, info.size, tmplName,
+          info.format);
+    } catch (final ConfigurationException e) {
+      return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
+    } catch (final InternalErrorException e) {
+      return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
+    } catch (final IOException e) {
+      return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
+    } catch (final CloudRuntimeException e) {
+      return new CreatePrivateTemplateAnswer(command, false, e.getMessage());
+    } finally {
+      if (secondaryPool != null) {
+        storagePoolMgr.deleteStoragePool(secondaryPool.getType(), secondaryPool.getUuid());
+      }
+      if (snapshotPool != null) {
+        storagePoolMgr.deleteStoragePool(snapshotPool.getType(), snapshotPool.getUuid());
+      }
     }
+  }
 }

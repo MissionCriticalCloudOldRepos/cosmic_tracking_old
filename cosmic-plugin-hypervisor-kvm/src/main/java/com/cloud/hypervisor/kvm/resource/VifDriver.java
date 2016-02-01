@@ -23,17 +23,18 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.libvirt.LibvirtException;
-
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.exception.InternalErrorException;
 
+import org.libvirt.LibvirtException;
+
 public interface VifDriver {
 
-    public void configure(Map<String, Object> params) throws ConfigurationException;
+  public void configure(Map<String, Object> params) throws ConfigurationException;
 
-    public LibvirtVMDef.InterfaceDef plug(NicTO nic, String guestOsType, String nicAdapter) throws InternalErrorException, LibvirtException;
+  public LibvirtVMDef.InterfaceDef plug(NicTO nic, String guestOsType, String nicAdapter)
+      throws InternalErrorException, LibvirtException;
 
-    public void unplug(LibvirtVMDef.InterfaceDef iface);
+  public void unplug(LibvirtVMDef.InterfaceDef iface);
 
 }

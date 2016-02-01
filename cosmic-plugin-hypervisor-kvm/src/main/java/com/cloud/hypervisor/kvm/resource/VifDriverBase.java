@@ -23,44 +23,45 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.libvirt.LibvirtException;
-
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.exception.InternalErrorException;
 
+import org.libvirt.LibvirtException;
+
 public abstract class VifDriverBase implements VifDriver {
 
-    protected LibvirtComputingResource _libvirtComputingResource;
-    protected Map<String, String> _pifs;
-    protected Map<String, String> _bridges;
+  protected LibvirtComputingResource _libvirtComputingResource;
+  protected Map<String, String> _pifs;
+  protected Map<String, String> _bridges;
 
-    @Override
-    public void configure(Map<String, Object> params) throws ConfigurationException {
-        _libvirtComputingResource = (LibvirtComputingResource)params.get("libvirt.computing.resource");
-        _bridges = (Map<String, String>)params.get("libvirt.host.bridges");
-        _pifs = (Map<String, String>)params.get("libvirt.host.pifs");
+  @Override
+  public void configure(Map<String, Object> params) throws ConfigurationException {
+    _libvirtComputingResource = (LibvirtComputingResource) params.get("libvirt.computing.resource");
+    _bridges = (Map<String, String>) params.get("libvirt.host.bridges");
+    _pifs = (Map<String, String>) params.get("libvirt.host.pifs");
+  }
+
+  @Override
+  public abstract LibvirtVMDef.InterfaceDef plug(NicTO nic, String guestOsType, String nicAdapter)
+      throws InternalErrorException, LibvirtException;
+
+  @Override
+  public abstract void unplug(LibvirtVMDef.InterfaceDef iface);
+
+  protected LibvirtVMDef.InterfaceDef.NicModel getGuestNicModel(String platformEmulator, String nicAdapter) {
+    // if nicAdapter is found in ENUM, use it. Otherwise, match guest OS type as before
+    if (nicAdapter != null && !nicAdapter.isEmpty()) {
+      for (LibvirtVMDef.InterfaceDef.NicModel model : LibvirtVMDef.InterfaceDef.NicModel.values()) {
+        if (model.toString().equalsIgnoreCase(nicAdapter)) {
+          return model;
+        }
+      }
     }
 
-    @Override
-    public abstract LibvirtVMDef.InterfaceDef plug(NicTO nic, String guestOsType, String nicAdapter) throws InternalErrorException, LibvirtException;
-
-    @Override
-    public abstract void unplug(LibvirtVMDef.InterfaceDef iface);
-
-    protected LibvirtVMDef.InterfaceDef.NicModel getGuestNicModel(String platformEmulator, String nicAdapter) {
-        // if nicAdapter is found in ENUM, use it. Otherwise, match guest OS type as before
-        if (nicAdapter != null && !nicAdapter.isEmpty()) {
-            for (LibvirtVMDef.InterfaceDef.NicModel model : LibvirtVMDef.InterfaceDef.NicModel.values()) {
-                if (model.toString().equalsIgnoreCase(nicAdapter)) {
-                    return model;
-                }
-            }
-        }
-
-        if (_libvirtComputingResource.isGuestPVEnabled(platformEmulator)) {
-            return LibvirtVMDef.InterfaceDef.NicModel.VIRTIO;
-        } else {
-            return LibvirtVMDef.InterfaceDef.NicModel.E1000;
-        }
+    if (_libvirtComputingResource.isGuestPVEnabled(platformEmulator)) {
+      return LibvirtVMDef.InterfaceDef.NicModel.VIRTIO;
+    } else {
+      return LibvirtVMDef.InterfaceDef.NicModel.E1000;
     }
+  }
 }

@@ -19,31 +19,33 @@
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.OvsSetupBridgeCommand;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-@ResourceWrapper(handles =  OvsSetupBridgeCommand.class)
-public final class LibvirtOvsSetupBridgeCommandWrapper extends CommandWrapper<OvsSetupBridgeCommand, Answer, LibvirtComputingResource> {
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtOvsSetupBridgeCommandWrapper.class);
+@ResourceWrapper(handles = OvsSetupBridgeCommand.class)
+public final class LibvirtOvsSetupBridgeCommandWrapper
+    extends CommandWrapper<OvsSetupBridgeCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final OvsSetupBridgeCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        final boolean findResult = libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName());
-        final boolean configResult = libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getHostId(),
-                command.getBridgeName());
+  private static final Logger s_logger = Logger.getLogger(LibvirtOvsSetupBridgeCommandWrapper.class);
 
-        final boolean finalResult = findResult && configResult;
+  @Override
+  public Answer execute(final OvsSetupBridgeCommand command, final LibvirtComputingResource libvirtComputingResource) {
+    final boolean findResult = libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName());
+    final boolean configResult = libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(),
+        command.getHostId(),
+        command.getBridgeName());
 
-        if (!finalResult) {
-            s_logger.debug("::FAILURE:: OVS Bridge was NOT configured properly!");
-        }
+    final boolean finalResult = findResult && configResult;
 
-        return new Answer(command, finalResult, null);
+    if (!finalResult) {
+      s_logger.debug("::FAILURE:: OVS Bridge was NOT configured properly!");
     }
+
+    return new Answer(command, finalResult, null);
+  }
 }

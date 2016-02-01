@@ -27,5 +27,5 @@ import com.cloud.storage.Storage.StoragePoolType;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ TYPE })
 public @interface StorageAdaptorInfo {
-    StoragePoolType storagePoolType();
+  StoragePoolType storagePoolType();
 }

@@ -32,47 +32,48 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class LibvirtStorageVolumeXMLParser {
-    private static final Logger s_logger = Logger.getLogger(LibvirtStorageVolumeXMLParser.class);
+  private static final Logger s_logger = Logger.getLogger(LibvirtStorageVolumeXMLParser.class);
 
-    public LibvirtStorageVolumeDef parseStorageVolumeXML(String volXML) {
-        DocumentBuilder builder;
-        try {
-            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+  public LibvirtStorageVolumeDef parseStorageVolumeXML(String volXML) {
+    DocumentBuilder builder;
+    try {
+      builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(volXML));
-            Document doc = builder.parse(is);
+      InputSource is = new InputSource();
+      is.setCharacterStream(new StringReader(volXML));
+      Document doc = builder.parse(is);
 
-            Element rootElement = doc.getDocumentElement();
+      Element rootElement = doc.getDocumentElement();
 
-            String VolName = getTagValue("name", rootElement);
-            Element target = (Element)rootElement.getElementsByTagName("target").item(0);
-            String format = getAttrValue("type", "format", target);
-            Long capacity = Long.parseLong(getTagValue("capacity", rootElement));
-            return new LibvirtStorageVolumeDef(VolName, capacity, LibvirtStorageVolumeDef.VolumeFormat.getFormat(format), null, null);
-        } catch (ParserConfigurationException e) {
-            s_logger.debug(e.toString());
-        } catch (SAXException e) {
-            s_logger.debug(e.toString());
-        } catch (IOException e) {
-            s_logger.debug(e.toString());
-        }
-        return null;
+      String VolName = getTagValue("name", rootElement);
+      Element target = (Element) rootElement.getElementsByTagName("target").item(0);
+      String format = getAttrValue("type", "format", target);
+      Long capacity = Long.parseLong(getTagValue("capacity", rootElement));
+      return new LibvirtStorageVolumeDef(VolName, capacity, LibvirtStorageVolumeDef.VolumeFormat.getFormat(format),
+          null, null);
+    } catch (ParserConfigurationException e) {
+      s_logger.debug(e.toString());
+    } catch (SAXException e) {
+      s_logger.debug(e.toString());
+    } catch (IOException e) {
+      s_logger.debug(e.toString());
     }
+    return null;
+  }
 
-    private static String getTagValue(String tag, Element eElement) {
-        NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-        Node nValue = nlList.item(0);
+  private static String getTagValue(String tag, Element eElement) {
+    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+    Node nValue = nlList.item(0);
 
-        return nValue.getNodeValue();
+    return nValue.getNodeValue();
+  }
+
+  private static String getAttrValue(String tag, String attr, Element eElement) {
+    NodeList tagNode = eElement.getElementsByTagName(tag);
+    if (tagNode.getLength() == 0) {
+      return null;
     }
-
-    private static String getAttrValue(String tag, String attr, Element eElement) {
-        NodeList tagNode = eElement.getElementsByTagName(tag);
-        if (tagNode.getLength() == 0) {
-            return null;
-        }
-        Element node = (Element)tagNode.item(0);
-        return node.getAttribute(attr);
-    }
+    Element node = (Element) tagNode.item(0);
+    return node.getAttribute(attr);
+  }
 }

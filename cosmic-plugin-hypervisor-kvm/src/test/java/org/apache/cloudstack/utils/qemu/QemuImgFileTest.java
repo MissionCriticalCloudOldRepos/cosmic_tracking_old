@@ -18,46 +18,45 @@ package org.apache.cloudstack.utils.qemu;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
-
 @Ignore
 public class QemuImgFileTest {
-    @Test
-    public void testFileNameAtContructor() {
-        String filename = "/tmp/test-image.qcow2";
-        QemuImgFile file = new QemuImgFile(filename);
-        assertEquals(file.getFileName(), filename);
-    }
+  @Test
+  public void testFileNameAtContructor() {
+    String filename = "/tmp/test-image.qcow2";
+    QemuImgFile file = new QemuImgFile(filename);
+    assertEquals(file.getFileName(), filename);
+  }
 
-    @Test
-    public void testFileNameAndSizeAtContructor() {
-        long size = 1024;
-        String filename = "/tmp/test-image.qcow2";
-        QemuImgFile file = new QemuImgFile(filename, size);
-        assertEquals(file.getFileName(), filename);
-        assertEquals(file.getSize(), size);
-    }
+  @Test
+  public void testFileNameAndSizeAtContructor() {
+    long size = 1024;
+    String filename = "/tmp/test-image.qcow2";
+    QemuImgFile file = new QemuImgFile(filename, size);
+    assertEquals(file.getFileName(), filename);
+    assertEquals(file.getSize(), size);
+  }
 
-    @Test
-    public void testFileNameAndSizeAndFormatAtContructor() {
-        PhysicalDiskFormat format = PhysicalDiskFormat.RAW;
-        long size = 1024;
-        String filename = "/tmp/test-image.qcow2";
-        QemuImgFile file = new QemuImgFile(filename, size, format);
-        assertEquals(file.getFileName(), filename);
-        assertEquals(file.getSize(), size);
-        assertEquals(file.getFormat(), format);
-    }
+  @Test
+  public void testFileNameAndSizeAndFormatAtContructor() {
+    PhysicalDiskFormat format = PhysicalDiskFormat.RAW;
+    long size = 1024;
+    String filename = "/tmp/test-image.qcow2";
+    QemuImgFile file = new QemuImgFile(filename, size, format);
+    assertEquals(file.getFileName(), filename);
+    assertEquals(file.getSize(), size);
+    assertEquals(file.getFormat(), format);
+  }
 
-    @Test
-    public void testFileNameAndFormatAtContructor() {
-        PhysicalDiskFormat format = PhysicalDiskFormat.RAW;
-        String filename = "/tmp/test-image.qcow2";
-        QemuImgFile file = new QemuImgFile(filename, format);
-        assertEquals(file.getFileName(), filename);
-        assertEquals(file.getFormat(), format);
-    }
+  @Test
+  public void testFileNameAndFormatAtContructor() {
+    PhysicalDiskFormat format = PhysicalDiskFormat.RAW;
+    String filename = "/tmp/test-image.qcow2";
+    QemuImgFile file = new QemuImgFile(filename, format);
+    assertEquals(file.getFileName(), filename);
+    assertEquals(file.getFormat(), format);
+  }
 }

@@ -19,27 +19,29 @@
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.OvsDestroyBridgeCommand;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-@ResourceWrapper(handles =  OvsDestroyBridgeCommand.class)
-public final class LibvirtOvsDestroyBridgeCommandWrapper extends CommandWrapper<OvsDestroyBridgeCommand, Answer, LibvirtComputingResource> {
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtOvsDestroyBridgeCommandWrapper.class);
+@ResourceWrapper(handles = OvsDestroyBridgeCommand.class)
+public final class LibvirtOvsDestroyBridgeCommandWrapper
+    extends CommandWrapper<OvsDestroyBridgeCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final OvsDestroyBridgeCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        final boolean result = libvirtComputingResource.destroyTunnelNetwork(command.getBridgeName());
+  private static final Logger s_logger = Logger.getLogger(LibvirtOvsDestroyBridgeCommandWrapper.class);
 
-        if (!result) {
-            s_logger.debug("Error trying to destroy OVS Bridge!");
-        }
+  @Override
+  public Answer execute(final OvsDestroyBridgeCommand command,
+      final LibvirtComputingResource libvirtComputingResource) {
+    final boolean result = libvirtComputingResource.destroyTunnelNetwork(command.getBridgeName());
 
-        return new Answer(command, result, null);
+    if (!result) {
+      s_logger.debug("Error trying to destroy OVS Bridge!");
     }
+
+    return new Answer(command, result, null);
+  }
 }

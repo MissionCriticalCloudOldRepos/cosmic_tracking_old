@@ -19,48 +19,53 @@
 
 package com.cloud.hypervisor.kvm.resource;
 
-import org.apache.log4j.Logger;
-import org.libvirt.LibvirtException;
-
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.exception.InternalErrorException;
 import com.cloud.network.Networks;
 
+import org.apache.log4j.Logger;
+import org.libvirt.LibvirtException;
+
 public class DirectVifDriver extends VifDriverBase {
 
-    private static final Logger s_logger = Logger.getLogger(DirectVifDriver.class);
+  private static final Logger s_logger = Logger.getLogger(DirectVifDriver.class);
 
-    /**
-     * Experimental driver to configure direct networking in libvirt. This should only
-     * be used on an LXC cluster that does not run any system VMs.
-     *
-     * @param nic
-     * @param guestOsType
-     * @return
-     * @throws InternalErrorException
-     * @throws LibvirtException
-     */
-    @Override
-    public LibvirtVMDef.InterfaceDef plug(NicTO nic, String guestOsType, String nicAdapter) throws InternalErrorException, LibvirtException {
-        LibvirtVMDef.InterfaceDef intf = new LibvirtVMDef.InterfaceDef();
+  /**
+   * Experimental driver to configure direct networking in libvirt. This should only be used on an LXC cluster that does
+   * not run any system VMs.
+   *
+   * @param nic
+   * @param guestOsType
+   * @return
+   * @throws InternalErrorException
+   * @throws LibvirtException
+   */
+  @Override
+  public LibvirtVMDef.InterfaceDef plug(NicTO nic, String guestOsType, String nicAdapter)
+      throws InternalErrorException, LibvirtException {
+    LibvirtVMDef.InterfaceDef intf = new LibvirtVMDef.InterfaceDef();
 
-        if (nic.getType() == Networks.TrafficType.Guest) {
-            Integer networkRateKBps = (nic.getNetworkRateMbps() != null && nic.getNetworkRateMbps().intValue() != -1) ? nic.getNetworkRateMbps().intValue() * 128 : 0;
-            intf.defDirectNet(_libvirtComputingResource.getNetworkDirectDevice(), null, nic.getMac(), getGuestNicModel(guestOsType, nicAdapter),
-                _libvirtComputingResource.getNetworkDirectSourceMode(), networkRateKBps);
+    if (nic.getType() == Networks.TrafficType.Guest) {
+      Integer networkRateKBps = (nic.getNetworkRateMbps() != null && nic.getNetworkRateMbps().intValue() != -1)
+          ? nic.getNetworkRateMbps().intValue() * 128 : 0;
+      intf.defDirectNet(_libvirtComputingResource.getNetworkDirectDevice(), null, nic.getMac(),
+          getGuestNicModel(guestOsType, nicAdapter),
+          _libvirtComputingResource.getNetworkDirectSourceMode(), networkRateKBps);
 
-        } else if (nic.getType() == Networks.TrafficType.Public) {
-            Integer networkRateKBps = (nic.getNetworkRateMbps() != null && nic.getNetworkRateMbps().intValue() != -1) ? nic.getNetworkRateMbps().intValue() * 128 : 0;
-            intf.defDirectNet(_libvirtComputingResource.getNetworkDirectDevice(), null, nic.getMac(), getGuestNicModel(guestOsType, nicAdapter),
-                _libvirtComputingResource.getNetworkDirectSourceMode(), networkRateKBps);
-        }
-
-        return intf;
+    } else if (nic.getType() == Networks.TrafficType.Public) {
+      Integer networkRateKBps = (nic.getNetworkRateMbps() != null && nic.getNetworkRateMbps().intValue() != -1)
+          ? nic.getNetworkRateMbps().intValue() * 128 : 0;
+      intf.defDirectNet(_libvirtComputingResource.getNetworkDirectDevice(), null, nic.getMac(),
+          getGuestNicModel(guestOsType, nicAdapter),
+          _libvirtComputingResource.getNetworkDirectSourceMode(), networkRateKBps);
     }
 
-    @Override
-    public void unplug(LibvirtVMDef.InterfaceDef iface) {
-        // not needed, libvirt will cleanup
-    }
+    return intf;
+  }
+
+  @Override
+  public void unplug(LibvirtVMDef.InterfaceDef iface) {
+    // not needed, libvirt will cleanup
+  }
 
 }

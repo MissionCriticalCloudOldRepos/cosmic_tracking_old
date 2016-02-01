@@ -24,82 +24,82 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 public class CPUStat {
-    private static final Logger s_logger = Logger.getLogger(CPUStat.class);
+  private static final Logger s_logger = Logger.getLogger(CPUStat.class);
 
-    private Integer _cores;
-    private UptimeStats _lastStats;
-    private final String _sysfsCpuDir = "/sys/devices/system/cpu";
-    private final String _uptimeFile = "/proc/uptime";
+  private Integer _cores;
+  private UptimeStats _lastStats;
+  private final String _sysfsCpuDir = "/sys/devices/system/cpu";
+  private final String _uptimeFile = "/proc/uptime";
 
-    class UptimeStats {
-        public Double upTime = 0d;
-        public Double cpuIdleTime = 0d;
+  class UptimeStats {
+    public Double upTime = 0d;
+    public Double cpuIdleTime = 0d;
 
-        public UptimeStats(Double upTime, Double cpuIdleTime) {
-            this.upTime = upTime;
-            this.cpuIdleTime = cpuIdleTime;
+    public UptimeStats(Double upTime, Double cpuIdleTime) {
+      this.upTime = upTime;
+      this.cpuIdleTime = cpuIdleTime;
+    }
+  }
+
+  public CPUStat() {
+    init();
+  }
+
+  private void init() {
+    _cores = getCoresFromLinux();
+    _lastStats = getUptimeAndCpuIdleTime();
+  }
+
+  private UptimeStats getUptimeAndCpuIdleTime() {
+    UptimeStats uptime = new UptimeStats(0d, 0d);
+    File f = new File(_uptimeFile);
+    try (Scanner scanner = new Scanner(f, "UTF-8");) {
+      String[] stats = scanner.useDelimiter("\\Z").next().split("\\s+");
+      uptime = new UptimeStats(Double.parseDouble(stats[0]), Double.parseDouble(stats[1]));
+    } catch (FileNotFoundException ex) {
+      s_logger.warn("File " + _uptimeFile + " not found:" + ex.toString());
+    }
+    return uptime;
+  }
+
+  private Integer getCoresFromLinux() {
+    Integer cpus = 0;
+    File cpuDir = new File(_sysfsCpuDir);
+    File[] files = cpuDir.listFiles();
+    if (files != null) {
+      for (File file : files) {
+        if (file.getName().matches("cpu\\d+")) {
+          cpus++;
         }
+      }
+    }
+    return cpus;
+  }
+
+  public Integer getCores() {
+    return _cores;
+  }
+
+  public Double getCpuUsedPercent() {
+    Double cpuUsed = 0d;
+    if (_cores == null || _cores == 0) {
+      _cores = getCoresFromLinux();
     }
 
-    public CPUStat () {
-        init();
+    UptimeStats currentStats = getUptimeAndCpuIdleTime();
+    if (currentStats == null) {
+      return cpuUsed;
     }
 
-    private void init() {
-        _cores = getCoresFromLinux();
-        _lastStats = getUptimeAndCpuIdleTime();
+    Double timeElapsed = currentStats.upTime - _lastStats.upTime;
+    Double cpuElapsed = (currentStats.cpuIdleTime - _lastStats.cpuIdleTime) / _cores;
+    if (timeElapsed > 0) {
+      cpuUsed = (1 - (cpuElapsed / timeElapsed)) * 100;
     }
-
-    private UptimeStats getUptimeAndCpuIdleTime() {
-        UptimeStats uptime = new UptimeStats(0d, 0d);
-        File f = new File(_uptimeFile);
-        try (Scanner scanner = new Scanner(f,"UTF-8");) {
-            String[] stats = scanner.useDelimiter("\\Z").next().split("\\s+");
-            uptime = new UptimeStats(Double.parseDouble(stats[0]), Double.parseDouble(stats[1]));
-        } catch (FileNotFoundException ex) {
-            s_logger.warn("File " + _uptimeFile + " not found:" + ex.toString());
-        }
-        return uptime;
+    if (cpuUsed < 0) {
+      cpuUsed = 0d;
     }
-
-    private Integer getCoresFromLinux() {
-        Integer cpus = 0;
-        File cpuDir = new File(_sysfsCpuDir);
-        File[] files = cpuDir.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.getName().matches("cpu\\d+")) {
-                    cpus++;
-                }
-            }
-        }
-        return cpus;
-    }
-
-    public Integer getCores() {
-        return _cores;
-    }
-
-    public Double getCpuUsedPercent() {
-        Double cpuUsed = 0d;
-        if (_cores == null || _cores == 0) {
-            _cores = getCoresFromLinux();
-        }
-
-        UptimeStats currentStats = getUptimeAndCpuIdleTime();
-        if (currentStats == null) {
-            return cpuUsed;
-        }
-
-        Double timeElapsed = currentStats.upTime - _lastStats.upTime;
-        Double cpuElapsed = (currentStats.cpuIdleTime - _lastStats.cpuIdleTime) / _cores;
-        if (timeElapsed > 0) {
-            cpuUsed = (1 - (cpuElapsed / timeElapsed)) * 100;
-        }
-        if (cpuUsed < 0) {
-            cpuUsed = 0d;
-        }
-        _lastStats = currentStats;
-        return cpuUsed;
-    }
+    _lastStats = currentStats;
+    return cpuUsed;
+  }
 }

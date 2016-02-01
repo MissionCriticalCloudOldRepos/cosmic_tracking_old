@@ -19,57 +19,60 @@ package com.cloud.hypervisor.kvm.storage;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
-
 import com.cloud.storage.Storage;
 import com.cloud.storage.Storage.StoragePoolType;
 
+import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
+
 public interface StorageAdaptor {
 
-    public KVMStoragePool getStoragePool(String uuid);
+  public KVMStoragePool getStoragePool(String uuid);
 
-    // Get the storage pool from libvirt, but control if libvirt should refresh the pool (can take a long time)
-    public KVMStoragePool getStoragePool(String uuid, boolean refreshInfo);
+  // Get the storage pool from libvirt, but control if libvirt should refresh the pool (can take a long time)
+  public KVMStoragePool getStoragePool(String uuid, boolean refreshInfo);
 
-    // given disk path (per database) and pool, create new KVMPhysicalDisk, populate
-    // it with info from local disk, and return it
-    public KVMPhysicalDisk getPhysicalDisk(String volumeUuid, KVMStoragePool pool);
+  // given disk path (per database) and pool, create new KVMPhysicalDisk, populate
+  // it with info from local disk, and return it
+  public KVMPhysicalDisk getPhysicalDisk(String volumeUuid, KVMStoragePool pool);
 
-    public KVMStoragePool createStoragePool(String name, String host, int port, String path, String userInfo, StoragePoolType type);
+  public KVMStoragePool createStoragePool(String name, String host, int port, String path, String userInfo,
+      StoragePoolType type);
 
-    public boolean deleteStoragePool(String uuid);
+  public boolean deleteStoragePool(String uuid);
 
-    public KVMPhysicalDisk createPhysicalDisk(String name, KVMStoragePool pool,
-            PhysicalDiskFormat format, Storage.ProvisioningType provisioningType, long size);
+  public KVMPhysicalDisk createPhysicalDisk(String name, KVMStoragePool pool,
+      PhysicalDiskFormat format, Storage.ProvisioningType provisioningType, long size);
 
-    // given disk path (per database) and pool, prepare disk on host
-    public boolean connectPhysicalDisk(String volumePath, KVMStoragePool pool, Map<String, String> details);
+  // given disk path (per database) and pool, prepare disk on host
+  public boolean connectPhysicalDisk(String volumePath, KVMStoragePool pool, Map<String, String> details);
 
-    // given disk path (per database) and pool, clean up disk on host
-    public boolean disconnectPhysicalDisk(String volumePath, KVMStoragePool pool);
+  // given disk path (per database) and pool, clean up disk on host
+  public boolean disconnectPhysicalDisk(String volumePath, KVMStoragePool pool);
 
-    // given local path to file/device (per Libvirt XML), 1) check that device is
-    // handled by your adaptor, return false if not. 2) clean up device, return true
-    public boolean disconnectPhysicalDiskByPath(String localPath);
+  // given local path to file/device (per Libvirt XML), 1) check that device is
+  // handled by your adaptor, return false if not. 2) clean up device, return true
+  public boolean disconnectPhysicalDiskByPath(String localPath);
 
-    public boolean deletePhysicalDisk(String uuid, KVMStoragePool pool, Storage.ImageFormat format);
+  public boolean deletePhysicalDisk(String uuid, KVMStoragePool pool, Storage.ImageFormat format);
 
-    public KVMPhysicalDisk createDiskFromTemplate(KVMPhysicalDisk template,
-            String name, PhysicalDiskFormat format, Storage.ProvisioningType provisioningType, long size,
-            KVMStoragePool destPool, int timeout);
+  public KVMPhysicalDisk createDiskFromTemplate(KVMPhysicalDisk template,
+      String name, PhysicalDiskFormat format, Storage.ProvisioningType provisioningType, long size,
+      KVMStoragePool destPool, int timeout);
 
-    public KVMPhysicalDisk createTemplateFromDisk(KVMPhysicalDisk disk, String name, PhysicalDiskFormat format, long size, KVMStoragePool destPool);
+  public KVMPhysicalDisk createTemplateFromDisk(KVMPhysicalDisk disk, String name, PhysicalDiskFormat format, long size,
+      KVMStoragePool destPool);
 
-    public List<KVMPhysicalDisk> listPhysicalDisks(String storagePoolUuid, KVMStoragePool pool);
+  public List<KVMPhysicalDisk> listPhysicalDisks(String storagePoolUuid, KVMStoragePool pool);
 
-    public KVMPhysicalDisk copyPhysicalDisk(KVMPhysicalDisk disk, String name, KVMStoragePool destPools, int timeout);
+  public KVMPhysicalDisk copyPhysicalDisk(KVMPhysicalDisk disk, String name, KVMStoragePool destPools, int timeout);
 
-    public KVMPhysicalDisk createDiskFromSnapshot(KVMPhysicalDisk snapshot, String snapshotName, String name, KVMStoragePool destPool);
+  public KVMPhysicalDisk createDiskFromSnapshot(KVMPhysicalDisk snapshot, String snapshotName, String name,
+      KVMStoragePool destPool);
 
-    public boolean refresh(KVMStoragePool pool);
+  public boolean refresh(KVMStoragePool pool);
 
-    public boolean deleteStoragePool(KVMStoragePool pool);
+  public boolean deleteStoragePool(KVMStoragePool pool);
 
-    public boolean createFolder(String uuid, String path);
+  public boolean createFolder(String uuid, String path);
 
 }

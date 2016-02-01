@@ -19,8 +19,6 @@
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.OvsCreateTunnelAnswer;
 import com.cloud.agent.api.OvsCreateTunnelCommand;
@@ -29,42 +27,46 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.script.Script;
 
-@ResourceWrapper(handles =  OvsCreateTunnelCommand.class)
-public final class LibvirtOvsCreateTunnelCommandWrapper extends CommandWrapper<OvsCreateTunnelCommand, Answer, LibvirtComputingResource> {
+import org.apache.log4j.Logger;
 
-    private static final Logger s_logger = Logger.getLogger(LibvirtOvsCreateTunnelCommandWrapper.class);
+@ResourceWrapper(handles = OvsCreateTunnelCommand.class)
+public final class LibvirtOvsCreateTunnelCommandWrapper
+    extends CommandWrapper<OvsCreateTunnelCommand, Answer, LibvirtComputingResource> {
 
-    @Override
-    public Answer execute(final OvsCreateTunnelCommand command, final LibvirtComputingResource libvirtComputingResource) {
-        final String bridge = command.getNetworkName();
-        try {
-            if (!libvirtComputingResource.findOrCreateTunnelNetwork(bridge)) {
-                s_logger.debug("Error during bridge setup");
-                return new OvsCreateTunnelAnswer(command, false,
-                        "Cannot create network", bridge);
-            }
+  private static final Logger s_logger = Logger.getLogger(LibvirtOvsCreateTunnelCommandWrapper.class);
 
-            libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
-                    command.getNetworkName());
+  @Override
+  public Answer execute(final OvsCreateTunnelCommand command, final LibvirtComputingResource libvirtComputingResource) {
+    final String bridge = command.getNetworkName();
+    try {
+      if (!libvirtComputingResource.findOrCreateTunnelNetwork(bridge)) {
+        s_logger.debug("Error during bridge setup");
+        return new OvsCreateTunnelAnswer(command, false,
+            "Cannot create network", bridge);
+      }
 
-            final Script scriptCommand = new Script(libvirtComputingResource.getOvsTunnelPath(), libvirtComputingResource.getTimeout(), s_logger);
-            scriptCommand.add("create_tunnel");
-            scriptCommand.add("--bridge", bridge);
-            scriptCommand.add("--remote_ip", command.getRemoteIp());
-            scriptCommand.add("--key", command.getKey().toString());
-            scriptCommand.add("--src_host", command.getFrom().toString());
-            scriptCommand.add("--dst_host", command.getTo().toString());
+      libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
+          command.getNetworkName());
 
-            final String result = scriptCommand.execute();
-            if (result != null) {
-                return new OvsCreateTunnelAnswer(command, true, result, null,
-                        bridge);
-            } else {
-                return new OvsCreateTunnelAnswer(command, false, result, bridge);
-            }
-        } catch (final Exception e) {
-            s_logger.warn("Caught execption when creating ovs tunnel", e);
-            return new OvsCreateTunnelAnswer(command, false, e.getMessage(), bridge);
-        }
+      final Script scriptCommand = new Script(libvirtComputingResource.getOvsTunnelPath(),
+          libvirtComputingResource.getTimeout(), s_logger);
+      scriptCommand.add("create_tunnel");
+      scriptCommand.add("--bridge", bridge);
+      scriptCommand.add("--remote_ip", command.getRemoteIp());
+      scriptCommand.add("--key", command.getKey().toString());
+      scriptCommand.add("--src_host", command.getFrom().toString());
+      scriptCommand.add("--dst_host", command.getTo().toString());
+
+      final String result = scriptCommand.execute();
+      if (result != null) {
+        return new OvsCreateTunnelAnswer(command, true, result, null,
+            bridge);
+      } else {
+        return new OvsCreateTunnelAnswer(command, false, result, bridge);
+      }
+    } catch (final Exception e) {
+      s_logger.warn("Caught execption when creating ovs tunnel", e);
+      return new OvsCreateTunnelAnswer(command, false, e.getMessage(), bridge);
     }
+  }
 }
