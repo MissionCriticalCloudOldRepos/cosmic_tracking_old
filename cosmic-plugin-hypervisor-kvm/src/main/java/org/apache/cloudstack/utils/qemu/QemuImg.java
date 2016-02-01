@@ -1,19 +1,3 @@
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// the License.  You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
 package org.apache.cloudstack.utils.qemu;
 
 import java.util.HashMap;
@@ -29,7 +13,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class QemuImg {
 
   /* The qemu-img binary. We expect this to be in $PATH */
-  public String _qemuImgPath = "qemu-img";
+  public String qemuImgPath = "qemu-img";
+
   private int timeout;
 
   /* Shouldn't we have KVMPhysicalDisk and LibvirtVMDef read this? */
@@ -64,14 +49,14 @@ public class QemuImg {
 
     public static PreallocationType getPreallocationType(final Storage.ProvisioningType provisioningType) {
       switch (provisioningType) {
-      case THIN:
-        return PreallocationType.Off;
-      case SPARSE:
-        return PreallocationType.Metadata;
-      case FAT:
-        return PreallocationType.Full;
-      default:
-        throw new NotImplementedException();
+        case THIN:
+          return PreallocationType.Off;
+        case SPARSE:
+          return PreallocationType.Metadata;
+        case FAT:
+          return PreallocationType.Full;
+        default:
+          throw new NotImplementedException();
       }
     }
   }
@@ -84,16 +69,8 @@ public class QemuImg {
     this.timeout = timeout;
   }
 
-  /**
-   * Create a QemuImg object
-   *
-   *
-   * @param qemuImgPath
-   *          A alternative path to the qemu-img binary
-   * @return void
-   */
   public QemuImg(final String qemuImgPath) {
-    _qemuImgPath = qemuImgPath;
+    this.qemuImgPath = qemuImgPath;
   }
 
   /* These are all methods supported by the qemu-img tool */
@@ -103,23 +80,9 @@ public class QemuImg {
 
   }
 
-  /**
-   * Create a new image
-   *
-   * This method calls 'qemu-img create'
-   *
-   * @param file
-   *          The file to create
-   * @param backingFile
-   *          A backing file if used (for example with qcow2)
-   * @param options
-   *          Options for the create. Takes a Map<String, String> with key value pairs which are passed on to qemu-img
-   *          without validation.
-   * @return void
-   */
   public void create(final QemuImgFile file, final QemuImgFile backingFile, final Map<String, String> options)
       throws QemuImgException {
-    final Script s = new Script(_qemuImgPath, timeout);
+    final Script s = new Script(qemuImgPath, timeout);
     s.add("create");
 
     if (options != null && !options.isEmpty()) {
@@ -163,68 +126,21 @@ public class QemuImg {
     }
   }
 
-  /**
-   * Create a new image
-   *
-   * This method calls 'qemu-img create'
-   *
-   * @param file
-   *          The file to create
-   * @return void
-   */
   public void create(final QemuImgFile file) throws QemuImgException {
     this.create(file, null, null);
   }
 
-  /**
-   * Create a new image
-   *
-   * This method calls 'qemu-img create'
-   *
-   * @param file
-   *          The file to create
-   * @param backingFile
-   *          A backing file if used (for example with qcow2)
-   * @return void
-   */
   public void create(final QemuImgFile file, final QemuImgFile backingFile) throws QemuImgException {
     this.create(file, backingFile, null);
   }
 
-  /**
-   * Create a new image
-   *
-   * This method calls 'qemu-img create'
-   *
-   * @param file
-   *          The file to create
-   * @param options
-   *          Options for the create. Takes a Map<String, String> with key value pairs which are passed on to qemu-img
-   *          without validation.
-   * @return void
-   */
   public void create(final QemuImgFile file, final Map<String, String> options) throws QemuImgException {
     this.create(file, null, options);
   }
 
-  /**
-   * Convert a image from source to destination
-   *
-   * This method calls 'qemu-img convert' and takes two objects as an argument.
-   *
-   *
-   * @param srcFile
-   *          The source file
-   * @param destFile
-   *          The destination file
-   * @param options
-   *          Options for the convert. Takes a Map<String, String> with key value pairs which are passed on to qemu-img
-   *          without validation.
-   * @return void
-   */
   public void convert(final QemuImgFile srcFile, final QemuImgFile destFile, final Map<String, String> options)
       throws QemuImgException {
-    final Script script = new Script(_qemuImgPath, timeout);
+    final Script script = new Script(qemuImgPath, timeout);
     script.add("convert");
     // autodetect source format. Sometime int he future we may teach KVMPhysicalDisk about more formats, then we can
     // explicitly pass them if necessary
@@ -257,49 +173,16 @@ public class QemuImg {
     }
   }
 
-  /**
-   * Convert a image from source to destination
-   *
-   * This method calls 'qemu-img convert' and takes two objects as an argument.
-   *
-   *
-   * @param srcFile
-   *          The source file
-   * @param destFile
-   *          The destination file
-   * @return void
-   */
   public void convert(final QemuImgFile srcFile, final QemuImgFile destFile) throws QemuImgException {
     this.convert(srcFile, destFile, null);
   }
 
-  /**
-   * Commit the changes recorded in the file in its base image.
-   *
-   * This method calls 'qemu-img commit' and takes one object as an argument
-   *
-   * @param file
-   *          The file of which changes have to be committed
-   * @return void
-   */
   public void commit(final QemuImgFile file) throws QemuImgException {
 
   }
 
-  /**
-   * Execute qemu-img info for the given file
-   *
-   * Qemu-img returns human readable output, but this method does it's best to turn that into machine readeable data.
-   *
-   * Spaces in keys are replaced by underscores (_). Sizes (virtual_size and disk_size) are returned in bytes Paths
-   * (image and backing_file) are the absolute path to the file
-   *
-   * @param file
-   *          A QemuImgFile object containing the file to get the information from
-   * @return A HashMap with String key-value information as returned by 'qemu-img info'
-   */
   public Map<String, String> info(final QemuImgFile file) throws QemuImgException {
-    final Script s = new Script(_qemuImgPath);
+    final Script s = new Script(qemuImgPath);
     s.add("info");
     s.add(file.getFileName());
     final OutputInterpreter.AllLinesParser parser = new OutputInterpreter.AllLinesParser();
@@ -310,8 +193,8 @@ public class QemuImg {
 
     final HashMap<String, String> info = new HashMap<String, String>();
     final String[] outputBuffer = parser.getLines().trim().split("\n");
-    for (int i = 0; i < outputBuffer.length; i++) {
-      final String[] lineBuffer = outputBuffer[i].split(":", 2);
+    for (final String element : outputBuffer) {
+      final String[] lineBuffer = element.split(":", 2);
       if (lineBuffer.length == 2) {
         final String key = lineBuffer[0].trim().replace(" ", "_");
         String value = null;
@@ -338,20 +221,6 @@ public class QemuImg {
 
   }
 
-  /**
-   * Resize an image
-   *
-   * This method simple calls 'qemu-img resize'. A negative size value will get prefixed with - and a positive with +
-   *
-   * Sizes are in bytes and will be passed on that way
-   *
-   * @param file
-   *          The file to resize
-   * @param size
-   *          The new size
-   * @param delta
-   *          Flag if the new size is a delta
-   */
   public void resize(final QemuImgFile file, final long size, final boolean delta) throws QemuImgException {
     String newSize = null;
 
@@ -372,25 +241,13 @@ public class QemuImg {
       newSize = Long.toString(size);
     }
 
-    final Script s = new Script(_qemuImgPath);
+    final Script s = new Script(qemuImgPath);
     s.add("resize");
     s.add(file.getFileName());
     s.add(newSize);
     s.execute();
   }
 
-  /**
-   * Resize an image
-   *
-   * This method simple calls 'qemu-img resize'. A negative size value will get prefixed with - and a positive with +
-   *
-   * Sizes are in bytes and will be passed on that way
-   *
-   * @param file
-   *          The file to resize
-   * @param size
-   *          The new size
-   */
   public void resize(final QemuImgFile file, final long size) throws QemuImgException {
     this.resize(file, size, false);
   }

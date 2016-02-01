@@ -1,19 +1,3 @@
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
 package com.cloud.hypervisor.kvm.storage;
 
 import java.util.HashMap;
@@ -36,12 +20,12 @@ import org.apache.log4j.Logger;
 public class IscsiAdmStorageAdaptor implements StorageAdaptor {
   private static final Logger s_logger = Logger.getLogger(IscsiAdmStorageAdaptor.class);
 
-  private static final Map<String, KVMStoragePool> MapStorageUuidToStoragePool = new HashMap<String, KVMStoragePool>();
+  private static final Map<String, KvmStoragePool> MapStorageUuidToStoragePool = new HashMap<String, KvmStoragePool>();
 
   @Override
-  public KVMStoragePool createStoragePool(String uuid, String host, int port, String path, String userInfo,
+  public KvmStoragePool createStoragePool(String uuid, String host, int port, String path, String userInfo,
       StoragePoolType storagePoolType) {
-    IscsiAdmStoragePool storagePool = new IscsiAdmStoragePool(uuid, host, port, storagePoolType, this);
+    final IscsiAdmStoragePool storagePool = new IscsiAdmStoragePool(uuid, host, port, storagePoolType, this);
 
     MapStorageUuidToStoragePool.put(uuid, storagePool);
 
@@ -49,12 +33,12 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
   }
 
   @Override
-  public KVMStoragePool getStoragePool(String uuid) {
+  public KvmStoragePool getStoragePool(String uuid) {
     return MapStorageUuidToStoragePool.get(uuid);
   }
 
   @Override
-  public KVMStoragePool getStoragePool(String uuid, boolean refreshInfo) {
+  public KvmStoragePool getStoragePool(String uuid, boolean refreshInfo) {
     return MapStorageUuidToStoragePool.get(uuid);
   }
 
@@ -64,29 +48,29 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
   }
 
   @Override
-  public boolean deleteStoragePool(KVMStoragePool pool) {
+  public boolean deleteStoragePool(KvmStoragePool pool) {
     return deleteStoragePool(pool.getUuid());
   }
 
   // called from LibvirtComputingResource.execute(CreateCommand)
   // does not apply for iScsiAdmStorageAdaptor
   @Override
-  public KVMPhysicalDisk createPhysicalDisk(String volumeUuid, KVMStoragePool pool, PhysicalDiskFormat format,
+  public KvmPhysicalDisk createPhysicalDisk(String volumeUuid, KvmStoragePool pool, PhysicalDiskFormat format,
       Storage.ProvisioningType provisioningType, long size) {
     throw new UnsupportedOperationException("Creating a physical disk is not supported.");
   }
 
   @Override
-  public boolean connectPhysicalDisk(String volumeUuid, KVMStoragePool pool, Map<String, String> details) {
+  public boolean connectPhysicalDisk(String volumeUuid, KvmStoragePool pool, Map<String, String> details) {
     // ex. sudo iscsiadm -m node -T iqn.2012-03.com.test:volume1 -p 192.168.233.10:3260 -o new
-    Script iScsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
+    Script iscsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
 
-    iScsiAdmCmd.add("-m", "node");
-    iScsiAdmCmd.add("-T", getIqn(volumeUuid));
-    iScsiAdmCmd.add("-p", pool.getSourceHost() + ":" + pool.getSourcePort());
-    iScsiAdmCmd.add("-o", "new");
+    iscsiAdmCmd.add("-m", "node");
+    iscsiAdmCmd.add("-T", getIqn(volumeUuid));
+    iscsiAdmCmd.add("-p", pool.getSourceHost() + ":" + pool.getSourcePort());
+    iscsiAdmCmd.add("-o", "new");
 
-    String result = iScsiAdmCmd.execute();
+    String result = iscsiAdmCmd.execute();
 
     if (result != null) {
       s_logger.debug("Failed to add iSCSI target " + volumeUuid);
@@ -98,8 +82,8 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
       System.out.println("Successfully added to iSCSI target " + volumeUuid);
     }
 
-    String chapInitiatorUsername = details.get(DiskTO.CHAP_INITIATOR_USERNAME);
-    String chapInitiatorSecret = details.get(DiskTO.CHAP_INITIATOR_SECRET);
+    final String chapInitiatorUsername = details.get(DiskTO.CHAP_INITIATOR_USERNAME);
+    final String chapInitiatorSecret = details.get(DiskTO.CHAP_INITIATOR_SECRET);
 
     if (StringUtils.isNotBlank(chapInitiatorUsername) && StringUtils.isNotBlank(chapInitiatorSecret)) {
       try {
@@ -114,20 +98,20 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
         // ex. sudo iscsiadm -m node -T iqn.2012-03.com.test:volume1 -p 192.168.233.10:3260 --op update -n
         // node.session.auth.password -v password
         executeChapCommand(volumeUuid, pool, "node.session.auth.password", chapInitiatorSecret, "password");
-      } catch (Exception ex) {
+      } catch (final Exception ex) {
         return false;
       }
     }
 
     // ex. sudo iscsiadm -m node -T iqn.2012-03.com.test:volume1 -p 192.168.233.10 --login
-    iScsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
+    iscsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
 
-    iScsiAdmCmd.add("-m", "node");
-    iScsiAdmCmd.add("-T", getIqn(volumeUuid));
-    iScsiAdmCmd.add("-p", pool.getSourceHost() + ":" + pool.getSourcePort());
-    iScsiAdmCmd.add("--login");
+    iscsiAdmCmd.add("-m", "node");
+    iscsiAdmCmd.add("-T", getIqn(volumeUuid));
+    iscsiAdmCmd.add("-p", pool.getSourceHost() + ":" + pool.getSourcePort());
+    iscsiAdmCmd.add("--login");
 
-    result = iScsiAdmCmd.execute();
+    result = iscsiAdmCmd.execute();
 
     if (result != null) {
       s_logger.debug("Failed to log in to iSCSI target " + volumeUuid);
@@ -154,35 +138,35 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
     return true;
   }
 
-  private void waitForDiskToBecomeAvailable(String volumeUuid, KVMStoragePool pool) {
+  private void waitForDiskToBecomeAvailable(String volumeUuid, KvmStoragePool pool) {
     int numberOfTries = 10;
-    int timeBetweenTries = 1000;
+    final int timeBetweenTries = 1000;
 
     while (getPhysicalDisk(volumeUuid, pool).getSize() == 0 && numberOfTries > 0) {
       numberOfTries--;
 
       try {
         Thread.sleep(timeBetweenTries);
-      } catch (Exception ex) {
+      } catch (final Exception ex) {
         // don't do anything
       }
     }
   }
 
-  private void executeChapCommand(String path, KVMStoragePool pool, String nParameter, String vParameter, String detail)
+  private void executeChapCommand(String path, KvmStoragePool pool, String parameterN, String parameterV, String detail)
       throws Exception {
-    Script iScsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
+    final Script iScsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
 
     iScsiAdmCmd.add("-m", "node");
     iScsiAdmCmd.add("-T", getIqn(path));
     iScsiAdmCmd.add("-p", pool.getSourceHost() + ":" + pool.getSourcePort());
     iScsiAdmCmd.add("--op", "update");
-    iScsiAdmCmd.add("-n", nParameter);
-    iScsiAdmCmd.add("-v", vParameter);
+    iScsiAdmCmd.add("-n", parameterN);
+    iScsiAdmCmd.add("-v", parameterV);
 
-    String result = iScsiAdmCmd.execute();
+    final String result = iScsiAdmCmd.execute();
 
-    boolean useDetail = detail != null && detail.trim().length() > 0;
+    final boolean useDetail = detail != null && detail.trim().length() > 0;
 
     detail = useDetail ? detail.trim() + " " : detail;
 
@@ -207,13 +191,13 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
   }
 
   @Override
-  public KVMPhysicalDisk getPhysicalDisk(String volumeUuid, KVMStoragePool pool) {
-    String deviceByPath = getByPath(pool.getSourceHost() + ":" + pool.getSourcePort(), volumeUuid);
-    KVMPhysicalDisk physicalDisk = new KVMPhysicalDisk(deviceByPath, volumeUuid, pool);
+  public KvmPhysicalDisk getPhysicalDisk(String volumeUuid, KvmStoragePool pool) {
+    final String deviceByPath = getByPath(pool.getSourceHost() + ":" + pool.getSourcePort(), volumeUuid);
+    final KvmPhysicalDisk physicalDisk = new KvmPhysicalDisk(deviceByPath, volumeUuid, pool);
 
     physicalDisk.setFormat(PhysicalDiskFormat.RAW);
 
-    long deviceSize = getDeviceSize(deviceByPath);
+    final long deviceSize = getDeviceSize(deviceByPath);
 
     physicalDisk.setSize(deviceSize);
     physicalDisk.setVirtualSize(deviceSize);
@@ -222,13 +206,13 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
   }
 
   private long getDeviceSize(String deviceByPath) {
-    Script iScsiAdmCmd = new Script(true, "blockdev", 0, s_logger);
+    final Script iScsiAdmCmd = new Script(true, "blockdev", 0, s_logger);
 
     iScsiAdmCmd.add("--getsize64", deviceByPath);
 
-    OutputInterpreter.OneLineParser parser = new OutputInterpreter.OneLineParser();
+    final OutputInterpreter.OneLineParser parser = new OutputInterpreter.OneLineParser();
 
-    String result = iScsiAdmCmd.execute(parser);
+    final String result = iScsiAdmCmd.execute(parser);
 
     if (result != null) {
       s_logger.warn("Unable to retrieve the size of device " + deviceByPath);
@@ -248,10 +232,10 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
   }
 
   private static String getComponent(String path, int index) {
-    String[] tmp = path.split("/");
+    final String[] tmp = path.split("/");
 
     if (tmp.length != 3) {
-      String msg = "Wrong format for iScsi path: " + path + ". It should be formatted as '/targetIQN/LUN'.";
+      final String msg = "Wrong format for iScsi path: " + path + ". It should be formatted as '/targetIQN/LUN'.";
 
       s_logger.warn(msg);
 
@@ -265,14 +249,14 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
     // use iscsiadm to log out of the iSCSI target and un-discover it
 
     // ex. sudo iscsiadm -m node -T iqn.2012-03.com.test:volume1 -p 192.168.233.10 --logout
-    Script iScsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
+    Script iscsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
 
-    iScsiAdmCmd.add("-m", "node");
-    iScsiAdmCmd.add("-T", iqn);
-    iScsiAdmCmd.add("-p", host + ":" + port);
-    iScsiAdmCmd.add("--logout");
+    iscsiAdmCmd.add("-m", "node");
+    iscsiAdmCmd.add("-T", iqn);
+    iscsiAdmCmd.add("-p", host + ":" + port);
+    iscsiAdmCmd.add("--logout");
 
-    String result = iScsiAdmCmd.execute();
+    String result = iscsiAdmCmd.execute();
 
     if (result != null) {
       s_logger.debug("Failed to log out of iSCSI target /" + iqn + "/" + lun + " : message = " + result);
@@ -285,14 +269,14 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
     }
 
     // ex. sudo iscsiadm -m node -T iqn.2012-03.com.test:volume1 -p 192.168.233.10:3260 -o delete
-    iScsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
+    iscsiAdmCmd = new Script(true, "iscsiadm", 0, s_logger);
 
-    iScsiAdmCmd.add("-m", "node");
-    iScsiAdmCmd.add("-T", iqn);
-    iScsiAdmCmd.add("-p", host + ":" + port);
-    iScsiAdmCmd.add("-o", "delete");
+    iscsiAdmCmd.add("-m", "node");
+    iscsiAdmCmd.add("-T", iqn);
+    iscsiAdmCmd.add("-p", host + ":" + port);
+    iscsiAdmCmd.add("-o", "delete");
 
-    result = iScsiAdmCmd.execute();
+    result = iscsiAdmCmd.execute();
 
     if (result != null) {
       s_logger.debug("Failed to remove iSCSI target /" + iqn + "/" + lun + " : message = " + result);
@@ -308,16 +292,16 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
   }
 
   @Override
-  public boolean disconnectPhysicalDisk(String volumeUuid, KVMStoragePool pool) {
+  public boolean disconnectPhysicalDisk(String volumeUuid, KvmStoragePool pool) {
     return disconnectPhysicalDisk(pool.getSourceHost(), pool.getSourcePort(), getIqn(volumeUuid), getLun(volumeUuid));
   }
 
   @Override
   public boolean disconnectPhysicalDiskByPath(String localPath) {
-    String search1 = "/dev/disk/by-path/ip-";
-    String search2 = ":";
-    String search3 = "-iscsi-";
-    String search4 = "-lun-";
+    final String search1 = "/dev/disk/by-path/ip-";
+    final String search2 = ":";
+    final String search3 = "-iscsi-";
+    final String search4 = "-lun-";
 
     if (localPath.indexOf(search3) == -1) {
       // this volume doesn't below to this adaptor, so just return true
@@ -326,60 +310,60 @@ public class IscsiAdmStorageAdaptor implements StorageAdaptor {
 
     int index = localPath.indexOf(search2);
 
-    String host = localPath.substring(search1.length(), index);
+    final String host = localPath.substring(search1.length(), index);
 
-    int index2 = localPath.indexOf(search3);
+    final int index2 = localPath.indexOf(search3);
 
-    String port = localPath.substring(index + search2.length(), index2);
+    final String port = localPath.substring(index + search2.length(), index2);
 
     index = localPath.indexOf(search4);
 
-    String iqn = localPath.substring(index2 + search3.length(), index);
+    final String iqn = localPath.substring(index2 + search3.length(), index);
 
-    String lun = localPath.substring(index + search4.length());
+    final String lun = localPath.substring(index + search4.length());
 
     return disconnectPhysicalDisk(host, Integer.parseInt(port), iqn, lun);
   }
 
   @Override
-  public boolean deletePhysicalDisk(String volumeUuid, KVMStoragePool pool, Storage.ImageFormat format) {
+  public boolean deletePhysicalDisk(String volumeUuid, KvmStoragePool pool, Storage.ImageFormat format) {
     throw new UnsupportedOperationException("Deleting a physical disk is not supported.");
   }
 
   // does not apply for iScsiAdmStorageAdaptor
   @Override
-  public List<KVMPhysicalDisk> listPhysicalDisks(String storagePoolUuid, KVMStoragePool pool) {
+  public List<KvmPhysicalDisk> listPhysicalDisks(String storagePoolUuid, KvmStoragePool pool) {
     throw new UnsupportedOperationException("Listing disks is not supported for this configuration.");
   }
 
   @Override
-  public KVMPhysicalDisk createDiskFromTemplate(KVMPhysicalDisk template, String name, PhysicalDiskFormat format,
+  public KvmPhysicalDisk createDiskFromTemplate(KvmPhysicalDisk template, String name, PhysicalDiskFormat format,
       ProvisioningType provisioningType, long size,
-      KVMStoragePool destPool, int timeout) {
+      KvmStoragePool destPool, int timeout) {
     throw new UnsupportedOperationException(
         "Creating a disk from a template is not yet supported for this configuration.");
   }
 
   @Override
-  public KVMPhysicalDisk createTemplateFromDisk(KVMPhysicalDisk disk, String name, PhysicalDiskFormat format, long size,
-      KVMStoragePool destPool) {
+  public KvmPhysicalDisk createTemplateFromDisk(KvmPhysicalDisk disk, String name, PhysicalDiskFormat format, long size,
+      KvmStoragePool destPool) {
     throw new UnsupportedOperationException(
         "Creating a template from a disk is not yet supported for this configuration.");
   }
 
   @Override
-  public KVMPhysicalDisk copyPhysicalDisk(KVMPhysicalDisk disk, String name, KVMStoragePool destPool, int timeout) {
+  public KvmPhysicalDisk copyPhysicalDisk(KvmPhysicalDisk disk, String name, KvmStoragePool destPool, int timeout) {
     throw new UnsupportedOperationException("Copying a disk is not supported in this configuration.");
   }
 
   @Override
-  public KVMPhysicalDisk createDiskFromSnapshot(KVMPhysicalDisk snapshot, String snapshotName, String name,
-      KVMStoragePool destPool) {
+  public KvmPhysicalDisk createDiskFromSnapshot(KvmPhysicalDisk snapshot, String snapshotName, String name,
+      KvmStoragePool destPool) {
     throw new UnsupportedOperationException("Creating a disk from a snapshot is not supported in this configuration.");
   }
 
   @Override
-  public boolean refresh(KVMStoragePool pool) {
+  public boolean refresh(KvmStoragePool pool) {
     return true;
   }
 

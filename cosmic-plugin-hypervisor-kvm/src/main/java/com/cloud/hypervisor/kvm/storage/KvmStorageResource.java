@@ -1,25 +1,6 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 package com.cloud.hypervisor.kvm.storage;
 
 import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.Command;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 
 import org.apache.cloudstack.storage.command.AttachCommand;
@@ -31,10 +12,11 @@ import org.apache.cloudstack.storage.command.DeleteCommand;
 import org.apache.cloudstack.storage.command.DettachCommand;
 import org.apache.cloudstack.storage.command.StorageSubSystemCommand;
 
-public class KVMStorageResource {
-  private LibvirtComputingResource resource;
+public class KvmStorageResource {
 
-  public KVMStorageResource(LibvirtComputingResource resource) {
+  private final LibvirtComputingResource resource;
+
+  public KvmStorageResource(LibvirtComputingResource resource) {
     this.resource = resource;
   }
 
@@ -54,7 +36,7 @@ public class KVMStorageResource {
     } else if (command instanceof DettachCommand) {
       return execute((DettachCommand) command);
     }
-    return new Answer((Command) command, false, "not implemented yet");
+    return new Answer(command, false, "not implemented yet");
   }
 
   protected Answer execute(CopyCommand cmd) {
@@ -84,5 +66,4 @@ public class KVMStorageResource {
   protected Answer execute(DettachCommand cmd) {
     return new Answer(cmd, false, "not implemented yet");
   }
-
 }

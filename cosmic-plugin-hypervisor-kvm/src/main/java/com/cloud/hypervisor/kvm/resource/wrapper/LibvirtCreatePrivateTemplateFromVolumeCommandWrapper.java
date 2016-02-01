@@ -1,22 +1,3 @@
-//
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
-//
-
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
 import java.io.File;
@@ -35,9 +16,9 @@ import com.cloud.agent.api.CreatePrivateTemplateFromVolumeCommand;
 import com.cloud.agent.api.storage.CreatePrivateTemplateAnswer;
 import com.cloud.exception.InternalErrorException;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
-import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePool;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePoolManager;
+import com.cloud.hypervisor.kvm.storage.KvmPhysicalDisk;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePool;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePoolManager;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.storage.Storage.ImageFormat;
@@ -65,16 +46,16 @@ public final class LibvirtCreatePrivateTemplateFromVolumeCommandWrapper
   @Override
   public Answer execute(final CreatePrivateTemplateFromVolumeCommand command,
       final LibvirtComputingResource libvirtComputingResource) {
-    final String secondaryStorageURL = command.getSecondaryStorageUrl();
+    final String secondaryStorageUrl = command.getSecondaryStorageUrl();
 
-    KVMStoragePool secondaryStorage = null;
-    KVMStoragePool primary = null;
-    final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+    KvmStoragePool secondaryStorage = null;
+    KvmStoragePool primary = null;
+    final KvmStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
     try {
       final String templateFolder = command.getAccountId() + File.separator + command.getTemplateId() + File.separator;
       final String templateInstallFolder = "/template/tmpl/" + templateFolder;
 
-      secondaryStorage = storagePoolMgr.getStoragePoolByURI(secondaryStorageURL);
+      secondaryStorage = storagePoolMgr.getStoragePoolByUri(secondaryStorageUrl);
 
       try {
         primary = storagePoolMgr.getStoragePool(command.getPool().getType(), command.getPrimaryStoragePoolNameLabel());
@@ -88,7 +69,7 @@ public final class LibvirtCreatePrivateTemplateFromVolumeCommandWrapper
         }
       }
 
-      final KVMPhysicalDisk disk = primary.getPhysicalDisk(command.getVolumePath());
+      final KvmPhysicalDisk disk = primary.getPhysicalDisk(command.getVolumePath());
       final String tmpltPath = secondaryStorage.getLocalPath() + File.separator + templateInstallFolder;
       final StorageLayer storage = libvirtComputingResource.getStorage();
       storage.mkdirs(tmpltPath);
@@ -111,7 +92,7 @@ public final class LibvirtCreatePrivateTemplateFromVolumeCommandWrapper
       } else {
         s_logger.debug("Converting RBD disk " + disk.getPath() + " into template " + command.getUniqueName());
 
-        final QemuImgFile srcFile = new QemuImgFile(KVMPhysicalDisk.RBDStringBuilder(primary.getSourceHost(),
+        final QemuImgFile srcFile = new QemuImgFile(KvmPhysicalDisk.rbdStringBuilder(primary.getSourceHost(),
             primary.getSourcePort(), primary.getAuthUserName(),
             primary.getAuthSecret(), disk.getPath()));
         srcFile.setFormat(PhysicalDiskFormat.RAW);
@@ -124,8 +105,7 @@ public final class LibvirtCreatePrivateTemplateFromVolumeCommandWrapper
           q.convert(srcFile, destFile);
         } catch (final QemuImgException e) {
           s_logger.error("Failed to create new template while converting " + srcFile.getFileName() + " to "
-              + destFile.getFileName() + " the error was: " +
-              e.getMessage());
+              + destFile.getFileName() + " the error was: " + e.getMessage());
         }
 
         final File templateProp = new File(tmpltPath + "/template.properties");

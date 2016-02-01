@@ -1,22 +1,3 @@
-//
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
-//
-
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
 import java.io.File;
@@ -31,9 +12,9 @@ import com.cloud.agent.api.ManageSnapshotAnswer;
 import com.cloud.agent.api.ManageSnapshotCommand;
 import com.cloud.agent.api.to.StorageFilerTO;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
-import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePool;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePoolManager;
+import com.cloud.hypervisor.kvm.storage.KvmPhysicalDisk;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePool;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePoolManager;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.storage.Storage.StoragePoolType;
@@ -71,20 +52,20 @@ public final class LibvirtManageSnapshotCommandWrapper
         }
       }
 
-      final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+      final KvmStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
       final StorageFilerTO pool = command.getPool();
-      final KVMStoragePool primaryPool = storagePoolMgr.getStoragePool(pool.getType(), pool.getUuid());
+      final KvmStoragePool primaryPool = storagePoolMgr.getStoragePool(pool.getType(), pool.getUuid());
 
-      final KVMPhysicalDisk disk = primaryPool.getPhysicalDisk(command.getVolumePath());
+      final KvmPhysicalDisk disk = primaryPool.getPhysicalDisk(command.getVolumePath());
       if (state == DomainState.VIR_DOMAIN_RUNNING && !primaryPool.isExternalSnapshot()) {
 
-        final MessageFormat snapshotXML = new MessageFormat(
+        final MessageFormat snapshotXml = new MessageFormat(
             "   <domainsnapshot>" + "       <name>{0}</name>" + "          <domain>"
                 + "            <uuid>{1}</uuid>" + "        </domain>" + "    </domainsnapshot>");
 
         final String vmUuid = vm.getUUIDString();
         final Object[] args = new Object[] { snapshotName, vmUuid };
-        final String snapshot = snapshotXML.format(args);
+        final String snapshot = snapshotXml.format(args);
         s_logger.debug(snapshot);
         if (command.getCommandSwitch().equalsIgnoreCase(ManageSnapshotCommand.CREATE_SNAPSHOT)) {
           vm.snapshotCreateXML(snapshot);
@@ -102,17 +83,6 @@ public final class LibvirtManageSnapshotCommandWrapper
           vm.resume();
         }
       } else {
-        /**
-         * For RBD we can't use libvirt to do our snapshotting or any Bash scripts. libvirt also wants to store the
-         * memory contents of the Virtual Machine, but that's not possible with RBD since there is no way to store the
-         * memory contents in RBD.
-         *
-         * So we rely on the Java bindings for RBD to create our snapshot
-         *
-         * This snapshot might not be 100% consistent due to writes still being in the memory of the Virtual Machine,
-         * but if the VM runs a kernel which supports barriers properly (>2.6.32) this won't be any different then
-         * pulling the power cord out of a running machine.
-         */
         if (primaryPool.getType() == StoragePoolType.RBD) {
           try {
             final Rados r = new Rados(primaryPool.getAuthUserName());

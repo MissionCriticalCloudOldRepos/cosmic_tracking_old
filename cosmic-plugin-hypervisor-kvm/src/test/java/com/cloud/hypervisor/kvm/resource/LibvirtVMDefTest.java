@@ -1,25 +1,8 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+
 
 package com.cloud.hypervisor.kvm.resource;
 
-import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.DiskDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.DiskDef;
 import com.cloud.utils.Pair;
 
 import junit.framework.TestCase;
@@ -27,8 +10,8 @@ import junit.framework.TestCase;
 public class LibvirtVMDefTest extends TestCase {
 
   public void testInterfaceEtehrnet() {
-    LibvirtVMDef.InterfaceDef ifDef = new LibvirtVMDef.InterfaceDef();
-    ifDef.defEthernet("targetDeviceName", "00:11:22:aa:bb:dd", LibvirtVMDef.InterfaceDef.NicModel.VIRTIO);
+    LibvirtVmDef.InterfaceDef ifDef = new LibvirtVmDef.InterfaceDef();
+    ifDef.defEthernet("targetDeviceName", "00:11:22:aa:bb:dd", LibvirtVmDef.InterfaceDef.NicModel.VIRTIO);
 
     String expected = "<interface type='ethernet'>\n" + "<target dev='targetDeviceName'/>\n"
         + "<mac address='00:11:22:aa:bb:dd'/>\n" + "<model type='virtio'/>\n"
@@ -38,11 +21,11 @@ public class LibvirtVMDefTest extends TestCase {
   }
 
   public void testInterfaceDirectNet() {
-    LibvirtVMDef.InterfaceDef ifDef = new LibvirtVMDef.InterfaceDef();
-    ifDef.defDirectNet("targetDeviceName", null, "00:11:22:aa:bb:dd", LibvirtVMDef.InterfaceDef.NicModel.VIRTIO,
+    LibvirtVmDef.InterfaceDef ifDef = new LibvirtVmDef.InterfaceDef();
+    ifDef.defDirectNet("targetDeviceName", null, "00:11:22:aa:bb:dd", LibvirtVmDef.InterfaceDef.NicModel.VIRTIO,
         "private");
 
-    String expected = "<interface type='" + LibvirtVMDef.InterfaceDef.GuestNetType.DIRECT + "'>\n"
+    String expected = "<interface type='" + LibvirtVmDef.InterfaceDef.GuestNetType.DIRECT + "'>\n"
         + "<source dev='targetDeviceName' mode='private'/>\n" +
         "<mac address='00:11:22:aa:bb:dd'/>\n" + "<model type='virtio'/>\n" + "</interface>\n";
 
@@ -50,7 +33,7 @@ public class LibvirtVMDefTest extends TestCase {
   }
 
   public void testCpuModeDef() {
-    LibvirtVMDef.CpuModeDef cpuModeDef = new LibvirtVMDef.CpuModeDef();
+    LibvirtVmDef.CpuModeDef cpuModeDef = new LibvirtVmDef.CpuModeDef();
     cpuModeDef.setMode("custom");
     cpuModeDef.setModel("Nehalem");
 
@@ -95,8 +78,8 @@ public class LibvirtVMDefTest extends TestCase {
   }
 
   public void testHypervEnlightDef() {
-    LibvirtVMDef.FeaturesDef featuresDef = new LibvirtVMDef.FeaturesDef();
-    LibvirtVMDef.HyperVEnlightenmentFeatureDef hyperVEnlightenmentFeatureDef = new LibvirtVMDef.HyperVEnlightenmentFeatureDef();
+    LibvirtVmDef.FeaturesDef featuresDef = new LibvirtVmDef.FeaturesDef();
+    LibvirtVmDef.HyperVEnlightenmentFeatureDef hyperVEnlightenmentFeatureDef = new LibvirtVmDef.HyperVEnlightenmentFeatureDef();
     hyperVEnlightenmentFeatureDef.setFeature("relaxed", true);
     hyperVEnlightenmentFeatureDef.setFeature("vapic", true);
     hyperVEnlightenmentFeatureDef.setFeature("spinlocks", true);
@@ -107,7 +90,7 @@ public class LibvirtVMDefTest extends TestCase {
     assertTrue(defs.contains("vapic"));
     assertTrue(defs.contains("spinlocks"));
 
-    featuresDef = new LibvirtVMDef.FeaturesDef();
+    featuresDef = new LibvirtVmDef.FeaturesDef();
     featuresDef.addFeatures("pae");
     defs = featuresDef.toString();
     assertFalse(defs.contains("relaxed"));

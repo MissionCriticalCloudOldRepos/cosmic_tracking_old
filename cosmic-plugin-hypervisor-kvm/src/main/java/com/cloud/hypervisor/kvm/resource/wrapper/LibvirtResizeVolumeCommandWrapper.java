@@ -1,20 +1,5 @@
 //
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
+
 //
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
@@ -24,9 +9,9 @@ import com.cloud.agent.api.storage.ResizeVolumeAnswer;
 import com.cloud.agent.api.storage.ResizeVolumeCommand;
 import com.cloud.agent.api.to.StorageFilerTO;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
-import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePool;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePoolManager;
+import com.cloud.hypervisor.kvm.storage.KvmPhysicalDisk;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePool;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePoolManager;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.storage.Storage.StoragePoolType;
@@ -39,9 +24,6 @@ import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.libvirt.StorageVol;
 
-/*
- * Uses a local script now, eventually support for virStorageVolResize() will maybe work on qcow2 and lvm and we can do this in libvirt calls
- */
 @ResourceWrapper(handles = ResizeVolumeCommand.class)
 public final class LibvirtResizeVolumeCommandWrapper
     extends CommandWrapper<ResizeVolumeCommand, Answer, LibvirtComputingResource> {
@@ -65,10 +47,10 @@ public final class LibvirtResizeVolumeCommandWrapper
     }
 
     try {
-      final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
-      KVMStoragePool pool = storagePoolMgr.getStoragePool(spool.getType(), spool.getUuid());
+      final KvmStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+      KvmStoragePool pool = storagePoolMgr.getStoragePool(spool.getType(), spool.getUuid());
 
-      final KVMPhysicalDisk vol = pool.getPhysicalDisk(volid);
+      final KvmPhysicalDisk vol = pool.getPhysicalDisk(volid);
       final String path = vol.getPath();
       String type = notifyOnlyType;
 

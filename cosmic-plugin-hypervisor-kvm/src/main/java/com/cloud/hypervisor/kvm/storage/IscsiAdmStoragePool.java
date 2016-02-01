@@ -1,19 +1,3 @@
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
 package com.cloud.hypervisor.kvm.storage;
 
 import java.util.List;
@@ -24,39 +8,39 @@ import com.cloud.storage.Storage.StoragePoolType;
 
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
 
-public class IscsiAdmStoragePool implements KVMStoragePool {
-  private String _uuid;
-  private String _sourceHost;
-  private int _sourcePort;
-  private StoragePoolType _storagePoolType;
-  private StorageAdaptor _storageAdaptor;
-  private String _authUsername;
-  private String _authSecret;
-  private String _sourceDir;
-  private String _localPath;
+public class IscsiAdmStoragePool implements KvmStoragePool {
+  private final String uuid;
+  private final String sourceHost;
+  private final int sourcePort;
+  private final StoragePoolType storagePoolType;
+  private final StorageAdaptor storageAdaptor;
+  private String authUsername;
+  private String authSecret;
+  private String sourceDir;
+  private String localPath;
 
   public IscsiAdmStoragePool(String uuid, String host, int port, StoragePoolType storagePoolType,
       StorageAdaptor storageAdaptor) {
-    _uuid = uuid;
-    _sourceHost = host;
-    _sourcePort = port;
-    _storagePoolType = storagePoolType;
-    _storageAdaptor = storageAdaptor;
+    this.uuid = uuid;
+    sourceHost = host;
+    sourcePort = port;
+    this.storagePoolType = storagePoolType;
+    this.storageAdaptor = storageAdaptor;
   }
 
   @Override
   public String getUuid() {
-    return _uuid;
+    return uuid;
   }
 
   @Override
   public String getSourceHost() {
-    return _sourceHost;
+    return sourceHost;
   }
 
   @Override
   public int getSourcePort() {
-    return _sourcePort;
+    return sourcePort;
   }
 
   @Override
@@ -76,7 +60,7 @@ public class IscsiAdmStoragePool implements KVMStoragePool {
 
   @Override
   public StoragePoolType getType() {
-    return _storagePoolType;
+    return storagePoolType;
   }
 
   @Override
@@ -89,7 +73,7 @@ public class IscsiAdmStoragePool implements KVMStoragePool {
   // KVMStoragePool)
   // does not apply for iScsiAdmStoragePool
   @Override
-  public KVMPhysicalDisk createPhysicalDisk(String name, PhysicalDiskFormat format,
+  public KvmPhysicalDisk createPhysicalDisk(String name, PhysicalDiskFormat format,
       Storage.ProvisioningType provisioningType, long size) {
     throw new UnsupportedOperationException("Creating a physical disk is not supported.");
   }
@@ -98,50 +82,50 @@ public class IscsiAdmStoragePool implements KVMStoragePool {
   // from KVMStorageProcessor.createVolume(CreateObjectCommand)
   // does not apply for iScsiAdmStoragePool
   @Override
-  public KVMPhysicalDisk createPhysicalDisk(String name, Storage.ProvisioningType provisioningType, long size) {
+  public KvmPhysicalDisk createPhysicalDisk(String name, Storage.ProvisioningType provisioningType, long size) {
     throw new UnsupportedOperationException("Creating a physical disk is not supported.");
   }
 
   @Override
   public boolean connectPhysicalDisk(String name, Map<String, String> details) {
-    return this._storageAdaptor.connectPhysicalDisk(name, this, details);
+    return storageAdaptor.connectPhysicalDisk(name, this, details);
   }
 
   @Override
-  public KVMPhysicalDisk getPhysicalDisk(String volumeUuid) {
-    return this._storageAdaptor.getPhysicalDisk(volumeUuid, this);
+  public KvmPhysicalDisk getPhysicalDisk(String volumeUuid) {
+    return storageAdaptor.getPhysicalDisk(volumeUuid, this);
   }
 
   @Override
   public boolean disconnectPhysicalDisk(String volumeUuid) {
-    return this._storageAdaptor.disconnectPhysicalDisk(volumeUuid, this);
+    return storageAdaptor.disconnectPhysicalDisk(volumeUuid, this);
   }
 
   @Override
   public boolean deletePhysicalDisk(String volumeUuid, Storage.ImageFormat format) {
-    return this._storageAdaptor.deletePhysicalDisk(volumeUuid, this, format);
+    return storageAdaptor.deletePhysicalDisk(volumeUuid, this, format);
   }
 
   // does not apply for iScsiAdmStoragePool
   @Override
-  public List<KVMPhysicalDisk> listPhysicalDisks() {
-    return this._storageAdaptor.listPhysicalDisks(_uuid, this);
+  public List<KvmPhysicalDisk> listPhysicalDisks() {
+    return storageAdaptor.listPhysicalDisks(uuid, this);
   }
 
   // does not apply for iScsiAdmStoragePool
   @Override
   public boolean refresh() {
-    return this._storageAdaptor.refresh(this);
+    return storageAdaptor.refresh(this);
   }
 
   @Override
   public boolean delete() {
-    return this._storageAdaptor.deleteStoragePool(this);
+    return storageAdaptor.deleteStoragePool(this);
   }
 
   @Override
   public boolean createFolder(String path) {
-    return this._storageAdaptor.createFolder(_uuid, path);
+    return storageAdaptor.createFolder(uuid, path);
   }
 
   @Override
@@ -151,21 +135,21 @@ public class IscsiAdmStoragePool implements KVMStoragePool {
 
   @Override
   public String getAuthUserName() {
-    return _authUsername;
+    return authUsername;
   }
 
   @Override
   public String getAuthSecret() {
-    return _authSecret;
+    return authSecret;
   }
 
   @Override
   public String getSourceDir() {
-    return _sourceDir;
+    return sourceDir;
   }
 
   @Override
   public String getLocalPath() {
-    return _localPath;
+    return localPath;
   }
 }

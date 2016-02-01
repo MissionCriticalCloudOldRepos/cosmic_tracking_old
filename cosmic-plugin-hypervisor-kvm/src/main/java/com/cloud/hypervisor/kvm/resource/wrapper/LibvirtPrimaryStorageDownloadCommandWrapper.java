@@ -1,20 +1,5 @@
 //
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
+
 //
 
 package com.cloud.hypervisor.kvm.resource.wrapper;
@@ -26,9 +11,9 @@ import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.storage.PrimaryStorageDownloadAnswer;
 import com.cloud.agent.api.storage.PrimaryStorageDownloadCommand;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
-import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePool;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePoolManager;
+import com.cloud.hypervisor.kvm.storage.KvmPhysicalDisk;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePool;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePoolManager;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.exception.CloudRuntimeException;
@@ -49,20 +34,20 @@ public final class LibvirtPrimaryStorageDownloadCommandWrapper
       tmpltname = tmplturl.substring(index + 1);
     }
 
-    KVMPhysicalDisk tmplVol = null;
-    KVMStoragePool secondaryPool = null;
-    final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+    KvmPhysicalDisk tmplVol = null;
+    KvmStoragePool secondaryPool = null;
+    final KvmStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
     try {
-      secondaryPool = storagePoolMgr.getStoragePoolByURI(mountpoint);
+      secondaryPool = storagePoolMgr.getStoragePoolByUri(mountpoint);
 
       /* Get template vol */
       if (tmpltname == null) {
         secondaryPool.refresh();
-        final List<KVMPhysicalDisk> disks = secondaryPool.listPhysicalDisks();
+        final List<KvmPhysicalDisk> disks = secondaryPool.listPhysicalDisks();
         if (disks == null || disks.isEmpty()) {
           return new PrimaryStorageDownloadAnswer("Failed to get volumes from pool: " + secondaryPool.getUuid());
         }
-        for (final KVMPhysicalDisk disk : disks) {
+        for (final KvmPhysicalDisk disk : disks) {
           if (disk.getName().endsWith("qcow2")) {
             tmplVol = disk;
             break;
@@ -76,10 +61,10 @@ public final class LibvirtPrimaryStorageDownloadCommandWrapper
       }
 
       /* Copy volume to primary storage */
-      final KVMStoragePool primaryPool = storagePoolMgr.getStoragePool(command.getPool().getType(),
+      final KvmStoragePool primaryPool = storagePoolMgr.getStoragePool(command.getPool().getType(),
           command.getPoolUuid());
 
-      final KVMPhysicalDisk primaryVol = storagePoolMgr.copyPhysicalDisk(tmplVol, UUID.randomUUID().toString(),
+      final KvmPhysicalDisk primaryVol = storagePoolMgr.copyPhysicalDisk(tmplVol, UUID.randomUUID().toString(),
           primaryPool, 0);
 
       return new PrimaryStorageDownloadAnswer(primaryVol.getName(), primaryVol.getSize());

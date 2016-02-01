@@ -1,22 +1,3 @@
-//
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
-//
-
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
 import java.util.List;
@@ -32,9 +13,9 @@ import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.MigrateAnswer;
 import com.cloud.agent.api.MigrateCommand;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
-import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.DiskDef;
-import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.InterfaceDef;
-import com.cloud.hypervisor.kvm.resource.MigrateKVMAsync;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.DiskDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef;
+import com.cloud.hypervisor.kvm.resource.MigrateKvmAsync;
 import com.cloud.hypervisor.kvm.resource.VifDriver;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
@@ -75,20 +56,20 @@ public final class LibvirtMigrateCommandWrapper
       /*
        * We replace the private IP address with the address of the destination host. This is because the VNC listens on
        * the private IP address of the hypervisor, but that address is ofcourse different on the target host.
-       * 
+       *
        * MigrateCommand.getDestinationIp() returns the private IP address of the target hypervisor. So it's safe to use.
-       * 
+       *
        * The Domain.migrate method from libvirt supports passing a different XML description for the instance to be used
        * on the target host.
-       * 
+       *
        * This is supported by libvirt-java from version 0.50.0
-       * 
+       *
        * CVE-2015-3252: Get XML with sensitive information suitable for migration by using VIR_DOMAIN_XML_MIGRATABLE
        * flag (value = 8) https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainXMLFlags
-       * 
+       *
        * Use VIR_DOMAIN_XML_SECURE (value = 1) prior to v1.0.0.
        */
-      int xmlFlag = conn.getLibVirVersion() >= 1000000 ? 8 : 1; // 1000000 equals v1.0.0
+      final int xmlFlag = conn.getLibVirVersion() >= 1000000 ? 8 : 1; // 1000000 equals v1.0.0
 
       xmlDesc = dm.getXMLDesc(xmlFlag).replace(libvirtComputingResource.getPrivateIp(), command.getDestinationIp());
 
@@ -97,7 +78,7 @@ public final class LibvirtMigrateCommandWrapper
       // run migration in thread so we can monitor it
       s_logger.info("Live migration of instance " + vmName + " initiated");
       final ExecutorService executor = Executors.newFixedThreadPool(1);
-      final Callable<Domain> worker = new MigrateKVMAsync(libvirtComputingResource, dm, dconn, xmlDesc, vmName,
+      final Callable<Domain> worker = new MigrateKvmAsync(libvirtComputingResource, dm, dconn, xmlDesc, vmName,
           command.getDestinationIp());
       final Future<Domain> migrateThread = executor.submit(worker);
       executor.shutdown();
@@ -105,8 +86,7 @@ public final class LibvirtMigrateCommandWrapper
       while (!executor.isTerminated()) {
         Thread.sleep(100);
         sleeptime += 100;
-        if (sleeptime == 1000) { // wait 1s before attempting to set downtime on migration, since I don't know of a
-                                 // VIR_DOMAIN_MIGRATING state
+        if (sleeptime == 1000) {
           final int migrateDowntime = libvirtComputingResource.getMigrateDowntime();
           if (migrateDowntime > 0) {
             try {
@@ -179,9 +159,8 @@ public final class LibvirtMigrateCommandWrapper
       }
     }
 
-    if (result != null) {
-    } else {
-      libvirtComputingResource.destroyNetworkRulesForVM(conn, vmName);
+    if (result == null) {
+      libvirtComputingResource.destroyNetworkRulesForVm(conn, vmName);
       for (final InterfaceDef iface : ifaces) {
         // We don't know which "traffic type" is associated with
         // each interface at this point, so inform all vif drivers

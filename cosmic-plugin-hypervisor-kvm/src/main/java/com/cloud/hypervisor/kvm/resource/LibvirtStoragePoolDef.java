@@ -1,184 +1,169 @@
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
 package com.cloud.hypervisor.kvm.resource;
 
 public class LibvirtStoragePoolDef {
   public enum PoolType {
     ISCSI("iscsi"), NETFS("netfs"), LOGICAL("logical"), DIR("dir"), RBD("rbd"), GLUSTERFS("glusterfs");
-    String _poolType;
+    String poolType;
 
     PoolType(String poolType) {
-      _poolType = poolType;
+      this.poolType = poolType;
     }
 
     @Override
     public String toString() {
-      return _poolType;
+      return poolType;
     }
   }
 
   public enum AuthenticationType {
     CHAP("chap"), CEPH("ceph");
-    String _authType;
+    String authType;
 
     AuthenticationType(String authType) {
-      _authType = authType;
+      this.authType = authType;
     }
 
     @Override
     public String toString() {
-      return _authType;
+      return authType;
     }
   }
 
-  private PoolType _poolType;
-  private String _poolName;
-  private String _uuid;
-  private String _sourceHost;
-  private int _sourcePort;
-  private String _sourceDir;
-  private String _targetPath;
-  private String _authUsername;
-  private AuthenticationType _authType;
-  private String _secretUuid;
+  private final PoolType poolType;
+  private final String poolName;
+  private final String uuid;
+  private final String sourceHost;
+  private int sourcePort;
+  private final String sourceDir;
+  private String targetPath;
+  private String authUsername;
+  private AuthenticationType authType;
+  private String secretUuid;
 
   public LibvirtStoragePoolDef(PoolType type, String poolName, String uuid, String host, int port, String dir,
       String targetPath) {
-    _poolType = type;
-    _poolName = poolName;
-    _uuid = uuid;
-    _sourceHost = host;
-    _sourcePort = port;
-    _sourceDir = dir;
-    _targetPath = targetPath;
+    poolType = type;
+    this.poolName = poolName;
+    this.uuid = uuid;
+    sourceHost = host;
+    sourcePort = port;
+    sourceDir = dir;
+    this.targetPath = targetPath;
   }
 
   public LibvirtStoragePoolDef(PoolType type, String poolName, String uuid, String host, String dir,
       String targetPath) {
-    _poolType = type;
-    _poolName = poolName;
-    _uuid = uuid;
-    _sourceHost = host;
-    _sourceDir = dir;
-    _targetPath = targetPath;
+    poolType = type;
+    this.poolName = poolName;
+    this.uuid = uuid;
+    sourceHost = host;
+    sourceDir = dir;
+    this.targetPath = targetPath;
   }
 
   public LibvirtStoragePoolDef(PoolType type, String poolName, String uuid, String sourceHost, int sourcePort,
       String dir, String authUsername, AuthenticationType authType,
       String secretUuid) {
-    _poolType = type;
-    _poolName = poolName;
-    _uuid = uuid;
-    _sourceHost = sourceHost;
-    _sourcePort = sourcePort;
-    _sourceDir = dir;
-    _authUsername = authUsername;
-    _authType = authType;
-    _secretUuid = secretUuid;
+    poolType = type;
+    this.poolName = poolName;
+    this.uuid = uuid;
+    this.sourceHost = sourceHost;
+    this.sourcePort = sourcePort;
+    sourceDir = dir;
+    this.authUsername = authUsername;
+    this.authType = authType;
+    this.secretUuid = secretUuid;
   }
 
   public String getPoolName() {
-    return _poolName;
+    return poolName;
   }
 
   public PoolType getPoolType() {
-    return _poolType;
+    return poolType;
   }
 
   public String getSourceHost() {
-    return _sourceHost;
+    return sourceHost;
   }
 
   public int getSourcePort() {
-    return _sourcePort;
+    return sourcePort;
   }
 
   public String getSourceDir() {
-    return _sourceDir;
+    return sourceDir;
   }
 
   public String getTargetPath() {
-    return _targetPath;
+    return targetPath;
   }
 
   public String getAuthUserName() {
-    return _authUsername;
+    return authUsername;
   }
 
-  public String getSecretUUID() {
-    return _secretUuid;
+  public String getSecretUuid() {
+    return secretUuid;
   }
 
   public AuthenticationType getAuthType() {
-    return _authType;
+    return authType;
   }
 
   @Override
   public String toString() {
-    StringBuilder storagePoolBuilder = new StringBuilder();
-    if (_poolType == PoolType.GLUSTERFS) {
+    final StringBuilder storagePoolBuilder = new StringBuilder();
+    if (poolType == PoolType.GLUSTERFS) {
       /* libvirt mounts a Gluster volume, similar to NFS */
       storagePoolBuilder.append("<pool type='netfs'>\n");
     } else {
       storagePoolBuilder.append("<pool type='");
-      storagePoolBuilder.append(_poolType);
+      storagePoolBuilder.append(poolType);
       storagePoolBuilder.append("'>\n");
     }
 
-    storagePoolBuilder.append("<name>" + _poolName + "</name>\n");
-    if (_uuid != null)
-      storagePoolBuilder.append("<uuid>" + _uuid + "</uuid>\n");
-    if (_poolType == PoolType.NETFS) {
+    storagePoolBuilder.append("<name>" + poolName + "</name>\n");
+    if (uuid != null) {
+      storagePoolBuilder.append("<uuid>" + uuid + "</uuid>\n");
+    }
+    if (poolType == PoolType.NETFS) {
       storagePoolBuilder.append("<source>\n");
-      storagePoolBuilder.append("<host name='" + _sourceHost + "'/>\n");
-      storagePoolBuilder.append("<dir path='" + _sourceDir + "'/>\n");
+      storagePoolBuilder.append("<host name='" + sourceHost + "'/>\n");
+      storagePoolBuilder.append("<dir path='" + sourceDir + "'/>\n");
       storagePoolBuilder.append("</source>\n");
     }
-    if (_poolType == PoolType.RBD) {
+    if (poolType == PoolType.RBD) {
       storagePoolBuilder.append("<source>\n");
-      storagePoolBuilder.append("<host name='" + _sourceHost + "' port='" + _sourcePort + "'/>\n");
-      storagePoolBuilder.append("<name>" + _sourceDir + "</name>\n");
-      if (_authUsername != null) {
-        storagePoolBuilder.append("<auth username='" + _authUsername + "' type='" + _authType + "'>\n");
-        storagePoolBuilder.append("<secret uuid='" + _secretUuid + "'/>\n");
+      storagePoolBuilder.append("<host name='" + sourceHost + "' port='" + sourcePort + "'/>\n");
+      storagePoolBuilder.append("<name>" + sourceDir + "</name>\n");
+      if (authUsername != null) {
+        storagePoolBuilder.append("<auth username='" + authUsername + "' type='" + authType + "'>\n");
+        storagePoolBuilder.append("<secret uuid='" + secretUuid + "'/>\n");
         storagePoolBuilder.append("</auth>\n");
       }
       storagePoolBuilder.append("</source>\n");
     }
-    if (_poolType == PoolType.GLUSTERFS) {
+    if (poolType == PoolType.GLUSTERFS) {
       storagePoolBuilder.append("<source>\n");
       storagePoolBuilder.append("<host name='");
-      storagePoolBuilder.append(_sourceHost);
-      if (_sourcePort != 0) {
+      storagePoolBuilder.append(sourceHost);
+      if (sourcePort != 0) {
         storagePoolBuilder.append("' port='");
-        storagePoolBuilder.append(_sourcePort);
+        storagePoolBuilder.append(sourcePort);
       }
       storagePoolBuilder.append("'/>\n");
       storagePoolBuilder.append("<dir path='");
-      storagePoolBuilder.append(_sourceDir);
+      storagePoolBuilder.append(sourceDir);
       storagePoolBuilder.append("'/>\n");
       storagePoolBuilder.append("<format type='");
-      storagePoolBuilder.append(_poolType);
+      storagePoolBuilder.append(poolType);
       storagePoolBuilder.append("'/>\n");
       storagePoolBuilder.append("</source>\n");
     }
-    if (_poolType != PoolType.RBD) {
+    if (poolType != PoolType.RBD) {
       storagePoolBuilder.append("<target>\n");
-      storagePoolBuilder.append("<path>" + _targetPath + "</path>\n");
+      storagePoolBuilder.append("<path>" + targetPath + "</path>\n");
       storagePoolBuilder.append("</target>\n");
     }
     storagePoolBuilder.append("</pool>\n");

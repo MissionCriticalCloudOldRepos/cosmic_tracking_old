@@ -1,19 +1,3 @@
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
 package com.cloud.hypervisor.kvm.storage;
 
 import java.io.File;
@@ -28,8 +12,10 @@ import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
 import org.apache.log4j.Logger;
 import org.libvirt.StoragePool;
 
-public class LibvirtStoragePool implements KVMStoragePool {
-  private static final Logger s_logger = Logger.getLogger(LibvirtStoragePool.class);
+public class LibvirtStoragePool implements KvmStoragePool {
+
+  private final Logger logger = Logger.getLogger(LibvirtStoragePool.class);
+
   protected String uuid;
   protected long capacity;
   protected long used;
@@ -38,8 +24,8 @@ public class LibvirtStoragePool implements KVMStoragePool {
   protected String localPath;
   protected PhysicalDiskFormat defaultFormat;
   protected StoragePoolType type;
-  protected StorageAdaptor _storageAdaptor;
-  protected StoragePool _pool;
+  protected StorageAdaptor storageAdaptor;
+  protected StoragePool pool;
   protected String authUsername;
   protected String authSecret;
   protected String sourceHost;
@@ -50,12 +36,11 @@ public class LibvirtStoragePool implements KVMStoragePool {
     this.uuid = uuid;
     this.name = name;
     this.type = type;
-    this._storageAdaptor = adaptor;
-    this.capacity = 0;
-    this.used = 0;
-    this.available = 0;
-    this._pool = pool;
-
+    storageAdaptor = adaptor;
+    capacity = 0;
+    used = 0;
+    available = 0;
+    this.pool = pool;
   }
 
   public void setCapacity(long capacity) {
@@ -64,7 +49,7 @@ public class LibvirtStoragePool implements KVMStoragePool {
 
   @Override
   public long getCapacity() {
-    return this.capacity;
+    return capacity;
   }
 
   public void setUsed(long used) {
@@ -77,25 +62,25 @@ public class LibvirtStoragePool implements KVMStoragePool {
 
   @Override
   public long getUsed() {
-    return this.used;
+    return used;
   }
 
   @Override
   public long getAvailable() {
-    return this.available;
+    return available;
   }
 
   public StoragePoolType getStoragePoolType() {
-    return this.type;
+    return type;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   @Override
   public String getUuid() {
-    return this.uuid;
+    return uuid;
   }
 
   @Override
@@ -108,30 +93,30 @@ public class LibvirtStoragePool implements KVMStoragePool {
   }
 
   @Override
-  public KVMPhysicalDisk createPhysicalDisk(String name,
+  public KvmPhysicalDisk createPhysicalDisk(String name,
       PhysicalDiskFormat format, Storage.ProvisioningType provisioningType, long size) {
-    return this._storageAdaptor.createPhysicalDisk(name, this, format, provisioningType, size);
+    return storageAdaptor.createPhysicalDisk(name, this, format, provisioningType, size);
   }
 
   @Override
-  public KVMPhysicalDisk createPhysicalDisk(String name, Storage.ProvisioningType provisioningType, long size) {
-    return this._storageAdaptor.createPhysicalDisk(name, this,
-        this.getDefaultFormat(), provisioningType, size);
+  public KvmPhysicalDisk createPhysicalDisk(String name, Storage.ProvisioningType provisioningType, long size) {
+    return storageAdaptor.createPhysicalDisk(name, this,
+        getDefaultFormat(), provisioningType, size);
   }
 
   @Override
-  public KVMPhysicalDisk getPhysicalDisk(String volumeUid) {
-    KVMPhysicalDisk disk = null;
+  public KvmPhysicalDisk getPhysicalDisk(String volumeUid) {
+    KvmPhysicalDisk disk = null;
     String volumeUuid = volumeUid;
     if (volumeUid.contains("/")) {
-      String[] tokens = volumeUid.split("/");
+      final String[] tokens = volumeUid.split("/");
       volumeUuid = tokens[tokens.length - 1];
     }
     try {
-      disk = this._storageAdaptor.getPhysicalDisk(volumeUuid, this);
-    } catch (CloudRuntimeException e) {
-      if ((this.getStoragePoolType() != StoragePoolType.NetworkFilesystem)
-          && (this.getStoragePoolType() != StoragePoolType.Filesystem)) {
+      disk = storageAdaptor.getPhysicalDisk(volumeUuid, this);
+    } catch (final CloudRuntimeException e) {
+      if (getStoragePoolType() != StoragePoolType.NetworkFilesystem
+          && getStoragePoolType() != StoragePoolType.Filesystem) {
         throw e;
       }
     }
@@ -139,16 +124,16 @@ public class LibvirtStoragePool implements KVMStoragePool {
     if (disk != null) {
       return disk;
     }
-    s_logger.debug("find volume bypass libvirt");
+    logger.debug("find volume bypass libvirt");
     // For network file system or file system, try to use java file to find the volume, instead of through libvirt.
     // BUG:CLOUDSTACK-4459
-    String localPoolPath = this.getLocalPath();
-    File f = new File(localPoolPath + File.separator + volumeUuid);
+    final String localPoolPath = getLocalPath();
+    final File f = new File(localPoolPath + File.separator + volumeUuid);
     if (!f.exists()) {
-      s_logger.debug("volume: " + volumeUuid + " not exist on storage pool");
+      logger.debug("volume: " + volumeUuid + " not exist on storage pool");
       throw new CloudRuntimeException("Can't find volume:" + volumeUuid);
     }
-    disk = new KVMPhysicalDisk(f.getPath(), volumeUuid, this);
+    disk = new KvmPhysicalDisk(f.getPath(), volumeUuid, this);
     disk.setFormat(PhysicalDiskFormat.QCOW2);
     disk.setSize(f.length());
     disk.setVirtualSize(f.length());
@@ -167,22 +152,22 @@ public class LibvirtStoragePool implements KVMStoragePool {
 
   @Override
   public boolean deletePhysicalDisk(String uuid, Storage.ImageFormat format) {
-    return this._storageAdaptor.deletePhysicalDisk(uuid, this, format);
+    return storageAdaptor.deletePhysicalDisk(uuid, this, format);
   }
 
   @Override
-  public List<KVMPhysicalDisk> listPhysicalDisks() {
-    return this._storageAdaptor.listPhysicalDisks(this.uuid, this);
+  public List<KvmPhysicalDisk> listPhysicalDisks() {
+    return storageAdaptor.listPhysicalDisks(uuid, this);
   }
 
   @Override
   public boolean refresh() {
-    return this._storageAdaptor.refresh(this);
+    return storageAdaptor.refresh(this);
   }
 
   @Override
   public boolean isExternalSnapshot() {
-    if (this.type == StoragePoolType.CLVM || type == StoragePoolType.RBD) {
+    if (type == StoragePoolType.CLVM || type == StoragePoolType.RBD) {
       return true;
     }
     return false;
@@ -190,7 +175,7 @@ public class LibvirtStoragePool implements KVMStoragePool {
 
   @Override
   public String getLocalPath() {
-    return this.localPath;
+    return localPath;
   }
 
   public void setLocalPath(String localPath) {
@@ -199,7 +184,7 @@ public class LibvirtStoragePool implements KVMStoragePool {
 
   @Override
   public String getAuthUserName() {
-    return this.authUsername;
+    return authUsername;
   }
 
   public void setAuthUsername(String authUsername) {
@@ -208,7 +193,7 @@ public class LibvirtStoragePool implements KVMStoragePool {
 
   @Override
   public String getAuthSecret() {
-    return this.authSecret;
+    return authSecret;
   }
 
   public void setAuthSecret(String authSecret) {
@@ -217,56 +202,56 @@ public class LibvirtStoragePool implements KVMStoragePool {
 
   @Override
   public String getSourceHost() {
-    return this.sourceHost;
+    return sourceHost;
   }
 
   public void setSourceHost(String host) {
-    this.sourceHost = host;
+    sourceHost = host;
   }
 
   @Override
   public int getSourcePort() {
-    return this.sourcePort;
+    return sourcePort;
   }
 
   public void setSourcePort(int port) {
-    this.sourcePort = port;
+    sourcePort = port;
   }
 
   @Override
   public String getSourceDir() {
-    return this.sourceDir;
+    return sourceDir;
   }
 
   public void setSourceDir(String dir) {
-    this.sourceDir = dir;
+    sourceDir = dir;
   }
 
   @Override
   public StoragePoolType getType() {
-    return this.type;
+    return type;
   }
 
   public StoragePool getPool() {
-    return this._pool;
+    return pool;
   }
 
   public void setPool(StoragePool pool) {
-    this._pool = pool;
+    this.pool = pool;
   }
 
   @Override
   public boolean delete() {
     try {
-      return this._storageAdaptor.deleteStoragePool(this);
-    } catch (Exception e) {
-      s_logger.debug("Failed to delete storage pool", e);
+      return storageAdaptor.deleteStoragePool(this);
+    } catch (final Exception e) {
+      logger.debug("Failed to delete storage pool", e);
     }
     return false;
   }
 
   @Override
   public boolean createFolder(String path) {
-    return this._storageAdaptor.createFolder(this.uuid, path);
+    return storageAdaptor.createFolder(uuid, path);
   }
 }

@@ -1,22 +1,3 @@
-//
-// Licensed to the Apache Software Foundation (ASF) under one
-// or more contributor license agreements.  See the NOTICE file
-// distributed with this work for additional information
-// regarding copyright ownership.  The ASF licenses this file
-// to you under the Apache License, Version 2.0 (the
-// "License"); you may not use this file except in compliance
-// with the License.  You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.  See the License for the
-// specific language governing permissions and limitations
-// under the License.
-//
-
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
 import java.io.File;
@@ -29,9 +10,9 @@ import com.cloud.agent.api.CreatePrivateTemplateFromSnapshotCommand;
 import com.cloud.agent.api.storage.CreatePrivateTemplateAnswer;
 import com.cloud.exception.InternalErrorException;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
-import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePool;
-import com.cloud.hypervisor.kvm.storage.KVMStoragePoolManager;
+import com.cloud.hypervisor.kvm.storage.KvmPhysicalDisk;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePool;
+import com.cloud.hypervisor.kvm.storage.KvmStoragePoolManager;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.storage.StorageLayer;
@@ -56,22 +37,22 @@ public final class LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper
 
     final String templateFolder = command.getAccountId() + File.separator + command.getNewTemplateId();
     final String templateInstallFolder = "template/tmpl/" + templateFolder;
-    final String tmplName = libvirtUtilitiesHelper.generateUUIDName();
+    final String tmplName = libvirtUtilitiesHelper.generateUuidName();
     final String tmplFileName = tmplName + ".qcow2";
 
-    KVMStoragePool secondaryPool = null;
-    KVMStoragePool snapshotPool = null;
-    final KVMStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
+    KvmStoragePool secondaryPool = null;
+    KvmStoragePool snapshotPool = null;
+    final KvmStoragePoolManager storagePoolMgr = libvirtComputingResource.getStoragePoolMgr();
 
     try {
       String snapshotPath = command.getSnapshotUuid();
       final int index = snapshotPath.lastIndexOf("/");
       snapshotPath = snapshotPath.substring(0, index);
 
-      snapshotPool = storagePoolMgr.getStoragePoolByURI(command.getSecondaryStorageUrl() + snapshotPath);
-      secondaryPool = storagePoolMgr.getStoragePoolByURI(command.getSecondaryStorageUrl());
+      snapshotPool = storagePoolMgr.getStoragePoolByUri(command.getSecondaryStorageUrl() + snapshotPath);
+      secondaryPool = storagePoolMgr.getStoragePoolByUri(command.getSecondaryStorageUrl());
 
-      final KVMPhysicalDisk snapshot = snapshotPool.getPhysicalDisk(command.getSnapshotName());
+      final KvmPhysicalDisk snapshot = snapshotPool.getPhysicalDisk(command.getSnapshotName());
 
       final String templatePath = secondaryPool.getLocalPath() + File.separator + templateInstallFolder;
 
@@ -88,7 +69,7 @@ public final class LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper
       scriptCommand.add("-f", snapshot.getPath());
       scriptCommand.execute();
 
-      final Processor qcow2Processor = libvirtUtilitiesHelper.buildQCOW2Processor(storage);
+      final Processor qcow2Processor = libvirtUtilitiesHelper.buildQcow2Processor(storage);
       final FormatInfo info = qcow2Processor.process(templatePath, null, tmplName);
       final TemplateLocation loc = libvirtUtilitiesHelper.buildTemplateLocation(storage, templatePath);
 
