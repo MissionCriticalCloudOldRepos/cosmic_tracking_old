@@ -40,7 +40,6 @@
     <module>engine</module>
     <module>plugins</module>
     <module>framework</module>
-    <module>client</module>
     <module>services</module>
     <module>maven-standard</module>
   </modules>
@@ -502,32 +501,6 @@
               <exclude>tools/devcloud/src/deps/boxes/basebox-build/definition.rb</exclude>
               <exclude>tools/devcloud/src/deps/boxes/basebox-build/preseed.cfg</exclude>
               <exclude>tools/marvin/Marvin.egg-info/*</exclude>
-              <exclude>ui/css/token-input-facebook.css</exclude>
-              <exclude>ui/lib/flot/jquery.colorhelpers.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.crosshair.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.fillbetween.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.image.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.navigate.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.pie.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.resize.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.selection.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.stack.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.symbol.js</exclude>
-              <exclude>ui/lib/flot/jquery.flot.threshold.js</exclude>
-              <exclude>ui/lib/jquery-ui/css/jquery-ui.css</exclude>
-              <exclude>ui/lib/jquery-ui/index.html</exclude>
-              <exclude>ui/lib/jquery-ui/js/jquery-ui.js</exclude>
-              <exclude>ui/lib/jquery.cookies.js</exclude>
-              <exclude>ui/lib/jquery.easing.js</exclude>
-              <exclude>ui/lib/jquery.js</exclude>
-              <exclude>ui/lib/jquery.md5.js</exclude>
-              <exclude>ui/lib/jquery.validate.js</exclude>
-              <exclude>ui/lib/jquery.tokeninput.js</exclude>
-              <exclude>ui/lib/qunit/qunit.css</exclude>
-              <exclude>ui/lib/qunit/qunit.js</exclude>
-              <exclude>ui/lib/reset.css</exclude>
-              <exclude>ui/lib/require.js</exclude>
               <exclude>systemvm/conf/agent.properties</exclude>
               <exclude>systemvm/conf/environment.properties</exclude>
               <exclude>systemvm/js/jquery.js</exclude>
