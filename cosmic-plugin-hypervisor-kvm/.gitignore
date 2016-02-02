@@ -32,3 +32,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Checkstyle settings
+.checkstyle
