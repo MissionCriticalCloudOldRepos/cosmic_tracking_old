@@ -1018,20 +1018,5 @@
         </dependency>
       </dependencies>
     </profile>
-    <profile>
-      <id>quickcloud</id>
-      <activation>
-        <property>
-          <name>quickcloud</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-quickcloud</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
   </profiles>
 </project>
