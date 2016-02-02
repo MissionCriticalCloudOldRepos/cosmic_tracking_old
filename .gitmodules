@@ -18,3 +18,7 @@
 	path = cosmic-plugin-hypervisor-xenserver
 	url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git
 	branch = master
+[submodule "cosmic-packaging"]
+	path = cosmic-packaging
+	url = git@github.com:MissionCriticalCloud/cosmic-packaging.git
+	branch = master
