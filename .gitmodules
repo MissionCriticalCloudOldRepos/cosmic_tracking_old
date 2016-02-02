@@ -22,3 +22,7 @@
 	path = cosmic-packaging
 	url = git@github.com:MissionCriticalCloud/cosmic-packaging.git
 	branch = master
+[submodule "cosmic-ui"]
+	path = cosmic-ui
+	url = git@github.com:MissionCriticalCloud/cosmic-ui.git
+	branch = master
