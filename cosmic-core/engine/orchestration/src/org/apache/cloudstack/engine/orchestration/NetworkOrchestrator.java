@@ -422,16 +422,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
             @Override
             public void doInTransactionWithoutResult(final TransactionStatus status) {
                 NetworkOfferingVO offering = null;
-                //#1 - quick cloud network offering
-                if (_networkOfferingDao.findByUniqueName(NetworkOffering.QuickCloudNoServices) == null) {
-                    offering = _configMgr.createNetworkOffering(NetworkOffering.QuickCloudNoServices, "Offering for QuickCloud with no services", TrafficType.Guest, null, true,
-                            Availability.Optional, null, new HashMap<Network.Service, Set<Network.Provider>>(), true, Network.GuestType.Shared, false, null, true, null, true,
-                            false, null, false, null, true);
-                    offering.setState(NetworkOffering.State.Enabled);
-                    _networkOfferingDao.update(offering.getId(), offering);
-                }
-
-                //#2 - SG enabled network offering
+                //#1 - SG enabled network offering
                 if (_networkOfferingDao.findByUniqueName(NetworkOffering.DefaultSharedNetworkOfferingWithSGService) == null) {
                     offering = _configMgr.createNetworkOffering(NetworkOffering.DefaultSharedNetworkOfferingWithSGService, "Offering for Shared Security group enabled networks",
                             TrafficType.Guest, null, true, Availability.Optional, null, defaultSharedNetworkOfferingProviders, true, Network.GuestType.Shared, false, null, true,
@@ -440,7 +431,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
                     _networkOfferingDao.update(offering.getId(), offering);
                 }
 
-                //#3 - shared network offering with no SG service
+                //#2 - shared network offering with no SG service
                 if (_networkOfferingDao.findByUniqueName(NetworkOffering.DefaultSharedNetworkOffering) == null) {
                     offering = _configMgr.createNetworkOffering(NetworkOffering.DefaultSharedNetworkOffering, "Offering for Shared networks", TrafficType.Guest, null, true,
                             Availability.Optional, null, defaultSharedNetworkOfferingProviders, true, Network.GuestType.Shared, false, null, true, null, true, false, null, false,
@@ -449,7 +440,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
                     _networkOfferingDao.update(offering.getId(), offering);
                 }
 
-                //#4 - default isolated offering with Source nat service
+                //#3 - default isolated offering with Source nat service
                 if (_networkOfferingDao.findByUniqueName(NetworkOffering.DefaultIsolatedNetworkOfferingWithSourceNatService) == null) {
                     offering = _configMgr.createNetworkOffering(NetworkOffering.DefaultIsolatedNetworkOfferingWithSourceNatService,
                             "Offering for Isolated networks with Source Nat service enabled", TrafficType.Guest, null, false, Availability.Required, null,
@@ -460,7 +451,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
                     _networkOfferingDao.update(offering.getId(), offering);
                 }
 
-                //#5 - default vpc offering with LB service
+                //#4 - default vpc offering with LB service
                 if (_networkOfferingDao.findByUniqueName(NetworkOffering.DefaultIsolatedNetworkOfferingForVpcNetworks) == null) {
                     offering = _configMgr.createNetworkOffering(NetworkOffering.DefaultIsolatedNetworkOfferingForVpcNetworks,
                             "Offering for Isolated VPC networks with Source Nat service enabled", TrafficType.Guest, null, false, Availability.Optional, null,
@@ -469,7 +460,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
                     _networkOfferingDao.update(offering.getId(), offering);
                 }
 
-                //#6 - default vpc offering with no LB service
+                //#5 - default vpc offering with no LB service
                 if (_networkOfferingDao.findByUniqueName(NetworkOffering.DefaultIsolatedNetworkOfferingForVpcNetworksNoLB) == null) {
                     //remove LB service
                     defaultVPCOffProviders.remove(Service.Lb);
@@ -480,7 +471,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
                     _networkOfferingDao.update(offering.getId(), offering);
                 }
 
-                //#7 - isolated offering with source nat disabled
+                //#6 - isolated offering with source nat disabled
                 if (_networkOfferingDao.findByUniqueName(NetworkOffering.DefaultIsolatedNetworkOffering) == null) {
                     offering = _configMgr.createNetworkOffering(NetworkOffering.DefaultIsolatedNetworkOffering, "Offering for Isolated networks with no Source Nat service",
                             TrafficType.Guest, null, true, Availability.Optional, null, defaultIsolatedNetworkOfferingProviders, true, Network.GuestType.Isolated, false, null,
@@ -489,7 +480,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
                     _networkOfferingDao.update(offering.getId(), offering);
                 }
 
-                //#8 - network offering with internal lb service
+                //#7 - network offering with internal lb service
                 final Map<Network.Service, Set<Network.Provider>> internalLbOffProviders = new HashMap<Network.Service, Set<Network.Provider>>();
                 final Set<Network.Provider> defaultVpcProvider = new HashSet<Network.Provider>();
                 defaultVpcProvider.add(Network.Provider.VPCVirtualRouter);
