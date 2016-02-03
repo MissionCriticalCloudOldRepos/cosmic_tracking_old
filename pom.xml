@@ -99,9 +99,10 @@
   </organization>
 
   <modules>
+    <<module>cosmic-client</module>
     <module>cosmic-core</module>
-    <module>cosmic-plugin-hypervisor-ovm3</module>
     <module>cosmic-plugin-hypervisor-kvm</module>
+    <module>cosmic-plugin-hypervisor-ovm3</module>
     <module>cosmic-plugin-hypervisor-xenserver</module>
   </modules>
 
