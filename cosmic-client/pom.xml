@@ -468,7 +468,7 @@
             <configuration>
               <target>
                 <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/../scripts"/>
+                  <fileset dir="${basedir}/../cosmic-core/scripts"/>
                 </copy>
                 <!-- CLOUDSTACK-1304 -->
                 <chmod perm="755"
@@ -503,7 +503,7 @@
                   </fileset>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/bin">
-                  <fileset dir="${basedir}/../setup/bindir">
+                  <fileset dir="${basedir}/../cosmic-core/setup/bindir">
                     <include name="*.in"/>
                   </fileset>
                   <globmapper from="*.in" to="*"/>
@@ -525,7 +525,7 @@
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/scripts/db">
-                  <fileset dir="${basedir}/../setup/db">
+                  <fileset dir="${basedir}/../cosmic-core/setup/db">
                     <include name="**/*"/>
                   </fileset>
                   <filterchain>
@@ -583,7 +583,7 @@
                   replace="classpath:nonossComponentContext.xml" byline="true"/>
                 <copy overwrite="true"
                   todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/../plugins/network-elements/cisco-vnmc/scripts">
+                  <fileset dir="${basedir}/../cosmic-core/plugins/network-elements/cisco-vnmc/scripts">
                     <include name="**/*"/>
                   </fileset>
                 </copy>
@@ -659,7 +659,7 @@
                 <configuration>
                   <target>
                     <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/vms">
-                      <fileset dir="${basedir}/../systemvm/dist">
+                      <fileset dir="${basedir}/../cosmic-core/systemvm/dist">
                         <include name="systemvm.zip"/>
                         <include name="systemvm.iso"/>
                       </fileset>
@@ -693,7 +693,7 @@
                 <configuration>
                   <target>
                     <copy todir="./target">
-                      <fileset dir="../scripts/installer/windows/">
+                      <fileset dir="../cosmic-core/scripts/installer/windows/">
                         <include name="start.bat"/>
                         <include name="acs_license.rtf"/>
                         <include name="optionstheme.xml"/>
@@ -710,14 +710,14 @@
                         <include name="**/*" />
                       </fileset>
                     </copy>
-                    <copy file="../scripts/storage/secondary/cloud-install-sys-tmplt.py" tofile="target/scripts/cloud-install-sys-tmplt.py" />
+                    <copy file="../cosmic-core/scripts/storage/secondary/cloud-install-sys-tmplt.py" tofile="target/scripts/cloud-install-sys-tmplt.py" />
                     <copy todir="./target/scripts">
                       <fileset dir="./target/utilities/bin">
                         <include name="**/*" />
                       </fileset>
                     </copy>
                     <copy todir="./target/python-site-packages">
-                      <fileset dir="../python/lib">
+                      <fileset dir="../cosmic-core/python/lib">
                         <include name="**/*" />
                       </fileset>
                     </copy>
@@ -846,9 +846,9 @@
                     </extensions>
                     <arguments>-dSourceClient=SourceDir\client -dSetupPathDir=SourceDir\setup -dUtilitiesPathDir=SourceDir\scripts -dPythonSitePackagesDir=SourceDir\python-site-packages</arguments>
                     <sourceFiles>
-                      <sourceFile>../scripts/installer/windows/acs.wxs</sourceFile>
-                      <sourceFile>../scripts/installer/windows/WixInstallerDialog.wxs</sourceFile>
-                      <sourceFile>../scripts/installer/windows/Setup_Databases.wxs</sourceFile>
+                      <sourceFile>../cosmic-core/scripts/installer/windows/acs.wxs</sourceFile>
+                      <sourceFile>../cosmic-core/scripts/installer/windows/WixInstallerDialog.wxs</sourceFile>
+                      <sourceFile>../cosmic-core/scripts/installer/windows/Setup_Databases.wxs</sourceFile>
                       <sourceFile>target/client.wxs</sourceFile>
                       <sourceFile>target/setupdb.wxs</sourceFile>
                       <sourceFile>target/utilities.wxs</sourceFile>
@@ -886,7 +886,7 @@
                       <extension>WixUtilExtension</extension>
                     </extensions>
                     <sourceFiles>
-                      <sourceFile>../scripts/installer/windows/dependencies.wxs</sourceFile>
+                      <sourceFile>../cosmic-core/scripts/installer/windows/dependencies.wxs</sourceFile>
                     </sourceFiles>
                     <outputDirectory>target</outputDirectory>
                     <objectFiles>
