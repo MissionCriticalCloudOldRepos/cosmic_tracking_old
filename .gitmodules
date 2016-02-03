@@ -26,3 +26,7 @@
 	path = cosmic-ui
 	url = git@github.com:MissionCriticalCloud/cosmic-ui.git
 	branch = master
+[submodule "cosmic-client"]
+	path = cosmic-client
+	url = git@github.com:MissionCriticalCloud/cosmic-client.git
+	branch = master
