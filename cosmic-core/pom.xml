@@ -226,11 +226,6 @@
         <version>${cs.guava.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.servicemix.bundles</groupId>
-        <artifactId>org.apache.servicemix.bundles.snmp4j</artifactId>
-        <version>2.3.1_1</version>
-      </dependency>
-      <dependency>
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjtools</artifactId>
         <version>1.8.4</version>
