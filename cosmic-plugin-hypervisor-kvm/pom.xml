@@ -13,7 +13,6 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>${cs.commons-io.version}</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
@@ -57,21 +56,7 @@
     </pluginRepository>
   </pluginRepositories>
   <build>
-    <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-    <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
-    <outputDirectory>${basedir}/target/classes</outputDirectory>
-    <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
     <defaultGoal>install</defaultGoal>
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-      </resource>
-    </resources>
-    <testResources>
-      <testResource>
-        <directory>${basedir}/src/test/resources</directory>
-      </testResource>
-    </testResources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
