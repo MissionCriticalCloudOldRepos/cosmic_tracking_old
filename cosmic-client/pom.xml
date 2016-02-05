@@ -174,7 +174,7 @@
       <exclusions>
         <exclusion>
           <groupId>org.mortbay.jetty</groupId>
-          <artifactId>javax.servlet-api</artifactId>
+          <artifactId>servlet-api</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
