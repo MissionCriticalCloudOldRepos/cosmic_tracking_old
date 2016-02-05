@@ -77,7 +77,6 @@
     <module>storage/volume/cloudbyte</module>
     <module>storage/volume/default</module>
     <module>storage/volume/sample</module>
-    <module>alert-handlers/snmp-alerts</module>
     <module>alert-handlers/syslog-alerts</module>
     <module>network-elements/internal-loadbalancer</module>
     <module>network-elements/vxlan</module>

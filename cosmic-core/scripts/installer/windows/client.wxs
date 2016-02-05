@@ -1500,9 +1500,6 @@
                         <Component Id="cmp18A187327523FE95B85904046F0995E7" Guid="{76B1201E-43A3-43A6-9C7D-88F7756FD6C3}">
                             <File Id="fil00EE7815D372A43628D3E1525E5A1DCF" KeyPath="yes" Source="!(wix.SourceClient)\WEB-INF\lib\cloud-plugin-planner-user-dispersing-4.4.0-SNAPSHOT.jar" />
                         </Component>
-                        <Component Id="cmpDDDD31383EC18DC518164D114B067071" Guid="{B7AA5972-E96E-474E-B740-8750DD44F479}">
-                            <File Id="fil62FA95536B788F362125CB0F858157E9" KeyPath="yes" Source="!(wix.SourceClient)\WEB-INF\lib\cloud-plugin-snmp-alerts-4.4.0-SNAPSHOT.jar" />
-                        </Component>
                         <Component Id="cmpDD3CA3FC5F636E0CFD5412E59A18A5AF" Guid="{778179B7-14B9-415A-A4D8-4C00B46DCDBD}">
                             <File Id="filE4A80408291D56CA2C22E218542F6A1C" KeyPath="yes" Source="!(wix.SourceClient)\WEB-INF\lib\cloud-plugin-storage-allocator-random-4.4.0-SNAPSHOT.jar" />
                         </Component>
@@ -1727,9 +1724,6 @@
                         </Component>
                         <Component Id="cmp977CF1BC61468FC27B11A540213FE9A5" Guid="{B65A758D-5375-41B4-87F5-4527D6FB4A43}">
                             <File Id="fil2FD74EA3B30C085078E86D5E04DF56C5" KeyPath="yes" Source="!(wix.SourceClient)\WEB-INF\lib\objenesis-2.1.jar" />
-                        </Component>
-                        <Component Id="cmp6E4E148E6DE4226B3D6018D8ABE03CF2" Guid="{6C204CB1-BEFB-4275-ACE7-CA54B2F67401}">
-                            <File Id="fil372738C111C4ED6130FC38BE0DE2A97B" KeyPath="yes" Source="!(wix.SourceClient)\WEB-INF\lib\org.apache.servicemix.bundles.snmp4j-2.1.0_1.jar" />
                         </Component>
                         <Component Id="cmp9F0F75F617461065DC10DB27BEA1FAF7" Guid="{2EA942E3-6AA6-4324-9DD3-62A048FC5ABC}">
                             <File Id="filFA487085997D56DB974AC135A4018A27" KeyPath="yes" Source="!(wix.SourceClient)\WEB-INF\lib\powermock-core-1.5.3.jar" />
