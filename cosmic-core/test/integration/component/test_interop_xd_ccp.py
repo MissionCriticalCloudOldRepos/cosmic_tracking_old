@@ -210,7 +210,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         self.cleanup = []
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns", "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns", "basic", "sg"], required_hardware="true")
     def test_01_create_list_delete_security_group(self):
         """
         Test Security Group Creation,List,Deletion on a Basic
@@ -231,7 +231,7 @@ class TestXDCCPInterop(cloudstackTestCase):
 
         return
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_01_list_all_regions_with_noparams(self):
         """
         Test List Regions With No Parameters
@@ -252,7 +252,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         if regionavailable=="no":
             self.fail("There is no region created")
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_02_list_all_diskofferings_with_noparams(self):
         """
         Test List Disk Offerings with No Parameters
@@ -281,7 +281,7 @@ class TestXDCCPInterop(cloudstackTestCase):
             self.fail("All the default disk offerings are not listed")
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_03_list_all_Serviceofferings_with_noparams(self):
         """
         Test List Service Offerings with No Parameters
@@ -306,7 +306,7 @@ class TestXDCCPInterop(cloudstackTestCase):
             self.fail("All the default service offerings are not listed")
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="false")
     def test_04_list_zones_with_no_params(self):
 
         """
@@ -331,7 +331,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_05_validate_stopped_vm_deployment(self):
         """
         Test Deploy Virtual Machine in Stopped State
@@ -375,7 +375,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         )
         return
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_06_attachvolume_to_a_stopped_vm(self):
         """
         Test Attach Volume To A Stopped VM
@@ -447,7 +447,7 @@ class TestXDCCPInterop(cloudstackTestCase):
 
         return
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_07_start_vm(self):
         """
         Test Start Stopped Virtual Machine with volumes attached 
@@ -495,7 +495,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_08_list_all_vms_with_zone_id(self):
         """
         Test list all vm's available with the zone id
@@ -529,7 +529,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="false")
     def test_09_reboot_vm(self):
         """Test Reboot Virtual Machine
         """
@@ -560,7 +560,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_10_detach_volume(self):
         """
         Test Detach Volume 
@@ -640,7 +640,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_12_stop_vm_with_force_false(self):
         """
         Test Stop Virtual Machine
@@ -663,7 +663,7 @@ class TestXDCCPInterop(cloudstackTestCase):
 
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="true")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="true")
     def test_13_destroy_vm(self):
         """
         Test destroy Virtual Machine
@@ -695,7 +695,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="false")
     def test_14_restore_stopped_vm(self):
 
         """
@@ -829,7 +829,7 @@ class TestXDCCPInterop(cloudstackTestCase):
 
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns",  "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns",  "basic", "sg"], required_hardware="false")
     def test_15_restore_vm_with_template_id(self):
 
         """
@@ -1136,7 +1136,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         return
 
 
-    @attr(tags=["devcloud", "basic", "advanced", "post"], required_hardware="true")
+    @attr(tags=["basic", "advanced", "post"], required_hardware="true")
     def test_17_deployvm_userdata_post(self):
         """Test userdata as POST, size > 2k
         """
@@ -1162,7 +1162,7 @@ class TestXDCCPInterop(cloudstackTestCase):
         self.assert_(vm.state == "Running", "VM is not in Running state")
         return
 
-    @attr(tags=["devcloud", "basic", "advanced"], required_hardware="true")
+    @attr(tags=["basic", "advanced"], required_hardware="true")
     def test_18_deployvm_userdata(self):
         """Test userdata as GET, size > 2k
         """

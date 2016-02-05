@@ -38,7 +38,6 @@ class TestDeployVmWithUserData(cloudstackTestCase):
 
         cls.zone = get_zone(cls.apiClient, testClient.getZoneForTests())
         if cls.zone.localstorageenabled:
-            #For devcloud since localstroage is enabled
             cls.services["service_offerings"]["tiny"]["storagetype"] = "local"
         cls.service_offering = ServiceOffering.create(
             cls.apiClient,
@@ -70,7 +69,7 @@ class TestDeployVmWithUserData(cloudstackTestCase):
     def setup(self):
             self.hypervisor = self.testClient.getHypervisorInfo()
 
-    @attr(tags=["devcloud", "basic", "advanced", "post"], required_hardware="true")
+    @attr(tags=["basic", "advanced", "post"], required_hardware="true")
     def test_deployvm_userdata_post(self):
         """Test userdata as POST, size > 2k
         """
@@ -95,7 +94,7 @@ class TestDeployVmWithUserData(cloudstackTestCase):
         self.assert_(vm.id == str(deployVmResponse.id), "Vm deployed is different from the test")
         self.assert_(vm.state == "Running", "VM is not in Running state")
 
-    @attr(tags=["devcloud", "basic", "advanced"], required_hardware="true")
+    @attr(tags=["basic", "advanced"], required_hardware="true")
     def test_deployvm_userdata(self):
         """Test userdata as GET, size > 2k
         """

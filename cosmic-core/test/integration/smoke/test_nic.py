@@ -63,7 +63,6 @@ class TestNic(cloudstackTestCase):
 
             # if local storage is enabled, alter the offerings to use
             # localstorage
-            # this step is needed for devcloud
             if self.zone.localstorageenabled:
                 self.services["service_offerings"][
                     "tiny"]["storagetype"] = 'local'
@@ -140,7 +139,6 @@ class TestNic(cloudstackTestCase):
 
     @attr(
         tags=[
-            "devcloud",
             "smoke",
             "advanced",
             "advancedns"],
