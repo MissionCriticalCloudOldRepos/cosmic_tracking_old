@@ -667,12 +667,6 @@
       </modules>
     </profile>
     <profile>
-      <id>eclipse</id>
-      <properties>
-        <cs.target.dir>target-eclipse</cs.target.dir>
-      </properties>
-    </profile>
-    <profile>
       <id>developer</id>
       <properties>
         <marvin.config>tools/devcloud/devcloud.cfg</marvin.config>
