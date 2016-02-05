@@ -487,14 +487,10 @@
               <exclude>tools/appliance/.ruby-version</exclude>
               <exclude>tools/vagrant/systemvm/vagrant.pub</exclude>
               <exclude>tools/vagrant/systemvm/.ruby-version</exclude>
-              <exclude>tools/devcloud/basebuild/puppet-devcloudinitial/files/network.conf</exclude>
-              <exclude>tools/appliance/definitions/devcloud/*</exclude>
               <exclude>tools/appliance/definitions/systemvmtemplate/*</exclude>
               <exclude>tools/appliance/definitions/systemvm64template/*</exclude>
               <exclude>tools/appliance/definitions/builtin/*</exclude>
               <exclude>tools/cli/cloudmonkey.egg-info/*</exclude>
-              <exclude>tools/devcloud/src/deps/boxes/basebox-build/definition.rb</exclude>
-              <exclude>tools/devcloud/src/deps/boxes/basebox-build/preseed.cfg</exclude>
               <exclude>tools/marvin/Marvin.egg-info/*</exclude>
               <exclude>systemvm/conf/agent.properties</exclude>
               <exclude>systemvm/conf/environment.properties</exclude>
@@ -668,9 +664,6 @@
     </profile>
     <profile>
       <id>developer</id>
-      <properties>
-        <marvin.config>tools/devcloud/devcloud.cfg</marvin.config>
-      </properties>
       <modules>
         <module>test</module>
         <module>developer</module>

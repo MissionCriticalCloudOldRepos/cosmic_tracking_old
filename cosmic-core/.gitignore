@@ -41,7 +41,6 @@ deps/cloud.userlibraries
 *.iml
 git-remote-https.exe.stackdump
 *.swp
-tools/devcloud/devcloudbox/.vagrant
 tools/cli/cloudmonkey/marvin/
 tools/cli/cloudmonkey/precache.py
 tools/marvin/marvin/cloudstackAPI/

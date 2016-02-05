@@ -156,7 +156,6 @@ class Overcommit (cloudstackTestCase):
     @attr(
         tags=[
             "simulator",
-            "devcloud",
             "basic",
             "advanced"],
         required_hardware="false")
@@ -222,7 +221,6 @@ class Overcommit (cloudstackTestCase):
 
     @attr(
         tags=["simulator",
-              "devcloud",
               "basic",
               "advanced"],
         required_hardware="true")
@@ -374,7 +372,6 @@ class Overcommit (cloudstackTestCase):
     @attr(
         tags=[
             "simulator",
-            "devcloud",
             "basic",
             "advanced"],
         required_hardware="false")

@@ -2646,7 +2646,7 @@ Copyright (c) 2010-2011 OpenStack, LLC.
 			</by-organisation>
 		</with-license>
     </within>
-    <within dir='tools/appliance/definitions/{devcloud,systemvmtemplate,systemvmtemplate64}'>
+    <within dir='tools/appliance/definitions/{systemvmtemplate,systemvmtemplate64}'>
         <with-license id='MIT'>
             <copyright-notice>
 Copyright (c) 2010-2012 Patrick Debois
@@ -2657,17 +2657,6 @@ Copyright (c) 2010-2012 Patrick Debois
                 <resource name='definition.rb' source='https://github.com/jedi4ever/veewee' />
                 <resource name='preseed.cfg' source='https://github.com/jedi4ever/veewee' />
                 <resource name='zerodisk.sh' source='https://github.com/jedi4ever/veewee' />
-            </by-organisation>
-        </with-license>
-    </within>
-    <within dir='tools/devcloud/src/deps/boxes/basebox-build'>
-        <with-license id='MIT'>
-            <copyright-notice>
-Copyright (c) 2010-2012 Patrick Debois
-            </copyright-notice>
-            <by-organisation id='person:patrick.debois'>
-                <resource name='definition.rb' source='https://github.com/jedi4ever/veewee' />
-                <resource name='preseed.cfg' source='https://github.com/jedi4ever/veewee' />
             </by-organisation>
         </with-license>
     </within>

@@ -54,7 +54,6 @@ class TestDeployVM(cloudstackTestCase):
         cls.services['mode'] = cls.zone.networktype
 
         #If local storage is enabled, alter the offerings to use localstorage
-        #this step is needed for devcloud
         if cls.zone.localstorageenabled == True:
             cls.services["service_offerings"]["tiny"]["storagetype"] = 'local'
             cls.services["service_offerings"]["small"]["storagetype"] = 'local'
@@ -113,7 +112,7 @@ class TestDeployVM(cloudstackTestCase):
         self.cleanup = []
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
     def test_deploy_vm(self):
         """Test Deploy Virtual Machine
         """
@@ -266,7 +265,6 @@ class TestVMLifeCycle(cloudstackTestCase):
         cls.services['mode'] = cls.zone.networktype
 
         #if local storage is enabled, alter the offerings to use localstorage
-        #this step is needed for devcloud
         if cls.zone.localstorageenabled == True:
             cls.services["service_offerings"]["tiny"]["storagetype"] = 'local'
             cls.services["service_offerings"]["small"]["storagetype"] = 'local'
@@ -356,7 +354,7 @@ class TestVMLifeCycle(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false", BugId="CLOUDSTACK-6984")
+    @attr(tags = ["advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false", BugId="CLOUDSTACK-6984")
     def test_01_stop_vm(self):
         """Test Stop Virtual Machine
         """
@@ -371,7 +369,7 @@ class TestVMLifeCycle(cloudstackTestCase):
             self.fail("Failed to stop VM: %s" % e)
         return
 
-    @attr(tags = ["devcloud", "advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
     def test_02_start_vm(self):
         """Test Start Virtual Machine
         """
@@ -409,7 +407,7 @@ class TestVMLifeCycle(cloudstackTestCase):
                         )
         return
 
-    @attr(tags = ["devcloud", "advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
     def test_03_reboot_vm(self):
         """Test Reboot Virtual Machine
         """
@@ -446,7 +444,7 @@ class TestVMLifeCycle(cloudstackTestCase):
         return
 
 
-    @attr(tags = ["devcloud", "advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
     def test_06_destroy_vm(self):
         """Test destroy Virtual Machine
         """
@@ -482,7 +480,7 @@ class TestVMLifeCycle(cloudstackTestCase):
                         )
         return
 
-    @attr(tags = ["devcloud", "advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
     def test_07_restore_vm(self):
         #TODO: SIMENH: add another test the data on the restored VM.
         """Test recover Virtual Machine
@@ -601,7 +599,7 @@ class TestVMLifeCycle(cloudstackTestCase):
 
     @attr(configuration = "expunge.interval")
     @attr(configuration = "expunge.delay")
-    @attr(tags = ["devcloud", "advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
+    @attr(tags = ["advanced", "advancedns", "smoke", "basic", "sg"], required_hardware="false")
     def test_09_expunge_vm(self):
         """Test destroy(expunge) Virtual Machine
         """
