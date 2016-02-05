@@ -9,9 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>cloud.cosmic</groupId>
   <artifactId>cosmic-core</artifactId>
-  <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Cosmic</name>
   <description>Cosmic is an IaaS (“Infrastructure as a Service”) cloud orchestration platform.</description>
@@ -325,20 +323,6 @@
 
   <build>
     <defaultGoal>install</defaultGoal>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>test</testSourceDirectory>
-    <resources>
-      <resource>
-        <directory>${basedir}/resources</directory>
-      </resource>
-    </resources>
-    <testResources>
-      <testResource>
-        <directory>test/resources</directory>
-      </testResource>
-    </testResources>
-    <outputDirectory>${basedir}/${cs.target.dir}/classes</outputDirectory>
-    <testOutputDirectory>${basedir}/${cs.target.dir}/test-classes</testOutputDirectory>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -538,8 +522,6 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.2</version>
           <configuration>
-            <source>${cs.jdk.version}</source>
-            <target>${cs.jdk.version}</target>
             <fork>true</fork>
             <meminitial>128m</meminitial>
             <maxmem>512m</maxmem>
