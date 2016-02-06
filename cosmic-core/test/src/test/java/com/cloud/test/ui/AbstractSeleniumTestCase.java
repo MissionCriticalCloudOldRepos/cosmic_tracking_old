@@ -16,6 +16,8 @@
 // under the License.
 package com.cloud.test.ui;
 
+import com.thoughtworks.selenium.DefaultSelenium;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -23,33 +25,32 @@ import org.junit.runners.JUnit4;
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
 
-import com.thoughtworks.selenium.DefaultSelenium;
-
 @RunWith(JUnit4.class)
 public abstract class AbstractSeleniumTestCase {
-    protected static DefaultSelenium selenium;
-    private static SeleniumServer seleniumServer;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        System.out.println("*** Starting selenium ... ***");
-        RemoteControlConfiguration seleniumConfig = new RemoteControlConfiguration();
-        seleniumConfig.setPort(4444);
-        seleniumServer = new SeleniumServer(seleniumConfig);
-        seleniumServer.start();
+  protected static DefaultSelenium selenium;
+  private static SeleniumServer seleniumServer;
 
-        String host = System.getProperty("myParam", "localhost");
-        selenium = createSeleniumClient("http://" + host + ":" + "8080/client/");
-        selenium.start();
-        System.out.println("*** Started selenium ***");
-    }
+  @BeforeClass
+  public static void setUp() throws Exception {
+    System.out.println("*** Starting selenium ... ***");
+    final RemoteControlConfiguration seleniumConfig = new RemoteControlConfiguration();
+    seleniumConfig.setPort(4444);
+    seleniumServer = new SeleniumServer(seleniumConfig);
+    seleniumServer.start();
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        selenium.stop();
-    }
+    final String host = System.getProperty("myParam", "localhost");
+    selenium = createSeleniumClient("http://" + host + ":" + "8080/client/");
+    selenium.start();
+    System.out.println("*** Started selenium ***");
+  }
 
-    protected static DefaultSelenium createSeleniumClient(String url) throws Exception {
-        return new DefaultSelenium("localhost", 4444, "*firefox", url);
-    }
+  @AfterClass
+  public static void tearDown() throws Exception {
+    selenium.stop();
+  }
+
+  protected static DefaultSelenium createSeleniumClient(String url) throws Exception {
+    return new DefaultSelenium("localhost", 4444, "*firefox", url);
+  }
 }
