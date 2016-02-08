@@ -45,3 +45,7 @@ fabric.properties
 
 # RPM packaging
 dist/
+
+# Management Server logs
+api.log
+vmops.log*
