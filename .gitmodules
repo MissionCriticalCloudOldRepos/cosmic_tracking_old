@@ -22,6 +22,10 @@
         path = cosmic-plugin-hypervisor-ovm3
         url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-ovm3.git
         branch = master
+[submodule "cosmic-plugin-hypervisor-vmware"]
+	path = cosmic-plugin-hypervisor-vmware
+	url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-vmware.git
+	branch = master
 [submodule "cosmic-plugin-hypervisor-xenserver"]
         path = cosmic-plugin-hypervisor-xenserver
         url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git
