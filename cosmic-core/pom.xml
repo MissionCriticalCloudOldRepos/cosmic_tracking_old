@@ -341,7 +341,7 @@
           <configuration>
             <strictCheck>true</strictCheck>
             <aggregate>true</aggregate>
-            <header>../LICENSE.header</header>
+            <header>../LICENSE</header>
             <mapping>
               <xml>XML_STYLE</xml>
               <java>DOUBLESLASH_STYLE</java>
