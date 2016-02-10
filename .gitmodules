@@ -6,10 +6,6 @@
         path = cosmic-core
         url = git@github.com:MissionCriticalCloud/cosmic-core.git
         branch = master
-[submodule "cosmic-packaging"]
-        path = cosmic-packaging
-        url = git@github.com:MissionCriticalCloud/cosmic-packaging.git
-        branch = master
 [submodule "cosmic-plugin-networking-nicira-nvp"]
         path = cosmic-plugin-networking-nicira-nvp
         url = git@github.com:MissionCriticalCloud/cosmic-plugin-networking-nicira-nvp.git
@@ -25,8 +21,4 @@
 [submodule "cosmic-plugin-hypervisor-xenserver"]
         path = cosmic-plugin-hypervisor-xenserver
         url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git
-        branch = master
-[submodule "cosmic-ui"]
-        path = cosmic-ui
-        url = git@github.com:MissionCriticalCloud/cosmic-ui.git
         branch = master
