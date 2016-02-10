@@ -9,7 +9,6 @@
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-core</artifactId>
     <version>5.0.0-SNAPSHOT</version>
-    <relativePath>../cosmic-core/pom.xml</relativePath>
   </parent>
   <dependencies>
     <dependency>
@@ -115,11 +114,6 @@
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-elb</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-midonet</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -458,7 +452,7 @@
             <configuration>
               <target>
                 <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/../cosmic-core/scripts"/>
+                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts"/>
                 </copy>
                 <!-- CLOUDSTACK-1304 -->
                 <chmod perm="755"
@@ -474,7 +468,7 @@
                   </fileset>
                 </copy>
                 <copy todir="${basedir}/target/generated-webapp">
-                  <fileset dir="${basedir}/../cosmic-ui"/>
+                  <fileset dir="${basedir}/cosmic-ui"/>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/generated-webapp/WEB-INF/classes">
                   <fileset dir="${basedir}/tomcatconf">
@@ -483,7 +477,7 @@
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -493,13 +487,13 @@
                   </fileset>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/bin">
-                  <fileset dir="${basedir}/../cosmic-core/setup/bindir">
+                  <fileset dir="${basedir}/copy-from-cosmic-core/bindir">
                     <include name="*.in"/>
                   </fileset>
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -510,17 +504,17 @@
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/scripts/db">
-                  <fileset dir="${basedir}/../cosmic-core/setup/db">
+                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts/db">
                     <include name="**/*"/>
                   </fileset>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -531,7 +525,7 @@
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -573,7 +567,7 @@
                   replace="classpath:nonossComponentContext.xml" byline="true"/>
                 <copy overwrite="true"
                   todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/../cosmic-core/plugins/network-elements/cisco-vnmc/scripts">
+                  <fileset dir="${basedir}/copy-from-cosmic-core/cisco-vnmc/scripts">
                     <include name="**/*"/>
                   </fileset>
                 </copy>
