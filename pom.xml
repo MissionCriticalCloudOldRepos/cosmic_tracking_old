@@ -546,55 +546,7 @@
             </excludes>
           </configuration>
         </plugin>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <configuration>
-            <excludeDefaultDirectories>true</excludeDefaultDirectories>
-            <filesets>
-              <fileset>
-                <directory>${cs.target.dir}</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-              </fileset>
-              <fileset>
-                <directory>dist</directory>
-                <includes>
-                  <include>**/*</include>
-                </includes>
-              </fileset>
-              <fileset>
-                <directory>${basedir}</directory>
-                <includes>
-                  <include>${cs.target.dir}</include>
-                  <include>dist</include>
-                </includes>
-              </fileset>
-            </filesets>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.1</version>
-          <executions>
-            <execution>
-              <id>default</id>
-              <goals>
-                <goal>perform</goal>
-              </goals>
-              <configuration>
-                <pomFileName>pom.xml</pomFileName>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
 
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.8</version>
-        </plugin>
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
@@ -707,19 +659,6 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.2</version>
-          <configuration>
-            <source>${cs.jdk.version}</source>
-            <target>${cs.jdk.version}</target>
-            <fork>true</fork>
-            <meminitial>128m</meminitial>
-            <maxmem>512m</maxmem>
-            <compilerArgument>-XDignore.symbol.file=true</compilerArgument>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>2.5</version>
           <configuration>
@@ -748,11 +687,6 @@
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.9</version>
-        </plugin>
-        <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>cobertura-maven-plugin</artifactId>
           <configuration>
@@ -761,19 +695,6 @@
               <format>xml</format>
             </formats>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.18.1</version>
-          <configuration>
-            <argLine>-Djava.security.egd=file:/dev/./urandom -noverify</argLine>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.18.1</version>
         </plugin>
       </plugins>
     </pluginManagement>
