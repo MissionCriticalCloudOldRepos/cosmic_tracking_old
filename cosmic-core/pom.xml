@@ -6,7 +6,6 @@
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
     <version>5.0.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>cosmic-core</artifactId>
