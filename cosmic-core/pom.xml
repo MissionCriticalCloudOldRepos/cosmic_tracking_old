@@ -103,7 +103,6 @@
     <module>plugins</module>
     <module>framework</module>
     <module>services</module>
-    <module>maven-standard</module>
   </modules>
 
   <build>
