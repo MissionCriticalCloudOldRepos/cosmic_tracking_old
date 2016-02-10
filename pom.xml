@@ -62,7 +62,6 @@
     <cs.aws.sdk.version>1.10.34</cs.aws.sdk.version>
     <cs.jackson.version>2.6.3</cs.jackson.version>
     <cs.lang.version>2.6</cs.lang.version>
-    <cs.commons-lang3.version>3.4</cs.commons-lang3.version>
     <cs.commons-io.version>2.4</cs.commons-io.version>
     <cs.commons-validator.version>1.4.0</cs.commons-validator.version>
     <cs.reflections.version>0.9.9</cs.reflections.version>
@@ -104,6 +103,11 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.4</version>
+      </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest-all</artifactId>
@@ -512,7 +516,8 @@
           <version>2.18.1</version>
         </plugin>
 
-        <!-- TODO: review the follwoing plugins to evaluate if they should be here -->
+        <!-- TODO: review the follwoing plugins to evaluate if they should 
+          be here -->
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
