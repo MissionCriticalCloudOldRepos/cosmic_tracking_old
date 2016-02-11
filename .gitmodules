@@ -10,6 +10,14 @@
         path = cosmic-plugin-networking-nicira-nvp
         url = git@github.com:MissionCriticalCloud/cosmic-plugin-networking-nicira-nvp.git
         branch = master
+[submodule "cosmic-packaging"]
+        path = cosmic-packaging
+        url = git@github.com:MissionCriticalCloud/cosmic-packaging.git
+        branch = master
+[submodule "cosmic-ui"]
+        path = cosmic-ui
+        url = git@github.com:MissionCriticalCloud/cosmic-ui.git
+        branch = master
 [submodule "cosmic-plugin-hypervisor-kvm"]
         path = cosmic-plugin-hypervisor-kvm
         url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git
