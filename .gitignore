@@ -49,3 +49,6 @@ dist/
 # Management Server logs
 api.log
 vmops.log*
+
+# Packaging directory
+packaging/
