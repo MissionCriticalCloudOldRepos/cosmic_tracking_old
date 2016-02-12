@@ -5,10 +5,37 @@
   <name>Cosmic Plugin - Hypervisor XenServer</name>
   <parent>
     <groupId>cloud.cosmic</groupId>
-    <artifactId>cosmic-plugins</artifactId>
+    <artifactId>cosmic</artifactId>
     <version>5.0.0-SNAPSHOT</version>
   </parent>
   <dependencies>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-utils</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-framework-config</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-api</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-engine-storage</artifactId>
