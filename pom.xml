@@ -178,7 +178,7 @@
         <version>1</version>
       </dependency>
 
-      <!-- go throught these dependencies and evaluate where they should 
+      <!-- go throught these dependencies and evaluate where they should
         be -->
       <dependency>
         <groupId>mysql</groupId>
@@ -517,8 +517,13 @@
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>2.18.1</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.6</version>
+        </plugin>
 
-        <!-- TODO: review the follwoing plugins to evaluate if they should 
+        <!-- TODO: review the follwoing plugins to evaluate if they should
           be here -->
         <plugin>
           <groupId>com.mycila</groupId>
