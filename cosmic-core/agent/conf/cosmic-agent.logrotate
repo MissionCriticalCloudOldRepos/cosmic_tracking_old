@@ -15,8 +15,8 @@
 # specific language governing permissions and limitations
 # under the License.
 
-/var/log/cloudstack/agent/cloudstack-agent.out
-/var/log/cloudstack/agent/cloudstack-agent.err
+/var/log/cosmic/agent/cosmic-agent.out
+/var/log/cosmic/agent/cosmic-agent.err
 {
     copytruncate
     daily

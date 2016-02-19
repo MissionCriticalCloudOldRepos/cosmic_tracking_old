@@ -299,7 +299,7 @@ public class AgentShell implements IAgentShell, Daemon {
         // it searches path under class path and common J2EE containers
         // For KVM agent, do it specially here
 
-        File file = new File("/etc/cloudstack/agent/log4j-cloud.xml");
+        File file = new File("/etc/cosmic/agent/log4j-cloud.xml");
         if (!file.exists()) {
             file = PropertiesUtil.findConfigFile("log4j-cloud.xml");
         }

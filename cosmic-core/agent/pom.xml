@@ -70,7 +70,7 @@
                 </copy>
                 <copy todir="${basedir}/target/transformed">
                   <fileset dir="${basedir}/conf">
-                    <include name="cloudstack-agent.logrotate" />
+                    <include name="cosmic-agent.logrotate" />
                   </fileset>
                 </copy>
               </target>

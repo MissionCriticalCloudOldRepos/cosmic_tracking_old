@@ -32,7 +32,7 @@ def isNewStyleBridge(brName):
        return True
 def getGuestNetworkDevice():
     netlib = networkConfig() 
-    cfo = configFileOps("/etc/cloudstack/agent/agent.properties")
+    cfo = configFileOps("/etc/cosmic/agent/agent.properties")
     guestDev = cfo.getEntry("guest.network.device")
     enslavedDev = netlib.getEnslavedDev(guestDev, 1)
     return enslavedDev.split(".")[0]
