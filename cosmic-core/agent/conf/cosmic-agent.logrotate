@@ -14,3 +14,13 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+
+/var/log/cosmic/agent/cosmic-agent.out
+/var/log/cosmic/agent/cosmic-agent.err
+{
+    copytruncate
+    daily
+    rotate 5
+    compress
+    missingok
+}
