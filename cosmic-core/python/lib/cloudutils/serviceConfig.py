@@ -54,9 +54,9 @@ class serviceCfgBase(object):
         except:
             logging.debug(formatExceptionInfo())
             if self.syscfg.env.mode == "Server":
-                raise CloudRuntimeException("Configure %s failed, Please check the /var/log/cloudstack/management/setupManagement.log for detail"%self.serviceName)
+                raise CloudRuntimeException("Configure %s failed, Please check the /var/log/cosmic/management/setupManagement.log for detail"%self.serviceName)
             else:
-                raise CloudRuntimeException("Configure %s failed, Please check the /var/log/cloudstack/agent/setup.log for detail"%self.serviceName)
+                raise CloudRuntimeException("Configure %s failed, Please check the /var/log/cosmic/agent/setup.log for detail"%self.serviceName)
 
     def backup(self):
         if self.status is None:
@@ -428,7 +428,7 @@ class securityPolicyConfigUbuntu(serviceCfgBase):
 
             return True
         except:
-            raise CloudRuntimeException("Failed to configure apparmor, please see the /var/log/cloudstack/agent/setup.log for detail, \
+            raise CloudRuntimeException("Failed to configure apparmor, please see the /var/log/cosmic/agent/setup.log for detail, \
                                         or you can manually disable it before starting myCloud")
 
     def restore(self):
@@ -458,7 +458,7 @@ class securityPolicyConfigRedhat(serviceCfgBase):
                 cfo.replace_line("SELINUX=", "SELINUX=permissive")
                 return True
             except:
-                raise CloudRuntimeException("Failed to configure selinux, please see the /var/log/cloudstack/agent/setup.log for detail, \
+                raise CloudRuntimeException("Failed to configure selinux, please see the /var/log/cosmic/agent/setup.log for detail, \
                                             or you can manually disable it before starting myCloud")
         else:
             return True
@@ -643,7 +643,7 @@ class cloudAgentConfig(serviceCfgBase):
 
     def configMyCloud(self):
         try:
-            cfo = configFileOps("/etc/cloudstack/agent/agent.properties", self)
+            cfo = configFileOps("/etc/cosmic/agent/agent.properties", self)
             cfo.addEntry("host", self.syscfg.env.mgtSvr)
             cfo.addEntry("zone", self.syscfg.env.zone)
             cfo.addEntry("port", "443")
@@ -665,7 +665,7 @@ class cloudAgentConfig(serviceCfgBase):
 
     def configAgent(self):
         try:
-            cfo = configFileOps("/etc/cloudstack/agent/agent.properties", self)
+            cfo = configFileOps("/etc/cosmic/agent/agent.properties", self)
             cfo.addEntry("host", self.syscfg.env.mgtSvr)
             cfo.addEntry("zone", self.syscfg.env.zone)
             cfo.addEntry("pod", self.syscfg.env.pod)
@@ -682,16 +682,16 @@ class cloudAgentConfig(serviceCfgBase):
                 cfo.addEntry("resource", "com.cloud.hypervisor.kvm.resource.LibvirtComputingResource")
             cfo.save()
 
-            self.syscfg.svo.stopService("cloudstack-agent")
+            self.syscfg.svo.stopService("cosmic-agent")
             bash("sleep 30")
-            self.syscfg.svo.enableService("cloudstack-agent")
+            self.syscfg.svo.enableService("cosmic-agent")
             return True
         except:
             raise
 
     def configConsole(self):
         try:
-            cfo = configFileOps("/etc/cloudstack/agent/agent.properties", self)
+            cfo = configFileOps("/etc/cosmic/agent/agent.properties", self)
             cfo.addEntry("host", self.syscfg.env.mgtSvr)
             cfo.addEntry("zone", self.syscfg.env.zone)
             cfo.addEntry("pod", self.syscfg.env.pod)
@@ -704,8 +704,8 @@ class cloudAgentConfig(serviceCfgBase):
             cfo.addEntry("resource", "com.cloud.agent.resource.computing.consoleProxyResource")
             cfo.save()
 
-            self.syscfg.svo.stopService("cloudstack-agent")
-            self.syscfg.svo.enableService("cloudstack-agent")
+            self.syscfg.svo.stopService("cosmic-agent")
+            self.syscfg.svo.enableService("cosmic-agent")
             return True
         except:
             raise
