@@ -6,15 +6,15 @@ provides an on-premises (private) cloud offering, or as part of a
 hybrid cloud solution.
 
 Cosmic is a turnkey solution that includes the entire "stack" of features
-most organizations want with an IaaS cloud: compute orchestration,
+most organizations want with an cloud: compute orchestration,
 Network-as-a-Service, user and account management, a full and open native API,
 resource accounting, and a first-class User Interface (UI).
 
-Cosmic currently supports the most popular hypervisors:
-VMware vSphere, KVM, XenServer, XenProject and Hyper-V as well as
-OVM and LXC containers.
+Cosmic currently supports the follwoing hypervisors:
+KVM and XenServer.
+Support for other hypervisors can be added if contributors can provide the infrastructure to test agains.
 
-Users can manage their cloud with an easy to use Web interface, command line
+Users can manage their cloud via Web interface, command line
 tools, and/or a full-featured query based API.
 
 ## Getting Source Repository
@@ -27,14 +27,11 @@ Cosmic officials Git repository is located at:
 
 In order to build Cosmic, you have to follow the steps below:
 
-* For KVM
-  1. git clone --recursive git@github.com:MissionCriticalCloud/cosmic.git
-  2. cd cosmic
-  3. mvn clean install -P developer,systemvm
+1. git clone --recursive git@github.com:MissionCriticalCloud/cosmic.git
+2. cd cosmic
+3. mvn clean install -P developer,systemvm
 
-- Don't have a developer key yet? Please contact us! [Email](int-cloud@schubergphilis.com)
-
-The steps above will build the essencials to get Cosmic management server working. Besides that, you will also need a hypervisor. That can be discussed another time. for now, in order to see something working, please do:
+The steps above will build the essentials to get Cosmic management server working. Besides that, you will also need a hypervisor. See our [build stream configuration](https://beta-jenkins.mcc.schubergphilis.com) for more details.
 
 1. cd cosmic-client
 2. mvn -pl :cloud-client-ui jetty:run
@@ -43,7 +40,7 @@ Go to your brouwser and type: http://localhost:8080/client
 
 ## Links
 
-Cosmic is a fork of Apache CloudStack and it is backwards compatible with CloudStack's API. So, all the documentation can be accessed from:
+Cosmic is a fork of Apache CloudStack and its API is backwards compatible with CloudStack's API. So, all the documentation can be accessed from:
 
 * [Documentation](http://docs.cloudstack.apache.org)
 * API [documentation](http://cloudstack.apache.org/docs/api)
