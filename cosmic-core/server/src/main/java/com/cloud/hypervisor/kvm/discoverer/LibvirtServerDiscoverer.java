@@ -205,13 +205,13 @@ public abstract class LibvirtServerDiscoverer extends DiscovererBase implements 
             parameters += " --guestNic=" + kvmGuestNic;
             parameters += " --hypervisor=" + cluster.getHypervisorType().toString().toLowerCase();
 
-            String setupAgentCommand = "cloudstack-setup-agent ";
+            String setupAgentCommand = "cosmic-setup-agent ";
             if (!username.equals("root")) {
-                setupAgentCommand = "sudo cloudstack-setup-agent ";
+                setupAgentCommand = "sudo cosmic-setup-agent ";
             }
             if (!SSHCmdHelper.sshExecuteCmd(sshConnection,
                     setupAgentCommand + parameters, 3)) {
-                s_logger.info("cloudstack agent setup command failed: "
+                s_logger.info("cosmic agent setup command failed: "
                         + setupAgentCommand + parameters);
                 return null;
             }
