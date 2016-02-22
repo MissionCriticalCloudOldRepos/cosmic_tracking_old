@@ -4576,13 +4576,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
         }
         assert vm != null;
 
-        try{
-            orchestrateStart(vm.getUuid(), work.getParams(), work.getPlan(), _dpMgr.getDeploymentPlannerByName(work.getDeploymentPlanner()));
-        }
-        catch (CloudRuntimeException e){
-            s_logger.info("Caught CloudRuntimeException, returning job failed");
-            return new Pair<JobInfo.Status, String>(JobInfo.Status.FAILED, null);
-        }
+        orchestrateStart(vm.getUuid(), work.getParams(), work.getPlan(), _dpMgr.getDeploymentPlannerByName(work.getDeploymentPlanner()));
         return new Pair<JobInfo.Status, String>(JobInfo.Status.SUCCEEDED, null);
     }
 

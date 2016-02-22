@@ -42,7 +42,6 @@ public class NiciraNvpApi {
 
     private static final String SWITCH_URI_PREFIX = NiciraConstants.SWITCH_URI_PREFIX;
     private static final String ROUTER_URI_PREFIX = NiciraConstants.ROUTER_URI_PREFIX;
-    private static final String GATEWAY_SERVICE_PREFIX = NiciraConstants.GATEWAY_SERVICE_PREFIX;
 
     private static final String ATTACHMENT_PATH_SEGMENT = NiciraConstants.ATTACHMENT_PATH_SEGMENT;
     private static final String NAT_PATH_SEGMENT = NiciraConstants.NAT_PATH_SEGMENT;
@@ -52,7 +51,6 @@ public class NiciraNvpApi {
     private static final String WILDCARD_QUERY_PARAMETER = NiciraConstants.WILDCARD_QUERY_PARAMETER;
     private static final String UUID_QUERY_PARAMETER = NiciraConstants.UUID_QUERY_PARAMETER;
     private static final String FIELDS_QUERY_PARAMETER = NiciraConstants.FIELDS_QUERY_PARAMETER;
-    private static final String TYPES_QUERY_PARAMETER = NiciraConstants.TYPES_QUERY_PARAMETER;
 
     private static final int DEFAULT_MAX_RETRIES = 5;
 
@@ -133,7 +131,7 @@ public class NiciraNvpApi {
         try {
             createdEntity = restConnector.executeCreateObject(entity, uri, Collections.<String, String> emptyMap());
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
 
         return createdEntity;
@@ -159,7 +157,7 @@ public class NiciraNvpApi {
         try {
             entities = restConnector.executeRetrieveObject(listTypeMap.get(clazz), uri, params);
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
 
         if (entities == null) {
@@ -192,7 +190,7 @@ public class NiciraNvpApi {
         try {
             restConnector.executeUpdateObject(item, uri, Collections.<String, String> emptyMap());
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
     }
 
@@ -217,7 +215,7 @@ public class NiciraNvpApi {
         try {
             restConnector.executeDeleteObject(uri);
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
     }
 
@@ -396,7 +394,7 @@ public class NiciraNvpApi {
             }.getType();
             niciraList = restConnector.executeRetrieveObject(niciraListType, uri, params);
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
 
         final List<LogicalSwitchPort> lspl = niciraList.getResults();
@@ -415,7 +413,7 @@ public class NiciraNvpApi {
         try {
             return restConnector.executeRetrieveObject(ControlClusterStatus.class, uri, new HashMap<String, String>());
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
     }
 
@@ -429,7 +427,7 @@ public class NiciraNvpApi {
             }.getType();
             return restConnector.<NiciraNvpList<LogicalSwitchPort>> executeRetrieveObject(niciraListType, uri, params).getResults();
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
     }
 
@@ -443,7 +441,7 @@ public class NiciraNvpApi {
             }.getType();
             return restConnector.<NiciraNvpList<LogicalRouterPort>> executeRetrieveObject(niciraListType, uri, params).getResults();
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
     }
 
@@ -524,21 +522,7 @@ public class NiciraNvpApi {
             }.getType();
             return restConnector.<NiciraNvpList<LogicalRouterPort>> executeRetrieveObject(niciraListType, uri, params).getResults();
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
-        }
-    }
-
-    public List<LogicalRouterPort> findLogicalRouterPortByAttachmentLSwitchUuid(final String logicalRouterUuid, final String attachmentLSwitchUuid) throws NiciraNvpApiException{
-        final String uri = buildLogicalRouterElementUri(logicalRouterUuid, LPORT_PATH_SEGMENT);
-        final Map<String, String> params = buildBasicParametersMap(WILDCARD_QUERY_PARAMETER);
-        params.put(NiciraConstants.ATTACHMENT_LSWITCH_UUID, attachmentLSwitchUuid);
-
-        try{
-            final Type niciraListType = new TypeToken<NiciraNvpList<LogicalRouterPort>>() {
-            }.getType();
-            return restConnector.<NiciraNvpList<LogicalRouterPort>> executeRetrieveObject(niciraListType, uri, params).getResults();
-        } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
     }
 
@@ -551,7 +535,7 @@ public class NiciraNvpApi {
             }.getType();
             return restConnector.<NiciraNvpList<NatRule>> executeRetrieveObject(niciraListType, uri, params).getResults();
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
     }
 
@@ -566,28 +550,8 @@ public class NiciraNvpApi {
             }.getType();
             return restConnector.<NiciraNvpList<LogicalRouterPort>> executeRetrieveObject(niciraListType, uri, params).getResults();
         } catch (final CloudstackRESTException e) {
-            throw new NiciraNvpApiException(e, e.getErrorCode());
+            throw new NiciraNvpApiException(e);
         }
-    }
-
-    public List<L2GatewayServiceConfig> findL2GatewayServiceByUuidAndType(final String gatewayServiceUuid, final String serviceConfigType) throws NiciraNvpApiException{
-        final String uri = buildGatewayServiceUri();
-        final Map<String, String> params = buildBasicParametersMap(WILDCARD_QUERY_PARAMETER);
-        params.put(UUID_QUERY_PARAMETER, gatewayServiceUuid);
-        params.put(TYPES_QUERY_PARAMETER, serviceConfigType);
-
-        try {
-            final Type niciraListType = new TypeToken<NiciraNvpList<L2GatewayServiceConfig>>() {
-            }.getType();
-            return restConnector.<NiciraNvpList<L2GatewayServiceConfig>> executeRetrieveObject(niciraListType, uri, params).getResults();
-        }
-        catch (final CloudstackRESTException e){
-            throw new NiciraNvpApiException(e, e.getErrorCode());
-        }
-    }
-
-    private static String buildGatewayServiceUri(){
-        return GATEWAY_SERVICE_PREFIX;
     }
 
     private static Map<String, String> buildBasicParametersMap(final String fieldsQueryValue) {

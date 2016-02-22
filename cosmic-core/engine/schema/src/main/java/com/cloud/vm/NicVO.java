@@ -28,7 +28,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.cloud.network.Networks.AddressFormat;
 import com.cloud.network.Networks.Mode;
@@ -123,12 +122,6 @@ public class NicVO implements Nic {
 
     @Column(name = "secondary_ip")
     boolean secondaryIp;
-
-    @Transient
-    transient String nsxLogicalSwitchUuid;
-
-    @Transient
-    transient String nsxLogicalSwitchPortUuid;
 
     public NicVO(String reserver, Long instanceId, long configurationId, VirtualMachine.Type vmType) {
         this.reserver = reserver;
@@ -377,21 +370,5 @@ public class NicVO implements Nic {
 
     public void setVmType(VirtualMachine.Type vmType) {
         this.vmType = vmType;
-    }
-
-    public String getNsxLogicalSwitchUuid() {
-        return nsxLogicalSwitchUuid;
-    }
-
-    public void setNsxLogicalSwitchUuid(String nsxLogicalSwitchUuid) {
-        this.nsxLogicalSwitchUuid = nsxLogicalSwitchUuid;
-    }
-
-    public String getNsxLogicalSwitchPortUuid() {
-        return nsxLogicalSwitchPortUuid;
-    }
-
-    public void setNsxLogicalSwitchPortUuid(String nsxLogicalSwitchPortUuid) {
-        this.nsxLogicalSwitchPortUuid = nsxLogicalSwitchPortUuid;
     }
 }
