@@ -10,6 +10,9 @@
     <artifactId>cosmic</artifactId>
     <version>5.0.0-SNAPSHOT</version>
   </parent>
+  <properties>
+    <cs.replace.properties>build/replace.properties</cs.replace.properties>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>cloud.cosmic</groupId>
@@ -477,7 +480,7 @@
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -493,7 +496,7 @@
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -504,7 +507,7 @@
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -514,7 +517,7 @@
                   </fileset>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -525,7 +528,7 @@
                   <globmapper from="*.in" to="*"/>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
                     </filterreader>
                   </filterchain>
                 </copy>
