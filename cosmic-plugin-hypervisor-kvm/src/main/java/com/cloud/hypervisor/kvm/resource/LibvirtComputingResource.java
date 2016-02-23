@@ -810,7 +810,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
     sysvmIsoPath = (String) params.get("systemvm.iso.path");
     if (sysvmIsoPath == null) {
-      final String[] isoPaths = { "/usr/share/cloudstack-common/vms/systemvm.iso" };
+      final String[] isoPaths = { "/usr/share/cosmic-common/vms/systemvm.iso" };
       for (final String isoPath : isoPaths) {
         if (storage.exists(isoPath)) {
           sysvmIsoPath = isoPath;
