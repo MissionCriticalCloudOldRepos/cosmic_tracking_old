@@ -142,7 +142,7 @@ public class Ovm3HypervisorSupport {
       keyFile = new File(key);
     }
     if (keyFile == null || !keyFile.exists()) {
-      final String key = "/usr/share/cloudstack-common/scripts/vm/systemvm/"
+      final String key = "/usr/share/cosmic-common/scripts/vm/systemvm/"
           + filename;
       logger.warn("generated key retrieval failed " + key);
       keyFile = new File(key);
