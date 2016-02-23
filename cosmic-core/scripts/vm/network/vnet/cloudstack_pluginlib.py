@@ -28,7 +28,7 @@ DEFAULT_LOG_FORMAT = "%(asctime)s %(levelname)8s [%(name)s] %(message)s"
 DEFAULT_LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 DEFAULT_LOG_FILE = "/var/log/cloudstack_plugins.log"
 
-PLUGIN_CONFIG_PATH = "/usr/share/cloudstack-common/scripts/vm/hypervisor/xenserver/cloudstack_plugins.conf"
+PLUGIN_CONFIG_PATH = "/usr/share/cosmic-common/scripts/vm/hypervisor/xenserver/cloudstack_plugins.conf"
 OVSDB_PID_PATH = "/var/run/openvswitch/ovsdb-server.pid"
 OVSDB_DAEMON_PATH = "ovsdb-server"
 OVS_PID_PATH = "/var/run/openvswitch/ovs-vswitchd.pid"

@@ -614,7 +614,7 @@ public class VmwareManagerImpl extends ManagerBase implements VmwareManager, Vmw
         }
 
         if (isoFile == null || !isoFile.exists()) {
-            isoFile = new File("/usr/share/cloudstack-common/vms/systemvm.iso");
+            isoFile = new File("/usr/share/cosmic-common/vms/systemvm.iso");
         }
 
         assert (isoFile != null);
@@ -632,7 +632,7 @@ public class VmwareManagerImpl extends ManagerBase implements VmwareManager, Vmw
             keyFile = new File(url.getPath());
         }
         if (keyFile == null || !keyFile.exists()) {
-            keyFile = new File("/usr/share/cloudstack-common/scripts/vm/systemvm/id_rsa.cloud");
+            keyFile = new File("/usr/share/cosmic-common/scripts/vm/systemvm/id_rsa.cloud");
         }
         assert (keyFile != null);
         if (!keyFile.exists()) {
