@@ -23,7 +23,6 @@ import time
 import logging
 import gzip
 import shutil
-import uuid
 import cs_ip
 import cs_guestnetwork
 import cs_cmdline
@@ -278,7 +277,9 @@ class QueueFile:
         if not os.path.exists(path):
             os.makedirs(path)
 
-        zipped_file_name = path + "/" + self.fileName + "." + str(uuid.uuid4()) + ".gz"
+        originalName = os.path.basename(origPath)
+
+        zipped_file_name = path + "/" + originalName + ".gz"
 
         with open(origPath, 'rb') as f_in, gzip.open(zipped_file_name, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
