@@ -846,8 +846,8 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       LOGGER.debug("Failed to get public nic name");
       throw new ConfigurationException("Failed to get public nic name");
     }
-    LOGGER.debug("Found pif: " + pifs.get("private") + " on " + privBridgeName + ", pif: " + pifs.get("public")
-    + " on " + publicBridgeName);
+    LOGGER.debug("Found pif: " + pifs.get("private") + " on " + privBridgeName + ", pif: " + pifs.get("public") + " on "
+        + publicBridgeName);
 
     canBridgeFirewall = canBridgeFirewall(pifs.get("public"));
 
@@ -1108,7 +1108,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         return bridgeName;
       }
       LOGGER.debug("failing to get physical interface from bridge " + bridgeName + ", does " + brif.getAbsolutePath()
-      + "exist?");
+          + "exist?");
       return "";
     }
 
@@ -2162,8 +2162,8 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug("NIC with MAC " + nic.getMac() + " and BroadcastDomainType " + nic.getBroadcastType()
-        + " in network(" + nic.getGateway() + "/" + nic.getNetmask() + ") is " + nic.getType()
-        + " traffic type. So, vsp-vr-ip " + vrIp + " is set in the metadata");
+            + " in network(" + nic.getGateway() + "/" + nic.getNetmask() + ") is " + nic.getType()
+            + " traffic type. So, vsp-vr-ip " + vrIp + " is set in the metadata");
       }
     }
 
