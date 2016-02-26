@@ -20,6 +20,7 @@ import glob
 import json
 import os
 import time
+import uuid
 import logging
 import gzip
 import shutil
@@ -278,6 +279,9 @@ class QueueFile:
             os.makedirs(path)
 
         originalName = os.path.basename(origPath)
+
+        if originalName.count(".") == 1:
+            originalName += "." + str(uuid.uuid4())
 
         zipped_file_name = path + "/" + originalName + ".gz"
 
