@@ -153,6 +153,7 @@ class updateDataBag:
         qf.load({'ip_address': [dp], 'type': 'ips'})
         if 'domain_name' not in d.keys() or d['domain_name'] == '':
             d['domain_name'] = "cloudnine.internal"
+            dp['nw_type'] = 'public'
         return cs_guestnetwork.merge(dbag, d)
 
     def process_dhcp_entry(self, dbag):
