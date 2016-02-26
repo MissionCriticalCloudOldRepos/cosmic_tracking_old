@@ -277,16 +277,11 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       final String content) {
     final File permKey = new File("/root/.ssh/id_rsa.cloud");
     String error = null;
-    String remoteFileName = filename;
-    // Only make json files unique
-    if (filename.endsWith("json")) {
-      remoteFileName += "." + UUID.randomUUID().toString();
-    }
 
     try {
-      SshHelper.scpTo(routerIp, 3922, "root", permKey, null, path, content.getBytes(), remoteFileName, null);
+      SshHelper.scpTo(routerIp, 3922, "root", permKey, null, path, content.getBytes(), filename, null);
     } catch (final Exception e) {
-      LOGGER.warn("Fail to create file " + path + remoteFileName + " in VR " + routerIp, e);
+      LOGGER.warn("Fail to create file " + path + filename + " in VR " + routerIp, e);
       error = e.getMessage();
     }
     return new ExecutionResult(error == null, error);
