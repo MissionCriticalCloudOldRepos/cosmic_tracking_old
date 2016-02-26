@@ -16,10 +16,14 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import glob
 import json
 import os
 import time
 import logging
+import gzip
+import shutil
+import uuid
 import cs_ip
 import cs_guestnetwork
 import cs_cmdline
@@ -242,7 +246,8 @@ class QueueFile:
             self.type = self.data["type"]
             proc = updateDataBag(self)
             return
-        fn = self.configCache + '/' + self.fileName
+        filename = self.configCache + '/' + self.fileName
+        fn = min(glob.iglob(filename + '*'), key=os.path.getctime)
         try:
             handle = open(fn)
         except IOError:
@@ -272,5 +277,11 @@ class QueueFile:
     def __moveFile(self, origPath, path):
         if not os.path.exists(path):
             os.makedirs(path)
-        timestamp = str(int(round(time.time())))
-        os.rename(origPath, path + "/" + self.fileName + "." + timestamp)
+
+        zipped_file_name = path + "/" + self.fileName + "." + str(uuid.uuid4()) + ".gz"
+
+        with open(origPath, 'rb') as f_in, gzip.open(zipped_file_name, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+        os.remove(origPath)
+
+        logging.debug("Processed file written to %s", zipped_file_name)
