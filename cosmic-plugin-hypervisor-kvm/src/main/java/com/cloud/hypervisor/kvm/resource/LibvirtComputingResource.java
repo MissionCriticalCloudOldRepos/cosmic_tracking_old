@@ -277,11 +277,12 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       final String content) {
     final File permKey = new File("/root/.ssh/id_rsa.cloud");
     String error = null;
+    final String remoteFileName = filename + "." + UUID.randomUUID().toString();
 
     try {
-      SshHelper.scpTo(routerIp, 3922, "root", permKey, null, path, content.getBytes(), filename, null);
+      SshHelper.scpTo(routerIp, 3922, "root", permKey, null, path, content.getBytes(), remoteFileName, null);
     } catch (final Exception e) {
-      LOGGER.warn("Fail to create file " + path + filename + " in VR " + routerIp, e);
+      LOGGER.warn("Fail to create file " + path + remoteFileName + " in VR " + routerIp, e);
       error = e.getMessage();
     }
     return new ExecutionResult(error == null, error);
@@ -842,7 +843,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       throw new ConfigurationException("Failed to get public nic name");
     }
     LOGGER.debug("Found pif: " + pifs.get("private") + " on " + privBridgeName + ", pif: " + pifs.get("public")
-        + " on " + publicBridgeName);
+    + " on " + publicBridgeName);
 
     canBridgeFirewall = canBridgeFirewall(pifs.get("public"));
 
@@ -1103,7 +1104,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         return bridgeName;
       }
       LOGGER.debug("failing to get physical interface from bridge " + bridgeName + ", does " + brif.getAbsolutePath()
-          + "exist?");
+      + "exist?");
       return "";
     }
 
@@ -1335,7 +1336,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         if (result != null) {
           throw new CloudRuntimeException(
               "Unable to pre-configure OVS bridge " + nwName
-                  + " for network ID:" + networkId);
+              + " for network ID:" + networkId);
         }
       }
     } catch (final Exception e) {
@@ -1526,7 +1527,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
           /* this should only be true in the case of link local bridge */
           return new ExecutionResult(false,
               "unable to find the vlan id for bridge " + pluggedVlanBr + " when attempting to set up" + pubVlan
-                  + " on router " + routerName);
+              + " on router " + routerName);
         } else if (pluggedVlanId.equals(pubVlan)) {
           break;
         }
@@ -2157,8 +2158,8 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug("NIC with MAC " + nic.getMac() + " and BroadcastDomainType " + nic.getBroadcastType()
-            + " in network(" + nic.getGateway() + "/" + nic.getNetmask() + ") is " + nic.getType()
-            + " traffic type. So, vsp-vr-ip " + vrIp + " is set in the metadata");
+        + " in network(" + nic.getGateway() + "/" + nic.getNetmask() + ") is " + nic.getType()
+        + " traffic type. So, vsp-vr-ip " + vrIp + " is set in the metadata");
       }
     }
 
@@ -2188,7 +2189,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
   public synchronized String attachOrDetachIso(final Connect conn, final String vmName, String isoPath,
       final boolean isAttach) throws LibvirtException, URISyntaxException,
-          InternalErrorException {
+  InternalErrorException {
     String isoXml = null;
     if (isoPath != null && isAttach) {
       final int index = isoPath.lastIndexOf("/");
