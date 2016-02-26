@@ -224,11 +224,15 @@ class CsAcl(CsDataBag):
                     for cidr in cidrs:
                         new_rule = {
                             'cidr': cidr,
-                            'last_port': rule['last_port'],
-                            'type': rule['type'],
-                            'first_port': rule['first_port'],
-                            'allowed': rule['allowed']
                         }
+                        if 'allowed' in rule:
+                            new_rule['allowed'] = rule['allowed']
+                        if 'type' in rule:
+                            new_rule['type'] = rule['type']
+                        if 'first_port' in rule:
+                            new_rule['first_port'] = rule['first_port']
+                        if 'last_port' in rule:
+                            new_rule['last_port'] = rule['last_port']
                         rule_list_splitted.append(new_rule)
                 else:
                     rule_list_splitted.append(rule)
