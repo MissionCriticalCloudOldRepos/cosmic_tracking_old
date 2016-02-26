@@ -153,6 +153,11 @@ class updateDataBag:
         qf.load({'ip_address': [dp], 'type': 'ips'})
         if 'domain_name' not in d.keys() or d['domain_name'] == '':
             d['domain_name'] = "cloudnine.internal"
+            # The next line is a hack to make private gateways survive the destruction of the
+            # backup router in a rVPC. The nw_type should actually be guest, but other paets of
+            # this code base make assumptions that private gateways are of nw_type public,
+            # The next line of code makes the assumption that private gateway interfaces do not
+            # have a domain_name attribute.
             dp['nw_type'] = 'public'
         return cs_guestnetwork.merge(dbag, d)
 
