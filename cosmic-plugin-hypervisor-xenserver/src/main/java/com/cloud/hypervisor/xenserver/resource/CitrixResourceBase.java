@@ -945,7 +945,12 @@ public abstract class CitrixResourceBase implements ServerResource, HypervisorRe
     public ExecutionResult createFileInVR(final String routerIp, final String path, final String filename, final String content) {
         final Connection conn = getConnection();
         final String hostPath = "/tmp/";
-        final String remoteFileName = filename + "." + UUID.randomUUID().toString();
+
+        String remoteFileName = filename;
+        // Only make json files unique
+        if (filename.endsWith("json")) {
+            remoteFileName += "." + UUID.randomUUID().toString();
+        }
 
         s_logger.debug("Copying VR with ip " + routerIp + " config file into host " + _host.getIp());
         try {
