@@ -213,6 +213,10 @@ class CsAcl(CsDataBag):
                             new_rule['first_port'] = rule['first_port']
                         if 'last_port' in rule:
                             new_rule['last_port'] = rule['last_port']
+                        if 'icmp_code' in rule:
+                            new_rule['icmp_code'] = rule['icmp_code']
+                        if 'icmp_type' in rule:
+                            new_rule['icmp_type'] = rule['icmp_type']
                         rule_list_splitted.append(new_rule)
                 else:
                     rule_list_splitted.append(rule)
