@@ -21,7 +21,6 @@
 cfg=
 version=
 log=/var/log/cloud.log
-uuid=`uuid`
 
 log_it() {
     logger -t cloud "$*"
@@ -75,7 +74,7 @@ do
     if [ "$line" == "<file>" ]
     then
         read line
-        file="$line.$uuid"
+        file=$line
         log_it "VR config: creating file: $file"
         rm -f $file
         while read -r line
@@ -92,7 +91,7 @@ do
 done < $cfg
 
 #remove the configuration file, log file should have all the records as well
-rm -f $cfg
+mv $cfg /var/cache/cloud/processed/
 
 # Flush kernel conntrack table
 log_it "VR config: Flushing conntrack table"
