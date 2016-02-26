@@ -277,7 +277,11 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       final String content) {
     final File permKey = new File("/root/.ssh/id_rsa.cloud");
     String error = null;
-    final String remoteFileName = filename + "." + UUID.randomUUID().toString();
+    String remoteFileName = filename;
+    // Only make json files unique
+    if (filename.endsWith("json")) {
+      remoteFileName += "." + UUID.randomUUID().toString();
+    }
 
     try {
       SshHelper.scpTo(routerIp, 3922, "root", permKey, null, path, content.getBytes(), remoteFileName, null);
