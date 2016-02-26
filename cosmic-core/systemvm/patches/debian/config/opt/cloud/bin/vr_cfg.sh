@@ -21,6 +21,7 @@
 cfg=
 version=
 log=/var/log/cloud.log
+uuid=`uuid`
 
 log_it() {
     logger -t cloud "$*"
@@ -74,7 +75,7 @@ do
     if [ "$line" == "<file>" ]
     then
         read line
-        file=$line
+        file="$line.$uuid"
         log_it "VR config: creating file: $file"
         rm -f $file
         while read -r line
