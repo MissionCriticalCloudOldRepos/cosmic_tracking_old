@@ -253,11 +253,11 @@ class QueueFile:
             proc = updateDataBag(self)
             return
         filename = self.configCache + '/' + self.fileName
-        fn = min(glob.iglob(filename + '*'), key=os.path.getctime)
         try:
+            fn = min(glob.iglob(filename + '*'), key=os.path.getctime)
             handle = open(fn)
-        except IOError:
-            logging.error("Could not open %s", fn)
+        except:
+            logging.error("Could not open %s", filename)
         else:
             self.data = json.load(handle)
             self.type = self.data["type"]
