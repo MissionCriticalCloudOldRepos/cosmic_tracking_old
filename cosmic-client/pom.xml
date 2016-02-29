@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-client-ui</artifactId>
@@ -14,6 +13,12 @@
     <cs.replace.properties>build/replace.properties</cs.replace.properties>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-systemvm</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-spring-module</artifactId>
@@ -110,7 +115,7 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-  <groupId>cloud.cosmic</groupId>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-ovs</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -192,8 +197,8 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-       <artifactId>cloud-plugin-planner-skip-heurestics</artifactId>
-       <version>${project.version}</version>
+      <artifactId>cloud-plugin-planner-skip-heurestics</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
@@ -331,9 +336,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-        <groupId>cloud.cosmic</groupId>
-        <artifactId>cloud-plugin-api-solidfire-intg-test</artifactId>
-        <version>${project.version}</version>
+      <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-plugin-api-solidfire-intg-test</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
@@ -348,6 +353,20 @@
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>ru.concerteza.buildnumber</groupId>
         <artifactId>maven-jgit-buildnumber-plugin</artifactId>
@@ -398,10 +417,10 @@
         </configuration>
       </plugin>
       <plugin>
-         <groupId>org.mortbay.jetty</groupId>
-         <artifactId>maven-jetty-plugin</artifactId>
-         <version>6.1.26</version>
-         <dependencies>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.26</version>
+        <dependencies>
           <!-- specify the dependent jdbc driver here -->
           <dependency>
             <groupId>mysql</groupId>
@@ -425,12 +444,12 @@
             <contextPath>/client</contextPath>
             <extraClasspath>${project.build.directory}/utilities/scripts/db/;${project.build.directory}/utilities/scripts/db/db/</extraClasspath>
           </webAppConfig>
-          
+
           <systemProperties>
-              <systemProperty>
-                 <name>log4j.configuration</name>
-                 <value>log4j-cloud.xml</value>
-              </systemProperty>
+            <systemProperty>
+              <name>log4j.configuration</name>
+              <value>log4j-cloud.xml</value>
+            </systemProperty>
           </systemProperties>
         </configuration>
       </plugin>
@@ -454,87 +473,96 @@
             </goals>
             <configuration>
               <target>
-                <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts"/>
+                <copy
+                  todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
+                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts" />
                 </copy>
                 <!-- CLOUDSTACK-1304 -->
                 <chmod perm="755"
-                  file="${basedir}/target/generated-webapp/WEB-INF/classes/scripts/**" type="both"/>
+                  file="${basedir}/target/generated-webapp/WEB-INF/classes/scripts/**"
+                  type="both" />
                 <copy todir="${basedir}/target/generated-webapp/WEB-INF/">
                   <fileset dir="${basedir}/WEB-INF/">
-                    <include name="web.xml"/>
+                    <include name="web.xml" />
                   </fileset>
                 </copy>
                 <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes">
                   <fileset dir="${basedir}/WEB-INF/classes">
-                    <include name="resources/**/*"/>
+                    <include name="resources/**/*" />
                   </fileset>
                 </copy>
                 <copy todir="${basedir}/target/generated-webapp">
-                  <fileset dir="${basedir}/cosmic-ui"/>
+                  <fileset dir="${basedir}/cosmic-ui" />
                 </copy>
-                <copy overwrite="true" todir="${basedir}/target/generated-webapp/WEB-INF/classes">
+                <copy overwrite="true"
+                  todir="${basedir}/target/generated-webapp/WEB-INF/classes">
                   <fileset dir="${basedir}/tomcatconf">
-                    <include name="*.in"/>
+                    <include name="*.in" />
                   </fileset>
-                  <globmapper from="*.in" to="*"/>
+                  <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile"
+                        value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
-                <copy overwrite="true" todir="${basedir}/target/generated-webapp/WEB-INF/classes">
+                <copy overwrite="true"
+                  todir="${basedir}/target/generated-webapp/WEB-INF/classes">
                   <fileset dir="${basedir}/tomcatconf">
-                    <exclude name="*.in"/>
+                    <exclude name="*.in" />
                   </fileset>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/bin">
                   <fileset dir="${basedir}/copy-from-cosmic-core/bindir">
-                    <include name="*.in"/>
+                    <include name="*.in" />
                   </fileset>
-                  <globmapper from="*.in" to="*"/>
+                  <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile"
+                        value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/bin">
                   <fileset dir="${basedir}/bindir">
-                    <include name="*.in"/>
+                    <include name="*.in" />
                   </fileset>
-                  <globmapper from="*.in" to="*"/>
+                  <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile"
+                        value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/scripts/db">
                   <fileset dir="${basedir}/copy-from-cosmic-core/scripts/db">
-                    <include name="**/*"/>
+                    <include name="**/*" />
                   </fileset>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile"
+                        value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/conf">
                   <fileset dir="${basedir}/tomcatconf">
-                    <include name="*.in"/>
+                    <include name="*.in" />
                   </fileset>
-                  <globmapper from="*.in" to="*"/>
+                  <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}"/>
+                      <param type="propertiesfile"
+                        value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/conf">
                   <fileset dir="${basedir}/tomcatconf">
-                    <exclude name="*.in"/>
+                    <exclude name="*.in" />
                   </fileset>
                 </copy>
               </target>
@@ -552,8 +580,8 @@
                 <replaceregexp
                   file="${basedir}/target/generated-webapp/WEB-INF/classes/environment.properties"
                   match="cloud-stack-components-specification=.*"
-                  replace="cloud-stack-components-specification=components-nonoss.xml" byline="true"
-                />
+                  replace="cloud-stack-components-specification=components-nonoss.xml"
+                  byline="true" />
               </target>
             </configuration>
           </execution>
@@ -565,13 +593,14 @@
             </goals>
             <configuration>
               <target if="${noredist}">
-                <replaceregexp file="${basedir}/target/generated-webapp/WEB-INF/web.xml"
-                  match="classpath:componentContext.xml"
-                  replace="classpath:nonossComponentContext.xml" byline="true"/>
+                <replaceregexp
+                  file="${basedir}/target/generated-webapp/WEB-INF/web.xml"
+                  match="classpath:componentContext.xml" replace="classpath:nonossComponentContext.xml"
+                  byline="true" />
                 <copy overwrite="true"
                   todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
                   <fileset dir="${basedir}/copy-from-cosmic-core/cisco-vnmc/scripts">
-                    <include name="**/*"/>
+                    <include name="**/*" />
                   </fileset>
                 </copy>
               </target>
@@ -632,22 +661,46 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <executions>
+              <execution>
+                <id>extract-systemvm-file</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <workingDirectory>${project.build.directory}</workingDirectory>
+              <executable>jar</executable>
+              <arguments>
+                <argument>-xf</argument>
+                <argument>dependency/cloud-systemvm-${project.version}.jar</argument>
+                <argument>systemvm.iso</argument>
+              </arguments>
+            </configuration>
+          </plugin>
+          <plugin>
             <artifactId>maven-antrun-plugin</artifactId>
             <version>1.7</version>
             <executions>
-              <!-- Copy the systemvm in the package phase as it is generated by console-proxy
-            in the package phase. -->
+              <!-- Copy the systemvm in the package phase as it is generated by console-proxy 
+                in the package phase. -->
               <execution>
                 <id>copy-systemvm</id>
-                <phase>process-resources</phase>
+                <phase>package</phase>
                 <goals>
                   <goal>run</goal>
                 </goals>
                 <configuration>
                   <target>
-                    <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/vms">
-                      <fileset dir="${basedir}/../cosmic-core/systemvm/dist">
-                        <include name="systemvm.iso"/>
+                    <copy
+                      todir="${project.build.directory}/generated-webapp/WEB-INF/classes/vms">
+                      <fileset dir="${project.build.directory}">
+                        <include name="systemvm.iso" />
                       </fileset>
                     </copy>
                   </target>
