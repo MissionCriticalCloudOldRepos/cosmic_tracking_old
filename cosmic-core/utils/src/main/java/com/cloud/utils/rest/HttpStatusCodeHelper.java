@@ -31,8 +31,4 @@ public class HttpStatusCodeHelper {
         return statusCode == HttpStatus.SC_UNAUTHORIZED;
     }
 
-    public static boolean isConflict(final int statusCode){
-        return statusCode == HttpStatus.SC_CONFLICT;
-    }
-
 }
