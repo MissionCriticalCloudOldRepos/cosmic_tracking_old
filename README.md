@@ -25,6 +25,8 @@ Cosmic officials Git repository is located at:
 
 ## Building from Source
 
+Cosmic requires Java 8.
+
 In order to build Cosmic, you have to follow the steps below:
 
 1. git clone --recursive git@github.com:MissionCriticalCloud/cosmic.git
