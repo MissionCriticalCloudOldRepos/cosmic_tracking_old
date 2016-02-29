@@ -3,12 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-systemvm</artifactId>
   <name>Cosmic System VM</name>
-  <packaging>pom</packaging>
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-core</artifactId>
     <version>5.0.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <properties>
     <mkisofs>mkisofs</mkisofs>
@@ -163,6 +161,24 @@
             <argument>authorized_keys</argument>
           </arguments>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classesDirectory>dist</classesDirectory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
