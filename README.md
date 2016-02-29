@@ -10,7 +10,7 @@ most organizations want with an cloud: compute orchestration,
 Network-as-a-Service, user and account management, a full and open native API,
 resource accounting, and a first-class User Interface (UI).
 
-Cosmic currently supports the follwoing hypervisors:
+Cosmic currently supports the following hypervisors:
 KVM and XenServer.
 Support for other hypervisors can be added if contributors can provide the infrastructure to test agains.
 
