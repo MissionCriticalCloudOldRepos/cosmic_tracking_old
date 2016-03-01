@@ -139,6 +139,11 @@ public class CreatePortForwardingRuleCmd extends BaseAsyncCreateCmd implements P
         return ipAddressId;
     }
 
+    public String getIpAddressUuid() {
+        IpAddress ip = _networkService.getIp(ipAddressId);
+        return ip.getUuid();
+    }
+
     public Ip getVmSecondaryIp() {
         if (vmSecondaryIp == null) {
             return null;
@@ -294,8 +299,8 @@ public class CreatePortForwardingRuleCmd extends BaseAsyncCreateCmd implements P
             ntwkId = networkId;
         }
         if (ntwkId == null) {
-            throw new InvalidParameterValueException("Unable to create port forwarding rule for the ipAddress id=" + ipAddressId +
-                    " as ip is not associated with any network and no networkId is passed in");
+            throw new InvalidParameterValueException("Unable to create port forwarding rule for ip address with ID = " + getIpAddressUuid() +
+                    " as this ip address is not associated with any network. Please add networkId parameter.");
         }
         return ntwkId;
     }
