@@ -253,9 +253,12 @@ class QueueFile:
         try:
             handle = open(filename)
         except IOError as exception:
-            logging.error("Exception occurred %s", exception)
-            logging.error("Could not open %s", filename)
+            error_message = ("Exception occurred with the following exception error '{error}'. Could not open '{file}'. "
+                              "It seems that the file has already been moved.".format(error = exception, file = filename))
+            logging.error(error_message)
         else:
+            logging.info("Continuing with the processing of file '{file}'".format(file = filename))
+
             self.data = json.load(handle)
             self.type = self.data["type"]
             handle.close()
