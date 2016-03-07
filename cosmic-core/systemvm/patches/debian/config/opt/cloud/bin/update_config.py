@@ -27,6 +27,8 @@ import configure
 import glob
 import json
 
+OCCURRENCES = 1
+
 logging.basicConfig(filename='/var/log/cloud.log', level=logging.DEBUG, format='%(asctime)s  %(filename)s %(funcName)s:%(lineno)d %(message)s')
 
 # first commandline argument should be the file to process
@@ -117,7 +119,7 @@ if not (os.path.isfile(filename) and os.access(filename, os.R_OK)):
     sys.exit(1)
 
 # If the guest network is already configured and have the same IP, do not try to configure it again otherwise it will break
-if sys.argv[1] == "guest_network.json":
+if sys.argv[1] and sys.argv[1].count("guest_network.json") == OCCURRENCES:
     if os.path.isfile(currentGuestNetConfig):
         file = open(currentGuestNetConfig)
         guestnet_dict = json.load(file)

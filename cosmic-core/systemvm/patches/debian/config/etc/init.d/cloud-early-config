@@ -215,8 +215,9 @@ patch() {
     then
       log_it "Rebooting system since we patched init scripts"
       sync
-      sleep 2
       reboot
+      log_it "Router needs patching and was rebooted. Sleeping 5 seconds to avoid other commands execution."
+      sleep 5
     fi
   fi
   if [ -f /mnt/cmdline ]; then
@@ -973,8 +974,9 @@ setup_router() {
     then
       log_it "udev NIC assignment requires reboot to take effect"
       sync
-      sleep 2
       reboot
+      log_it "Router needs patching and was rebooted. Sleeping 5 seconds to avoid other commands execution."
+      sleep 5
     fi
   fi
   
