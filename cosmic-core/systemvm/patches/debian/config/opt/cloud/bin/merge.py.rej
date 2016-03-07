@@ -1,0 +1,43 @@
+***************
+*** 248,267 ****
+              self.type = self.data["type"]
+              proc = updateDataBag(self)
+              return
+-         filename = '{cache_location}/{json_file}{uuid_suffix}'.format(cache_location = self.configCache, json_file = self.fileName, uuid_suffix = '*')
+          try:
+-             fn = min(glob.iglob(filename), key=os.path.getctime)
+-             handle = open(fn)
+-         except IOError:
+-             logging.error("Could not open %s", fn)
+          else:
+              self.data = json.load(handle)
+              self.type = self.data["type"]
+              handle.close()
+              if self.keep:
+-                 self.__moveFile(fn, self.configCache + "/processed")
+              else:
+-                 os.remove(fn)
+              proc = updateDataBag(self)
+  
+      def setFile(self, name):
+--- 248,267 ----
+              self.type = self.data["type"]
+              proc = updateDataBag(self)
+              return
++         filename = '{cache_location}/{json_file}'.format(cache_location = self.configCache, json_file = self.fileName)
+          try:
++             handle = open(filename)
++         except IOError as exception:
++             logging.error("Exception occurred %s", exception)
++             logging.error("Could not open %s", filename)
+          else:
+              self.data = json.load(handle)
+              self.type = self.data["type"]
+              handle.close()
+              if self.keep:
++                 self.__moveFile(filename, self.configCache + "/processed")
+              else:
++                 os.remove(filename)
+              proc = updateDataBag(self)
+  
+      def setFile(self, name):

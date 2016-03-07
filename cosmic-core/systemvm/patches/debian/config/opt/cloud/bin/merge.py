@@ -249,20 +249,20 @@ class QueueFile:
             self.type = self.data["type"]
             proc = updateDataBag(self)
             return
-        filename = '{cache_location}/{json_file}{uuid_suffix}'.format(cache_location = self.configCache, json_file = self.fileName, uuid_suffix = '*')
+        filename = '{cache_location}/{json_file}'.format(cache_location = self.configCache, json_file = self.fileName)
         try:
-            fn = min(glob.iglob(filename), key=os.path.getctime)
-            handle = open(fn)
-        except:
+            handle = open(filename)
+        except IOError as exception:
+            logging.error("Exception occurred %s", exception)
             logging.error("Could not open %s", filename)
         else:
             self.data = json.load(handle)
             self.type = self.data["type"]
             handle.close()
             if self.keep:
-                self.__moveFile(fn, self.configCache + "/processed")
+                self.__moveFile(filename, self.configCache + "/processed")
             else:
-                os.remove(fn)
+                os.remove(filename)
             proc = updateDataBag(self)
 
     def setFile(self, name):
