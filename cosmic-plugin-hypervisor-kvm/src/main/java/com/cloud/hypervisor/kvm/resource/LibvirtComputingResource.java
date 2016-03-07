@@ -1563,8 +1563,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         final String pluggedVlan = pluggedNic.getBrName();
         if (pluggedVlan.equalsIgnoreCase(linkLocalBridgeName)) {
           broadcastUriToNicNum.put("LinkLocal", devNum);
-        } else if (pluggedVlan.equalsIgnoreCase(publicBridgeName) || pluggedVlan.equalsIgnoreCase(privBridgeName)
-            || pluggedVlan.equalsIgnoreCase(guestBridgeName)) {
+        } else if (pluggedVlan.equalsIgnoreCase(publicBridgeName) || pluggedVlan.equalsIgnoreCase(privBridgeName) || pluggedVlan.equalsIgnoreCase(guestBridgeName)) {
           broadcastUriToNicNum.put(BroadcastDomainType.Vlan.toUri(Vlan.UNTAGGED).toString(), devNum);
         } else {
           broadcastUriToNicNum.put(getBroadcastUriFromBridge(pluggedVlan), devNum);
@@ -1573,7 +1572,11 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       }
 
       for (final IpAddressTO ip : ips) {
-        ip.setNicDevId(broadcastUriToNicNum.get(ip.getBroadcastUri()));
+        Integer nicDevId = broadcastUriToNicNum.get(ip.getBroadcastUri());
+        // This hack is needed in case the ip.getBroadcastUri() is lswitch:UUID
+        if (nicDevId != null) {
+          ip.setNicDevId(nicDevId);
+        }
       }
 
       return new ExecutionResult(true, null);
