@@ -25,7 +25,6 @@ import os.path
 import re
 import shutil
 from netaddr import *
-import sys
 from pprint import pprint
 
 PUBLIC_INTERFACES = {"router" : "eth0", "vpcrouter" : "eth1"}
