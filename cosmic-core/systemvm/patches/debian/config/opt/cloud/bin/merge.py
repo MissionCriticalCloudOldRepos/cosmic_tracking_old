@@ -155,7 +155,7 @@ class updateDataBag:
         if 'domain_name' not in d.keys() or d['domain_name'] == '':
             d['domain_name'] = "cloudnine.internal"
 
-        PrivateGatewayHack.update_network_type_for_privategateway(dbag, d)
+        d = PrivateGatewayHack.update_network_type_for_privategateway(dbag, d)
         return cs_guestnetwork.merge(dbag, d)
 
     def process_dhcp_entry(self, dbag):
