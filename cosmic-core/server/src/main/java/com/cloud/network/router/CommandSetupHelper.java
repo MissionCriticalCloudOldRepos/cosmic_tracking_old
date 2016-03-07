@@ -651,8 +651,6 @@ public class CommandSetupHelper {
 
     public void createVpcAssociatePublicIPCommands(final VirtualRouter router, final List<? extends PublicIpAddress> ips, final Commands cmds,
             final Map<String, String> vlanMacAddress) {
-        s_logger.debug("DEBUG::in createVpcAssociatePublicIPCommands");
-
         final String ipAssocCommand = "IPAssocVpcCommand";
         if (router.getIsRedundantRouter()) {
             createRedundantAssociateIPCommands(router, ips, cmds, ipAssocCommand, 0);
@@ -700,18 +698,6 @@ public class CommandSetupHelper {
                 ip.setTrafficType(network.getTrafficType());
                 ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
 
-                String ipAddress= ipAddr.getAddress().addr();
-                Long networkId = network.getId();
-                s_logger.debug("DEBUG:: trying to find Nic for IP address using: address = " + ipAddress + " and networkId = " + networkId);
-                NicVO nicForAddress = _nicDao.findByIp4AddressAndNetworkId(ipAddress, networkId);
-                if(nicForAddress != null) {
-                    int deviceId = nicForAddress.getDeviceId();
-                    ip.setNicDevId(deviceId);
-                    s_logger.debug("DEBUG:: Found Nic device id for ip address: " + deviceId);
-                } else {
-                    s_logger.debug("DEBUG:: Did not find a Nic device id for ip address, this will cause problems in the rVPC routers");
-                }
-
                 ipsToSend[i++] = ip;
                 if (ipAddr.isSourceNat()) {
                     sourceNatIpAdd = new Pair<IpAddressTO, Long>(ip, ipAddr.getNetworkId());
@@ -741,7 +727,6 @@ public class CommandSetupHelper {
     }
 
     public void createRedundantAssociateIPCommands(final VirtualRouter router, final List<? extends PublicIpAddress> ips, final Commands cmds, final String ipAssocCommand, final long vmId) {
-        s_logger.debug("DEBUG::in createRedundantAssociateIPCommands");
         // Ensure that in multiple vlans case we first send all ip addresses of
         // vlan1, then all ip addresses of vlan2, etc..
         final Map<String, ArrayList<PublicIpAddress>> vlanIpMap = new HashMap<String, ArrayList<PublicIpAddress>>();
@@ -821,16 +806,6 @@ public class CommandSetupHelper {
                 final IpAddressTO ip = new IpAddressTO(ipAddr.getAccountId(), ipAddress, add, firstIP, sourceNat, vlanId, vlanGateway, vlanNetmask,
                         vifMacAddress, networkRate, ipAddr.isOneToOneNat());
 
-                Long networkId = ipAddr.getNetworkId();
-                s_logger.debug("DEBUG:: trying to find Nic for IP address using: address = " + ipAddress + " and networkId = " + networkId);
-                NicVO nicForAddress = _nicDao.findByIp4AddressAndNetworkId(ipAddress, networkId);
-                if(nicForAddress != null) {
-                    int deviceId = nicForAddress.getDeviceId();
-                    ip.setNicDevId(deviceId);
-                    s_logger.debug("DEBUG:: Found Nic device id for ip address: " + deviceId);
-                } else {
-                    s_logger.debug("DEBUG:: Did not find a Nic device id for ip address, this will cause problems in the rVPC routers");
-                }
                 ip.setTrafficType(network.getTrafficType());
                 ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
                 ipsToSend[i++] = ip;
@@ -897,8 +872,6 @@ public class CommandSetupHelper {
     }
 
     public void createVpcAssociatePrivateIPCommands(final VirtualRouter router, final List<PrivateIpAddress> ips, final Commands cmds, NicProfile nicProfile, final boolean add) {
-        s_logger.debug("DEBUG::in createVpcAssociatePrivateIPCommands");
-
         // Ensure that in multiple vlans case we first send all ip addresses of
         // vlan1, then all ip addresses of vlan2, etc..
         final Map<String, ArrayList<PrivateIpAddress>> vlanIpMap = new HashMap<String, ArrayList<PrivateIpAddress>>();
