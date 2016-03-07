@@ -1572,9 +1572,10 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       }
 
       for (final IpAddressTO ip : ips) {
-        Integer nicDevId = broadcastUriToNicNum.get(ip.getBroadcastUri());
         // This hack is needed in case the ip.getBroadcastUri() is lswitch:UUID
-        if (nicDevId != null) {
+        String broadcastUri = ip.getBroadcastUri();
+        if (broadcastUriToNicNum.containsKey(broadcastUri)) {
+          Integer nicDevId = broadcastUriToNicNum.get(broadcastUri);
           ip.setNicDevId(nicDevId);
         }
       }
