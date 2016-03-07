@@ -899,7 +899,8 @@ def main(argv):
 
     # process_file can be None, if so assume cmd_line.json
     if process_file is None:
-        process_file = "cmd_line.json"
+        logging.debug("No file was received, do not go on processing the other actions. Just leave for now.")
+        return
 
     # Track if changes need to be committed to NetFilter
     iptables_change = False
