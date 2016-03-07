@@ -116,13 +116,6 @@ if not (os.path.isfile(filename) and os.access(filename, os.R_OK)):
     print "[ERROR] update_config.py :: You are telling me to process %s, but i can't access it" % jsonCmdConfigPath
     sys.exit(1)
 
-# If the command line json file is unprocessed process it
-# This is important or, the control interfaces will get deleted!
-if glob.glob(jsonPath % "cmd_line.json*"):
-    qf = QueueFile()
-    qf.setFile("cmd_line.json")
-    qf.load(None)
-
 # If the guest network is already configured and have the same IP, do not try to configure it again otherwise it will break
 if sys.argv[1] == "guest_network.json":
     if os.path.isfile(currentGuestNetConfig):
