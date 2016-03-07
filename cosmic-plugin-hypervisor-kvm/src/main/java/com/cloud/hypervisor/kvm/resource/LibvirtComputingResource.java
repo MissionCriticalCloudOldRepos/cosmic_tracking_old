@@ -1563,7 +1563,8 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         final String pluggedVlan = pluggedNic.getBrName();
         if (pluggedVlan.equalsIgnoreCase(linkLocalBridgeName)) {
           broadcastUriToNicNum.put("LinkLocal", devNum);
-        } else if (pluggedVlan.equalsIgnoreCase(publicBridgeName) || pluggedVlan.equalsIgnoreCase(privBridgeName) || pluggedVlan.equalsIgnoreCase(guestBridgeName)) {
+        } else if (pluggedVlan.equalsIgnoreCase(publicBridgeName) || pluggedVlan.equalsIgnoreCase(privBridgeName)
+            || pluggedVlan.equalsIgnoreCase(guestBridgeName)) {
           broadcastUriToNicNum.put(BroadcastDomainType.Vlan.toUri(Vlan.UNTAGGED).toString(), devNum);
         } else {
           broadcastUriToNicNum.put(getBroadcastUriFromBridge(pluggedVlan), devNum);
@@ -1572,8 +1573,8 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       }
 
       for (final IpAddressTO ip : ips) {
-        // This hack is needed in case the ip.getBroadcastUri() is lswitch:UUID
         String broadcastUri = ip.getBroadcastUri();
+        // This hack is needed in case the ip.getBroadcastUri() is lswitch:UUID
         if (broadcastUriToNicNum.containsKey(broadcastUri)) {
           Integer nicDevId = broadcastUriToNicNum.get(broadcastUri);
           ip.setNicDevId(nicDevId);
@@ -1593,16 +1594,14 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
     Connect conn;
     try {
       conn = LibvirtConnection.getConnectionByVmName(routerName);
-      final List<InterfaceDef> nics = getInterfaces(conn, routerName);
+      final List<InterfaceDef> nics = getInterfaces(conn, routerName, guestBridgeName);
       final Map<String, Integer> broadcastUriAllocatedToVm = new HashMap<String, Integer>();
       Integer nicPos = 0;
       for (final InterfaceDef nic : nics) {
         if (nic.getBrName().equalsIgnoreCase(linkLocalBridgeName)) {
           broadcastUriAllocatedToVm.put("LinkLocal", nicPos);
         } else {
-          if (nic.getBrName().equalsIgnoreCase(publicBridgeName) || nic.getBrName().equalsIgnoreCase(privBridgeName)
-              ||
-              nic.getBrName().equalsIgnoreCase(guestBridgeName)) {
+          if (nic.getBrName().equalsIgnoreCase(publicBridgeName) || nic.getBrName().equalsIgnoreCase(privBridgeName)) {
             broadcastUriAllocatedToVm.put(BroadcastDomainType.Vlan.toUri(Vlan.UNTAGGED).toString(), nicPos);
           } else {
             final String broadcastUri = getBroadcastUriFromBridge(nic.getBrName());
@@ -2897,6 +2896,18 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
   public Domain getDomain(final Connect conn, final String vmName) throws LibvirtException {
     return conn.domainLookupByName(vmName);
+  }
+
+  public List<InterfaceDef> getInterfaces(final Connect conn, final String vmName, String interfaceToExclude) {
+    List<InterfaceDef> interfaces = getInterfaces(conn, vmName);
+    List<InterfaceDef> interfacesToReturn = new ArrayList<InterfaceDef>();
+    for (InterfaceDef interfaceDef : interfaces) {
+      if (!interfaceDef.getBrName().equalsIgnoreCase(interfaceToExclude)) {
+        interfacesToReturn.add(interfaceDef);
+      }
+    }
+
+    return interfacesToReturn;
   }
 
   public List<InterfaceDef> getInterfaces(final Connect conn, final String vmName) {
