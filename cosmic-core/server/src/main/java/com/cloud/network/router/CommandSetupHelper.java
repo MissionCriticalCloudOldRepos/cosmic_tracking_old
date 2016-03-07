@@ -699,7 +699,7 @@ public class CommandSetupHelper {
 
                 ip.setTrafficType(network.getTrafficType());
                 ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
-                
+
                 String ipAddress= ipAddr.getAddress().addr();
                 Long networkId = network.getId();
                 s_logger.debug("DEBUG:: trying to find Nic for IP address using: address = " + ipAddress + " and networkId = " + networkId);
@@ -711,7 +711,7 @@ public class CommandSetupHelper {
                 } else {
                     s_logger.debug("DEBUG:: Did not find a Nic device id for ip address, this will cause problems in the rVPC routers");
                 }
-                
+
                 ipsToSend[i++] = ip;
                 if (ipAddr.isSourceNat()) {
                     sourceNatIpAdd = new Pair<IpAddressTO, Long>(ip, ipAddr.getNetworkId());
@@ -896,9 +896,9 @@ public class CommandSetupHelper {
         cmds.addCommand("applyS2SVpn", cmd);
     }
 
-    public void createVpcAssociatePrivateIPCommands(final VirtualRouter router, final List<PrivateIpAddress> ips, final Commands cmds, final boolean add) {
+    public void createVpcAssociatePrivateIPCommands(final VirtualRouter router, final List<PrivateIpAddress> ips, final Commands cmds, NicProfile nicProfile, final boolean add) {
         s_logger.debug("DEBUG::in createVpcAssociatePrivateIPCommands");
-        
+
         // Ensure that in multiple vlans case we first send all ip addresses of
         // vlan1, then all ip addresses of vlan2, etc..
         final Map<String, ArrayList<PrivateIpAddress>> vlanIpMap = new HashMap<String, ArrayList<PrivateIpAddress>>();
@@ -925,19 +925,14 @@ public class CommandSetupHelper {
 
                 ip.setTrafficType(network.getTrafficType());
                 ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
-                
+
                 String ipAddress = ipAddr.getIpAddress();
                 Long networkId = network.getId();
-                s_logger.debug("DEBUG:: trying to find Nic for IP address using: address = " + ipAddress + " and networkId = " + networkId);
-                NicVO nicForAddress = _nicDao.findByIp4AddressAndNetworkId(ipAddress, networkId);
-                if(nicForAddress != null) {
-                    int deviceId = nicForAddress.getDeviceId();
-                    ip.setNicDevId(deviceId);
-                    s_logger.debug("DEBUG:: Found Nic device id for ip address: " + deviceId);
-                } else {
-                    s_logger.debug("DEBUG:: Did not find a Nic device id for ip address, this will cause problems in the rVPC routers");
-                }
-                
+                int deviceId = nicProfile.getDeviceId();
+                ip.setNicDevId(deviceId);
+
+                s_logger.debug("DEBUG:: Nic device for IP address using: address = " + ipAddress + " and networkId = " + networkId + " is ==> " + deviceId);
+
                 ipsToSend[i++] = ip;
 
             }

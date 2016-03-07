@@ -119,6 +119,7 @@ public class AdvancedNetworkVisitor extends BasicNetworkVisitor {
         final List<PublicIpAddress> ipsToSend = vpcip.getIpsToSend();
 
         if (!ipsToSend.isEmpty()) {
+            s_logger.debug("DEBUG::in AdvancedNetworkTopology --> will createVpcAssociatePublicIPCommands and send to router --> " + router.getId());
             _commandSetupHelper.createVpcAssociatePublicIPCommands(router, ipsToSend, cmds, vlanMacAddress);
             return _networkGeneralHelper.sendCommandsToRouter(router, cmds);
         } else {
@@ -145,7 +146,7 @@ public class AdvancedNetworkVisitor extends BasicNetworkVisitor {
             privateIps.add(ip);
 
             final Commands cmds = new Commands(Command.OnError.Stop);
-            _commandSetupHelper.createVpcAssociatePrivateIPCommands(router, privateIps, cmds, isAddOperation);
+            _commandSetupHelper.createVpcAssociatePrivateIPCommands(router, privateIps, cmds, nicProfile, isAddOperation);
 
             try {
                 if (_networkGeneralHelper.sendCommandsToRouter(router, cmds)) {

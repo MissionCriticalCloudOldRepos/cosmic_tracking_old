@@ -374,13 +374,18 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
                         // set private network
                         final PrivateIpVO ipVO = _privateIpDao.findByIpAndSourceNetworkId(guestNic.getNetworkId(), guestNic.getIPv4Address());
                         final Network network = _networkDao.findById(guestNic.getNetworkId());
-                        BroadcastDomainType.getValue(network.getBroadcastUri());
                         final String netmask = NetUtils.getCidrNetmask(network.getCidr());
                         final PrivateIpAddress ip = new PrivateIpAddress(ipVO, network.getBroadcastUri().toString(), network.getGateway(), netmask, guestNic.getMacAddress());
 
                         final List<PrivateIpAddress> privateIps = new ArrayList<PrivateIpAddress>(1);
                         privateIps.add(ip);
-                        _commandSetupHelper.createVpcAssociatePrivateIPCommands(domainRouterVO, privateIps, cmds, true);
+
+                        NicProfile privateNicProfile =
+                            new NicProfile(guestNic, network, network.getBroadcastUri(), network.getBroadcastUri(), _networkModel.getNetworkRate(
+                                guestNic.getId(), domainRouterVO.getId()), _networkModel.isSecurityGroupSupportedInNetwork(network), _networkModel.getNetworkTag(
+                                    domainRouterVO.getHypervisorType(), network));
+
+                        _commandSetupHelper.createVpcAssociatePrivateIPCommands(domainRouterVO, privateIps, cmds, privateNicProfile, true);
 
                         final Long privateGwAclId = _vpcGatewayDao.getNetworkAclIdForPrivateIp(ipVO.getVpcId(), ipVO.getNetworkId(), ipVO.getIpAddress());
 
@@ -514,7 +519,7 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
             final List<PrivateIpAddress> privateIps = new ArrayList<PrivateIpAddress>(1);
             privateIps.add(ip);
             final Commands cmds = new Commands(Command.OnError.Stop);
-            _commandSetupHelper.createVpcAssociatePrivateIPCommands(router, privateIps, cmds, add);
+            _commandSetupHelper.createVpcAssociatePrivateIPCommands(router, privateIps, cmds, privateNic, add);
 
             try {
                 if (_nwHelper.sendCommandsToRouter(router, cmds)) {

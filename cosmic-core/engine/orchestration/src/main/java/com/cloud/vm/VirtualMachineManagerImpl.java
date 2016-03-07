@@ -4412,7 +4412,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
     public Outcome<VirtualMachine> addVmToNetworkThroughJobQueue(
             final VirtualMachine vm, final Network network, final NicProfile requested) {
         s_logger.debug("DEBUG:: in addVmToNetworkThroughJobQueue");
-        
+
         final CallContext context = CallContext.current();
         final User user = context.getCallingUser();
         final Account account = context.getCallingAccount();
