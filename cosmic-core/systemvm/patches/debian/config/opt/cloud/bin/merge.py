@@ -249,9 +249,9 @@ class QueueFile:
             self.type = self.data["type"]
             proc = updateDataBag(self)
             return
-        filename = self.configCache + '/' + self.fileName
+        filename = '{cache_location}/{json_file}{uuid_suffix}'.format(cache_location = self.configCache, json_file = self.fileName, uuid_suffix = '*')
         try:
-            fn = min(glob.iglob(filename + '*'), key=os.path.getctime)
+            fn = min(glob.iglob(filename), key=os.path.getctime)
             handle = open(fn)
         except:
             logging.error("Could not open %s", filename)

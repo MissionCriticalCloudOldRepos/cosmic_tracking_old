@@ -897,7 +897,6 @@ def main(argv):
     # The file we are currently processing, if it is "cmd_line.json" everything will be processed.
     process_file = argv[1]
 
-    # process_file can be None, if so assume cmd_line.json
     if process_file is None:
         logging.debug("No file was received, do not go on processing the other actions. Just leave for now.")
         return
