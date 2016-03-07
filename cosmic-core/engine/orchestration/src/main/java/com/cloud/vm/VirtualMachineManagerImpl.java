@@ -2932,6 +2932,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
     @Override
     public NicProfile addVmToNetwork(final VirtualMachine vm, final Network network, final NicProfile requested)
             throws ConcurrentOperationException, ResourceUnavailableException, InsufficientCapacityException {
+        s_logger.debug("DEBUG:: in addVmToNetwork");
 
         final AsyncJobExecutionContext jobContext = AsyncJobExecutionContext.getCurrentExecutionContext();
         if (jobContext.isJobDispatchedBy(VmWorkConstants.VM_WORK_JOB_DISPATCHER)) {
@@ -2939,6 +2940,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
             VmWorkJobVO placeHolder = null;
             placeHolder = createPlaceHolderWork(vm.getId());
             try {
+                s_logger.debug("DEBUG:: calling orchestrateAddVmToNetwork becasue job is dispatched via "+ VmWorkConstants.VM_WORK_JOB_DISPATCHER);
                 return orchestrateAddVmToNetwork(vm, network, requested);
             } finally {
                 if (placeHolder != null) {
@@ -2946,6 +2948,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
                 }
             }
         } else {
+            s_logger.debug("DEBUG:: calling addVmToNetworkThroughJobQueue");
             final Outcome<VirtualMachine> outcome = addVmToNetworkThroughJobQueue(vm, network, requested);
 
             try {
@@ -2980,6 +2983,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
     private NicProfile orchestrateAddVmToNetwork(final VirtualMachine vm, final Network network, final NicProfile requested) throws ConcurrentOperationException, ResourceUnavailableException,
     InsufficientCapacityException {
         final CallContext cctx = CallContext.current();
+        s_logger.debug("DEBUG:: in orchestrateAddVmToNetwork");
 
         s_logger.debug("Adding vm " + vm + " to network " + network + "; requested nic profile " + requested);
         final VMInstanceVO vmVO = _vmDao.findById(vm.getId());
@@ -4407,7 +4411,8 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
 
     public Outcome<VirtualMachine> addVmToNetworkThroughJobQueue(
             final VirtualMachine vm, final Network network, final NicProfile requested) {
-
+        s_logger.debug("DEBUG:: in addVmToNetworkThroughJobQueue");
+        
         final CallContext context = CallContext.current();
         final User user = context.getCallingUser();
         final Account account = context.getCallingAccount();
