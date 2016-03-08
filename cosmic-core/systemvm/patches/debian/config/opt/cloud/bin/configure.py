@@ -972,6 +972,7 @@ def main(argv):
                                 ("dhcp.json", {"process_iptables" : False, "executor" : CsDhcp("dhcpentry", config)}),
                                 ("load_balancer.json", {"process_iptables" : True, "executor" : IpTablesExecutor(config)}),
                                 ("monitor_service.json", {"process_iptables" : False, "executor" : CsMonitor("monitorservice", config)}),
+                                ("static_routes.json", {"process_iptables" : False, "executor" : CsStaticRoutes("staticroutes", config)})
                             ])
 
     if process_file.count("cmd_line.json") == OCCURRENCES:
@@ -995,15 +996,16 @@ def main(argv):
             if process_file.count(item_name) == OCCURRENCES:
                 executor = item_dict["executor"]
                 executor.process()
+
+                if item_dict["process_iptables"]:
+                    iptables_executor = IpTablesExecutor(config)
+                    iptables_executor.process()
+
                 break
 
     red = CsRedundant(config)
     red.set()
 
-    if process_file in ["cmd_line.json", "static_routes.json"]:
-        logging.debug("Configuring static routes")
-        static_routes = CsStaticRoutes("staticroutes", config)
-        static_routes.process()
 
 if __name__ == "__main__":
     main(sys.argv)
