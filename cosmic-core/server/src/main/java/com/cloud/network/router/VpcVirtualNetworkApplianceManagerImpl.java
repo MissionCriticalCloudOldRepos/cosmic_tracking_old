@@ -382,7 +382,7 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
 
                         NicProfile privateNicProfile =
                             new NicProfile(guestNic, network, network.getBroadcastUri(), network.getBroadcastUri(), _networkModel.getNetworkRate(
-                                guestNic.getId(), domainRouterVO.getId()), _networkModel.isSecurityGroupSupportedInNetwork(network), _networkModel.getNetworkTag(
+                                guestNic.getNetworkId(), domainRouterVO.getId()), _networkModel.isSecurityGroupSupportedInNetwork(network), _networkModel.getNetworkTag(
                                     domainRouterVO.getHypervisorType(), network));
 
                         _commandSetupHelper.createVpcAssociatePrivateIPCommands(domainRouterVO, privateIps, cmds, privateNicProfile, true);
