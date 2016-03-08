@@ -40,6 +40,10 @@ The steps above will build the essentials to get Cosmic management server workin
 
 Go to your brouwser and type: http://localhost:8080/client
 
+## Building RPM Packages
+
+In order to build Cosmic RPM packages, please refer to the [Packaging repository](https://github.com/MissionCriticalCloud/packaging) README section.
+
 ## Links
 
 Cosmic is a fork of Apache CloudStack and its API is backwards compatible with CloudStack's API. So, all the documentation can be accessed from:
