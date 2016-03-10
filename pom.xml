@@ -119,6 +119,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>org.jacoco</groupId>
+        <artifactId>org.jacoco.agent</artifactId>
+        <version>0.7.6.201602180812</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.4</version>
@@ -753,6 +758,12 @@
           docs/**,
         </sonar.exclusions>
       </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jacoco</groupId>
+          <artifactId>org.jacoco.agent</artifactId>
+        </dependency>
+      </dependencies>
       <build>
         <plugins>
           <plugin>
@@ -763,7 +774,7 @@
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <executions>
-              <!-- Prepares the property pointing to the JaCoCo runtime agent which is passed as VM argument when unit tests
+              <!-- Prepares the property pointing to the JaCoCo runtime agent which is passed as VM argument when unit tests 
                 run. -->
               <execution>
                 <id>setup-unit-tests-javaagent</id>
@@ -778,7 +789,7 @@
                   <propertyName>surefireArgLine</propertyName>
                 </configuration>
               </execution>
-              <!-- Prepares the property pointing to the JaCoCo runtime agent which is passed as VM argument when integration
+              <!-- Prepares the property pointing to the JaCoCo runtime agent which is passed as VM argument when integration 
                 tests run. -->
               <execution>
                 <id>setup-integration-tests-javaagent</id>
