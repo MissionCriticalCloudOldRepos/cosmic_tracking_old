@@ -844,6 +844,32 @@
               </execution>
             </executions>
           </plugin>
+          <plugin> <!-- Copy jacoco agent to /tmp -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+              <execution>
+                <id>copy-jacoco-agent-to-tmp</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.jacoco</groupId>
+                      <artifactId>org.jacoco.agent</artifactId>
+                      <type>jar</type>
+                      <overWrite>true</overWrite>
+                      <outputDirectory>/tmp</outputDirectory>
+                      <destFileName>jacoco-agent.jar</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
