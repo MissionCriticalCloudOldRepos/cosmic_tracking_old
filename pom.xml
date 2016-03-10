@@ -19,7 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <coverage.reports.dir>${session.executionRootDirectory}/target/coverage-reports</coverage.reports.dir>
+    <coverage.reports.dir>${cosmic.dir}/target/coverage-reports</coverage.reports.dir>
     <unit.tests.report>${coverage.reports.dir}/jacoco-ut.exec</unit.tests.report>
     <integration.tests.report>${coverage.reports.dir}/jacoco-it.exec</integration.tests.report>
 
