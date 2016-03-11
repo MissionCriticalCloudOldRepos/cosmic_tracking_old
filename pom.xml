@@ -124,6 +124,11 @@
         <version>0.7.6.201602180812</version>
       </dependency>
       <dependency>
+        <groupId>org.jacoco</groupId>
+        <artifactId>org.jacoco.agent.rt</artifactId>
+        <version>0.7.6.201602180812</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.4</version>
@@ -820,8 +825,9 @@
                       <groupId>org.jacoco</groupId>
                       <artifactId>org.jacoco.agent</artifactId>
                       <type>jar</type>
+                      <classifier>runtime</classifier>
                       <overWrite>true</overWrite>
-                      <outputDirectory>/tmp</outputDirectory>
+                      <outputDirectory>target/</outputDirectory>
                       <destFileName>jacoco-agent.jar</destFileName>
                     </artifactItem>
                   </artifactItems>
