@@ -2033,7 +2033,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
 
                 if (vlanIdFinal != null) {
                     if (isolatedPvlan == null) {
-                        URI uri = BroadcastDomainType.fromString(vlanIdFinal);
+                        final URI uri = BroadcastDomainType.fromString(vlanIdFinal);
                         userNetwork.setBroadcastUri(uri);
                         if (!vlanIdFinal.equalsIgnoreCase(Vlan.UNTAGGED)) {
                             userNetwork.setBroadcastDomainType(BroadcastDomainType.Vlan);
