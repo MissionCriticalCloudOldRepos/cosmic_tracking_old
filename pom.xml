@@ -789,31 +789,6 @@
                   <propertyName>surefireArgLine</propertyName>
                 </configuration>
               </execution>
-              <!-- Prepares the property pointing to the JaCoCo runtime agent which is passed as VM argument when integration 
-                tests run. -->
-              <execution>
-                <id>setup-integration-tests-javaagent</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <!-- Sets the path to the file which contains the execution data. -->
-                  <destFile>${integration.tests.report}</destFile>
-                  <!-- Sets the name of the property containing the settings for JaCoCo runtime agent. -->
-                  <propertyName>failsafeArgLine</propertyName>
-                </configuration>
-              </execution>
-              <execution>
-                <id>generate-report</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-                <configuration>
-                  <dataFile>${integration.tests.report}</dataFile>
-                </configuration>
-              </execution>
             </executions>
           </plugin>
           <plugin>
@@ -827,22 +802,6 @@
                 <exclude>**/*IT.java</exclude>
               </excludes>
             </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <!-- Sets the VM argument line used when integration tests are run. -->
-              <argLine>${failsafeArgLine}</argLine>
-            </configuration>
-            <executions>
-              <execution>
-                <id>integration-tests</id>
-                <goals>
-                  <goal>integration-test</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
           <plugin> <!-- Copy jacoco agent to /tmp -->
             <groupId>org.apache.maven.plugins</groupId>
