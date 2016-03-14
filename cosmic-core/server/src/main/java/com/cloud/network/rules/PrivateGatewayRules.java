@@ -50,6 +50,7 @@ public class PrivateGatewayRules extends RuleApplier {
 
     @Override
     public boolean accept(final NetworkTopologyVisitor visitor, final VirtualRouter router) throws ResourceUnavailableException {
+        s_logger.debug("DEBUG:: in accept");
         _router = router;
 
         boolean result = false;
@@ -67,6 +68,7 @@ public class PrivateGatewayRules extends RuleApplier {
             }
             final VirtualMachineManager itMgr = visitor.getVirtualNetworkApplianceFactory().getItMgr();
             _nicProfile = itMgr.addVmToNetwork(_router, _network, requested);
+            s_logger.debug("DEBUG:: nic profile = " + _nicProfile.toString());
 
             // setup source nat
             if (_nicProfile != null) {

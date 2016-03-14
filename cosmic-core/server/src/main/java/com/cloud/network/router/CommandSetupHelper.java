@@ -58,6 +58,7 @@ import com.cloud.agent.api.to.FirewallRuleTO;
 import com.cloud.agent.api.to.IpAddressTO;
 import com.cloud.agent.api.to.LoadBalancerTO;
 import com.cloud.agent.api.to.NetworkACLTO;
+import com.cloud.agent.api.to.NicTO;
 import com.cloud.agent.api.to.PortForwardingRuleTO;
 import com.cloud.agent.api.to.StaticNatRuleTO;
 import com.cloud.agent.manager.Commands;
@@ -504,7 +505,8 @@ public class CommandSetupHelper {
             }
         }
 
-        final SetNetworkACLCommand cmd = new SetNetworkACLCommand(rulesTO, _networkHelper.getNicTO(router, guestNetworkId, null));
+        NicTO nicTO = _networkHelper.getNicTO(router, guestNetworkId, null);
+        final SetNetworkACLCommand cmd = new SetNetworkACLCommand(rulesTO, nicTO);
         cmd.setAccessDetail(NetworkElementCommand.ROUTER_IP, _routerControlHelper.getRouterControlIp(router.getId()));
         cmd.setAccessDetail(NetworkElementCommand.ROUTER_GUEST_IP, _routerControlHelper.getRouterIpInNetwork(guestNetworkId, router.getId()));
         cmd.setAccessDetail(NetworkElementCommand.GUEST_VLAN_TAG, guestVlan);
@@ -649,7 +651,6 @@ public class CommandSetupHelper {
 
     public void createVpcAssociatePublicIPCommands(final VirtualRouter router, final List<? extends PublicIpAddress> ips, final Commands cmds,
             final Map<String, String> vlanMacAddress) {
-
         final String ipAssocCommand = "IPAssocVpcCommand";
         if (router.getIsRedundantRouter()) {
             createRedundantAssociateIPCommands(router, ips, cmds, ipAssocCommand, 0);
@@ -696,6 +697,7 @@ public class CommandSetupHelper {
 
                 ip.setTrafficType(network.getTrafficType());
                 ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
+
                 ipsToSend[i++] = ip;
                 if (ipAddr.isSourceNat()) {
                     sourceNatIpAdd = new Pair<IpAddressTO, Long>(ip, ipAddr.getNetworkId());
@@ -725,7 +727,6 @@ public class CommandSetupHelper {
     }
 
     public void createRedundantAssociateIPCommands(final VirtualRouter router, final List<? extends PublicIpAddress> ips, final Commands cmds, final String ipAssocCommand, final long vmId) {
-
         // Ensure that in multiple vlans case we first send all ip addresses of
         // vlan1, then all ip addresses of vlan2, etc..
         final Map<String, ArrayList<PublicIpAddress>> vlanIpMap = new HashMap<String, ArrayList<PublicIpAddress>>();
@@ -801,7 +802,8 @@ public class CommandSetupHelper {
                     }
                 }
 
-                final IpAddressTO ip = new IpAddressTO(ipAddr.getAccountId(), ipAddr.getAddress().addr(), add, firstIP, sourceNat, vlanId, vlanGateway, vlanNetmask,
+                String ipAddress = ipAddr.getAddress().addr();
+                final IpAddressTO ip = new IpAddressTO(ipAddr.getAccountId(), ipAddress, add, firstIP, sourceNat, vlanId, vlanGateway, vlanNetmask,
                         vifMacAddress, networkRate, ipAddr.isOneToOneNat());
 
                 ip.setTrafficType(network.getTrafficType());
@@ -869,8 +871,7 @@ public class CommandSetupHelper {
         cmds.addCommand("applyS2SVpn", cmd);
     }
 
-    public void createVpcAssociatePrivateIPCommands(final VirtualRouter router, final List<PrivateIpAddress> ips, final Commands cmds, final boolean add) {
-
+    public void createVpcAssociatePrivateIPCommands(final VirtualRouter router, final List<PrivateIpAddress> ips, final Commands cmds, NicProfile nicProfile, final boolean add) {
         // Ensure that in multiple vlans case we first send all ip addresses of
         // vlan1, then all ip addresses of vlan2, etc..
         final Map<String, ArrayList<PrivateIpAddress>> vlanIpMap = new HashMap<String, ArrayList<PrivateIpAddress>>();
@@ -897,6 +898,14 @@ public class CommandSetupHelper {
 
                 ip.setTrafficType(network.getTrafficType());
                 ip.setNetworkName(_networkModel.getNetworkTag(router.getHypervisorType(), network));
+
+                String ipAddress = ipAddr.getIpAddress();
+                Long networkId = network.getId();
+                int deviceId = nicProfile.getDeviceId();
+                ip.setNicDevId(deviceId);
+
+                s_logger.debug("DEBUG:: Nic device for IP address using: address = " + ipAddress + " and networkId = " + networkId + " is ==> " + deviceId);
+
                 ipsToSend[i++] = ip;
 
             }

@@ -26,9 +26,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.Command.OnError;
@@ -68,6 +65,7 @@ import com.cloud.network.vpc.StaticRoute;
 import com.cloud.network.vpc.StaticRouteProfile;
 import com.cloud.network.vpc.Vpc;
 import com.cloud.network.vpc.VpcGateway;
+import com.cloud.network.vpc.VpcGatewayVO;
 import com.cloud.network.vpc.VpcManager;
 import com.cloud.network.vpc.VpcVO;
 import com.cloud.network.vpc.dao.PrivateIpDao;
@@ -90,6 +88,9 @@ import com.cloud.vm.VirtualMachine.State;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.VirtualMachineProfile.Param;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplianceManagerImpl implements VpcVirtualNetworkApplianceManager {
@@ -260,6 +261,15 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
                 if (defaultDns2 != null) {
                     buf.append(" dns2=").append(defaultDns2);
                 }
+
+                VpcGatewayVO privateGatewayForVpc = _vpcGatewayDao.getPrivateGatewayForVpc(domainRouterVO.getVpcId());
+                if (privateGatewayForVpc != null) {
+                    String ip4Address = privateGatewayForVpc.getIp4Address();
+                    buf.append(" privategateway=").append(ip4Address);
+                    s_logger.debug("Set privategateway field in cmd_line.json to " + ip4Address);
+                } else {
+                    buf.append(" privategateway=None");
+                }
             }
         }
 
@@ -364,13 +374,18 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
                         // set private network
                         final PrivateIpVO ipVO = _privateIpDao.findByIpAndSourceNetworkId(guestNic.getNetworkId(), guestNic.getIPv4Address());
                         final Network network = _networkDao.findById(guestNic.getNetworkId());
-                        BroadcastDomainType.getValue(network.getBroadcastUri());
                         final String netmask = NetUtils.getCidrNetmask(network.getCidr());
                         final PrivateIpAddress ip = new PrivateIpAddress(ipVO, network.getBroadcastUri().toString(), network.getGateway(), netmask, guestNic.getMacAddress());
 
                         final List<PrivateIpAddress> privateIps = new ArrayList<PrivateIpAddress>(1);
                         privateIps.add(ip);
-                        _commandSetupHelper.createVpcAssociatePrivateIPCommands(domainRouterVO, privateIps, cmds, true);
+
+                        NicProfile privateNicProfile =
+                            new NicProfile(guestNic, network, network.getBroadcastUri(), network.getBroadcastUri(), _networkModel.getNetworkRate(
+                                guestNic.getNetworkId(), domainRouterVO.getId()), _networkModel.isSecurityGroupSupportedInNetwork(network), _networkModel.getNetworkTag(
+                                    domainRouterVO.getHypervisorType(), network));
+
+                        _commandSetupHelper.createVpcAssociatePrivateIPCommands(domainRouterVO, privateIps, cmds, privateNicProfile, true);
 
                         final Long privateGwAclId = _vpcGatewayDao.getNetworkAclIdForPrivateIp(ipVO.getVpcId(), ipVO.getNetworkId(), ipVO.getIpAddress());
 
@@ -504,7 +519,7 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
             final List<PrivateIpAddress> privateIps = new ArrayList<PrivateIpAddress>(1);
             privateIps.add(ip);
             final Commands cmds = new Commands(Command.OnError.Stop);
-            _commandSetupHelper.createVpcAssociatePrivateIPCommands(router, privateIps, cmds, add);
+            _commandSetupHelper.createVpcAssociatePrivateIPCommands(router, privateIps, cmds, privateNic, add);
 
             try {
                 if (_nwHelper.sendCommandsToRouter(router, cmds)) {
@@ -531,16 +546,18 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
 
     @Override
     public boolean destroyPrivateGateway(final PrivateGateway gateway, final VirtualRouter router) throws ConcurrentOperationException, ResourceUnavailableException {
+        boolean result = true;
 
         if (!_networkModel.isVmPartOfNetwork(router.getId(), gateway.getNetworkId())) {
             s_logger.debug("Router doesn't have nic for gateway " + gateway + " so no need to removed it");
-            return true;
+            return result;
         }
 
         final Network privateNetwork = _networkModel.getNetwork(gateway.getNetworkId());
+        final NicProfile nicProfile = _networkModel.getNicProfile(router, privateNetwork.getId(), null);
 
         s_logger.debug("Releasing private ip for gateway " + gateway + " from " + router);
-        boolean result = setupVpcPrivateNetwork(router, false, _networkModel.getNicProfile(router, privateNetwork.getId(), null));
+        result = setupVpcPrivateNetwork(router, false, nicProfile);
         if (!result) {
             s_logger.warn("Failed to release private ip for gateway " + gateway + " on router " + router);
             return false;
@@ -706,7 +723,7 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
             s_logger.error("Unable to start vpn: unable add users to vpn in zone " + router.getDataCenterId() + " for account " + vpn.getAccountId() + " on domR: "
                     + router.getInstanceName() + " due to " + answer.getDetails());
             throw new ResourceUnavailableException("Unable to start vpn: Unable to add users to vpn in zone " + router.getDataCenterId() + " for account " + vpn.getAccountId()
-                    + " on domR: " + router.getInstanceName() + " due to " + answer.getDetails(), DataCenter.class, router.getDataCenterId());
+            + " on domR: " + router.getInstanceName() + " due to " + answer.getDetails(), DataCenter.class, router.getDataCenterId());
         }
         answer = cmds.getAnswer("startVpn");
         if (!answer.getResult()) {

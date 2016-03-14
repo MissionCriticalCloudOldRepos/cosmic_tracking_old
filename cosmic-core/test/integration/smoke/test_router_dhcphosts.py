@@ -44,7 +44,8 @@ from marvin.lib.common import (get_zone,
                                list_nat_rules,
                                list_publicIP,
                                list_firewall_rules,
-                               list_hosts)
+                               list_hosts,
+                               list_vlan_ipranges)
 
 # Import System modules
 import time
@@ -181,10 +182,31 @@ class TestRouterDHCPHosts(cloudstackTestCase):
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
+    def find_public_gateway(self):
+        networks = list_networks(self.apiclient,
+                                  zoneid = self.zone.id,
+                                  listall = True,
+                                  issystem = True,
+                                  traffictype = "Public")
+        self.logger.debug('::: Public Networks ::: ==> %s' % networks)
+
+        self.assertTrue(len(networks) == 1, "Test expects only 1 Public network but found -> '%s'" % len(networks))
+        
+        ip_ranges = list_vlan_ipranges(self.apiclient,
+                                       zoneid = self.zone.id,
+                                       networkid = networks[0].id)
+        self.logger.debug('::: IP Ranges ::: ==> %s' % ip_ranges)
+
+        self.assertTrue(len(ip_ranges) == 1, "Test expects only 1 VLAN IP Range network but found -> '%s'" % len(ip_ranges))
+        self.assertIsNotNone(ip_ranges[0].gateway, "The network with id -> '%s' returned an IP Range with a None gateway. Please check your Datacenter settings." % networks[0].id)
+
+        return ip_ranges[0].gateway
+
     def test_ssh_command(self, vm, nat_rule, rule_label):
         result = 'failed'
         try:
-            ssh_command = "ping -c 3 8.8.8.8"
+            gateway = self.find_public_gateway()
+            ssh_command = "ping -c 3 %s" % gateway
             self.logger.debug("SSH into VM with IP: %s" % nat_rule.ipaddress)
 
             ssh = vm.get_ssh_client(ipaddress=nat_rule.ipaddress, port=self.services[rule_label]["publicport"], retries=5)

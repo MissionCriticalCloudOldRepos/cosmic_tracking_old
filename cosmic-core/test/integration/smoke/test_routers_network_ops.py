@@ -46,7 +46,8 @@ from marvin.lib.common import (get_zone,
                                list_nat_rules,
                                list_publicIP,
                                list_firewall_rules,
-                               list_hosts)
+                               list_hosts,
+                               list_vlan_ipranges)
 
 # Import System modules
 import time
@@ -62,6 +63,26 @@ def check_router_command(virtual_machine, public_ip, ssh_command, check_string, 
 
     logging.debug("Result from SSH into the Virtual Machine: %s" % result)
     return result.count(check_string)
+
+def find_public_gateway(test_case):
+    networks = list_networks(test_case.apiclient,
+                              zoneid = test_case.zone.id,
+                              listall = True,
+                              issystem = True,
+                              traffictype = "Public")
+    test_case.logger.debug('::: Public Networks ::: ==> %s' % networks)
+
+    test_case.assertTrue(len(networks) == 1, "Test expects only 1 Public network but found -> '%s'" % len(networks))
+    
+    ip_ranges = list_vlan_ipranges(test_case.apiclient,
+                                   zoneid = test_case.zone.id,
+                                   networkid = networks[0].id)
+    test_case.logger.debug('::: IP Ranges ::: ==> %s' % ip_ranges)
+
+    test_case.assertTrue(len(ip_ranges) == 1, "Test expects only 1 VLAN IP Range network but found -> '%s'" % len(ip_ranges))
+    test_case.assertIsNotNone(ip_ranges[0].gateway, "The network with id -> '%s' returned an IP Range with a None gateway. Please check your Datacenter settings." % networks[0].id)
+
+    return ip_ranges[0].gateway
 
 class TestRedundantIsolateNetworks(cloudstackTestCase):
 
@@ -269,7 +290,8 @@ class TestRedundantIsolateNetworks(cloudstackTestCase):
 
         # Test SSH after closing port 22
         expected = 1
-        ssh_command = "ping -c 3 8.8.8.8"
+        gateway = find_public_gateway(self)
+        ssh_command = "ping -c 3 %s" % gateway
         check_string = "3 packets received"
         result = check_router_command(virtual_machine, nat_rule.ipaddress, ssh_command, check_string, self)
 
@@ -433,7 +455,8 @@ class TestRedundantIsolateNetworks(cloudstackTestCase):
         )
 
         expected = 0
-        ssh_command = "ping -c 3 8.8.8.8"
+        gateway = find_public_gateway(self)
+        ssh_command = "ping -c 3 %s" % gateway
         check_string = "3 packets received"
         result = check_router_command(virtual_machine, nat_rule.ipaddress, ssh_command, check_string, self)
 
@@ -821,7 +844,8 @@ class TestIsolatedNetworks(cloudstackTestCase):
 
         # Test SSH after closing port 22
         expected = 1
-        ssh_command = "ping -c 3 8.8.8.8"
+        gateway = find_public_gateway(self)
+        ssh_command = "ping -c 3 %s" % gateway
         check_string = "3 packets received"
         result = check_router_command(virtual_machine, nat_rule.ipaddress, ssh_command, check_string, self)
 
@@ -976,7 +1000,8 @@ class TestIsolatedNetworks(cloudstackTestCase):
         )
 
         expected = 0
-        ssh_command = "ping -c 3 8.8.8.8"
+        gateway = find_public_gateway(self)
+        ssh_command = "ping -c 3 %s" % gateway
         check_string = "3 packets received"
         result = check_router_command(virtual_machine, nat_rule.ipaddress, ssh_command, check_string, self)
 

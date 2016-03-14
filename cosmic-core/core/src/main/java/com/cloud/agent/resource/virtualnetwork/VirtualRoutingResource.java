@@ -159,6 +159,7 @@ public class VirtualRoutingResource {
     private ExecutionResult applyConfigToVR(String routerAccessIp, ConfigItem c, int timeout) {
         if (c instanceof FileConfigItem) {
             FileConfigItem configItem = (FileConfigItem)c;
+
             return _vrDeployer.createFileInVR(routerAccessIp, configItem.getFilePath(), configItem.getFileName(), configItem.getFileContents());
         } else if (c instanceof ScriptConfigItem) {
             ScriptConfigItem configItem = (ScriptConfigItem)c;
@@ -326,10 +327,6 @@ public class VirtualRoutingResource {
     }
 
     private List<ConfigItem> generateCommandCfg(NetworkElementCommand cmd) {
-        /*
-         * [TODO] Still have to migrate LoadBalancerConfigCommand and BumpUpPriorityCommand
-         * [FIXME] Have a look at SetSourceNatConfigItem
-         */
         s_logger.debug("Transforming " + cmd.getClass().getCanonicalName() + " to ConfigItems");
 
         final AbstractConfigItemFacade configItemFacade = AbstractConfigItemFacade.getInstance(cmd.getClass());

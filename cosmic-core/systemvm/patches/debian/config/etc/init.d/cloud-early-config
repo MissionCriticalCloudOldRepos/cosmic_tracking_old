@@ -215,8 +215,9 @@ patch() {
     then
       log_it "Rebooting system since we patched init scripts"
       sync
-      sleep 2
       reboot
+      log_it "Router needs patching and was rebooted. Sleeping 5 seconds to avoid other commands execution."
+      sleep 5
     fi
   fi
   if [ -f /mnt/cmdline ]; then
@@ -973,8 +974,9 @@ setup_router() {
     then
       log_it "udev NIC assignment requires reboot to take effect"
       sync
-      sleep 2
       reboot
+      log_it "Router needs patching and was rebooted. Sleeping 5 seconds to avoid other commands execution."
+      sleep 5
     fi
   fi
   
@@ -1572,6 +1574,7 @@ done
 echo -e "\n\t}\n}" >> ${CHEF_TMP_FILE}
 if [ "$TYPE" != "unknown" ]
 then
+    log_it "Moving ${CHEF_TMP_FILE} to /var/cache/cloud/cmd_line.json"
 	mv ${CHEF_TMP_FILE} /var/cache/cloud/cmd_line.json
 fi
 
