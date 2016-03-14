@@ -17,7 +17,6 @@ package com.cloud.hypervisor.xenserver.resource;
 
 import java.io.File;
 import java.util.List;
-
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;

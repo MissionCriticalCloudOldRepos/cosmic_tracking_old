@@ -3559,24 +3559,34 @@ public abstract class CitrixResourceBase implements ServerResource, HypervisorRe
         return null;
     }
 
-    public boolean isDeviceUsed(final Connection conn, final VM vm, final Long deviceId) {
-        // Figure out the disk number to attach the VM to
-
-        String msg = null;
+    public List<Integer> getVBDUserDeviceIds(final Connection conn, final VM vm) {
+        List<Integer> deviceIds = new ArrayList< >();
         try {
-            final Set<String> allowedVBDDevices = vm.getAllowedVBDDevices(conn);
-            if (allowedVBDDevices.contains(deviceId.toString())) {
-                return false;
+            final Set<VBD> vbds = vm.getVBDs(conn);
+
+            if (vbds.size() == 0 ){
+                return deviceIds;
             }
-            return true;
-        } catch (final XmlRpcException e) {
-            msg = "Catch XmlRpcException due to: " + e.getMessage();
-            s_logger.warn(msg, e);
+
+            for (VBD vbd : vbds) {
+                final Integer userdevice = Integer.parseInt(vbd.getUserdevice(conn));
+                deviceIds.add(userdevice);
+            }
+
         } catch (final XenAPIException e) {
-            msg = "Catch XenAPIException due to: " + e.toString();
-            s_logger.warn(msg, e);
+            final String msg = "Catch XenAPIException due to: " + e.toString();
+            s_logger.warn(msg);
+        } catch (final XmlRpcException e) {
+            final String msg = "Catch XmlRpcException due to: " + e.getMessage();
+            s_logger.warn(msg);
         }
-        throw new CloudRuntimeException("When check deviceId " + msg);
+
+        return deviceIds;
+    }
+
+    public boolean isDeviceUsed(final Connection conn, final VM vm, final Long deviceId) {
+        final List<Integer> usedDeviceIds = getVBDUserDeviceIds(conn, vm);
+        return usedDeviceIds.contains(deviceId.intValue());
     }
 
     /**
