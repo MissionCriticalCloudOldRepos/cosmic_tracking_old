@@ -552,7 +552,7 @@ class TestMultipleChildDomain(cloudstackTestCase):
         # 5. Delete volume which was created from snapshot and verify primary storage
              resource count"""
 
-        if self.hypervisor.lower() in ['hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['lxc']:
             self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor.lower())
 
         result = self.setupAccounts()

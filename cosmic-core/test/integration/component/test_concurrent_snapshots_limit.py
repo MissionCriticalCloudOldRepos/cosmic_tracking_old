@@ -58,7 +58,6 @@ class TestConcurrentSnapshotLimit(cloudstackTestCase):
         cls.supportedHypervisor = True
 
         if cls.hypervisor.lower() in [
-                "hyperv",
                 "lxc"]:
             cls.supportedHypervisor = False
             return

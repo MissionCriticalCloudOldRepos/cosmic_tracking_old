@@ -131,7 +131,6 @@ function do_test_export() {
   xen_server_export "${hdd_path}"
   kvm_export "${hdd_path}"
   vmware_export "${machine_uuid}" "${hdd_uuid}"
-  hyperv_export "${hdd_uuid}"
 
   veewee_destroy
 }

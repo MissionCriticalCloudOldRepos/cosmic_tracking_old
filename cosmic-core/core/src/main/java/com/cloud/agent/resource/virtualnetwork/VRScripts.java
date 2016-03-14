@@ -45,7 +45,7 @@ public class VRScripts {
     // New scripts for use with chef
     public static final String UPDATE_CONFIG = "update_config.py";
 
-    // Script still in use - mostly by HyperV
+    // TODO Remove scripts
     public static final String S2SVPN_CHECK = "checkbatchs2svpn.sh";
     public static final String S2SVPN_IPSEC = "ipsectunnel.sh";
     public static final String DHCP = "edithosts.sh";

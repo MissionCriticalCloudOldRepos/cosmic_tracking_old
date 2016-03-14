@@ -37,9 +37,6 @@ class TestVPCHostMaintenance(cloudstackTestCase):
         cls.hosts = []
         cls.vpcSupported = True
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['hyperv']:
-            cls.vpcSupported = False
-            return
         cls.services = cls.testClient.getParsedTestDataConfig()
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)

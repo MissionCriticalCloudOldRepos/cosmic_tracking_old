@@ -155,19 +155,6 @@ public class VolumeApiServiceImplTest {
             stoppedVm.setDataCenterId(1L);
             when(_svc._userVmDao.findById(2L)).thenReturn(stoppedVm);
 
-
-            // volume of hyperV vm id=3
-            UserVmVO hyperVVm = new UserVmVO(3L, "vm", "vm", 1, HypervisorType.Hyperv, 1L, false,
-                    false, 1L, 1L, 1, 1L, null, "vm", null);
-            hyperVVm.setState(State.Stopped);
-            hyperVVm.setDataCenterId(1L);
-            when(_svc._userVmDao.findById(3L)).thenReturn(hyperVVm);
-
-            VolumeVO volumeOfStoppeHyperVVm = new VolumeVO("root", 1L, 1L, 1L, 1L, 3L, "root", "root", Storage.ProvisioningType.THIN, 1, null,
-                    null, "root", Volume.Type.ROOT);
-            volumeOfStoppeHyperVVm.setPoolId(1L);
-            when(_svc._volsDao.findById(3L)).thenReturn(volumeOfStoppeHyperVVm);
-
             StoragePoolVO unmanagedPool = new StoragePoolVO();
             when(_svc._storagePoolDao.findById(1L)).thenReturn(unmanagedPool);
 
@@ -268,14 +255,6 @@ public class VolumeApiServiceImplTest {
     }
 
     @Test(expected = InvalidParameterValueException.class)
-    public void testDetachVolumeFromStoppedHyperVVm() throws NoSuchFieldException, IllegalAccessException {
-        Field dedicateIdField = _detachCmdClass.getDeclaredField("id");
-        dedicateIdField.setAccessible(true);
-        dedicateIdField.set(detachCmd, 3L);
-        _svc.detachVolumeFromVM(detachCmd);
-    }
-
-    @Test(expected = InvalidParameterValueException.class)
     public void testDetachVolumeOfManagedDataStore() throws NoSuchFieldException, IllegalAccessException {
         Field dedicateIdField = _detachCmdClass.getDeclaredField("id");
         dedicateIdField.setAccessible(true);
@@ -309,12 +288,6 @@ public class VolumeApiServiceImplTest {
     @Test(expected = InvalidParameterValueException.class)
     public void attachRootDiskToRunningVm() throws NoSuchFieldException, IllegalAccessException {
         _svc.attachVolumeToVM(1L, 6L, 0L);
-    }
-
-    // Negative test - attach root volume to non-xen vm
-    @Test(expected = InvalidParameterValueException.class)
-    public void attachRootDiskToHyperVm() throws NoSuchFieldException, IllegalAccessException {
-        _svc.attachVolumeToVM(3L, 6L, 0L);
     }
 
     // Negative test - attach root volume from the managed data store

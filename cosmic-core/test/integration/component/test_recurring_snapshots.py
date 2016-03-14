@@ -148,7 +148,7 @@ class TestRecurringSnapshots(cloudstackTestCase):
 
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['hyperv', "lxc"]:
+        if cls.hypervisor.lower() in ["lxc"]:
             cls.unsupportedHypervisor = True
             return
 

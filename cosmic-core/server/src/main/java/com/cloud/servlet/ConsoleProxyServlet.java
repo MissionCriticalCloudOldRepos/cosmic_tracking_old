@@ -377,13 +377,7 @@ public class ConsoleProxyServlet extends HttpServlet {
         String sid = vm.getVncPassword();
         String tag = vm.getUuid();
 
-        int port = -1;
-        if (portInfo.second() == -9) {
-            //for hyperv
-            port = Integer.parseInt(_ms.findDetail(hostVo.getId(), "rdp.server.port").getValue());
-        } else {
-            port = portInfo.second();
-        }
+        int port = portInfo.second();
 
         String ticket = genAccessTicket(parsedHostInfo.first(), String.valueOf(port), sid, tag);
 
@@ -395,8 +389,6 @@ public class ConsoleProxyServlet extends HttpServlet {
         param.setClientTag(tag);
         param.setTicket(ticket);
         if (portInfo.second() == -9) {
-            //For Hyperv Clinet Host Address will send Instance id
-            param.setHypervHost(host);
             param.setUsername(_ms.findDetail(hostVo.getId(), "username").getValue());
             param.setPassword(_ms.findDetail(hostVo.getId(), "password").getValue());
         }
@@ -424,13 +416,7 @@ public class ConsoleProxyServlet extends HttpServlet {
 
         Ternary<String, String, String> parsedHostInfo = parseHostInfo(portInfo.first());
 
-        int port = -1;
-        if (portInfo.second() == -9) {
-            //for hyperv
-            port = Integer.parseInt(_ms.findDetail(hostVo.getId(), "rdp.server.port").getValue());
-        } else {
-            port = portInfo.second();
-        }
+        int port = portInfo.second();
 
         String sid = vm.getVncPassword();
         UserVmDetailVO details = _userVmDetailsDao.findDetail(vm.getId(), "keyboard");
@@ -451,8 +437,6 @@ public class ConsoleProxyServlet extends HttpServlet {
         }
 
         if (portInfo.second() == -9) {
-            //For Hyperv Clinet Host Address will send Instance id
-            param.setHypervHost(host);
             param.setUsername(_ms.findDetail(hostVo.getId(), "username").getValue());
             param.setPassword(_ms.findDetail(hostVo.getId(), "password").getValue());
         }

@@ -326,8 +326,6 @@ class TestNetworks_1(cloudstackTestCase):
         Step8    : Deleting a single vpc and verifying that vpc does
                    not exists on page 2
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # List VPC Offering
         vpc_offs_list = VpcOffering.list(self.userapiclient, isdefault="true")
         if vpc_offs_list is None:
@@ -441,8 +439,6 @@ class TestNetworks_1(cloudstackTestCase):
         Step3    : Create VPC
         Step4    : List VPC and verify that count is increased by 1
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # List VPC Offering
         vpc_offs_list = VpcOffering.list(self.userapiclient, isdefault="true")
         if vpc_offs_list is None:
@@ -616,8 +612,6 @@ class TestNetworks_1(cloudstackTestCase):
         Step7    : Verify vpc name matches for newly created vpc name
                    and name from vpc list
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # List VPC Offering
         vpc_offs_list = VpcOffering.list(self.userapiclient,
                                          isdefault="true",
@@ -1141,8 +1135,6 @@ class TestNetworks_1(cloudstackTestCase):
         Step7    : Verify network name matches for newly created network name
                    and name from network list
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # List VPC Offering
         vpc_offs_list = VpcOffering.list(self.userapiclient, isdefault="true")
         if vpc_offs_list is None:
@@ -1284,8 +1276,6 @@ class TestNetworks_1(cloudstackTestCase):
         Step5    : Update VPC name and display text
         Step6    : Verify name and display text is updated
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # List VPC Offering
         vpc_offs_list = VpcOffering.list(self.userapiclient, isdefault="true")
         if vpc_offs_list is None:
@@ -1388,8 +1378,6 @@ class TestNetworks_1(cloudstackTestCase):
         Step10   : Delete NetworkACL
         Step11   : Verify NetworkACL is deleted
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # List VPC Offering
         vpc_offs_list = VpcOffering.list(self.userapiclient,
                                          isdefault="true",
@@ -1684,8 +1672,6 @@ class TestNetworks_2(cloudstackTestCase):
         Step7: Verifying the list vpc size is 1
         Step8: Verifying the details of the vpc
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # Listing all the vpc's for a user
         list_vpc_before = VPC.list(self.userapiclient)
         # Verifying No VPCs are listed
@@ -1925,8 +1911,6 @@ class TestNetworks_2(cloudstackTestCase):
         Step7: Verifying the list Private Gateway size is 1
         Step8: Verifying the details of the Private Gateway
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # Creating a vpc
         vpc_created = VPC.create(
             self.userapiclient,
@@ -2197,8 +2181,6 @@ class TestNetworks_2(cloudstackTestCase):
         Step8: Listing the VPC by specifying VPCID
         Step9: Verfying state of vpc
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # Listing all the vpc's for a user
         list_vpc_before = VPC.list(self.userapiclient)
         # Verifying No VPCs are listed
@@ -2272,8 +2254,6 @@ class TestNetworks_2(cloudstackTestCase):
         Step6: Verifying the list size is increased by 1
         Step7: Verifying the details of a VPN gateway
          """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # Listing all the vpc's for a user
         list_vpc_before = VPC.list(self.userapiclient)
         # Verifying No VPCs are listed
@@ -2391,8 +2371,6 @@ class TestNetworks_2(cloudstackTestCase):
         Step13: Listing all the VPN Connection for a user
         Step14: Verifying that no VPN Connection are listed
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # Listing all the vpc's for a user
         list_vpc_before = VPC.list(self.userapiclient)
         # Verifying No VPCs are listed
@@ -2657,8 +2635,6 @@ class TestNetworks_2(cloudstackTestCase):
         Step8: Verifying list size is increased by 1
         Step9: Listing Networkacllist by paymentgateway aclid
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            raise unittest.SkipTest("This feature is not supported on existing hypervisor. Hence, skipping the test")
         # Listing all thenetwork acl list for a user
         list_networkacl = NetworkACLList.list(self.userapiclient)
         self.assertIsNotNone(

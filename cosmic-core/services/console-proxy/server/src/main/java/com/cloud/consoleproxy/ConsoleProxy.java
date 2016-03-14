@@ -485,11 +485,7 @@ public class ConsoleProxy {
     }
 
     private static ConsoleProxyClient getClient(ConsoleProxyClientParam param) {
-        if (param.getHypervHost() != null) {
-            return new ConsoleProxyRdpClient();
-        } else {
-            return new ConsoleProxyVncClient();
-        }
+        return new ConsoleProxyVncClient();
     }
 
     public static void removeViewer(ConsoleProxyClient viewer) {

@@ -74,11 +74,6 @@ function configure_services() {
   chkconfig x11-common off
   chkconfig console-setup off
 
-  # Hyperv kvp daemon - 64bit only
-  local arch=`dpkg --print-architecture`
-  if [ "${arch}" == "amd64" ]; then
-    chkconfig hv_kvp_daemon off
-  fi
   chkconfig radvd off
 
   configure_apache2

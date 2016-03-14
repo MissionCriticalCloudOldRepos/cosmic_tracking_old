@@ -1268,7 +1268,7 @@ class TestSnapshotUsage(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.snapshotSupported = True
         cls._cleanup = []
-        if cls.hypervisor.lower() in ['hyperv', 'lxc']:
+        if cls.hypervisor.lower() in ['lxc']:
             cls.snapshotSupported = False
             return
         cls.services = Services().services

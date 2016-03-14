@@ -28,7 +28,7 @@ import com.cloud.consoleproxy.vnc.FrameBufferCanvas;
 
 /**
  *
- * an instance of specialized console protocol implementation, such as VNC or RDP
+ * an instance of specialized console protocol implementation, such as VNC
  *
  * It mainly implements the features needed by front-end AJAX viewer
  *

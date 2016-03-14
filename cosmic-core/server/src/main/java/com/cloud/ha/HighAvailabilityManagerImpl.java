@@ -227,7 +227,7 @@ public class HighAvailabilityManagerImpl extends ManagerBase implements HighAvai
             return;
         }
 
-        if (host.getHypervisorType() == HypervisorType.VMware || host.getHypervisorType() == HypervisorType.Hyperv) {
+        if (host.getHypervisorType() == HypervisorType.VMware) {
             s_logger.info("Don't restart VMs on host " + host.getId() + " as it is a " + host.getHypervisorType().toString() + " host");
             return;
         }
@@ -330,8 +330,8 @@ public class HighAvailabilityManagerImpl extends ManagerBase implements HighAvai
             }
         }
 
-        if (vm.getHypervisorType() == HypervisorType.VMware || vm.getHypervisorType() == HypervisorType.Hyperv) {
-            s_logger.info("Skip HA for VMware VM or Hyperv VM" + vm.getInstanceName());
+        if (vm.getHypervisorType() == HypervisorType.VMware) {
+            s_logger.info("Skip HA for VMware VM " + vm.getInstanceName());
             return;
         }
 

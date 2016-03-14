@@ -728,7 +728,7 @@ class TestPathDisableStorage_Basic(cloudstackTestCase):
             self.fail('Step 5: Volume resize on disabled pool failed: % s' % e)
 
         # Step 6: Take VM Snapshot
-        if self.hypervisor.lower() not in ('kvm', 'hyperv', 'lxc'):
+        if self.hypervisor.lower() not in ('kvm', 'lxc'):
             try:
                 self.debug(
                     "Step 6: Taking VM Snapshot for vm id % s" %
@@ -846,7 +846,7 @@ class TestPathDisableStorage_Basic(cloudstackTestCase):
         verify_vm_state(self, self.virtual_machine_1.id, 'Running')
 
         # Step 14: Take Snapshot of VM
-        if self.hypervisor.lower() not in ('kvm', 'hyperv', 'lxc'):
+        if self.hypervisor.lower() not in ('kvm', 'lxc'):
             try:
                 vm_snapshot = VmSnapshot.create(
                     self.userapiclient,

@@ -46,8 +46,6 @@ class TestNic(cloudstackTestCase):
         signal.signal(signal.SIGINT, signal_handler)
 
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() == "hyperv":
-            self.skipTest("Not supported on Hyper-V")
 
         try:
             self.apiclient = self.testClient.getApiClient()

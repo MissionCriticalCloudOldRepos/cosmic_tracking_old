@@ -135,9 +135,9 @@ public class ControlNetworkGuru extends PodBasedNetworkGuru implements NetworkGu
         throws InsufficientVirtualNetworkCapacityException, InsufficientAddressCapacityException {
         assert nic.getTrafficType() == TrafficType.Control;
 
-        // we have to get management/private ip for the control nic for vmware/hyperv due ssh issues.
+        // we have to get management/private ip for the control nic for vmware due ssh issues.
         HypervisorType hType = dest.getHost().getHypervisorType();
-        if (((hType == HypervisorType.VMware) || (hType == HypervisorType.Hyperv)) && isRouterVm(vm)) {
+        if (((hType == HypervisorType.VMware)) && isRouterVm(vm)) {
             if (dest.getDataCenter().getNetworkType() != NetworkType.Basic) {
                 super.reserve(nic, config, vm, dest, context);
 
@@ -171,7 +171,7 @@ public class ControlNetworkGuru extends PodBasedNetworkGuru implements NetworkGu
     public boolean release(NicProfile nic, VirtualMachineProfile vm, String reservationId) {
         assert nic.getTrafficType() == TrafficType.Control;
         HypervisorType hType = vm.getHypervisorType();
-        if ( ( (hType == HypervisorType.VMware) || (hType == HypervisorType.Hyperv) )&& isRouterVm(vm)) {
+        if ( ( (hType == HypervisorType.VMware) )&& isRouterVm(vm)) {
             long dcId = vm.getVirtualMachine().getDataCenterId();
             DataCenterVO dcVo = _dcDao.findById(dcId);
             if (dcVo.getNetworkType() != NetworkType.Basic) {

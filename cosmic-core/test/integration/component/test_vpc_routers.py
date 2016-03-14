@@ -196,9 +196,6 @@ class TestVPCRoutersBasic(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.vpcSupported = True
         cls._cleanup = []
-        if cls.hypervisor.lower() == 'hyperv':
-            cls.vpcSupported = False
-            return
         cls.services = Services().services
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)
@@ -636,9 +633,6 @@ class TestVPCRouterOneNetwork(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.vpcSupported = True
         cls._cleanup = []
-        if cls.hypervisor.lower() == 'hyperv':
-            cls.vpcSupported = False
-	    return
         cls.services = Services().services
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)

@@ -95,7 +95,7 @@ public class ListHostsCmd extends BaseListCmd {
     @Parameter(name = ApiConstants.HA_HOST, type = CommandType.BOOLEAN, description = "if true, list only hosts dedicated to HA")
     private Boolean haHost;
 
-    @Parameter(name = ApiConstants.HYPERVISOR, type = CommandType.STRING, description = "hypervisor type of host: XenServer,KVM,VMware,Hyperv,BareMetal,Simulator")
+    @Parameter(name = ApiConstants.HYPERVISOR, type = CommandType.STRING, description = "hypervisor type of host: XenServer,KVM,VMware,BareMetal,Simulator")
     private String hypervisor;
 
     /////////////////////////////////////////////////////

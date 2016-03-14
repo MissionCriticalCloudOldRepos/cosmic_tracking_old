@@ -689,7 +689,7 @@ public enum Config {
             String.class,
             "system.vm.default.hypervisor",
             null,
-            "Hypervisor type used to create system vm, valid values are: XenServer, KVM, VMware, Hyperv, VirtualBox, Parralels, BareMetal, Ovm, LXC, Any",
+            "Hypervisor type used to create system vm, valid values are: XenServer, KVM, VMware, VirtualBox, Parralels, BareMetal, Ovm, LXC, Any",
             null),
     SystemVMRandomPassword(
             "Advanced",
@@ -705,7 +705,7 @@ public enum Config {
             ManagementServer.class,
             String.class,
             "hypervisor.list",
-            HypervisorType.Hyperv + "," + HypervisorType.KVM + "," + HypervisorType.XenServer + "," + HypervisorType.VMware + "," + HypervisorType.BareMetal + "," +
+            HypervisorType.KVM + "," + HypervisorType.XenServer + "," + HypervisorType.VMware + "," + HypervisorType.BareMetal + "," +
                 HypervisorType.Ovm + "," + HypervisorType.LXC + "," + HypervisorType.Ovm3,
             "The list of hypervisors that this deployment will use.",
             "hypervisorList"),
@@ -1260,32 +1260,6 @@ public enum Config {
             "kvm.ssh.to.agent",
             "true",
             "Specify whether or not the management server is allowed to SSH into KVM Agents",
-            null),
-
-    // Hyperv
-    HypervPublicNetwork(
-            "Hidden",
-            ManagementServer.class,
-            String.class,
-            "hyperv.public.network.device",
-            null,
-            "Specify the public virtual switch on host for public network",
-            null),
-    HypervPrivateNetwork(
-            "Hidden",
-            ManagementServer.class,
-            String.class,
-            "hyperv.private.network.device",
-            null,
-            "Specify the virtual switch on host for private network",
-            null),
-    HypervGuestNetwork(
-            "Hidden",
-            ManagementServer.class,
-            String.class,
-            "hyperv.guest.network.device",
-            null,
-            "Specify the virtual switch on host for private network",
             null),
 
     // Usage

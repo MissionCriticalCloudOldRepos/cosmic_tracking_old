@@ -36,7 +36,7 @@ for line in $(find ../../ -name pom.xml -exec sed -n '/<dependencies>/{:a;n;/<\/
     unset GROUP
   elif [[ $1 == "/dependency" ]]; then
     #Filter out project modules interdependencies
-    if [[ $GROUP != *org.apache.cloudstack* ]] && [[ $GROUP != *com.cloud* ]] && [[ $ARTIFACT != cloudstack-service-console-proxy-rdpclient ]]; then
+    if [[ $GROUP != *org.apache.cloudstack* ]] && [[ $GROUP != *com.cloud* ]]; then
             if [[ -z $VERSION ]] ; then
                VERSION=LATEST
                #These dependencies don't support the LATEST keywork for some reason, and would cause mvn runs to file on dummy poms

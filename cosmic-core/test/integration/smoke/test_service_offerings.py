@@ -387,12 +387,7 @@ class TestServiceOfferings(cloudstackTestCase):
         )
 
         range = 20
-        if self.hypervisor.lower() == "hyperv":
-            range = 200
-        # TODO: Find the memory allocated to VM on hyperv hypervisor using
-        # powershell commands and use that value to equate instead of
-        # manipulating range, currently we get the memory count much less
-        # because of the UI component
+
         self.assertTrue(
             isAlmostEqual(int(int(total_mem) / 1024),
                           int(self.small_offering.memory),

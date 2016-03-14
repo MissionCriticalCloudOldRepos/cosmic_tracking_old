@@ -1780,11 +1780,6 @@ class TestListInstances(cloudstackTestCase):
         Step15: Removing the non-default nic from VM
         Step16: Verifying that VM deployed in step1 has only 1 nic
         """
-        if self.hypervisor.lower() in ['hyperv']:
-            self.skipTest(
-                "This feature is not supported on existing hypervisor.\
-                        Hence, skipping the test")
-
         hypervisorIsVmware = False
 
         if self.hypervisor.lower() == "vmware":
@@ -2205,7 +2200,7 @@ class TestInstances(cloudstackTestCase):
         7. check disk sequence on hypervisor remains same and VM starts successfully
         """
         try:
-            if self.hypervisor.lower() in ['kvm', 'hyperv', 'lxc', 'vmware']:
+            if self.hypervisor.lower() in ['kvm', 'lxc', 'vmware']:
                 self.skipTest(
                     "This test not applicable on existing hypervisor. Hence,\
                             skipping the test")
@@ -2553,7 +2548,7 @@ class TestInstances(cloudstackTestCase):
         Step10: Detaching the ISO attached in step8
         Step11: Verifying that detached ISO details are not associated with VM
         """
-        if self.hypervisor.lower() in ['kvm', 'hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['kvm', 'lxc']:
             self.skipTest(
                 "This feature is not supported on existing hypervisor. Hence,\
                         skipping the test")
@@ -2697,7 +2692,7 @@ class TestInstances(cloudstackTestCase):
         Step12: Listing all the VM snapshots in Page 2 with page size
         Step13: Verifying that size of the list is 0
         """
-        if self.hypervisor.lower() in ['kvm', 'hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['kvm', 'lxc']:
             self.skipTest(
                 "This feature is not supported on existing hypervisor. Hence,\
                         skipping the test")
@@ -2859,7 +2854,7 @@ class TestInstances(cloudstackTestCase):
         Step11: Verifying that the VM Snapshot with current flag set to true
                 is the reverted snapshot in Step 8
         """
-        if self.hypervisor.lower() in ['kvm', 'hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['kvm', 'lxc']:
             self.skipTest(
                 "This feature is not supported on existing hypervisor.\
                         Hence, skipping the test")

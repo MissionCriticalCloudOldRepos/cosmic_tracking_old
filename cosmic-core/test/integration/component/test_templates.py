@@ -515,7 +515,7 @@ class TestTemplates(cloudstackTestCase):
         # 4. Deploy Virtual machine using this template
         # 5. VM should be in running state
 
-        if self.hypervisor.lower() in ['hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['lxc']:
             self.skipTest(
                 "Snapshots feature is not supported on %s" %
                 self.hypervisor.lower())

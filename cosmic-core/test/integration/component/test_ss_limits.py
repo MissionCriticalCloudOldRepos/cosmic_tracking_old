@@ -206,7 +206,7 @@ class TestSecondaryStorageLimits(cloudstackTestCase):
         5. Verify that the secondary storage count of the account equals
            the size of the template"""
 
-        if self.hypervisor.lower() in ['hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['lxc']:
             self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor.lower())
 
         response = self.setupAccount(value)
