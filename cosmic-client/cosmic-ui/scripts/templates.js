@@ -422,16 +422,6 @@
                                                     id: 'TAR',
                                                     description: 'TAR'
                                                 });
-                                            } else if (args.hypervisor == "Hyperv") {
-                                                items.push({
-                                                    id: 'VHD',
-                                                    description: 'VHD'
-                                                });
-                                                items.push({
-                                                    id: 'VHDX',
-                                                    description: 'VHDX'
-                                                });
-                                            }
                                             args.response.success({
                                                 data: items
                                             });
@@ -800,15 +790,6 @@
                                                 items.push({
                                                     id: 'TAR',
                                                     description: 'TAR'
-                                                });
-                                            } else if (args.hypervisor == "Hyperv") {
-                                                items.push({
-                                                    id: 'VHD',
-                                                    description: 'VHD'
-                                                });
-                                                items.push({
-                                                    id: 'VHDX',
-                                                    description: 'VHDX'
                                                 });
                                             }
                                             args.response.success({

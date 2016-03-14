@@ -142,8 +142,6 @@
         trafficType.ovmnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.lxcnetworklabel == null || trafficType.lxcnetworklabel == 0)
         trafficType.lxcnetworklabel = _l( 'label.network.label.display.for.blank.value');
-        if (trafficType.hypervnetworklabel == null || trafficType.hypervnetworklabel == 0)
-        trafficType.hypervnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.ovm3networklabel == null || trafficType.ovm3networklabel == 0)
         trafficType.ovm3networklabel = _l( 'label.network.label.display.for.blank.value');
 
@@ -162,8 +160,6 @@
         array1.push("&ovmnetworklabel=" + labels.ovmnetworklabel);
         if (labels.lxcnetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&lxcnetworklabel=" + labels.lxcnetworklabel);
-        if (labels.hypervnetworklabel != _l( 'label.network.label.display.for.blank.value'))
-        array1.push("&hypervnetworklabel=" + labels.hypervnetworklabel);
         if (labels.ovm3networklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&ovm3networklabel=" + labels.ovm3networklabel);
 
@@ -652,10 +648,6 @@
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
                                     },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -681,7 +673,6 @@
                                             selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
                                             selectedPublicNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
-                                            selectedPublicNetworkObj.hypervnetworklabel = trafficType.hypervnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedPublicNetworkObj
@@ -971,10 +962,6 @@
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
                                     },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -996,7 +983,6 @@
                                             selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
                                             selectedPublicNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
-                                            selectedPublicNetworkObj.hypervnetworklabel = trafficType.hypervnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedPublicNetworkObj
@@ -1187,10 +1173,6 @@
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
                                     },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -1210,7 +1192,6 @@
                                             selectedManagementNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
                                             selectedManagementNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedManagementNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
-                                            selectedManagementNetworkObj.hypervnetworklabel = trafficType.hypervnetworklabel;
                                             selectedManagementNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedManagementNetworkObj
@@ -1380,10 +1361,6 @@
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
                                     },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -1425,7 +1402,6 @@
                                             selectedPhysicalNetworkObj[ "vmwarenetworklabel"] = trafficType.vmwarenetworklabel;
                                             selectedPhysicalNetworkObj[ "ovmnetworklabel"] = trafficType.ovmnetworklabel;
                                             selectedPhysicalNetworkObj[ "lxcnetworklabel"] = trafficType.lxcnetworklabel;
-                                            selectedPhysicalNetworkObj[ "hypervnetworklabel"] = trafficType.hypervnetworklabel;
                                             selectedPhysicalNetworkObj[ "ovm3networklabel"] = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 actionFilter: function () {
@@ -8994,10 +8970,9 @@
                                     var array1 = [];
 
                                     // ***** non XenServer (begin) *****
-                    var hypervisors = ["Hyperv", "KVM", "VMware", "BareMetal", "LXC", "Ovm3"];
+                    var hypervisors = ["KVM", "VMware", "BareMetal", "LXC", "Ovm3"];
 
                                             var supportSocketHypervisors = {
-                                                "Hyperv": 1,
                                                 "KVM": 1,
                                                 "VMware": 1,
                                                 "Ovm3": 1
@@ -9049,9 +9024,6 @@
                                                     }
 
                                         var hypervisorName = hypervisors[h];
-                                        if (hypervisorName == "Hyperv") {
-                                            hypervisorName = "Hyper-V";
-                                        }
 
                                         array1.push({
                                             hypervisor: hypervisorName,
@@ -16037,10 +16009,6 @@
                                                 description: _l('VMware')
                                             });
                                             items.push({
-                                                id: 'Hyperv',
-                                                description: _l('Hyperv')
-                                            });
-                                            items.push({
                                                 id: 'Any',
                                                 description: _l('Any')
                                             });
@@ -16256,15 +16224,6 @@
                                                 items.push({
                                                     id: "custom",
                                                     description: "custom"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            } else if (selectedClusterObj.hypervisortype == "Hyperv") {
-                                                var items =[];
-                                                items.push({
-                                                    id: "SMB",
-                                                    description: "SMB/CIFS"
                                                 });
                                                 args.response.success({
                                                     data: items

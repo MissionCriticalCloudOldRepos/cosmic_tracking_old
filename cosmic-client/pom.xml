@@ -176,11 +176,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-hypervisor-hyperv</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-storage-allocator-random</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>

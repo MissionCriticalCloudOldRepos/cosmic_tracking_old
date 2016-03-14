@@ -79,9 +79,6 @@
             case 'VMware':
                 hypervisorAttr = 'vmwarenetworklabel';
                 break;
-            case 'Hyperv':
-                hypervisorAttr = 'hypervnetworklabel';
-                break;
             case 'BareMetal':
                 hypervisorAttr = 'baremetalnetworklabel';
                 break;
@@ -498,7 +495,6 @@
                                         firstOption = "KVM";
                                         nonSupportedHypervisors["VMware"] = 1;
                                         nonSupportedHypervisors["BareMetal"] = 1;
-                                        nonSupportedHypervisors["Hyperv"] = 1;
                                         nonSupportedHypervisors["Ovm"] = 1;
                                         nonSupportedHypervisors["Ovm3"] = 1;
                                     }
@@ -1318,8 +1314,8 @@
                                 return;
                             }
 
-                            //zone-wide-primary-storage is supported only for KVM and VMWare and Hyperv
-                            if (selectedHypervisorObj.hypervisortype == "KVM" || selectedHypervisorObj.hypervisortype == "VMware" || selectedHypervisorObj.hypervisortype == "Hyperv") {
+                            //zone-wide-primary-storage is supported only for KVM and VMWare
+                            if (selectedHypervisorObj.hypervisortype == "KVM" || selectedHypervisorObj.hypervisortype == "VMware") {
                                 var scope = [];
                                 scope.push({
                                     id: 'zone',
@@ -1412,15 +1408,6 @@
                                 items.push({
                                     id: "vmfs",
                                     description: "vmfs"
-                                });
-                                args.response.success({
-                                    data: items
-                                });
-                            } else if (selectedClusterObj.hypervisortype == "Hyperv") {
-                                var items = [];
-                                items.push({
-                                    id: "SMB",
-                                    description: "SMB/CIFS"
                                 });
                                 args.response.success({
                                     data: items
