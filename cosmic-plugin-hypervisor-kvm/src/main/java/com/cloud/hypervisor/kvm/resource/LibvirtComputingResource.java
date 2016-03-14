@@ -269,6 +269,9 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
     if (details == null) {
       details = parser.getLines();
     }
+
+    LOGGER.debug("Executing script in VR " + script);
+
     return new ExecutionResult(command.getExitValue() == 0, details);
   }
 
@@ -277,6 +280,8 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       final String content) {
     final File permKey = new File("/root/.ssh/id_rsa.cloud");
     String error = null;
+
+    LOGGER.debug("Creating file in VR " + filename);
 
     try {
       SshHelper.scpTo(routerIp, 3922, "root", permKey, null, path, content.getBytes(), filename, null);
@@ -841,8 +846,8 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       LOGGER.debug("Failed to get public nic name");
       throw new ConfigurationException("Failed to get public nic name");
     }
-    LOGGER.debug("Found pif: " + pifs.get("private") + " on " + privBridgeName + ", pif: " + pifs.get("public")
-        + " on " + publicBridgeName);
+    LOGGER.debug("Found pif: " + pifs.get("private") + " on " + privBridgeName + ", pif: " + pifs.get("public") + " on "
+        + publicBridgeName);
 
     canBridgeFirewall = canBridgeFirewall(pifs.get("public"));
 
@@ -1335,7 +1340,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         if (result != null) {
           throw new CloudRuntimeException(
               "Unable to pre-configure OVS bridge " + nwName
-                  + " for network ID:" + networkId);
+              + " for network ID:" + networkId);
         }
       }
     } catch (final Exception e) {
@@ -1526,7 +1531,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
           /* this should only be true in the case of link local bridge */
           return new ExecutionResult(false,
               "unable to find the vlan id for bridge " + pluggedVlanBr + " when attempting to set up" + pubVlan
-                  + " on router " + routerName);
+              + " on router " + routerName);
         } else if (pluggedVlanId.equals(pubVlan)) {
           break;
         }
@@ -1568,7 +1573,12 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       }
 
       for (final IpAddressTO ip : ips) {
-        ip.setNicDevId(broadcastUriToNicNum.get(ip.getBroadcastUri()));
+        String broadcastUri = ip.getBroadcastUri();
+        // This hack is needed in case the ip.getBroadcastUri() is lswitch:UUID
+        if (broadcastUriToNicNum.containsKey(broadcastUri)) {
+          Integer nicDevId = broadcastUriToNicNum.get(broadcastUri);
+          ip.setNicDevId(nicDevId);
+        }
       }
 
       return new ExecutionResult(true, null);
@@ -1584,16 +1594,14 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
     Connect conn;
     try {
       conn = LibvirtConnection.getConnectionByVmName(routerName);
-      final List<InterfaceDef> nics = getInterfaces(conn, routerName);
+      final List<InterfaceDef> nics = getInterfaces(conn, routerName, guestBridgeName);
       final Map<String, Integer> broadcastUriAllocatedToVm = new HashMap<String, Integer>();
       Integer nicPos = 0;
       for (final InterfaceDef nic : nics) {
         if (nic.getBrName().equalsIgnoreCase(linkLocalBridgeName)) {
           broadcastUriAllocatedToVm.put("LinkLocal", nicPos);
         } else {
-          if (nic.getBrName().equalsIgnoreCase(publicBridgeName) || nic.getBrName().equalsIgnoreCase(privBridgeName)
-              ||
-              nic.getBrName().equalsIgnoreCase(guestBridgeName)) {
+          if (nic.getBrName().equalsIgnoreCase(publicBridgeName) || nic.getBrName().equalsIgnoreCase(privBridgeName)) {
             broadcastUriAllocatedToVm.put(BroadcastDomainType.Vlan.toUri(Vlan.UNTAGGED).toString(), nicPos);
           } else {
             final String broadcastUri = getBroadcastUriFromBridge(nic.getBrName());
@@ -1636,7 +1644,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
     try {
       conn = LibvirtConnection.getConnectionByVmName(routerName);
-      final List<InterfaceDef> nics = getInterfaces(conn, routerName);
+      final List<InterfaceDef> nics = getInterfaces(conn, routerName, guestBridgeName);
       final Map<String, Integer> broadcastUriAllocatedToVm = new HashMap<String, Integer>();
 
       Integer nicPos = 0;
@@ -1644,9 +1652,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         if (nic.getBrName().equalsIgnoreCase(linkLocalBridgeName)) {
           broadcastUriAllocatedToVm.put("LinkLocal", nicPos);
         } else {
-          if (nic.getBrName().equalsIgnoreCase(publicBridgeName) || nic.getBrName().equalsIgnoreCase(privBridgeName)
-              ||
-              nic.getBrName().equalsIgnoreCase(guestBridgeName)) {
+          if (nic.getBrName().equalsIgnoreCase(publicBridgeName) || nic.getBrName().equalsIgnoreCase(privBridgeName)) {
             broadcastUriAllocatedToVm.put(BroadcastDomainType.Vlan.toUri(Vlan.UNTAGGED).toString(), nicPos);
           } else {
             final String broadcastUri = getBroadcastUriFromBridge(nic.getBrName());
@@ -2188,7 +2194,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
   public synchronized String attachOrDetachIso(final Connect conn, final String vmName, String isoPath,
       final boolean isAttach) throws LibvirtException, URISyntaxException,
-          InternalErrorException {
+  InternalErrorException {
     String isoXml = null;
     if (isoPath != null && isAttach) {
       final int index = isoPath.lastIndexOf("/");
@@ -2888,6 +2894,18 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
   public Domain getDomain(final Connect conn, final String vmName) throws LibvirtException {
     return conn.domainLookupByName(vmName);
+  }
+
+  public List<InterfaceDef> getInterfaces(final Connect conn, final String vmName, String interfaceToExclude) {
+    List<InterfaceDef> interfaces = getInterfaces(conn, vmName);
+    List<InterfaceDef> interfacesToReturn = new ArrayList<InterfaceDef>();
+    for (InterfaceDef interfaceDef : interfaces) {
+      if (!interfaceDef.getBrName().equalsIgnoreCase(interfaceToExclude)) {
+        interfacesToReturn.add(interfaceDef);
+      }
+    }
+
+    return interfacesToReturn;
   }
 
   public List<InterfaceDef> getInterfaces(final Connect conn, final String vmName) {
