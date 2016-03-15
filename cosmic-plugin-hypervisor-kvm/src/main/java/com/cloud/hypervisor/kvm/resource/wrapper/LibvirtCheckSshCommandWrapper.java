@@ -1,5 +1,6 @@
 package com.cloud.hypervisor.kvm.resource.wrapper;
 
+
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.check.CheckSshAnswer;
 import com.cloud.agent.api.check.CheckSshCommand;
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
 public final class LibvirtCheckSshCommandWrapper
     extends CommandWrapper<CheckSshCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtOvsVpcRoutingPolicyConfigCommandWrapper.class);
+  private static final Logger s_logger = Logger.getLogger(LibvirtCheckSshCommandWrapper.class);
 
   @Override
   public Answer execute(final CheckSshCommand command, final LibvirtComputingResource libvirtComputingResource) {
