@@ -16,6 +16,12 @@
 // under the License.
 package com.cloud.event;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.cloudstack.config.Configuration;
+import org.apache.cloudstack.usage.Usage;
+
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.Pod;
 import com.cloud.dc.StorageNetworkIpRange;
@@ -54,10 +60,10 @@ import com.cloud.offering.NetworkOffering;
 import com.cloud.offering.ServiceOffering;
 import com.cloud.projects.Project;
 import com.cloud.server.ResourceTag;
-import com.cloud.storage.StoragePool;
 import com.cloud.storage.GuestOS;
 import com.cloud.storage.GuestOSHypervisor;
 import com.cloud.storage.Snapshot;
+import com.cloud.storage.StoragePool;
 import com.cloud.storage.Volume;
 import com.cloud.storage.snapshot.SnapshotPolicy;
 import com.cloud.template.VirtualMachineTemplate;
@@ -66,11 +72,6 @@ import com.cloud.user.User;
 import com.cloud.vm.Nic;
 import com.cloud.vm.NicSecondaryIp;
 import com.cloud.vm.VirtualMachine;
-import org.apache.cloudstack.config.Configuration;
-import org.apache.cloudstack.usage.Usage;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class EventTypes {
 
@@ -429,8 +430,6 @@ public class EventTypes {
     public static final String EVENT_EXTERNAL_NVP_CONTROLLER_ADD = "PHYSICAL.NVPCONTROLLER.ADD";
     public static final String EVENT_EXTERNAL_NVP_CONTROLLER_DELETE = "PHYSICAL.NVPCONTROLLER.DELETE";
     public static final String EVENT_EXTERNAL_NVP_CONTROLLER_CONFIGURE = "PHYSICAL.NVPCONTROLLER.CONFIGURE";
-    public static final String EVENT_EXTERNAL_OVS_CONTROLLER_ADD = "PHYSICAL.OVSCONTROLLER.ADD";
-    public static final String EVENT_EXTERNAL_OVS_CONTROLLER_DELETE = "PHYSICAL.OVSCONTROLLER.DELETE";
 
     // external network mapping events
     public static final String EVENT_EXTERNAL_VSP_VSD_ADD = "PHYSICAL.NUAGE.VSD.ADD";
@@ -887,14 +886,14 @@ public class EventTypes {
     }
 
     public static String getEntityForEvent(String eventName) {
-        Object entityClass = entityEventDetails.get(eventName);
+        final Object entityClass = entityEventDetails.get(eventName);
         if (entityClass == null) {
             return null;
         } else if (entityClass instanceof String){
             return (String)entityClass;
         } else if (entityClass instanceof Class){
-            String entityClassName = ((Class)entityClass).getName();
-            int index = entityClassName.lastIndexOf(".");
+            final String entityClassName = ((Class)entityClass).getName();
+            final int index = entityClassName.lastIndexOf(".");
             String entityName = entityClassName;
             if (index != -1) {
                 entityName = entityClassName.substring(index + 1);
@@ -906,7 +905,7 @@ public class EventTypes {
     }
 
     public static Class getEntityClassForEvent(String eventName) {
-        Object clz = entityEventDetails.get(eventName);
+        final Object clz = entityEventDetails.get(eventName);
 
         if(clz instanceof Class){
             return (Class)entityEventDetails.get(eventName);

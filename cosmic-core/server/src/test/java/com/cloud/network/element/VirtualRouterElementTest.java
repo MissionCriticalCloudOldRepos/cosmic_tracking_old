@@ -67,7 +67,6 @@ import com.cloud.network.dao.MonitoringServiceDao;
 import com.cloud.network.dao.NetworkDao;
 import com.cloud.network.dao.NetworkVO;
 import com.cloud.network.dao.OpRouterMonitorServiceDao;
-import com.cloud.network.dao.OvsProviderDao;
 import com.cloud.network.dao.PhysicalNetworkServiceProviderDao;
 import com.cloud.network.dao.PhysicalNetworkServiceProviderVO;
 import com.cloud.network.dao.RemoteAccessVpnDao;
@@ -153,7 +152,6 @@ public class VirtualRouterElementTest {
     @Mock private VirtualRouterProviderDao _vrProviderDao;
     @Mock private LoadBalancerDao _lbDao;
     @Mock private NetworkDao _networksDao;
-    @Mock private OvsProviderDao _ovsProviderDao;
 
     @Mock private ServiceOfferingVO _offering;
     @Mock private NetworkModelImpl _networkModel;

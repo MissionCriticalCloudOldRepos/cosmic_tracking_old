@@ -301,14 +301,6 @@ public enum Config {
             "false",
             "Direct Network Dhcp Server should not send a default route",
             "true/false"),
-    OvsTunnelNetworkDefaultLabel(
-            "Network",
-            ManagementServer.class,
-            String.class,
-            "sdn.ovs.controller.default.label",
-            "cloud-public",
-            "Default network label to be used when fetching interface for GRE endpoints",
-            null),
     VmNetworkThrottlingRate(
             "Network",
             ManagementServer.class,
@@ -1975,12 +1967,12 @@ public enum Config {
         s_scopeLevelConfigsMap.put(ConfigKey.Scope.Account.toString(), new ArrayList<Config>());
         s_scopeLevelConfigsMap.put(ConfigKey.Scope.Global.toString(), new ArrayList<Config>());
 
-        for (Config c : Config.values()) {
+        for (final Config c : Config.values()) {
             //Creating group of parameters per each level (zone/cluster/pool/account)
-            StringTokenizer tokens = new StringTokenizer(c.getScope(), ",");
+            final StringTokenizer tokens = new StringTokenizer(c.getScope(), ",");
             while (tokens.hasMoreTokens()) {
-                String scope = tokens.nextToken().trim();
-                List<Config> currentConfigs = s_scopeLevelConfigsMap.get(scope);
+                final String scope = tokens.nextToken().trim();
+                final List<Config> currentConfigs = s_scopeLevelConfigsMap.get(scope);
                 currentConfigs.add(c);
                 s_scopeLevelConfigsMap.put(scope, currentConfigs);
             }
@@ -2006,9 +1998,9 @@ public enum Config {
         Configs.put("Secure", new ArrayList<Config>());
 
         // Add values into HashMap
-        for (Config c : Config.values()) {
-            String category = c.getCategory();
-            List<Config> currentConfigs = Configs.get(category);
+        for (final Config c : Config.values()) {
+            final String category = c.getCategory();
+            final List<Config> currentConfigs = Configs.get(category);
             currentConfigs.add(c);
             Configs.put(category, currentConfigs);
         }
@@ -2106,10 +2098,10 @@ public enum Config {
     }
 
     public static Config getConfig(String name) {
-        List<String> categories = getCategories();
-        for (String category : categories) {
-            List<Config> currentList = getConfigs(category);
-            for (Config c : currentList) {
+        final List<String> categories = getCategories();
+        for (final String category : categories) {
+            final List<Config> currentList = getConfigs(category);
+            for (final Config c : currentList) {
                 if (c.key().equals(name)) {
                     return c;
                 }
@@ -2120,9 +2112,9 @@ public enum Config {
     }
 
     public static List<String> getCategories() {
-        Object[] keys = Configs.keySet().toArray();
-        List<String> categories = new ArrayList<String>();
-        for (Object key : keys) {
+        final Object[] keys = Configs.keySet().toArray();
+        final List<String> categories = new ArrayList<String>();
+        for (final Object key : keys) {
             categories.add((String)key);
         }
         return categories;

@@ -73,7 +73,6 @@ under the License.
             <adapter name="ControlNetworkGuru" class="com.cloud.network.guru.ControlNetworkGuru"/>
             <adapter name="DirectNetworkGuru" class="com.cloud.network.guru.DirectNetworkGuru"/>
             <adapter name="DirectPodBasedNetworkGuru" class="com.cloud.network.guru.DirectPodBasedNetworkGuru"/>
-            <!--<adapter name="OvsGuestNetworkGuru" class="com.cloud.network.guru.OvsGuestNetworkGuru"/> -->
             <adapter name="PrivateNetworkGuru" class="com.cloud.network.guru.PrivateNetworkGuru"/>
             <!--<adapter name="NiciraNvpGuestNetworkGuru" class="com.cloud.network.guru.NiciraNvpGuestNetworkGuru"/> -->
         </adapters>
@@ -82,7 +81,6 @@ under the License.
         </adapters>
         <adapters key="com.cloud.network.element.NetworkElement">
             <adapter name="VirtualRouter" class="com.cloud.network.element.VirtualRouterElement"/>
-            <!--<adapter name="Ovs" class="com.cloud.network.element.OvsElement"/> -->
             <!--<adapter name="ExternalDhcpServer" class="com.cloud.network.element.ExternalDhcpElement"/>-->
             <adapter name="BareMetal" class="com.cloud.network.element.BareMetalElement"/>
             <adapter name="SecurityGroupProvider" class="com.cloud.network.element.SecurityGroupElement"/>
@@ -142,12 +140,9 @@ under the License.
             <adapter name="VpcVirtualRouter" class="com.cloud.network.element.VpcVirtualRouterElement"/>
         </adapters>
 
-        <!--<manager name="OvsTunnelManager" key="com.cloud.network.ovs.OvsTunnelManager" class="com.cloud.network.ovs.OvsTunnelManagerImpl"/>-->
         <!--<manager name="ElasticLoadBalancerManager" key="com.cloud.network.lb.ElasticLoadBalancerManager" class="com.cloud.network.lb.ElasticLoadBalancerManagerImpl"/>-->
         <pluggableservice name="VirtualRouterElementService" key="com.cloud.network.element.VirtualRouterElementService" class="com.cloud.network.element.VirtualRouterElement"/>
         <!-- <pluggableservice name="NiciraNvpElementService" key="com.cloud.network.element.NiciraNvpElementService" class="com.cloud.network.element.NiciraNvpElement"/> -->
-        <!--<dao name="OvsTunnelInterfaceDao" class="com.cloud.network.ovs.dao.OvsTunnelInterfaceDaoImpl" singleton="false"/> -->
-        <!--<dao name="OvsTunnelAccountDao" class="com.cloud.network.ovs.dao.OvsTunnelNetworkDaoImpl" singleton="false"/> -->
         <!--<dao name="NiciraNvpDao" class="com.cloud.network.dao.NiciraNvpDaoImpl" singleton="false"/> -->
         <!--<dao name="NiciraNvpNicMappingDao" class="com.cloud.network.dao.NiciraNvpNicMappingDaoImpl" singleton="false"/> -->
         <!--<dao name="NiciraNvpRouterMappingDao" class="com.cloud.network.dao.NiciraNvpRouterMappingDaoImpl" singleton="false"/> -->

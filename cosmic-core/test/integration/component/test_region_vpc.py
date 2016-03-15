@@ -82,7 +82,7 @@ class Services:
                                             "UserData": 'VpcVirtualRouter',
                                             "StaticNat": 'VpcVirtualRouter',
                                             "NetworkACL": 'VpcVirtualRouter',
-                                            "Connectivity": 'Ovs'
+                                            "Connectivity": 'NiciraNvp'
                                         },
                                     "serviceCapabilityList": {
                                         "Connectivity": {
@@ -103,7 +103,7 @@ class Services:
                                             "Lb": 'VpcVirtualRouter',
                                             "UserData": 'VpcVirtualRouter',
                                             "StaticNat": 'VpcVirtualRouter',
-                                            "Connectivity": 'Ovs'
+                                            "Connectivity": 'NiciraNvp'
                                         },
                                     "serviceCapabilityList": {
                                         "Connectivity": {
@@ -207,16 +207,16 @@ class TestRegionVpcOffering(cloudstackTestCase):
             assert validateList(list_physical_networks)[0] == PASS,\
                 "physical networks list validation failed"
 
-            cls.isOvsPluginEnabled = False
+            cls.isNsxPluginEnabled = False
             for i in range(0, len(list_physical_networks)):
                 list_network_serviceprovider = NetworkServiceProvider.list(
                                                                        cls.apiclient,
                                                                        physicalnetworkid=list_physical_networks[i].id
                                                                        )
                 for j in range(0, len(list_network_serviceprovider)):
-                    if((str(list_network_serviceprovider[j].name).lower() == 'ovs') and
+                    if((str(list_network_serviceprovider[j].name).lower() == 'niciranvp') and
                         (str(list_network_serviceprovider[j].state).lower() == 'enabled')):
-                        cls.isOvsPluginEnabled = True
+                        cls.isNsxPluginEnabled = True
                         break
         except Exception as e:
             cls.tearDownClass()
@@ -334,8 +334,8 @@ class TestRegionVpcOffering(cloudstackTestCase):
         # 1. Create VPC Offering by specifying all supported Services
         # 2. VPC offering should be created successfully.
 
-        if not self.isOvsPluginEnabled:
-            self.skipTest("OVS plugin should be enabled to run this test case")
+        if not self.isNsxPluginEnabled:
+            raise "NSX plugin should be enabled to run this test case"
 
         self.debug("Creating inter VPC offering")
         vpc_off = VpcOffering.create(
@@ -377,8 +377,8 @@ class TestRegionVpcOffering(cloudstackTestCase):
         # 9. Create Egress Network ACL for this network to access google.com.
         # 10. Enable VPN services
 
-        if not self.isOvsPluginEnabled:
-            self.skipTest("OVS plugin should be enabled to run this test case")
+        if not self.isNsxPluginEnabled:
+            raise "NSX plugin should be enabled to run this test case"
 
         self.debug("Creating a VPC offering..")
         vpc_off = VpcOffering.create(

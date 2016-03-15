@@ -24,6 +24,16 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.apache.cloudstack.api.command.admin.router.ConfigureVirtualRouterElementCmd;
+import org.apache.cloudstack.api.command.admin.router.CreateVirtualRouterElementCmd;
+import org.apache.cloudstack.api.command.admin.router.ListVirtualRouterElementsCmd;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.network.topology.NetworkTopology;
+import org.apache.cloudstack.network.topology.NetworkTopologyContext;
+import org.apache.log4j.Logger;
+import org.cloud.network.router.deployment.RouterDeploymentDefinition;
+import org.cloud.network.router.deployment.RouterDeploymentDefinitionBuilder;
+
 import com.cloud.agent.api.to.LoadBalancerTO;
 import com.cloud.configuration.ConfigurationManager;
 import com.cloud.dc.DataCenter;
@@ -45,7 +55,6 @@ import com.cloud.network.NetworkMigrationResponder;
 import com.cloud.network.NetworkModel;
 import com.cloud.network.Networks;
 import com.cloud.network.Networks.TrafficType;
-import com.cloud.network.OvsProvider;
 import com.cloud.network.PhysicalNetworkServiceProvider;
 import com.cloud.network.PublicIpAddress;
 import com.cloud.network.RemoteAccessVpn;
@@ -57,7 +66,6 @@ import com.cloud.network.as.AutoScaleCounter.AutoScaleCounterType;
 import com.cloud.network.dao.IPAddressDao;
 import com.cloud.network.dao.LoadBalancerDao;
 import com.cloud.network.dao.NetworkDao;
-import com.cloud.network.dao.OvsProviderDao;
 import com.cloud.network.dao.VirtualRouterProviderDao;
 import com.cloud.network.lb.LoadBalancingRule;
 import com.cloud.network.lb.LoadBalancingRule.LbStickinessPolicy;
@@ -94,18 +102,6 @@ import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.UserVmDao;
 import com.google.gson.Gson;
-
-import org.apache.cloudstack.api.command.admin.router.ConfigureOvsElementCmd;
-import org.apache.cloudstack.api.command.admin.router.ConfigureVirtualRouterElementCmd;
-import org.apache.cloudstack.api.command.admin.router.CreateVirtualRouterElementCmd;
-import org.apache.cloudstack.api.command.admin.router.ListOvsElementsCmd;
-import org.apache.cloudstack.api.command.admin.router.ListVirtualRouterElementsCmd;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.network.topology.NetworkTopology;
-import org.apache.cloudstack.network.topology.NetworkTopologyContext;
-import org.apache.log4j.Logger;
-import org.cloud.network.router.deployment.RouterDeploymentDefinition;
-import org.cloud.network.router.deployment.RouterDeploymentDefinitionBuilder;
 
 public class VirtualRouterElement extends AdapterBase implements VirtualRouterElementService, DhcpServiceProvider, UserDataServiceProvider, SourceNatServiceProvider,
 StaticNatServiceProvider, FirewallServiceProvider, LoadBalancingServiceProvider, PortForwardingServiceProvider, RemoteAccessVPNServiceProvider, IpDeployer,
@@ -147,8 +143,6 @@ NetworkMigrationResponder, AggregatedCommandExecutor {
     ConfigurationDao _configDao;
     @Inject
     VirtualRouterProviderDao _vrProviderDao;
-    @Inject
-    OvsProviderDao _ovsProviderDao;
     @Inject
     IPAddressDao _ipAddressDao;
     @Inject
@@ -821,20 +815,6 @@ NetworkMigrationResponder, AggregatedCommandExecutor {
     }
 
     @Override
-    public OvsProvider configure(final ConfigureOvsElementCmd cmd) {
-        final OvsProviderVO element = _ovsProviderDao.findById(cmd.getId());
-        if (element == null) {
-            s_logger.debug("Can't find Ovs element with network service provider id " + cmd.getId());
-            return null;
-        }
-
-        element.setEnabled(cmd.getEnabled());
-        _ovsProviderDao.persist(element);
-
-        return element;
-    }
-
-    @Override
     public VirtualRouterProvider addElement(final Long nspId, final Type providerType) {
         if (!(providerType == Type.VirtualRouter || providerType == Type.VPCVirtualRouter)) {
             throw new InvalidParameterValueException("Element " + getName() + " supports only providerTypes: " + Type.VirtualRouter.toString() + " and " + Type.VPCVirtualRouter);
@@ -1076,26 +1056,6 @@ NetworkMigrationResponder, AggregatedCommandExecutor {
 
         // return only VR and VPC VR
         sc.and(sc.entity().getType(), Op.IN, VirtualRouterProvider.Type.VPCVirtualRouter, VirtualRouterProvider.Type.VirtualRouter);
-
-        return sc.list();
-    }
-
-    @Override
-    public List<? extends OvsProvider> searchForOvsElement(final ListOvsElementsCmd cmd) {
-        final Long id = cmd.getId();
-        final Long nspId = cmd.getNspId();
-        final Boolean enabled = cmd.getEnabled();
-        final QueryBuilder<OvsProviderVO> sc = QueryBuilder.create(OvsProviderVO.class);
-
-        if (id != null) {
-            sc.and(sc.entity().getId(), Op.EQ, id);
-        }
-        if (nspId != null) {
-            sc.and(sc.entity().getNspId(), Op.EQ, nspId);
-        }
-        if (enabled != null) {
-            sc.and(sc.entity().isEnabled(), Op.EQ, enabled);
-        }
 
         return sc.list();
     }
