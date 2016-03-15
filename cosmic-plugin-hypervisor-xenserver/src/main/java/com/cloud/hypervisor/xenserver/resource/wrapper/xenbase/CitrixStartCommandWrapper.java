@@ -25,11 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.OvsSetTagAndFlowAnswer;
-import com.cloud.agent.api.OvsSetTagAndFlowCommand;
 import com.cloud.agent.api.StartAnswer;
 import com.cloud.agent.api.StartCommand;
 import com.cloud.agent.api.to.DiskTO;
@@ -37,8 +33,6 @@ import com.cloud.agent.api.to.GPUDeviceTO;
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.agent.api.to.VirtualMachineTO;
 import com.cloud.hypervisor.xenserver.resource.CitrixResourceBase;
-import com.cloud.network.Networks;
-import com.cloud.network.Networks.BroadcastDomainType;
 import com.cloud.network.Networks.IsolationType;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
@@ -49,6 +43,8 @@ import com.xensource.xenapi.Host;
 import com.xensource.xenapi.Types.VmPowerState;
 import com.xensource.xenapi.VDI;
 import com.xensource.xenapi.VM;
+
+import org.apache.log4j.Logger;
 
 @ResourceWrapper(handles =  StartCommand.class)
 public final class CitrixStartCommandWrapper extends CommandWrapper<StartCommand, Answer, CitrixResourceBase> {
@@ -98,7 +94,7 @@ public final class CitrixStartCommandWrapper extends CommandWrapper<StartCommand
                 citrixResourceBase.createPatchVbd(conn, vmName, vm);
             }
             // put cdrom at the first place in the list
-            List<DiskTO> disks = new ArrayList<DiskTO>(vmSpec.getDisks().length);
+            final List<DiskTO> disks = new ArrayList<DiskTO>(vmSpec.getDisks().length);
             int index = 0;
             for (final DiskTO disk : vmSpec.getDisks()) {
                 if (Volume.Type.ISO.equals(disk.getType())) {
@@ -108,7 +104,7 @@ public final class CitrixStartCommandWrapper extends CommandWrapper<StartCommand
                 }
                 index++;
             }
-            for (DiskTO disk : disks) {
+            for (final DiskTO disk : disks) {
                 final VDI newVdi = citrixResourceBase.prepareManagedDisk(conn, disk, vmName);
 
                 if (newVdi != null) {
@@ -124,27 +120,6 @@ public final class CitrixStartCommandWrapper extends CommandWrapper<StartCommand
             }
 
             citrixResourceBase.startVM(conn, host, vm, vmName);
-
-            if (citrixResourceBase.isOvs()) {
-                // TODO(Salvatore-orlando): This code should go
-                for (final NicTO nic : vmSpec.getNics()) {
-                    if (nic.getBroadcastType() == Networks.BroadcastDomainType.Vswitch) {
-                        final HashMap<String, String> args = citrixResourceBase.parseDefaultOvsRuleComamnd(BroadcastDomainType.getValue(nic.getBroadcastUri()));
-                        final OvsSetTagAndFlowCommand flowCmd = new OvsSetTagAndFlowCommand(args.get("vmName"), args.get("tag"), args.get("vlans"), args.get("seqno"),
-                                Long.parseLong(args.get("vmId")));
-
-                        final CitrixRequestWrapper citrixRequestWrapper = CitrixRequestWrapper.getInstance();
-
-                        final OvsSetTagAndFlowAnswer r = (OvsSetTagAndFlowAnswer) citrixRequestWrapper.execute(flowCmd, citrixResourceBase);
-
-                        if (!r.getResult()) {
-                            s_logger.warn("Failed to set flow for VM " + r.getVmId());
-                        } else {
-                            s_logger.info("Success to set flow for VM " + r.getVmId());
-                        }
-                    }
-                }
-            }
 
             if (citrixResourceBase.canBridgeFirewall()) {
                 String result = null;
