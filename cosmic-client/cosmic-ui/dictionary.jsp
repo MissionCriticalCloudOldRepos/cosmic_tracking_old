@@ -733,7 +733,6 @@ dictionary = {
 'label.keyboard.type': '<fmt:message key="label.keyboard.type" />',
 'label.key': '<fmt:message key="label.key" />',
 'label.kvm.traffic.label': '<fmt:message key="label.kvm.traffic.label" />',
-'label.ovm.traffic.label': '<fmt:message key="label.ovm.traffic.label" />',
 'label.lxc.traffic.label': '<fmt:message key="label.lxc.traffic.label" />',
 'label.ovm3.traffic.label': '<fmt:message key="label.ovm3.traffic.label" />',
 'label.lang.chinese': '<fmt:message key="label.lang.chinese" />',

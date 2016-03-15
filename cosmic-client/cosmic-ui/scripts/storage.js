@@ -2346,7 +2346,7 @@
             return ["remove"];
         }
 
-        if (jsonObj.hypervisor != "Ovm" && jsonObj.state == "Ready") {
+        if (jsonObj.state == "Ready") {
             if (jsonObj.hypervisor == 'KVM') {
                 if (jsonObj.vmstate == 'Running') {
                     if (g_kvmsnapshotenabled == true) { //"kvm.snapshot.enabled" flag should be taken to account only when snapshot is being created for Running vm (CLOUDSTACK-4428)

@@ -138,8 +138,6 @@
         trafficType.kvmnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.vmwarenetworklabel == null || trafficType.vmwarenetworklabel == 0)
         trafficType.vmwarenetworklabel = _l( 'label.network.label.display.for.blank.value');
-        if (trafficType.ovmnetworklabel == null || trafficType.ovmnetworklabel == 0)
-        trafficType.ovmnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.lxcnetworklabel == null || trafficType.lxcnetworklabel == 0)
         trafficType.lxcnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.ovm3networklabel == null || trafficType.ovm3networklabel == 0)
@@ -156,8 +154,6 @@
         array1.push("&kvmnetworklabel=" + labels.kvmnetworklabel);
         if (labels.vmwarenetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&vmwarenetworklabel=" + labels.vmwarenetworklabel);
-        if (labels.ovmnetworklabel != _l( 'label.network.label.display.for.blank.value'))
-        array1.push("&ovmnetworklabel=" + labels.ovmnetworklabel);
         if (labels.lxcnetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&lxcnetworklabel=" + labels.lxcnetworklabel);
         if (labels.ovm3networklabel != _l( 'label.network.label.display.for.blank.value'))
@@ -640,10 +636,6 @@
                                         label: 'label.vmware.traffic.label',
                                         isEditable: true
                                     },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -671,7 +663,6 @@
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
                                             selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
-                                            selectedPublicNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -954,10 +945,6 @@
                                         label: 'label.vmware.traffic.label',
                                         isEditable: true
                                     },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -981,7 +968,6 @@
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
                                             selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
-                                            selectedPublicNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -1165,10 +1151,6 @@
                                         label: 'label.vmware.traffic.label',
                                         isEditable: true
                                     },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -1190,7 +1172,6 @@
                                             selectedManagementNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedManagementNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
                                             selectedManagementNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
-                                            selectedManagementNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedManagementNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedManagementNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -1353,10 +1334,6 @@
                                         label: 'label.vmware.traffic.label',
                                         isEditable: true
                                     },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -1400,7 +1377,6 @@
                                             selectedPhysicalNetworkObj[ "xennetworklabel"] = trafficType.xennetworklabel;
                                             selectedPhysicalNetworkObj[ "kvmnetworklabel"] = trafficType.kvmnetworklabel;
                                             selectedPhysicalNetworkObj[ "vmwarenetworklabel"] = trafficType.vmwarenetworklabel;
-                                            selectedPhysicalNetworkObj[ "ovmnetworklabel"] = trafficType.ovmnetworklabel;
                                             selectedPhysicalNetworkObj[ "lxcnetworklabel"] = trafficType.lxcnetworklabel;
                                             selectedPhysicalNetworkObj[ "ovm3networklabel"] = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -14767,33 +14743,6 @@
                                                     $form.find('.form-item[rel=ovm3vip]').hide();
                                                     $form.find('.form-item[rel=ovm3pool]').hide();
                                                     $form.find('.form-item[rel=ovm3cluster]').hide();
-                                                } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                                                    //$('li[input_group="general"]', $dialogAddHost).show();
-                                                    $form.find('.form-item[rel=hostname]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=username]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=password]').css('display', 'inline-block');
-
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=vcenterHost]').hide();
-
-                                                    //$('li[input_group="baremetal"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=baremetalCpuCores]').hide();
-                                                    $form.find('.form-item[rel=baremetalCpu]').hide();
-                                                    $form.find('.form-item[rel=baremetalMemory]').hide();
-                                                    $form.find('.form-item[rel=baremetalMAC]').hide();
-
-                                                    //$('li[input_group="Ovm"]', $dialogAddHost).show();
-                                                    $form.find('.form-item[rel=agentUsername]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=agentUsername]').find('input').val("oracle");
-                                                    $form.find('.form-item[rel=agentPassword]').css('display', 'inline-block');
-
-                                                    //$('li[input_group="Ovm3"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=agentUsername]').hide();
-                                                    $form.find('.form-item[rel=agentPassword]').hide();
-                                                    $form.find('.form-item[rel=agentPort]').hide();
-                                                    $form.find('.form-item[rel=ovm3vip]').hide();
-                                                    $form.find('.form-item[rel=ovm3pool]').hide();
-                                                    $form.find('.form-item[rel=ovm3cluster]').hide();
                                                 } else if (selectedClusterObj.hypervisortype == "Ovm3") {
                                                     //$('li[input_group="general"]', $dialogAddHost).show();
                                                     $form.find('.form-item[rel=hostname]').css('display', 'inline-block');
@@ -14974,24 +14923,6 @@
                                     },
                                     //input_group="BareMetal" ends here
 
-                                    //input_group="OVM" starts here
-                                    agentUsername: {
-                                        label: 'label.agent.username',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isHidden: true
-                                    },
-                                    agentPassword: {
-                                        label: 'label.agent.password',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true,
-                                        isPassword: true
-                                    },
-                                    //input_group="OVM" ends here
-
                                     //input_group="OVM3" starts here
                                     agentPort: {
                                         label: 'label.agent.port',
@@ -15093,11 +15024,6 @@
                                             cpuspeed: args.data.baremetalCpu,
                                             memory: args.data.baremetalMemory,
                                             hostmac: args.data.baremetalMAC
-                                        });
-                                    } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                                        $.extend(data, {
-                                            agentusername: args.data.agentUsername,
-                                            agentpassword: args.data.agentPassword
                                         });
                                     } else if (selectedClusterObj.hypervisortype == "Ovm3") {
                                         $.extend(data, {
@@ -16224,19 +16150,6 @@
                                                 items.push({
                                                     id: "custom",
                                                     description: "custom"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                                                var items =[];
-                                                items.push({
-                                                    id: "nfs",
-                                                    description: "nfs"
-                                                });
-                                                items.push({
-                                                    id: "ocfs2",
-                                                    description: "ocfs2"
                                                 });
                                                 args.response.success({
                                                     data: items

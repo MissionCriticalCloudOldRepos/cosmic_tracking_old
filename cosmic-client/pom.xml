@@ -155,11 +155,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-hypervisor-ovm</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-hypervisor-ovm3</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>

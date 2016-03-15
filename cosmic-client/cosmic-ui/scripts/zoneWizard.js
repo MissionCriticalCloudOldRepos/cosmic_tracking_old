@@ -82,9 +82,6 @@
             case 'BareMetal':
                 hypervisorAttr = 'baremetalnetworklabel';
                 break;
-            case 'Ovm':
-                hypervisorAttr = 'ovmnetworklabel';
-                break;
             case 'LXC':
                 hypervisorAttr = 'lxcnetworklabel';
                 break;
@@ -1122,26 +1119,6 @@
                         $form.find('.form-item[rel=ovm3vip]').hide();
                         $form.find('.form-item[rel=ovm3pool]').hide();
                         $form.find('.form-item[rel=ovm3cluster]').hide();
-                    } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                        $form.find('[rel=hostname]').css('display', 'block');
-                        $form.find('[rel=username]').css('display', 'block');
-                        $form.find('[rel=password]').css('display', 'block');
-
-                        $form.find('[rel=vcenterHost]').hide();
-
-                        $form.find('[rel=baremetalCpuCores]').hide();
-                        $form.find('[rel=baremetalCpu]').hide();
-                        $form.find('[rel=baremetalMemory]').hide();
-                        $form.find('[rel=baremetalMAC]').hide();
-
-                        $form.find('[rel=agentUsername]').css('display', 'block');
-                        $form.find('[rel=agentUsername]').find('input').val("oracle");
-                        $form.find('[rel=agentPassword]').css('display', 'block');
-
-                        $form.find('.form-item[rel=agentPort]').hide();
-                        $form.find('.form-item[rel=ovm3vip]').hide();
-                        $form.find('.form-item[rel=ovm3pool]').hide();
-                        $form.find('.form-item[rel=ovm3cluster]').hide();
                    } else if (selectedClusterObj.hypervisortype == "Ovm3") {
                         $form.find('.form-item[rel=hostname]').css('display', 'inline-block');
                         $form.find('.form-item[rel=username]').css('display', 'inline-block');
@@ -1250,24 +1227,6 @@
                         isHidden: true
                     },
                     //input_group="BareMetal" ends here
-
-                    //input_group="OVM" starts here
-                    agentUsername: {
-                        label: 'label.agent.username',
-                        validation: {
-                            required: false
-                        },
-                        isHidden: true
-                    },
-                    agentPassword: {
-                        label: 'label.agent.password',
-                        validation: {
-                            required: true
-                        },
-                        isHidden: true,
-                        isPassword: true
-                    },
-                    //input_group="OVM" ends here
 
                     //input_group="OVM3" starts here
                     agentPort: {
