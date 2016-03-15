@@ -673,21 +673,6 @@
       </dependencies>
     </profile>
     <profile>
-      <id>nuagevsp</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-network-vsp</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
       <id>srx</id>
       <activation>
         <property>
