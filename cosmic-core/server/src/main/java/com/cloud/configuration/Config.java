@@ -681,7 +681,7 @@ public enum Config {
             String.class,
             "system.vm.default.hypervisor",
             null,
-            "Hypervisor type used to create system vm, valid values are: XenServer, KVM, VMware, VirtualBox, Parralels, BareMetal, Ovm, LXC, Any",
+            "Hypervisor type used to create system vm, valid values are: XenServer, KVM, VMware, VirtualBox, Parralels, BareMetal, LXC, Any",
             null),
     SystemVMRandomPassword(
             "Advanced",
@@ -698,7 +698,7 @@ public enum Config {
             String.class,
             "hypervisor.list",
             HypervisorType.KVM + "," + HypervisorType.XenServer + "," + HypervisorType.VMware + "," + HypervisorType.BareMetal + "," +
-                HypervisorType.Ovm + "," + HypervisorType.LXC + "," + HypervisorType.Ovm3,
+                HypervisorType.LXC + "," + HypervisorType.Ovm3,
             "The list of hypervisors that this deployment will use.",
             "hypervisorList"),
     ManagementNetwork("Advanced", ManagementServer.class, String.class, "management.network.cidr", null, "The cidr of management server network", null),
@@ -1038,11 +1038,6 @@ public enum Config {
             "5",
             "Incorrect login attempts allowed before the user is disabled",
             null),
-    // Ovm
-    OvmPublicNetwork("Hidden", ManagementServer.class, String.class, "ovm.public.network.device", null, "Specify the public bridge on host for public network", null),
-    OvmPrivateNetwork("Hidden", ManagementServer.class, String.class, "ovm.private.network.device", null, "Specify the private bridge on host for private network", null),
-    OvmGuestNetwork("Hidden", ManagementServer.class, String.class, "ovm.guest.network.device", null, "Specify the private bridge on host for private network", null),
-
     // Ovm3
     Ovm3PublicNetwork("Hidden", ManagementServer.class, String.class, "ovm3.public.network.device", null, "Specify the public bridge on host for public network", null),
     Ovm3PrivateNetwork("Hidden", ManagementServer.class, String.class, "ovm3.private.network.device", null, "Specify the private bridge on host for private network", null),

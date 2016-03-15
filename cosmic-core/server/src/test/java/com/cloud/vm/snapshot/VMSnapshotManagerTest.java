@@ -157,14 +157,6 @@ public class VMSnapshotManagerTest {
         _vmSnapshotMgr.allocVMSnapshot(TEST_VM_ID, "", "", true);
     }
 
-    // hypervisorCapabilities not expected case
-    @Test(expected = InvalidParameterValueException.class)
-    public void testAllocVMSnapshotF6() throws ResourceAllocationException {
-        when(vmMock.getHypervisorType()).thenReturn(Hypervisor.HypervisorType.Ovm);
-        when(_hypervisorCapabilitiesDao.isVmSnapshotEnabled(Hypervisor.HypervisorType.Ovm, "default")).thenReturn(false);
-        _vmSnapshotMgr.allocVMSnapshot(TEST_VM_ID, "", "", true);
-    }
-
     // vm state not in [running, stopped] case
     @Test(expected = InvalidParameterValueException.class)
     public void testAllocVMSnapshotF2() throws ResourceAllocationException {

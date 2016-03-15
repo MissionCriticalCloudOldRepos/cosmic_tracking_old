@@ -29,7 +29,6 @@ public class Hypervisor {
         Parralels,
         BareMetal,
         Simulator,
-        Ovm,
         Ovm3,
         LXC,
 
@@ -53,8 +52,6 @@ public class Hypervisor {
                 return HypervisorType.BareMetal;
             } else if (hypervisor.equalsIgnoreCase("Simulator")) {
                 return HypervisorType.Simulator;
-            } else if (hypervisor.equalsIgnoreCase("Ovm")) {
-                return HypervisorType.Ovm;
             } else if (hypervisor.equalsIgnoreCase("LXC")) {
                 return HypervisorType.LXC;
             } else if (hypervisor.equalsIgnoreCase("Any")) {
@@ -79,8 +76,6 @@ public class Hypervisor {
                 return ImageFormat.QCOW2;
             } else if (hyperType == HypervisorType.VMware) {
                 return ImageFormat.OVA;
-            } else if (hyperType == HypervisorType.Ovm) {
-                return ImageFormat.RAW;
             } else if (hyperType == HypervisorType.Ovm3) {
                 return ImageFormat.RAW;
             } else {

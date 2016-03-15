@@ -194,7 +194,7 @@ public class Upgrade452to460 implements DbUpgrade {
                 case Ovm3:
                     hypervisorsListInUse.add(Hypervisor.HypervisorType.Ovm3);
                     break;
-                default: // no action on cases Any, BareMetal, None, Ovm,
+                default: // no action on cases Any, BareMetal, None,
                     // Parralels, Simulator and VirtualBox:
                     break;
                 }

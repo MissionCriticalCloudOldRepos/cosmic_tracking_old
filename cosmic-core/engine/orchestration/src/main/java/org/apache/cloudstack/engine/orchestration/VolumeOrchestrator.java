@@ -743,8 +743,6 @@ public class VolumeOrchestrator extends ManagerBase implements VolumeOrchestrati
             return ImageFormat.QCOW2;
         } else if (hyperType == HypervisorType.VMware) {
             return ImageFormat.OVA;
-        } else if (hyperType == HypervisorType.Ovm) {
-            return ImageFormat.RAW;
         } else {
             return null;
         }

@@ -39,7 +39,6 @@ public class PhysicalNetworkTrafficTypeDaoImpl extends GenericDaoBase<PhysicalNe
     final GenericSearchBuilder<PhysicalNetworkTrafficTypeVO, String> xenAllFieldsSearch;
     final GenericSearchBuilder<PhysicalNetworkTrafficTypeVO, String> vmWareAllFieldsSearch;
     final GenericSearchBuilder<PhysicalNetworkTrafficTypeVO, String> simulatorAllFieldsSearch;
-    final GenericSearchBuilder<PhysicalNetworkTrafficTypeVO, String> ovmAllFieldsSearch;
     final GenericSearchBuilder<PhysicalNetworkTrafficTypeVO, String> ovm3AllFieldsSearch;
 
     protected PhysicalNetworkTrafficTypeDaoImpl() {
@@ -72,12 +71,6 @@ public class PhysicalNetworkTrafficTypeDaoImpl extends GenericDaoBase<PhysicalNe
         simulatorAllFieldsSearch.and("trafficType", simulatorAllFieldsSearch.entity().getTrafficType(), Op.EQ);
         simulatorAllFieldsSearch.selectFields(simulatorAllFieldsSearch.entity().getSimulatorNetworkLabel());
         simulatorAllFieldsSearch.done();
-
-        ovmAllFieldsSearch = createSearchBuilder(String.class);
-        ovmAllFieldsSearch.and("physicalNetworkId", ovmAllFieldsSearch.entity().getPhysicalNetworkId(), Op.EQ);
-        ovmAllFieldsSearch.and("trafficType", ovmAllFieldsSearch.entity().getTrafficType(), Op.EQ);
-        ovmAllFieldsSearch.selectFields(ovmAllFieldsSearch.entity().getSimulatorNetworkLabel());
-        ovmAllFieldsSearch.done();
 
         ovm3AllFieldsSearch = createSearchBuilder(String.class);
         ovm3AllFieldsSearch.and("physicalNetworkId", ovm3AllFieldsSearch.entity().getPhysicalNetworkId(), Op.EQ);
@@ -116,8 +109,6 @@ public class PhysicalNetworkTrafficTypeDaoImpl extends GenericDaoBase<PhysicalNe
             sc = vmWareAllFieldsSearch.create();
         } else if (hType == HypervisorType.Simulator) {
             sc = simulatorAllFieldsSearch.create();
-        } else if (hType == HypervisorType.Ovm) {
-            sc = ovmAllFieldsSearch.create();
         } else if (hType == HypervisorType.BareMetal) {
             return null;
         } else if (hType == HypervisorType.Ovm3) {

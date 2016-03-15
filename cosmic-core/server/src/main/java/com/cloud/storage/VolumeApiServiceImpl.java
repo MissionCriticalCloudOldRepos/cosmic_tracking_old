@@ -2329,8 +2329,6 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
             return "qcow2";
         } else if (cluster.getHypervisorType() == HypervisorType.VMware) {
             return "ova";
-        } else if (cluster.getHypervisorType() == HypervisorType.Ovm) {
-            return "raw";
         } else {
             return null;
         }
