@@ -62,7 +62,6 @@ dictionary = {
 'label.hypervisors': '<fmt:message key="label.hypervisors" />',
 'label.home': '<fmt:message key="label.home" />',
 'label.sockets': '<fmt:message key="label.sockets" />',
-'label.add.ucs.manager': '<fmt:message key="label.add.ucs.manager" />',
 'label.root.disk.size': '<fmt:message key="label.root.disk.size" />',
 'label.s3.nfs.path': '<fmt:message key="label.s3.nfs.path" />',
 'label.s3.nfs.server': '<fmt:message key="label.s3.nfs.server" />',

@@ -672,14 +672,6 @@ addBaremetalRct=1
 deleteBaremetalRct=1
 listBaremetalRct=1
 
-#### UCS commands
-addUcsManager=1
-listUcsManagers=1
-listUcsProfiles=1
-listUcsBlades=1
-associateUcsProfileToBlade=1
-removedeleteUcsManager=1
-
 #### New Load Balancer commands
 createLoadBalancer=15
 listLoadBalancers=15
