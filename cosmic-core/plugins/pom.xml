@@ -119,17 +119,6 @@
       </modules>
     </profile>
     <profile>
-      <id>mysqlha</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <modules>
-        <module>database/mysql-ha</module>
-      </modules>
-    </profile>
-    <profile>
       <id>simulator</id>
       <activation>
         <property>
