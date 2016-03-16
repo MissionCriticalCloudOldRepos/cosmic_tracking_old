@@ -70,11 +70,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-user-authenticator-md5</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-user-authenticator-pbkdf2</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
