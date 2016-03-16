@@ -90,11 +90,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-palo-alto</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-netscaler</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
