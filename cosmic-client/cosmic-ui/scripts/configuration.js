@@ -3624,7 +3624,6 @@
                                                 name: 'Connectivity',
                                                 provider: [
                                                     {name: 'NiciraNvp'},
-                                                    {name: 'Ovs'},
                                                     {name: 'JuniperContrailVpcRouter'},
                                                     {name: 'NuageVsp'}
                                                 ]
