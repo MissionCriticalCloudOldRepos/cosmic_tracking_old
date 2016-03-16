@@ -186,11 +186,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-mom-inmemory</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-mom-kafka</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
