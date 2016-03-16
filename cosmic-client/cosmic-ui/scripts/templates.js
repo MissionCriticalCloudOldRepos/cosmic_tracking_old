@@ -380,12 +380,6 @@
                                                     id: 'VHD',
                                                     description: 'VHD'
                                                 });
-                                            } else if (args.hypervisor == "VMware") {
-                                                //formatSelect.append("<option value='OVA'>OVA</option>");
-                                                items.push({
-                                                    id: 'OVA',
-                                                    description: 'OVA'
-                                                });
                                             } else if (args.hypervisor == "KVM") {
                                                 //formatSelect.append("<option value='QCOW2'>QCOW2</option>");
                                                 items.push({
@@ -416,6 +410,7 @@
                                                     id: 'TAR',
                                                     description: 'TAR'
                                                 });
+                                            }
                                             args.response.success({
                                                 data: items
                                             });
@@ -748,11 +743,6 @@
                                                     id: 'VHD',
                                                     description: 'VHD'
                                                 });
-                                            } else if (args.hypervisor == "VMware") {
-                                                items.push({
-                                                    id: 'OVA',
-                                                    description: 'OVA'
-                                                });
                                             } else if (args.hypervisor == "KVM") {
                                                 items.push({
                                                     id: 'QCOW2',
@@ -774,11 +764,6 @@
                                                 items.push({
                                                     id: 'BareMetal',
                                                     description: 'BareMetal'
-                                                });
-                                            } else if (args.hypervisor == "Ovm") {
-                                                items.push({
-                                                    id: 'RAW',
-                                                    description: 'RAW'
                                                 });
                                             } else if (args.hypervisor == "LXC") {
                                                 items.push({
