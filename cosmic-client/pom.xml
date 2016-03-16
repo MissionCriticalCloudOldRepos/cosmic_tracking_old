@@ -698,21 +698,6 @@
       </dependencies>
     </profile>
     <profile>
-      <id>mysqlha</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-database-mysqlha</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
       <id>quickcloud</id>
       <activation>
         <property>
