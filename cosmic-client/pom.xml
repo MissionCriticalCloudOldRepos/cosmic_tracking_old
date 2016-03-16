@@ -110,11 +110,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-vxlan</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-opendaylight</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
