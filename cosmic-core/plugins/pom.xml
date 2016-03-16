@@ -25,7 +25,6 @@
     <module>event-bus/rabbitmq</module>
     <module>event-bus/kafka</module>
     <module>hypervisors/baremetal</module>
-    <module>hypervisors/ucs</module>
     <module>network-elements/elastic-loadbalancer</module>
     <module>network-elements/juniper-contrail</module>
     <module>network-elements/palo-alto</module>
