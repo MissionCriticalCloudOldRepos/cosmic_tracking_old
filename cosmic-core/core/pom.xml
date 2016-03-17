@@ -1,12 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>cloud-core</artifactId>
-  <name>Cosmic Core</name>
+  <artifactId>cloud-nucleo</artifactId>
+  <name>Cosmic Nucleo</name>
+
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-core</artifactId>
     <version>5.0.0.1-SNAPSHOT</version>
   </parent>
+  
   <dependencies>
     <dependency>
       <groupId>cloud.cosmic</groupId>
@@ -30,10 +32,64 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>core-resources</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy
+                  todir="${basedir}/core-resources/scripts">
+                  <fileset dir="${basedir}/../scripts" />
+                </copy>
+                <copy
+                  todir="${basedir}/core-resources/setup">
+                  <fileset dir="${basedir}/../setup" />
+                </copy>
+                <copy
+                  todir="${basedir}/core-resources/build">
+                  <fileset dir="${basedir}/../build" />
+                </copy>
+                <copy
+                  todir="${basedir}/core-resources/cisco-vnmc">
+                  <fileset dir="${basedir}/../plugins/network-elements/cisco-vnmc/scripts" />
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>remove-resources</id>
+            <phase>install</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <delete dir="${basedir}/core-resources" />
+              </target>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
