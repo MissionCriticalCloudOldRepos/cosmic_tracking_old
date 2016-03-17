@@ -447,20 +447,20 @@
             <goals>
               <goal>exec</goal>
             </goals>
+            <configuration>
+              <workingDirectory>${project.build.directory}</workingDirectory>
+              <executable>jar</executable>
+              <arguments>
+                <argument>-xf</argument>
+                <argument>dependency/cloud-nucleo-${project.version}.jar</argument>
+                <argument>setup</argument>
+                <argument>scripts</argument>
+                <argument>cisco-vnmc</argument>
+                <argument>build</argument>
+              </arguments>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <workingDirectory>${project.build.directory}</workingDirectory>
-          <executable>jar</executable>
-          <arguments>
-            <argument>-xf</argument>
-            <argument>dependency/cloud-nucleo-${project.version}.jar</argument>
-            <argument>setup</argument>
-            <argument>scripts</argument>
-            <argument>cisco-vnmc</argument>
-            <argument>build</argument>
-          </arguments>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -684,31 +684,6 @@
         <dependency>
           <groupId>cloud.cosmic</groupId>
           <artifactId>cloud-plugin-network-srx</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>vmware</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-hypervisor-vmware</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-vmware-base</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-network-cisco-vnmc</artifactId>
           <version>${project.version}</version>
         </dependency>
       </dependencies>
