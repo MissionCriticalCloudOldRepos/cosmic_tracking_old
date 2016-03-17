@@ -54,5 +54,9 @@ vmops.log*
 packaging/
 cosmic-packaging/
 
+<<<<<<< HEAD
 #PyDev settings
+=======
+#PyDev
+>>>>>>> Add PyDev file
 .pydevproject
