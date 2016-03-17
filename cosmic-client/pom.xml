@@ -20,6 +20,12 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-nucleo</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-spring-module</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
@@ -305,7 +311,7 @@
         <executions>
           <execution>
             <id>copy-dependencies</id>
-            <phase>compile</phase>
+            <phase>generate-resources</phase>
             <goals>
               <goal>copy-dependencies</goal>
             </goals>
@@ -431,6 +437,32 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <id>extract-core-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <workingDirectory>${project.build.directory}</workingDirectory>
+          <executable>jar</executable>
+          <arguments>
+            <argument>-xf</argument>
+            <argument>dependency/cloud-nucleo-${project.version}.jar</argument>
+            <argument>setup</argument>
+            <argument>scripts</argument>
+            <argument>cisco-vnmc</argument>
+            <argument>build</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
@@ -441,8 +473,9 @@
             </goals>
             <configuration>
               <target>
-                <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts" />
+                <copy
+                  todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
+                  <fileset dir="${project.build.directory}/scripts" />
                 </copy>
                 <!-- CLOUDSTACK-1304 -->
                 <chmod perm="755" file="${basedir}/target/generated-webapp/WEB-INF/classes/scripts/**" type="both" />
@@ -466,7 +499,8 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -476,13 +510,14 @@
                   </fileset>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/bin">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/bindir">
+                  <fileset dir="${project.build.directory}/setup/bindir">
                     <include name="*.in" />
                   </fileset>
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -493,17 +528,19 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/scripts/db">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts/db">
+                  <fileset dir="${project.build.directory}/setup/db">
                     <include name="**/*" />
                   </fileset>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -514,7 +551,8 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -547,9 +585,13 @@
             </goals>
             <configuration>
               <target if="${noredist}">
-                <replaceregexp file="${basedir}/target/generated-webapp/WEB-INF/web.xml" match="classpath:componentContext.xml" replace="classpath:nonossComponentContext.xml" byline="true" />
-                <copy overwrite="true" todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/cisco-vnmc/scripts">
+                <replaceregexp
+                  file="${basedir}/target/generated-webapp/WEB-INF/web.xml"
+                  match="classpath:componentContext.xml" replace="classpath:nonossComponentContext.xml"
+                  byline="true" />
+                <copy overwrite="true"
+                  todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
+                  <fileset dir="${project.build.directory}/cisco-vnmc/scripts">
                     <include name="**/*" />
                   </fileset>
                 </copy>
