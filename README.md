@@ -25,20 +25,22 @@ Cosmic officials Git repository is located at:
 
 ## Building from Source
 
-Cosmic requires Java 8.
+Cosmic requires:
+- Java 8
+- GitHub account with an [enabled SSH key] (https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/) because you need to clone over SSH to get all the submodules
 
 In order to build Cosmic, you have to follow the steps below:
 
-1. git clone --recursive git@github.com:MissionCriticalCloud/cosmic.git
-2. cd cosmic
-3. mvn clean install -P developer,systemvm
+    git clone --recursive git@github.com:MissionCriticalCloud/cosmic.git
+    cd cosmic
+    mvn clean install -P developer,systemvm
 
 The steps above will build the essentials to get Cosmic management server working. Besides that, you will also need a hypervisor. See our [build stream configuration](https://beta-jenkins.mcc.schubergphilis.com) for more details.
 
-1. cd cosmic-client
-2. mvn -pl :cloud-client-ui jetty:run
+    cd cosmic-client
+    mvn -pl :cloud-client-ui jetty:run
 
-Go to your brouwser and type: http://localhost:8080/client
+Go to your brouwser and type: [http://localhost:8080/client] (http://localhost:8080/client)
 
 ## Building RPM Packages
 
@@ -49,7 +51,7 @@ In order to build Cosmic RPM packages, please refer to the [Packaging repository
 Cosmic is a fork of Apache CloudStack and its API is backwards compatible with CloudStack's API. So, all the documentation can be accessed from:
 
 * [Documentation](http://docs.cloudstack.apache.org)
-* API [documentation](http://cloudstack.apache.org/docs/api)
+* [API documentation](http://cloudstack.apache.org/docs/api)
 
 ## Getting Involved
 
