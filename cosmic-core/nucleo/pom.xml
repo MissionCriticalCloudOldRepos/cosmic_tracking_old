@@ -68,10 +68,6 @@
                   todir="${basedir}/core-resources/build">
                   <fileset dir="${basedir}/../build" />
                 </copy>
-                <copy
-                  todir="${basedir}/core-resources/cisco-vnmc">
-                  <fileset dir="${basedir}/../plugins/network-elements/cisco-vnmc/scripts" />
-                </copy>
               </target>
             </configuration>
           </execution>

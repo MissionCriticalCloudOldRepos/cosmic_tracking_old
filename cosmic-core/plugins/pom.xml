@@ -102,18 +102,6 @@
       </modules>
     </profile>
     <profile>
-      <id>vmware</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <modules>
-        <module>hypervisors/vmware</module>
-        <module>network-elements/cisco-vnmc</module>
-      </modules>
-    </profile>
-    <profile>
       <id>simulator</id>
       <activation>
         <property>
