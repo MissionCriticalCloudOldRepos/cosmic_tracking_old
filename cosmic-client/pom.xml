@@ -192,11 +192,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-framework-quota</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-rest</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
