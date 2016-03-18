@@ -10,7 +10,7 @@
   <dependencies>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-core</artifactId>
+      <artifactId>cloud-nucleo</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
