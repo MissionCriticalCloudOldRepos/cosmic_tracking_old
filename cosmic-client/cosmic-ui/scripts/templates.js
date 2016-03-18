@@ -213,13 +213,7 @@
 
                                             args.$select.change(function() {
                                                 var $form = $(this).closest('form');
-                                                if ($(this).val() == "VMware") {
-                                                    $form.find('.form-item[rel=rootDiskControllerType]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=nicAdapterType]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=keyboardType]').css('display', 'inline-block');
-
-                                                    $form.find('.form-item[rel=xenserverToolsVersion61plus]').hide();
-                                                } else if ($(this).val() == "XenServer") {
+                                                if ($(this).val() == "XenServer") {
                                                     $form.find('.form-item[rel=rootDiskControllerType]').hide();
                                                     $form.find('.form-item[rel=nicAdapterType]').hide();
                                                     $form.find('.form-item[rel=keyboardType]').hide();
@@ -262,111 +256,6 @@
                                         },
                                         isHidden: true
                                     },
-
-                                    //fields for hypervisor == "VMware" (starts here)
-                                    rootDiskControllerType: {
-                                        label: 'label.root.disk.controller',
-                                        isHidden: true,
-                                        select: function(args) {
-                                            var items = []
-                                            items.push({
-                                                id: "",
-                                                description: ""
-                                            });
-                                            items.push({
-                                                id: "scsi",
-                                                description: "scsi"
-                                            });
-                                            items.push({
-                                                id: "ide",
-                                                description: "ide"
-                                            });
-                                            items.push({
-                                                id: "osdefault",
-                                                description: "osdefault"
-                                            });
-                                            items.push({
-                                                id: "pvscsi",
-                                                description: "pvscsi"
-                                            });
-                                            items.push({
-                                                id: "lsilogic",
-                                                description: "lsilogic"
-                                            });
-                                            items.push({
-                                                id: "lsisas1068",
-                                                description: "lsilogicsas"
-                                            });
-                                            items.push({
-                                                id: "buslogic",
-                                                description: "buslogic"
-                                            });
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        }
-                                    },
-                                    nicAdapterType: {
-                                        label: 'label.nic.adapter.type',
-                                        isHidden: true,
-                                        select: function(args) {
-                                            var items = []
-                                            items.push({
-                                                id: "",
-                                                description: ""
-                                            });
-                                            items.push({
-                                                id: "E1000",
-                                                description: "E1000"
-                                            });
-                                            items.push({
-                                                id: "PCNet32",
-                                                description: "PCNet32"
-                                            });
-                                            items.push({
-                                                id: "Vmxnet2",
-                                                description: "Vmxnet2"
-                                            });
-                                            items.push({
-                                                id: "Vmxnet3",
-                                                description: "Vmxnet3"
-                                            });
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        }
-                                    },
-                                    keyboardType: {
-                                        label: 'label.keyboard.type',
-                                        isHidden: true,
-                                        select: function(args) {
-                                            var items = []
-                                            items.push({
-                                                id: "",
-                                                description: ""
-                                            });
-                                            items.push({
-                                                id: "us",
-                                                description: "US Keboard"
-                                            });
-                                            items.push({
-                                                id: "uk",
-                                                description: "UK Keyboard"
-                                            });
-                                            items.push({
-                                                id: "jp",
-                                                description: "Japanese Keyboard"
-                                            });
-                                            items.push({
-                                                id: "sc",
-                                                description: "Simplified Chinese"
-                                            });
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        }
-                                    },
-                                    //fields for hypervisor == "VMware" (ends here)
 
                                     format: {
                                         label: 'label.format',

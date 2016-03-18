@@ -2363,7 +2363,7 @@
             }
         }
 
-        if (jsonObj.hypervisor == "KVM" || jsonObj.hypervisor == "XenServer" || jsonObj.hypervisor == "VMware") {
+        if (jsonObj.hypervisor == "KVM" || jsonObj.hypervisor == "XenServer") {
             if (jsonObj.state == "Ready" || jsonObj.state == "Allocated") {
                 allowedActions.push("resize");
             }

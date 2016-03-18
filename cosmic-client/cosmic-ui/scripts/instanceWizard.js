@@ -489,7 +489,7 @@
                         }
                     });
 
-                    if (includingSecurityGroupService == false || selectedHypervisor == "VMware") {
+                    if (includingSecurityGroupService == false) {
                         step6ContainerType = 'nothing-to-select';
                     } else {
                         step6ContainerType = 'select-security-group';

@@ -136,8 +136,6 @@
         trafficType.xennetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.kvmnetworklabel == null || trafficType.kvmnetworklabel == 0)
         trafficType.kvmnetworklabel = _l( 'label.network.label.display.for.blank.value');
-        if (trafficType.vmwarenetworklabel == null || trafficType.vmwarenetworklabel == 0)
-        trafficType.vmwarenetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.lxcnetworklabel == null || trafficType.lxcnetworklabel == 0)
         trafficType.lxcnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.ovm3networklabel == null || trafficType.ovm3networklabel == 0)
@@ -152,8 +150,6 @@
         array1.push("&xennetworklabel=" + labels.xennetworklabel);
         if (labels.kvmnetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&kvmnetworklabel=" + labels.kvmnetworklabel);
-        if (labels.vmwarenetworklabel != _l( 'label.network.label.display.for.blank.value'))
-        array1.push("&vmwarenetworklabel=" + labels.vmwarenetworklabel);
         if (labels.lxcnetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&lxcnetworklabel=" + labels.lxcnetworklabel);
         if (labels.ovm3networklabel != _l( 'label.network.label.display.for.blank.value'))
@@ -632,10 +628,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -662,7 +654,6 @@
                                             // Include traffic labels
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -941,10 +932,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -967,7 +954,6 @@
 
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -1147,10 +1133,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -1171,7 +1153,6 @@
 
                                             selectedManagementNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedManagementNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedManagementNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
                                             selectedManagementNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedManagementNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -1330,10 +1311,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
                                         isEditable: true
@@ -1371,12 +1348,11 @@
                                             }*/
 
                                             //traffic type
-                                            var xenservertrafficlabel, kvmtrafficlabel, vmwaretrafficlabel;
+                                            var xenservertrafficlabel, kvmtrafficlabel;
                                             var trafficType = getTrafficType(selectedPhysicalNetworkObj, 'Guest');
                                             //refresh Guest traffic type
                                             selectedPhysicalNetworkObj[ "xennetworklabel"] = trafficType.xennetworklabel;
                                             selectedPhysicalNetworkObj[ "kvmnetworklabel"] = trafficType.kvmnetworklabel;
-                                            selectedPhysicalNetworkObj[ "vmwarenetworklabel"] = trafficType.vmwarenetworklabel;
                                             selectedPhysicalNetworkObj[ "lxcnetworklabel"] = trafficType.lxcnetworklabel;
                                             selectedPhysicalNetworkObj[ "ovm3networklabel"] = trafficType.ovm3networklabel;
                                             args.response.success({
@@ -6198,120 +6174,6 @@
                             detailView: {
                                 isMaximized: true,
                                 actions: {
-                                    addVmwareDc: {
-                                        label: 'label.add.vmware.datacenter',
-                                        textLabel: 'label.add.vmware.datacenter',
-                                        messages: {
-                                            notification: function (args) {
-                                                return 'label.add.vmware.datacenter';
-                                            }
-                                        },
-                                        createForm: {
-                                            title: 'label.add.vmware.datacenter',
-                                            fields: {
-                                                name: {
-                                                    label: 'label.dc.name',
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                },
-                                                vcenter: {
-                                                    label: 'label.vcenter',
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                },
-                                                username: {
-                                                    label: 'label.username',
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                },
-                                                password: {
-                                                    label: 'label.password',
-                                                    isPassword: true,
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        action: function (args) {
-                                            var data = {
-                                                zoneid: args.context.physicalResources[0].id,
-                                                name: args.data.name,
-                                                vcenter: args.data.vcenter
-                                            };
-
-                                            if (args.data.username != null && args.data.username.length > 0) {
-                                                $.extend(data, {
-                                                    username: args.data.username
-                                                })
-                                            }
-                                            if (args.data.password != null && args.data.password.length > 0) {
-                                                $.extend(data, {
-                                                    password: args.data.password
-                                                })
-                                            }
-
-                                            $.ajax({
-                                                url: createURL('addVmwareDc'),
-                                                data: data,
-                                                type: "POST",
-                                                success: function (json) {
-                                                    //var item = json.addvmwaredcresponse.vmwaredc;
-                                                    args.response.success();
-                                                }
-                                            });
-                                        },
-                                        notification: {
-                                            poll: function (args) {
-                                                args.complete();
-                                            }
-                                        }
-                                    },
-
-                                    removeVmwareDc: {
-                                        label: 'label.remove.vmware.datacenter',
-                                        messages: {
-                                            confirm: function (args) {
-                                                return 'message.confirm.remove.vmware.datacenter';
-                                            },
-                                            notification: function (args) {
-                                                return 'label.remove.vmware.datacenter';
-                                            }
-                                        },
-                                        action: function (args) {
-                                            var data = {
-                                                zoneid: args.context.physicalResources[0].id
-                                            };
-                                            $.ajax({
-                                                url: createURL('removeVmwareDc'),
-                                                data: data,
-                                                success: function (json) {
-                                                    delete args.context.physicalResources[0].vmwaredcName;
-                                                    delete args.context.physicalResources[0].vmwaredcVcenter;
-                                                    delete args.context.physicalResources[0].vmwaredcId;
-
-                                                    selectedZoneObj = args.context.physicalResources[0];
-
-                                                    args.response.success({
-                                                        data: args.context.physicalResources[0]
-                                                    });
-                                                },
-                                                error: function (XMLHttpResponse) {
-                                                    var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                    args.response.error(errorMsg);
-                                                }
-                                            });
-                                        },
-                                        notification: {
-                                            poll: function (args) {
-                                                args.complete();
-                                            }
-                                        }
-                                    },
-
                                     enable: {
                                         label: 'label.action.enable.zone',
                                         messages: {
@@ -6648,17 +6510,6 @@
                                             domainid: {
                                                 label: 'label.domain.id'
                                             }
-                                        },
-                                        {
-                                            vmwaredcName: {
-                                                label: 'label.vmware.datacenter.name'
-                                            },
-                                            vmwaredcVcenter: {
-                                                label: 'label.vmware.datacenter.vcenter'
-                                            },
-                                            vmwaredcId: {
-                                                label: 'label.vmware.datacenter.id'
-                                            }
                                         }],
                                         dataProvider: function (args) {
                                             $.ajax({
@@ -6698,35 +6549,6 @@
                                                                 })
                                                             }
                                                         }
-                                                    });
-
-                                                    $.ajax({
-                                                        url: createURL('listApis'), //listVmwareDcs API only exists in non-oss bild, so have to check whether it exists before calling it.
-                                                        data: {
-                                                            name: 'listVmwareDcs'
-                                                        },
-                                                        async: false,
-                                                        success: function (json) {
-                                                            $.ajax({
-                                                                url: createURL('listVmwareDcs'),
-                                                                data: {
-                                                                    zoneid: args.context.physicalResources[0].id
-                                                                },
-                                                                async: false,
-                                                                success: function (json) {
-                                                                    //e.g. json == { "listvmwaredcsresponse" { "count":1 ,"VMwareDC" [ {"id":"c3c2562d-65e9-4fc7-92e2-773c2efe8f37","zoneid":1,"name":"datacenter","vcenter":"10.10.20.20"} ] } }
-                                                                    var vmwaredcs = json.listvmwaredcsresponse.VMwareDC;
-                                                                    if (vmwaredcs != null) {
-                                                                        selectedZoneObj.vmwaredcName = vmwaredcs[0].name;
-                                                                        selectedZoneObj.vmwaredcVcenter = vmwaredcs[0].vcenter;
-                                                                        selectedZoneObj.vmwaredcId = vmwaredcs[0].id;
-                                                                    }
-                                                                }
-                                                            });
-                                                        },
-                                                        error: function (XMLHttpResponse) {
-                                                        }
-                                                        //override default error handling: cloudStack.dialog.notice({ message: parseXMLHttpResponse(XMLHttpResponse)});
                                                     });
 
                                                     args.response.success({
@@ -7725,11 +7547,10 @@
                                     var array1 = [];
 
                                     // ***** non XenServer (begin) *****
-                    var hypervisors = ["KVM", "VMware", "BareMetal", "LXC", "Ovm3"];
+                    var hypervisors = ["KVM", "BareMetal", "LXC", "Ovm3"];
 
                                             var supportSocketHypervisors = {
                                                 "KVM": 1,
-                                                "VMware": 1,
                                                 "Ovm3": 1
                                             };
 
@@ -11537,90 +11358,17 @@
                                             return $.inArray($(this).attr('rel'), nexusDvsReqFields) > -1;
                                         });
 
-                                        if ($form.find('.form-item[rel=hypervisor] select').val() == 'VMware') {
-                                            $form.find('.form-item[rel=vCenterHost]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vCenterUsername]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vCenterPassword]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vCenterDatacenter]').css('display', 'inline-block');
+                                        //XenServer, KVM, etc (non-VMware)
+                                        $form.find('.form-item[rel=vCenterHost]').css('display', 'none');
+                                        $form.find('.form-item[rel=vCenterUsername]').css('display', 'none');
+                                        $form.find('.form-item[rel=vCenterPassword]').css('display', 'none');
+                                        $form.find('.form-item[rel=vCenterDatacenter]').css('display', 'none');
+                                        $form.find('.form-item[rel=enableNexusVswitch]').css('display', 'none');
 
-                                            var $overridePublicTraffic = $form.find('.form-item[rel=overridepublictraffic] input[type=checkbox]');
-                                            var $vSwitchPublicType = $form.find('.form-item[rel=vSwitchPublicType] select');
-                                            var $overrideGuestTraffic = $form.find('.form-item[rel=overrideguesttraffic] input[type=checkbox]');
-                                            var $vSwitchGuestType = $form.find('.form-item[rel=vSwitchGuestType] select');
-
-
-                                            var useDvs = false;
-                                            $.ajax({
-                                                url: createURL('listConfigurations'),
-                                                data: {
-                                                    name: 'vmware.use.dvswitch'
-                                                },
-                                                async: false,
-                                                success: function (json) {
-                                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                        useDvs = true;
-                                                    }
-                                                }
-                                            });
-                                            if (useDvs == true) {
-                                                //If using Distributed vswitch, there is OverrideTraffic option.
-                                                $form.find('.form-item[rel=overridepublictraffic]').css('display', 'inline-block');
-                                                $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'inline-block');
-
-                                                var useNexusDvs = false;
-                                                $.ajax({
-                                                    url: createURL('listConfigurations'),
-                                                    data: {
-                                                        name: 'vmware.use.nexus.vswitch'
-                                                    },
-                                                    async: false,
-                                                    success: function (json) {
-                                                        if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                            useNexusDvs = true;
-                                                        }
-                                                    }
-                                                });
-                                                if (useNexusDvs == true) {
-                                                    //If using Nexus Distributed vswitch, show Nexus Distributed vswitch fields (either required ones or optional ones).
-                                                    if (($overridePublicTraffic.is(':checked') && $vSwitchPublicType.val() == 'nexusdvs') ||
-                                                    ($overrideGuestTraffic.is(':checked') && $vSwitchGuestType.val() == 'nexusdvs')) {
-                                                        $nexusDvsReqFields.css('display', 'inline-block');
-                                                        $nexusDvsOptFields.hide();
-                                                    } else {
-                                                        $nexusDvsOptFields.css('display', 'inline-block');
-                                                        $nexusDvsReqFields.hide();
-                                                    }
-                                                } else {
-                                                    //If not using Nexus Distributed vswitch, hide Nexus Distributed vswitch fields.
-                                                    $nexusDvsOptFields.hide();
-                                                    $nexusDvsReqFields.hide();
-                                                }
-                                            } else {
-                                                //useDvs == false
-                                                $form.find('.form-item[rel=overridepublictraffic]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchPublicType]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchPublicName]').css('display', 'none');
-
-                                                $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchGuestType]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchGuestName]').css('display', 'none');
-
-                                                $nexusDvsOptFields.hide();
-                                                $nexusDvsReqFields.hide();
-                                            }
-                                        } else {
-                                            //XenServer, KVM, etc (non-VMware)
-                                            $form.find('.form-item[rel=vCenterHost]').css('display', 'none');
-                                            $form.find('.form-item[rel=vCenterUsername]').css('display', 'none');
-                                            $form.find('.form-item[rel=vCenterPassword]').css('display', 'none');
-                                            $form.find('.form-item[rel=vCenterDatacenter]').css('display', 'none');
-                                            $form.find('.form-item[rel=enableNexusVswitch]').css('display', 'none');
-
-                                            $form.find('.form-item[rel=overridepublictraffic]').css('display', 'none');
-                                            $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'none');
-                                            $nexusDvsOptFields.hide();
-                                            $nexusDvsReqFields.hide();
-                                        }
+                                        $form.find('.form-item[rel=overridepublictraffic]').css('display', 'none');
+                                        $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'none');
+                                        $nexusDvsOptFields.hide();
+                                        $nexusDvsReqFields.hide();
 
                                         if ($form.find('.form-item[rel=overridepublictraffic]').css('display') != 'none' && $overridePublicTraffic.is(':checked')) {
                                             $form.find('.form-item[rel=vSwitchPublicType]').css('display', 'inline-block');
@@ -11806,220 +11554,7 @@
                                         validation: {
                                             required: false
                                         }
-                                    },
-
-                                    //hypervisor==VMWare begins here
-                                    vCenterHost: {
-                                        label: 'label.vcenter.host',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterHost',
-                                        validation: {
-                                            required: false
-                                        }
-                                        //legacy zone - validation not required for new VMware dc model
-                                    },
-                                    vCenterUsername: {
-                                        label: 'label.vcenter.username',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterUsername'
-                                    },
-                                    vCenterPassword: {
-                                        label: 'label.vcenter.password',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterPassword',
-                                        isPassword: true
-                                    },
-                                    vCenterDatacenter: {
-                                        label: 'label.vcenter.datacenter',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterDatacenter',
-                                        validation: {
-                                            required: false
-                                        }
-                                        //legacy zone - validation not required for new VMware dc model
-                                    },
-
-                                    overridepublictraffic: {
-                                        label: 'label.override.public.traffic',
-                                        isBoolean: true,
-                                        isHidden: true,
-                                        isChecked: false,
-                                        docID: 'helpOverridePublicNetwork'
-                                    },
-
-
-                                    vSwitchPublicType: {
-                                        label: 'label.public.traffic.vswitch.type',
-                                        select: function (args) {
-                                            var useNexusDvs = false;
-                                            var items =[]
-                                            $.ajax({
-                                                url: createURL('listConfigurations'),
-                                                data: {
-                                                    name: 'vmware.use.nexus.vswitch'
-                                                },
-                                                async: false,
-                                                success: function (json) {
-                                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                        useNexusDvs = true;
-                                                    }
-                                                }
-                                            });
-
-                                            if (useNexusDvs) {
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                            } else {
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                            }
-
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        },
-                                        isHidden: true
-                                    },
-
-                                    vSwitchPublicName: {
-                                        label: 'label.public.traffic.vswitch.name',
-                                        isHidden: true
-                                    },
-
-                                    overrideguesttraffic: {
-                                        label: 'label.override.guest.traffic',
-                                        isBoolean: true,
-                                        isHidden: true,
-                                        isChecked: false,
-                                        docID: 'helpOverrideGuestNetwork'
-                                    },
-
-                                    vSwitchGuestType: {
-                                        label: 'label.guest.traffic.vswitch.type',
-                                        select: function (args) {
-                                            var items =[]
-
-                                            var useNexusDvs = false;
-                                            $.ajax({
-                                                url: createURL('listConfigurations'),
-                                                data: {
-                                                    name: 'vmware.use.nexus.vswitch'
-                                                },
-                                                async: false,
-                                                success: function (json) {
-                                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                        useNexusDvs = true;
-                                                    }
-                                                }
-                                            });
-
-
-                                            if (useNexusDvs) {
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                            } else {
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                            }
-
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        },
-                                        isHidden: true
-                                    },
-
-                                    vSwitchGuestName: {
-                                        label: 'label.guest.traffic.vswitch.name',
-                                        isHidden: true
-                                    },
-
-
-                                    vsmipaddress: {
-                                        label: 'label.cisco.nexus1000v.ip.address',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmipaddress_req: {
-                                        label: 'label.cisco.nexus1000v.ip.address',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmusername: {
-                                        label: 'label.cisco.nexus1000v.username',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmusername_req: {
-                                        label: 'label.cisco.nexus1000v.username',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmpassword: {
-                                        label: 'label.cisco.nexus1000v.password',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isPassword: true,
-                                        isHidden: true
-                                    },
-                                    vsmpassword_req: {
-                                        label: 'label.cisco.nexus1000v.password',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isPassword: true,
-                                        isHidden: true
                                     }
-                                    //hypervisor==VMWare ends here
                                 }
                             },
 
@@ -12042,79 +11577,7 @@
                                      array1.push("&ovm3cluster=" + todb(args.data.ovm3cluster));
                                      array1.push("&ovm3vip=" + todb(args.data.ovm3vip));
                                 }
-                                if (args.data.hypervisor == "VMware") {
-                                    array1.push("&username=" + todb(args.data.vCenterUsername));
-                                    array1.push("&password=" + todb(args.data.vCenterPassword));
-
-                                    //vSwitch Public Type
-                                    if (args.$form.find('.form-item[rel=vSwitchPublicType]').css('display') != 'none' && args.data.vSwitchPublicType != "") {
-                                        array1.push("&publicvswitchtype=" + args.data.vSwitchPublicType);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vSwitchPublicName]').css('display') != 'none' && args.data.vSwitchPublicName != "") {
-                                        array1.push("&publicvswitchname=" + args.data.vSwitchPublicName);
-                                    }
-
-                                    //vSwitch Guest Type
-                                    if (args.$form.find('.form-item[rel=vSwitchGuestType]').css('display') != 'none' && args.data.vSwitchGuestType != "") {
-                                        array1.push("&guestvswitchtype=" + args.data.vSwitchGuestType);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vSwitchGuestName]').css('display') != 'none' && args.data.vSwitchGuestName != "") {
-                                        array1.push("&guestvswitchname=" + args.data.vSwitchGuestName);
-                                    }
-
-                                    //Nexus VSM fields
-                                    if (args.$form.find('.form-item[rel=vsmipaddress]').css('display') != 'none' && args.data.vsmipaddress != null && args.data.vsmipaddress.length > 0) {
-                                        array1.push('&vsmipaddress=' + args.data.vsmipaddress);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vsmipaddress_req]').css('display') != 'none' && args.data.vsmipaddress_req != null && args.data.vsmipaddress_req.length > 0) {
-                                        array1.push('&vsmipaddress=' + args.data.vsmipaddress_req);
-                                    }
-
-                                    if (args.$form.find('.form-item[rel=vsmusername]').css('display') != 'none' && args.data.vsmusername != null && args.data.vsmusername.length > 0) {
-                                        array1.push('&vsmusername=' + args.data.vsmusername);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vsmusername_req]').css('display') != 'none' && args.data.vsmusername_req != null && args.data.vsmusername_req.length > 0) {
-                                        array1.push('&vsmusername=' + args.data.vsmusername_req);
-                                    }
-
-                                    if (args.$form.find('.form-item[rel=vsmpassword]').css('display') != 'none' && args.data.vsmpassword != null && args.data.vsmpassword.length > 0) {
-                                        array1.push('&vsmpassword=' + args.data.vsmpassword);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vsmpassword_req]').css('display') != 'none' && args.data.vsmpassword_req != null && args.data.vsmpassword_req.length > 0) {
-                                        array1.push('&vsmpassword=' + args.data.vsmpassword_req);
-                                    }
-
-
-                                    var hostname = args.data.vCenterHost;
-                                    var dcName = args.data.vCenterDatacenter;
-
-                                    if (hostname.length == 0 && dcName.length == 0) {
-                                        $.ajax({
-                                            url: createURL('listVmwareDcs'),
-                                            data: {
-                                                zoneid: args.data.zoneid
-                                            },
-                                            async: false,
-                                            success: function (json) {
-                                                //e.g. json == { "listvmwaredcsresponse" { "count":1 ,"VMwareDC" [ {"id":"c3c2562d-65e9-4fc7-92e2-773c2efe8f37","zoneid":1,"name":"datacenter","vcenter":"10.10.20.20"} ] } }
-                                                var vmwaredcs = json.listvmwaredcsresponse.VMwareDC;
-                                                if (vmwaredcs != null) {
-                                                    hostname = vmwaredcs[0].vcenter;
-                                                    dcName = vmwaredcs[0].name;
-                                                }
-                                            }
-                                        });
-                                    }
-
-                                    var url;
-                                    if (hostname.indexOf("http://") == -1)
-                                    url = "http://" + hostname; else
-                                    url = hostname;
-                                    url += "/" + dcName + "/" + clusterName;
-                                    array1.push("&url=" + todb(url));
-
-                                    clusterName = hostname + "/" + dcName + "/" + clusterName; //override clusterName
-                                }
+                                
                                 array1.push("&clustername=" + todb(clusterName));
                                 var clusterId = null;
                                 $.ajax({
@@ -12205,7 +11668,7 @@
                             });
 
                             var hypervisorType = args.context.clusters[0].hypervisortype;
-                            if (vSwichConfigEnabled != "true" || hypervisorType != 'VMware') {
+                            if (vSwichConfigEnabled != "true") {
                                 return[ 'nexusVswitch'];
                             }
                             return[];
@@ -13030,33 +12493,7 @@
                                                 if (selectedClusterObj == null)
                                                 return;
 
-                                                if (selectedClusterObj.hypervisortype == "VMware") {
-                                                    //$('li[input_group="general"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=hostname]').hide();
-                                                    $form.find('.form-item[rel=username]').hide();
-                                                    $form.find('.form-item[rel=password]').hide();
-
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).show();
-                                                    $form.find('.form-item[rel=vcenterHost]').css('display', 'inline-block');
-
-                                                    //$('li[input_group="baremetal"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=baremetalCpuCores]').hide();
-                                                    $form.find('.form-item[rel=baremetalCpu]').hide();
-                                                    $form.find('.form-item[rel=baremetalMemory]').hide();
-                                                    $form.find('.form-item[rel=baremetalMAC]').hide();
-
-                                                    //$('li[input_group="Ovm"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=agentUsername]').hide();
-                                                    $form.find('.form-item[rel=agentPassword]').hide();
-
-                                                    //$('li[input_group="Ovm3"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=agentUsername]').hide();
-                                                    $form.find('.form-item[rel=agentPassword]').hide();
-                                                    $form.find('.form-item[rel=agentPort]').hide();
-                                                    $form.find('.form-item[rel=ovm3vip]').hide();
-                                                    $form.find('.form-item[rel=ovm3pool]').hide();
-                                                    $form.find('.form-item[rel=ovm3cluster]').hide();
-                                                } else if (selectedClusterObj.hypervisortype == "BareMetal") {
+                                                if (selectedClusterObj.hypervisortype == "BareMetal") {
                                                     //$('li[input_group="general"]', $dialogAddHost).show();
                                                     $form.find('.form-item[rel=hostname]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=username]').css('display', 'inline-block');
@@ -13068,7 +12505,6 @@
                                                     $form.find('.form-item[rel=baremetalMemory]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=baremetalMAC]').css('display', 'inline-block');
 
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=vcenterHost]').hide();
 
                                                     //$('li[input_group="Ovm"]', $dialogAddHost).hide();
@@ -13088,7 +12524,6 @@
                                                     $form.find('.form-item[rel=username]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=password]').css('display', 'inline-block');
 
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=vcenterHost]').hide();
 
                                                     //$('li[input_group="baremetal"]', $dialogAddHost).hide();
@@ -13112,7 +12547,6 @@
                                                     $form.find('.form-item[rel=username]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=password]').css('display', 'inline-block');
 
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=vcenterHost]').hide();
 
                                                     //$('li[input_group="baremetal"]', $dialogAddHost).hide();
@@ -13221,16 +12655,6 @@
 
                                     //input_group="general" ends here
 
-                                    //input_group="VMWare" starts here
-                                    vcenterHost: {
-                                        label: 'label.esx.host',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true
-                                    },
-                                    //input_group="VMWare" ends here
-
                                     //input_group="BareMetal" starts here
                                     baremetalCpuCores: {
                                         label: 'label.num.cpu.cores',
@@ -13326,51 +12750,34 @@
                                     hosttags: args.data.hosttags
                                 };
 
-                                if (selectedClusterObj.hypervisortype == "VMware") {
+                                $.extend(data, {
+                                    username: args.data.username,
+                                    password: args.data.password
+                                });
+
+                                var hostname = args.data.hostname;
+                                var url;
+                                if (hostname.indexOf("http://") == -1)
+                                url = "http://" + hostname; else
+                                url = hostname;
+
+                                $.extend(data, {
+                                    url: url
+                                });
+
+                                if (selectedClusterObj.hypervisortype == "BareMetal") {
                                     $.extend(data, {
-                                        username: '',
-                                        password: ''
+                                        cpunumber: args.data.baremetalCpuCores,
+                                        cpuspeed: args.data.baremetalCpu,
+                                        memory: args.data.baremetalMemory,
+                                        hostmac: args.data.baremetalMAC
                                     });
-
-                                    var hostname = args.data.vcenterHost;
-                                    var url;
-                                    if (hostname.indexOf("http://") == -1)
-                                    url = "http://" + hostname; else
-                                    url = hostname;
-
+                                } else if (selectedClusterObj.hypervisortype == "Ovm3") {
                                     $.extend(data, {
-                                        url: url
-                                    });
-                                } else {
-                                    $.extend(data, {
-                                        username: args.data.username,
-                                        password: args.data.password
-                                    });
-
-                                    var hostname = args.data.hostname;
-                                    var url;
-                                    if (hostname.indexOf("http://") == -1)
-                                    url = "http://" + hostname; else
-                                    url = hostname;
-
-                                    $.extend(data, {
-                                        url: url
-                                    });
-
-                                    if (selectedClusterObj.hypervisortype == "BareMetal") {
-                                        $.extend(data, {
-                                            cpunumber: args.data.baremetalCpuCores,
-                                            cpuspeed: args.data.baremetalCpu,
-                                            memory: args.data.baremetalMemory,
-                                            hostmac: args.data.baremetalMAC
-                                        });
-                                    } else if (selectedClusterObj.hypervisortype == "Ovm3") {
-                                        $.extend(data, {
-                                            agentusername: args.data.agentUsername,
-                                            agentpassword: args.data.agentPassword,
-                                            agentport: args.data.agentPort
-                                       });
-                                    }
+                                        agentusername: args.data.agentUsername,
+                                        agentpassword: args.data.agentPassword,
+                                        agentport: args.data.agentPort
+                                   });
                                 }
 
                                 var hostId = null;
@@ -14270,10 +13677,6 @@
                                                 description: _l('KVM')
                                             });
                                             items.push({
-                                                id: 'VMware',
-                                                description: _l('VMware')
-                                            });
-                                            items.push({
                                                 id: 'Any',
                                                 description: _l('Any')
                                             });
@@ -14468,23 +13871,6 @@
                                                 items.push({
                                                     id: "iscsi",
                                                     description: "iscsi"
-                                                });
-                                                items.push({
-                                                    id: "custom",
-                                                    description: "custom"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            } else if (selectedClusterObj.hypervisortype == "VMware") {
-                                                var items =[];
-                                                items.push({
-                                                    id: "nfs",
-                                                    description: "nfs"
-                                                });
-                                                items.push({
-                                                    id: "vmfs",
-                                                    description: "vmfs"
                                                 });
                                                 items.push({
                                                     id: "custom",
@@ -17610,10 +16996,6 @@
         var jsonObj = args.context.item;
         var allowedActions =[ 'enableSwift'];
 
-        if (jsonObj.vmwaredcId == null)
-        allowedActions.push('addVmwareDc'); else
-        allowedActions.push('removeVmwareDc');
-
         if (jsonObj.domainid != null)
         allowedActions.push("releaseDedicatedZone"); else
         allowedActions.push("dedicateZone");
@@ -17798,11 +17180,6 @@
         if (jsonObj.state == 'Running') {
             allowedActions.push("stop");
 
-            //when router is Running, only VMware support scaleUp(change service offering)
-            if (jsonObj.hypervisor == "VMware") {
-                allowedActions.push("scaleUp");
-            }
-
             allowedActions.push("restart");
 
             allowedActions.push("viewConsole");
@@ -17843,11 +17220,6 @@
             allowedActions.push("stop");
             allowedActions.push("restart");
             allowedActions.push("remove");
-
-            //when systemvm is Running, only VMware support scaleUp(change service offering)
-            if (jsonObj.hypervisor == "VMware") {
-                allowedActions.push("scaleUp");
-            }
 
             allowedActions.push("viewConsole");
             if (isAdmin())
