@@ -30,3 +30,9 @@ DELETE FROM `cloud`.`configuration` WHERE value = 'router.template.vmware';
 
 # Remove HyperV related column on physical_network_traffic_types table
 ALTER TABLE `cloud`.`physical_network_traffic_types` DROP COLUMN `hyperv_network_label`;
+
+# Remove Quota column
+ALTER TABLE `cloud_usage`.`cloud_usage` DROP COLUMN `quota_calculated`;
+
+# Remove quota global settings
+DELETE FROM `cloud`.`configuration` WHERE value = 'quota.enable.service';
