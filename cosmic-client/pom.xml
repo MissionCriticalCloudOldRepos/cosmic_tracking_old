@@ -450,7 +450,6 @@
                 <argument>dependency/cloud-nucleo-${project.version}.jar</argument>
                 <argument>setup</argument>
                 <argument>scripts</argument>
-                <argument>cisco-vnmc</argument>
                 <argument>build</argument>
               </arguments>
             </configuration>
@@ -554,40 +553,6 @@
                 <copy overwrite="true" todir="${basedir}/target/conf">
                   <fileset dir="${basedir}/tomcatconf">
                     <exclude name="*.in" />
-                  </fileset>
-                </copy>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>process-noredist</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target if="${noredist}">
-                <echo>test</echo>
-                <replaceregexp file="${basedir}/target/generated-webapp/WEB-INF/classes/environment.properties" match="cloud-stack-components-specification=.*" replace="cloud-stack-components-specification=components-nonoss.xml" byline="true" />
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>process-noredist-spring-context</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target if="${noredist}">
-                <replaceregexp
-                  file="${basedir}/target/generated-webapp/WEB-INF/web.xml"
-                  match="classpath:componentContext.xml" replace="classpath:nonossComponentContext.xml"
-                  byline="true" />
-                <copy overwrite="true"
-                  todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${project.build.directory}/cisco-vnmc/scripts">
-                    <include name="**/*" />
                   </fileset>
                 </copy>
               </target>
