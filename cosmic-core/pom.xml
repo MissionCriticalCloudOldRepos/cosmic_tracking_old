@@ -95,7 +95,7 @@
   <modules>
     <module>api</module>
     <module>agent</module>
-    <module>core</module>
+    <module>nucleo</module>
     <module>server</module>
     <module>usage</module>
     <module>utils</module>
