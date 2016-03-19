@@ -28,7 +28,7 @@ class DeleteDataCenters: Deletes a DataCenter based upon the dc cfg
 from marvin import configGenerator
 from marvin.cloudstackException import (
     InvalidParameterException,
-    GetDetailExceptionInfo)
+    printException)
 from marvin.cloudstackAPI import *
 from marvin.codes import (FAILED, SUCCESS)
 from marvin.lib.utils import (random_gen)
@@ -78,8 +78,7 @@ class DeployDataCenters(object):
                     "\n=== Data Center Settings are dumped to %s===" %
                     dc_file_path)
         except Exception as e:
-            print "Exception Occurred  while persisting DC Settings: %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
 
     def __cleanAndExit(self):
         try:
@@ -104,8 +103,7 @@ class DeployDataCenters(object):
                         "===Removing DataCenter Successful===")
             exit(1)
         except Exception as e:
-            print "Exception Occurred during DC CleanUp: %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
 
     def __addToCleanUp(self, type, id):
         if type not in self.__cleanUp.keys():
@@ -139,10 +137,8 @@ class DeployDataCenters(object):
                     self.__addToCleanUp("Host", ret[0].id)
             except Exception as e:
                 failed_cnt = failed_cnt + 1
-                print "Exception Occurred :%s" % GetDetailExceptionInfo(e)
-                self.__tcRunLogger.exception(
-                    "=== Adding Host Failed :%s===" % str(
-                        host.url))
+                printException(e)
+                self.__tcRunLogger.exception("=== Adding Host Failed :%s===" % str(host.url))
                 if failed_cnt == len(hosts):
                     self.__cleanAndExit()
                 continue
@@ -160,7 +156,7 @@ class DeployDataCenters(object):
                 self.__tcRunLogger.debug("=== Adding VmWare DC Successful===")
                 self.__addToCleanUp("VmwareDc", ret.id)
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.exception("=== Adding VmWare DC Failed===")
             self.__cleanAndExit()
 
@@ -198,10 +194,8 @@ class DeployDataCenters(object):
                                            podId,
                                            clusterId)
         except Exception as e:
-            print "Exception Occurred %s" % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.exception("====Cluster %s Creation Failed"
-                                         "=====" %
-                                         str(cluster.clustername))
+            printException(e)
+            self.__tcRunLogger.exception("==== Cluster %s Creation Failed =====" % str(cluster.clustername))
             self.__cleanAndExit()
 
     def waitForHost(self, zoneId, clusterId):
@@ -221,8 +215,7 @@ class DeployDataCenters(object):
                 sleep(timeout)
                 retry = retry - 1
         except Exception as e:
-            print "\nException Occurred:%s" %\
-                  GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.exception("=== List Hosts Failed===")
             self.__cleanAndExit()
 
@@ -257,9 +250,8 @@ class DeployDataCenters(object):
                         "=== Creating Storage Pool Successful===")
                     self.__addToCleanUp("StoragePool", ret.id)
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.\
-                exception("=== Create Storage Pool Failed===")
+            printException(e)
+            self.__tcRunLogger.exception("=== Create Storage Pool Failed===")
             self.__cleanAndExit()
 
     def createPods(self,
@@ -290,10 +282,8 @@ class DeployDataCenters(object):
                 self.createClusters(pod.clusters, zoneId, podId,
                                     vmwareDc=pod.vmwaredc)
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.\
-                exception("====Pod: %s Creation "
-                          "Failed=====" % str(pod.name))
+            printException(e)
+            self.__tcRunLogger.exception("==== Pod: %s Creation Failed =====" % str(pod.name))
             self.__cleanAndExit()
 
     def createVlanIpRanges(self, mode, ipranges, zoneId, podId=None,
@@ -326,9 +316,8 @@ class DeployDataCenters(object):
                         "=== Creating Vlan Ip Range Successful===")
                     self.__addToCleanUp("VlanIpRange", ret.id)
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.\
-                exception("=== Create Vlan Ip Range Failed===")
+            printException(e)
+            self.__tcRunLogger.exception("=== Create Vlan Ip Range Failed===")
             self.__cleanAndExit()
 
     def createSecondaryStorages(self, secondaryStorages, zoneId):
@@ -351,13 +340,11 @@ class DeployDataCenters(object):
                     secondarycmd.zoneid = zoneId
                 ret = self.__apiClient.addImageStore(secondarycmd)
                 if ret.id:
-                    self.__tcRunLogger.debug(
-                        "===Add Image Store Successful===")
+                    self.__tcRunLogger.debug("=== Add Image Store Successful ===")
                     self.__addToCleanUp("ImageStore", ret.id)
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.\
-                exception("=== Add Image Store Failed===")
+            printException(e)
+            self.__tcRunLogger.exception("=== Add Image Store Failed ===")
             self.__cleanAndExit()
 
     def createCacheStorages(self, cacheStorages, zoneId):
@@ -380,11 +367,10 @@ class DeployDataCenters(object):
                                                 })
                 ret = self.__apiClient.createSecondaryStagingStore(cachecmd)
                 if ret.id:
-                    self.__tcRunLogger.debug(
-                        "===Creating Secondary StagingStore Successful===")
+                    self.__tcRunLogger.debug("===Creating Secondary StagingStore Successful===")
                     self.__addToCleanUp("SecondaryStagingStore", ret.id)
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.\
                 exception("=== Creating "
                           "SecondaryStagingStorage Failed===")
@@ -417,10 +403,8 @@ class DeployDataCenters(object):
                     self.__addToCleanUp("Network", networkId)
                     return networkId
         except Exception as e:
-            print "Exception Occurred %s" % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.\
-                exception("====Network : %s "
-                          "Creation Failed=====" % str(network.name))
+            printException(e)
+            self.__tcRunLogger.exception("==== Network : %s Creation Failed =====" % str(network.name))
             self.__cleanAndExit()
 
     def createPhysicalNetwork(self, net, zoneid):
@@ -439,9 +423,8 @@ class DeployDataCenters(object):
             self.addTrafficTypes(phynetwrk.id, net.traffictypes)
             return phynetwrk
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.exception("====Physical Network "
-                                         "Creation Failed=====")
+            printException(e)
+            self.__tcRunLogger.exception("====Physical Network Creation Failed=====")
             self.__cleanAndExit()
 
     def updatePhysicalNetwork(self, networkid, state="Enabled",
@@ -455,7 +438,7 @@ class DeployDataCenters(object):
             ret = self.__apiClient.updatePhysicalNetwork(upnet)
             return ret
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.\
                 exception("====Update Physical Network Failed=====")
             self.__cleanAndExit()
@@ -471,7 +454,7 @@ class DeployDataCenters(object):
                 self.__tcRunLogger.debug(
                     "===Update Network Service Provider Successfull===")
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.\
                 exception(
                     "====Update Network Service Provider Failed=====")
@@ -611,7 +594,7 @@ class DeployDataCenters(object):
                                     "type" % device)
                     self.enableProvider(result.id)
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.\
                 exception("====List Network "
                           "Service Providers Failed=====")
@@ -640,7 +623,7 @@ class DeployDataCenters(object):
                 self.__addToCleanUp("TrafficType", ret.id)
                 return ret
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.\
                 exception("==== Add TrafficType Failed=====")
             self.__cleanAndExit()
@@ -655,7 +638,7 @@ class DeployDataCenters(object):
                 self.__tcRunLogger.debug("==== Enable Zone SuccessFul=====")
                 return ret
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.exception("==== Enable Zone Failed=====")
             self.__cleanAndExit()
 
@@ -669,7 +652,7 @@ class DeployDataCenters(object):
                 self.__tcRunLogger.debug("=== Update Zone SuccessFul===")
                 return ret
         except Exception as e:
-            print "Exception Occurred: %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.exception("==== Update Zone  Failed=====")
             self.__cleanAndExit()
 
@@ -696,8 +679,7 @@ class DeployDataCenters(object):
                         str(zone.name)
                     return self.createZone(zone, 1)
         except Exception as e:
-            print "\nException Occurred under createZone : %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.exception("====Create Zone Failed ===")
             return FAILED
 
@@ -811,7 +793,7 @@ class DeployDataCenters(object):
                     self.updateZoneDetails(zoneId, det)
             return
         except Exception as e:
-            print "\nException Occurred %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.exception("==== Create Zones Failed ===")
 
     def isEipElbZone(self, zone):
@@ -841,7 +823,7 @@ class DeployDataCenters(object):
                     self.__tcRunLogger.debug(
                         "==UpdateConfiguration Successfull===")
         except Exception as e:
-            print "Exception Occurred %s" % GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.\
                 exception("===UpdateConfiguration Failed===")
             self.__cleanAndExit()
@@ -890,8 +872,7 @@ class DeployDataCenters(object):
             self.__tcRunLogger.debug("\n====Deploy DC Successful====")
             return SUCCESS
         except Exception as e:
-            print "\nException Occurred Under deploy :%s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             self.__tcRunLogger.debug("\n====Deploy DC Failed====")
             print "\n====Deploy DC Failed===="
             self.__cleanAndExit()
@@ -1024,11 +1005,7 @@ class DeleteDataCenters:
                                 (type, id))
             ret = SUCCESS
         except Exception as e:
-            print "\n==== Exception Under __cleanEntries: %s ==== % " \
-                  % GetDetailExceptionInfo(e)
-            self.__tcRunLogger.exception(
-                "\n==== Exception Under __cleanEntries: %s ==== % " %
-                GetDetailExceptionInfo(e))
+            printException(e)
         finally:
             return ret
 
@@ -1051,11 +1028,7 @@ class DeleteDataCenters:
             if self.__dcCfg:
                 ret = self.__cleanEntries()
         except Exception as e:
-            print "\n==== Exception Under removeDataCenter: %s ====" % \
-                  GetDetailExceptionInfo(e)
-            self.__tcRunLogger.exception(
-                "===DeployDC CleanUp FAILED: %s ====" %
-                GetDetailExceptionInfo(e))
+            printException(e)
         finally:
             return ret
 

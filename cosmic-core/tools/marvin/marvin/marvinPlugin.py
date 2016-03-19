@@ -27,7 +27,7 @@ from marvin.codes import (SUCCESS,
                           FAILED,
                           EXCEPTION)
 from marvin.lib.utils import random_gen
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.cloudstackException import printException
 
 
 class MarvinPlugin(Plugin):
@@ -135,11 +135,7 @@ class MarvinPlugin(Plugin):
     def __checkImport(self, filename):
         '''
         @Name : __checkImport
-        @Desc : Verifies to run the available test module for any Import
-                Errors before running and check
-                whether if it is importable.
-                This will check for test modules which has some issues to be
-                getting imported.
+        @Desc : Verifies if a test module is importable.
                 Returns False or True based upon the result.
         '''
         try:
@@ -150,8 +146,8 @@ class MarvinPlugin(Plugin):
                     return True
             return False
         except ImportError as e:
-            print "FileName :%s : Error : %s" % \
-                  (filename, GetDetailExceptionInfo(e))
+            print "File %s has import errors, detailed exception:" % filename
+            printException(e)
             return False
 
     def wantFile(self, filename):
@@ -187,10 +183,8 @@ class MarvinPlugin(Plugin):
 
     def printMsg(self, status, tname, err):
         if status in [FAILED, EXCEPTION] and self.__tcRunLogger:
-            self.__tcRunLogger.\
-                fatal("%s: %s: %s" % (status,
-                                      tname,
-                                      GetDetailExceptionInfo(err)))
+            printException(err)
+            self.__tcRunLogger.fatal("%s: %s: %s" % (status, tname, err))
         write_str = "=== TestName: %s | Status : %s ===\n" % (tname, status)
         self.__resultStream.write(write_str)
         print write_str
@@ -206,7 +200,7 @@ class MarvinPlugin(Plugin):
         '''
         Adds Exception throwing test cases and information to log.
         '''
-        self.printMsg(EXCEPTION, self.__testName, GetDetailExceptionInfo(err))
+        self.printMsg(EXCEPTION, self.__testName, err)
         self.__testResult = EXCEPTION
 
     def prepareTestRunner(self, runner):
@@ -217,7 +211,7 @@ class MarvinPlugin(Plugin):
         '''
         Adds Failing test cases and information to log.
         '''
-        self.printMsg(FAILED, self.__testName, GetDetailExceptionInfo(err))
+        self.printMsg(FAILED, self.__testName, err)
         self.__testResult = FAILED
 
     def startMarvin(self):
@@ -250,8 +244,7 @@ class MarvinPlugin(Plugin):
                 return SUCCESS
             return FAILED
         except Exception as e:
-            print "Exception Occurred under startMarvin: %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def stopTest(self, test):
@@ -308,5 +301,4 @@ class MarvinPlugin(Plugin):
             os.system(cmd)
             print "===final results are now copied to: %s===" % str(dst)
         except Exception as e:
-            print "=== Exception occurred under finalize :%s ===" % \
-                  str(GetDetailExceptionInfo(e))
+            printException(e)

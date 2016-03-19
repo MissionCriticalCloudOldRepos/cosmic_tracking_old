@@ -22,7 +22,7 @@ from marvin.cloudstackAPI import *
 from marvin.codes import (FAILED, PASS, ADMIN, DOMAIN_ADMIN,
                           USER, SUCCESS, XEN_SERVER)
 from marvin.configGenerator import ConfigManager
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.cloudstackException import printException
 from marvin.lib.utils import (random_gen, validateList)
 from marvin.cloudstackAPI.cloudstackAPIClient import CloudStackAPIClient
 import copy
@@ -115,8 +115,7 @@ class CSTestClient(object):
                 self.__hypervisor = XEN_SERVER
             return SUCCESS
         except Exception as e:
-            print "\n Exception Occurred Under __setHypervisorInfo " \
-                  "%s" % GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def __createApiClient(self):
@@ -174,9 +173,7 @@ class CSTestClient(object):
                 self.__apiClient = CloudStackAPIClient(self.__csConnection)
             return SUCCESS
         except Exception as e:
-            self.__logger.exception(" Exception Occurred Under "
-                                    "__createApiClient: %s" %
-                                    GetDetailExceptionInfo(e))
+            printException(e)
             return FAILED
 
     def __createDbConnection(self):
@@ -212,8 +209,7 @@ class CSTestClient(object):
                 return FAILED
             return (register_user_res.apikey, register_user_res.secretkey)
         except Exception as e:
-            self.__logger.exception("Exception Occurred Under __geKeys : "
-                                    "%s" % GetDetailExceptionInfo(e))
+            printException(e)
             return FAILED
 
     def createTestClient(self):
@@ -270,9 +266,7 @@ class CSTestClient(object):
                     debug("==== Test Client Creation Successful ====")
             return ret
         except Exception as e:
-            self.__logger.exception("Exception Occurred "
-                                    "Under createTestClient "
-                                    ": %s" % GetDetailExceptionInfo(e))
+            printException(e)
             return FAILED
 
     def isAdminContext(self):
@@ -376,9 +370,7 @@ class CSTestClient(object):
             self.__userApiClient.hypervisor = self.__hypervisor
             return self.__userApiClient
         except Exception as e:
-            self.__logger.exception("Exception Occurred "
-                                    "Under getUserApiClient : %s" %
-                                    GetDetailExceptionInfo(e))
+            printException(e)
             return FAILED
 
     def close(self):

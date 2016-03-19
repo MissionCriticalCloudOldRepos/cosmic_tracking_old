@@ -29,9 +29,7 @@ from marvin.codes import (
     JOB_CANCELLED,
     JOB_SUCCEEDED
 )
-from marvin.cloudstackException import (
-    InvalidParameterException,
-    GetDetailExceptionInfo)
+from marvin.cloudstackException import InvalidParameterException
 
 
 class CSConnection(object):
@@ -231,8 +229,7 @@ class CSConnection(object):
                 return FAILED
         except Exception as e:
             self.__lastError = e
-            self.logger.exception("__sendCmdToCS: Exception:%s" %
-                                  GetDetailExceptionInfo(e))
+            self.logger.exception("__sendCmdToCS: Exception: %s" % e)
             return FAILED
 
     def __sanitizeCmd(self, cmd):
@@ -285,10 +282,7 @@ class CSConnection(object):
             return cmd_name.strip(), isAsync, payload
         except Exception as e:
             self.__lastError = e
-            self.logger.\
-                exception("__sanitizeCmd: CmdName : "
-                          "%s : Exception:%s" % (cmd_name,
-                                                 GetDetailExceptionInfo(e)))
+            self.logger.exception("__sanitizeCmd: CmdName : %s : Exception: %s" % (cmd_name, e))
             return FAILED
 
     def __parseAndGetResponse(self, cmd_response, response_cls, is_async):
@@ -322,8 +316,7 @@ class CSConnection(object):
                 return response.jobresult if response != FAILED else FAILED
         except Exception as e:
             self.__lastError = e
-            self.logger.\
-                exception("Exception:%s" % GetDetailExceptionInfo(e))
+            self.logger.exception("Exception: %s" % e)
             return FAILED
 
     def marvinRequest(self, cmd, response_type=None, method='GET', data=''):
@@ -374,6 +367,5 @@ class CSConnection(object):
                 raise self.__lastError
             return ret
         except Exception as e:
-            self.logger.exception("marvinRequest : CmdName: %s Exception: %s" %
-                                  (str(cmd), GetDetailExceptionInfo(e)))
+            self.logger.exception("marvinRequest : CmdName: %s Exception: %s" % (str(cmd), e))
             raise e
