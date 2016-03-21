@@ -26,7 +26,7 @@ import socket
 import time
 from marvin.cloudstackException import (
     internalError,
-    GetDetailExceptionInfo
+    printException
 )
 import contextlib
 import logging
@@ -133,22 +133,18 @@ class SshClient(object):
                 ret = SUCCESS
                 break
             except BadHostKeyException as e:
-                except_msg = GetDetailExceptionInfo(e)
+                printException(e)
             except AuthenticationException as e:
-                except_msg = GetDetailExceptionInfo(e)
+                printException(e)
             except SSHException as e:
-                except_msg = GetDetailExceptionInfo(e)
+                printException(e)
             except socket.error as e:
-                except_msg = GetDetailExceptionInfo(e)
+                printException(e)
             except Exception as e:
-                except_msg = GetDetailExceptionInfo(e)
+                printException(e)
             finally:
                 if self.retryCnt == 0 or ret == SUCCESS:
                     break
-                if except_msg != '':
-                    self.logger.\
-                        exception("SshClient: Exception under "
-                                  "createConnection: %s" % except_msg)
                 self.retryCnt -= 1
                 time.sleep(self.delay)
         return ret
@@ -180,12 +176,9 @@ class SshClient(object):
                 if stderr is not None:
                     ret["stderr"] = stderr.readlines()
         except Exception as e:
-            ret["stderr"] = GetDetailExceptionInfo(e)
-            self.logger.exception("SshClient: Exception under runCommand :%s" %
-                                  GetDetailExceptionInfo(e))
+            printException(e)
         finally:
-            self.logger.debug(" Host: %s Cmd: %s Output:%s" %
-                              (self.host, command, str(ret)))
+            self.logger.debug(" Host: %s Cmd: %s Output:%s" % (self.host, command, str(ret)))
             return ret
 
     def scp(self, srcFile, destPath):

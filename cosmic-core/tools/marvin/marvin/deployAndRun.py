@@ -23,7 +23,7 @@ import random
 from collections import OrderedDict
 from marvin.marvinInit import MarvinInit
 from marvin.deployDataCenter import DeployDataCenters
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.cloudstackException import printException
 from marvin.codegenerator import CodeGenerator
 from marvin.codes import (SUCCESS,
                           FAILED,
@@ -246,8 +246,7 @@ class MarvinCli(cmd.Cmd, object):
                 return SUCCESS
             return FAILED
         except Exception as e:
-            print "====Exception Occurred under start_marvin: %s ====" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def run_test_suites(self):

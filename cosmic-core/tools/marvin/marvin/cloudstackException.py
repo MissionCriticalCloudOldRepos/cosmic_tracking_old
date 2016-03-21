@@ -59,8 +59,14 @@ class internalError(Exception):
 def GetDetailExceptionInfo(e):
     if e is not None:
         exc_type, exc_value, exc_traceback = sys.exc_info()
-        return str(repr(traceback.format_exception(
-            exc_type, exc_value, exc_traceback)))
+        return str(repr(traceback.print_exception(exc_type, exc_value, exc_traceback)))
+    else:
+        return EXCEPTION_OCCURRED
+
+def printException(e):
+    if e is not None:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        return str(repr(traceback.print_exception(exc_type, exc_value, exc_traceback)))
     else:
         return EXCEPTION_OCCURRED
 
@@ -87,4 +93,3 @@ class CloudstackAclException():
             return True
         else:
             return False
-

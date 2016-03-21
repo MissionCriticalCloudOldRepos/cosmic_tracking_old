@@ -20,7 +20,7 @@ import os
 from optparse import OptionParser
 import jsonHelper
 from marvin.codes import *
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.cloudstackException import printException
 from marvin.config.test_data import test_data
 
 
@@ -388,9 +388,7 @@ class ConfigManager(object):
                 config = json.loads("\n".join(configLines))
                 config_dict = config
         except Exception as e:
-            # Will replace with log once we have logging done
-            print "\n Exception occurred under ConfigManager:__parseConfig" \
-                  " :%s", GetDetailExceptionInfo(e)
+            printException(e)
         finally:
             return config_dict
 
@@ -931,8 +929,7 @@ def getSetupConfig(file):
         config = json.loads("\n".join(configLines))
         return jsonHelper.jsonLoader(config)
     except Exception as e:
-        print "\nException Occurred under getSetupConfig %s" % \
-              GetDetailExceptionInfo(e)
+        printException(e)
 
 if __name__ == "__main__":
     parser = OptionParser()
