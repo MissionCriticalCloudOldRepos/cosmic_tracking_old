@@ -30,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 import com.cloud.storage.StorageLayer;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.log4j.Logger;
 
@@ -50,10 +51,16 @@ public class LocalTemplateDownloader extends TemplateDownloaderBase implements T
     _toFile = toDir.endsWith(File.separator) ? toDir + filename : toDir + File.separator + filename;
   }
 
+  public LocalTemplateDownloader(String downloadUrl, String toDir, long maxTemplateSizeInBytes) {
+    super(null, downloadUrl, toDir, maxTemplateSizeInBytes, null);
+    final String filename = new File(downloadUrl).getName();
+    _toFile = toDir.endsWith(File.separator) ? toDir + filename : toDir + File.separator + filename;
+  }
+
   @Override
   public long download(boolean resume, DownloadCompleteCallback callback) {
     if (_status == Status.ABORTED || _status == Status.UNRECOVERABLE_ERROR || _status == Status.DOWNLOAD_FINISHED) {
-      return 0;
+      throw new CloudRuntimeException("Invalid status for downloading: " + _status);
     }
 
     _start = System.currentTimeMillis();
@@ -62,11 +69,13 @@ public class LocalTemplateDownloader extends TemplateDownloaderBase implements T
     File src;
     try {
       src = new File(new URI(_downloadUrl));
-    } catch (final URISyntaxException e1) {
-      s_logger.warn("Invalid URI " + _downloadUrl);
+    } catch (final URISyntaxException e) {
+      final String message = "Invalid URI " + _downloadUrl;
+      s_logger.warn(message);
       _status = Status.UNRECOVERABLE_ERROR;
-      return 0;
+      throw new CloudRuntimeException(message, e);
     }
+
     final File dst = new File(_toFile);
 
     FileChannel fic = null;
@@ -85,16 +94,17 @@ public class LocalTemplateDownloader extends TemplateDownloaderBase implements T
       try {
         fis = new FileInputStream(src);
       } catch (final FileNotFoundException e) {
-        s_logger.warn("Unable to find " + _downloadUrl);
         _errorString = "Unable to find " + _downloadUrl;
-        return -1;
+        s_logger.warn(_errorString);
+        throw new CloudRuntimeException(_errorString, e);
       }
       fic = fis.getChannel();
       try {
         fos = new FileOutputStream(dst);
       } catch (final FileNotFoundException e) {
-        s_logger.warn("Unable to find " + _toFile);
-        return -1;
+        final String message = "Unable to find " + _toFile;
+        s_logger.warn(message);
+        throw new CloudRuntimeException(message, e);
       }
       foc = fos.getChannel();
 
@@ -110,7 +120,7 @@ public class LocalTemplateDownloader extends TemplateDownloaderBase implements T
           buffer.clear();
         }
       } catch (final IOException e) {
-        s_logger.warn("Unable to download", e);
+        s_logger.warn("Unable to download");
       }
 
       String downloaded = "(incomplete download)";
@@ -125,7 +135,7 @@ public class LocalTemplateDownloader extends TemplateDownloaderBase implements T
     } catch (final Exception e) {
       _status = TemplateDownloader.Status.UNRECOVERABLE_ERROR;
       _errorString = e.getMessage();
-      return 0;
+      throw new CloudRuntimeException(_errorString, e);
     } finally {
       if (fic != null) {
         try {
