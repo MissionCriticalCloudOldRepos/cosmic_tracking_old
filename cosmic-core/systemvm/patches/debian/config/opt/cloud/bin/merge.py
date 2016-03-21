@@ -305,7 +305,7 @@ class PrivateGatewayHack:
 
         initial_data = cls.load_inital_data()
         has_private_gw_ip = cls.if_config_has_privategateway(initial_data)
-        private_gw_matches = cls.ip_matches_private_gateway_ip(ip, initial_data['config']['privategateway'])
+        private_gw_matches = 'privategateway' in initial_data['config'] and cls.ip_matches_private_gateway_ip(ip, initial_data['config']['privategateway'])
 
         if has_private_gw_ip and private_gw_matches:
             data['nw_type'] = "public"
