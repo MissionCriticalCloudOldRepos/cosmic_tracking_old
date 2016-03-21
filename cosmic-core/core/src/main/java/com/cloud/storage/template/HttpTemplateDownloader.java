@@ -28,6 +28,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 
+import com.cloud.storage.StorageLayer;
+import com.cloud.utils.Pair;
+import com.cloud.utils.UriUtils;
+import com.cloud.utils.net.Proxy;
+
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
 import org.apache.cloudstack.utils.imagestore.ImageStoreUtil;
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.Header;
@@ -43,14 +50,6 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
-
-import com.cloud.storage.StorageLayer;
-import com.cloud.utils.Pair;
-import com.cloud.utils.UriUtils;
-import com.cloud.utils.net.Proxy;
 
 /**
  * Download a template file using HTTP
@@ -119,39 +118,39 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
             completionCallback = callback;
             //this.request.setFollowRedirects(false);
 
-            File f = File.createTempFile("dnld", "tmp_", new File(toDir));
+            final File f = File.createTempFile("dnld", "tmp_", new File(toDir));
 
             if (_storage != null) {
                 _storage.setWorldReadableAndWriteable(f);
             }
 
             toFile = f.getAbsolutePath();
-            Pair<String, Integer> hostAndPort = UriUtils.validateUrl(downloadUrl);
+            final Pair<String, Integer> hostAndPort = UriUtils.validateUrl(downloadUrl);
 
             if (proxy != null) {
                 client.getHostConfiguration().setProxy(proxy.getHost(), proxy.getPort());
                 if (proxy.getUserName() != null) {
-                    Credentials proxyCreds = new UsernamePasswordCredentials(proxy.getUserName(), proxy.getPassword());
+                    final Credentials proxyCreds = new UsernamePasswordCredentials(proxy.getUserName(), proxy.getPassword());
                     client.getState().setProxyCredentials(AuthScope.ANY, proxyCreds);
                 }
             }
-            if ((user != null) && (password != null)) {
+            if (user != null && password != null) {
                 client.getParams().setAuthenticationPreemptive(true);
-                Credentials defaultcreds = new UsernamePasswordCredentials(user, password);
+                final Credentials defaultcreds = new UsernamePasswordCredentials(user, password);
                 client.getState().setCredentials(new AuthScope(hostAndPort.first(), hostAndPort.second(), AuthScope.ANY_REALM), defaultcreds);
                 s_logger.info("Added username=" + user + ", password=" + password + "for host " + hostAndPort.first() + ":" + hostAndPort.second());
             } else {
                 s_logger.info("No credentials configured for host=" + hostAndPort.first() + ":" + hostAndPort.second());
             }
-        } catch (IllegalArgumentException iae) {
+        } catch (final IllegalArgumentException iae) {
             errorString = iae.getMessage();
             status = TemplateDownloader.Status.UNRECOVERABLE_ERROR;
             inited = false;
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             errorString = "Unable to start download -- check url? ";
             status = TemplateDownloader.Status.UNRECOVERABLE_ERROR;
             s_logger.warn("Exception in constructor -- " + ex.toString());
-        } catch (Throwable th) {
+        } catch (final Throwable th) {
             s_logger.warn("throwable caught ", th);
         }
     }
@@ -167,7 +166,7 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
 
         }
         int bytes = 0;
-        File file = new File(toFile);
+        final File file = new File(toFile);
         try {
 
             long localFileSize = 0;
@@ -176,7 +175,7 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
                 s_logger.info("Resuming download to file (current size)=" + localFileSize);
             }
 
-            Date start = new Date();
+            final Date start = new Date();
 
             int responseCode = 0;
 
@@ -194,11 +193,11 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
                 return 0; //FIXME: retry?
             }
 
-            Header contentLengthHeader = request.getResponseHeader("Content-Length");
+            final Header contentLengthHeader = request.getResponseHeader("Content-Length");
             boolean chunked = false;
             long remoteSize2 = 0;
             if (contentLengthHeader == null) {
-                Header chunkedHeader = request.getResponseHeader("Transfer-Encoding");
+                final Header chunkedHeader = request.getResponseHeader("Transfer-Encoding");
                 if (chunkedHeader == null || !"chunked".equalsIgnoreCase(chunkedHeader.getValue())) {
                     status = TemplateDownloader.Status.UNRECOVERABLE_ERROR;
                     errorString = " Failed to receive length of download ";
@@ -210,7 +209,7 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
                 remoteSize2 = Long.parseLong(contentLengthHeader.getValue());
                 if (remoteSize2 == 0) {
                     status = TemplateDownloader.Status.DOWNLOAD_FINISHED;
-                    String downloaded = "(download complete remote=" + remoteSize + "bytes)";
+                    final String downloaded = "(download complete remote=" + remoteSize + "bytes)";
                     errorString = "Downloaded " + totalBytes + " bytes " + downloaded;
                     downloadTime = 0;
                     return 0;
@@ -232,15 +231,15 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
                 remoteSize = maxTemplateSizeInBytes;
             }
 
-            URL url = new URL(getDownloadUrl());
-            InputStream in = url.openStream();
+            final URL url = new URL(getDownloadUrl());
+            final InputStream in = url.openStream();
 
-            RandomAccessFile out = new RandomAccessFile(file, "rw");
+            final RandomAccessFile out = new RandomAccessFile(file, "rw");
             out.seek(localFileSize);
 
             s_logger.info("Starting download from " + getDownloadUrl() + " to " + toFile + " remoteSize=" + remoteSize + " , max size=" + maxTemplateSizeInBytes);
 
-            byte[] block = new byte[CHUNK_SIZE];
+            final byte[] block = new byte[CHUNK_SIZE];
             long offset = 0;
             boolean done = false;
             boolean verifiedFormat=false;
@@ -254,18 +253,18 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
                         if (!verifiedFormat && (offset >= 1048576 || offset >= remoteSize)) { //let's check format after we get 1MB or full file
                         String uripath = null;
                         try {
-                            URI str = new URI(getDownloadUrl());
+                            final URI str = new URI(getDownloadUrl());
                             uripath = str.getPath();
-                        } catch (URISyntaxException e) {
+                        } catch (final URISyntaxException e) {
                             s_logger.warn("Invalid download url: " + getDownloadUrl() + ", This should not happen since we have validated the url before!!");
                         }
-                        String unsupportedFormat = ImageStoreUtil.checkTemplateFormat(file.getAbsolutePath(), uripath);
+                        final String unsupportedFormat = ImageStoreUtil.checkTemplateFormat(file.getAbsolutePath(), uripath);
                             if (unsupportedFormat == null || !unsupportedFormat.isEmpty()) {
                                  try {
                                      request.abort();
                                      out.close();
                                      in.close();
-                                 } catch (Exception ex) {
+                                 } catch (final Exception ex) {
                                      s_logger.debug("Error on http connection : " + ex.getMessage());
                                  }
                                  status = Status.UNRECOVERABLE_ERROR;
@@ -281,7 +280,7 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
             }
             out.getFD().sync();
 
-            Date finish = new Date();
+            final Date finish = new Date();
             String downloaded = "(incomplete download)";
             if (totalBytes >= remoteSize) {
                 status = TemplateDownloader.Status.DOWNLOAD_FINISHED;
@@ -293,10 +292,10 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
             out.close();
 
             return totalBytes;
-        } catch (HttpException hte) {
+        } catch (final HttpException hte) {
             status = TemplateDownloader.Status.UNRECOVERABLE_ERROR;
             errorString = hte.getMessage();
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
             status = TemplateDownloader.Status.UNRECOVERABLE_ERROR; //probably a file write error?
             errorString = ioe.getMessage();
         } finally {
@@ -316,7 +315,7 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
     }
 
     public String getToFile() {
-        File file = new File(toFile);
+        final File file = new File(toFile);
 
         return file.getAbsolutePath();
     }
@@ -353,7 +352,7 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
             case ABORTED:
                 status = TemplateDownloader.Status.ABORTED;
             case DOWNLOAD_FINISHED:
-                File f = new File(toFile);
+                final File f = new File(toFile);
                 if (f.exists()) {
                     f.delete();
                 }
@@ -377,7 +376,7 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
     protected void runInContext() {
         try {
             download(resume, completionCallback);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             s_logger.warn("Caught exception during download " + t.getMessage(), t);
             errorString = "Failed to install: " + t.getMessage();
             status = TemplateDownloader.Status.UNRECOVERABLE_ERROR;
@@ -420,24 +419,6 @@ public class HttpTemplateDownloader extends ManagedContextRunnable implements Te
     @Override
     public long getMaxTemplateSizeInBytes() {
         return maxTemplateSizeInBytes;
-    }
-
-    public static void main(String[] args) {
-        String url = "http:// dev.mysql.com/get/Downloads/MySQL-5.0/mysql-noinstall-5.0.77-win32.zip/from/http://mirror.services.wisc.edu/mysql/";
-        try {
-            new java.net.URI(url);
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        TemplateDownloader td = new HttpTemplateDownloader(null, url, "/tmp/mysql", null, TemplateDownloader.DEFAULT_MAX_TEMPLATE_SIZE_IN_BYTES, null, null, null, null);
-        long bytes = td.download(true, null);
-        if (bytes > 0) {
-            System.out.println("Downloaded  (" + bytes + " bytes)" + " in " + td.getDownloadTime() / 1000 + " secs");
-        } else {
-            System.out.println("Failed download");
-        }
-
     }
 
     @Override
