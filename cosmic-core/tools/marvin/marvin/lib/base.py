@@ -25,12 +25,16 @@ from marvin.codes import (FAILED, FAIL, PASS, RUNNING, STOPPED,
                           STARTING, DESTROYED, EXPUNGING,
                           STOPPING, BACKED_UP, BACKING_UP)
 from marvin.cloudstackException import GetDetailExceptionInfo, CloudstackAPIException
-from marvin.lib.utils import validateList, is_server_ssh_ready, random_gen
+from marvin.lib.utils import (
+    validateList,
+    validateState,
+    is_server_ssh_ready,
+    random_gen
+)
 # Import System modules
 import time
 import hashlib
 import base64
-
 
 class Domain:
     """ Domain Life Cycle """
@@ -504,7 +508,7 @@ class VirtualMachine:
         cmd = startVirtualMachine.startVirtualMachineCmd()
         cmd.id = self.id
         apiclient.startVirtualMachine(cmd)
-        response = self.getState(apiclient, VirtualMachine.RUNNING)
+        response = self.validateState(apiclient, VirtualMachine.RUNNING)
         if response[0] == FAIL:
             raise Exception(response[1])
         return
@@ -516,7 +520,7 @@ class VirtualMachine:
         if forced:
             cmd.forced = forced
         apiclient.stopVirtualMachine(cmd)
-        response = self.getState(apiclient, VirtualMachine.STOPPED)
+        response = self.validateState(apiclient, VirtualMachine.STOPPED)
         if response[0] == FAIL:
             raise Exception(response[1])
         return
@@ -527,7 +531,7 @@ class VirtualMachine:
         cmd.id = self.id
         apiclient.rebootVirtualMachine(cmd)
 
-        response = self.getState(apiclient, VirtualMachine.RUNNING)
+        response = self.validateState(apiclient, VirtualMachine.RUNNING)
         if response[0] == FAIL:
             raise Exception(response[1])
 
@@ -537,7 +541,7 @@ class VirtualMachine:
         cmd.id = self.id
         apiclient.recoverVirtualMachine(cmd)
 
-        response = self.getState(apiclient, VirtualMachine.STOPPED)
+        response = self.validateState(apiclient, VirtualMachine.STOPPED)
         if response[0] == FAIL:
             raise Exception(response[1])
 
@@ -583,36 +587,17 @@ class VirtualMachine:
         )
         return self.ssh_client
 
-    def getState(self, apiclient, state, timeout=600):
+    def validateState(self, apiclient, state, timeout=600, interval=5):
         """List VM and check if its state is as expected
         @returnValue - List[Result, Reason]
                        1) Result - FAIL if there is any exception
                        in the operation or VM state does not change
                        to expected state in given time else PASS
                        2) Reason - Reason for failure"""
+        return validateState(apiclient, self, state, timeout, interval)
 
-        returnValue = [FAIL, "VM state not trasited to %s,\
-                        operation timed out" % state]
-
-        while timeout > 0:
-            try:
-                projectid = None
-                if hasattr(self, "projectid"):
-                    projectid = self.projectid
-                vms = VirtualMachine.list(apiclient, projectid=projectid,
-                        id=self.id, listAll=True)
-                validationresult = validateList(vms)
-                if validationresult[0] == FAIL:
-                    raise Exception("VM list validation failed: %s" % validationresult[2])
-                elif str(vms[0].state).lower().decode("string_escape") == str(state).lower():
-                    returnValue = [PASS, None]
-                    break
-            except Exception as e:
-                returnValue = [FAIL, e]
-                break
-            time.sleep(60)
-            timeout -= 60
-        return returnValue
+    def state_check_function(self, objects, state):
+        return str(objects[0].state).lower().decode("string_escape") == str(state).lower()
 
     def resetSshKey(self, apiclient, **kwargs):
         """Resets SSH key"""
@@ -1029,31 +1014,17 @@ class Snapshot:
             cmd.listall = True
         return(apiclient.listSnapshots(cmd))
 
-    def validateState(self, apiclient, snapshotstate, timeout=600):
+    def validateState(self, apiclient, state, timeout=600, interval=5):
         """Check if snapshot is in required state
            returnValue: List[Result, Reason]
                  @Result: PASS if snapshot is in required state,
                           else FAIL
                  @Reason: Reason for failure in case Result is FAIL
         """
-        isSnapshotInRequiredState = False
-        try:
-            while timeout >= 0:
-                snapshots = Snapshot.list(apiclient, id=self.id)
-                assert validateList(snapshots)[0] == PASS, "snapshots list\
-                        validation failed"
-                if str(snapshots[0].state).lower() == snapshotstate:
-                    isSnapshotInRequiredState = True
-                    break
-                timeout -= 60
-                time.sleep(60)
-            #end while
-            if isSnapshotInRequiredState:
-                return[PASS, None]
-            else:
-                raise Exception("Snapshot not in required state")
-        except Exception as e:
-            return [FAIL, e]
+        return validateState(apiclient, self, state, timeout, interval)
+
+    def state_check_function(self, objects, state):
+        return str(objects[0].state).lower().decode("string_escape") == str(state).lower()
 
 
 class Template:
@@ -2534,34 +2505,19 @@ class Host:
         [setattr(cmd, k, v) for k, v in kwargs.items()]
         return(apiclient.reconnectHost(cmd))
 
-    @classmethod
-    def getState(cls, apiclient, hostid, state, resourcestate, timeout=600):
+    def validateState(self, apiclient, states, timeout=600, interval=5):
         """List Host and check if its resource state is as expected
         @returnValue - List[Result, Reason]
                        1) Result - FAIL if there is any exception
                        in the operation or Host state does not change
                        to expected state in given time else PASS
                        2) Reason - Reason for failure"""
+        return validateState(apiclient, self, states, timeout, interval)
 
-        returnValue = [FAIL, "VM state not trasited to %s,\
-                        operation timed out" % state]
 
-        while timeout > 0:
-            try:
-                hosts = Host.list(apiclient,
-                          id=hostid, listall=True)
-                validationresult = validateList(hosts)
-                if validationresult[0] == FAIL:
-                    raise Exception("Host list validation failed: %s" % validationresult[2])
-                elif str(hosts[0].state).lower().decode("string_escape") == str(state).lower() and str(hosts[0].resourcestate).lower().decode("string_escape") == str(resourcestate).lower():
-                    returnValue = [PASS, None]
-                    break
-            except Exception as e:
-                returnValue = [FAIL, e]
-                break
-            time.sleep(60)
-            timeout -= 60
-        return returnValue
+    def state_check_function(self, objects, states):
+        return str(objects[0].state).lower().decode('string_escape') == str(states[0]).lower() and str(objects[0].resourcestate).lower().decode('string_escape') == str(states[1]).lower()
+
 
 class StoragePool:
     """Manage Storage pools (Primary Storage)"""
@@ -2689,8 +2645,7 @@ class StoragePool:
         [setattr(cmd, k, v) for k, v in kwargs.items()]
         return apiclient.updateStoragePool(cmd)
 
-    @classmethod
-    def getState(cls, apiclient, poolid, state, timeout=600):
+    def validateState(self, apiclient, state, timeout=600, interval=5):
         """List StoragePools and check if its  state is as expected
         @returnValue - List[Result, Reason]
                        1) Result - FAIL if there is any exception
@@ -2698,25 +2653,11 @@ class StoragePool:
                        to expected state in given time else PASS
                        2) Reason - Reason for failure"""
 
-        returnValue = [FAIL, "VM state not trasited to %s,\
-                        operation timed out" % state]
+        return validateState(apiclient, self, state, timeout, interval)
 
-        while timeout > 0:
-            try:
-                pools = StoragePool.list(apiclient,
-                          id=poolid, listAll=True)
-                validationresult = validateList(pools)
-                if validationresult[0] == FAIL:
-                    raise Exception("Host list validation failed: %s" % validationresult[2])
-                elif str(pools[0].state).lower().decode("string_escape") == str(state).lower():
-                    returnValue = [PASS, None]
-                    break
-            except Exception as e:
-                returnValue = [FAIL, e]
-                break
-            time.sleep(60)
-            timeout -= 60
-        return returnValue
+    def state_check_function(self, objects, state):
+        return str(objects[0].state).lower().decode("string_escape") == str(state).lower()
+
 
 class Network:
     """Manage Network pools"""
@@ -4062,9 +4003,9 @@ class VpcOffering:
     @classmethod
     def create(cls, apiclient, services):
         """Create vpc offering"""
-        
+
         import logging
-        
+
         cmd = createVPCOffering.createVPCOfferingCmd()
         cmd.name = "-".join([services["name"], random_gen()])
         cmd.displaytext = services["displaytext"]
