@@ -317,7 +317,7 @@
 
             if (this == 'label.help') {
                 $link.addClass('help').click(function() {
-                    var helpURL = 'http://cloudstack.apache.org/';
+                    var helpURL = 'https://github.com/MissionCriticalCloud/cosmic/issues';
 
                     window.open(helpURL, '_blank');
 

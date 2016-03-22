@@ -57,7 +57,7 @@ body.install-wizard {
   height: 769px !important;
   overflow: auto;
   overflow-x: hidden;
-  background: #FFFFFF url(../images/bg-login.png);
+  background: #FFFFFF url(../images/bg-login-cosmic.png);
 }
 
 #main-area {
@@ -345,7 +345,7 @@ table th div.ui-resizable-handle {
 
 /*Login screen*/
 body.login {
-  background: url(../images/overlay-pattern.png) repeat center, #106CA9 url(../images/bg-login.jpg) no-repeat center;
+  background: url(../images/overlay-pattern.png) repeat center, #2c2c2c url(../images/bg-login-cosmic.png) no-repeat center;
   background-size: auto, cover;
   overflow: hidden;
 }
@@ -353,12 +353,13 @@ body.login {
 .login {
   display: block;
   width: 100%;
-  height: 350px;
+  height: 600px;
   /*+placement:shift 0 80px;*/
   position: relative;
   left: 0;
   top: 80px;
-  background: #053663;
+  background: #2c2c2c;
+  background-image: url(../images/sky.jpg);
 }
 
 .login .select-language {
@@ -483,8 +484,8 @@ body.login {
   width: 290px;
   height: 40px;
   float: left;
-  margin: 72px 0 0 209px;
-  background: url(../images/logo-login.png) no-repeat 0 0;
+  margin: 50px 0 0 0px;
+  background: url(../images/logo-login-oss.png) no-repeat 0 0;
 }
 
 .login.nologo .logo {
@@ -493,10 +494,10 @@ body.login {
 
 .login form {
   display: block;
-  width: 1000px;
+  width: 500px;
   height: 100%;
   margin: auto;
-  background: #053663;
+  background: #2c2c2c;
 }
 
 /*About dialog*/
@@ -2425,7 +2426,7 @@ div.detail-group.actions td {
 #header {
   width: 100%;
   height: 135px;
-  background: url(../images/overlay-pattern.png) repeat 0, #1B5070 url(../images/header-gradient.png) no-repeat center;
+  background: url(../images/overlay-pattern.png) repeat center, #2c2c2c url(../images/sky.jpg) no-repeat center;
   background-size: auto, cover;
   position: relative;
 }
@@ -2440,7 +2441,6 @@ div.detail-group.actions td {
   width: 1224px;
   height: 47px;
   margin: auto;
-  background: url(../images/logo.png) no-repeat 0 center;
   /*+placement:shift 0px 15px;*/
   position: relative;
   left: 0px;
@@ -4313,8 +4313,8 @@ textarea {
   z-index: 10000;
   width: 150px;
   position: absolute;
-  padding: 15px;
-  top: 30px;
+  padding: 10px;
+  top: 20px;
   /*+border-radius:0 0 3px 3px;*/
   -moz-border-radius: 0 0 3px 3px;
   -webkit-border-radius: 0 0 3px 3px;
