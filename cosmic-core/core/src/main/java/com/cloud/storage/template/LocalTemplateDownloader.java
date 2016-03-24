@@ -101,7 +101,7 @@ public class LocalTemplateDownloader extends TemplateDownloaderBase implements T
       fic = fis.getChannel();
       try {
         if (!dst.exists()) {
-          dst.createNewFile();
+          dst.delete();
         }
         fos = new FileOutputStream(dst);
       } catch (final FileNotFoundException e) {
