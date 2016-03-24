@@ -30,7 +30,7 @@ import urlparse
 import datetime
 from marvin.cloudstackAPI import cloudstackAPIClient, listHosts, listRouters
 from platform import system
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.cloudstackException import printException
 from marvin.sshClient import SshClient
 from marvin.codes import (
                           SUCCESS,
@@ -494,9 +494,8 @@ def checkVolumeSize(ssh_handle=None,
                         return [SUCCESS,str(parts[-2])]
             return [FAILED,"Volume Not Found"]
     except Exception, e:
-        print "\n Exception Occurred under getDiskUsage: " \
-              "%s" %GetDetailExceptionInfo(e)
-        return [FAILED,GetDetailExceptionInfo(e)]
+        printException(e)
+        return [FAILED,str(e)]
 
 
 def verifyRouterState(apiclient, routerid, allowedstates):

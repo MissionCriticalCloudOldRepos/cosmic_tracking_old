@@ -28,7 +28,7 @@ from marvin.configGenerator import getSetupConfig
 from marvin.marvinLog import MarvinLog
 from marvin.deployDataCenter import DeployDataCenters
 from marvin.cloudstackTestClient import CSTestClient
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.cloudstackException import printException
 from marvin.codes import(
     XEN_SERVER,
     SUCCESS,
@@ -73,8 +73,7 @@ class MarvinInit:
             print "\n=== Marvin Parse Config Successful ==="
             return SUCCESS
         except Exception as e:
-            print "\nException Occurred Under __parseConfig : " \
-                  "%s" % GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def getParsedConfig(self):
@@ -126,8 +125,7 @@ class MarvinInit:
                 self.__hypervisorType = XEN_SERVER
             return SUCCESS
         except Exception as e:
-            print "\n Exception Occurred Under init " \
-                  "%s" % GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def init(self):
@@ -154,8 +152,7 @@ class MarvinInit:
             print "\n==== Marvin Init Failed ===="
             return FAILED
         except Exception as e:
-            print "\n Exception Occurred Under init " \
-                  "%s" % GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def __initLogging(self):
@@ -185,8 +182,7 @@ class MarvinInit:
                     return SUCCESS
             return FAILED
         except Exception as e:
-            print "\n Exception Occurred Under __initLogging " \
-                  ":%s" % GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def __createTestClient(self):
@@ -210,8 +206,7 @@ class MarvinInit:
                 return self.__testClient.createTestClient()
             return FAILED
         except Exception as e:
-            print "\n Exception Occurred Under __createTestClient : %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def __setTestDataPath(self):
@@ -227,8 +222,7 @@ class MarvinInit:
             print "\n=== Marvin Setting TestData Successful==="
             return SUCCESS
         except Exception as e:
-            print "\nException Occurred Under __setTestDataPath : %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def __deployDC(self):
@@ -248,6 +242,5 @@ class MarvinInit:
                     print "==== Deploy DC Failed ===="
             return ret
         except Exception as e:
-            print "\n Exception Occurred Under __deployDC : %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED

@@ -24,7 +24,10 @@ from marvin.cloudstackAPI import *
 from marvin.codes import (FAILED, FAIL, PASS, RUNNING, STOPPED,
                           STARTING, DESTROYED, EXPUNGING,
                           STOPPING, BACKED_UP, BACKING_UP)
-from marvin.cloudstackException import GetDetailExceptionInfo, CloudstackAPIException
+from marvin.cloudstackException import (
+    printException,
+    CloudstackAPIException
+)
 from marvin.lib.utils import (
     validateList,
     validateState,
@@ -2422,8 +2425,7 @@ class Host:
                     retries += -1
             return FAILED
         except Exception as e:
-            print "Exception Occurred Under Host.create : %s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def delete(self, apiclient):
