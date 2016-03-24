@@ -111,3 +111,4 @@ The following provides more details on the included cryptographic software:
 * Cosmic makes use of the Bouncy Castle general-purpose encryption library.
 * Cosmic can optionally interacts with and controls OpenSwan-based VPNs.
 * Cosmic has a dependency on and makes use of JSch - a java SSH2 implementation.
+
