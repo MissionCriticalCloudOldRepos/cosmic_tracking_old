@@ -18,7 +18,6 @@ package com.cloud.hypervisor.xenserver.resource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -97,23 +96,5 @@ public class XenServer625ResourceTest extends CitrixResourceBaseTest{
     when(vbd.getUserdevice(conn)).thenReturn(xen_userDevice);
 
     assertFalse(xenServer625Resource.isDeviceUsed(conn, vm, deviceId));
-  }
-
-  @Test
-  public void testGetVBDUserDeviceIds() throws Types.XenAPIException, XmlRpcException {
-    final Connection conn = mock(Connection.class);
-    final VM vm = mock(VM.class);
-    final VBD vbd = mock(VBD.class);
-
-    final Set<VBD> vbds = new HashSet< >();
-    vbds.add(vbd);
-
-    final Integer expected_deviceId = anyInt();
-
-    when(vm.getVBDs(conn)).thenReturn(vbds);
-
-    when(vbd.getUserdevice(conn)).thenReturn(expected_deviceId.toString());
-
-    assert xenServer625Resource.getVBDUserDeviceIds(conn, vm).contains(expected_deviceId);
   }
 }
