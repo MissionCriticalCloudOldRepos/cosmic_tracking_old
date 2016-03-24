@@ -19,6 +19,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.apache.xmlrpc.XmlRpcException;
@@ -66,17 +68,18 @@ public class XenServer625ResourceTest extends CitrixResourceBaseTest{
     final VM vm = mock(VM.class);
     final VBD vbd = mock(VBD.class);
 
+    final Set<String> allowedVBDDevices = new HashSet<String>();
+
     final Set<VBD> vbds = new HashSet< >();
     vbds.add(vbd);
 
-    final String xen_userDevice = "3";
-    final Long deviceId = 3L;
+    final Long deviceId = 4L;
 
-    when(vm.getVBDs(conn)).thenReturn(vbds);
-
-    when(vbd.getUserdevice(conn)).thenReturn(xen_userDevice);
+    when(vm.getAllowedVBDDevices(conn)).thenReturn(allowedVBDDevices);
 
     assertTrue(xenServer625Resource.isDeviceUsed(conn, vm, deviceId));
+
+    verify(vm, times(1)).getAllowedVBDDevices(conn);
   }
 
   @Test
@@ -85,16 +88,18 @@ public class XenServer625ResourceTest extends CitrixResourceBaseTest{
     final VM vm = mock(VM.class);
     final VBD vbd = mock(VBD.class);
 
+    final Set<String> allowedVBDDevices = new HashSet<String>();
+    allowedVBDDevices.add("4");
+
     final Set<VBD> vbds = new HashSet< >();
     vbds.add(vbd);
 
-    final String xen_userDevice = "3";
     final Long deviceId = 4L;
 
-    when(vm.getVBDs(conn)).thenReturn(vbds);
-
-    when(vbd.getUserdevice(conn)).thenReturn(xen_userDevice);
+    when(vm.getAllowedVBDDevices(conn)).thenReturn(allowedVBDDevices);
 
     assertFalse(xenServer625Resource.isDeviceUsed(conn, vm, deviceId));
+
+    verify(vm, times(1)).getAllowedVBDDevices(conn);
   }
 }
