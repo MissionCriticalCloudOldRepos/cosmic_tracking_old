@@ -8,7 +8,7 @@
   <packaging>pom</packaging>
   <name>Cosmic</name>
   <description>Cosmic is an IaaS (“Infrastructure as a Service”) cloud orchestration platform.</description>
-  <url>http://www.cosmic.cloud</url>
+  <url>http://www.cosmiccloud.io</url>
 
   <prerequisites>
     <maven>3.0.4</maven>
