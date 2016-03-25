@@ -57,4 +57,19 @@
       <version>${cs.xapi.version}</version>
     </dependency>
   </dependencies>
+
+  <scm>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git</developerConnection>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
+    </plugins>
+  </build>
 </project>
