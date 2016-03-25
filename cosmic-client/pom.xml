@@ -101,11 +101,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-contrail</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-palo-alto</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -351,8 +346,19 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
+  <scm>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</developerConnection>
+  </scm>
+
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
