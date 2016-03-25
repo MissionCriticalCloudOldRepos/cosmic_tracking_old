@@ -4,7 +4,7 @@
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
-    <version>5.0.0.0</version>
+    <version>5.0.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>cosmic-core</artifactId>
@@ -108,7 +108,7 @@
   <scm>
     <connection>scm:git:git@github.com:MissionCriticalCloud/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:MissionCriticalCloud/${project.artifactId}.git</developerConnection>
-    <tag>cosmic-core-5.0.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
