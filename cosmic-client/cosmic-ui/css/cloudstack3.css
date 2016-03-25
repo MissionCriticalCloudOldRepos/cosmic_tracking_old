@@ -485,11 +485,11 @@ body.login {
   height: 40px;
   float: left;
   margin: 50px 0 0 0px;
-  background: url(../images/logo-login-oss.png) no-repeat 0 0;
+  background: url(../images/logo-cosmic.png) no-repeat 0 0;
 }
 
 .login.nologo .logo {
-  background-image: url(../images/logo-login-oss.png);
+  background-image: url(../images/logo-cosmic.png);
 }
 
 .login form {
