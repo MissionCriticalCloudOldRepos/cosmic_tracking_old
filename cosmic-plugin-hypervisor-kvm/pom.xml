@@ -5,33 +5,33 @@
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
-    <version>5.0.0.0</version>
+    <version>5.0.0.1-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-server</artifactId>
-      <version>5.0.0.0</version>
+      <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
-      <version>5.0.0.0</version>
+      <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-utils</artifactId>
-      <version>5.0.0.0</version>
+      <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-config</artifactId>
-      <version>5.0.0.0</version>
+      <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
-      <version>5.0.0.0</version>
+      <version>5.0.0.1-SNAPSHOT</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -42,7 +42,7 @@
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-agent</artifactId>
-      <version>5.0.0.0</version>
+      <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.libvirt</groupId>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-ovs</artifactId>
-      <version>5.0.0.0</version>
+      <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.ceph</groupId>
@@ -84,7 +84,7 @@
   <scm>
     <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git</connection>
     <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git</developerConnection>
-    <tag>cosmic-plugin-hypervisor-kvm-5.0.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
