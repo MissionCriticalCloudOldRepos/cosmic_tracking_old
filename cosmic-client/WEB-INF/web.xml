@@ -33,7 +33,7 @@
 	</listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>    
-        <param-value>classpath:META-INF/cloudstack/webApplicationContext.xml</param-value>    
+        <param-value>classpath:META-INF/cosmic/webApplicationContext.xml</param-value>    
     </context-param>
           
     <servlet>
