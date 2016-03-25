@@ -78,7 +78,8 @@
   </pluginRepositories>
 
   <scm>
-    <connection>scm:git:git://github.com/MissionCriticalCloud/${project.artifactId}.git</connection>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-ovm3.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-ovm3.git</developerConnection>
   </scm>
 
   <build>
