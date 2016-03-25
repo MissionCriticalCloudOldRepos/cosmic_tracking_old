@@ -188,7 +188,7 @@ class TestPrivateGwACL(cloudstackTestCase):
     @classmethod
     def tearDownClass(cls):
         try:
-            cleanup_resources(cls.api_client, cls._cleanup)
+            cleanup_resources(cls.api_client, cls._cleanup, cls.logger)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
@@ -208,7 +208,7 @@ class TestPrivateGwACL(cloudstackTestCase):
 
     def tearDown(self):
         try:
-            cleanup_resources(self.apiclient, self.cleanup)
+            cleanup_resources(self.apiclient, self.cleanup, self.logger)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
@@ -233,7 +233,7 @@ class TestPrivateGwACL(cloudstackTestCase):
 
         vpc = self.createVPC(vpc_off)
 
-        self.cleanup = [vpc, vpc_off, self.account]
+        self.cleanup += [vpc, vpc_off, self.account]
 
         physical_networks = get_physical_networks(self.apiclient, self.zone.id)
         if not physical_networks:
@@ -261,7 +261,7 @@ class TestPrivateGwACL(cloudstackTestCase):
         self.performVPCTests(vpc_off)
 
     @attr(tags=["advanced"], required_hardware="true")
-    def test_03_vpc_privategw_restart_vpc_cleanup(self):
+    def test_03_vpc_privategw_static_routes_restart_vpc_cleanup(self):
         self.logger.debug("Creating a VPC offering..")
         vpc_off = VpcOffering.create(
             self.apiclient,
@@ -301,7 +301,7 @@ class TestPrivateGwACL(cloudstackTestCase):
         vpc_1 = self.createVPC(vpc_off, cidr = '10.0.1.0/24')
         vpc_2 = self.createVPC(vpc_off, cidr = '10.0.2.0/24')
 
-        self.cleanup = [vpc_1, vpc_2, vpc_off, self.account]
+        self.cleanup += [vpc_1, vpc_2, vpc_off, self.account]
 
         physical_networks = get_physical_networks(self.apiclient, self.zone.id)
         if not physical_networks:
@@ -332,8 +332,8 @@ class TestPrivateGwACL(cloudstackTestCase):
         self.replaceNetworkAcl(acl1.id, network_1)
         self.replaceNetworkAcl(acl2.id, network_2)
 
-        staticRoute_1 = self.createStaticRoute(privateGw_1.id, cidr = '10.0.2.0/24')
-        staticRoute_2 = self.createStaticRoute(privateGw_2.id, cidr = '10.0.1.0/24')
+        self.createStaticRoute(privateGw_1.id, cidr = '10.0.2.0/24')
+        self.createStaticRoute(privateGw_2.id, cidr = '10.0.1.0/24')
 
         public_ip_1 = self.acquire_publicip(vpc_1, network_1)
         public_ip_2 = self.acquire_publicip(vpc_2, network_2)
@@ -353,7 +353,7 @@ class TestPrivateGwACL(cloudstackTestCase):
         self.logger.debug("Creating VPCs with  offering ID %s" % vpc_off.id)
         vpc_1 = self.createVPC(vpc_off, cidr = '10.0.0.0/16')
 
-        self.cleanup = [vpc_1, vpc_off, self.account]
+        self.cleanup += [vpc_1, vpc_off, self.account]
 
         physical_networks = get_physical_networks(self.apiclient, self.zone.id)
         if not physical_networks:
@@ -381,7 +381,10 @@ class TestPrivateGwACL(cloudstackTestCase):
 
         acl1 = self.createACL(vpc_1)
         self.createACLItem(acl1.id, cidr = "0.0.0.0/0")
-        privateGw_1 = self.createPvtGw(vpc_1, "10.1.0.100", "10.1.0.101", acl1.id, vlan_1)
+
+        privateGw_ip_address = "10.0.3.100"
+
+        privateGw_1 = self.createPvtGw(vpc_1, privateGw_ip_address, "10.0.3.101", acl1.id, vlan_1)
         self.replacePvtGwACL(acl1.id, privateGw_1.id)
 
         self.replaceNetworkAcl(acl1.id, network_1)
@@ -392,9 +395,7 @@ class TestPrivateGwACL(cloudstackTestCase):
         public_ip_1 = self.acquire_publicip(vpc_1, network_1)
         nat_rule_1 = self.create_natrule(vpc_1, vm1, public_ip_1, network_1)
 
-        routers = list_routers(self.apiclient,
-                       account=self.account.name,
-                       domainid=self.account.domainid)
+        routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
 
         self.assertEqual(isinstance(routers, list), True,
             "Check for list routers response return valid data")
@@ -402,23 +403,31 @@ class TestPrivateGwACL(cloudstackTestCase):
         self.assertEqual(len(routers), 2,
             "Check for list routers size returned '%s' instead of 2" % len(routers))
 
-        self.check_private_gateway_interfaces(routers)
+        self.check_private_gateway_interfaces(routers, privateGw_ip_address)
 
         self.check_pvt_gw_connectivity(vm1, public_ip_1, [vm2.nic[0].ipaddress, vm3.nic[0].ipaddress, vm4.nic[0].ipaddress])
 
         self.reboot_vpc_with_cleanup(vpc_1, True)
 
+        routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
+
         self.check_pvt_gw_connectivity(vm1, public_ip_1, [vm2.nic[0].ipaddress, vm3.nic[0].ipaddress, vm4.nic[0].ipaddress])
 
-        self.stop_router_by_type(routers, status_to_check = "MASTER")
+        self.stop_router_by_type("MASTER", routers)
+
+        routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
+
         self.check_routers_state(routers)
 
-        self.check_private_gateway_interfaces(routers)
+        self.check_private_gateway_interfaces(routers, privateGw_ip_address)
         self.check_pvt_gw_connectivity(vm1, public_ip_1, [vm2.nic[0].ipaddress, vm3.nic[0].ipaddress, vm4.nic[0].ipaddress])
 
         self.start_routers(routers)
+
+        routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
+
         self.check_routers_state(routers)
-        self.check_private_gateway_interfaces(routers)
+        self.check_private_gateway_interfaces(routers, privateGw_ip_address)
         self.check_pvt_gw_connectivity(vm1, public_ip_1, [vm2.nic[0].ipaddress, vm3.nic[0].ipaddress, vm4.nic[0].ipaddress])
 
     def stop_router_by_type(self, type, routers):
@@ -427,6 +436,12 @@ class TestPrivateGwACL(cloudstackTestCase):
             if router.redundantstate == type:
                 self.stop_router(router)
                 break
+
+    def stop_router(self, router):
+        self.logger.debug('Stopping router %s' % router.id)
+        cmd = stopRouter.stopRouterCmd()
+        cmd.id = router.id
+        self.apiclient.stopRouter(cmd)
 
     def start_routers(self, routers):
         self.logger.debug('Starting stopped routers')
@@ -475,19 +490,14 @@ class TestPrivateGwACL(cloudstackTestCase):
         return vm
 
     def createStaticRoute(self, privateGwId, cidr = '10.0.0.0/16'):
-        staticRouteCmd = createStaticRoute.createStaticRouteCmd()
-        staticRouteCmd.cidr = cidr
-        staticRouteCmd.gatewayid = privateGwId
-
         try:
-            staticRoute = self.apiclient.createStaticRoute(staticRouteCmd)
+            staticRoute = StaticRoute.create(self.api_client, cidr, privateGwId)
             self.assertIsNotNone(staticRoute.id, "Failed to create static route.")
 
             self.logger.debug("Created staticRoute with ID: %s" % staticRoute.id)
+            self.cleanup.insert(0, staticRoute)
         except Exception, e:
             self.fail('Unable to create static route due to %s ' % e)
-
-        return staticRoute
 
     def createACL(self, vpc):
         createAclCmd = createNetworkACLList.createNetworkACLListCmd()
@@ -557,28 +567,30 @@ class TestPrivateGwACL(cloudstackTestCase):
         return obj_network
 
     def createPvtGw(self, vpc, ip_address, gateway, aclId, vlan):
+        self.logger.debug('::: Creating private gateway in vpc %s with ip %s :::' % (vpc.id, ip_address))
+
         physical_networks = get_physical_networks(self.apiclient, self.zone.id)
         if not physical_networks:
             self.fail("No Physical Networks found!")
 
         self.logger.debug('::: Physical Networks ::: ==> %s' % physical_networks)
 
-        createPrivateGatewayCmd = createPrivateGateway.createPrivateGatewayCmd()
-        createPrivateGatewayCmd.physicalnetworkid = physical_networks[0].id
-        createPrivateGatewayCmd.gateway = gateway
-        createPrivateGatewayCmd.netmask = "255.255.255.0"
-        createPrivateGatewayCmd.ipaddress = ip_address
-        createPrivateGatewayCmd.vlan = vlan
-        createPrivateGatewayCmd.vpcid = vpc.id
-        createPrivateGatewayCmd.sourcenatsupported = "false"
-        createPrivateGatewayCmd.aclid = aclId
-
         try:
-            privateGw =  self.apiclient.createPrivateGateway(createPrivateGatewayCmd)
-        except Exception as e:
-            self.fail("Failed to create Private Gateway ==> %s" % e)
+            privateGw = PrivateGateway.create(
+                self.apiclient,
+                gateway,
+                ip_address,
+                "255.255.255.0",
+                vlan,
+                vpc.id,
+                physical_networks[0].id,
+                aclId,
+                "false"
+            )
+        except Exception, e:
+            self.fail('Unable to create private gateway because of %s ' % e)
 
-        self.assertIsNotNone(privateGw.id, "Failed to create ACL.")
+        self.cleanup.insert(0, privateGw)
 
         return privateGw
 
@@ -610,10 +622,7 @@ class TestPrivateGwACL(cloudstackTestCase):
             networkid=network.id,
             vpcid=vpc.id
         )
-        self.logger.debug("Associated %s with network %s" % (
-            public_ip.ipaddress.ipaddress,
-            network.id
-        ))
+        self.logger.debug("Associated %s with network %s" % (public_ip.ipaddress.ipaddress, network.id))
 
         return public_ip
 
@@ -657,15 +666,9 @@ class TestPrivateGwACL(cloudstackTestCase):
 
                 self.logger.debug("SSH result: %s; COUNT is ==> %s" % (result, result.count("3 packets received")))
             except Exception as e:
-                self.fail("SSH Access failed for %s: %s" % \
-                          (vmObj.get_ip(), e)
-                          )
+                self.fail("SSH Access failed for %s: %s" % (virtual_machine.nic[0].ipaddress, e))
 
-            self.assertEqual(
-                             result.count("3 packets received"),
-                             1,
-                             "Ping to VM on Network Tier N from VM in Network Tier A should be successful"
-                             )
+            self.assertEqual(result.count("3 packets received"), 1, "Ping to VM on Network Tier N from VM in Network Tier A should be successful")
 
             time.sleep(5)
 
@@ -679,18 +682,15 @@ class TestPrivateGwACL(cloudstackTestCase):
         cmd.makeredundant = False
         self.api_client.restartVPC(cmd)
 
-    def check_private_gateway_interfaces(self, routers):
+    def check_private_gateway_interfaces(self, routers, pv_gw_ip_address):
         state_holder = {routers[0].linklocalip : {"state" : None, "mac" : None},
                         routers[1].linklocalip : {"state" : None, "mac" : None}}
         state = None
         mac = None
         for router in routers:
-            hosts = list_hosts(self.apiclient, id=router.hostid)
+            hosts = list_hosts(self.apiclient, id=router.hostid, type="Routing")
 
-            self.assertEqual(
-                isinstance(hosts, list),
-                True,
-                "Check for list hosts response return valid data")
+            self.assertEqual(isinstance(hosts, list), True, "Check for list hosts response return valid data")
 
             host = hosts[0]
             host.user = self.services["configurableData"]["host"]["username"]
@@ -704,7 +704,8 @@ class TestPrivateGwACL(cloudstackTestCase):
                     host.user,
                     host.passwd,
                     router.linklocalip,
-                    "ip addr | grep eth6 | grep state | awk '{print $9;}'")
+                    "ip a | grep %s -B 2 | grep state | awk '{print $9;}'" % pv_gw_ip_address
+                )
 
                 mac = get_process_status(
                     host.ipaddress,
@@ -712,7 +713,8 @@ class TestPrivateGwACL(cloudstackTestCase):
                     host.user,
                     host.passwd,
                     router.linklocalip,
-                    "ip addr | grep link/ether | awk '{print $2;}' | sed -n 7p")
+                    "ip addr | grep link/ether | awk '{print $2;}' | sed -n 7p"
+                )
             except KeyError:
                 self.skipTest("Provide a marvin config file with host credentials to run %s" % self._testMethodName)
 
@@ -733,47 +735,16 @@ class TestPrivateGwACL(cloudstackTestCase):
         result = "UNKNOWN"
         for router in routers:
             if router.state == "Running":
-                hosts = list_hosts(
-                    self.apiclient,
-                    zoneid=router.zoneid,
-                    type='Routing',
-                    state='Up',
-                    id=router.hostid
-                )
-                self.assertEqual(
-                    isinstance(hosts, list),
-                    True,
-                    "Check list host returns a valid list"
-                )
+                hosts = list_hosts(self.apiclient, zoneid=router.zoneid, type='Routing', state='Up', id=router.hostid)
+                self.assertEqual(isinstance(hosts, list), True, "Check list host returns a valid list")
                 host = hosts[0]
 
-                if self.hypervisor.lower() in ('vmware'):
-                        result = str(get_process_status(
-                            self.apiclient.connection.mgtSvr,
-                            22,
-                            self.apiclient.connection.user,
-                            self.apiclient.connection.passwd,
-                            router.linklocalip,
-                            "sh /opt/cloud/bin/checkrouter.sh ",
-                            hypervisor=self.hypervisor
-                        ))
-                else:
-                    try:
-                        host.user, host.passwd = get_host_credentials(
-                            self.config, host.ipaddress)
-                        result = str(get_process_status(
-                            host.ipaddress,
-                            22,
-                            host.user,
-                            host.passwd,
-                            router.linklocalip,
-                            "sh /opt/cloud/bin/checkrouter.sh "
-                        ))
+                try:
+                    host.user, host.passwd = get_host_credentials(self.config, host.ipaddress)
+                    result = str(get_process_status(host.ipaddress, 22, host.user, host.passwd, router.linklocalip, "sh /opt/cloud/bin/checkrouter.sh "))
 
-                    except KeyError:
-                        self.skipTest(
-                            "Marvin configuration has no host credentials to\
-                                    check router services")
+                except KeyError:
+                    self.skipTest("Marvin configuration has no host credentials to check router services")
 
                 if result.count(status_to_check) == 1:
                     cnts[vals.index(status_to_check)] += 1

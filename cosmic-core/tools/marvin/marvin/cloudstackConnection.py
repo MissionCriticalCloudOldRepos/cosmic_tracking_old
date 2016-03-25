@@ -23,6 +23,7 @@ import hashlib
 import time
 from cloudstackAPI import queryAsyncJobResult
 import jsonHelper
+import pprint
 from marvin.codes import (
     FAILED,
     JOB_FAILED,
@@ -53,6 +54,7 @@ class CSConnection(object):
         if mgmtDet.certCAPath != "NA" and mgmtDet.certPath != "NA":
             self.certPath = (mgmtDet.certCAPath, mgmtDet.certPath)
         self.logger = logger
+        self.pretty_printer = pprint.PrettyPrinter(width=1)
         self.path = path
         self.retries = 5
         self.__lastError = ''
@@ -99,25 +101,19 @@ class CSConnection(object):
                                       JOB_SUCCEEDED]:
                         break
                     elif job_status == JOB_FAILED:
-                        raise Exception("Job failed: %s"\
-                                         % async_response)
+                        raise Exception("Job failed: %s" % async_response)
                 time.sleep(5)
                 timeout -= 5
-                self.logger.debug("=== JobId:%s is Still Processing, "
-                                  "Will TimeOut in:%s ====" % (str(jobid),
-                                                               str(timeout)))
+                self.logger.debug("=== JobId: %s is Still Processing, Will TimeOut in: %s ====" %
+                    (str(jobid), str(timeout)))
             end_time = time.time()
             tot_time = int(start_time - end_time)
-            self.logger.debug(
-                "===Jobid:%s ; StartTime:%s ; EndTime:%s ; "
-                "TotalTime:%s===" %
-                (str(jobid), str(time.ctime(start_time)),
-                 str(time.ctime(end_time)), str(tot_time)))
+            self.logger.debug("=== Jobid: %s ; StartTime: %s ; EndTime: %s ; TotalTime: %s ===" %
+                (str(jobid), str(time.ctime(start_time)), str(time.ctime(end_time)), str(tot_time)))
             return async_response
         except Exception as e:
             self.__lastError = e
-            self.logger.exception("==== __poll: Exception Occurred :%s ====" %
-                                  str(self.__lastError))
+            self.logger.exception("==== __poll: Exception Occurred :%s ====" % str(self.__lastError))
             return FAILED
 
     def getLastError(self):
@@ -159,16 +155,11 @@ class CSConnection(object):
                  else FAILED
         '''
         try:
-            response = requests.post(url,
-                                     params=payload,
-                                     cert=self.certPath,
-                                     verify=self.httpsFlag)
+            response = requests.post(url, params=payload, cert=self.certPath, verify=self.httpsFlag)
             return response
         except Exception as e:
             self.__lastError = e
-            self.logger.\
-                exception("__sendPostReqToCS : Exception "
-                          "Occurred: %s" % str(self.__lastError))
+            self.logger.exception("__sendPostReqToCS : Exception Occurred: %s" % str(self.__lastError))
             return FAILED
 
     def __sendGetReqToCS(self, url, payload):
@@ -181,15 +172,10 @@ class CSConnection(object):
                  else FAILED
         '''
         try:
-            response = requests.get(url,
-                                    params=payload,
-                                    cert=self.certPath,
-                                    verify=self.httpsFlag)
-            return response
+            return requests.get(url, params=payload, cert=self.certPath, verify=self.httpsFlag)
         except Exception as e:
             self.__lastError = e
-            self.logger.exception("__sendGetReqToCS : Exception Occurred: %s" %
-                                  str(self.__lastError))
+            self.logger.exception("__sendGetReqToCS : Exception Occurred: %s" % str(self.__lastError))
             return FAILED
 
     def __sendCmdToCS(self, command, auth=True, payload={}, method='GET'):
@@ -217,12 +203,10 @@ class CSConnection(object):
             if self.protocol in ["http", "https"]:
                 self.logger.debug("Payload: %s" % str(payload))
                 if method == 'POST':
-                    self.logger.debug("=======Sending POST Cmd : %s======="
-                                      % str(command))
+                    self.logger.debug("======= Sending POST Cmd : %s =======" % self.pretty_printer.pformat(command))
                     return self.__sendPostReqToCS(self.baseUrl, payload)
                 if method == "GET":
-                    self.logger.debug("========Sending GET Cmd : %s======="
-                                      % str(command))
+                    self.logger.debug("======= Sending GET Cmd : %s =======" % self.pretty_printer.pformat(command))
                     return self.__sendGetReqToCS(self.baseUrl, payload)
             else:
                 self.logger.exception("__sendCmdToCS: Invalid Protocol")
@@ -256,10 +240,8 @@ class CSConnection(object):
             cmd_name = cmd.__class__.__name__.replace("Cmd", "")
             for required_param in required:
                 if payload[required_param] is None:
-                    self.logger.debug("CmdName: %s Parameter : %s is Required"
-                                      % (cmd_name, required_param))
-                    self.__lastError = InvalidParameterException(
-                        "Invalid Parameters")
+                    self.logger.debug("CmdName: %s Parameter : %s is Required" % (cmd_name, required_param))
+                    self.__lastError = InvalidParameterException("Invalid Parameters")
                     return FAILED
             for param, value in payload.items():
                 if value is None:
@@ -297,9 +279,7 @@ class CSConnection(object):
         '''
         try:
             try:
-                ret = jsonHelper.getResultObj(
-                    cmd_response.json(),
-                    response_cls)
+                ret = jsonHelper.getResultObj(cmd_response.json(), response_cls)
             except TypeError:
                 ret = jsonHelper.getResultObj(cmd_response.json, response_cls)
 
@@ -308,11 +288,11 @@ class CSConnection(object):
             else return response as it is
             '''
             if is_async == "false":
-                self.logger.debug("Response : %s" % str(ret))
+                self.logger.debug("Response :\n%s" % self.pretty_printer.pformat(ret))
                 return ret
             else:
                 response = self.__poll(ret.jobid, response_cls)
-                self.logger.debug("Response : %s" % str(response))
+                self.logger.debug("Response :\n%s" % self.pretty_printer.pformat(response))
                 return response.jobresult if response != FAILED else FAILED
         except Exception as e:
             self.__lastError = e
@@ -349,10 +329,7 @@ class CSConnection(object):
             '''
             3. Send Command to CS
             '''
-            cmd_response = self.__sendCmdToCS(cmd_name,
-                                              self.auth,
-                                              payload=payload,
-                                              method=method)
+            cmd_response = self.__sendCmdToCS(cmd_name, self.auth, payload=payload, method=method)
             if cmd_response == FAILED:
                 raise self.__lastError
 
@@ -360,12 +337,10 @@ class CSConnection(object):
             4. Check if the Command Response received above is valid or Not.
                If not return Invalid Response
             '''
-            ret = self.__parseAndGetResponse(cmd_response,
-                                             response_type,
-                                             is_async)
+            ret = self.__parseAndGetResponse(cmd_response, response_type, is_async)
             if ret == FAILED:
                 raise self.__lastError
             return ret
         except Exception as e:
-            self.logger.exception("marvinRequest : CmdName: %s Exception: %s" % (str(cmd), e))
+            self.logger.exception("marvinRequest : CmdName: %s Exception: %s" % (self.pretty_printer.pformat(cmd), e))
             raise e
