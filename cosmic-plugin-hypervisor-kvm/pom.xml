@@ -81,8 +81,19 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+
+  <scm>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git</developerConnection>
+  </scm>
+
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
