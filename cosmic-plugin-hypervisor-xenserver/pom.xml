@@ -59,7 +59,8 @@
   </dependencies>
 
   <scm>
-    <connection>scm:git:git://github.com/MissionCriticalCloud/${project.artifactId}.git</connection>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git</developerConnection>
   </scm>
 
   <build>
