@@ -30,7 +30,7 @@ import urlparse
 import datetime
 from marvin.cloudstackAPI import cloudstackAPIClient, listHosts, listRouters
 from platform import system
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.cloudstackException import printException
 from marvin.sshClient import SshClient
 from marvin.codes import (
                           SUCCESS,
@@ -43,7 +43,7 @@ from marvin.codes import (
 
 def _configure_ssh_credentials(hypervisor):
     ssh_command = "ssh -i ~/.ssh/id_rsa.cloud -ostricthostkeychecking=no "
-    
+
     if (str(hypervisor).lower() == 'vmware'
         or str(hypervisor).lower() == 'hyperv'):
         ssh_command = "ssh -i /var/cloudstack/management/.ssh/id_rsa -ostricthostkeychecking=no "
@@ -427,9 +427,9 @@ def verifyElementInList(inp, toverify, responsevar=None,  pos=0):
     at a given pos
     @Input:
              I   : Input to be verified whether its a list or not
-             II  : Element to verify whether it exists in the list 
-             III : variable name in response object to verify 
-                   default to None, if None, we will verify for the complete 
+             II  : Element to verify whether it exists in the list
+             III : variable name in response object to verify
+                   default to None, if None, we will verify for the complete
                    first element EX: state of response object object
              IV  : Position in the list at which the input element to verify
                    default to 0
@@ -494,11 +494,10 @@ def checkVolumeSize(ssh_handle=None,
                         return [SUCCESS,str(parts[-2])]
             return [FAILED,"Volume Not Found"]
     except Exception, e:
-        print "\n Exception Occurred under getDiskUsage: " \
-              "%s" %GetDetailExceptionInfo(e)
-        return [FAILED,GetDetailExceptionInfo(e)]
+        printException(e)
+        return [FAILED,str(e)]
 
-        
+
 def verifyRouterState(apiclient, routerid, allowedstates):
     """List the router and verify that its state is in allowed states
     @output: List, containing [Result, Reason]
@@ -521,3 +520,30 @@ def verifyRouterState(apiclient, routerid, allowedstates):
         return [FAIL, "state of the router should be in %s but is %s" %
             (allowedstates, routers[0].state)]
     return [PASS, None]
+
+
+def validateState(apiclient, obj, state, timeout=600, interval=5):
+    """Check if an object is in the required state
+       returnValue: List[Result, Reason]
+             @Result: PASS if object is in required state,
+                      else FAIL
+             @Reason: Reason for failure in case Result is FAIL
+    """
+
+    returnValue = [FAIL, "%s state not trasited to %s, operation timed out" % (obj.__class__.__name__,state)]
+
+    while timeout > 0:
+        try:
+            objects = obj.__class__.list(apiclient, id=obj.id)
+            validationresult = validateList(objects)
+            if validationresult[0] == FAIL:
+                raise Exception("%s list validation failed: %s" % (obj.__class__.__name__,validationresult[2]))
+            elif obj.state_check_function(objects, state):
+                returnValue = [PASS, None]
+                break
+        except Exception as e:
+            returnValue = [FAIL, e]
+            break
+        time.sleep(interval)
+        timeout -= interval
+    return returnValue

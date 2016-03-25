@@ -21,10 +21,11 @@ import logging
 import sys
 import time
 import os
-from marvin.codes import (SUCCESS,
-                          FAILED
-                          )
-from marvin.cloudstackException import GetDetailExceptionInfo
+from marvin.codes import (
+    SUCCESS,
+    FAILED
+)
+from marvin.cloudstackException import printException
 from marvin.lib.utils import random_gen
 
 
@@ -92,8 +93,7 @@ class MarvinLog:
             self.__logger.addHandler(stream)
             return SUCCESS
         except Exception as e:
-            print "\nException Occurred Under " \
-                  "__setLogHandler %s" % GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def __cleanPreviousLogs(self, logfolder_to_remove):
@@ -107,8 +107,7 @@ class MarvinLog:
             if os.path.isdir(logfolder_to_remove):
                 os.rmdir(logfolder_to_remove)
         except Exception as e:
-            print "\n Exception Occurred Under __cleanPreviousLogs :%s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
 
     def getLogger(self):
@@ -181,6 +180,5 @@ class MarvinLog:
                 return SUCCESS
             return FAILED
         except Exception as e:
-            print "\n Exception Occurred Under createLogs :%s" % \
-                  GetDetailExceptionInfo(e)
+            printException(e)
             return FAILED
