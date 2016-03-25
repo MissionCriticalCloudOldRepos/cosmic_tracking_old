@@ -107,7 +107,8 @@
   </modules>
 
   <scm>
-    <connection>scm:git:git://github.com/MissionCriticalCloud/${project.artifactId}.git</connection>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/${project.artifactId}.git</developerConnection>
   </scm>
 
   <build>
