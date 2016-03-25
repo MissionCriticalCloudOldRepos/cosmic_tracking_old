@@ -353,7 +353,8 @@
   </dependencies>
 
   <scm>
-    <connection>scm:git:git://github.com/MissionCriticalCloud/cosmic-client.git</connection>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</developerConnection>
   </scm>
 
   <build>
