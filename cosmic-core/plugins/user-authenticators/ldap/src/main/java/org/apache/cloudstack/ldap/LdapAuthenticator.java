@@ -126,7 +126,7 @@ public class LdapAuthenticator extends AdapterBase implements UserAuthenticator 
         if (account == null) {
             s_logger.info("Account (" + ldapGroupName + ") for LDAP group does not exist. Creating account and user (" + username + ").");
             _accountManager.createUserAccount(username, "", user.getFirstname(), user.getLastname(), user.getEmail(), null, ldapGroupName, accountType, domainId,
-                            username, null, UUID.randomUUID().toString(), UUID.randomUUID().toString(), User.Source.LDAP);
+                            null, null, UUID.randomUUID().toString(), UUID.randomUUID().toString(), User.Source.LDAP);
         } else {
             s_logger.debug("Account (" + ldapGroupName + ") for LDAP group already exists. Creating user (" + username + ").");
             _accountManager.createUser(username, "", user.getFirstname(), user.getLastname(), user.getEmail(), null, ldapGroupName, domainId,
