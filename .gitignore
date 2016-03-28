@@ -53,3 +53,6 @@ vmops.log*
 # Packaging directory
 packaging/
 cosmic-packaging/
+
+#PyDev settings
+.pydevproject
