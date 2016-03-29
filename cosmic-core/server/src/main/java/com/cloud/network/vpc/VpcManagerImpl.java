@@ -226,7 +226,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   private final List<Service> nonSupportedServices = Arrays.asList(Service.SecurityGroup, Service.Firewall);
   private final List<Provider> supportedProviders = Arrays.asList(Provider.VPCVirtualRouter,
       Provider.NiciraNvp, Provider.InternalLbVm, Provider.Netscaler, Provider.JuniperContrailVpcRouter,
-      Provider.Ovs, Provider.NuageVsp);
+      Provider.NuageVsp);
 
   int _cleanupInterval;
   int _maxNetworks;
@@ -241,7 +241,6 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     hTypes.add(HypervisorType.KVM);
     hTypes.add(HypervisorType.Simulator);
     hTypes.add(HypervisorType.LXC);
-    hTypes.add(HypervisorType.Hyperv);
     hTypes.add(HypervisorType.Ovm3);
   }
 
@@ -2179,7 +2178,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   }
 
   protected boolean isCidrBlacklisted(final String cidr, final long zoneId) {
-    final String routesStr = NetworkOrchestrationService.GuestDomainSuffix.valueIn(zoneId);
+    final String routesStr = NetworkOrchestrationService.BlacklistedRoutes.valueIn(zoneId);
     if (routesStr != null && !routesStr.isEmpty()) {
       final String[] cidrBlackList = routesStr.split(",");
 

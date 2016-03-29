@@ -75,6 +75,11 @@ public interface NetworkOrchestrationService {
   static final ConfigKey<String> GuestDomainSuffix = new ConfigKey<String>(String.class, GuestDomainSuffixCK, "Network",
       "cloud.internal",
       "Default domain name for vms inside virtualized networks fronted by router", true, ConfigKey.Scope.Zone, null);
+  static final ConfigKey<String> BlacklistedRoutes = new ConfigKey<String>(String.class, BlacklistedRoutesCK,
+      "Advanced", "",
+      "Routes that are blacklisted, can not be used for Static Routes creation for the VPC Private Gateway", true,
+      ConfigKey.Scope.Zone,
+      null);
   static final ConfigKey<Integer> NetworkThrottlingRate = new ConfigKey<Integer>("Network", Integer.class,
       NetworkThrottlingRateCK, "200",
       "Default data transfer rate in megabits per second allowed in network.", true, ConfigKey.Scope.Zone);
