@@ -57,7 +57,7 @@ body.install-wizard {
   height: 769px !important;
   overflow: auto;
   overflow-x: hidden;
-  background: #FFFFFF url(../images/bg-login-cosmic.png);
+  background: #FFFFFF url(../images/bg-login.png);
 }
 
 #main-area {
@@ -345,7 +345,7 @@ table th div.ui-resizable-handle {
 
 /*Login screen*/
 body.login {
-  background: url(../images/overlay-pattern.png) repeat center, #2c2c2c url(../images/bg-login-cosmic.png) no-repeat center;
+  background: url(../images/overlay-pattern.png) repeat center, #2c2c2c no-repeat center;
   background-size: auto, cover;
   overflow: hidden;
 }
