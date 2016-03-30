@@ -193,25 +193,5 @@
         <mkisofs>genisoimage</mkisofs>
       </properties>
     </profile>
-    <profile>
-      <id>vmware</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-hypervisor-vmware</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-vmware-base</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
   </profiles>
 </project>
