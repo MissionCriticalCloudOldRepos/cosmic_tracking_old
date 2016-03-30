@@ -358,7 +358,7 @@
           </execution>
         </executions>
         <configuration>
-          <workingDirectory>${project.build.directory}/generated-webapp/WEB-INF/vms</workingDirectory>
+          <workingDirectory>${project.build.directory}/generated-webapp/WEB-INF/classes/vms</workingDirectory>
           <executable>jar</executable>
           <arguments>
             <argument>-xf</argument>
