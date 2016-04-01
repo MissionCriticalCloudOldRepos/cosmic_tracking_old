@@ -58,17 +58,6 @@ import com.cloud.agent.api.ModifyStoragePoolCommand;
 import com.cloud.agent.api.NetworkRulesSystemVmCommand;
 import com.cloud.agent.api.NetworkRulesVmSecondaryIpCommand;
 import com.cloud.agent.api.NetworkUsageCommand;
-import com.cloud.agent.api.OvsCreateTunnelCommand;
-import com.cloud.agent.api.OvsDestroyBridgeCommand;
-import com.cloud.agent.api.OvsDestroyTunnelCommand;
-import com.cloud.agent.api.OvsFetchInterfaceCommand;
-import com.cloud.agent.api.OvsSetupBridgeCommand;
-import com.cloud.agent.api.OvsVpcPhysicalTopologyConfigCommand;
-import com.cloud.agent.api.OvsVpcPhysicalTopologyConfigCommand.Host;
-import com.cloud.agent.api.OvsVpcPhysicalTopologyConfigCommand.Tier;
-import com.cloud.agent.api.OvsVpcPhysicalTopologyConfigCommand.Vm;
-import com.cloud.agent.api.OvsVpcRoutingPolicyConfigCommand;
-import com.cloud.agent.api.OvsVpcRoutingPolicyConfigCommand.Acl;
 import com.cloud.agent.api.PingTestCommand;
 import com.cloud.agent.api.PlugNicCommand;
 import com.cloud.agent.api.PrepareForMigrationCommand;
@@ -919,7 +908,7 @@ public class LibvirtComputingResourceTest {
 
     when(libvirtComputingResource.getCpuStat()).thenReturn(cpuStat);
     when(libvirtComputingResource.getMemStat()).thenReturn(memStat);
-    when(libvirtComputingResource.getNicStats(Mockito.anyString())).thenReturn(new Pair<Double, Double>(1.0d, 1.0d));
+    when(libvirtComputingResource.getNicStats(Matchers.anyString())).thenReturn(new Pair<Double, Double>(1.0d, 1.0d));
     when(cpuStat.getCpuUsedPercent()).thenReturn(0.5d);
     when(memStat.getAvailable()).thenReturn(1500.5d);
     when(memStat.getTotal()).thenReturn(15000d);
@@ -2033,214 +2022,6 @@ public class LibvirtComputingResourceTest {
   }
 
   @Test
-  public void testOvsSetupBridgeCommand() {
-    final String name = "Test";
-    final Long hostId = 1l;
-    final Long networkId = 1l;
-
-    final OvsSetupBridgeCommand command = new OvsSetupBridgeCommand(name, hostId, networkId);
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName())).thenReturn(true);
-    when(libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getHostId(),
-        command.getBridgeName())).thenReturn(true);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertTrue(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(command.getBridgeName());
-    verify(libvirtComputingResource, times(1)).configureTunnelNetwork(command.getNetworkId(), command.getHostId(),
-        command.getBridgeName());
-  }
-
-  @Test
-  public void testOvsSetupBridgeCommandFailure1() {
-    final String name = "Test";
-    final Long hostId = 1l;
-    final Long networkId = 1l;
-
-    final OvsSetupBridgeCommand command = new OvsSetupBridgeCommand(name, hostId, networkId);
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName())).thenReturn(true);
-    when(libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getHostId(),
-        command.getBridgeName())).thenReturn(false);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(command.getBridgeName());
-    verify(libvirtComputingResource, times(1)).configureTunnelNetwork(command.getNetworkId(), command.getHostId(),
-        command.getBridgeName());
-  }
-
-  @Test
-  public void testOvsSetupBridgeCommandFailure2() {
-    final String name = "Test";
-    final Long hostId = 1l;
-    final Long networkId = 1l;
-
-    final OvsSetupBridgeCommand command = new OvsSetupBridgeCommand(name, hostId, networkId);
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName())).thenReturn(false);
-    when(libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getHostId(),
-        command.getBridgeName())).thenReturn(true);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(command.getBridgeName());
-    verify(libvirtComputingResource, times(1)).configureTunnelNetwork(command.getNetworkId(), command.getHostId(),
-        command.getBridgeName());
-  }
-
-  @Test
-  public void testOvsDestroyBridgeCommand() {
-    final String name = "Test";
-    final Long hostId = 1l;
-    final Long networkId = 1l;
-
-    final OvsDestroyBridgeCommand command = new OvsDestroyBridgeCommand(networkId, name, hostId);
-
-    when(libvirtComputingResource.destroyTunnelNetwork(command.getBridgeName())).thenReturn(true);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertTrue(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).destroyTunnelNetwork(command.getBridgeName());
-  }
-
-  @Test
-  public void testOvsDestroyBridgeCommandFailure() {
-    final String name = "Test";
-    final Long hostId = 1l;
-    final Long networkId = 1l;
-
-    final OvsDestroyBridgeCommand command = new OvsDestroyBridgeCommand(networkId, name, hostId);
-
-    when(libvirtComputingResource.destroyTunnelNetwork(command.getBridgeName())).thenReturn(false);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).destroyTunnelNetwork(command.getBridgeName());
-  }
-
-  @Test
-  public void testOvsFetchInterfaceCommand() {
-    final String label = "eth0";
-
-    final OvsFetchInterfaceCommand command = new OvsFetchInterfaceCommand(label);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertTrue(answer.getResult());
-  }
-
-  @Test
-  public void testOvsVpcPhysicalTopologyConfigCommand() {
-    final Host[] hosts = null;
-    final Tier[] tiers = null;
-    final Vm[] vms = null;
-    final String cidr = null;
-
-    final OvsVpcPhysicalTopologyConfigCommand command = new OvsVpcPhysicalTopologyConfigCommand(hosts, tiers, vms,
-        cidr);
-
-    when(libvirtComputingResource.getOvsTunnelPath()).thenReturn("/path");
-    when(libvirtComputingResource.getTimeout()).thenReturn(0);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).getOvsTunnelPath();
-    verify(libvirtComputingResource, times(1)).getTimeout();
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testOvsVpcPhysicalTopologyConfigCommandFailure() {
-    final Host[] hosts = null;
-    final Tier[] tiers = null;
-    final Vm[] vms = null;
-    final String cidr = null;
-
-    final OvsVpcPhysicalTopologyConfigCommand command = new OvsVpcPhysicalTopologyConfigCommand(hosts, tiers, vms,
-        cidr);
-
-    when(libvirtComputingResource.getOvsTunnelPath()).thenThrow(Exception.class);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).getOvsTunnelPath();
-  }
-
-  @Test
-  public void testOvsVpcRoutingPolicyConfigCommand() {
-    final String id = null;
-    final String cidr = null;
-    final Acl[] acls = null;
-    final com.cloud.agent.api.OvsVpcRoutingPolicyConfigCommand.Tier[] tiers = null;
-
-    final OvsVpcRoutingPolicyConfigCommand command = new OvsVpcRoutingPolicyConfigCommand(id, cidr, acls, tiers);
-
-    when(libvirtComputingResource.getOvsTunnelPath()).thenReturn("/path");
-    when(libvirtComputingResource.getTimeout()).thenReturn(0);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).getOvsTunnelPath();
-    verify(libvirtComputingResource, times(1)).getTimeout();
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testOvsVpcRoutingPolicyConfigCommandFailure() {
-    final String id = null;
-    final String cidr = null;
-    final Acl[] acls = null;
-    final com.cloud.agent.api.OvsVpcRoutingPolicyConfigCommand.Tier[] tiers = null;
-
-    final OvsVpcRoutingPolicyConfigCommand command = new OvsVpcRoutingPolicyConfigCommand(id, cidr, acls, tiers);
-
-    when(libvirtComputingResource.getOvsTunnelPath()).thenThrow(Exception.class);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).getOvsTunnelPath();
-  }
-
-  @Test
   public void testCreateStoragePoolCommand() {
     final StoragePool pool = Mockito.mock(StoragePool.class);
     final CreateStoragePoolCommand command = new CreateStoragePoolCommand(true, pool);
@@ -2594,68 +2375,10 @@ public class LibvirtComputingResourceTest {
     verify(libvirtComputingResource, times(1)).checkNetwork(networkSetupInfo.getPrivateNetworkName());
   }
 
-  @Test
-  public void testOvsDestroyTunnelCommand() {
-    final String networkName = "Test";
-    final Long networkId = 1l;
-    final String inPortName = "eth";
-
-    final OvsDestroyTunnelCommand command = new OvsDestroyTunnelCommand(networkId, networkName, inPortName);
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName())).thenReturn(true);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(command.getBridgeName());
-  }
-
-  @Test
-  public void testOvsDestroyTunnelCommandFailure1() {
-    final String networkName = "Test";
-    final Long networkId = 1l;
-    final String inPortName = "eth";
-
-    final OvsDestroyTunnelCommand command = new OvsDestroyTunnelCommand(networkId, networkName, inPortName);
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName())).thenReturn(false);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(command.getBridgeName());
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testOvsDestroyTunnelCommandFailure2() {
-    final String networkName = "Test";
-    final Long networkId = 1l;
-    final String inPortName = "eth";
-
-    final OvsDestroyTunnelCommand command = new OvsDestroyTunnelCommand(networkId, networkName, inPortName);
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(command.getBridgeName())).thenThrow(Exception.class);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(command.getBridgeName());
-  }
 
   @Test
   public void testCheckOnHostCommand() {
     final com.cloud.host.Host host = Mockito.mock(com.cloud.host.Host.class);
-    ;
 
     final CheckOnHostCommand command = new CheckOnHostCommand(host);
 
@@ -2672,99 +2395,6 @@ public class LibvirtComputingResourceTest {
     verify(libvirtComputingResource, times(1)).getMonitor();
   }
 
-  @Test
-  public void testOvsCreateTunnelCommand() {
-    final String remoteIp = "127.0.0.1";
-    final Integer key = 1;
-    final Long from = 1l;
-    final Long to = 2l;
-    final long networkId = 1l;
-    final String fromIp = "127.0.0.1";
-    final String networkName = "eth";
-    final String networkUuid = "8edb1156-a851-4914-afc6-468ee52ac861";
-
-    final OvsCreateTunnelCommand command = new OvsCreateTunnelCommand(remoteIp, key, from, to, networkId, fromIp,
-        networkName, networkUuid);
-
-    final String bridge = command.getNetworkName();
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(bridge)).thenReturn(true);
-    when(libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
-        command.getNetworkName())).thenReturn(true);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertTrue(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(bridge);
-    verify(libvirtComputingResource, times(1)).configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
-        command.getNetworkName());
-  }
-
-  @Test
-  public void testOvsCreateTunnelCommandFailure1() {
-    final String remoteIp = "127.0.0.1";
-    final Integer key = 1;
-    final Long from = 1l;
-    final Long to = 2l;
-    final long networkId = 1l;
-    final String fromIp = "127.0.0.1";
-    final String networkName = "eth";
-    final String networkUuid = "8edb1156-a851-4914-afc6-468ee52ac861";
-
-    final OvsCreateTunnelCommand command = new OvsCreateTunnelCommand(remoteIp, key, from, to, networkId, fromIp,
-        networkName, networkUuid);
-
-    final String bridge = command.getNetworkName();
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(bridge)).thenReturn(false);
-    when(libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
-        command.getNetworkName())).thenReturn(true);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(bridge);
-    verify(libvirtComputingResource, times(0)).configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
-        command.getNetworkName());
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testOvsCreateTunnelCommandFailure2() {
-    final String remoteIp = "127.0.0.1";
-    final Integer key = 1;
-    final Long from = 1l;
-    final Long to = 2l;
-    final long networkId = 1l;
-    final String fromIp = "127.0.0.1";
-    final String networkName = "eth";
-    final String networkUuid = "8edb1156-a851-4914-afc6-468ee52ac861";
-
-    final OvsCreateTunnelCommand command = new OvsCreateTunnelCommand(remoteIp, key, from, to, networkId, fromIp,
-        networkName, networkUuid);
-
-    final String bridge = command.getNetworkName();
-
-    when(libvirtComputingResource.findOrCreateTunnelNetwork(bridge)).thenReturn(true);
-    when(libvirtComputingResource.configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
-        command.getNetworkName())).thenThrow(Exception.class);
-
-    final LibvirtRequestWrapper wrapper = LibvirtRequestWrapper.getInstance();
-    assertNotNull(wrapper);
-
-    final Answer answer = wrapper.execute(command, libvirtComputingResource);
-    assertFalse(answer.getResult());
-
-    verify(libvirtComputingResource, times(1)).findOrCreateTunnelNetwork(bridge);
-    verify(libvirtComputingResource, times(1)).configureTunnelNetwork(command.getNetworkId(), command.getFrom(),
-        command.getNetworkName());
-  }
 
   @Test
   public void testCreateVolumeFromSnapshotCommand() {
@@ -3525,7 +3155,6 @@ public class LibvirtComputingResourceTest {
         command.getOption(), command.getVpcCIDR());
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void testCreatePrivateTemplateFromVolumeCommand() {
     // Simple test used to make sure the flow (LibvirtComputingResource => Request => CommandWrapper) is working.

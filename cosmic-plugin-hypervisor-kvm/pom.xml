@@ -50,11 +50,6 @@
       <version>${cs.libvirt-java.version}</version>
     </dependency>
     <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-ovs</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
       <groupId>com.ceph</groupId>
       <artifactId>rados</artifactId>
       <version>${cs.rados-java.version}</version>

@@ -18,7 +18,7 @@ import org.libvirt.LibvirtException;
 public final class LibvirtNetworkRulesSystemVmCommandWrapper
     extends CommandWrapper<NetworkRulesSystemVmCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtOvsVpcRoutingPolicyConfigCommandWrapper.class);
+  private static final Logger s_logger = Logger.getLogger(LibvirtNetworkRulesSystemVmCommandWrapper.class);
 
   @Override
   public Answer execute(final NetworkRulesSystemVmCommand command,
