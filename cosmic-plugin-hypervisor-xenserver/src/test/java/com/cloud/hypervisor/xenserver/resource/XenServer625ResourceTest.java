@@ -18,15 +18,10 @@ package com.cloud.hypervisor.xenserver.resource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import com.xensource.xenapi.Connection;
-import com.xensource.xenapi.Types;
-import com.xensource.xenapi.VBD;
-import com.xensource.xenapi.VM;
-
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Test;
@@ -34,88 +29,77 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.script.Script;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.script.Script;
+import com.xensource.xenapi.Connection;
+import com.xensource.xenapi.Types;
+import com.xensource.xenapi.VBD;
+import com.xensource.xenapi.VM;
 
 @RunWith(PowerMockRunner.class)
 public class XenServer625ResourceTest extends CitrixResourceBaseTest{
 
-    private Xenserver625Resource xenServer625Resource = new Xenserver625Resource();
+  private final Xenserver625Resource xenServer625Resource = new Xenserver625Resource();
 
-    @Test
-    public void testPatchFilePath() {
-        String patchFilePath = xenServer625Resource.getPatchFilePath();
-        String patch = "scripts/vm/hypervisor/xenserver/xenserver62/patch";
+  @Test
+  public void testPatchFilePath() {
+    final String patchFilePath = xenServer625Resource.getPatchFilePath();
+    final String patch = "scripts/vm/hypervisor/xenserver/xenserver62/patch";
 
-        assertEquals(patch, patchFilePath);
-    }
-    @Test(expected = CloudRuntimeException.class)
-    @PrepareForTest(Script.class )
-    public void testGetFiles(){
-        testGetPathFilesExeption(xenServer625Resource);
-    }
-    @Test
-    @PrepareForTest(Script.class )
-    public void testGetFilesListReturned(){
-        testGetPathFilesListReturned(xenServer625Resource);
-    }
+    assertEquals(patch, patchFilePath);
+  }
+  @Test(expected = CloudRuntimeException.class)
+  @PrepareForTest(Script.class )
+  public void testGetFiles(){
+    testGetPathFilesExeption(xenServer625Resource);
+  }
+  @Test
+  @PrepareForTest(Script.class )
+  public void testGetFilesListReturned(){
+    testGetPathFilesListReturned(xenServer625Resource);
+  }
 
-    @Test
-    public void testisDeviceUsedTrue() throws Types.XenAPIException, XmlRpcException {
-        Connection conn = mock(Connection.class);
-        VM vm = mock(VM.class);
-        VBD vbd = mock(VBD.class);
+  @Test
+  public void testisDeviceUsedTrue() throws Types.XenAPIException, XmlRpcException {
+    final Connection conn = mock(Connection.class);
+    final VM vm = mock(VM.class);
+    final VBD vbd = mock(VBD.class);
 
-        Set<VBD> vbds = new HashSet< >();
-        vbds.add(vbd);
+    final Set<String> allowedVBDDevices = new HashSet<String>();
 
-        final String xen_userDevice = "3";
-        final Long deviceId = 3L;
+    final Set<VBD> vbds = new HashSet< >();
+    vbds.add(vbd);
 
-        when(vm.getVBDs(conn)).thenReturn(vbds);
+    final Long deviceId = 4L;
 
-        when(vbd.getUserdevice(conn)).thenReturn(xen_userDevice);
+    when(vm.getAllowedVBDDevices(conn)).thenReturn(allowedVBDDevices);
 
-        assertTrue(xenServer625Resource.isDeviceUsed(conn, vm, deviceId));
-    }
+    assertTrue(xenServer625Resource.isDeviceUsed(conn, vm, deviceId));
 
-    @Test
-    public void testisDeviceUsedFalse() throws Types.XenAPIException, XmlRpcException {
-        Connection conn = mock(Connection.class);
-        VM vm = mock(VM.class);
-        VBD vbd = mock(VBD.class);
+    verify(vm, times(1)).getAllowedVBDDevices(conn);
+  }
 
-        Set<VBD> vbds = new HashSet< >();
-        vbds.add(vbd);
+  @Test
+  public void testisDeviceUsedFalse() throws Types.XenAPIException, XmlRpcException {
+    final Connection conn = mock(Connection.class);
+    final VM vm = mock(VM.class);
+    final VBD vbd = mock(VBD.class);
 
-        final String xen_userDevice = "3";
-        final Long deviceId = 4L;
+    final Set<String> allowedVBDDevices = new HashSet<String>();
+    allowedVBDDevices.add("4");
 
-        when(vm.getVBDs(conn)).thenReturn(vbds);
+    final Set<VBD> vbds = new HashSet< >();
+    vbds.add(vbd);
 
-        when(vbd.getUserdevice(conn)).thenReturn(xen_userDevice);
+    final Long deviceId = 4L;
 
-        assertFalse(xenServer625Resource.isDeviceUsed(conn, vm, deviceId));
-    }
+    when(vm.getAllowedVBDDevices(conn)).thenReturn(allowedVBDDevices);
 
-    @Test
-    public void testGetVBDUserDeviceIds() throws Types.XenAPIException, XmlRpcException {
-        Connection conn = mock(Connection.class);
-        VM vm = mock(VM.class);
-        VBD vbd = mock(VBD.class);
+    assertFalse(xenServer625Resource.isDeviceUsed(conn, vm, deviceId));
 
-        Set<VBD> vbds = new HashSet< >();
-        vbds.add(vbd);
-
-        final Integer expected_deviceId = anyInt();
-
-        when(vm.getVBDs(conn)).thenReturn(vbds);
-
-        when(vbd.getUserdevice(conn)).thenReturn(expected_deviceId.toString());
-
-        assert(xenServer625Resource.getVBDUserDeviceIds(conn, vm).contains(expected_deviceId));
-    }
+    verify(vm, times(1)).getAllowedVBDDevices(conn);
+  }
 }
