@@ -297,91 +297,13 @@
             var zoneType = getData($trafficType.closest('.zone-wizard')).zone.networkType;
             var fields;
 
-            if (hypervisor == 'VMware') {
-                fields = {
-                    vSwitchName: {
-                        label: 'label.vswitch.name' ,
-                        defaultValue: trafficData.vSwitchName
-                    },
-                    vlanId: {
-                            label: 'label.vlan.id',
-                        defaultValue: trafficData.vlanId
-                    }
-                };
 
-                if(zoneType == 'Advanced') {
-                    if($trafficType.hasClass('guest') || $trafficType.hasClass('public')) {
-                        if(trafficData.vSwitchType == null) {
-                             var useDvs = false;
-                             $.ajax({
-                                 url: createURL('listConfigurations'),
-                                 data: {
-                                     name: 'vmware.use.dvswitch'
-                                 },
-                                 async: false,
-                                 success: function(json) {
-                                     if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                         useDvs = true;
-                                     }
-                                 }
-                             });
-                             if (useDvs == true) {
-                                 var useNexusDvs = false;
-                                 $.ajax({
-                                     url: createURL('listConfigurations'),
-                                     data: {
-                                         name: 'vmware.use.nexus.vswitch'
-                                     },
-                                     async: false,
-                                     success: function(json) {
-                                         if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                             useNexusDvs = true;
-                                         }
-                                     }
-                                 });
-                                 if (useNexusDvs == true) {
-                                     trafficData.vSwitchType = 'nexusdvs';
-                                     fields.vSwitchName.defaultValue = 'epp0';
-                                 } else {
-                                     trafficData.vSwitchType = 'vmwaredvs';
-                                     fields.vSwitchName.defaultValue = 'dvSwitch0';
-                                 }
-                             } else { //useDvs == false
-                                 trafficData.vSwitchType = 'vmwaresvs';
-                                 fields.vSwitchName.defaultValue = 'vSwitch0';
-                             }
-                        }
-
-                        $.extend(fields, {
-                            vSwitchType: {
-                                    label: 'label.vSwitch.type',
-                                select: function (args) {
-                                    args.response.success({
-                                        data: [{
-                                            id: 'nexusdvs',
-                                            description: 'Cisco Nexus 1000v Distributed Virtual Switch'
-                                        }, {
-                                            id: 'vmwaresvs',
-                                            description: 'VMware vNetwork Standard Virtual Switch'
-                                        }, {
-                                            id: 'vmwaredvs',
-                                            description: 'VMware vNetwork Distributed Virtual Switch'
-                                        }]
-                                    });
-                                },
-                                defaultValue: trafficData.vSwitchType
-                            }
-                        });
-                    }
+            fields = {
+                label: {
+                    label: hypervisor + ' ' + _l('label.traffic.label'),
+                    defaultValue: trafficData.label
                 }
-            } else {
-                fields = {
-                    label: {
-                        label: hypervisor + ' ' + _l('label.traffic.label'),
-                        defaultValue: trafficData.label
-                    }
-                };
-            }
+            };
 
             cloudStack.dialog.createForm({
                 form: {
@@ -674,30 +596,7 @@
                 )
             );
 
-
-            var ovsTunnelManager = false;
-            $.ajax({
-                url: createURL('listConfigurations'),
-                data: {
-                    name: 'sdn.ovs.controller'
-                },
-                dataType: "json",
-                async: false,
-                success: function(json) {
-                    var items = json.listconfigurationsresponse.configuration; //2 entries returned: 'sdn.ovs.controller', 'sdn.ovs.controller.default.label'
-                    $(items).each(function() {
-                        if (this.name == 'sdn.ovs.controller') {
-                            if (this.value == 'true' || this.value == true) {
-                                ovsTunnelManager = true;
-                            }
-                            return false; //break each loop
-                        }
-                    });
-                }
-            });
-            //when OVS tunnel manager is used
-            //if(ovsTunnelManager == true) {
-            //Advanced zone supports 2 isolation method(VLAN, GRE), so show dropdown including the 2 options
+            //Advanced zone supports 1 isolation method(VLAN), so show dropdown including the 1 option
             if ($wizard.find('.select-network-model input:radio[name=network-model]:checked').val() == 'Advanced') {
                 $nameField.append(
                     $('<div>').append(
@@ -706,9 +605,6 @@
                             $('<option>').attr({
                                 value: 'VLAN'
                             }).html('VLAN'),
-                            $('<option>').attr({
-                                value: 'GRE'
-                            }).html('GRE'),
                             $('<option>').attr({
                                 value: 'STT'
                             }).html('STT'),
@@ -737,12 +633,6 @@
                     )
                 );
             }
-            //Basic zone supports only 1 isolation method (L3), so there is no point showing dropdown.
-            //            }
-            //when OVS tunnel manager is not used, isolationmethods parameter in createPhysicalNetwork API is ignored. So no showing dropdown.
-            //isolationmethods parameter has not been used by network gurus so far. By default(i.e. when OVS tunnel manager is not used), networks are isolated with VLANs in Advanced zone, with L3 in basic zone.
-            //No longer the case, as the Nicira stuff also depends on this now
-
 
             var $dropContainer = $('<div>').addClass('drop-container').append(
                 $('<span>').addClass('empty-message').html(

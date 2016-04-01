@@ -20,6 +20,12 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
+      <artifactId>cloud-nucleo</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-spring-module</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
@@ -70,17 +76,7 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-user-authenticator-md5</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-user-authenticator-pbkdf2</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-user-authenticator-plaintext</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -100,17 +96,7 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-palo-alto</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-netscaler</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-ovs</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -120,17 +106,7 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-ssp</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-internallb</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-network-vxlan</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -150,16 +126,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-hypervisor-ucs</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-hypervisor-ovm</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-hypervisor-ovm3</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
@@ -173,11 +139,6 @@
           <artifactId>servlet-api</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-hypervisor-hyperv</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
@@ -221,22 +182,12 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-mom-inmemory</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-mom-kafka</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-ipc</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-framework-quota</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -331,17 +282,7 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-api-solidfire-intg-test</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-network-globodns</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-database-quota</artifactId>
       <version>5.0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
@@ -362,11 +303,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.10</version>
         <executions>
           <execution>
             <id>copy-dependencies</id>
-            <phase>compile</phase>
+            <phase>generate-resources</phase>
             <goals>
               <goal>copy-dependencies</goal>
             </goals>
@@ -418,7 +358,7 @@
           </execution>
         </executions>
         <configuration>
-          <workingDirectory>${project.build.directory}/generated-webapp/WEB-INF/vms</workingDirectory>
+          <workingDirectory>${project.build.directory}/generated-webapp/WEB-INF/classes/vms</workingDirectory>
           <executable>jar</executable>
           <arguments>
             <argument>-xf</argument>
@@ -492,6 +432,31 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <id>extract-core-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>${project.build.directory}</workingDirectory>
+              <executable>jar</executable>
+              <arguments>
+                <argument>-xf</argument>
+                <argument>dependency/cloud-nucleo-${project.version}.jar</argument>
+                <argument>setup</argument>
+                <argument>scripts</argument>
+                <argument>build</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
@@ -502,8 +467,9 @@
             </goals>
             <configuration>
               <target>
-                <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts" />
+                <copy
+                  todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
+                  <fileset dir="${project.build.directory}/scripts" />
                 </copy>
                 <!-- CLOUDSTACK-1304 -->
                 <chmod perm="755" file="${basedir}/target/generated-webapp/WEB-INF/classes/scripts/**" type="both" />
@@ -527,7 +493,8 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -537,13 +504,14 @@
                   </fileset>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/bin">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/bindir">
+                  <fileset dir="${project.build.directory}/setup/bindir">
                     <include name="*.in" />
                   </fileset>
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -554,17 +522,19 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/utilities/scripts/db">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/scripts/db">
+                  <fileset dir="${project.build.directory}/setup/db">
                     <include name="**/*" />
                   </fileset>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -575,43 +545,14 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${basedir}/copy-from-cosmic-core/${cs.replace.properties}" />
+                      <param type="propertiesfile"
+                        value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
                 <copy overwrite="true" todir="${basedir}/target/conf">
                   <fileset dir="${basedir}/tomcatconf">
                     <exclude name="*.in" />
-                  </fileset>
-                </copy>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>process-noredist</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target if="${noredist}">
-                <echo>test</echo>
-                <replaceregexp file="${basedir}/target/generated-webapp/WEB-INF/classes/environment.properties" match="cloud-stack-components-specification=.*" replace="cloud-stack-components-specification=components-nonoss.xml" byline="true" />
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>process-noredist-spring-context</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target if="${noredist}">
-                <replaceregexp file="${basedir}/target/generated-webapp/WEB-INF/web.xml" match="classpath:componentContext.xml" replace="classpath:nonossComponentContext.xml" byline="true" />
-                <copy overwrite="true" todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
-                  <fileset dir="${basedir}/copy-from-cosmic-core/cisco-vnmc/scripts">
-                    <include name="**/*" />
                   </fileset>
                 </copy>
               </target>
@@ -693,21 +634,6 @@
       </dependencies>
     </profile>
     <profile>
-      <id>nuagevsp</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-network-vsp</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
       <id>srx</id>
       <activation>
         <property>
@@ -718,46 +644,6 @@
         <dependency>
           <groupId>cloud.cosmic</groupId>
           <artifactId>cloud-plugin-network-srx</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>vmware</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-hypervisor-vmware</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-vmware-base</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-network-cisco-vnmc</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>mysqlha</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-database-mysqlha</artifactId>
           <version>${project.version}</version>
         </dependency>
       </dependencies>

@@ -136,14 +136,8 @@
         trafficType.xennetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.kvmnetworklabel == null || trafficType.kvmnetworklabel == 0)
         trafficType.kvmnetworklabel = _l( 'label.network.label.display.for.blank.value');
-        if (trafficType.vmwarenetworklabel == null || trafficType.vmwarenetworklabel == 0)
-        trafficType.vmwarenetworklabel = _l( 'label.network.label.display.for.blank.value');
-        if (trafficType.ovmnetworklabel == null || trafficType.ovmnetworklabel == 0)
-        trafficType.ovmnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.lxcnetworklabel == null || trafficType.lxcnetworklabel == 0)
         trafficType.lxcnetworklabel = _l( 'label.network.label.display.for.blank.value');
-        if (trafficType.hypervnetworklabel == null || trafficType.hypervnetworklabel == 0)
-        trafficType.hypervnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.ovm3networklabel == null || trafficType.ovm3networklabel == 0)
         trafficType.ovm3networklabel = _l( 'label.network.label.display.for.blank.value');
 
@@ -156,14 +150,8 @@
         array1.push("&xennetworklabel=" + labels.xennetworklabel);
         if (labels.kvmnetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&kvmnetworklabel=" + labels.kvmnetworklabel);
-        if (labels.vmwarenetworklabel != _l( 'label.network.label.display.for.blank.value'))
-        array1.push("&vmwarenetworklabel=" + labels.vmwarenetworklabel);
-        if (labels.ovmnetworklabel != _l( 'label.network.label.display.for.blank.value'))
-        array1.push("&ovmnetworklabel=" + labels.ovmnetworklabel);
         if (labels.lxcnetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&lxcnetworklabel=" + labels.lxcnetworklabel);
-        if (labels.hypervnetworklabel != _l( 'label.network.label.display.for.blank.value'))
-        array1.push("&hypervnetworklabel=" + labels.hypervnetworklabel);
         if (labels.ovm3networklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&ovm3networklabel=" + labels.ovm3networklabel);
 
@@ -640,20 +628,8 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
                                         isEditable: true
                                     },
                                     ovm3networklabel: {
@@ -678,10 +654,7 @@
                                             // Include traffic labels
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
-                                            selectedPublicNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
-                                            selectedPublicNetworkObj.hypervnetworklabel = trafficType.hypervnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedPublicNetworkObj
@@ -959,20 +932,8 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
                                         isEditable: true
                                     },
                                     ovm3networklabel: {
@@ -993,10 +954,7 @@
 
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedPublicNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
-                                            selectedPublicNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
-                                            selectedPublicNetworkObj.hypervnetworklabel = trafficType.hypervnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedPublicNetworkObj
@@ -1175,20 +1133,8 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
                                         isEditable: true
                                     },
                                     ovm3networklabel: {
@@ -1207,10 +1153,7 @@
 
                                             selectedManagementNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedManagementNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedManagementNetworkObj.vmwarenetworklabel = trafficType.vmwarenetworklabel;
-                                            selectedManagementNetworkObj.ovmnetworklabel = trafficType.ovmnetworklabel;
                                             selectedManagementNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
-                                            selectedManagementNetworkObj.hypervnetworklabel = trafficType.hypervnetworklabel;
                                             selectedManagementNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedManagementNetworkObj
@@ -1368,20 +1311,8 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    vmwarenetworklabel: {
-                                        label: 'label.vmware.traffic.label',
-                                        isEditable: true
-                                    },
-                                    ovmnetworklabel: {
-                                        label: 'label.ovm.traffic.label',
-                                        isEditable: true
-                                    },
                                     lxcnetworklabel: {
                                         label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
-                                    hypervnetworklabel: {
-                                        label: 'label.hyperv.traffic.label',
                                         isEditable: true
                                     },
                                     ovm3networklabel: {
@@ -1417,15 +1348,12 @@
                                             }*/
 
                                             //traffic type
-                                            var xenservertrafficlabel, kvmtrafficlabel, vmwaretrafficlabel;
+                                            var xenservertrafficlabel, kvmtrafficlabel;
                                             var trafficType = getTrafficType(selectedPhysicalNetworkObj, 'Guest');
                                             //refresh Guest traffic type
                                             selectedPhysicalNetworkObj[ "xennetworklabel"] = trafficType.xennetworklabel;
                                             selectedPhysicalNetworkObj[ "kvmnetworklabel"] = trafficType.kvmnetworklabel;
-                                            selectedPhysicalNetworkObj[ "vmwarenetworklabel"] = trafficType.vmwarenetworklabel;
-                                            selectedPhysicalNetworkObj[ "ovmnetworklabel"] = trafficType.ovmnetworklabel;
                                             selectedPhysicalNetworkObj[ "lxcnetworklabel"] = trafficType.lxcnetworklabel;
-                                            selectedPhysicalNetworkObj[ "hypervnetworklabel"] = trafficType.hypervnetworklabel;
                                             selectedPhysicalNetworkObj[ "ovm3networklabel"] = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 actionFilter: function () {
@@ -4034,120 +3962,6 @@
                         }
                     },
 
-                    Ovs: {
-                        id: "Ovs",
-                        label: "label.ovs",
-                        isMaximized: true,
-                        type: 'detailView',
-                        fields: {
-                            name: {
-                                label: 'label.name'
-                            },
-                            state: {
-                                label: 'label.status',
-                                indicator: {
-                                    'Enabled': 'on'
-                                }
-                            }
-                        },
-                        tabs: {
-                            network: {
-                                title: 'label.network',
-                                fields: [{
-                                    name: {
-                                        label: 'label.name'
-                                    }
-                                }, {
-                                    state: {
-                                        label: 'label.state'
-                                    },
-                                    supportedServices: {
-                                        label: 'label.supported.services'
-                                    },
-                                    id: {
-                                        label: 'label.id'
-                                    },
-                                    physicalnetworkid: {
-                                        label: 'label.physical.network.ID'
-                                    }
-                                }],
-                                dataProvider: function(args) {
-                                    refreshNspData("Ovs");
-                                    args.response.success({
-                                        actionFilter: ovsProviderActionFilter,
-                                        data: $.extend(nspMap["Ovs"], {
-                                            supportedServices: nspMap["Ovs"] == undefined? "": nspMap["Ovs"].servicelist.join(', ')
-                                        })
-                                    });
-                                }
-                            }
-                        },
-                        actions: {
-                            enable: {
-                                label: 'label.enable.provider',
-                                action: function(args) {
-                                    $.ajax({
-                                        url: createURL("updateNetworkServiceProvider&id=" + nspMap["Ovs"].id + "&state=Enabled"),
-                                        dataType: "json",
-                                        success: function(json) {
-                                            var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid,
-                                                    getUpdatedItem: function(json) {
-                                                        $(window).trigger('cloudStack.fullRefresh');
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                messages: {
-                                    confirm: function(args) {
-                                        return 'message.confirm.enable.provider';
-                                    },
-                                    notification: function() {
-                                        return 'label.enable.provider';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            },
-                            disable: {
-                                label: 'label.disable.provider',
-                                action: function(args) {
-                                    $.ajax({
-                                        url: createURL("updateNetworkServiceProvider&id=" + nspMap["Ovs"].id + "&state=Disabled"),
-                                        dataType: "json",
-                                        success: function(json) {
-                                            var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid,
-                                                    getUpdatedItem: function(json) {
-                                                        $(window).trigger('cloudStack.fullRefresh');
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                messages: {
-                                    confirm: function(args) {
-                                        return 'message.confirm.disable.provider';
-                                    },
-                                    notification: function() {
-                                        return 'label.disable.provider';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            }
-                        }
-                    },
-
                     // NetScaler provider detail view
                     netscaler: {
                         type: 'detailView',
@@ -5303,290 +5117,6 @@
                         }
                     },
 
-                    // Palo Alto provider detailView
-                    pa: {
-                        type: 'detailView',
-                        id: 'paProvider',
-                        label: 'label.PA',
-                        viewAll: {
-                            label: 'label.devices',
-                            path: '_zone.paDevices'
-                        },
-                        tabs: {
-                            details: {
-                                title: 'label.details',
-                                fields:[ {
-                                    name: {
-                                        label: 'label.name'
-                                    }
-                                },
-                                {
-                                    state: {
-                                        label: 'label.state'
-                                    }
-                                }],
-                                dataProvider: function (args) {
-                                    refreshNspData("PaloAlto");
-                                    var providerObj;
-                                    $(nspHardcodingArray).each(function () {
-                                        if (this.id == "pa") {
-                                            providerObj = this;
-                                            return false; //break each loop
-                                        }
-                                    });
-                                    args.response.success({
-                                        data: providerObj,
-                                        actionFilter: networkProviderActionFilter('pa')
-                                    });
-                                }
-                            }
-                        },
-                        actions: {
-                            add: {
-                                label: 'label.add.PA.device',
-                                createForm: {
-                                    title: 'label.add.PA.device',
-                                    fields: {
-                                        ip: {
-                                            label: 'label.ip.address',
-                                            docID: 'helpPaloAltoIPAddress'
-                                        },
-                                        username: {
-                                            label: 'label.username',
-                                            docID: 'helpPaloAltoUsername'
-                                        },
-                                        password: {
-                                            label: 'label.password',
-                                            isPassword: true,
-                                            docID: 'helpPaloAltoPassword'
-                                        },
-                                        networkdevicetype: {
-                                            label: 'label.type',
-                                            docID: 'helpPaloAltoType',
-                                            select: function (args) {
-                                                var items =[];
-                                                items.push({
-                                                    id: "PaloAltoFirewall",
-                                                    description: "Palo Alto Firewall"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            }
-                                        },
-                                        publicinterface: {
-                                            label: 'label.public.interface',
-                                            docID: 'helpPaloAltoPublicInterface'
-                                        },
-                                        privateinterface: {
-                                            label: 'label.private.interface',
-                                            docID: 'helpPaloAltoPrivateInterface'
-                                        },
-                                        //usageinterface: {
-                                        //  label: 'Usage interface',
-                                        //  docID: 'helpPaloAltoUsageInterface'
-                                        //},
-                                        numretries: {
-                                            label: 'label.numretries',
-                                            defaultValue: '2',
-                                            docID: 'helpPaloAltoRetries'
-                                        },
-                                        timeout: {
-                                            label: 'label.timeout',
-                                            defaultValue: '300',
-                                            docID: 'helpPaloAltoTimeout'
-                                        },
-                                        // inline: {
-                                        //   label: 'Mode',
-                                        //   docID: 'helpPaloAltoMode',
-                                        //   select: function(args) {
-                                        //     var items = [];
-                                        //     items.push({id: "false", description: "side by side"});
-                                        //     items.push({id: "true", description: "inline"});
-                                        //     args.response.success({data: items});
-                                        //   }
-                                        // },
-                                        publicnetwork: {
-                                            label: 'label.public.network',
-                                            defaultValue: 'untrust',
-                                            docID: 'helpPaloAltoPublicNetwork'
-                                        },
-                                        privatenetwork: {
-                                            label: 'label.private.network',
-                                            defaultValue: 'trust',
-                                            docID: 'helpPaloAltoPrivateNetwork'
-                                        },
-                                        pavr: {
-                                            label: 'label.virtual.router',
-                                            docID: 'helpPaloAltoVirtualRouter'
-                                        },
-                                        patp: {
-                                            label: 'label.PA.threat.profile',
-                                            docID: 'helpPaloAltoThreatProfile'
-                                        },
-                                        palp: {
-                                            label: 'label.PA.log.profile',
-                                            docID: 'helpPaloAltoLogProfile'
-                                        },
-                                        capacity: {
-                                            label: 'label.capacity',
-                                            validation: {
-                                                required: false,
-                                                number: true
-                                            },
-                                            docID: 'helpPaloAltoCapacity'
-                                        },
-                                        dedicated: {
-                                            label: 'label.dedicated',
-                                            isBoolean: true,
-                                            isChecked: false,
-                                            docID: 'helpPaloAltoDedicated'
-                                        }
-                                    }
-                                },
-                                action: function (args) {
-                                    if (nspMap[ "pa"] == null) {
-                                        $.ajax({
-                                            url: createURL("addNetworkServiceProvider&name=PaloAlto&physicalnetworkid=" + selectedPhysicalNetworkObj.id),
-                                            dataType: "json",
-                                            async: true,
-                                            success: function (json) {
-                                                var jobId = json.addnetworkserviceproviderresponse.jobid;
-                                                var addPaloAltoProviderIntervalID = setInterval(function () {
-                                                    $.ajax({
-                                                        url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                        dataType: "json",
-                                                        success: function (json) {
-                                                            var result = json.queryasyncjobresultresponse;
-                                                            if (result.jobstatus == 0) {
-                                                                return; //Job has not completed
-                                                            } else {
-                                                                clearInterval(addPaloAltoProviderIntervalID);
-                                                                if (result.jobstatus == 1) {
-                                                                    nspMap[ "pa"] = json.queryasyncjobresultresponse.jobresult.networkserviceprovider;
-                                                                    addExternalFirewall(args, selectedPhysicalNetworkObj, "addPaloAltoFirewall", "addpaloaltofirewallresponse", "pafirewall");
-                                                                } else if (result.jobstatus == 2) {
-                                                                    alert("addNetworkServiceProvider&name=Palo Alto failed. Error: " + _s(result.jobresult.errortext));
-                                                                }
-                                                            }
-                                                        },
-                                                        error: function (XMLHttpResponse) {
-                                                            var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                            alert("addNetworkServiceProvider&name=Palo Alto failed. Error: " + errorMsg);
-                                                        }
-                                                    });
-                                                },
-                                                3000);
-                                            }
-                                        });
-                                    } else {
-                                        addExternalFirewall(args, selectedPhysicalNetworkObj, "addPaloAltoFirewall", "addpaloaltofirewallresponse", "pafirewall");
-                                    }
-                                },
-                                messages: {
-                                    notification: function (args) {
-                                        return 'label.add.PA.device';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            },
-                            enable: {
-                                label: 'label.enable.provider',
-                                action: function (args) {
-                                    $.ajax({
-                                        url: createURL("updateNetworkServiceProvider&id=" + nspMap[ "pa"].id + "&state=Enabled"),
-                                        dataType: "json",
-                                        success: function (json) {
-                                            var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid,
-                                                    getUpdatedItem: function (json) {
-                                                        $(window).trigger('cloudStack.fullRefresh');
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                messages: {
-                                    confirm: function (args) {
-                                        return 'message.confirm.enable.provider';
-                                    },
-                                    notification: function () {
-                                        return 'label.enable.provider';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            },
-                            disable: {
-                                label: 'label.disable.provider',
-                                action: function (args) {
-                                    $.ajax({
-                                        url: createURL("updateNetworkServiceProvider&id=" + nspMap[ "pa"].id + "&state=Disabled"),
-                                        dataType: "json",
-                                        success: function (json) {
-                                            var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid,
-                                                    getUpdatedItem: function (json) {
-                                                        $(window).trigger('cloudStack.fullRefresh');
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                messages: {
-                                    confirm: function (args) {
-                                        return 'message.confirm.disable.provider';
-                                    },
-                                    notification: function () {
-                                        return 'label.disable.provider';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            },
-                            destroy: {
-                                label: 'label.shutdown.provider',
-                                action: function (args) {
-                                    $.ajax({
-                                        url: createURL("deleteNetworkServiceProvider&id=" + nspMap[ "pa"].id),
-                                        dataType: "json",
-                                        success: function (json) {
-                                            var jid = json.deletenetworkserviceproviderresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid
-                                                }
-                                            });
-
-                                            $(window).trigger('cloudStack.fullRefresh');
-                                        }
-                                    });
-                                },
-                                messages: {
-                                    confirm: function (args) {
-                                        return 'message.confirm.shutdown.provider';
-                                    },
-                                    notification: function (args) {
-                                        return 'label.shutdown.provider';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            }
-                        }
-                    },
-
                     // Security groups detail view
                     securityGroups: {
                         id: 'securityGroup-providers',
@@ -6042,829 +5572,6 @@
                         }
                     },
 
-                    //ovs
-                    Ovs: {
-                        id: 'ovsProviders',
-                        label: 'label.ovs',
-                        isMaximized: true,
-                        type: 'detailView',
-                        fields: {
-                            name: {
-                                label: 'label.name'
-                            },
-                            ipaddress: {
-                                label: 'label.ip.address'
-                            },
-                            state: {
-                                label: 'label.status',
-                                indicator: {
-                                    'Enabled': 'on'
-                                }
-                            }
-                        },
-                        tabs: {
-                            network: {
-                                title: 'label.network',
-                                fields:[ {
-                                    name: {
-                                        label: 'label.name'
-                                    }
-                                },
-                                {
-                                    id: {
-                                        label: 'label.id'
-                                    },
-                                    state: {
-                                        label: 'label.state'
-                                    },
-                                    physicalnetworkid: {
-                                        label: 'label.physical.network.ID'
-                                    },
-                                    destinationphysicalnetworkid: {
-                                        label: 'label.destination.physical.network.id'
-                                    },
-                                    supportedServices: {
-                                        label: 'label.supported.services'
-                                    }
-                                }],
-                                dataProvider: function (args) {
-                                    refreshNspData("Ovs");
-                                    args.response.success({
-                                        actionFilter: virtualRouterProviderActionFilter,
-                                        data: $.extend(nspMap[ "Ovs"], {
-                                            supportedServices: nspMap["Ovs"] == undefined? "": nspMap["Ovs"].servicelist.join(', ')
-                                        })
-                                    });
-                                }
-                            },
-
-                            instances: {
-                                title: 'label.instances',
-                                listView: {
-                                    label: 'label.virtual.appliances',
-                                    id: 'routers',
-                                    fields: {
-                                        name: {
-                                            label: 'label.name'
-                                        },
-                                        zonename: {
-                                            label: 'label.zone'
-                                        },
-                                        routerType: {
-                                            label: 'label.type'
-                                        },
-                                        state: {
-                                            converter: function (str) {
-                                                // For localization
-                                                return str;
-                                            },
-                                            label: 'label.status',
-                                            indicator: {
-                                                'Running': 'on',
-                                                'Stopped': 'off',
-                                                'Error': 'off'
-                                            }
-                                        }
-                                    },
-                                    dataProvider: function (args) {
-                                        var array1 =[];
-                                        if (args.filterBy != null) {
-                                            if (args.filterBy.search != null && args.filterBy.search.by != null && args.filterBy.search.value != null) {
-                                                switch (args.filterBy.search.by) {
-                                                    case "name":
-                                                    if (args.filterBy.search.value.length > 0)
-                                                    array1.push("&keyword=" + args.filterBy.search.value);
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        var data2 = {
-                                            forvpc: false
-                                        };
-                                        var routers =[];
-                                        $.ajax({
-                                            url: createURL("listRouters&zoneid=" + selectedZoneObj.id + "&listAll=true&page=" + args.page + "&pagesize=" + pageSize + array1.join("")),
-                                            data: data2,
-                                            success: function (json) {
-                                                var items = json.listroutersresponse.router ?
-                                                json.listroutersresponse.router:[];
-
-                                                $(items).map(function (index, item) {
-                                                    routers.push(item);
-                                                });
-
-                                                // Get project routers
-                                                $.ajax({
-                                                    url: createURL("listRouters&zoneid=" + selectedZoneObj.id + "&listAll=true&page=" + args.page + "&pagesize=" + pageSize + array1.join("") + "&projectid=-1"),
-                                                    data: data2,
-                                                    success: function (json) {
-                                                        var items = json.listroutersresponse.router ?
-                                                        json.listroutersresponse.router:[];
-
-                                                        $(items).map(function (index, item) {
-                                                            routers.push(item);
-                                                        });
-                                                        args.response.success({
-                                                            actionFilter: routerActionfilter,
-                                                            data: $(routers).map(mapRouterType)
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    },
-                                    detailView: {
-                                        name: 'label.virtual.appliance.details',
-                                        actions: {
-                                            start: {
-                                                label: 'label.action.start.router',
-                                                messages: {
-                                                    confirm: function (args) {
-                                                        return 'message.action.start.router';
-                                                    },
-                                                    notification: function (args) {
-                                                        return 'label.action.start.router';
-                                                    }
-                                                },
-                                                action: function (args) {
-                                                    $.ajax({
-                                                        url: createURL('startRouter&id=' + args.context.routers[0].id),
-                                                        dataType: 'json',
-                                                        async: true,
-                                                        success: function (json) {
-                                                            var jid = json.startrouterresponse.jobid;
-                                                            args.response.success({
-                                                                _custom: {
-                                                                    jobId: jid,
-                                                                    getUpdatedItem: function (json) {
-                                                                        return json.queryasyncjobresultresponse.jobresult.domainrouter;
-                                                                    },
-                                                                    getActionFilter: function () {
-                                                                        return routerActionfilter;
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                },
-                                                notification: {
-                                                    poll: pollAsyncJobResult
-                                                }
-                                            },
-
-                                            stop: {
-                                                label: 'label.action.stop.router',
-                                                createForm: {
-                                                    title: 'label.action.stop.router',
-                                                    desc: 'message.action.stop.router',
-                                                    fields: {
-                                                        forced: {
-                                                            label: 'force.stop',
-                                                            isBoolean: true,
-                                                            isChecked: false
-                                                        }
-                                                    }
-                                                },
-                                                messages: {
-                                                    notification: function (args) {
-                                                        return 'label.action.stop.router';
-                                                    }
-                                                },
-                                                action: function (args) {
-                                                    var array1 =[];
-                                                    array1.push("&forced=" + (args.data.forced == "on"));
-                                                    $.ajax({
-                                                        url: createURL('stopRouter&id=' + args.context.routers[0].id + array1.join("")),
-                                                        dataType: 'json',
-                                                        async: true,
-                                                        success: function (json) {
-                                                            var jid = json.stoprouterresponse.jobid;
-                                                            args.response.success({
-                                                                _custom: {
-                                                                    jobId: jid,
-                                                                    getUpdatedItem: function (json) {
-                                                                        return json.queryasyncjobresultresponse.jobresult.domainrouter;
-                                                                    },
-                                                                    getActionFilter: function () {
-                                                                        return routerActionfilter;
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                },
-                                                notification: {
-                                                    poll: pollAsyncJobResult
-                                                }
-                                            },
-
-                                            'remove': {
-                                                label: 'label.destroy.router',
-                                                messages: {
-                                                    confirm: function (args) {
-                                                        return 'message.confirm.destroy.router';
-                                                    },
-                                                    notification: function (args) {
-                                                        return 'label.destroy.router';
-                                                    }
-                                                },
-                                                action: function (args) {
-                                                    $.ajax({
-                                                        url: createURL("destroyRouter&id=" + args.context.routers[0].id),
-                                                        dataType: "json",
-                                                        async: true,
-                                                        success: function (json) {
-                                                            var jid = json.destroyrouterresponse.jobid;
-                                                            args.response.success({
-                                                                _custom: {
-                                                                    jobId: jid
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                },
-                                                notification: {
-                                                    poll: pollAsyncJobResult
-                                                }
-                                            },
-
-                                            migrate: {
-                                                label: 'label.action.migrate.router',
-                                                createForm: {
-                                                    title: 'label.action.migrate.router',
-                                                    desc: '',
-                                                    fields: {
-                                                        hostId: {
-                                                            label: 'label.host',
-                                                            validation: {
-                                                                required: true
-                                                            },
-                                                            select: function (args) {
-                                                                $.ajax({
-                                                                    url: createURL("findHostsForMigration&VirtualMachineId=" + args.context.routers[0].id),
-                                                                    dataType: "json",
-                                                                    async: true,
-                                                                    success: function (json) {
-                                                                        var hostObjs = json.findhostsformigrationresponse.host;
-                                                                        var items =[];
-                                                                        $(hostObjs).each(function () {
-                                                                            items.push({
-                                                                                id: this.id,
-                                                                                description: (this.name + " (" + (this.suitableformigration ? "Suitable": "Not Suitable") + ")")
-                                                                            });
-                                                                        });
-                                                                        args.response.success({
-                                                                            data: items
-                                                                        });
-                                                                    }
-                                                                });
-                                                            },
-                                                            error: function (XMLHttpResponse) {
-                                                                var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                                args.response.error(errorMsg);
-                                                            }
-                                                        }
-                                                    }
-                                                },
-                                                messages: {
-                                                    notification: function (args) {
-                                                        return 'label.action.migrate.router';
-                                                    }
-                                                },
-                                                action: function (args) {
-                                                    $.ajax({
-                                                        url: createURL("migrateSystemVm&hostid=" + args.data.hostId + "&virtualmachineid=" + args.context.routers[0].id),
-                                                        dataType: "json",
-                                                        async: true,
-                                                        success: function (json) {
-                                                            var jid = json.migratesystemvmresponse.jobid;
-                                                            args.response.success({
-                                                                _custom: {
-                                                                    jobId: jid,
-                                                                    getUpdatedItem: function (json) {
-                                                                        //return json.queryasyncjobresultresponse.jobresult.systemvminstance;    //not all properties returned in systemvminstance
-                                                                        $.ajax({
-                                                                            url: createURL("listRouters&id=" + json.queryasyncjobresultresponse.jobresult.systemvm.id),
-                                                                            dataType: "json",
-                                                                            async: false,
-                                                                            success: function (json) {
-                                                                                var items = json.listroutersresponse.router;
-                                                                                if (items != null && items.length > 0) {
-                                                                                    return items[0];
-                                                                                }
-                                                                            }
-                                                                        });
-                                                                    },
-                                                                    getActionFilter: function () {
-                                                                        return routerActionfilter;
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                },
-                                                notification: {
-                                                    poll: pollAsyncJobResult
-                                                }
-                                            },
-
-                                            viewConsole: {
-                                                label: 'label.view.console',
-                                                action: {
-                                                    externalLink: {
-                                                        url: function (args) {
-                                                            return clientConsoleUrl + '?cmd=access&vm=' + args.context.routers[0].id;
-                                                        },
-                                                        title: function (args) {
-                                                            return args.context.routers[0].id.substr(0, 8);
-                                                            //title in window.open() can't have space nor longer than 8 characters. Otherwise, IE browser will have error.
-                                                        },
-                                                        width: 820,
-                                                        height: 640
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        tabs: {
-                                            details: {
-                                                title: 'label.details',
-                                                preFilter: function (args) {
-                                                    var hiddenFields =[];
-                                                    if (! args.context.routers[0].project) {
-                                                        hiddenFields.push('project');
-                                                        hiddenFields.push('projectid');
-                                                    }
-                                                    if (selectedZoneObj.networktype == 'Basic') {
-                                                        hiddenFields.push('publicip');
-                                                        //In Basic zone, guest IP is public IP. So, publicip is not returned by listRouters API. Only guestipaddress is returned by listRouters API.
-                                                    }
-
-                                                    if ('routers' in args.context && args.context.routers[0].vpcid != undefined) {
-                                                        hiddenFields.push('guestnetworkid');
-                                                        hiddenFields.push('guestnetworkname');
-                                                    } else if ('routers' in args.context && args.context.routers[0].guestnetworkid != undefined) {
-                                                        hiddenFields.push('vpcid');
-                                                        hiddenFields.push('vpcname');
-                                                    }
-
-                                                    return hiddenFields;
-                                                },
-                                                fields:[ {
-                                                    name: {
-                                                        label: 'label.name'
-                                                    },
-                                                    project: {
-                                                        label: 'label.project'
-                                                    }
-                                                },
-                                                {
-                                                    id: {
-                                                        label: 'label.id'
-                                                    },
-                                                    projectid: {
-                                                        label: 'label.project.id'
-                                                    },
-                                                    state: {
-                                                        label: 'label.state'
-                                                    },
-                                                    guestnetworkid: {
-                                                        label: 'label.network.id'
-                                                    },
-                                                    guestnetworkname: {
-                                                        label: 'label.network.name'
-                                                    },
-                                                    vpcid: {
-                                                        label: 'label.vpc.id'
-                                                    },
-                                                    vpcname: {
-                                                        label: 'label.vpc'
-                                                    },
-                                                    publicip: {
-                                                        label: 'label.public.ip'
-                                                    },
-                                                    guestipaddress: {
-                                                        label: 'label.guest.ip'
-                                                    },
-                                                    linklocalip: {
-                                                        label: 'label.linklocal.ip'
-                                                    },
-                                                    hostname: {
-                                                        label: 'label.host'
-                                                    },
-                                                    serviceofferingname: {
-                                                        label: 'label.compute.offering'
-                                                    },
-                                                    networkdomain: {
-                                                        label: 'label.network.domain'
-                                                    },
-                                                    domain: {
-                                                        label: 'label.domain'
-                                                    },
-                                                    account: {
-                                                        label: 'label.account'
-                                                    },
-                                                    created: {
-                                                        label: 'label.created',
-                                                        converter: cloudStack.converters.toLocalDate
-                                                    },
-                                                    isredundantrouter: {
-                                                        label: 'label.redundant.router',
-                                                        converter: cloudStack.converters.toBooleanText
-                                                    },
-                                                    redundantRouterState: {
-                                                        label: 'label.redundant.state'
-                                                    }
-                                                }],
-                                                dataProvider: function (args) {
-                                                    $.ajax({
-                                                        url: createURL("listRouters&id=" + args.context.routers[0].id),
-                                                        dataType: 'json',
-                                                        async: true,
-                                                        success: function (json) {
-                                                            var jsonObj = json.listroutersresponse.router[0];
-                                                            addExtraPropertiesToRouterInstanceObject(jsonObj);
-                                                            args.response.success({
-                                                                actionFilter: routerActionfilter,
-                                                                data: jsonObj
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            },
-                                            nics: {
-                                                title: 'label.nics',
-                                                multiple: true,
-                                                fields:[ {
-                                                    name: {
-                                                        label: 'label.name',
-                                                        header: true
-                                                    },
-                                                    type: {
-                                                        label: 'label.type'
-                                                    },
-                                                    traffictype: {
-                                                        label: 'label.traffic.type'
-                                                    },
-                                                    networkname: {
-                                                        label: 'label.network.name'
-                                                    },
-                                                    netmask: {
-                                                        label: 'label.netmask'
-                                                    },
-                                                    ipaddress: {
-                                                        label: 'label.ip.address'
-                                                    },
-                                                    id: {
-                                                        label: 'label.id'
-                                                    },
-                                                    networkid: {
-                                                        label: 'label.network.id'
-                                                    },
-                                                    isolationuri: {
-                                                        label: 'label.isolation.uri'
-                                                    },
-                                                    broadcasturi: {
-                                                        label: 'label.broadcast.uri'
-                                                    }
-                                                }],
-                                                dataProvider: function (args) {
-                                                    $.ajax({
-                                                        url: createURL("listRouters&id=" + args.context.routers[0].id),
-                                                        dataType: 'json',
-                                                        async: true,
-                                                        success: function (json) {
-                                                            var jsonObj = json.listroutersresponse.router[0].nic;
-
-                                                            args.response.success({
-                                                                actionFilter: routerActionfilter,
-                                                                data: $.map(jsonObj, function (nic, index) {
-                                                                    var name = 'NIC ' + (index + 1);
-                                                                    if (nic.isdefault) {
-                                                                        name += ' (' + _l('label.default') + ')';
-                                                                    }
-                                                                    return $.extend(nic, {
-                                                                        name: name
-                                                                    });
-                                                                })
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        actions: {
-                            enable: {
-                                label: 'label.enable.provider',
-                                action: function (args) {
-                                    $.ajax({
-                                        url: createURL("updateNetworkServiceProvider&id=" + nspMap[ "Ovs"].id + "&state=Enabled"),
-                                        dataType: "json",
-                                        success: function (json) {
-                                            var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid,
-                                                    getUpdatedItem: function (json) {
-                                                        $(window).trigger('cloudStack.fullRefresh');
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                messages: {
-                                    confirm: function (args) {
-                                        return 'message.confirm.enable.provider';
-                                    },
-                                    notification: function () {
-                                        return 'label.enable.provider';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            },
-                            disable: {
-                                label: 'label.disable.provider',
-                                action: function (args) {
-                                    $.ajax({
-                                        url: createURL("updateNetworkServiceProvider&id=" + nspMap[ "Ovs"].id + "&state=Disabled"),
-                                        dataType: "json",
-                                        success: function (json) {
-                                            var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid,
-                                                    getUpdatedItem: function (json) {
-                                                        $(window).trigger('cloudStack.fullRefresh');
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                messages: {
-                                    confirm: function (args) {
-                                        return 'message.confirm.disable.provider';
-                                    },
-                                    notification: function () {
-                                        return 'label.disable.provider';
-                                    }
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            }
-                        }
-                    },
-                    // Nuage Vsp provider detail view
-                    nuageVsp: {
-                         type: 'detailView',
-                         id: 'nuageVspProvider',
-                         label: 'label.nuageVsp',
-                         viewAll: {
-                             label: 'label.devices',
-                             path: '_zone.nuageVspDevices'
-                         },
-                         tabs: {
-                             details: {
-                                 title: 'label.details',
-                                 fields: [{
-                                     name: {
-                                         label: 'label.name'
-                                     }
-                                 }, {
-                                     state: {
-                                         label: 'label.state'
-                                     }
-                                 }],
-                                 dataProvider: function(args) {
-                                     refreshNspData("NuageVsp");
-                                     var providerObj;
-                                     $(nspHardcodingArray).each(function() {
-                                         if (this.id == "nuageVsp") {
-                                             providerObj = this;
-                                             return false; //break each loop
-                                         }
-                                     });
-                                     args.response.success({
-                                         data: providerObj,
-                                         actionFilter: networkProviderActionFilter('nuageVsp')
-                                     });
-                                 }
-                             }
-                         },
-                         actions: {
-                             add: {
-                                 label: 'label.add.NuageVsp.device',
-                                 createForm: {
-                                     title: 'label.add.NuageVsp.device',
-                                     preFilter: function(args) {},
-                                     fields: {
-                                         hostname: {
-                                             label: 'label.host.name',
-                                             validation: {
-                                                 required: true
-                                             },
-                                             docID: 'helpVspHostname'
-                                         },
-                                         username: {
-                                             label: 'label.username',
-                                             validation: {
-                                                 required: true
-                                             },
-                                             docID: 'helpVspUsername'
-                                         },
-                                         password: {
-                                             label: 'label.password',
-                                             isPassword: true,
-                                             validation: {
-                                                 required: true
-                                             },
-                                             docID: 'helpVspPassword'
-                                         },
-                                         port: {
-                                             label: 'label.port',
-                                             validation: {
-                                                 required: false,
-                                                 number: true
-                                             },
-                                             docID: 'helpVspPort'
-                                         },
-                                         apiversion: {
-                                             label: 'label.api.version',
-                                             defaultValue: 'v1_0',
-                                             validation: {
-                                                 required: true
-                                             },
-                                             docID: 'helpVspApiVersion'
-                                         },
-                                         retrycount: {
-                                             label: 'label.numretries',
-                                             defaultValue: '4',
-                                             validation: {
-                                                 required: true,
-                                                 number: true
-                                             },
-                                             docID: 'helpVspRetries'
-                                         },
-                                         retryinterval: {
-                                             label: 'label.retry.interval',
-                                             defaultValue: '60',
-                                             validation: {
-                                                 required: false,
-                                                 number: true
-                                             },
-                                             docID: 'helpVspRetryInterval'
-                                         }
-                                     }
-                                 },
-                                 action: function(args) {
-                                     if (nspMap["nuageVsp"] == null) {
-                                         $.ajax({
-                                             url: createURL("addNetworkServiceProvider&name=NuageVsp&physicalnetworkid=" + selectedPhysicalNetworkObj.id),
-                                             dataType: "json",
-                                             async: true,
-                                             success: function(json) {
-                                                 var jobId = json.addnetworkserviceproviderresponse.jobid;
-                                                 var addNuageVspProviderIntervalID = setInterval(function() {
-                                                     $.ajax({
-                                                         url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                         dataType: "json",
-                                                         success: function(json) {
-                                                             var result = json.queryasyncjobresultresponse;
-                                                             if (result.jobstatus == 0) {
-                                                                 return; //Job has not completed
-                                                             } else {
-                                                                 clearInterval(addNuageVspProviderIntervalID);
-                                                                 if (result.jobstatus == 1) {
-                                                                     nspMap["nuageVsp"] = json.queryasyncjobresultresponse.jobresult.networkserviceprovider;
-                                                                     addNuageVspDevice(args, selectedPhysicalNetworkObj, "addNuageVspDevice", "addnuagevspdeviceresponse", "nuagevspdevice")
-                                                                 } else if (result.jobstatus == 2) {
-                                                                     alert("addNetworkServiceProvider&name=NuageVsp failed. Error: " + _s(result.jobresult.errortext));
-                                                                 }
-                                                             }
-                                                         },
-                                                         error: function(XMLHttpResponse) {
-                                                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                             alert("addNetworkServiceProvider&name=NuageVsp failed. Error: " + errorMsg);
-                                                         }
-                                                     });
-                                                 }, g_queryAsyncJobResultInterval);
-                                             }
-                                         });
-                                     } else {
-                                         addNuageVspDevice(args, selectedPhysicalNetworkObj, "addNuageVspDevice", "addnuagevspdeviceresponse", "nuagevspdevice")
-                                     }
-                                 },
-                                 messages: {
-                                     notification: function(args) {
-                                         return 'label.add.NuageVsp.device';
-                                     }
-                                 },
-                                 notification: {
-                                     poll: pollAsyncJobResult
-                                 }
-                             },
-                             enable: {
-                                 label: 'label.enable.provider',
-                                 action: function(args) {
-                                     $.ajax({
-                                         url: createURL("updateNetworkServiceProvider&id=" + nspMap["nuageVsp"].id + "&state=Enabled"),
-                                         dataType: "json",
-                                         success: function(json) {
-                                             var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                             args.response.success({
-                                                 _custom: {
-                                                     jobId: jid,
-                                                     getUpdatedItem: function(json) {
-                                                         $(window).trigger('cloudStack.fullRefresh');
-                                                     }
-                                                 }
-                                             });
-                                         }
-                                     });
-                                 },
-                                 messages: {
-                                     confirm: function(args) {
-                                         return 'message.confirm.enable.provider';
-                                     },
-                                     notification: function() {
-                                         return 'label.enable.provider';
-                                     }
-                                 },
-                                 notification: {
-                                     poll: pollAsyncJobResult
-                                 }
-                             },
-                             disable: {
-                                 label: 'label.disable.provider',
-                                 action: function(args) {
-                                     $.ajax({
-                                         url: createURL("updateNetworkServiceProvider&id=" + nspMap["nuageVsp"].id + "&state=Disabled"),
-                                         dataType: "json",
-                                         success: function(json) {
-                                             var jid = json.updatenetworkserviceproviderresponse.jobid;
-                                             args.response.success({
-                                                 _custom: {
-                                                     jobId: jid,
-                                                     getUpdatedItem: function(json) {
-                                                         $(window).trigger('cloudStack.fullRefresh');
-                                                     }
-                                                 }
-                                             });
-                                         }
-                                     });
-                                 },
-                                 messages: {
-                                     confirm: function(args) {
-                                         return 'message.confirm.disable.provider';
-                                     },
-                                     notification: function() {
-                                         return 'label.disable.provider';
-                                     }
-                                 },
-                                 notification: {
-                                     poll: pollAsyncJobResult
-                                 }
-                             },
-                             destroy: {
-                                 label: 'label.shutdown.provider',
-                                 action: function(args) {
-                                     $.ajax({
-                                         url: createURL("deleteNetworkServiceProvider&id=" + nspMap["nuageVsp"].id),
-                                         dataType: "json",
-                                         success: function(json) {
-                                             var jid = json.deletenetworkserviceproviderresponse.jobid;
-                                             args.response.success({
-                                                 _custom: {
-                                                     jobId: jid
-                                                 }
-                                             });
-
-                                             $(window).trigger('cloudStack.fullRefresh');
-                                         }
-                                     });
-                                 },
-                                 messages: {
-                                     confirm: function(args) {
-                                         return 'message.confirm.shutdown.provider';
-                                     },
-                                     notification: function(args) {
-                                         return 'label.shutdown.provider';
-                                     }
-                                 },
-                                 notification: {
-                                     poll: pollAsyncJobResult
-                                 }
-                             }
-                         }
-                    },
                     Opendaylight: {
                         type: 'detailView',
                         id: 'openDaylightProvider',
@@ -7467,120 +6174,6 @@
                             detailView: {
                                 isMaximized: true,
                                 actions: {
-                                    addVmwareDc: {
-                                        label: 'label.add.vmware.datacenter',
-                                        textLabel: 'label.add.vmware.datacenter',
-                                        messages: {
-                                            notification: function (args) {
-                                                return 'label.add.vmware.datacenter';
-                                            }
-                                        },
-                                        createForm: {
-                                            title: 'label.add.vmware.datacenter',
-                                            fields: {
-                                                name: {
-                                                    label: 'label.dc.name',
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                },
-                                                vcenter: {
-                                                    label: 'label.vcenter',
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                },
-                                                username: {
-                                                    label: 'label.username',
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                },
-                                                password: {
-                                                    label: 'label.password',
-                                                    isPassword: true,
-                                                    validation: {
-                                                        required: true
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        action: function (args) {
-                                            var data = {
-                                                zoneid: args.context.physicalResources[0].id,
-                                                name: args.data.name,
-                                                vcenter: args.data.vcenter
-                                            };
-
-                                            if (args.data.username != null && args.data.username.length > 0) {
-                                                $.extend(data, {
-                                                    username: args.data.username
-                                                })
-                                            }
-                                            if (args.data.password != null && args.data.password.length > 0) {
-                                                $.extend(data, {
-                                                    password: args.data.password
-                                                })
-                                            }
-
-                                            $.ajax({
-                                                url: createURL('addVmwareDc'),
-                                                data: data,
-                                                type: "POST",
-                                                success: function (json) {
-                                                    //var item = json.addvmwaredcresponse.vmwaredc;
-                                                    args.response.success();
-                                                }
-                                            });
-                                        },
-                                        notification: {
-                                            poll: function (args) {
-                                                args.complete();
-                                            }
-                                        }
-                                    },
-
-                                    removeVmwareDc: {
-                                        label: 'label.remove.vmware.datacenter',
-                                        messages: {
-                                            confirm: function (args) {
-                                                return 'message.confirm.remove.vmware.datacenter';
-                                            },
-                                            notification: function (args) {
-                                                return 'label.remove.vmware.datacenter';
-                                            }
-                                        },
-                                        action: function (args) {
-                                            var data = {
-                                                zoneid: args.context.physicalResources[0].id
-                                            };
-                                            $.ajax({
-                                                url: createURL('removeVmwareDc'),
-                                                data: data,
-                                                success: function (json) {
-                                                    delete args.context.physicalResources[0].vmwaredcName;
-                                                    delete args.context.physicalResources[0].vmwaredcVcenter;
-                                                    delete args.context.physicalResources[0].vmwaredcId;
-
-                                                    selectedZoneObj = args.context.physicalResources[0];
-
-                                                    args.response.success({
-                                                        data: args.context.physicalResources[0]
-                                                    });
-                                                },
-                                                error: function (XMLHttpResponse) {
-                                                    var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                    args.response.error(errorMsg);
-                                                }
-                                            });
-                                        },
-                                        notification: {
-                                            poll: function (args) {
-                                                args.complete();
-                                            }
-                                        }
-                                    },
-
                                     enable: {
                                         label: 'label.action.enable.zone',
                                         messages: {
@@ -7917,17 +6510,6 @@
                                             domainid: {
                                                 label: 'label.domain.id'
                                             }
-                                        },
-                                        {
-                                            vmwaredcName: {
-                                                label: 'label.vmware.datacenter.name'
-                                            },
-                                            vmwaredcVcenter: {
-                                                label: 'label.vmware.datacenter.vcenter'
-                                            },
-                                            vmwaredcId: {
-                                                label: 'label.vmware.datacenter.id'
-                                            }
                                         }],
                                         dataProvider: function (args) {
                                             $.ajax({
@@ -7967,35 +6549,6 @@
                                                                 })
                                                             }
                                                         }
-                                                    });
-
-                                                    $.ajax({
-                                                        url: createURL('listApis'), //listVmwareDcs API only exists in non-oss bild, so have to check whether it exists before calling it.
-                                                        data: {
-                                                            name: 'listVmwareDcs'
-                                                        },
-                                                        async: false,
-                                                        success: function (json) {
-                                                            $.ajax({
-                                                                url: createURL('listVmwareDcs'),
-                                                                data: {
-                                                                    zoneid: args.context.physicalResources[0].id
-                                                                },
-                                                                async: false,
-                                                                success: function (json) {
-                                                                    //e.g. json == { "listvmwaredcsresponse" { "count":1 ,"VMwareDC" [ {"id":"c3c2562d-65e9-4fc7-92e2-773c2efe8f37","zoneid":1,"name":"datacenter","vcenter":"10.10.20.20"} ] } }
-                                                                    var vmwaredcs = json.listvmwaredcsresponse.VMwareDC;
-                                                                    if (vmwaredcs != null) {
-                                                                        selectedZoneObj.vmwaredcName = vmwaredcs[0].name;
-                                                                        selectedZoneObj.vmwaredcVcenter = vmwaredcs[0].vcenter;
-                                                                        selectedZoneObj.vmwaredcId = vmwaredcs[0].id;
-                                                                    }
-                                                                }
-                                                            });
-                                                        },
-                                                        error: function (XMLHttpResponse) {
-                                                        }
-                                                        //override default error handling: cloudStack.dialog.notice({ message: parseXMLHttpResponse(XMLHttpResponse)});
                                                     });
 
                                                     args.response.success({
@@ -8994,12 +7547,10 @@
                                     var array1 = [];
 
                                     // ***** non XenServer (begin) *****
-                    var hypervisors = ["Hyperv", "KVM", "VMware", "BareMetal", "LXC", "Ovm3"];
+                    var hypervisors = ["KVM", "BareMetal", "LXC", "Ovm3"];
 
                                             var supportSocketHypervisors = {
-                                                "Hyperv": 1,
                                                 "KVM": 1,
-                                                "VMware": 1,
                                                 "Ovm3": 1
                                             };
 
@@ -9049,9 +7600,6 @@
                                                     }
 
                                         var hypervisorName = hypervisors[h];
-                                        if (hypervisorName == "Hyperv") {
-                                            hypervisorName = "Hyper-V";
-                                        }
 
                                         array1.push({
                                             hypervisor: hypervisorName,
@@ -11871,250 +10419,6 @@
                 }
             },
 
-            //Palo Alto devices listView
-            paDevices: {
-                id: 'paDevices',
-                title: 'label.devices',
-                listView: {
-                    id: 'paDevices',
-                    fields: {
-                        ipaddress: {
-                            label: 'label.ip.address'
-                        },
-                        fwdevicestate: {
-                            label: 'label.status'
-                        },
-                        fwdevicename: {
-                            label: 'label.type'
-                        }
-                    },
-                    actions: {
-                        add: {
-                            label: 'label.add.PA.device',
-                            createForm: {
-                                title: 'label.add.PA.device',
-                                fields: {
-                                    ip: {
-                                        label: 'label.ip.address'
-                                    },
-                                    username: {
-                                        label: 'label.username'
-                                    },
-                                    password: {
-                                        label: 'label.password',
-                                        isPassword: true
-                                    },
-                                    networkdevicetype: {
-                                        label: 'label.type',
-                                        select: function (args) {
-                                            var items =[];
-                                            items.push({
-                                                id: "PaloAltoFirewall",
-                                                description: "Palo Alto Firewall"
-                                            });
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        }
-                                    },
-                                    publicinterface: {
-                                        label: 'label.public.interface'
-                                    },
-                                    privateinterface: {
-                                        label: 'label.private.interface'
-                                    },
-                                    //usageinterface: {
-                                    //  label: 'label.usage.interface'
-                                    //},
-                                    numretries: {
-                                        label: 'label.numretries',
-                                        defaultValue: '2'
-                                    },
-                                    timeout: {
-                                        label: 'label.timeout',
-                                        defaultValue: '300'
-                                    },
-                                    // inline: {
-                                    //   label: 'Mode',
-                                    //   select: function(args) {
-                                    //     var items = [];
-                                    //     items.push({id: "false", description: "side by side"});
-                                    //     items.push({id: "true", description: "inline"});
-                                    //     args.response.success({data: items});
-                                    //   }
-                                    // },
-                                    publicnetwork: {
-                                        label: 'label.public.network',
-                                        defaultValue: 'untrust'
-                                    },
-                                    privatenetwork: {
-                                        label: 'label.private.network',
-                                        defaultValue: 'trust'
-                                    },
-                                    pavr: {
-                                        label: 'label.virtual.router'
-                                    },
-                                    patp: {
-                                        label: 'label.PA.threat.profile'
-                                    },
-                                    palp: {
-                                        label: 'label.PA.log.profile'
-                                    },
-                                    capacity: {
-                                        label: 'label.capacity',
-                                        validation: {
-                                            required: false,
-                                            number: true
-                                        }
-                                    },
-                                    dedicated: {
-                                        label: 'label.dedicated',
-                                        isBoolean: true,
-                                        isChecked: false
-                                    }
-                                }
-                            },
-                            action: function (args) {
-                                if (nspMap[ "pa"] == null) {
-                                    $.ajax({
-                                        url: createURL("addNetworkServiceProvider&name=PaloAlto&physicalnetworkid=" + selectedPhysicalNetworkObj.id),
-                                        dataType: "json",
-                                        async: true,
-                                        success: function (json) {
-                                            var jobId = json.addnetworkserviceproviderresponse.jobid;
-                                            var addPaloAltoProviderIntervalID = setInterval(function () {
-                                                $.ajax({
-                                                    url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                    dataType: "json",
-                                                    success: function (json) {
-                                                        var result = json.queryasyncjobresultresponse;
-                                                        if (result.jobstatus == 0) {
-                                                            return; //Job has not completed
-                                                        } else {
-                                                            clearInterval(addPaloAltoProviderIntervalID);
-                                                            if (result.jobstatus == 1) {
-                                                                nspMap[ "pa"] = json.queryasyncjobresultresponse.jobresult.networkserviceprovider;
-                                                                addExternalFirewall(args, selectedPhysicalNetworkObj, "addPaloAltoFirewall", "addpaloaltofirewallresponse", "pafirewall");
-                                                            } else if (result.jobstatus == 2) {
-                                                                alert("addNetworkServiceProvider&name=Palo Alto failed. Error: " + _s(result.jobresult.errortext));
-                                                            }
-                                                        }
-                                                    },
-                                                    error: function (XMLHttpResponse) {
-                                                        var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                        alert("addNetworkServiceProvider&name=Palo Alto failed. Error: " + errorMsg);
-                                                    }
-                                                });
-                                            },
-                                            3000);
-                                        }
-                                    });
-                                } else {
-                                    addExternalFirewall(args, selectedPhysicalNetworkObj, "addPaloAltoFirewall", "addpaloaltofirewallresponse", "pafirewall");
-                                }
-                            },
-                            messages: {
-                                notification: function (args) {
-                                    return 'label.add.PA.device';
-                                }
-                            },
-                            notification: {
-                                poll: pollAsyncJobResult
-                            }
-                        }
-                    },
-                    dataProvider: function (args) {
-                        $.ajax({
-                            url: createURL("listPaloAltoFirewalls&physicalnetworkid=" + selectedPhysicalNetworkObj.id),
-                            data: {
-                                page: args.page,
-                                pageSize: pageSize
-                            },
-                            dataType: "json",
-                            async: false,
-                            success: function (json) {
-                                var items = json.listpaloaltofirewallresponse.paloaltofirewall;
-                                args.response.success({
-                                    data: items
-                                });
-                            }
-                        });
-                    },
-                    detailView: {
-                        name: 'label.palo.alto.details',
-                        actions: {
-                            'remove': {
-                                label: 'label.delete.PA',
-                                messages: {
-                                    confirm: function (args) {
-                                        return 'message.confirm.delete.PA';
-                                    },
-                                    notification: function (args) {
-                                        return 'label.delete.PA';
-                                    }
-                                },
-                                action: function (args) {
-                                    $.ajax({
-                                        url: createURL("deletePaloAltoFirewall&fwdeviceid=" + args.context.paDevices[0].fwdeviceid),
-                                        dataType: "json",
-                                        async: true,
-                                        success: function (json) {
-                                            var jid = json.deletepaloaltofirewallresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            }
-                        },
-                        tabs: {
-                            details: {
-                                title: 'label.details',
-                                fields:[ {
-                                    fwdeviceid: {
-                                        label: 'label.id'
-                                    },
-                                    ipaddress: {
-                                        label: 'label.ip.address'
-                                    },
-                                    fwdevicestate: {
-                                        label: 'label.status'
-                                    },
-                                    fwdevicename: {
-                                        label: 'label.type'
-                                    },
-                                    fwdevicecapacity: {
-                                        label: 'label.capacity'
-                                    },
-                                    timeout: {
-                                        label: 'label.timeout'
-                                    }
-                                }],
-                                dataProvider: function (args) {
-                                    $.ajax({
-                                        url: createURL("listPaloAltoFirewalls&fwdeviceid=" + args.context.paDevices[0].fwdeviceid),
-                                        dataType: "json",
-                                        async: true,
-                                        success: function (json) {
-                                            var item = json.listpaloaltofirewallresponse.paloaltofirewall[0];
-                                            args.response.success({
-                                                data: item
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-
             // FIXME convert to nicira detailview
             // NiciraNvp devices listView
             niciraNvpDevices: {
@@ -12297,202 +10601,6 @@
                                         async: true,
                                         success: function (json) {
                                             var item = json.listniciranvpdeviceresponse.niciranvpdevice[0];
-                                            args.response.success({
-                                                data: item
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            nuageVspDevices: {
-                id: 'nuageVspDevices',
-                title: 'label.devices',
-                listView: {
-                    id: 'nuageVspDevices',
-                    fields: {
-                        hostname: {
-                            label: 'label.host.name'
-                        },
-                        port: {
-                            label: 'label.port'
-                        },
-                        apiversion: {
-                            label: 'label.api.version'
-                        },
-                        retrycount: {
-                            label: 'label.numretries'
-                        },
-                        retryinterval: {
-                            label: 'label.retry.interval'
-                        }
-                    },
-                    actions: {
-                        add: {
-                            label: 'label.add.NuageVsp.device',
-                            createForm: {
-                                title: 'label.add.NuageVsp.device',
-                                preFilter: function(args) {},
-                                fields: {
-                                    hostname: {
-                                        label: 'label.host.name'
-                                    },
-                                    username: {
-                                        label: 'label.username'
-                                    },
-                                    password: {
-                                        label: 'label.password',
-                                        isPassword: true
-                                    },
-                                    port: {
-                                        label: 'label.port'
-                                    },
-                                    apiversion: {
-                                        label: 'label.api.version',
-                                        defaultValue: 'v1_0'
-                                    },
-                                    retrycount: {
-                                        label: 'label.numretries',
-                                        defaultValue: '4'
-                                    },
-                                    retryinterval: {
-                                        label: 'label.retry.interval',
-                                        defaultValue: '60'
-                                    }
-                                }
-                            },
-                            action: function(args) {
-                                if (nspMap["nuageVsp"] == null) {
-                                    $.ajax({
-                                        url: createURL("addNetworkServiceProvider&name=NuageVsp&physicalnetworkid=" + selectedPhysicalNetworkObj.id),
-                                        dataType: "json",
-                                        async: true,
-                                        success: function(json) {
-                                            var jobId = json.addnetworkserviceproviderresponse.jobid;
-                                            var addNuageVspProviderIntervalID = setInterval(function() {
-                                                $.ajax({
-                                                    url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                    dataType: "json",
-                                                    success: function(json) {
-                                                        var result = json.queryasyncjobresultresponse;
-                                                        if (result.jobstatus == 0) {
-                                                            return;
-                                                        } else {
-                                                            clearInterval(addNuageVspProviderIntervalID);
-                                                            if (result.jobstatus == 1) {
-                                                                nspMap["nuageVsp"] = json.queryasyncjobresultresponse.jobresult.networkserviceprovider;
-                                                                addNuageVspDevice(args, selectedPhysicalNetworkObj, "addNuageVspDevice", "addnuagevspdeviceresponse", "nuagevspdevice")
-                                                            } else if (result.jobstatus == 2) {
-                                                                alert("addNetworkServiceProvider&name=NuageVsp failed. Error: " + _s(result.jobresult.errortext));
-                                                            }
-                                                        }
-                                                    },
-                                                    error: function(XMLHttpResponse) {
-                                                        var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                        alert("addNetworkServiceProvider&name=NuageVsp failed. Error: " + errorMsg);
-                                                    }
-                                                });
-                                            }, g_queryAsyncJobResultInterval);
-                                        }
-                                    });
-                                } else {
-                                    addNuageVspDevice(args, selectedPhysicalNetworkObj, "addNuageVspDevice", "addnuagevspdeviceresponse", "nuagevspdevice")
-                                }
-                            },
-
-                            messages: {
-                                notification: function(args) {
-                                    return 'message.added.new.nuage.vsp.controller';
-                                }
-                            },
-                            notification: {
-                                poll: pollAsyncJobResult
-                            }
-                        }
-                    },
-                    dataProvider: function(args) {
-                        $.ajax({
-                            url: createURL("listNuageVspDevices&physicalnetworkid=" + selectedPhysicalNetworkObj.id),
-                            data: {
-                                page: args.page,
-                                pageSize: pageSize
-                            },
-                            dataType: "json",
-                            async: false,
-                            success: function(json) {
-                                var items = json.listnuagevspdeviceresponse.nuagevspdevice;
-                                args.response.success({
-                                    data: items
-                                });
-                            }
-                        });
-                    },
-                    detailView: {
-                        name: 'Nuage Vsp details',
-                        actions: {
-                            'remove': {
-                                label: 'label.delete.NuageVsp',
-                                messages: {
-                                    confirm: function(args) {
-                                        return 'message.confirm.delete.NuageVsp';
-                                    },
-                                    notification: function(args) {
-                                        return 'label.delete.NuageVsp';
-                                    }
-                                },
-                                action: function(args) {
-                                    $.ajax({
-                                        url: createURL("deleteNuageVspDevice&vspdeviceid=" + args.context.nuageVspDevices[0].vspdeviceid),
-                                        dataType: "json",
-                                        async: true,
-                                        success: function(json) {
-                                            var jid = json.deletenuagevspdeviceresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            }
-                        },
-                        tabs: {
-                            details: {
-                                title: 'label.details',
-                                fields: [{
-                                    vspdeviceid: {
-                                        label: 'label.id'
-                                    },
-                                    hostname: {
-                                        label: 'label.host.name'
-                                    },
-                                    port: {
-                                        label: 'label.port'
-                                    },
-                                    apiversion: {
-                                        label: 'label.api.version'
-                                    },
-                                    retrycount: {
-                                        label: 'label.numretries'
-                                    },
-                                    retryinterval: {
-                                        label: 'label.retry.interval'
-                                    }
-                                }],
-                                dataProvider: function(args) {
-                                    $.ajax({
-                                        url: createURL("listNuageVspDevices&vspdeviceid=" + args.context.nuageVspDevices[0].vspdeviceid),
-                                        dataType: "json",
-                                        async: true,
-                                        success: function(json) {
-                                            var item = json.listnuagevspdeviceresponse.nuagevspdevice[0];
                                             args.response.success({
                                                 data: item
                                             });
@@ -13250,90 +11358,17 @@
                                             return $.inArray($(this).attr('rel'), nexusDvsReqFields) > -1;
                                         });
 
-                                        if ($form.find('.form-item[rel=hypervisor] select').val() == 'VMware') {
-                                            $form.find('.form-item[rel=vCenterHost]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vCenterUsername]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vCenterPassword]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vCenterDatacenter]').css('display', 'inline-block');
+                                        //XenServer, KVM, etc (non-VMware)
+                                        $form.find('.form-item[rel=vCenterHost]').css('display', 'none');
+                                        $form.find('.form-item[rel=vCenterUsername]').css('display', 'none');
+                                        $form.find('.form-item[rel=vCenterPassword]').css('display', 'none');
+                                        $form.find('.form-item[rel=vCenterDatacenter]').css('display', 'none');
+                                        $form.find('.form-item[rel=enableNexusVswitch]').css('display', 'none');
 
-                                            var $overridePublicTraffic = $form.find('.form-item[rel=overridepublictraffic] input[type=checkbox]');
-                                            var $vSwitchPublicType = $form.find('.form-item[rel=vSwitchPublicType] select');
-                                            var $overrideGuestTraffic = $form.find('.form-item[rel=overrideguesttraffic] input[type=checkbox]');
-                                            var $vSwitchGuestType = $form.find('.form-item[rel=vSwitchGuestType] select');
-
-
-                                            var useDvs = false;
-                                            $.ajax({
-                                                url: createURL('listConfigurations'),
-                                                data: {
-                                                    name: 'vmware.use.dvswitch'
-                                                },
-                                                async: false,
-                                                success: function (json) {
-                                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                        useDvs = true;
-                                                    }
-                                                }
-                                            });
-                                            if (useDvs == true) {
-                                                //If using Distributed vswitch, there is OverrideTraffic option.
-                                                $form.find('.form-item[rel=overridepublictraffic]').css('display', 'inline-block');
-                                                $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'inline-block');
-
-                                                var useNexusDvs = false;
-                                                $.ajax({
-                                                    url: createURL('listConfigurations'),
-                                                    data: {
-                                                        name: 'vmware.use.nexus.vswitch'
-                                                    },
-                                                    async: false,
-                                                    success: function (json) {
-                                                        if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                            useNexusDvs = true;
-                                                        }
-                                                    }
-                                                });
-                                                if (useNexusDvs == true) {
-                                                    //If using Nexus Distributed vswitch, show Nexus Distributed vswitch fields (either required ones or optional ones).
-                                                    if (($overridePublicTraffic.is(':checked') && $vSwitchPublicType.val() == 'nexusdvs') ||
-                                                    ($overrideGuestTraffic.is(':checked') && $vSwitchGuestType.val() == 'nexusdvs')) {
-                                                        $nexusDvsReqFields.css('display', 'inline-block');
-                                                        $nexusDvsOptFields.hide();
-                                                    } else {
-                                                        $nexusDvsOptFields.css('display', 'inline-block');
-                                                        $nexusDvsReqFields.hide();
-                                                    }
-                                                } else {
-                                                    //If not using Nexus Distributed vswitch, hide Nexus Distributed vswitch fields.
-                                                    $nexusDvsOptFields.hide();
-                                                    $nexusDvsReqFields.hide();
-                                                }
-                                            } else {
-                                                //useDvs == false
-                                                $form.find('.form-item[rel=overridepublictraffic]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchPublicType]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchPublicName]').css('display', 'none');
-
-                                                $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchGuestType]').css('display', 'none');
-                                                $form.find('.form-item[rel=vSwitchGuestName]').css('display', 'none');
-
-                                                $nexusDvsOptFields.hide();
-                                                $nexusDvsReqFields.hide();
-                                            }
-                                        } else {
-                                            //XenServer, KVM, etc (non-VMware)
-                                            $form.find('.form-item[rel=vCenterHost]').css('display', 'none');
-                                            $form.find('.form-item[rel=vCenterUsername]').css('display', 'none');
-                                            $form.find('.form-item[rel=vCenterPassword]').css('display', 'none');
-                                            $form.find('.form-item[rel=vCenterDatacenter]').css('display', 'none');
-                                            $form.find('.form-item[rel=enableNexusVswitch]').css('display', 'none');
-
-                                            $form.find('.form-item[rel=overridepublictraffic]').css('display', 'none');
-                                            $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'none');
-                                            $nexusDvsOptFields.hide();
-                                            $nexusDvsReqFields.hide();
-                                        }
+                                        $form.find('.form-item[rel=overridepublictraffic]').css('display', 'none');
+                                        $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'none');
+                                        $nexusDvsOptFields.hide();
+                                        $nexusDvsReqFields.hide();
 
                                         if ($form.find('.form-item[rel=overridepublictraffic]').css('display') != 'none' && $overridePublicTraffic.is(':checked')) {
                                             $form.find('.form-item[rel=vSwitchPublicType]').css('display', 'inline-block');
@@ -13519,220 +11554,7 @@
                                         validation: {
                                             required: false
                                         }
-                                    },
-
-                                    //hypervisor==VMWare begins here
-                                    vCenterHost: {
-                                        label: 'label.vcenter.host',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterHost',
-                                        validation: {
-                                            required: false
-                                        }
-                                        //legacy zone - validation not required for new VMware dc model
-                                    },
-                                    vCenterUsername: {
-                                        label: 'label.vcenter.username',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterUsername'
-                                    },
-                                    vCenterPassword: {
-                                        label: 'label.vcenter.password',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterPassword',
-                                        isPassword: true
-                                    },
-                                    vCenterDatacenter: {
-                                        label: 'label.vcenter.datacenter',
-                                        isHidden: true,
-                                        docID: 'helpClustervCenterDatacenter',
-                                        validation: {
-                                            required: false
-                                        }
-                                        //legacy zone - validation not required for new VMware dc model
-                                    },
-
-                                    overridepublictraffic: {
-                                        label: 'label.override.public.traffic',
-                                        isBoolean: true,
-                                        isHidden: true,
-                                        isChecked: false,
-                                        docID: 'helpOverridePublicNetwork'
-                                    },
-
-
-                                    vSwitchPublicType: {
-                                        label: 'label.public.traffic.vswitch.type',
-                                        select: function (args) {
-                                            var useNexusDvs = false;
-                                            var items =[]
-                                            $.ajax({
-                                                url: createURL('listConfigurations'),
-                                                data: {
-                                                    name: 'vmware.use.nexus.vswitch'
-                                                },
-                                                async: false,
-                                                success: function (json) {
-                                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                        useNexusDvs = true;
-                                                    }
-                                                }
-                                            });
-
-                                            if (useNexusDvs) {
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                            } else {
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                            }
-
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        },
-                                        isHidden: true
-                                    },
-
-                                    vSwitchPublicName: {
-                                        label: 'label.public.traffic.vswitch.name',
-                                        isHidden: true
-                                    },
-
-                                    overrideguesttraffic: {
-                                        label: 'label.override.guest.traffic',
-                                        isBoolean: true,
-                                        isHidden: true,
-                                        isChecked: false,
-                                        docID: 'helpOverrideGuestNetwork'
-                                    },
-
-                                    vSwitchGuestType: {
-                                        label: 'label.guest.traffic.vswitch.type',
-                                        select: function (args) {
-                                            var items =[]
-
-                                            var useNexusDvs = false;
-                                            $.ajax({
-                                                url: createURL('listConfigurations'),
-                                                data: {
-                                                    name: 'vmware.use.nexus.vswitch'
-                                                },
-                                                async: false,
-                                                success: function (json) {
-                                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                                        useNexusDvs = true;
-                                                    }
-                                                }
-                                            });
-
-
-                                            if (useNexusDvs) {
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                            } else {
-                                                items.push({
-                                                    id: "vmwaredvs",
-                                                    description: "VMware vNetwork Distributed Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "vmwaresvs",
-                                                    description: "VMware vNetwork Standard Virtual Switch"
-                                                });
-                                                items.push({
-                                                    id: "nexusdvs",
-                                                    description: "Cisco Nexus 1000v Distributed Virtual Switch"
-                                                });
-                                            }
-
-                                            args.response.success({
-                                                data: items
-                                            });
-                                        },
-                                        isHidden: true
-                                    },
-
-                                    vSwitchGuestName: {
-                                        label: 'label.guest.traffic.vswitch.name',
-                                        isHidden: true
-                                    },
-
-
-                                    vsmipaddress: {
-                                        label: 'label.cisco.nexus1000v.ip.address',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmipaddress_req: {
-                                        label: 'label.cisco.nexus1000v.ip.address',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmusername: {
-                                        label: 'label.cisco.nexus1000v.username',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmusername_req: {
-                                        label: 'label.cisco.nexus1000v.username',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true
-                                    },
-                                    vsmpassword: {
-                                        label: 'label.cisco.nexus1000v.password',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isPassword: true,
-                                        isHidden: true
-                                    },
-                                    vsmpassword_req: {
-                                        label: 'label.cisco.nexus1000v.password',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isPassword: true,
-                                        isHidden: true
                                     }
-                                    //hypervisor==VMWare ends here
                                 }
                             },
 
@@ -13755,79 +11577,7 @@
                                      array1.push("&ovm3cluster=" + todb(args.data.ovm3cluster));
                                      array1.push("&ovm3vip=" + todb(args.data.ovm3vip));
                                 }
-                                if (args.data.hypervisor == "VMware") {
-                                    array1.push("&username=" + todb(args.data.vCenterUsername));
-                                    array1.push("&password=" + todb(args.data.vCenterPassword));
-
-                                    //vSwitch Public Type
-                                    if (args.$form.find('.form-item[rel=vSwitchPublicType]').css('display') != 'none' && args.data.vSwitchPublicType != "") {
-                                        array1.push("&publicvswitchtype=" + args.data.vSwitchPublicType);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vSwitchPublicName]').css('display') != 'none' && args.data.vSwitchPublicName != "") {
-                                        array1.push("&publicvswitchname=" + args.data.vSwitchPublicName);
-                                    }
-
-                                    //vSwitch Guest Type
-                                    if (args.$form.find('.form-item[rel=vSwitchGuestType]').css('display') != 'none' && args.data.vSwitchGuestType != "") {
-                                        array1.push("&guestvswitchtype=" + args.data.vSwitchGuestType);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vSwitchGuestName]').css('display') != 'none' && args.data.vSwitchGuestName != "") {
-                                        array1.push("&guestvswitchname=" + args.data.vSwitchGuestName);
-                                    }
-
-                                    //Nexus VSM fields
-                                    if (args.$form.find('.form-item[rel=vsmipaddress]').css('display') != 'none' && args.data.vsmipaddress != null && args.data.vsmipaddress.length > 0) {
-                                        array1.push('&vsmipaddress=' + args.data.vsmipaddress);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vsmipaddress_req]').css('display') != 'none' && args.data.vsmipaddress_req != null && args.data.vsmipaddress_req.length > 0) {
-                                        array1.push('&vsmipaddress=' + args.data.vsmipaddress_req);
-                                    }
-
-                                    if (args.$form.find('.form-item[rel=vsmusername]').css('display') != 'none' && args.data.vsmusername != null && args.data.vsmusername.length > 0) {
-                                        array1.push('&vsmusername=' + args.data.vsmusername);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vsmusername_req]').css('display') != 'none' && args.data.vsmusername_req != null && args.data.vsmusername_req.length > 0) {
-                                        array1.push('&vsmusername=' + args.data.vsmusername_req);
-                                    }
-
-                                    if (args.$form.find('.form-item[rel=vsmpassword]').css('display') != 'none' && args.data.vsmpassword != null && args.data.vsmpassword.length > 0) {
-                                        array1.push('&vsmpassword=' + args.data.vsmpassword);
-                                    }
-                                    if (args.$form.find('.form-item[rel=vsmpassword_req]').css('display') != 'none' && args.data.vsmpassword_req != null && args.data.vsmpassword_req.length > 0) {
-                                        array1.push('&vsmpassword=' + args.data.vsmpassword_req);
-                                    }
-
-
-                                    var hostname = args.data.vCenterHost;
-                                    var dcName = args.data.vCenterDatacenter;
-
-                                    if (hostname.length == 0 && dcName.length == 0) {
-                                        $.ajax({
-                                            url: createURL('listVmwareDcs'),
-                                            data: {
-                                                zoneid: args.data.zoneid
-                                            },
-                                            async: false,
-                                            success: function (json) {
-                                                //e.g. json == { "listvmwaredcsresponse" { "count":1 ,"VMwareDC" [ {"id":"c3c2562d-65e9-4fc7-92e2-773c2efe8f37","zoneid":1,"name":"datacenter","vcenter":"10.10.20.20"} ] } }
-                                                var vmwaredcs = json.listvmwaredcsresponse.VMwareDC;
-                                                if (vmwaredcs != null) {
-                                                    hostname = vmwaredcs[0].vcenter;
-                                                    dcName = vmwaredcs[0].name;
-                                                }
-                                            }
-                                        });
-                                    }
-
-                                    var url;
-                                    if (hostname.indexOf("http://") == -1)
-                                    url = "http://" + hostname; else
-                                    url = hostname;
-                                    url += "/" + dcName + "/" + clusterName;
-                                    array1.push("&url=" + todb(url));
-
-                                    clusterName = hostname + "/" + dcName + "/" + clusterName; //override clusterName
-                                }
+                                
                                 array1.push("&clustername=" + todb(clusterName));
                                 var clusterId = null;
                                 $.ajax({
@@ -13918,7 +11668,7 @@
                             });
 
                             var hypervisorType = args.context.clusters[0].hypervisortype;
-                            if (vSwichConfigEnabled != "true" || hypervisorType != 'VMware') {
+                            if (vSwichConfigEnabled != "true") {
                                 return[ 'nexusVswitch'];
                             }
                             return[];
@@ -14743,33 +12493,7 @@
                                                 if (selectedClusterObj == null)
                                                 return;
 
-                                                if (selectedClusterObj.hypervisortype == "VMware") {
-                                                    //$('li[input_group="general"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=hostname]').hide();
-                                                    $form.find('.form-item[rel=username]').hide();
-                                                    $form.find('.form-item[rel=password]').hide();
-
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).show();
-                                                    $form.find('.form-item[rel=vcenterHost]').css('display', 'inline-block');
-
-                                                    //$('li[input_group="baremetal"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=baremetalCpuCores]').hide();
-                                                    $form.find('.form-item[rel=baremetalCpu]').hide();
-                                                    $form.find('.form-item[rel=baremetalMemory]').hide();
-                                                    $form.find('.form-item[rel=baremetalMAC]').hide();
-
-                                                    //$('li[input_group="Ovm"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=agentUsername]').hide();
-                                                    $form.find('.form-item[rel=agentPassword]').hide();
-
-                                                    //$('li[input_group="Ovm3"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=agentUsername]').hide();
-                                                    $form.find('.form-item[rel=agentPassword]').hide();
-                                                    $form.find('.form-item[rel=agentPort]').hide();
-                                                    $form.find('.form-item[rel=ovm3vip]').hide();
-                                                    $form.find('.form-item[rel=ovm3pool]').hide();
-                                                    $form.find('.form-item[rel=ovm3cluster]').hide();
-                                                } else if (selectedClusterObj.hypervisortype == "BareMetal") {
+                                                if (selectedClusterObj.hypervisortype == "BareMetal") {
                                                     //$('li[input_group="general"]', $dialogAddHost).show();
                                                     $form.find('.form-item[rel=hostname]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=username]').css('display', 'inline-block');
@@ -14781,39 +12505,11 @@
                                                     $form.find('.form-item[rel=baremetalMemory]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=baremetalMAC]').css('display', 'inline-block');
 
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=vcenterHost]').hide();
 
                                                     //$('li[input_group="Ovm"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=agentUsername]').hide();
                                                     $form.find('.form-item[rel=agentPassword]').hide();
-
-                                                    //$('li[input_group="Ovm3"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=agentUsername]').hide();
-                                                    $form.find('.form-item[rel=agentPassword]').hide();
-                                                    $form.find('.form-item[rel=agentPort]').hide();
-                                                    $form.find('.form-item[rel=ovm3vip]').hide();
-                                                    $form.find('.form-item[rel=ovm3pool]').hide();
-                                                    $form.find('.form-item[rel=ovm3cluster]').hide();
-                                                } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                                                    //$('li[input_group="general"]', $dialogAddHost).show();
-                                                    $form.find('.form-item[rel=hostname]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=username]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=password]').css('display', 'inline-block');
-
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=vcenterHost]').hide();
-
-                                                    //$('li[input_group="baremetal"]', $dialogAddHost).hide();
-                                                    $form.find('.form-item[rel=baremetalCpuCores]').hide();
-                                                    $form.find('.form-item[rel=baremetalCpu]').hide();
-                                                    $form.find('.form-item[rel=baremetalMemory]').hide();
-                                                    $form.find('.form-item[rel=baremetalMAC]').hide();
-
-                                                    //$('li[input_group="Ovm"]', $dialogAddHost).show();
-                                                    $form.find('.form-item[rel=agentUsername]').css('display', 'inline-block');
-                                                    $form.find('.form-item[rel=agentUsername]').find('input').val("oracle");
-                                                    $form.find('.form-item[rel=agentPassword]').css('display', 'inline-block');
 
                                                     //$('li[input_group="Ovm3"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=agentUsername]').hide();
@@ -14828,7 +12524,6 @@
                                                     $form.find('.form-item[rel=username]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=password]').css('display', 'inline-block');
 
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=vcenterHost]').hide();
 
                                                     //$('li[input_group="baremetal"]', $dialogAddHost).hide();
@@ -14852,7 +12547,6 @@
                                                     $form.find('.form-item[rel=username]').css('display', 'inline-block');
                                                     $form.find('.form-item[rel=password]').css('display', 'inline-block');
 
-                                                    //$('li[input_group="vmware"]', $dialogAddHost).hide();
                                                     $form.find('.form-item[rel=vcenterHost]').hide();
 
                                                     //$('li[input_group="baremetal"]', $dialogAddHost).hide();
@@ -14961,16 +12655,6 @@
 
                                     //input_group="general" ends here
 
-                                    //input_group="VMWare" starts here
-                                    vcenterHost: {
-                                        label: 'label.esx.host',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true
-                                    },
-                                    //input_group="VMWare" ends here
-
                                     //input_group="BareMetal" starts here
                                     baremetalCpuCores: {
                                         label: 'label.num.cpu.cores',
@@ -15001,24 +12685,6 @@
                                         isHidden: true
                                     },
                                     //input_group="BareMetal" ends here
-
-                                    //input_group="OVM" starts here
-                                    agentUsername: {
-                                        label: 'label.agent.username',
-                                        validation: {
-                                            required: false
-                                        },
-                                        isHidden: true
-                                    },
-                                    agentPassword: {
-                                        label: 'label.agent.password',
-                                        validation: {
-                                            required: true
-                                        },
-                                        isHidden: true,
-                                        isPassword: true
-                                    },
-                                    //input_group="OVM" ends here
 
                                     //input_group="OVM3" starts here
                                     agentPort: {
@@ -15084,56 +12750,34 @@
                                     hosttags: args.data.hosttags
                                 };
 
-                                if (selectedClusterObj.hypervisortype == "VMware") {
+                                $.extend(data, {
+                                    username: args.data.username,
+                                    password: args.data.password
+                                });
+
+                                var hostname = args.data.hostname;
+                                var url;
+                                if (hostname.indexOf("http://") == -1)
+                                url = "http://" + hostname; else
+                                url = hostname;
+
+                                $.extend(data, {
+                                    url: url
+                                });
+
+                                if (selectedClusterObj.hypervisortype == "BareMetal") {
                                     $.extend(data, {
-                                        username: '',
-                                        password: ''
+                                        cpunumber: args.data.baremetalCpuCores,
+                                        cpuspeed: args.data.baremetalCpu,
+                                        memory: args.data.baremetalMemory,
+                                        hostmac: args.data.baremetalMAC
                                     });
-
-                                    var hostname = args.data.vcenterHost;
-                                    var url;
-                                    if (hostname.indexOf("http://") == -1)
-                                    url = "http://" + hostname; else
-                                    url = hostname;
-
+                                } else if (selectedClusterObj.hypervisortype == "Ovm3") {
                                     $.extend(data, {
-                                        url: url
-                                    });
-                                } else {
-                                    $.extend(data, {
-                                        username: args.data.username,
-                                        password: args.data.password
-                                    });
-
-                                    var hostname = args.data.hostname;
-                                    var url;
-                                    if (hostname.indexOf("http://") == -1)
-                                    url = "http://" + hostname; else
-                                    url = hostname;
-
-                                    $.extend(data, {
-                                        url: url
-                                    });
-
-                                    if (selectedClusterObj.hypervisortype == "BareMetal") {
-                                        $.extend(data, {
-                                            cpunumber: args.data.baremetalCpuCores,
-                                            cpuspeed: args.data.baremetalCpu,
-                                            memory: args.data.baremetalMemory,
-                                            hostmac: args.data.baremetalMAC
-                                        });
-                                    } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                                        $.extend(data, {
-                                            agentusername: args.data.agentUsername,
-                                            agentpassword: args.data.agentPassword
-                                        });
-                                    } else if (selectedClusterObj.hypervisortype == "Ovm3") {
-                                        $.extend(data, {
-                                            agentusername: args.data.agentUsername,
-                                            agentpassword: args.data.agentPassword,
-                                            agentport: args.data.agentPort
-                                       });
-                                    }
+                                        agentusername: args.data.agentUsername,
+                                        agentpassword: args.data.agentPassword,
+                                        agentport: args.data.agentPort
+                                   });
                                 }
 
                                 var hostId = null;
@@ -16033,14 +13677,6 @@
                                                 description: _l('KVM')
                                             });
                                             items.push({
-                                                id: 'VMware',
-                                                description: _l('VMware')
-                                            });
-                                            items.push({
-                                                id: 'Hyperv',
-                                                description: _l('Hyperv')
-                                            });
-                                            items.push({
                                                 id: 'Any',
                                                 description: _l('Any')
                                             });
@@ -16239,45 +13875,6 @@
                                                 items.push({
                                                     id: "custom",
                                                     description: "custom"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            } else if (selectedClusterObj.hypervisortype == "VMware") {
-                                                var items =[];
-                                                items.push({
-                                                    id: "nfs",
-                                                    description: "nfs"
-                                                });
-                                                items.push({
-                                                    id: "vmfs",
-                                                    description: "vmfs"
-                                                });
-                                                items.push({
-                                                    id: "custom",
-                                                    description: "custom"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            } else if (selectedClusterObj.hypervisortype == "Hyperv") {
-                                                var items =[];
-                                                items.push({
-                                                    id: "SMB",
-                                                    description: "SMB/CIFS"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                                                var items =[];
-                                                items.push({
-                                                    id: "nfs",
-                                                    description: "nfs"
-                                                });
-                                                items.push({
-                                                    id: "ocfs2",
-                                                    description: "ocfs2"
                                                 });
                                                 args.response.success({
                                                     data: items
@@ -17363,592 +14960,6 @@
                                         }
                                     }
                                 })
-                            }
-                        }
-                    }
-                }
-            },
-
-            ucs: {
-                title: 'UCS',
-                id: 'ucs',
-                listView: {
-                    id: 'ucsManagers',
-                    fields: {
-                        name: {
-                            label: 'label.name'
-                        },
-                        url: {
-                            label: 'label.url'
-                        }
-                    },
-                    dataProvider: function (args) {
-                        $.ajax({
-                            url: createURL('listUcsManagers'),
-                            data: {
-                                zoneid: args.context.physicalResources[0].id
-                            },
-                            success: function (json) {
-                                //for testing only (begin)
-                                /*
-                                json =
-                                {
-                                "listucsmanagerreponse": {
-                                "count": 1,
-                                "ucsmanager": [
-                                {
-                                "id": "07b5b813-83ed-4859-952c-c95cafb63ac4",
-                                "name": "ucsmanager",
-                                "url": "10.223.184.2",
-                                "zoneid": "54c9a65c-ba89-4380-96e9-1d429c5372e3"
-                                }
-                                ]
-                                }
-                                };
-                                 */
-                                //for testing only (end)
-
-                                var items = json.listucsmanagerreponse.ucsmanager;
-                                args.response.success({
-                                    data: items
-                                });
-                            }
-                        });
-                    },
-                    actions: {
-                        add: {
-                            label: 'label.add.ucs.manager',
-
-                            messages: {
-                                notification: function (args) {
-                                    return 'label.add.ucs.manager';
-                                }
-                            },
-
-                            createForm: {
-                                title: 'label.add.ucs.manager',
-                                fields: {
-                                    name: {
-                                        label: 'label.name',
-                                        validation: {
-                                            required: false
-                                        }
-                                    },
-                                    url: {
-                                        label: 'label.ip', //CLOUDSTACK-4629
-                                        validation: {
-                                            required: true
-                                        }
-                                    },
-                                    username: {
-                                        label: 'label.username',
-                                        validation: {
-                                            required: true
-                                        }
-                                    },
-                                    password: {
-                                        label: 'label.password',
-                                        isPassword: true,
-                                        validation: {
-                                            required: true
-                                        }
-                                    }
-                                }
-                            },
-
-                            action: function (args) {
-                                var data = {
-                                    zoneid: args.context.physicalResources[0].id,
-                                    url: args.data.url,
-                                    username: args.data.username,
-                                    password: args.data.password
-                                };
-                                if (args.data.name != null && args.data.name.length > 0) {
-                                    $.extend(data, {
-                                        name: args.data.name
-                                    });
-                                }
-
-                                $.ajax({
-                                    url: createURL('addUcsManager'),
-                                    data: data,
-                                    type: "POST",
-                                    success: function (json) {
-                                        //e.g. json == { "addUcsManagerResponse" :  { "ucsmanager" : {"id":"11","name":"ucsmanager","url":"10.223.184.2","zoneid":"2"} }  }
-                                        var item = json.addUcsManagerResponse.ucsmanager;
-                                        args.response.success({
-                                            data: item
-                                        });
-                                    },
-                                    error: function (data) {
-                                        args.response.error(parseXMLHttpResponse(data));
-                                    }
-                                });
-                            },
-
-                            notification: {
-                                poll: function (args) {
-                                    args.complete();
-                                }
-                            }
-                        }
-                    },
-
-                    detailView: {
-                        isMaximized: true,
-                        noCompact: true,
-                        actions: {
-                            remove: {
-                                label: 'label.delete.ucs.manager',
-                                messages: {
-                                    confirm: function (args) {
-                                        return 'message.confirm.delete.ucs.manager';
-                                    },
-                                    notification: function (args) {
-                                        return 'label.delete.ucs.manager';
-                                    }
-                                },
-                                action: function (args) {
-                                    var data = {
-                                        ucsmanagerid: args.context.ucsManagers[0].id
-                                    };
-                                    $.ajax({
-                                        url: createURL('deleteUcsManager'),
-                                        data: data,
-                                        success: function (json) {
-                                            args.response.success();
-                                        },
-                                        error: function (data) {
-                                            args.response.error(parseXMLHttpResponse(data));
-                                        }
-                                    });
-                                },
-                                notification: {
-                                    poll: function (args) {
-                                        args.complete();
-                                    }
-                                }
-                            }
-                        },
-                        tabs: {
-                            details: {
-                                title: 'label.details',
-
-                                fields:[ {
-                                    name: {
-                                        label: 'label.name'
-                                    }
-                                },
-                                {
-                                    id: {
-                                        label: 'label.id'
-                                    },
-                                    url: {
-                                        label: 'label.url'
-                                    }
-                                }],
-
-                                dataProvider: function (args) {
-                                    $.ajax({
-                                        url: createURL('listUcsManagers'),
-                                        data: {
-                                            id: args.context.ucsManagers[0].id
-                                        },
-                                        success: function (json) {
-                                            //for testing only (begin)
-                                            /*
-                                            json =
-                                            {
-                                            "listucsmanagerreponse": {
-                                            "count": 1,
-                                            "ucsmanager": [
-                                            {
-                                            "id": "07b5b813-83ed-4859-952c-c95cafb63ac4",
-                                            "name": "ucsmanager",
-                                            "url": "10.223.184.2",
-                                            "zoneid": "54c9a65c-ba89-4380-96e9-1d429c5372e3"
-                                            }
-                                            ]
-                                            }
-                                            };
-                                             */
-                                            //for testing only (end)
-
-                                            var item = json.listucsmanagerreponse.ucsmanager[0];
-                                            args.response.success({
-                                                data: item
-                                            });
-                                        }
-                                    });
-                                }
-                            },
-
-                            blades: {
-                                title: 'label.blades',
-                                listView: {
-                                    id: 'blades',
-                                    hideSearchBar: true,
-                                    fields: {
-                                        chassis: {
-                                            label: 'label.chassis'
-                                        },
-                                        bladeid: {
-                                            label: 'label.blade.id'
-                                        },
-                                        profiledn: {
-                                            label: 'label.associated.profile'
-                                        }
-                                    },
-                                    dataProvider: function (args) {
-                                        $.ajax({
-                                            url: createURL('listUcsBlades'),
-                                            data: {
-                                                ucsmanagerid: args.context.ucsManagers[0].id
-                                            },
-                                            success: function (json) {
-                                                //for testing only (begin)
-                                                /*
-                                                json = {
-                                                "listucsbladeresponse": {
-                                                "count": 4,
-                                                "ucsblade": [
-                                                {
-                                                "id": "84edb958-cf8a-4e71-99c6-190ccc3fe2bd",
-                                                "ucsmanagerid": "07b5b813-83ed-4859-952c-c95cafb63ac4",
-                                                "bladedn": "sys/chassis-1/blade-1",
-                                                "profiledn": "org-root/ls-profile-for-blade-1"
-                                                },
-                                                {
-                                                "id": "524a3e55-5b61-4561-9464-1b19e3543189",
-                                                "ucsmanagerid": "07b5b813-83ed-4859-952c-c95cafb63ac4",
-                                                "bladedn": "sys/chassis-1/blade-2",
-                                                "profiledn": "org-root/ls-profile-for-blade-2"
-                                                },
-                                                {
-                                                "id": "4828f560-6191-46e6-8a4c-23d1d7d017f0",
-                                                "ucsmanagerid": "07b5b813-83ed-4859-952c-c95cafb63ac4",
-                                                "bladedn": "sys/chassis-1/blade-3"
-                                                },
-                                                {
-                                                "id": "80ab25c8-3dcf-400e-8849-84dc5e1e6594",
-                                                "ucsmanagerid": "07b5b813-83ed-4859-952c-c95cafb63ac4",
-                                                "bladedn": "sys/chassis-1/blade-4"
-                                                }
-                                                ]
-                                                }
-                                                };
-                                                 */
-                                                //for testing only (end)
-
-                                                var items = json.listucsbladeresponse.ucsblade ? json.listucsbladeresponse.ucsblade:[];
-                                                for (var i = 0; i < items.length; i++) {
-                                                    addExtraPropertiesToUcsBladeObject(items[i]);
-                                                }
-                                                args.response.success({
-                                                    actionFilter: bladeActionfilter,
-                                                    data: items
-                                                });
-                                            }
-                                        });
-                                    },
-                                    actions: {
-                                        refreshUcsBlades: {
-                                            isHeader: true,
-                                            label: 'label.refresh.blades',
-                                            messages: {
-                                                confirm: function (args) {
-                                                    return 'message.confirm.refresh.blades';
-                                                },
-                                                notification: function (args) {
-                                                    return 'label.refresh.blades';
-                                                }
-                                            },
-                                            action: function (args) {
-                                                $.ajax({
-                                                    url: createURL('refreshUcsBlades'),
-                                                    data: {
-                                                        ucsmanagerid: args.context.ucsManagers[0].id
-                                                    },
-                                                    success: function (json) {
-                                                        //for testing only (begin)
-                                                        /*
-                                                        json = {
-                                                        "refreshucsbladesresponse": {
-                                                        "count": 7,
-                                                        "ucsblade": [
-                                                        {
-                                                        "id": "6c6a2d2c-575e-41ac-9782-eee51b0b80f8",
-                                                        "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                        "bladedn": "sys/chassis-1/blade-5"
-                                                        },
-                                                        {
-                                                        "id": "d371d470-a51f-489c-aded-54a63dfd76c7",
-                                                        "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                        "bladedn": "sys/chassis-1/blade-6"
-                                                        },
-                                                        {
-                                                        "id": "c0f64591-4a80-4083-bb7b-576220b436a2",
-                                                        "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                        "bladedn": "sys/chassis-1/blade-7"
-                                                        },
-                                                        {
-                                                        "id": "74b9b69a-cb16-42f5-aad6-06391ebdd759",
-                                                        "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                        "bladedn": "sys/chassis-1/blade-1"
-                                                        },
-                                                        {
-                                                        "id": "713a5adb-0136-484f-9acb-d9203af497be",
-                                                        "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                        "bladedn": "sys/chassis-1/blade-2"
-                                                        },
-                                                        {
-                                                        "id": "da633578-21cb-4678-9eb4-981a53198b41",
-                                                        "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                        "bladedn": "sys/chassis-1/blade-4"
-                                                        },
-                                                        {
-                                                        "id": "3d491c6e-f0b6-40b0-bf6e-f89efdd73c30",
-                                                        "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                        "bladedn": "sys/chassis-1/blade-3"
-                                                        }
-                                                        ]
-                                                        }
-                                                        };
-                                                         */
-                                                        //for testing only (end)
-
-                                                        /*
-                                                        var item = json.refreshucsbladesresponse.ucsblade[0];
-                                                        addExtraPropertiesToUcsBladeObject(item);
-                                                        args.response.success({
-                                                        data: item
-                                                        });
-                                                         */
-                                                        $(window).trigger('cloudStack.fullRefresh');
-                                                    }
-                                                });
-                                            },
-                                            notification: {
-                                                poll: function (args) {
-                                                    args.complete();
-                                                }
-                                            }
-                                        },
-
-                                        associateTemplateToBlade: {
-                                            label: 'label.instanciate.template.associate.profile.blade',
-                                            addRow: 'false',
-                                            messages: {
-                                                notification: function (args) {
-                                                    return 'label.instanciate.template.associate.profile.blade';
-                                                }
-                                            },
-                                            createForm: {
-                                                title: 'label.instanciate.template.associate.profile.blade',
-                                                fields: {
-                                                    templatedn: {
-                                                        label: 'label.select.template',
-                                                        select: function (args) {
-                                                            var items =[];
-
-                                                            $.ajax({
-                                                                url: createURL('listUcsTemplates'),
-                                                                data: {
-                                                                    ucsmanagerid: args.context.ucsManagers[0].id
-                                                                },
-                                                                async: false,
-                                                                success: function (json) {
-                                                                    //for testing only (begin)
-                                                                    /*
-                                                                    json = {
-                                                                    "listucstemplatesresponse": {
-                                                                    "count": 1,
-                                                                    "ucstemplate": [
-                                                                    {
-                                                                    "ucsdn": "org-root/ls-test"
-                                                                    }
-                                                                    ]
-                                                                    }
-                                                                    };
-                                                                     */
-                                                                    //for testing only (end)
-
-                                                                    var ucstemplates = json.listucstemplatesresponse.ucstemplate;
-                                                                    if (ucstemplates != null) {
-                                                                        for (var i = 0; i < ucstemplates.length; i++) {
-                                                                            items.push({
-                                                                                id: ucstemplates[i].ucsdn,
-                                                                                description: ucstemplates[i].ucsdn
-                                                                            });
-                                                                        }
-                                                                    }
-                                                                }
-                                                            });
-
-                                                            args.response.success({
-                                                                data: items
-                                                            });
-                                                        },
-                                                        validation: {
-                                                            required: true
-                                                        }
-                                                    },
-                                                    profilename: {
-                                                        label: 'label.profile'
-                                                    }
-                                                }
-                                            },
-                                            action: function (args) {
-                                                var data = {
-                                                    ucsmanagerid: args.context.ucsManagers[0].id,
-                                                    templatedn: args.data.templatedn,
-                                                    bladeid: args.context.blades[0].id
-                                                };
-
-                                                if (args.data.profilename != null && args.data.profilename.length > 0) {
-                                                    $.extend(data, {
-                                                        profilename: args.data.profilename
-                                                    });
-                                                }
-
-                                                $.ajax({
-                                                    url: createURL('instantiateUcsTemplateAndAssocaciateToBlade'),
-                                                    data: data,
-                                                    success: function (json) {
-                                                        //for testing only (begin)
-                                                        /*
-                                                        json = {
-                                                        "instantiateucstemplateandassociatetobladeresponse": {
-                                                        "jobid": "cd9d0282-4dae-463f-80b6-451e168e2e92"
-                                                        }
-                                                        }
-                                                         */
-                                                        //for testing only (end)
-
-                                                        var jid = json.instantiateucstemplateandassociatetobladeresponse.jobid;
-                                                        args.response.success({
-                                                            _custom: {
-                                                                jobId: jid,
-                                                                getUpdatedItem: function (json) {
-                                                                    //for testing only (begin)
-                                                                    /*
-                                                                    json = {
-                                                                    "queryasyncjobresultresponse": {
-                                                                    "accountid": "970b694a-2f8c-11e3-a77d-000c29b36ff5",
-                                                                    "userid": "970b7b4f-2f8c-11e3-a77d-000c29b36ff5",
-                                                                    "cmd": "org.apache.cloudstack.api.InstantiateUcsTemplateAndAssociateToBladeCmd",
-                                                                    "jobstatus": 1,
-                                                                    "jobprocstatus": 0,
-                                                                    "jobresultcode": 0,
-                                                                    "jobresulttype": "object",
-                                                                    "jobresult": {
-                                                                    "ucsblade": {
-                                                                    "id": "3d491c6e-f0b6-40b0-bf6e-f89efdd73c30",
-                                                                    "ucsmanagerid": "9a34c186-12fa-4bbc-af04-5f1a2bf7ae4a",
-                                                                    "bladedn": "sys/chassis-1/blade-3",
-                                                                    "profiledn": "org-root/ls-xxxx"
-                                                                    }
-                                                                    },
-                                                                    "created": "2013-10-10T17:29:00-0700",
-                                                                    "jobid": "cd9d0282-4dae-463f-80b6-451e168e2e92"
-                                                                    }
-                                                                    };
-                                                                     */
-                                                                    //for testing only (end)
-
-                                                                    addExtraPropertiesToUcsBladeObject(json.queryasyncjobresultresponse.jobresult.ucsblade);
-                                                                    return json.queryasyncjobresultresponse.jobresult.ucsblade;
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            },
-                                            notification: {
-                                                poll: pollAsyncJobResult
-                                            }
-                                        },
-
-                                        disassociateProfileFromBlade: {
-                                            label: 'label.disassociate.profile.blade',
-                                            addRow: 'false',
-                                            messages: {
-                                                notification: function (args) {
-                                                    return 'label.disassociate.profile.blade';
-                                                }
-                                            },
-                                            createForm: {
-                                                title: 'label.disassociate.profile.blade',
-                                                fields: {
-                                                    deleteprofile: {
-                                                        label: 'label.delete.profile',
-                                                        isBoolean: true,
-                                                        isChecked: true
-                                                    }
-                                                }
-                                            },
-                                            action: function (args) {
-                                                $.ajax({
-                                                    url: createURL('disassociateUcsProfileFromBlade'),
-                                                    data: {
-                                                        bladeid: args.context.blades[0].id,
-                                                        deleteprofile: (args.data.deleteprofile == 'on' ? true: false)
-                                                    },
-                                                    success: function (json) {
-                                                        //for testing only (begin)
-                                                        /*
-                                                        json = {
-                                                        "disassociateucsprofilefrombladeresponse": {
-                                                        "jobid": "e371592e-31be-4e53-9346-a5c565d420df"
-                                                        }
-                                                        }
-                                                         */
-                                                        //for testing only (end)
-
-                                                        var jid = json.disassociateucsprofilefrombladeresponse.jobid;
-                                                        args.response.success({
-                                                            _custom: {
-                                                                jobId: jid,
-                                                                getUpdatedItem: function (json) {
-                                                                    //for testing only (begin)
-                                                                    /*
-                                                                    json = {
-                                                                    "queryasyncjobresultresponse": {
-                                                                    "accountid": "835fb2d5-0b76-11e3-9350-f4f3e49b5dfe",
-                                                                    "userid": "835fc0e5-0b76-11e3-9350-f4f3e49b5dfe",
-                                                                    "cmd": "org.apache.cloudstack.api.DisassociateUcsProfileCmd",
-                                                                    "jobstatus": 1,
-                                                                    "jobprocstatus": 0,
-                                                                    "jobresultcode": 0,
-                                                                    "jobresulttype": "object",
-                                                                    "jobresult": {
-                                                                    "ucsblade": {
-                                                                    "id": "f8d08575-7a1c-4f79-a588-d129c38bcc4f",
-                                                                    "ucsmanagerid": "0d87c1a6-5664-425c-9024-2ddd9605d260",
-                                                                    "bladedn": "sys/chassis-1/blade-1"
-                                                                    }
-                                                                    },
-                                                                    "created": "2013-09-13T22:17:29-0700",
-                                                                    "jobid": "2c3698a8-39ac-43e6-8ade-86eb2d3726a0"
-                                                                    }
-                                                                    };
-                                                                     */
-                                                                    //for testing only (end)
-
-                                                                    addExtraPropertiesToUcsBladeObject(json.queryasyncjobresultresponse.jobresult.ucsblade);
-                                                                    return json.queryasyncjobresultresponse.jobresult.ucsblade;
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            },
-                                            notification: {
-                                                poll: pollAsyncJobResult
-                                            }
-                                        }
-                                    }
-                                }
                             }
                         }
                     }
@@ -19985,10 +16996,6 @@
         var jsonObj = args.context.item;
         var allowedActions =[ 'enableSwift'];
 
-        if (jsonObj.vmwaredcId == null)
-        allowedActions.push('addVmwareDc'); else
-        allowedActions.push('removeVmwareDc');
-
         if (jsonObj.domainid != null)
         allowedActions.push("releaseDedicatedZone"); else
         allowedActions.push("dedicateZone");
@@ -20173,11 +17180,6 @@
         if (jsonObj.state == 'Running') {
             allowedActions.push("stop");
 
-            //when router is Running, only VMware support scaleUp(change service offering)
-            if (jsonObj.hypervisor == "VMware") {
-                allowedActions.push("scaleUp");
-            }
-
             allowedActions.push("restart");
 
             allowedActions.push("viewConsole");
@@ -20218,11 +17220,6 @@
             allowedActions.push("stop");
             allowedActions.push("restart");
             allowedActions.push("remove");
-
-            //when systemvm is Running, only VMware support scaleUp(change service offering)
-            if (jsonObj.hypervisor == "VMware") {
-                allowedActions.push("scaleUp");
-            }
 
             allowedActions.push("viewConsole");
             if (isAdmin())
@@ -20325,9 +17322,6 @@
                             case "VpcVirtualRouter":
                             nspMap[ "vpcVirtualRouter"] = items[i];
                             break;
-                            case "Ovs":
-                                nspMap["Ovs"] = items[i];
-                                break;
                             case "Netscaler":
                             nspMap[ "netscaler"] = items[i];
                             break;
@@ -20346,17 +17340,11 @@
                             case "JuniperSRX":
                             nspMap[ "srx"] = items[i];
                             break;
-                            case "PaloAlto":
-                            nspMap[ "pa"] = items[i];
-                            break;
                             case "SecurityGroupProvider":
                             nspMap[ "securityGroups"] = items[i];
                             break;
                             case "NiciraNvp":
                             nspMap[ "niciraNvp"] = items[i];
-                            break;
-                            case "Ovs":
-                            nspMap[ "Ovs"] = items[i];
                             break;
                             case "Opendaylight":
                             nspMap[ "Opendaylight"] = items[i];
@@ -20424,12 +17412,6 @@
             });
 
             nspHardcodingArray.push({
-                id: 'nuageVsp',
-                name: 'Nuage Vsp',
-                state: nspMap.nuageVsp ? nspMap.nuageVsp.state : 'Disabled'
-            });
-
-            nspHardcodingArray.push({
                 id: 'InternalLbVm',
                 name: 'Internal LB VM',
                 state: nspMap.InternalLbVm ? nspMap.InternalLbVm.state: 'Disabled'
@@ -20460,15 +17442,6 @@
                 name: 'GloboDNS',
                 state: nspMap.GloboDns ? nspMap.GloboDns.state : 'Disabled'
             });
-
-            //CLOUDSTACK-6840: OVS refers to SDN provider. However, we are not supporting SDN in this release.
-            /*
-            nspHardcodingArray.push({
-                id: 'Ovs',
-                name: 'Ovs',
-                state: nspMap.Ovs ? nspMap.Ovs.state: 'Disabled'
-            });
-            */
         }
     };
 

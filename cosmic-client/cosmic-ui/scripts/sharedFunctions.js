@@ -1318,13 +1318,6 @@ var addExtraPropertiesToGuestNetworkObject = function(jsonObj) {
     }
 }
 
-//used by infrastructure page
-var addExtraPropertiesToUcsBladeObject = function(jsonObj) {
-    var array1 = jsonObj.bladedn.split('/');
-    jsonObj.chassis = array1[1];
-    jsonObj.bladeid = array1[2];
-}
-
 var processPropertiesInImagestoreObject = function(jsonObj) {
     if (jsonObj.url != undefined) {
         var url = jsonObj.url; //e.g. 'cifs://10.1.1.1/aaa/aaa2/aaa3?user=bbb&password=ccc&domain=ddd'

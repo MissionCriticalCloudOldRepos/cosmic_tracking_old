@@ -76,17 +76,8 @@
             case 'KVM':
                 hypervisorAttr = 'kvmnetworklabel';
                 break;
-            case 'VMware':
-                hypervisorAttr = 'vmwarenetworklabel';
-                break;
-            case 'Hyperv':
-                hypervisorAttr = 'hypervnetworklabel';
-                break;
             case 'BareMetal':
                 hypervisorAttr = 'baremetalnetworklabel';
-                break;
-            case 'Ovm':
-                hypervisorAttr = 'ovmnetworklabel';
                 break;
             case 'LXC':
                 hypervisorAttr = 'lxcnetworklabel';
@@ -352,27 +343,8 @@
                     $('.setup-guest-traffic').removeClass('basic');
                     $('.setup-guest-traffic').addClass('advanced');
 
-                    //skip the step if OVS tunnel manager is enabled
-                    skipGuestTrafficStep = false; //reset it before ajax call
-                    $.ajax({
-                        url: createURL('listConfigurations'),
-                        data: {
-                            name: 'sdn.ovs.controller'
-                        },
-                        dataType: "json",
-                        async: false,
-                        success: function(json) {
-                            var items = json.listconfigurationsresponse.configuration; //2 entries returned: 'sdn.ovs.controller', 'sdn.ovs.controller.default.label'
-                            $(items).each(function() {
-                                if (this.name == 'sdn.ovs.controller') {
-                                    if (this.value == 'true' || this.value == true) {
-                                        skipGuestTrafficStep = true;
-                                    }
-                                    return false; //break each loop
-                                }
-                            });
-                        }
-                    });
+                    skipGuestTrafficStep = false; //set value
+
                 }
                 return !skipGuestTrafficStep;
             },
@@ -496,9 +468,7 @@
                                     var nonSupportedHypervisors = {};
                                     if (args.context.zones[0]['network-model'] == "Advanced" && args.context.zones[0]['zone-advanced-sg-enabled'] == "on") {
                                         firstOption = "KVM";
-                                        nonSupportedHypervisors["VMware"] = 1;
                                         nonSupportedHypervisors["BareMetal"] = 1;
-                                        nonSupportedHypervisors["Hyperv"] = 1;
                                         nonSupportedHypervisors["Ovm"] = 1;
                                         nonSupportedHypervisors["Ovm3"] = 1;
                                     }
@@ -604,9 +574,6 @@
                                         });
 
                                         if (thisNetworkOffering.havingEIP == true && thisNetworkOffering.havingELB == true) { //EIP ELB
-                                            if (args.hypervisor == "VMware") { //VMware does not support EIP ELB
-                                                return true; //move to next item in $.each() loop
-                                            }
                                             if (args.context.zones[0]["network-model"] == "Advanced" && args.context.zones[0]["zone-advanced-sg-enabled"] == "on") { // Advanced SG-enabled zone doesn't support EIP ELB
                                                 return true; //move to next item in $.each() loop
                                             }
@@ -960,29 +927,7 @@
                                     return $.inArray($(this).attr('rel'), vsmFields) > -1;
                                 });
 
-                                if ($(this).val() == "VMware") {
-                                    if (dvSwitchEnabled) {
-                                        $form.find('.form-item[rel=overridepublictraffic]').css('display', 'inline-block');
-                                        $form.find('.form-item[rel=overridepublictraffic]').find('input[type=checkbox]').removeAttr('checked');
-
-                                        $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'inline-block');
-                                        $form.find('.form-item[rel=overrideguesttraffic]').find('input[type=checkbox]').removeAttr('checked');
-                                    } else {
-                                        $form.find('.form-item[rel=overridepublictraffic]').css('display', 'none');
-                                        $form.find('.form-item[rel=overrideguesttraffic]').css('display', 'none');
-                                    }
-
-                                    $form.find('[rel=vCenterHost]').css('display', 'block');
-                                    $form.find('[rel=vCenterUsername]').css('display', 'block');
-                                    $form.find('[rel=vCenterPassword]').css('display', 'block');
-                                    $form.find('[rel=vCenterDatacenter]').css('display', 'block');
-
-                                    if (vSwitchEnabled) {
-                                        $vsmFields.css('display', 'block');
-                                    } else {
-                                        $vsmFields.css('display', 'none');
-                                    }
-                                } else if ($(this).val() == "Ovm3") {
+                                if ($(this).val() == "Ovm3") {
                                     $form.find('.form-item[rel=ovm3pool]').css('display', 'inline-block');
                                     $form.find('.form-item[rel=ovm3pool]').find('input[type=checkbox]').removeAttr('checked');
 
@@ -1007,73 +952,6 @@
                             required: true
                         }
                     },
-
-                    //hypervisor==VMWare begins here
-
-                    vCenterHost: {
-                        label: 'label.vcenter.host',
-                        validation: {
-                            required: true
-                        } //required, for firing addVmwareDc API
-                    },
-                    vCenterUsername: {
-                        label: 'label.vcenter.username',
-                        validation: {
-                            required: true
-                        } //required, for firing addVmwareDc API
-                    },
-                    vCenterPassword: {
-                        label: 'label.vcenter.password',
-                        isPassword: true,
-                        validation: {
-                            required: true
-                        } //required, for firing addVmwareDc API
-                    },
-                    vCenterDatacenter: {
-                        label: 'label.vcenter.datacenter',
-                        validation: {
-                            required: true
-                        } //required, for firing addVmwareDc API
-                    },
-
-                    overridepublictraffic: {
-                        label: 'label.override.public.traffic',
-                        isBoolean: true,
-                        isHidden: true
-
-                    },
-
-                    overrideguesttraffic: {
-                        label: 'label.override.guest.traffic',
-                        isBoolean: true,
-                        isHidden: true
-
-                    },
-
-                    //Cisco Nexus Vswitch
-                    vsmipaddress: {
-                        label: 'label.cisco.nexus1000v.ip.address',
-                        validation: {
-                            required: false
-                        },
-                        isHidden: true
-                    },
-                    vsmusername: {
-                        label: 'label.cisco.nexus1000v.username',
-                        validation: {
-                            required: false
-                        },
-                        isHidden: true
-                    },
-                    vsmpassword: {
-                        label: 'label.cisco.nexus1000v.password',
-                        validation: {
-                            required: false
-                        },
-                        isPassword: true,
-                        isHidden: true
-                    }
-                    //hypervisor==VMWare ends here
                 }
             },
             host: {
@@ -1084,28 +962,7 @@
 
                     var $form = args.$form;
 
-                    if (selectedClusterObj.hypervisortype == "VMware") {
-                        $form.find('[rel=hostname]').hide();
-                        $form.find('[rel=username]').hide();
-                        $form.find('[rel=password]').hide();
-
-                        $form.find('[rel=vcenterHost]').css('display', 'block');
-
-                        $form.find('[rel=baremetalCpuCores]').hide();
-                        $form.find('[rel=baremetalCpu]').hide();
-                        $form.find('[rel=baremetalMemory]').hide();
-                        $form.find('[rel=baremetalMAC]').hide();
-
-                        $form.find('[rel=agentUsername]').hide();
-                        $form.find('[rel=agentPassword]').hide();
-
-                        $form.find('.form-item[rel=agentUsername]').hide();
-                        $form.find('.form-item[rel=agentPassword]').hide();
-                        $form.find('.form-item[rel=agentPort]').hide();
-                        $form.find('.form-item[rel=ovm3vip]').hide();
-                        $form.find('.form-item[rel=ovm3pool]').hide();
-                        $form.find('.form-item[rel=ovm3cluster]').hide();
-                    } else if (selectedClusterObj.hypervisortype == "BareMetal") {
+                    if (selectedClusterObj.hypervisortype == "BareMetal") {
                         $form.find('[rel=hostname]').css('display', 'block');
                         $form.find('[rel=username]').css('display', 'block');
                         $form.find('[rel=password]').css('display', 'block');
@@ -1122,26 +979,6 @@
 
                         $form.find('.form-item[rel=agentUsername]').hide();
                         $form.find('.form-item[rel=agentPassword]').hide();
-                        $form.find('.form-item[rel=agentPort]').hide();
-                        $form.find('.form-item[rel=ovm3vip]').hide();
-                        $form.find('.form-item[rel=ovm3pool]').hide();
-                        $form.find('.form-item[rel=ovm3cluster]').hide();
-                    } else if (selectedClusterObj.hypervisortype == "Ovm") {
-                        $form.find('[rel=hostname]').css('display', 'block');
-                        $form.find('[rel=username]').css('display', 'block');
-                        $form.find('[rel=password]').css('display', 'block');
-
-                        $form.find('[rel=vcenterHost]').hide();
-
-                        $form.find('[rel=baremetalCpuCores]').hide();
-                        $form.find('[rel=baremetalCpu]').hide();
-                        $form.find('[rel=baremetalMemory]').hide();
-                        $form.find('[rel=baremetalMAC]').hide();
-
-                        $form.find('[rel=agentUsername]').css('display', 'block');
-                        $form.find('[rel=agentUsername]').find('input').val("oracle");
-                        $form.find('[rel=agentPassword]').css('display', 'block');
-
                         $form.find('.form-item[rel=agentPort]').hide();
                         $form.find('.form-item[rel=ovm3vip]').hide();
                         $form.find('.form-item[rel=ovm3pool]').hide();
@@ -1214,16 +1051,6 @@
                     },
                     //input_group="general" ends here
 
-                    //input_group="VMWare" starts here
-                    vcenterHost: {
-                        label: 'label.esx.host',
-                        validation: {
-                            required: true
-                        },
-                        isHidden: true
-                    },
-                    //input_group="VMWare" ends here
-
                     //input_group="BareMetal" starts here
                     baremetalCpuCores: {
                         label: 'label.num.cpu.cores',
@@ -1254,24 +1081,6 @@
                         isHidden: true
                     },
                     //input_group="BareMetal" ends here
-
-                    //input_group="OVM" starts here
-                    agentUsername: {
-                        label: 'label.agent.username',
-                        validation: {
-                            required: false
-                        },
-                        isHidden: true
-                    },
-                    agentPassword: {
-                        label: 'label.agent.password',
-                        validation: {
-                            required: true
-                        },
-                        isHidden: true,
-                        isPassword: true
-                    },
-                    //input_group="OVM" ends here
 
                     //input_group="OVM3" starts here
                     agentPort: {
@@ -1318,8 +1127,8 @@
                                 return;
                             }
 
-                            //zone-wide-primary-storage is supported only for KVM and VMWare and Hyperv
-                            if (selectedHypervisorObj.hypervisortype == "KVM" || selectedHypervisorObj.hypervisortype == "VMware" || selectedHypervisorObj.hypervisortype == "Hyperv") {
+                            //zone-wide-primary-storage is supported only for KVM and VMWare
+                            if (selectedHypervisorObj.hypervisortype == "KVM") {
                                 var scope = [];
                                 scope.push({
                                     id: 'zone',
@@ -1399,28 +1208,6 @@
                                 items.push({
                                     id: "iscsi",
                                     description: "iscsi"
-                                });
-                                args.response.success({
-                                    data: items
-                                });
-                            } else if (selectedClusterObj.hypervisortype == "VMware") {
-                                var items = [];
-                                items.push({
-                                    id: "nfs",
-                                    description: "nfs"
-                                });
-                                items.push({
-                                    id: "vmfs",
-                                    description: "vmfs"
-                                });
-                                args.response.success({
-                                    data: items
-                                });
-                            } else if (selectedClusterObj.hypervisortype == "Hyperv") {
-                                var items = [];
-                                items.push({
-                                    id: "SMB",
-                                    description: "SMB/CIFS"
                                 });
                                 args.response.success({
                                     data: items
@@ -3082,100 +2869,6 @@
                                                         });
                                                         // ***** Virtual Router ***** (end) *****
 
-                                                         // ***** Ovs ***** (begin) *****
-                                                        var ovsProviderId =  null;
-                                                        $.ajax({
-                                                            url: createURL("listNetworkServiceProviders&name=Ovs&physicalNetworkId=" + thisPhysicalNetwork.id),
-                                                            dataType: "json",
-                                                            async: false,
-                                                            success: function (json) {
-                                                                var items = json.listnetworkserviceprovidersresponse.networkserviceprovider;
-                                                                if (items != null && items.length > 0) {
-                                                                    ovsProviderId = items[0].id;
-                                                                }
-                                                            }
-                                                        });
-                                                        if (ovsProviderId != null) {
-                                                            var ovsElementId = null;
-                                                            $.ajax({
-                                                                url: createURL("listOvsElements&nspid=" + ovsProviderId),
-                                                                dataType: "json",
-                                                                async: false,
-                                                                success: function (json) {
-                                                                    var items = json.listovselementsresponse.ovselement;
-                                                                    if (items != null && items.length > 0) {
-                                                                        ovsElementId = items[0].id;
-                                                                    }
-                                                                }
-                                                            });
-                                                            if (ovsElementId != null) {
-                                                                $.ajax({
-                                                                    url: createURL("configureOvsElement&enabled=true&id=" + ovsElementId),
-                                                                    dataType: "json",
-                                                                    async: false,
-                                                                    success: function (json) {
-                                                                        var jobId = json.configureovselementresponse.jobid;
-                                                                        var enableOvsElementIntervalID = setInterval(function () {
-                                                                            $.ajax({
-                                                                                url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                                                dataType: "json",
-                                                                                success: function (json) {
-                                                                                    var result = json.queryasyncjobresultresponse;
-                                                                                    if (result.jobstatus == 0) {
-                                                                                        return; //Job has not completed
-                                                                                    } else {
-                                                                                        clearInterval(enableOvsElementIntervalID);
-
-                                                                                        if (result.jobstatus == 1) { //configureOvsElement succeeded
-                                                                                            $.ajax({
-                                                                                                url: createURL("updateNetworkServiceProvider&state=Enabled&id=" + ovsProviderId),
-                                                                                                dataType: "json",
-                                                                                                async: false,
-                                                                                                success: function (json) {
-                                                                                                    var jobId = json.updatenetworkserviceproviderresponse.jobid;
-                                                                                                    var enableOvsProviderIntervalID = setInterval(function () {
-                                                                                                        $.ajax({
-                                                                                                            url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                                                                            dataType: "json",
-                                                                                                            success: function (json) {
-                                                                                                                var result = json.queryasyncjobresultresponse;
-                                                                                                                if (result.jobstatus == 0) {
-                                                                                                                    return; //Job has not completed
-                                                                                                                } else {
-                                                                                                                    clearInterval(enableOvsProviderIntervalID);
-
-                                                                                                                    if (result.jobstatus == 2) {
-                                                                                                                        alert("failed to enable Ovs Provider. Error: " + _s(result.jobresult.errortext));
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            },
-                                                                                                            error: function (XMLHttpResponse) {
-                                                                                                                var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                                                                                alert("updateNetworkServiceProvider failed. Error: " + errorMsg);
-                                                                                                            }
-                                                                                                        });
-                                                                                                    }, g_queryAsyncJobResultInterval);
-                                                                                                }
-                                                                                            });
-                                                                                        } else if (result.jobstatus == 2) {
-                                                                                            alert("configureOvsElement failed. Error: " + _s(result.jobresult.errortext));
-                                                                                        }
-                                                                                    }
-                                                                                },
-                                                                                error: function (XMLHttpResponse) {
-                                                                                    var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                                                    alert("configureOvsElement failed. Error: " + errorMsg);
-                                                                                }
-                                                                            });
-                                                                        }, g_queryAsyncJobResultInterval);
-                                                                    }
-                                                                });
-                                                            }
-
-
-                                                        }
-                                                        // ***** Ovs ***** (end) *****
-
                                                         // ***** Internal LB ***** (begin) *****
                                                         var internalLbProviderId;
                                                         $.ajax({
@@ -3276,102 +2969,6 @@
                                                             }
                                                         });
                                                         // ***** Virtual Router ***** (end) *****
-
-                                                        // ***** Ovs ***** (begin) *****
-                                                        var ovsProviderId =  null;
-                                                        $.ajax({
-                                                            url: createURL("listNetworkServiceProviders&name=Ovs&physicalNetworkId=" + thisPhysicalNetwork.id),
-                                                            dataType: "json",
-                                                            async: false,
-                                                            success: function (json) {
-                                                                var items = json.listnetworkserviceprovidersresponse.networkserviceprovider;
-                                                                if (items != null && items.length > 0) {
-                                                                    ovsProviderId = items[0].id;
-                                                                }
-                                                            }
-                                                        });
-                                                        if (ovsProviderId != null) {
-                                                            var ovsElementId = null;
-                                                            $.ajax({
-                                                                url: createURL("listOvsElements&nspid=" + ovsProviderId),
-                                                                dataType: "json",
-                                                                async: false,
-                                                                success: function (json) {
-                                                                    var items = json.listovselementsresponse.ovselement;
-                                                                    if (items != null && items.length > 0) {
-                                                                        ovsElementId = items[0].id;
-                                                                    }
-                                                                }
-                                                            });
-                                                            if (ovsElementId != null) {
-                                                                $.ajax({
-                                                                    url: createURL("configureOvsElement&enabled=true&id=" + ovsElementId),
-                                                                    dataType: "json",
-                                                                    async: false,
-                                                                    success: function (json) {
-                                                                        var jobId = json.configureovselementresponse.jobid;
-                                                                        var enableOvsElementIntervalID = setInterval(function () {
-                                                                            $.ajax({
-                                                                                url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                                                dataType: "json",
-                                                                                success: function (json) {
-                                                                                    var result = json.queryasyncjobresultresponse;
-                                                                                    if (result.jobstatus == 0) {
-                                                                                        return; //Job has not completed
-                                                                                    } else {
-                                                                                        clearInterval(enableOvsElementIntervalID);
-
-                                                                                        if (result.jobstatus == 1) { //configureOvsElement succeeded
-                                                                                            $.ajax({
-                                                                                                url: createURL("updateNetworkServiceProvider&state=Enabled&id=" + ovsProviderId),
-                                                                                                dataType: "json",
-                                                                                                async: false,
-                                                                                                success: function (json) {
-                                                                                                    var jobId = json.updatenetworkserviceproviderresponse.jobid;
-                                                                                                    var enableOvsProviderIntervalID = setInterval(function () {
-                                                                                                        $.ajax({
-                                                                                                            url: createURL("queryAsyncJobResult&jobId=" + jobId),
-                                                                                                            dataType: "json",
-                                                                                                            success: function (json) {
-                                                                                                                var result = json.queryasyncjobresultresponse;
-                                                                                                                if (result.jobstatus == 0) {
-                                                                                                                    return; //Job has not completed
-                                                                                                                } else {
-                                                                                                                    clearInterval(enableOvsProviderIntervalID);
-
-                                                                                                                    if (result.jobstatus == 2) {
-                                                                                                                        alert("failed to enable Ovs Provider. Error: " + _s(result.jobresult.errortext));
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            },
-                                                                                                            error: function (XMLHttpResponse) {
-                                                                                                                var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                                                                                alert("updateNetworkServiceProvider failed. Error: " + errorMsg);
-                                                                                                            }
-                                                                                                        });
-                                                                                                    }, g_queryAsyncJobResultInterval);
-                                                                                                }
-                                                                                            });
-                                                                                        } else if (result.jobstatus == 2) {
-                                                                                            alert("configureOvsElement failed. Error: " + _s(result.jobresult.errortext));
-                                                                                        }
-                                                                                    }
-                                                                                },
-                                                                                error: function (XMLHttpResponse) {
-                                                                                    var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                                                    alert("configureOvsElement failed. Error: " + errorMsg);
-                                                                                }
-                                                                            });
-                                                                        }, g_queryAsyncJobResultInterval);
-                                                                    }
-                                                                });
-                                                            }
-
-
-                                                        }
-
-
-                                                        // ***** Ovs ***** (end) *****
 
                                                         // ***** Internal LB ***** (begin) *****
                                                         var internalLbProviderId;
@@ -4256,114 +3853,33 @@
                     array1.push("&zoneId=" + args.data.returnedZone.id);
                     array1.push("&hypervisor=" + args.data.cluster.hypervisor);
 
-                    var clusterType;
-                    if (args.data.cluster.hypervisor == "VMware")
-                        clusterType = "ExternalManaged";
-                    else
-                        clusterType = "CloudManaged";
+                    var clusterType = "CloudManaged";
                     array1.push("&clustertype=" + clusterType);
 
                     array1.push("&podId=" + args.data.returnedPod.id);
 
                     var clusterName = args.data.cluster.name;
-
-                    if (args.data.cluster.hypervisor == "VMware") {
-                        array1.push("&username=" + todb(args.data.cluster.vCenterUsername));
-                        array1.push("&password=" + todb(args.data.cluster.vCenterPassword));
-
-                        if (args.data.cluster.vsmipaddress != null && args.data.cluster.vsmipaddress.length > 0) {
-                            array1.push('&vsmipaddress=' + args.data.cluster.vsmipaddress);
-                        }
-
-                        if(args.data.cluster.vsmusername != null && args.data.cluster.vsmusername.length > 0) {
-                            array1.push('&vsmusername=' + args.data.cluster.vsmusername);
-                        }
-
-                        if(args.data.cluster.vsmpassword != null && args.data.cluster.vsmpassword.length > 0) {
-                            array1.push('&vsmpassword=' + args.data.cluster.vsmpassword);
-                        }
-
-                        var hostname = args.data.cluster.vCenterHost;
-                        var dcName = args.data.cluster.vCenterDatacenter;
-
-                        var url;
-                        if (hostname.indexOf("http://") == -1)
-                            url = "http://" + hostname;
-                        else
-                            url = hostname;
-                        url += "/" + dcName + "/" + clusterName;
-                        array1.push("&url=" + todb(url));
-                        clusterName = hostname + "/" + dcName + "/" + clusterName; //override clusterName
-                    }
                     array1.push("&clustername=" + todb(clusterName));
 
-                    if (args.data.cluster.hypervisor == "VMware") {
-                        var vmwareData = {
-                            zoneId: args.data.returnedZone.id,
-                            username: args.data.cluster.vCenterUsername,
-                            password: args.data.cluster.vCenterPassword,
-                            name: args.data.cluster.vCenterDatacenter,
-                            vcenter: args.data.cluster.vCenterHost
-                        };
-                        $.ajax({
-                            url: createURL('addVmwareDc'),
-                            data: vmwareData,
-                            type: "POST",
-                            success: function(json) {
-                                var item = json.addvmwaredcresponse.vmwaredc;
-                                if (item.id != null) {
-                                    $.ajax({
-                                        url: createURL("addCluster" + array1.join("")),
-                                        dataType: "json",
-                                        async: true,
-                                        success: function(json) {
-                                            stepFns.addPrimaryStorage({ //skip "add host step" when hypervisor is VMware
-                                                data: $.extend(args.data, {
-                                                    returnedCluster: json.addclusterresponse.cluster[0]
-                                                })
-                                            });
-                                        },
-                                        error: function(XMLHttpResponse) {
-                                            var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                            error('addCluster', errorMsg, {
-                                                fn: 'addCluster',
-                                                args: args
-                                            });
-                                        }
-                                    });
-                                }
-                            },
-
-                            error: function(XMLHttpResponse) {
-                                var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                error('addCluster', errorMsg, {
-                                    fn: 'addCluster',
-                                    args: args
-                                });
-                            }
-
-                        });
-                    } else {
-                        $.ajax({
-                            url: createURL("addCluster" + array1.join("")),
-                            dataType: "json",
-                            type: "POST",
-                            success: function(json) {
-                                stepFns.addHost({
-                                    data: $.extend(args.data, {
-                                        returnedCluster: json.addclusterresponse.cluster[0]
-                                    })
-                                });
-                            },
-                            error: function(XMLHttpResponse) {
-                                var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                error('addCluster', errorMsg, {
-                                    fn: 'addCluster',
-                                    args: args
-                                });
-                            }
-                        });
-                    }
+                    $.ajax({
+                        url: createURL("addCluster" + array1.join("")),
+                        dataType: "json",
+                        type: "POST",
+                        success: function(json) {
+                            stepFns.addHost({
+                                data: $.extend(args.data, {
+                                    returnedCluster: json.addclusterresponse.cluster[0]
+                                })
+                            });
+                        },
+                        error: function(XMLHttpResponse) {
+                            var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
+                            error('addCluster', errorMsg, {
+                                fn: 'addCluster',
+                                args: args
+                            });
+                        }
+                    });
                 },
 
                 addHost: function(args) {

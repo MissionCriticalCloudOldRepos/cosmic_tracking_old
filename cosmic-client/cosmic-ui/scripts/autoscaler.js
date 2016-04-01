@@ -1416,7 +1416,6 @@
                 };
 
                 // Get hypervisor;
-                // if VMware, show notification to user about additional configuration required
                 $.ajax({
                     url: createURL('listTemplates'),
                     data: {
@@ -1427,21 +1426,8 @@
                     success: function(json) {
                         var template = json.listtemplatesresponse.template;
 
-                        if (template && template[0].hypervisor === 'VMware') {
-                            cloudStack.dialog.confirm({
-                                message: 'message.admin.guide.read',
-                                action: function() {
-                                    //*** API calls start!!! ********
-                                    scaleUp(args);
-                                },
-                                cancelAction: function() {
-                                    $('.loading-overlay').remove();
-                                }
-                            });
-                        } else {
-                            //*** API calls start!!! ********
-                            scaleUp(args);
-                        }
+                        //*** API calls start!!! ********
+                        scaleUp(args);
                     }
                 });
 
