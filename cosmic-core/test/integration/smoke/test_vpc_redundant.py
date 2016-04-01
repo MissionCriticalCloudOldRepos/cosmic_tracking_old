@@ -340,7 +340,7 @@ class TestVPCRedundancy(cloudstackTestCase):
                 )
                 host = hosts[0]
 
-                if self.hypervisor.lower() in ('vmware', 'hyperv'):
+                if self.hypervisor.lower() in ('vmware'):
                         result = str(get_process_status(
                             self.apiclient.connection.mgtSvr,
                             22,

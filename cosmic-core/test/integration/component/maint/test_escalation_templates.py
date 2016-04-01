@@ -271,7 +271,7 @@ class TestlistTemplates(cloudstackTestCase):
         except CloudstackAPIException  as e:
             self.assertRaises("Exception Raised : %s" % e)
 
-        if self.hypervisor.lower() in ['hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['lxc']:
             self.updateConfigurAndRestart("allow.public.user.templates", "true")
             return
         else:

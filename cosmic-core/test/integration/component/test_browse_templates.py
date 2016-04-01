@@ -808,8 +808,8 @@ class TestBrowseUploadVolume(cloudstackTestCase):
 
         self.debug("Running SSVM check script")
 
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
-            #SSH into SSVMs is done via management server for Vmware and Hyper-V
+        if self.hypervisor.lower() in ('vmware'):
+            #SSH into SSVMs is done via management server for Vmware
             result = get_process_status(
                                 self.apiclient.connection.mgtSvr,
                                 22,
@@ -848,8 +848,8 @@ class TestBrowseUploadVolume(cloudstackTestCase):
                         )
 
         #Check status of cloud service
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
-            #SSH into SSVMs is done via management server for Vmware and Hyper-V
+        if self.hypervisor.lower() in ('vmware'):
+            #SSH into SSVMs is done via management server for Vmware
             result = get_process_status(
                                 self.apiclient.connection.mgtSvr,
                                 22,

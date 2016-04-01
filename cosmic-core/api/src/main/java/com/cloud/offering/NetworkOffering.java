@@ -49,7 +49,6 @@ public interface NetworkOffering extends InfrastructureEntity, InternalIdentity,
 
     public final static String DefaultSharedNetworkOfferingWithSGService = "DefaultSharedNetworkOfferingWithSGService";
     public final static String DefaultIsolatedNetworkOfferingWithSourceNatService = "DefaultIsolatedNetworkOfferingWithSourceNatService";
-    public final static String OvsIsolatedNetworkOfferingWithSourceNatService = "OvsIsolatedNetworkOfferingWithSourceNatService";
     public final static String DefaultSharedNetworkOffering = "DefaultSharedNetworkOffering";
     public final static String DefaultIsolatedNetworkOffering = "DefaultIsolatedNetworkOffering";
     public final static String DefaultSharedEIPandELBNetworkOffering = "DefaultSharedNetscalerEIPandELBNetworkOffering";

@@ -568,18 +568,6 @@ END
   log INFO "${appliance} exported for vagrant: dist/${appliance_build_name}.box"
 }
 
-function hyperv_export() {
-  log INFO "creating hyperv export"
-  local hdd_uuid="${1}"
-  vboxmanage clonehd "${hdd_uuid}" "${appliance_build_name}-hyperv.vhd" --format VHD
-  # HyperV doesn't support import a zipped image from S3,
-  # but we create a zipped version to save space on the jenkins box
-  zip "${appliance_build_name}-hyperv.vhd.zip" "${appliance_build_name}-hyperv.vhd"
-  add_on_exit rm "${appliance_build_name}-hyperv.vhd"
-  mv "${appliance_build_name}-hyperv.vhd.zip" dist/
-  log INFO "${appliance} exported for HyperV: dist/${appliance_build_name}-hyperv.vhd.zip"
-}
-
 ###
 ### Main invocation
 ###
@@ -615,7 +603,6 @@ function main() {
   kvm_export "${hdd_path}"
   vmware_export "${machine_uuid}" "${hdd_uuid}"
   vagrant_export "${machine_uuid}"
-  hyperv_export "${hdd_uuid}"
   md5sum dist/* > dist/md5sum.txt
   add_on_exit log INFO "BUILD SUCCESSFUL"
 }

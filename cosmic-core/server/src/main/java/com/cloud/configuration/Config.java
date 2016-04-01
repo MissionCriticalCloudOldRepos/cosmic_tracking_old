@@ -301,14 +301,6 @@ public enum Config {
             "false",
             "Direct Network Dhcp Server should not send a default route",
             "true/false"),
-    OvsTunnelNetworkDefaultLabel(
-            "Network",
-            ManagementServer.class,
-            String.class,
-            "sdn.ovs.controller.default.label",
-            "cloud-public",
-            "Default network label to be used when fetching interface for GRE endpoints",
-            null),
     VmNetworkThrottlingRate(
             "Network",
             ManagementServer.class,
@@ -689,7 +681,7 @@ public enum Config {
             String.class,
             "system.vm.default.hypervisor",
             null,
-            "Hypervisor type used to create system vm, valid values are: XenServer, KVM, VMware, Hyperv, VirtualBox, Parralels, BareMetal, Ovm, LXC, Any",
+            "Hypervisor type used to create system vm, valid values are: XenServer, KVM, VMware, VirtualBox, Parralels, BareMetal, LXC, Any",
             null),
     SystemVMRandomPassword(
             "Advanced",
@@ -705,8 +697,8 @@ public enum Config {
             ManagementServer.class,
             String.class,
             "hypervisor.list",
-            HypervisorType.Hyperv + "," + HypervisorType.KVM + "," + HypervisorType.XenServer + "," + HypervisorType.VMware + "," + HypervisorType.BareMetal + "," +
-                HypervisorType.Ovm + "," + HypervisorType.LXC + "," + HypervisorType.Ovm3,
+            HypervisorType.KVM + "," + HypervisorType.XenServer + "," + HypervisorType.VMware + "," + HypervisorType.BareMetal + "," +
+                HypervisorType.LXC + "," + HypervisorType.Ovm3,
             "The list of hypervisors that this deployment will use.",
             "hypervisorList"),
     ManagementNetwork("Advanced", ManagementServer.class, String.class, "management.network.cidr", null, "The cidr of management server network", null),
@@ -1046,11 +1038,6 @@ public enum Config {
             "5",
             "Incorrect login attempts allowed before the user is disabled",
             null),
-    // Ovm
-    OvmPublicNetwork("Hidden", ManagementServer.class, String.class, "ovm.public.network.device", null, "Specify the public bridge on host for public network", null),
-    OvmPrivateNetwork("Hidden", ManagementServer.class, String.class, "ovm.private.network.device", null, "Specify the private bridge on host for private network", null),
-    OvmGuestNetwork("Hidden", ManagementServer.class, String.class, "ovm.guest.network.device", null, "Specify the private bridge on host for private network", null),
-
     // Ovm3
     Ovm3PublicNetwork("Hidden", ManagementServer.class, String.class, "ovm3.public.network.device", null, "Specify the public bridge on host for public network", null),
     Ovm3PrivateNetwork("Hidden", ManagementServer.class, String.class, "ovm3.private.network.device", null, "Specify the private bridge on host for private network", null),
@@ -1260,32 +1247,6 @@ public enum Config {
             "kvm.ssh.to.agent",
             "true",
             "Specify whether or not the management server is allowed to SSH into KVM Agents",
-            null),
-
-    // Hyperv
-    HypervPublicNetwork(
-            "Hidden",
-            ManagementServer.class,
-            String.class,
-            "hyperv.public.network.device",
-            null,
-            "Specify the public virtual switch on host for public network",
-            null),
-    HypervPrivateNetwork(
-            "Hidden",
-            ManagementServer.class,
-            String.class,
-            "hyperv.private.network.device",
-            null,
-            "Specify the virtual switch on host for private network",
-            null),
-    HypervGuestNetwork(
-            "Hidden",
-            ManagementServer.class,
-            String.class,
-            "hyperv.guest.network.device",
-            null,
-            "Specify the virtual switch on host for private network",
             null),
 
     // Usage
@@ -1945,15 +1906,6 @@ public enum Config {
                 + " If set to false, these commands become asynchronous. Default value is false.",
             null),
 
-    UCSSyncBladeInterval(
-            "Advanced",
-            ManagementServer.class,
-            Integer.class,
-            "ucs.sync.blade.interval",
-            "3600",
-            "the interval cloudstack sync with UCS manager for available blades in case user remove blades from chassis without notifying CloudStack",
-            null),
-
     RedundantRouterVrrpInterval(
             "Advanced",
             NetworkOrchestrationService.class,
@@ -2001,12 +1953,12 @@ public enum Config {
         s_scopeLevelConfigsMap.put(ConfigKey.Scope.Account.toString(), new ArrayList<Config>());
         s_scopeLevelConfigsMap.put(ConfigKey.Scope.Global.toString(), new ArrayList<Config>());
 
-        for (Config c : Config.values()) {
+        for (final Config c : Config.values()) {
             //Creating group of parameters per each level (zone/cluster/pool/account)
-            StringTokenizer tokens = new StringTokenizer(c.getScope(), ",");
+            final StringTokenizer tokens = new StringTokenizer(c.getScope(), ",");
             while (tokens.hasMoreTokens()) {
-                String scope = tokens.nextToken().trim();
-                List<Config> currentConfigs = s_scopeLevelConfigsMap.get(scope);
+                final String scope = tokens.nextToken().trim();
+                final List<Config> currentConfigs = s_scopeLevelConfigsMap.get(scope);
                 currentConfigs.add(c);
                 s_scopeLevelConfigsMap.put(scope, currentConfigs);
             }
@@ -2032,9 +1984,9 @@ public enum Config {
         Configs.put("Secure", new ArrayList<Config>());
 
         // Add values into HashMap
-        for (Config c : Config.values()) {
-            String category = c.getCategory();
-            List<Config> currentConfigs = Configs.get(category);
+        for (final Config c : Config.values()) {
+            final String category = c.getCategory();
+            final List<Config> currentConfigs = Configs.get(category);
             currentConfigs.add(c);
             Configs.put(category, currentConfigs);
         }
@@ -2132,10 +2084,10 @@ public enum Config {
     }
 
     public static Config getConfig(String name) {
-        List<String> categories = getCategories();
-        for (String category : categories) {
-            List<Config> currentList = getConfigs(category);
-            for (Config c : currentList) {
+        final List<String> categories = getCategories();
+        for (final String category : categories) {
+            final List<Config> currentList = getConfigs(category);
+            for (final Config c : currentList) {
                 if (c.key().equals(name)) {
                     return c;
                 }
@@ -2146,9 +2098,9 @@ public enum Config {
     }
 
     public static List<String> getCategories() {
-        Object[] keys = Configs.keySet().toArray();
-        List<String> categories = new ArrayList<String>();
-        for (Object key : keys) {
+        final Object[] keys = Configs.keySet().toArray();
+        final List<String> categories = new ArrayList<String>();
+        for (final Object key : keys) {
             categories.add((String)key);
         }
         return categories;

@@ -39,7 +39,6 @@ public interface VirtualNetworkApplianceManager extends Manager, VirtualNetworkA
     static final String RouterTemplateXenCK = "router.template.xenserver";
     static final String RouterTemplateKvmCK = "router.template.kvm";
     static final String RouterTemplateVmwareCK = "router.template.vmware";
-    static final String RouterTemplateHyperVCK = "router.template.hyperv";
     static final String RouterTemplateLxcCK = "router.template.lxc";
     static final String RouterTemplateOvm3CK = "router.template.ovm3";
     static final String SetServiceMonitorCK = "network.router.EnableServiceMonitoring";
@@ -51,8 +50,6 @@ public interface VirtualNetworkApplianceManager extends Manager, VirtualNetworkA
             "Name of the default router template on KVM.", true, ConfigKey.Scope.Zone, null);
     static final ConfigKey<String> RouterTemplateVmware = new ConfigKey<String>(String.class, RouterTemplateVmwareCK, "Advanced", "SystemVM Template (vSphere)",
             "Name of the default router template on Vmware.", true, ConfigKey.Scope.Zone, null);
-    static final ConfigKey<String> RouterTemplateHyperV = new ConfigKey<String>(String.class, RouterTemplateHyperVCK, "Advanced", "SystemVM Template (HyperV)",
-            "Name of the default router template on Hyperv.", true, ConfigKey.Scope.Zone, null);
     static final ConfigKey<String> RouterTemplateLxc = new ConfigKey<String>(String.class, RouterTemplateLxcCK, "Advanced", "SystemVM Template (LXC)",
             "Name of the default router template on LXC.", true, ConfigKey.Scope.Zone, null);
     static final ConfigKey<String> RouterTemplateOvm3 = new ConfigKey<String>(String.class, RouterTemplateOvm3CK, "Advanced", "SystemVM Template (Ovm3)",

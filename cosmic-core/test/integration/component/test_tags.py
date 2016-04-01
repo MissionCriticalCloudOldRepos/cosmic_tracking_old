@@ -1251,7 +1251,7 @@ class TestResourceTags(cloudstackTestCase):
         # 1. Create a tag on snapshot using createTags API
         # 2. Delete above created tag using deleteTags API
 
-        if self.hypervisor.lower() in ['hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['lxc']:
             self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor.lower())
 
         self.debug("Creating snapshot on ROOT volume for VM: %s " %

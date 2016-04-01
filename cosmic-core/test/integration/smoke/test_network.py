@@ -1095,8 +1095,7 @@ class TestRouterRules(cloudstackTestCase):
     def getCommandResultFromRouter(self, router, command):
         """Run given command on router and return the result"""
 
-        if (self.hypervisor.lower() == 'vmware'
-                or self.hypervisor.lower() == 'hyperv'):
+        if (self.hypervisor.lower() == 'vmware'):
             result = get_process_status(
                 self.apiclient.connection.mgtSvr,
                 22,

@@ -389,7 +389,6 @@ public class ApiConstants {
     public static final String XENSERVER_NETWORK_LABEL = "xennetworklabel";
     public static final String KVM_NETWORK_LABEL = "kvmnetworklabel";
     public static final String VMWARE_NETWORK_LABEL = "vmwarenetworklabel";
-    public static final String HYPERV_NETWORK_LABEL = "hypervnetworklabel";
     public static final String OVM3_NETWORK_LABEL = "ovm3networklabel";
     public static final String NETWORK_SERVICE_PROVIDER_ID = "nspid";
     public static final String SERVICE_LIST = "servicelist";
@@ -443,9 +442,6 @@ public class ApiConstants {
     public static final String VSWITCH_TYPE_PUBLIC_TRAFFIC = "publicvswitchtype";
     public static final String VSWITCH_NAME_GUEST_TRAFFIC = "guestvswitchname";
     public static final String VSWITCH_NAME_PUBLIC_TRAFFIC = "publicvswitchname";
-    // Ovs controller
-    public static final String OVS_DEVICE_ID = "ovsdeviceid";
-    public static final String OVS_DEVICE_NAME = "ovsdevicename";
     // OpenDaylight controller
     public static final String ODL_DEVICE_ID = "odldeviceid";
     public static final String ODL_DEVICE_NAME = "odldevicename";
@@ -542,7 +538,6 @@ public class ApiConstants {
     public static final String AUTOSCALE_USER_ID = "autoscaleuserid";
     public static final String BAREMETAL_DISCOVER_NAME = "baremetaldiscovername";
     public static final String BAREMETAL_RCT_URL = "baremetalrcturl";
-    public static final String UCS_DN = "ucsdn";
     public static final String GSLB_PROVIDER = "gslbprovider";
     public static final String EXCLUSIVE_GSLB_PROVIDER = "isexclusivegslbprovider";
     public static final String GSLB_PROVIDER_PUBLIC_IP = "gslbproviderpublicip";
@@ -557,10 +552,6 @@ public class ApiConstants {
     public static final String GUEST_VM_CIDR = "guestvmcidr";
     public static final String NETWORK_CIDR = "networkcidr";
     public static final String RESERVED_IP_RANGE = "reservediprange";
-    public static final String UCS_MANAGER_ID = "ucsmanagerid";
-    public static final String UCS_PROFILE_DN = "profiledn";
-    public static final String UCS_BLADE_DN = "bladedn";
-    public static final String UCS_BLADE_ID = "bladeid";
     public static final String VM_GUEST_IP = "vmguestip";
     public static final String HEALTHCHECK_RESPONSE_TIMEOUT = "responsetimeout";
     public static final String HEALTHCHECK_INTERVAL_TIME = "intervaltime";

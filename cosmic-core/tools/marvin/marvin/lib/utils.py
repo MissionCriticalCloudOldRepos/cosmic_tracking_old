@@ -44,8 +44,7 @@ from marvin.codes import (
 def _configure_ssh_credentials(hypervisor):
     ssh_command = "ssh -i ~/.ssh/id_rsa.cloud -ostricthostkeychecking=no "
 
-    if (str(hypervisor).lower() == 'vmware'
-        or str(hypervisor).lower() == 'hyperv'):
+    if (str(hypervisor).lower() == 'vmware'):
         ssh_command = "ssh -i /var/cloudstack/management/.ssh/id_rsa -ostricthostkeychecking=no "
 
     return ssh_command
@@ -53,10 +52,6 @@ def _configure_ssh_credentials(hypervisor):
 
 def _configure_timeout(hypervisor):
     timeout = 5
-
-    # Increase hop into router
-    if str(hypervisor).lower() == 'hyperv':
-        timeout = 12
 
     return timeout
 

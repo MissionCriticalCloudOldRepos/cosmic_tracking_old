@@ -474,8 +474,7 @@ public class TemplateServiceImpl implements TemplateService {
                                 TemplateInfo tmpl = _templateFactory.getTemplate(tmplt.getId(), DataStoreRole.Image);
                                 createTemplateAsync(tmpl, store, null);
                             } else {
-                                s_logger.info("Skip downloading template " + tmplt.getUniqueName() + " since current data center does not have hypervisor " +
-                                        tmplt.getHypervisorType().toString());
+                                s_logger.info("Skip downloading of a template because it's not part of the supported hypervisors");
                             }
                         }
                     }

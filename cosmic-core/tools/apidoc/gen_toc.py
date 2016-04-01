@@ -167,12 +167,9 @@ known_categories = {
     'dedicateHost': 'Dedicate Resources',
     'releaseDedicatedHost': 'Dedicate Resources',
     'Baremetal' : 'Baremetal',
-    'UCS' : 'UCS',
-    'Ucs' : 'UCS',
     'CacheStores' : 'Cache Stores',
     'CacheStore' : 'Cache Store',
     'IAM' : 'IAM',
-    'OvsElement' : 'Ovs Element',
     'StratosphereSsp' : ' Stratosphere SSP'
     }
 

@@ -12,7 +12,6 @@
 
   <modules>
     <module>api/rate-limit</module>
-    <module>api/solidfire-intg-test</module>
     <module>api/discovery</module>
     <module>acl/static-role-based</module>
     <module>affinity-group-processors/host-anti-affinity</module>
@@ -23,25 +22,16 @@
     <module>ha-planners/skip-heurestics</module>
     <module>host-allocators/random</module>
     <module>dedicated-resources</module>
-    <module>hypervisors/ovm</module>
     <module>event-bus/rabbitmq</module>
-    <module>event-bus/inmemory</module>
     <module>event-bus/kafka</module>
     <module>hypervisors/baremetal</module>
-    <module>hypervisors/ucs</module>
-    <module>hypervisors/hyperv</module>
     <module>network-elements/elastic-loadbalancer</module>
-    <module>network-elements/ovs</module>
-    <module>network-elements/palo-alto</module>
     <module>network-elements/netscaler</module>
     <module>network-elements/nicira-nvp</module>
-    <module>network-elements/stratosphere-ssp</module>
     <module>network-elements/opendaylight</module>
     <module>storage-allocators/random</module>
     <module>user-authenticators/ldap</module>
-    <module>user-authenticators/md5</module>
     <module>user-authenticators/pbkdf2</module>
-    <module>user-authenticators/plain-text</module>
     <module>user-authenticators/saml2</module>
     <module>user-authenticators/sha256salted</module>
     <module>storage/image/s3</module>
@@ -54,9 +44,7 @@
     <module>storage/volume/default</module>
     <module>storage/volume/sample</module>
     <module>network-elements/internal-loadbalancer</module>
-    <module>network-elements/vxlan</module>
     <module>network-elements/globodns</module>
-    <module>database/quota</module>
   </modules>
 
   <dependencies>
@@ -110,40 +98,6 @@
       </activation>
       <modules>
         <module>network-elements/juniper-srx</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>nuagevsp</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <modules>
-        <module>network-elements/nuage-vsp</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>vmware</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <modules>
-        <module>hypervisors/vmware</module>
-        <module>network-elements/cisco-vnmc</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>mysqlha</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <modules>
-        <module>database/mysql-ha</module>
       </modules>
     </profile>
     <profile>

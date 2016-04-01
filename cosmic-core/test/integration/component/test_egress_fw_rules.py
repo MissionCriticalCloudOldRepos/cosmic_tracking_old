@@ -146,13 +146,6 @@ class TestEgressFWRules(cloudstackTestCase):
 
         cls.hypervisor = cls.testClient.getHypervisorInfo()
 
-        # As Hyperv is GUI based VM, it requires more resources to be
-        # able to SSH properly to it
-        if cls.hypervisor.lower()  == 'hyperv':
-            cls.services["service_offering"]["name"] = "Medium Instance"
-            cls.services["service_offering"]["memory"] = "1024"
-            cls.services["service_offering"]["cpuspeed"] = "1024"
-
         # Create service offerings.
         cls.service_offering = ServiceOffering.create(cls.api_client,
                                                       cls.services["service_offering"])

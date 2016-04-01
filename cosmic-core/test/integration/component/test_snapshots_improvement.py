@@ -136,7 +136,7 @@ class TestSnapshotOnRootVolume(cloudstackTestCase):
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['hyperv', 'lxc']:
+        if cls.hypervisor.lower() in ['lxc']:
             cls.unsupportedHypervisor = True
             return
         cls.template = get_template(
@@ -315,7 +315,7 @@ class TestCreateSnapshot(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['hyperv', 'lxc']:
+        if cls.hypervisor.lower() in ['lxc']:
             cls.unsupportedHypervisor = True
             return
         cls.services = Services().services

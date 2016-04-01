@@ -69,7 +69,7 @@ class TestDisableEnableZone(cloudstackTestCase):
         cls.testdata = testClient.getParsedTestDataConfig()
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.snapshotSupported = True
-        if cls.hypervisor.lower() in ["hyperv", "lxc"]:
+        if cls.hypervisor.lower() in ["lxc"]:
             cls.snapshotSupported = False
 
         # Get Zone, Domain and templates
@@ -491,7 +491,7 @@ class TestDisableEnablePod(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
 
         cls.snapshotSupported = True
-        if cls.hypervisor.lower() in ["hyperv", "lxc"]:
+        if cls.hypervisor.lower() in ["lxc"]:
             cls.snapshotSupported = False
 
         # Get Zone, Domain and templates
@@ -886,7 +886,7 @@ class TestDisableEnableCluster(cloudstackTestCase):
         cls.testdata = testClient.getParsedTestDataConfig()
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.snapshotSupported = True
-        if cls.hypervisor.lower() in ["hyperv", "lxc"]:
+        if cls.hypervisor.lower() in ["lxc"]:
             cls.snapshotSupported = False
 
         # Get Zone, Domain and templates
@@ -1364,7 +1364,7 @@ class TestDisableEnableHost(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
 
         cls.snapshotSupported = True
-        if cls.hypervisor.lower() in ["hyperv", "lxc"]:
+        if cls.hypervisor.lower() in ["lxc"]:
             cls.snapshotSupported = False
 
         # Get Zone, Domain and templates

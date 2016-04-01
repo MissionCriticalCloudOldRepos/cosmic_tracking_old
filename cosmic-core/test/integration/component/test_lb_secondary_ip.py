@@ -113,12 +113,6 @@ class TestAssignLBRule(cloudstackTestCase):
         cls._cleanup = []
         try:
             cls.hypervisor = cloudstackTestClient.getHypervisorInfo()
-            # As Hyperv is GUI based VM, it requires more resources to be
-            # able to SSH properly to it
-            if cls.hypervisor.lower() == 'hyperv':
-                cls.testdata["service_offering"]["name"] = "Medium Instance"
-                cls.testdata["service_offering"]["memory"] = "1024"
-                cls.testdata["service_offering"]["cpuspeed"] = "1024"
 
             cls.service_offering = ServiceOffering.create(
                 cls.api_client,
@@ -440,12 +434,6 @@ class TestFailureScenarios(cloudstackTestCase):
 
         try:
             cls.hypervisor = cloudstackTestClient.getHypervisorInfo()
-            # As Hyperv is GUI based VM, it requires more resources to be
-            # able to SSH properly to it
-            if cls.hypervisor.lower() == 'hyperv':
-                cls.testdata["service_offering"]["name"] = "Medium Instance"
-                cls.testdata["service_offering"]["memory"] = "1024"
-                cls.testdata["service_offering"]["cpuspeed"] = "1024"
 
             cls.service_offering = ServiceOffering.create(
                 cls.api_client,
@@ -703,12 +691,6 @@ class TestListLBRuleInstances(cloudstackTestCase):
 
         try:
             cls.hypervisor = cloudstackTestClient.getHypervisorInfo()
-            # As Hyperv is GUI based VM, it requires more resources to be
-            # able to SSH properly to it
-            if cls.hypervisor.lower() == 'hyperv':
-                cls.testdata["service_offering"]["name"] = "Medium Instance"
-                cls.testdata["service_offering"]["memory"] = "1024"
-                cls.testdata["service_offering"]["cpuspeed"] = "1024"
 
             cls.service_offering = ServiceOffering.create(
                 cls.api_client,
@@ -894,12 +876,6 @@ class TestLbRuleFunctioning(cloudstackTestCase):
 
         try:
             cls.hypervisor = cloudstackTestClient.getHypervisorInfo()
-            # As Hyperv is GUI based VM, it requires more resources to be
-            # able to SSH properly to it
-            if cls.hypervisor.lower() == 'hyperv':
-                cls.testdata["service_offering"]["name"] = "Medium Instance"
-                cls.testdata["service_offering"]["memory"] = "1024"
-                cls.testdata["service_offering"]["cpuspeed"] = "1024"
 
             cls.service_offering = ServiceOffering.create(
                 cls.api_client,
@@ -1408,12 +1384,6 @@ class TestNetworkOperations(cloudstackTestCase):
 
         try:
             cls.hypervisor = cloudstackTestClient.getHypervisorInfo()
-            # As Hyperv is GUI based VM, it requires more resources to be
-            # able to SSH properly to it
-            if cls.hypervisor.lower() == 'hyperv':
-                cls.testdata["service_offering"]["name"] = "Medium Instance"
-                cls.testdata["service_offering"]["memory"] = "1024"
-                cls.testdata["service_offering"]["cpuspeed"] = "1024"
 
             cls.service_offering = ServiceOffering.create(
                 cls.api_client,
@@ -1856,12 +1826,6 @@ class TestExternalLoadBalancer(cloudstackTestCase):
 
         try:
             cls.hypervisor = cloudstackTestClient.getHypervisorInfo()
-            # As Hyperv is GUI based VM, it requires more resources to be
-            # able to SSH properly to it
-            if cls.hypervisor.lower() == 'hyperv':
-                cls.testdata["service_offering"]["name"] = "Medium Instance"
-                cls.testdata["service_offering"]["memory"] = "1024"
-                cls.testdata["service_offering"]["cpuspeed"] = "1024"
 
             cls.service_offering = ServiceOffering.create(
                 cls.api_client,

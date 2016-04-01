@@ -95,7 +95,7 @@
   <modules>
     <module>api</module>
     <module>agent</module>
-    <module>core</module>
+    <module>nucleo</module>
     <module>server</module>
     <module>usage</module>
     <module>utils</module>
@@ -230,16 +230,6 @@
               <exclude>debian/rules</exclude>
               <exclude>debian/source/format</exclude>
               <exclude>dist/console-proxy/js/jquery.js</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/ServerResource.sln</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/packages/**</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/.nuget/**</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/**/obj/**</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/**/bin/**</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/**/packages.config</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/**/App.config</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/**/*.csproj</exclude>
-              <exclude>plugins/hypervisors/hyperv/DotNet/ServerResource/**/*.settings</exclude>
-              <exclude>plugins/hypervisors/hyperv/conf/agent.properties</exclude>
               <exclude>scripts/vm/systemvm/id_rsa.cloud</exclude>
               <exclude>services/console-proxy/server/conf/agent.properties</exclude>
               <exclude>services/console-proxy/server/conf/environment.properties</exclude>
@@ -338,7 +328,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.9</version>
+          <version>2.10</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>

@@ -617,7 +617,7 @@ class TestRedundantIsolateNetworks(cloudstackTestCase):
                 )
                 host = hosts[0]
 
-                if hypervisor.lower() in ('vmware', 'hyperv'):
+                if hypervisor.lower() in ('vmware'):
                         result = str(get_process_status(
                             self.apiclient.connection.mgtSvr,
                             22,

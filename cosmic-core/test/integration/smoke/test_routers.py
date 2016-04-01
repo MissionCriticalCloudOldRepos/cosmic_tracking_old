@@ -164,7 +164,7 @@ class TestRouterServices(cloudstackTestCase):
             "Check list router response for router state"
         )
 
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
+        if self.hypervisor.lower() in ('vmware'):
             result = get_process_status(
                 self.apiclient.connection.mgtSvr,
                 22,
@@ -244,7 +244,7 @@ class TestRouterServices(cloudstackTestCase):
             "Check list router response for router state"
         )
 
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
+        if self.hypervisor.lower() in ('vmware'):
             result = get_process_status(
                 self.apiclient.connection.mgtSvr,
                 22,
@@ -278,7 +278,7 @@ class TestRouterServices(cloudstackTestCase):
             "Check dnsmasq service is running or not"
         )
 
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
+        if self.hypervisor.lower() in ('vmware'):
             result = get_process_status(
                 self.apiclient.connection.mgtSvr,
                 22,
@@ -459,7 +459,7 @@ class TestRouterServices(cloudstackTestCase):
         )
         host = hosts[0]
 
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
+        if self.hypervisor.lower() in ('vmware'):
             res = get_process_status(
                 self.apiclient.connection.mgtSvr,
                 22,

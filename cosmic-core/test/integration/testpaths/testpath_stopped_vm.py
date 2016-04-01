@@ -152,10 +152,6 @@ class TestAdvancedZoneStoppedVM(cloudstackTestCase):
             cls.testdata["service_offering"]["cpuspeed"] = 128
             cls.testdata["service_offering"]["memory"] = 256
 
-            if cls.hypervisor.lower() == "hyperv":
-                cls.testdata["service_offering"]["cpuspeed"] = 1024
-                cls.testdata["service_offering"]["memory"] = 1024
-
             cls.service_offering = ServiceOffering.create(
                 cls.apiclient,
                 cls.testdata["service_offering"]

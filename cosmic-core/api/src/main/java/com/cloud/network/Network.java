@@ -80,7 +80,7 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
         public boolean containsCapability(Capability cap) {
             boolean success = false;
             if (caps != null) {
-                int length = caps.length;
+                final int length = caps.length;
                 for (int i = 0; i < length; i++) {
                     if (caps[i].getName().equalsIgnoreCase(cap.getName())) {
                         success = true;
@@ -93,7 +93,7 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
         }
 
         public static Service getService(String serviceName) {
-            for (Service service : supportedServices) {
+            for (final Service service : supportedServices) {
                 if (service.getName().equalsIgnoreCase(serviceName)) {
                     return service;
                 }
@@ -116,7 +116,6 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
         public static final Provider JuniperContrailRouter = new Provider("JuniperContrailRouter", false);
         public static final Provider JuniperContrailVpcRouter = new Provider("JuniperContrailVpcRouter", false);
         public static final Provider JuniperSRX = new Provider("JuniperSRX", true);
-        public static final Provider PaloAlto = new Provider("PaloAlto", true);
         public static final Provider F5BigIp = new Provider("F5BigIp", true);
         public static final Provider Netscaler = new Provider("Netscaler", true);
         public static final Provider ExternalDhcpServer = new Provider("ExternalDhcpServer", true);
@@ -129,8 +128,6 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
         public static final Provider NiciraNvp = new Provider("NiciraNvp", false);
         public static final Provider InternalLbVm = new Provider("InternalLbVm", false);
         public static final Provider CiscoVnmc = new Provider("CiscoVnmc", true);
-        // add new Ovs provider
-        public static final Provider Ovs = new Provider("Ovs", false);
         public static final Provider Opendaylight = new Provider("Opendaylight", false);
         // add Nuage Vsp Providers
         public static final Provider NuageVsp = new Provider("NuageVsp", false);
@@ -171,7 +168,7 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
         }
 
         public static Provider getProvider(String providerName) {
-            for (Provider provider : supportedProviders) {
+            for (final Provider provider : supportedProviders) {
                 if (provider.getName().equalsIgnoreCase(providerName)) {
                     return provider;
                 }
@@ -223,7 +220,7 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
         }
 
         public static Capability getCapability(String capabilityName) {
-            for (Capability capability : supportedCapabilities) {
+            for (final Capability capability : supportedCapabilities) {
                 if (capability.getName().equalsIgnoreCase(capabilityName)) {
                     return capability;
                 }
@@ -353,7 +350,8 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
     @Deprecated
     boolean getDisplayNetwork();
 
-    boolean isDisplay();
+    @Override
+	boolean isDisplay();
 
     String getGuruName();
 

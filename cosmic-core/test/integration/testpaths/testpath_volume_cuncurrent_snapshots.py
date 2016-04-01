@@ -151,7 +151,7 @@ class TestConcurrentSnapshots(cloudstackTestCase):
         cls.vm_pool = []
         cls.snapshotSupported = True
 
-        if cls.hypervisor.lower() in ["hyperv", "lxc"]:
+        if cls.hypervisor.lower() in ["lxc"]:
             cls.snapshotSupported = False
             return
 

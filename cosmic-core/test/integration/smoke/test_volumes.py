@@ -242,8 +242,6 @@ class TestCreateVolume(cloudstackTestCase):
                 volume_name = "/dev/vd" + chr(ord('a') + int(list_volume_response[0].deviceid))
                 self.debug(" Using KVM volume_name: %s" % (volume_name))
                 ret = checkVolumeSize(ssh_handle=ssh,volume_name=volume_name,size_to_verify=vol_sz)
-            elif list_volume_response[0].hypervisor.lower() == "hyperv":
-                ret = checkVolumeSize(ssh_handle=ssh,volume_name="/dev/sdb",size_to_verify=vol_sz)
             else:
                 ret = checkVolumeSize(ssh_handle=ssh,size_to_verify=vol_sz)
             self.debug(" Volume Size Expected %s  Actual :%s" %(vol_sz,ret[1]))
@@ -622,8 +620,8 @@ class TestVolumes(cloudstackTestCase):
 
         if hosts[0].hypervisor == "XenServer":
             self.virtual_machine.stop(self.apiClient)
-        elif hosts[0].hypervisor.lower() in ("vmware", "hyperv"):
-            self.skipTest("Resize Volume is unsupported on VmWare and Hyper-V")
+        elif hosts[0].hypervisor.lower() in ("vmware"):
+            self.skipTest("Resize Volume is unsupported on VmWare")
 
         # Attempting to resize it should throw an exception, as we're using a non
         # customisable disk offering, therefore our size parameter should be ignored
@@ -655,8 +653,8 @@ class TestVolumes(cloudstackTestCase):
 
         if hosts[0].hypervisor == "XenServer":
             self.virtual_machine.stop(self.apiClient)
-        elif hosts[0].hypervisor.lower() in ("vmware", "hyperv"):
-            self.skipTest("Resize Volume is unsupported on VmWare and Hyper-V")
+        elif hosts[0].hypervisor.lower() in ("vmware"):
+            self.skipTest("Resize Volume is unsupported on VmWare")
 
         # resize the data disk
         self.debug("Resize Volume ID: %s" % self.volume.id)

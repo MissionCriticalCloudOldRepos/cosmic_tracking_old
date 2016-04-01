@@ -1191,7 +1191,7 @@ class TestSnapshotUsage(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['hyperv', 'lxc']:
+        if cls.hypervisor.lower() in ['lxc']:
             cls.unsupportedHypervisor = True
             return
 
@@ -1280,9 +1280,6 @@ class TestSnapshotUsage(cloudstackTestCase):
         # 3. Delete the account
 
         # Get the Root disk of VM
-
-        if self.hypervisor.lower() in ['hyperv']:
-            self.skipTest("Snapshots feature is not supported on Hyper-V")
 
         volumes = Volume.list(
             self.apiclient,

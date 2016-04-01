@@ -155,7 +155,6 @@ public class NetworkHelperImpl implements NetworkHelper {
         hypervisorsMap.put(HypervisorType.XenServer, VirtualNetworkApplianceManager.RouterTemplateXen);
         hypervisorsMap.put(HypervisorType.KVM, VirtualNetworkApplianceManager.RouterTemplateKvm);
         hypervisorsMap.put(HypervisorType.VMware, VirtualNetworkApplianceManager.RouterTemplateVmware);
-        hypervisorsMap.put(HypervisorType.Hyperv, VirtualNetworkApplianceManager.RouterTemplateHyperV);
         hypervisorsMap.put(HypervisorType.LXC, VirtualNetworkApplianceManager.RouterTemplateLxc);
         hypervisorsMap.put(HypervisorType.Ovm3, VirtualNetworkApplianceManager.RouterTemplateOvm3);
     }
@@ -546,11 +545,7 @@ public class NetworkHelperImpl implements NetworkHelper {
         List<HypervisorType> hypervisors = new ArrayList<HypervisorType>();
 
         if (dest.getCluster() != null) {
-            if (dest.getCluster().getHypervisorType() == HypervisorType.Ovm) {
-                hypervisors.add(getClusterToStartDomainRouterForOvm(dest.getCluster().getPodId()));
-            } else {
-                hypervisors.add(dest.getCluster().getHypervisorType());
-            }
+            hypervisors.add(dest.getCluster().getHypervisorType());
         } else {
             final HypervisorType defaults = _resourceMgr.getDefaultHypervisor(dest.getDataCenter().getId());
             if (defaults != HypervisorType.None) {
@@ -574,36 +569,6 @@ public class NetworkHelperImpl implements NetworkHelper {
         return hypervisors;
     }
 
-    /*
-     * Ovm won't support any system. So we have to choose a partner cluster in
-     * the same pod to start domain router for us
-     */
-    protected HypervisorType getClusterToStartDomainRouterForOvm(final long podId) {
-        final List<ClusterVO> clusters = _clusterDao.listByPodId(podId);
-        for (final ClusterVO cv : clusters) {
-            if (cv.getHypervisorType() == HypervisorType.Ovm || cv.getHypervisorType() == HypervisorType.BareMetal) {
-                continue;
-            }
-
-            final List<HostVO> hosts = _resourceMgr.listAllHostsInCluster(cv.getId());
-            if (hosts == null || hosts.isEmpty()) {
-                continue;
-            }
-
-            for (final HostVO h : hosts) {
-                if (h.getState() == Status.Up) {
-                    s_logger.debug("Pick up host that has hypervisor type " + h.getHypervisorType() + " in cluster " + cv.getId() + " to start domain router for OVM");
-                    return h.getHypervisorType();
-                }
-            }
-        }
-
-        final String errMsg = new StringBuilder("Cannot find an available cluster in Pod ").append(podId)
-                .append(" to start domain router for Ovm. \n Ovm won't support any system vm including domain router, ")
-                .append("please make sure you have a cluster with hypervisor type of any of xenserver/KVM/Vmware in the same pod")
-                .append(" with Ovm cluster. And there is at least one host in UP status in that cluster.").toString();
-        throw new CloudRuntimeException(errMsg);
-    }
 
     protected LinkedHashMap<Network, List<? extends NicProfile>> configureControlNic(final RouterDeploymentDefinition routerDeploymentDefinition) {
         final LinkedHashMap<Network, List<? extends NicProfile>> controlConfig = new LinkedHashMap<Network, List<? extends NicProfile>>(3);

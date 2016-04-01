@@ -197,9 +197,6 @@ class TestPathVMLC(cloudstackTestCase):
             cls.testdata["service_offering"]["memory"] = 256
 
             cls.testdata["service_offering"]["cpunumber"] = 1
-            if cls.hypervisor.lower() == "hyperv":
-                cls.testdata["service_offering"]["cpuspeed"] = 2048
-                cls.testdata["service_offering"]["memory"] = 2048
 
             cls.service_offering_1 = ServiceOffering.create(
                 cls.apiclient,
@@ -338,7 +335,7 @@ class TestPathVMLC(cloudstackTestCase):
         # 13. Find suitable host for VM to migrate and migrate the VM
         # 14. Verify VM accessibility on new host
         """
-        if self.hypervisor.lower() in ['hyperv', 'lxc']  and value == VPC_NETWORK:
+        if self.hypervisor.lower() in ['lxc']  and value == VPC_NETWORK:
             self.skipTest("cann't be run for {} hypervisor".format(self.hypervisor))
 
         # List created service offering in setUpClass by name
@@ -739,7 +736,7 @@ class TestPathVMLC(cloudstackTestCase):
         # 4. Try to stop the VM in destroyed state, operation should fail
         # 5. Try to reboot the VM in destroyed state, operation should fail
         """
-        if self.hypervisor.lower() in ['hyperv', 'lxc'] and value == VPC_NETWORK:
+        if self.hypervisor.lower() in ['lxc'] and value == VPC_NETWORK:
             self.skipTest("cann't be run for {} hypervisor".format(self.hypervisor))
         network = CreateNetwork(self, value)
         networkid = network.id
@@ -838,7 +835,7 @@ class TestPathVMLC(cloudstackTestCase):
         # 7. Try to recover the VM in expunging state, operation should fail
         """
 
-        if self.hypervisor.lower() in ['hyperv', 'lxc'] and value == VPC_NETWORK:
+        if self.hypervisor.lower() in ['lxc'] and value == VPC_NETWORK:
             self.skipTest("cann't be run for {} hypervisor".format(self.hypervisor))
         network = CreateNetwork(self, value)
         networkid = network.id

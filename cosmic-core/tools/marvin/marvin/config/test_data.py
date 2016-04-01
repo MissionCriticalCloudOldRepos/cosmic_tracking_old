@@ -1689,9 +1689,6 @@ test_data = {
                     "xenserver": {
                         "url": ""
                     },
-                    "hyperv": {
-                        "url": ""
-                    },
                     "ostype": 'CentOS 5.3 (64-bit)',
                     "mode": 'HTTP_DOWNLOAD'
                 }

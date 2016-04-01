@@ -178,14 +178,6 @@ do
   esac
 done
 
-isCifs() {
-   #TO:DO incase of multiple zone where cifs and nfs exists, 
-   #then check if the template file is from cifs using df -P filename
-   #Currently only cifs is supported in hyperv zone.
-   mount | grep "type cifs" > /dev/null
-   echo $?
-}
-
 if [ "$tflag$nflag$fflag$sflag" != "1111" ]
 then
  usage
@@ -210,20 +202,6 @@ rollback_if_needed $tmpltfs $? "failed to uncompress $tmpltimg\n"
 
 tmpltimg2=$(untar $tmpltimg2)
 rollback_if_needed $tmpltfs $? "tar archives not supported\n"
-
-if [ ${tmpltname%.vhd} != ${tmpltname} ]
-then
-  if [ $(isCifs) -ne 0 ] ;
-  then
-      if  which  vhd-util &>/dev/null
-      then
-        vhd-util read -p -n ${tmpltimg2} > /dev/null
-        rollback_if_needed $tmpltfs $? "vhd check of $tmpltimg2 failed\n"
-        vhd-util set -n ${tmpltimg2} -f "hidden" -v "0" > /dev/null
-        rollback_if_needed $tmpltfs $? "vhd remove $tmpltimg2 hidden failed\n"
-     fi
-  fi
-fi
 
 imgsize=$(ls -l $tmpltimg2| awk -F" " '{print $5}')
 

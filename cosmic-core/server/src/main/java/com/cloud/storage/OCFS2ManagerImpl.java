@@ -179,33 +179,7 @@ public class OCFS2ManagerImpl extends ManagerBase implements OCFS2Manager, Resou
 
     @Override
     public void processDeletHostEventAfter(Host host) {
-        String errMsg =
-            String.format("Prepare OCFS2 nodes failed after delete host %1$s (zone:%2$s, pod:%3$s, cluster:%4$s", host.getId(), host.getDataCenterId(), host.getPodId(),
-                host.getClusterId());
-
-        if (host.getHypervisorType() != HypervisorType.Ovm) {
-            return;
-        }
-
-        boolean hasOcfs2 = false;
-        List<StoragePoolHostVO> poolRefs = _poolHostDao.listByHostId(host.getId());
-        for (StoragePoolHostVO poolRef : poolRefs) {
-            StoragePoolVO pool = _poolDao.findById(poolRef.getPoolId());
-            if (pool.getPoolType() == StoragePoolType.OCFS2) {
-                hasOcfs2 = true;
-                break;
-            }
-        }
-
-        if (hasOcfs2) {
-            try {
-                if (!prepareNodes(host.getClusterId())) {
-                    s_logger.warn(errMsg);
-                }
-            } catch (Exception e) {
-                s_logger.error(errMsg, e);
-            }
-        }
+        // TODO Auto-generated method stub
     }
 
     @Override

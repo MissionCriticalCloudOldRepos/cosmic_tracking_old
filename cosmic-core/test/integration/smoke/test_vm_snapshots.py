@@ -42,7 +42,7 @@ class TestVmSnapshot(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in (KVM.lower(), "hyperv", "lxc"):
+        if cls.hypervisor.lower() in (KVM.lower(), "lxc"):
             cls.unsupportedHypervisor = True
             return
 
@@ -291,7 +291,7 @@ class TestSnapshots(cloudstackTestCase):
             cls.services = cls.testClient.getParsedTestDataConfig()
             cls.unsupportedHypervisor = False
             cls.hypervisor = cls.testClient.getHypervisorInfo()
-            if cls.hypervisor.lower() in (KVM.lower(), "hyperv", "lxc"):
+            if cls.hypervisor.lower() in (KVM.lower(), "lxc"):
                 cls.unsupportedHypervisor = True
                 return
             # Get Domain, Zone, Template

@@ -33,7 +33,6 @@ public class ConsoleProxyClientParam {
     private String locale;
     private String ajaxSessionId;
 
-    private String hypervHost;
     private String username;
     private String password;
 
@@ -118,14 +117,6 @@ public class ConsoleProxyClientParam {
             return clientTag;
 
         return clientHostAddress + ":" + clientHostPort;
-    }
-
-    public void setHypervHost(String hypervHost) {
-        this.hypervHost = hypervHost;
-    }
-
-    public String getHypervHost() {
-        return hypervHost;
     }
 
     public void setUsername(String username) {

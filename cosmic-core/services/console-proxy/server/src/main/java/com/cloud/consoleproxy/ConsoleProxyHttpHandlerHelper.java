@@ -85,8 +85,6 @@ public class ConsoleProxyHttpHandlerHelper {
                     map.put("ticket", param.getTicket());
                 if (param.getLocale() != null)
                     map.put("locale", param.getLocale());
-                if (param.getHypervHost() != null)
-                    map.put("hypervHost", param.getHypervHost());
                 if (param.getUsername() != null)
                     map.put("username", param.getUsername());
                 if (param.getPassword() != null)
@@ -111,7 +109,6 @@ public class ConsoleProxyHttpHandlerHelper {
         map.remove("sessionref");
         map.remove("ticket");
         map.remove("locale");
-        map.remove("hypervHost");
         map.remove("username");
         map.remove("password");
     }

@@ -159,9 +159,6 @@
   <bean id="DirectPodBasedNetworkGuru" class="com.cloud.network.guru.DirectPodBasedNetworkGuru">
     <property name="name" value="DirectPodBasedNetworkGuru"/>
   </bean>
-  <bean id="OvsGuestNetworkGuru" class="com.cloud.network.guru.OvsGuestNetworkGuru">
-    <property name="name" value="OvsGuestNetworkGuru"/>
-  </bean>
   <bean id="PrivateNetworkGuru" class="com.cloud.network.guru.PrivateNetworkGuru">
     <property name="name" value="PrivateNetworkGuru"/>
   </bean>

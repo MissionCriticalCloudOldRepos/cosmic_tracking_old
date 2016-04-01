@@ -1240,8 +1240,8 @@ class TestBrowseUploadVolume(cloudstackTestCase):
 
         self.debug("Running SSVM check script")
 
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
-            #SSH into SSVMs is done via management server for Vmware and Hyper-V
+        if self.hypervisor.lower() in ('vmware'):
+            #SSH into SSVMs is done via management server for Vmware
             result = get_process_status(
                                 self.apiclient.connection.mgtSvr,
                                 22,
@@ -1280,7 +1280,7 @@ class TestBrowseUploadVolume(cloudstackTestCase):
                         )
 
         #Check status of cloud service
-        if self.hypervisor.lower() in ('vmware', 'hyperv'):
+        if self.hypervisor.lower() in ('vmware'):
             #SSH into SSVMs is done via management server for Vmware and Hyper-V
             result = get_process_status(
                                 self.apiclient.connection.mgtSvr,
@@ -2065,8 +2065,7 @@ class TestBrowseUploadVolume(cloudstackTestCase):
 
             self.detach_volume(vm2details,browseup_vol.id)
 
-            if self.hypervisor.lower() != "hyperv":
-                self.resize_volume(browseup_vol.id)
+            self.resize_volume(browseup_vol.id)
 
             self.debug("========================= Test 7: Attach resized uploaded volume and validate VM operations========================= ")
 
@@ -2503,8 +2502,7 @@ class TestBrowseUploadVolume(cloudstackTestCase):
 
         self.detach_volume(vm2details,browseup_vol.id)
 
-        if self.hypervisor.lower() != "hyperv":
-            self.resize_volume(browseup_vol.id)
+        self.resize_volume(browseup_vol.id)
 
         self.attach_volume(vm2details,browseup_vol.id)
         self.vmoperations(vm2details)

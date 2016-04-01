@@ -550,8 +550,6 @@ class TestDedicatePublicIPRange(cloudstackTestCase):
         # 9. Repeat step 6, this time the IP should not be from
              dedicated range, it should be from global pool
         """
-        if self.hypervisor.lower() in ["hyperv"]:
-            self.skipTest("Skipping test as VPC is not supported on HyperV")
         user_domain = Domain.create(
             self.apiclient,
             services=self.testdata["domain"],

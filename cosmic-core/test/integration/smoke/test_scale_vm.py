@@ -42,7 +42,7 @@ class TestScaleVm(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ('kvm', 'hyperv', 'lxc'):
+        if cls.hypervisor.lower() in ('kvm', 'lxc'):
             cls.unsupportedHypervisor = True
             return
 

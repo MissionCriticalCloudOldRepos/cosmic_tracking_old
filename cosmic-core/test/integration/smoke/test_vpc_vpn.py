@@ -237,16 +237,6 @@ class Services:
                     "requireshvm": "True",
                 },
 
-                "hyperv": {
-                    "name": "tiny-hyperv",
-                    "displaytext": "macchinina xen",
-                    "format": "vhd",
-                    "hypervisor": "hyperv",
-                    "ostype": "Other PV (64-bit)",
-                    "url": "http://dl.openvm.eu/cloudstack/macchinina/x86_64/macchinina-hyperv.vhd.zip",
-                    "requireshvm": "True",
-                },
-
                 "vmware": {
                     "name": "tiny-vmware",
                     "displaytext": "macchinina vmware",

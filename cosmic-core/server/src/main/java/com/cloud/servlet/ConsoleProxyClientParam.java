@@ -27,8 +27,6 @@ public class ConsoleProxyClientParam {
     private String clientTunnelUrl;
     private String clientTunnelSession;
 
-    private String hypervHost;
-
     private String ajaxSessionId;
     private String username;
     private String password;
@@ -114,14 +112,6 @@ public class ConsoleProxyClientParam {
             return clientTag;
 
         return clientHostAddress + ":" + clientHostPort;
-    }
-
-    public void setHypervHost(String host) {
-        hypervHost = host;
-    }
-
-    public String getHypervHost() {
-        return hypervHost;
     }
 
     public void setUsername(String username) {

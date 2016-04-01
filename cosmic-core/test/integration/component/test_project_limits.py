@@ -758,7 +758,7 @@ class TestResourceLimitsProject(cloudstackTestCase):
         # 5. Try to create another snapshot in this project. It should give
         #    user an appropriate error and an alert should be generated.
 
-        if self.hypervisor.lower() in ['hyperv', 'lxc']:
+        if self.hypervisor.lower() in ['lxc']:
             raise self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor.lower())
         self.debug(
             "Updating snapshot resource limits for project: %s" %
