@@ -471,27 +471,21 @@ class TestInternalLb(cloudstackTestCase):
         vm.public_port = int(public_port)
         return nat_rule
 
-    def get_ssh_client(self, vm, retries):
+    def get_ssh_client(self, virtual_machine, public_ip, retries):
         """ Setup ssh client connection and return connection
         vm requires attributes public_ip, public_port, username, password """
 
         ssh_client = None
         try:
-            ssh_client = SshClient(
-                vm.public_ip,
-                vm.public_port,
-                vm.username,
-                vm.password,
-                retries
-            )
+            ssh_client = virtual_machine.get_ssh_client(ipaddress=public_ip, retries=retries, port=virtual_machine.public_port)
         except Exception as e:
-            self.fail("Unable to create ssh connection: " % e)
+            self.fail("Unable to create ssh connection due to error -> %s " % e)
 
         self.assertIsNotNone(
             ssh_client, "Failed to setup ssh connection to vm=%s on public_ip=%s" % (vm.name, vm.public_ip))
         return ssh_client
 
-    def setup_http_daemon(self, vm):
+    def setup_http_daemon(self, public_ip, vm):
         """ Creates a index.html in /tmp with private ip as content and
             starts httpd daemon on all interfaces port 80 serving /tmp/
             (only tested on the busybox based tiny vm)
@@ -503,18 +497,18 @@ class TestInternalLb(cloudstackTestCase):
             "/usr/sbin/httpd -v -p 0.0.0.0:80 -h /tmp/"
         ]
         try:
-            ssh_client = self.get_ssh_client(vm, 8)
+            ssh_client = self.get_ssh_client(vm, public_ip, 20)
             for cmd in commands:
                 ssh_client.execute(cmd)
         except Exception as e:
-            self.fail("Failed to ssh into vm: %s due to %s" % (vm, e))
+            self.fail("Failed to ssh into vm: %s due to %s" % (vm.id, e))
 
-    def run_ssh_test_accross_hosts(self, clienthost, lb_address, max_requests=30):
+    def run_ssh_test_accross_hosts(self, clienthost, public_ip, lb_address, max_requests=30):
         """ Uses clienthost to run wgets on hosts port 80 expects a unique output from url.
             returns a list of outputs to evaluate.
         """
         # Setup ssh connection
-        ssh_client = self.get_ssh_client(clienthost, 8)
+        ssh_client = self.get_ssh_client(clienthost, public_ip, 20)
         self.logger.debug(ssh_client)
         results = []
 
@@ -646,17 +640,16 @@ class TestInternalLb(cloudstackTestCase):
         intlb_public_ip = self.acquire_publicip(vpc, network_internal_lb)
 
         # Create nat rule to access client vm
-        self.create_natrule(vpc, client_vm, public_ssh_start_port, 22, guestnet_public_ip, network_guestnet)
+        nat_rule = self.create_natrule(vpc, client_vm, public_ssh_start_port, 22, guestnet_public_ip, network_guestnet)
 
         # Create nat rule to access app vms directly and start a http daemon on
         # the vm
         public_port = public_ssh_start_port + 1
         for vm in app_vms:
-            self.create_natrule(vpc, vm, public_port, 22, intlb_public_ip, network_internal_lb)
+            nat_rule = self.create_natrule(vpc, vm, public_port, 22, intlb_public_ip, network_internal_lb)
             public_port += 1
-            time.sleep(10)
             # start http daemon on vm's
-            self.setup_http_daemon(vm)
+            self.setup_http_daemon(nat_rule.ipaddress, vm)
 
         # Create a internal loadbalancer in the internal lb network tier
         applb = self.create_internal_loadbalancer( private_http_port, public_lb_port, algorithm, network_internal_lb.id)
@@ -820,13 +813,13 @@ class TestInternalLb(cloudstackTestCase):
                 "Failed to assign virtual machine(s) to loadbalancer: %s" % e)
 
         # Create nat rule to access client vm
-        self.create_natrule(
+        nat_rule = self.create_natrule(
             vpc, vm, "22", "22", public_ip, network_internal_lb)
 
         # Verify access to and the contents of the admin stats page on the
         # private address via a vm in the internal lb tier
         stats = self.verify_lb_stats(
-            applb.sourceipaddress, self.get_ssh_client(vm, 5), settings)
+            applb.sourceipaddress, self.get_ssh_client(vm, nat_rule.ipaddress, 20), settings)
         self.assertTrue(stats, "Failed to verify LB HAProxy stats")
 
     @classmethod
