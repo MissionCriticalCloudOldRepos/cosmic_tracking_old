@@ -482,7 +482,7 @@ class TestInternalLb(cloudstackTestCase):
             self.fail("Unable to create ssh connection due to error -> %s " % e)
 
         self.assertIsNotNone(
-            ssh_client, "Failed to setup ssh connection to vm=%s on public_ip=%s" % (vm.name, vm.public_ip))
+            ssh_client, "Failed to setup ssh connection to vm=%s on public_ip=%s" % (virtual_machine.name, virtual_machine.public_ip))
         return ssh_client
 
     def setup_http_daemon(self, public_ip, vm):
@@ -497,7 +497,7 @@ class TestInternalLb(cloudstackTestCase):
             "/usr/sbin/httpd -v -p 0.0.0.0:80 -h /tmp/"
         ]
         try:
-            ssh_client = self.get_ssh_client(vm, public_ip, 20)
+            ssh_client = self.get_ssh_client(vm, public_ip, 25)
             for cmd in commands:
                 ssh_client.execute(cmd)
         except Exception as e:
@@ -508,7 +508,7 @@ class TestInternalLb(cloudstackTestCase):
             returns a list of outputs to evaluate.
         """
         # Setup ssh connection
-        ssh_client = self.get_ssh_client(clienthost, public_ip, 20)
+        ssh_client = self.get_ssh_client(clienthost, public_ip, 25)
         self.logger.debug(ssh_client)
         results = []
 
@@ -819,7 +819,7 @@ class TestInternalLb(cloudstackTestCase):
         # Verify access to and the contents of the admin stats page on the
         # private address via a vm in the internal lb tier
         stats = self.verify_lb_stats(
-            applb.sourceipaddress, self.get_ssh_client(vm, nat_rule.ipaddress, 20), settings)
+            applb.sourceipaddress, self.get_ssh_client(vm, nat_rule.ipaddress, 25), settings)
         self.assertTrue(stats, "Failed to verify LB HAProxy stats")
 
     @classmethod
