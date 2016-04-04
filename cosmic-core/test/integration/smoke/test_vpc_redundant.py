@@ -372,7 +372,7 @@ class TestVPCRedundancy(cloudstackTestCase):
                     cnts[vals.index(status_to_check)] += 1
 
         if cnts[vals.index(status_to_check)] != expected_count:
-            self.fail("Expected '%s' routers at state '%s', but found '%s'!" % (expected_count, status_to_check, cnts[vals.index(status_to_check)]))
+            self.fail("Expected '%s' router[s] at state '%s', but found '%s'!" % (expected_count, status_to_check, cnts[vals.index(status_to_check)]))
 
     def stop_router(self, router):
         self.logger.debug('Stopping router %s' % router.id)
@@ -630,13 +630,13 @@ class TestVPCRedundancy(cloudstackTestCase):
 
     @attr(tags=["advanced", "intervlan"], required_hardware="true")
     def test_05_rvpc_multi_tiers(self):
-        """ Create a redundant VPC with 1 Tier, 1 VM, 1 ACL, 1 PF and test Network GC Nics"""
-        self.logger.debug("Starting test_04_rvpc_network_garbage_collector_nics")
+        """ Create a redundant VPC with 3 Tiers, 3 VMs, 3 PF rules"""
+        self.logger.debug("Starting test_05_rvpc_multi_tiers")
         self.query_routers()
 
-        network = self.create_network(self.services["network_offering"], "10.1.1.1", nr_vms=1, mark_net_cleanup=False)
+        self.networks.append(self.create_network(self.services["network_offering"], "10.1.1.1", nr_vms=1, mark_net_cleanup=False))
+        network = self.create_network(self.services["network_offering_no_lb"], "10.1.2.1", nr_vms=1)
         self.networks.append(network)
-        self.networks.append(self.create_network(self.services["network_offering_no_lb"], "10.1.2.1", nr_vms=1))
         self.networks.append(self.create_network(self.services["network_offering_no_lb"], "10.1.3.1", nr_vms=1))
         
         self.check_routers_state()
