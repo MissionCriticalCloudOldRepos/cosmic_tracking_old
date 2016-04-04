@@ -340,34 +340,23 @@ class TestVPCRedundancy(cloudstackTestCase):
                 )
                 host = hosts[0]
 
-                if self.hypervisor.lower() in ('vmware'):
-                        result = str(get_process_status(
-                            self.apiclient.connection.mgtSvr,
-                            22,
-                            self.apiclient.connection.user,
-                            self.apiclient.connection.passwd,
-                            router.linklocalip,
-                            "sh /opt/cloud/bin/checkrouter.sh ",
-                            hypervisor=self.hypervisor
-                        ))
-                else:
-                    try:
-                        host.user, host.passwd = get_host_credentials(
-                            self.config, host.ipaddress)
-                        result = str(get_process_status(
-                            host.ipaddress,
-                            22,
-                            host.user,
-                            host.passwd,
-                            router.linklocalip,
-                            "sh /opt/cloud/bin/checkrouter.sh "
-                        ))
+                try:
+                    host.user, host.passwd = get_host_credentials(
+                        self.config, host.ipaddress)
+                    result = str(get_process_status(
+                        host.ipaddress,
+                        22,
+                        host.user,
+                        host.passwd,
+                        router.linklocalip,
+                        "sh /opt/cloud/bin/checkrouter.sh "
+                    ))
 
-                    except KeyError:
-                        self.skipTest(
-                            "Marvin configuration has no host credentials to\
-                                    check router services")
-            
+                except KeyError:
+                    self.skipTest(
+                        "Marvin configuration has no host credentials to\
+                                check router services")
+
                 if result.count(status_to_check) == 1:
                     cnts[vals.index(status_to_check)] += 1
 
