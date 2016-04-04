@@ -340,39 +340,74 @@ class TestVPCRedundancy(cloudstackTestCase):
                 )
                 host = hosts[0]
 
-                if self.hypervisor.lower() in ('vmware'):
-                        result = str(get_process_status(
-                            self.apiclient.connection.mgtSvr,
-                            22,
-                            self.apiclient.connection.user,
-                            self.apiclient.connection.passwd,
-                            router.linklocalip,
-                            "sh /opt/cloud/bin/checkrouter.sh ",
-                            hypervisor=self.hypervisor
-                        ))
-                else:
-                    try:
-                        host.user, host.passwd = get_host_credentials(
-                            self.config, host.ipaddress)
-                        result = str(get_process_status(
-                            host.ipaddress,
-                            22,
-                            host.user,
-                            host.passwd,
-                            router.linklocalip,
-                            "sh /opt/cloud/bin/checkrouter.sh "
-                        ))
+                try:
+                    host.user, host.passwd = get_host_credentials(
+                        self.config, host.ipaddress)
+                    result = str(get_process_status(
+                        host.ipaddress,
+                        22,
+                        host.user,
+                        host.passwd,
+                        router.linklocalip,
+                        "sh /opt/cloud/bin/checkrouter.sh "
+                    ))
 
-                    except KeyError:
-                        self.skipTest(
-                            "Marvin configuration has no host credentials to\
-                                    check router services")
-            
+                except KeyError:
+                    self.skipTest(
+                        "Marvin configuration has no host credentials to\
+                                check router services")
+
                 if result.count(status_to_check) == 1:
                     cnts[vals.index(status_to_check)] += 1
 
         if cnts[vals.index(status_to_check)] != expected_count:
             self.fail("Expected '%s' routers at state '%s', but found '%s'!" % (expected_count, status_to_check, cnts[vals.index(status_to_check)]))
+
+
+    def check_routers_interface(self,count=2, interface_to_check="eth1", expected_exists=True, showall=False):
+        result = ""
+
+        self.query_routers(count, showall)
+        for router in self.routers:
+            if router.state == "Running":
+                hosts = list_hosts(
+                    self.apiclient,
+                    zoneid=router.zoneid,
+                    type='Routing',
+                    state='Up',
+                    id=router.hostid
+                )
+                self.assertEqual(
+                    isinstance(hosts, list),
+                    True,
+                    "Check list host returns a valid list"
+                )
+                host = hosts[0]
+
+                try:
+                    host.user, host.passwd = get_host_credentials(self.config, host.ipaddress)
+                    result = str(get_process_status(
+                        host.ipaddress,
+                        22,
+                        host.user,
+                        host.passwd,
+                        router.linklocalip,
+                        "ip a | grep %s | grep state | awk '{print $9;}'" % interface_to_check
+                    ))
+
+                except KeyError:
+                    self.skipTest("Marvin configuration has no host credentials to check router services")
+
+                if expected_exists:
+                    if (result.count("UP") == 1) or (result.count("DOWN") == 1):
+                        self.logger.debug("Expected interface '%s' to exist and it does!" % interface_to_check)
+                    else:
+                        self.fail("Expected interface '%s' to exist, but it didn't!" % interface_to_check)
+                else:
+                    if (result.count("UP") == 1) or (result.count("DOWN") == 1):
+                        self.fail("Expected interface '%s' to not exist, but it did!" % interface_to_check)
+                    else:
+                        self.logger.debug("Expected interface '%s' to not exist, and it didn't!" % interface_to_check)
 
     def stop_router(self, router):
         self.logger.debug('Stopping router %s' % router.id)
@@ -624,9 +659,11 @@ class TestVPCRedundancy(cloudstackTestCase):
 
         time.sleep(total_sleep * 3)
 
-        self.check_routers_state(status_to_check="BACKUP", expected_count=2)
+        self.check_routers_state(status_to_check="MASTER")
+        self.check_routers_interface(interface_to_check="eth2", expected_exists=False)
         self.start_vm()
         self.check_routers_state(status_to_check="MASTER")
+        self.check_routers_interface(interface_to_check="eth2", expected_exists=True)
 
     @attr(tags=["advanced", "intervlan"], required_hardware="true")
     def test_05_rvpc_multi_tiers(self):
