@@ -954,7 +954,7 @@ class Volume:
 
             else:
                 time.sleep(interval)
-                timeout = timeout - 1
+                timeout = timeout - interval
         return
 
     @classmethod
@@ -1242,7 +1242,7 @@ class Template:
 
             else:
                 time.sleep(interval)
-                timeout = timeout - 1
+                timeout = timeout - interval
         return
 
     def updatePermissions(self, apiclient, **kwargs):
@@ -4139,7 +4139,7 @@ class PrivateGateway:
 
     @classmethod
     def create(cls, apiclient, gateway, ipaddress, netmask, vlan, vpcid,
-               physicalnetworkid=None, aclid=None):
+               physicalnetworkid=None, aclid=None, sourcenatsupported=None):
         """Create private gateway"""
 
         cmd = createPrivateGateway.createPrivateGatewayCmd()
@@ -4148,6 +4148,8 @@ class PrivateGateway:
         cmd.netmask = netmask
         cmd.vlan = vlan
         cmd.vpcid = vpcid
+        if sourcenatsupported:
+            cmd.sourcenatsupported = sourcenatsupported
         if physicalnetworkid:
             cmd.physicalnetworkid = physicalnetworkid
         if aclid:
