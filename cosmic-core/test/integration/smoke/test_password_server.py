@@ -15,203 +15,334 @@
 # specific language governing permissions and limitations
 # under the License.
 
-# Import Local Modules
+""" Tests for Password Service
+"""
+#Import Local Modules
+from marvin.cloudstackTestCase import *
+from marvin.cloudstackAPI import *
+from marvin.lib.utils import *
+from marvin.lib.base import *
+from marvin.lib.common import *
 from nose.plugins.attrib import attr
-from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.cloudstackAPI import (stopVirtualMachine,
-                                  stopRouter,
-                                  startRouter)
-from marvin.lib.utils import (cleanup_resources,
-                              get_process_status)
-from marvin.lib.base import (ServiceOffering,
-                             VirtualMachine,
-                             Account,
-                             ServiceOffering,
-                             NATRule,
-                             NetworkACL,
-                             FireWallRule,
-                             PublicIPAddress,
-                             NetworkOffering,
-                             Network,
-                             Router)
-from marvin.lib.common import (get_zone,
-                               get_template,
-                               get_domain,
-                               list_virtual_machines,
-                               list_networks,
-                               list_configurations,
-                               list_routers,
-                               list_nat_rules,
-                               list_publicIP,
-                               list_firewall_rules,
-                               list_hosts,
-                               list_vlan_ipranges)
 
-# Import System modules
 import time
 import logging
 
+class Services:
+    """Test network services - Port Forwarding Rules Test Data Class.
+    """
 
-class TestIsolatedNetworksPasswdServer(cloudstackTestCase):
+    def __init__(self):
+        self.services = {
+            "configurableData": {
+                "host": {
+                    "password": "password",
+                    "username": "root",
+                    "port": 22
+                }
+            },
+            "account": {
+                "email": "test@test.com",
+                "firstname": "Test",
+                "lastname": "User",
+                "username": "test",
+                # Random characters are appended for unique
+                # username
+                "password": "password",
+            },
+            "host1": None,
+            "service_offering": {
+                "name": "Tiny Instance",
+                "displaytext": "Tiny Instance",
+                "cpunumber": 1,
+                "cpuspeed": 100,
+                "memory": 128,
+            },
+            "network_offering": {
+                "name": 'VPC Network offering',
+                "displaytext": 'VPC Network off',
+                "guestiptype": 'Isolated',
+                "supportedservices": 'Vpn,Dhcp,Dns,SourceNat,PortForwarding,Lb,UserData,StaticNat,NetworkACL',
+                "traffictype": 'GUEST',
+                "availability": 'Optional',
+                "useVpc": 'on',
+                "serviceProviderList": {
+                    "Vpn": 'VpcVirtualRouter',
+                    "Dhcp": 'VpcVirtualRouter',
+                    "Dns": 'VpcVirtualRouter',
+                    "SourceNat": 'VpcVirtualRouter',
+                    "PortForwarding": 'VpcVirtualRouter',
+                    "Lb": 'VpcVirtualRouter',
+                    "UserData": 'VpcVirtualRouter',
+                    "StaticNat": 'VpcVirtualRouter',
+                    "NetworkACL": 'VpcVirtualRouter'
+                },
+            },
+            "network_offering_no_lb": {
+                "name": 'VPC Network offering',
+                "displaytext": 'VPC Network off',
+                "guestiptype": 'Isolated',
+                "supportedservices": 'Dhcp,Dns,SourceNat,PortForwarding,UserData,StaticNat,NetworkACL',
+                "traffictype": 'GUEST',
+                "availability": 'Optional',
+                "useVpc": 'on',
+                "serviceProviderList": {
+                    "Dhcp": 'VpcVirtualRouter',
+                    "Dns": 'VpcVirtualRouter',
+                    "SourceNat": 'VpcVirtualRouter',
+                    "PortForwarding": 'VpcVirtualRouter',
+                    "UserData": 'VpcVirtualRouter',
+                    "StaticNat": 'VpcVirtualRouter',
+                    "NetworkACL": 'VpcVirtualRouter'
+                },
+            },
+            "redundant_vpc_offering": {
+                "name": 'Redundant VPC off',
+                "displaytext": 'Redundant VPC off',
+                "supportedservices": 'Dhcp,Dns,SourceNat,PortForwarding,Vpn,Lb,UserData,StaticNat',
+                "serviceProviderList": {
+                    "Vpn": 'VpcVirtualRouter',
+                    "Dhcp": 'VpcVirtualRouter',
+                    "Dns": 'VpcVirtualRouter',
+                    "SourceNat": 'VpcVirtualRouter',
+                    "PortForwarding": 'VpcVirtualRouter',
+                    "Lb": 'VpcVirtualRouter',
+                    "UserData": 'VpcVirtualRouter',
+                    "StaticNat": 'VpcVirtualRouter',
+                    "NetworkACL": 'VpcVirtualRouter'
+                },
+                "serviceCapabilityList": {
+                    "SourceNat": {
+                        "RedundantRouter": 'true'
+                    }
+                },
+            },
+            "isolated_network_offering": {
+                "name": "Network offering-DA services",
+                "displaytext": "Network offering-DA services",
+                "guestiptype": "Isolated",
+                "supportedservices":
+                    "Dhcp,Dns,SourceNat,PortForwarding,Vpn,Firewall,Lb,UserData,StaticNat",
+                "traffictype": "GUEST",
+                "availability": "Optional'",
+                "serviceProviderList": {
+                    "Dhcp": "VirtualRouter",
+                    "Dns": "VirtualRouter",
+                    "SourceNat": "VirtualRouter",
+                    "PortForwarding": "VirtualRouter",
+                    "Vpn": "VirtualRouter",
+                    "Firewall": "VirtualRouter",
+                    "Lb": "VirtualRouter",
+                    "UserData": "VirtualRouter",
+                    "StaticNat": "VirtualRouter"
+                }
+            },
+            "vpc_offering": {
+                "name": "VPC off",
+                "displaytext": "VPC off",
+                "supportedservices":
+                    "Dhcp,Dns,SourceNat,PortForwarding,Vpn,Lb,UserData,StaticNat,NetworkACL"
+            },
+            "vpc": {
+                "name": "TestVPC",
+                "displaytext": "TestVPC",
+                "cidr": '10.0.0.1/24'
+            },
+            "network": {
+                "name": "Test Network",
+                "displaytext": "Test Network",
+                "netmask": '255.255.255.0'
+            },
+            "virtual_machine": {
+                "displayname": "Test VM",
+                "username": "root",
+                "password": "password",
+                "ssh_port": 22,
+                "privateport": 22,
+                "publicport": 22,
+                "protocol": 'TCP',
+            },
+            "natrule": {
+                "privateport": 22,
+                "publicport": 22,
+                "startport": 22,
+                "endport": 22,
+                "protocol": "TCP",
+                "cidrlist": '0.0.0.0/0',
+            },
+            "ostype": 'CentOS 5.3 (64-bit)',
+            "timeout": 10,
+        }
+
+class TestPasswordService(cloudstackTestCase):
 
     @classmethod
     def setUpClass(cls):
 
-        cls.logger = logging.getLogger('TestIsolatedNetworksPasswdServer')
-        cls.stream_handler = logging.StreamHandler()
-        cls.logger.setLevel(logging.DEBUG)
-        cls.logger.addHandler(cls.stream_handler)
-
-        cls.testClient = super(TestIsolatedNetworksPasswdServer, cls).getClsTestClient()
+        cls.testClient = super(TestPasswordService, cls).getClsTestClient()
         cls.api_client = cls.testClient.getApiClient()
 
-        cls.services = cls.testClient.getParsedTestDataConfig()
+        cls.services = Services().services
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
         cls.services['mode'] = cls.zone.networktype
-        template = get_template(
+        cls.template = get_template(
             cls.api_client,
             cls.zone.id,
-            cls.services["ostype"]
-        )
+            cls.services["ostype"])
 
         cls.services["virtual_machine"]["zoneid"] = cls.zone.id
+        cls.services["virtual_machine"]["template"] = cls.template.id
 
-        cls.logger.debug("Creating Admin Account for domain %s on zone %s" % (cls.domain.id, cls.zone.id))
-        # Create an account, network, VM and IP addresses
-        cls.account = Account.create(
-            cls.api_client,
-            cls.services["account"],
-            admin=True,
-            domainid=cls.domain.id
-        )
-
-        cls.logger.debug("Creating Service Offering on zone %s" % (cls.zone.id))
         cls.service_offering = ServiceOffering.create(
             cls.api_client,
-            cls.services["service_offering"]
-        )
+            cls.services["service_offering"])
+        cls._cleanup = [cls.service_offering]
 
-        cls.services["isolated_network_offering"]["egress_policy"] = "true"
-
-        cls.logger.debug("Creating Network Offering on zone %s" % (cls.zone.id))
-        cls.network_offering = NetworkOffering.create(cls.api_client,
-                                                       cls.services["isolated_network_offering"],
-                                                       conservemode=True)
-
-        cls.network_offering.update(cls.api_client, state='Enabled')
-
-        cls.logger.debug("Creating Network for Account %s using offering %s" % (cls.account.name, cls.network_offering.id))
-        cls.network = Network.create(cls.api_client,
-                                      cls.services["network"],
-                                      accountid=cls.account.name,
-                                      domainid=cls.account.domainid,
-                                      networkofferingid=cls.network_offering.id,
-                                      zoneid=cls.zone.id)
-
-        cls.logger.debug("Creating VM1 for Account %s using offering %s" % (cls.account.name, cls.service_offering.id))
-        cls.vm_1 = VirtualMachine.create(cls.api_client,
-                                         cls.services["virtual_machine"],
-                                         templateid=template.id,
-                                         accountid=cls.account.name,
-                                         domainid=cls.domain.id,
-                                         serviceofferingid=cls.service_offering.id,
-                                         networkids=[str(cls.network.id)])
-
-        cls.logger.debug("Creating VM2 for Account %s using offering %s" % (cls.account.name, cls.service_offering.id))
-        cls.vm_2 = VirtualMachine.create(cls.api_client,
-                                         cls.services["virtual_machine"],
-                                         templateid=template.id,
-                                         accountid=cls.account.name,
-                                         domainid=cls.domain.id,
-                                         serviceofferingid=cls.service_offering.id,
-                                         networkids=[str(cls.network.id)])
-
-        cls.services["natrule1"] = {
-            "privateport": 22,
-            "publicport": 222,
-            "protocol": "TCP"
-        }
-
-        cls.services["natrule2"] = {
-            "privateport": 22,
-            "publicport": 223,
-            "protocol": "TCP"
-        }
-
-        cls.services["configurableData"] = {
-            "host": {
-                "password": "password",
-                "username": "root",
-                "port": 22
-            },
-            "input": "INPUT",
-            "forward": "FORWARD"
-        }
-
-        cls._cleanup = [
-            cls.vm_1,
-            cls.vm_2,
-            cls.network,
-            cls.network_offering,
-            cls.service_offering,
-            cls.account
-        ]
-
-        return
+        cls.logger = logging.getLogger('TestPasswordService')
+        cls.stream_handler = logging.StreamHandler()
+        cls.logger.setLevel(logging.DEBUG)
+        cls.logger.addHandler(cls.stream_handler)
 
     @classmethod
     def tearDownClass(cls):
         try:
-            cleanup_resources(cls.api_client, cls._cleanup)
+            cleanup_resources(cls.api_client, cls._cleanup, cls.logger)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
     def setUp(self):
         self.apiclient = self.testClient.getApiClient()
+
+        self.logger.debug("Creating Admin Account for Domain ID ==> %s" % self.domain.id)
+        self.account = Account.create(
+            self.apiclient,
+            self.services["account"],
+            admin=True,
+            domainid=self.domain.id)
+
+        self.cleanup = []
         return
 
-    def find_public_gateway(self):
-        networks = list_networks(self.apiclient,
-                                  zoneid = self.zone.id,
-                                  listall = True,
-                                  issystem = True,
-                                  traffictype = "Public")
-        self.logger.debug('::: Public Networks ::: ==> %s' % networks)
-
-        self.assertTrue(len(networks) == 1, "Test expects only 1 Public network but found -> '%s'" % len(networks))
-        
-        ip_ranges = list_vlan_ipranges(self.apiclient,
-                                       zoneid = self.zone.id,
-                                       networkid = networks[0].id)
-        self.logger.debug('::: IP Ranges ::: ==> %s' % ip_ranges)
-
-        self.assertTrue(len(ip_ranges) == 1, "Test expects only 1 VLAN IP Range network but found -> '%s'" % len(ip_ranges))
-        self.assertIsNotNone(ip_ranges[0].gateway, "The network with id -> '%s' returned an IP Range with a None gateway. Please check your Datacenter settings." % networks[0].id)
-
-        return ip_ranges[0].gateway
-
-    def test_ssh_command(self, vm, nat_rule, rule_label):
-        result = 'failed'
+    def tearDown(self):
         try:
-            gateway = self.find_public_gateway()
-            ssh_command = "ping -c 3 %s" % gateway
-            self.logger.debug("SSH into VM with IP: %s" % nat_rule.ipaddress)
+            cleanup_resources(self.apiclient, self.cleanup, self.logger)
+        except Exception as e:
+            raise Exception("Warning: Exception during cleanup : %s" % e)
+        return
 
-            ssh = vm.get_ssh_client(ipaddress=nat_rule.ipaddress, port=self.services[rule_label]["publicport"], retries=5)
-            result = str(ssh.execute(ssh_command))
+    @attr(tags=["advanced"], required_hardware="true")
+    def test_01_vpc_password_service_single_vpc(self):
+        self.logger.debug("Starting test for single VPC")
+        vpc_off = VpcOffering.create(
+            self.apiclient,
+            self.services["vpc_offering"])
 
-            self.logger.debug("SSH result: %s; COUNT is ==> %s" % (result, result.count("3 packets received")))
-        except:
-            self.fail("Failed to SSH into VM - %s" % (nat_rule.ipaddress))
+        self.logger.debug("Enabling the VPC offering created")
+        vpc_off.update(self.apiclient, state='Enabled')
 
-        self.assertEqual(
-                         result.count("3 packets received"),
-                         1,
-                         "Ping to outside world from VM should be successful"
-                         )
+        self.perform_password_service_tests(vpc_off)
+
+    @attr(tags=["advanced"], required_hardware="true")
+    def test_02_vpc_password_service_redundant_vpc(self):
+        self.logger.debug("Starting test for Redundant VPC")
+        vpc_off = VpcOffering.create(
+            self.apiclient,
+            self.services["redundant_vpc_offering"])
+
+        self.logger.debug("Enabling the VPC offering created")
+        vpc_off.update(self.apiclient, state='Enabled')
+
+        self.perform_password_service_tests(vpc_off)
+
+    @attr(tags=["advanced"], required_hardware="true")
+    def test_03_password_service_isolated(self):
+        self.logger.debug("Starting test for Isolated network")
+        self.perform_password_service_tests(None)
+
+    # Generic methods
+    def perform_password_service_tests(self, vpc_off):
+
+        if vpc_off is None:
+            self.logger.debug("No need to create a VPC, creating isolated network")
+            network_1 = self.createIsolatedNetwork()
+        else:
+            self.logger.debug("Creating VPC with offering ID %s" % vpc_off.id)
+            vpc_1 = self.createVPC(vpc_off, cidr = '10.0.0.0/16')
+            self.cleanup += [vpc_1, vpc_off, self.account]
+            self.logger.debug("Creating network inside VPC")
+            network_1 = self.createNetwork(vpc_1, gateway = '10.0.0.1')
+            acl1 = self.createACL(vpc_1)
+            self.createACLItem(acl1.id, cidr = "0.0.0.0/0")
+            self.replaceNetworkAcl(acl1.id, network_1)
+
+        # VM
+        vm1 = self.createVM(network_1)
+        self.cleanup.insert(0, vm1)
+
+        self.logger.debug("Check whether routers are happy")
+        routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
+
+        self.assertEqual(isinstance(routers, list), True,
+                         "Check for list routers response return valid data")
+        self.check_routers_state(routers)
+
+        for router in routers:
+            self._perform_password_service_test(router, vm1)
+
+        # Do the same after restart with cleanup
+        if vpc_off is None:
+            self.restart_network_with_cleanup(network_1, True)
+        else:
+            self.restart_vpc_with_cleanup(vpc_1, True)
+
+        self.logger.debug("Getting the router info again after the cleanup (router names / ip addresses changed)")
+        routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
+
+        self.assertEqual(isinstance(routers, list), True,
+                         "Check for list routers response return valid data")
+        self.logger.debug("Check whether routers are happy")
+        self.check_routers_state(routers)
+
+        # Stop/start vm or else password will not be on the cleaned-up router
+        self.stop_start_virtual_machine(vm1)
+
+        for router in routers:
+            self._perform_password_service_test(router, vm1)
+
+    def _perform_password_service_test(self, router, vm):
+        self.logger.debug("Checking password of %s in router %s, state %s", vm.name, router.linklocalip, router.redundantstate)
+        self.test_password_service_running(router)
+        self.test_password_file_not_empty(vm, router)
+
+    def test_password_service_running(self, router):
+        hosts = list_hosts(self.apiclient, id=router.hostid, type="Routing")
+
+        self.assertEqual(isinstance(hosts, list), True, "Check for list hosts response return valid data")
+
+        host = hosts[0]
+        host.user = self.services["configurableData"]["host"]["username"]
+        host.passwd = self.services["configurableData"]["host"]["password"]
+        host.port = self.services["configurableData"]["host"]["port"]
+
+        number_of_password_service_processes = 0
+        try:
+            number_of_password_service_processes = get_process_status(
+                host.ipaddress,
+                host.port,
+                host.user,
+                host.passwd,
+                router.linklocalip,
+                "ps aux | grep passwd_server_ip.py | grep -v grep | wc -l"
+            )
+
+        except KeyError:
+            self.skipTest("Provide a marvin config file with host credentials to run %s" % self._testMethodName)
+
+        self.logger.debug("Result from the Router on IP '%s' is -> Number of password service processess found: '%s'" % (router.linklocalip, number_of_password_service_processes[0]))
+        self.assertNotEqual(int(number_of_password_service_processes[0]), 0, msg="Router should have at least one password service process running!")
 
     def test_password_file_not_empty(self, vm, router):
         hosts = list_hosts(
@@ -227,147 +358,237 @@ class TestIsolatedNetworksPasswdServer(cloudstackTestCase):
         host.user = self.services["configurableData"]["host"]["username"]
         host.passwd = self.services["configurableData"]["host"]["password"]
         host.port = self.services["configurableData"]["host"]["port"]
-        
+
+
+        password_service_listen_ip = vm.nic[0].gateway
+        if router.isredundantrouter:
+            password_service_listen_ip = router.guestipaddress
+        command_to_execute = "cat /var/cache/cloud/passwords-%s | grep %s | sed 's/=/ /g' | awk '{print $1}'" % (password_service_listen_ip, vm.nic[0].ipaddress)
+
+        password_found_result = ""
         try:
-            result = get_process_status(
+            password_found_result = get_process_status(
                 host.ipaddress,
                 host.port,
                 host.user,
                 host.passwd,
                 router.linklocalip,
-                "cat /var/cache/cloud/passwords-%s | grep %s | sed 's/=/ /g' | awk '{print $1}'" % (vm.nic[0].gateway, vm.nic[0].ipaddress))
+                command_to_execute)
         except KeyError:
             self.skipTest(
                 "Provide a marvin config file with host\
                         credentials to run %s" %
                 self._testMethodName)
 
-        self.logger.debug("cat /var/cache/cloud/passwords-%s | grep %s | sed 's/=/ /g' | awk '{print $1}' RESULT IS ==> %s" % (vm.nic[0].gateway, vm.nic[0].ipaddress, result))
-        res = str(result)
-        
+        self.logger.debug("%s RESULT IS ==> %s", command_to_execute, password_found_result)
+        res = str(password_found_result)
+
         self.assertEqual(
             res.count(vm.nic[0].ipaddress),
             1,
             "Password file is empty or doesn't exist!")
 
-    @attr(tags=["advanced", "advancedns", "ssh"], required_hardware="true")
-    def test_isolate_network_password_server(self):
-        """Check the password file in the Router VM"""
+    def stop_start_virtual_machine(self, vm):
+        try:
+            self.logger.debug("Stopping vm %s", vm.name)
+            cmd = stopVirtualMachine.stopVirtualMachineCmd()
+            cmd.id = vm.id
+            self.apiclient.startVirtualMachine(cmd)
+            self.logger.debug("Starting vm %s", vm.name)
+            cmd = startVirtualMachine.startVirtualMachineCmd()
+            cmd.id = vm.id
+            self.apiclient.startVirtualMachine(cmd)
+        except Exception, e:
+            self.fail('Unable to stop/start VM due to %s ' % e)
 
-        self.logger.debug("Starting test_isolate_network_password_server...")
-        routers = list_routers(
-            self.apiclient,
-            account=self.account.name,
-            domainid=self.account.domainid
-        )
+    def createVPC(self, vpc_offering, cidr = '10.1.1.1/16'):
+        try:
+            self.logger.debug("Creating a VPC in the account: %s" % self.account.name)
+            self.services["vpc"]["cidr"] = cidr
 
-        self.assertEqual(
-            isinstance(routers, list),
-            True,
-            "Check for list routers response return valid data"
-        )
+            vpc = VPC.create(
+                self.apiclient,
+                self.services["vpc"],
+                vpcofferingid=vpc_offering.id,
+                zoneid=self.zone.id,
+                account=self.account.name,
+                domainid=self.account.domainid)
 
-        self.assertNotEqual(
-            len(routers),
-            0,
-            "Check list router response"
-        )
+            self.logger.debug("Created VPC with ID: %s" % vpc.id)
+        except Exception, e:
+            self.fail('Unable to create VPC due to %s ' % e)
 
-        router = routers[0]
+        return vpc
 
-        self.assertEqual(
-            router.state,
-            'Running',
-            "Check list router response for router state"
-        )
+    def createVM(self, network):
+        try:
+            self.logger.debug('Creating VM in network=%s' % network.name)
+            vm = VirtualMachine.create(
+                self.apiclient,
+                self.services["virtual_machine"],
+                accountid=self.account.name,
+                domainid=self.account.domainid,
+                serviceofferingid=self.service_offering.id,
+                networkids=[str(network.id)]
+            )
+            self.logger.debug("Created VM with ID: %s" % vm.id)
+        except Exception, e:
+            self.fail('Unable to create virtual machine due to %s ' % e)
 
-        public_ips = list_publicIP(
-            self.apiclient,
-            account=self.account.name,
-            domainid=self.account.domainid,
-            zoneid=self.zone.id
-        )
+        return vm
 
-        self.assertEqual(
-            isinstance(public_ips, list),
-            True,
-            "Check for list public IPs response return valid data"
-        )
+    def createACL(self, vpc):
+        createAclCmd = createNetworkACLList.createNetworkACLListCmd()
+        createAclCmd.name = "ACL-Test-%s" % vpc.id
+        createAclCmd.description = createAclCmd.name
+        createAclCmd.vpcid = vpc.id
+        try:
+            acl = self.apiclient.createNetworkACLList(createAclCmd)
+            self.assertIsNotNone(acl.id, "Failed to create ACL.")
 
-        public_ip = public_ips[0]
+            self.logger.debug("Created ACL with ID: %s" % acl.id)
+        except Exception, e:
+            self.fail('Unable to create ACL due to %s ' % e)
 
-        self.logger.debug("Creating Firewall rule for VM ID: %s" % self.vm_1.id)
-        FireWallRule.create(
-            self.apiclient,
-            ipaddressid=public_ip.id,
-            protocol=self.services["natrule1"]["protocol"],
-            cidrlist=['0.0.0.0/0'],
-            startport=self.services["natrule1"]["publicport"],
-            endport=self.services["natrule1"]["publicport"]
-        )
+        return acl
 
-        self.logger.debug("Creating NAT rule for VM ID: %s" % self.vm_1.id)
-        # Create NAT rule
-        nat_rule1 = NATRule.create(
-            self.apiclient,
-            self.vm_1,
-            self.services["natrule1"],
-            public_ip.id
-        )
+    def createACLItem(self, aclId, cidr = "0.0.0.0/0"):
+        createAclItemCmd = createNetworkACL.createNetworkACLCmd()
+        createAclItemCmd.cidr = cidr
+        createAclItemCmd.protocol = "All"
+        createAclItemCmd.number = "1"
+        createAclItemCmd.action = "Allow"
+        createAclItemCmd.aclid = aclId
+        try:
+            aclItem = self.apiclient.createNetworkACL(createAclItemCmd)
+            self.assertIsNotNone(aclItem.id, "Failed to create ACL item.")
 
-        self.logger.debug("Creating Firewall rule for VM ID: %s" % self.vm_2.id)
-        FireWallRule.create(
-            self.apiclient,
-            ipaddressid=public_ip.id,
-            protocol=self.services["natrule2"]["protocol"],
-            cidrlist=['0.0.0.0/0'],
-            startport=self.services["natrule2"]["publicport"],
-            endport=self.services["natrule2"]["publicport"]
-        )
+            self.logger.debug("Created ACL Item ID: %s" % aclItem.id)
+        except Exception, e:
+            self.fail('Unable to create ACL Item due to %s ' % e)
 
-        self.logger.debug("Creating NAT rule for VM ID: %s" % self.vm_2.id)
-        # Create NAT rule
-        nat_rule2 = NATRule.create(
-            self.apiclient,
-            self.vm_2,
-            self.services["natrule2"],
-            public_ip.id
-        )
+    def createNetwork(self, vpc, net_offering = "network_offering", gateway = '10.1.1.1'):
+        try:
+            self.logger.debug('Create NetworkOffering')
+            net_offerring = self.services[net_offering]
+            net_offerring["name"] = "NET_OFF-%s" % gateway
+            nw_off = NetworkOffering.create(
+                self.apiclient,
+                net_offerring,
+                conservemode=False)
 
-        nat_rules = list_nat_rules(
-            self.apiclient,
-            id=nat_rule1.id
-        )
-        self.assertEqual(
-            isinstance(nat_rules, list),
-            True,
-            "Check for list NAT rules response return valid data"
-        )
-        self.assertEqual(
-            nat_rules[0].state,
-            'Active',
-            "Check list port forwarding rules"
-        )
-        
-        nat_rules = list_nat_rules(
-            self.apiclient,
-            id=nat_rule2.id
-        )
-        self.assertEqual(
-            isinstance(nat_rules, list),
-            True,
-            "Check for list NAT rules response return valid data"
-        )
-        self.assertEqual(
-            nat_rules[0].state,
-            'Active',
-            "Check list port forwarding rules"
-        )
-        
-        self.test_ssh_command(self.vm_1, nat_rule1, "natrule1")
-        self.test_ssh_command(self.vm_2, nat_rule2, "natrule2")
+            nw_off.update(self.apiclient, state='Enabled')
 
-        self.test_password_file_not_empty(self.vm_1, router)
-        self.test_password_file_not_empty(self.vm_2, router)
+            self.logger.debug('Created and Enabled NetworkOffering')
 
-        return
+            self.services["network"]["name"] = "NETWORK-%s" % gateway
+
+            self.logger.debug('Adding Network=%s' % self.services["network"])
+            obj_network = Network.create(
+                self.apiclient,
+                self.services["network"],
+                accountid=self.account.name,
+                domainid=self.account.domainid,
+                networkofferingid=nw_off.id,
+                zoneid=self.zone.id,
+                gateway=gateway,
+                vpcid=vpc.id
+            )
+
+            self.logger.debug("Created network with ID: %s" % obj_network.id)
+        except Exception, e:
+            self.fail('Unable to create a Network with offering=%s because of %s ' % (net_offerring, e))
+
+        self.cleanup.insert(0, nw_off)
+        self.cleanup.insert(0, obj_network)
+
+        return obj_network
+
+    def createIsolatedNetwork(self):
+
+        self.services["isolated_network_offering"]["egress_policy"] = "true"
+
+        self.logger.debug("Creating Network Offering on zone %s" % self.zone.id)
+        network_offering = NetworkOffering.create(self.api_client,
+                                                  self.services["isolated_network_offering"],
+                                                  conservemode=True)
+
+        network_offering.update(self.api_client, state='Enabled')
+
+        self.logger.debug("Creating Network for Account %s using offering %s" % (self.account.name, network_offering.id))
+        network_obj = Network.create(self.api_client,
+                                     self.services["network"],
+                                     accountid=self.account.name,
+                                     domainid=self.account.domainid,
+                                     networkofferingid=network_offering.id,
+                                     zoneid=self.zone.id
+                                     )
+
+        self.cleanup.insert(0, network_offering)
+        self.cleanup.insert(0, network_obj)
+
+        return network_obj
+
+    def replaceNetworkAcl(self, aclId, network):
+        self.logger.debug("Replacing Network ACL with ACL ID ==> %s" % aclId)
+        replaceNetworkACLListCmd = replaceNetworkACLList.replaceNetworkACLListCmd()
+        replaceNetworkACLListCmd.aclid = aclId
+        replaceNetworkACLListCmd.networkid = network.id
+        self._replaceAcl(replaceNetworkACLListCmd)
+
+    def _replaceAcl(self, command):
+        try:
+            successResponse = self.apiclient.replaceNetworkACLList(command);
+        except Exception as e:
+            self.fail("Failed to replace ACL list due to %s" % e)
+
+        self.assertTrue(successResponse.success, "Failed to replace ACL list.")
+
+    def restart_vpc_with_cleanup(self, vpc, cleanup = True):
+        try:
+            self.logger.debug("Restarting VPC %s with cleanup" % vpc.id)
+            cmd = restartVPC.restartVPCCmd()
+            cmd.id = vpc.id
+            cmd.cleanup = cleanup
+            cmd.makeredundant = False
+            self.api_client.restartVPC(cmd)
+        except Exception, e:
+            self.fail('Unable to restart VPC with cleanup due to %s ' % e)
+
+    def restart_network_with_cleanup(self, network, cleanup = True):
+        try:
+            self.logger.debug("Restarting network %s with cleanup" % network.id)
+            cmd = restartNetwork.restartNetworkCmd()
+            cmd.id = network.id
+            cmd.cleanup = cleanup
+            self.api_client.restartNetwork(cmd)
+        except Exception, e:
+            self.fail('Unable to restart network with cleanup due to %s ' % e)
+
+    def check_routers_state(self, routers, status_to_check="MASTER", expected_count=1):
+        vals = ["MASTER", "BACKUP", "UNKNOWN"]
+        cnts = [0, 0, 0]
+
+        result = "UNKNOWN"
+        for router in routers:
+            self.logger.debug("Checking router %s", router)
+            if router.state == "Running" and router.isredundantrouter:
+                hosts = list_hosts(self.apiclient, zoneid=router.zoneid, type='Routing', state='Up', id=router.hostid)
+                self.assertEqual(isinstance(hosts, list), True, "Check list host returns a valid list")
+                host = hosts[0]
+
+                try:
+                    host.user, host.passwd = get_host_credentials(self.config, host.ipaddress)
+                    result = str(get_process_status(host.ipaddress, 22, host.user, host.passwd, router.linklocalip, "sh /opt/cloud/bin/checkrouter.sh "))
+
+                except KeyError:
+                    self.skipTest("Marvin configuration has no host credentials to check router services")
+
+                if result.count(status_to_check) == 1:
+                    cnts[vals.index(status_to_check)] += 1
+            else:
+                self.logger.debug("Skipping router %s because state is %s and is_redundant is %s", router.linklocalip, router.state, router.isredundantrouter)
+                return
+
+        if cnts[vals.index(status_to_check)] != expected_count:
+            self.fail("Expected '%s' routers at state '%s', but found '%s'!" % (expected_count, status_to_check, cnts[vals.index(status_to_check)]))
