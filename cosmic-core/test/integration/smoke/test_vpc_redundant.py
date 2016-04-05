@@ -623,19 +623,48 @@ class TestVPCRedundancy(cloudstackTestCase):
         self.logger.debug("Starting test_05_rvpc_multi_tiers")
         self.query_routers()
 
-        self.networks.append(self.create_network(self.services["network_offering"], "10.1.1.1", nr_vms=1, mark_net_cleanup=False))
-        network = self.create_network(self.services["network_offering_no_lb"], "10.1.2.1", nr_vms=1)
-        self.networks.append(network)
-        self.networks.append(self.create_network(self.services["network_offering_no_lb"], "10.1.3.1", nr_vms=1))
+        network_to_delete_1 = self.create_network(self.services["network_offering"], "10.1.1.1", nr_vms=1, mark_net_cleanup=False)
+        self.networks.append(network_to_delete_1)
+        self.networks.append(self.create_network(self.services["network_offering_no_lb"], "10.1.2.1", nr_vms=1))
+        network_to_delete_2 = self.create_network(self.services["network_offering_no_lb"], "10.1.3.1", nr_vms=1, mark_net_cleanup=False)
+        self.networks.append(network_to_delete_2)
         
         self.check_routers_state()
         self.add_nat_rules()
         self.do_vpc_test(False)
 
-        self.destroy_vm(network)
-        network.get_net().delete(self.apiclient)
-        self.networks.remove(network)
+        self.destroy_vm(network_to_delete_1)
+        network_to_delete_1.get_net().delete(self.apiclient)
+        self.networks.remove(network_to_delete_1)
+
+        vrrp_interval = Configurations.list(self.apiclient, name="router.redundant.vrrp.interval")
         
+        self.logger.debug("router.redundant.vrrp.interval is ==> %s" % vrrp_interval)
+
+        total_sleep = 10
+        if vrrp_interval:
+            total_sleep = int(vrrp_interval[0].value) * 4
+        else:
+            self.logger.debug("Could not retrieve the key 'router.redundant.vrrp.interval'. Sleeping for 10 seconds.")
+            
+        '''
+        Sleep (router.redundant.vrrp.interval * 4) seconds here because since we are removing the first tier (NIC) the VRRP will have to reconfigure the interface it uses.
+        Due to the configuration changes, it will start a new election and it might take up to 4 seconds, because each router has an
+        advertisement interval of 2 seconds.
+        '''
+        time.sleep(total_sleep)
+        self.check_routers_state(status_to_check="MASTER")
+        self.do_vpc_test(False)
+
+        self.destroy_vm(network_to_delete_2)
+        network_to_delete_2.get_net().delete(self.apiclient)
+        self.networks.remove(network_to_delete_2)
+
+        '''
+        Let's be sure and sleep for 'total_sleep' seconds because removing/adding an interface will restart keepalived.
+        It restarts it because the keepalived configuration file changes in order to have the virtual_ipaddress section updated. 
+        '''
+        time.sleep(total_sleep)
         self.check_routers_state(status_to_check="MASTER")
         self.do_vpc_test(False)
 
