@@ -28,6 +28,7 @@ Cosmic officials Git repository is located at:
 Cosmic requires:
 - Java 8
 - GitHub account with an [enabled SSH key] (https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/) because you need to clone over SSH to get all the submodules
+- Maven settings configured to use [Cosmic's Nexus repository](https://beta-nexus.mcc.schubergphilis.com) (see [Maven settings](#maven-settings) bellow)
 
 In order to build Cosmic, you have to follow the steps below:
 
@@ -41,6 +42,54 @@ The steps above will build the essentials to get Cosmic management server workin
     mvn -pl :cloud-client-ui jetty:run
 
 Go to your brouwser and type: [http://localhost:8080/client] (http://localhost:8080/client)
+
+### Maven settings
+
+Configure maven to look for artefacts in [Cosmic's Nexus repository](https://beta-nexus.mcc.schubergphilis.com):
+```xml
+<settings>
+  <mirrors>
+     <mirror>
+      <!--This sends everything else to /public -->
+      <id>beta-nexus</id>
+      <mirrorOf>*</mirrorOf>
+      <url>https://beta-nexus.mcc.schubergphilis.com/content/groups/public</url>
+    </mirror>
+  </mirrors>
+  <profiles>
+      <profile>
+        <id>beta-nexus</id>
+        <!--Enable snapshots for the built in central repo to direct -->
+        <!--all requests to nexus via the mirror -->
+        <repositories>
+          <repository>
+            <id>central</id>
+            <url>http://central</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+          </repository>
+        </repositories>
+       <pluginRepositories>
+          <pluginRepository>
+            <id>central</id>
+            <url>http://central</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+          </pluginRepository>
+        </pluginRepositories>
+      </profile>
+    </profiles>
+</settings>
+```
+Either enable the `beta-nexus` profile on the command line, or make it enabled by default in your settings file.
+```xml
+...
+  <activeProfiles>
+    <!--make the profile active all the time -->
+    <activeProfile>beta-nexus</activeProfile>
+  </activeProfiles>
+...
+```
 
 ## Building RPM Packages
 
