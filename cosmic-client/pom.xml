@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-client-ui</artifactId>
   <name>Cosmic Client UI</name>
@@ -8,6 +9,20 @@
     <artifactId>cosmic</artifactId>
     <version>5.0.0.1-SNAPSHOT</version>
   </parent>
+
+  <distributionManagement>
+    <repository>
+      <id>beta-nexus</id>
+      <name>MCC Nexus</name>
+      <url>https://beta-nexus.mcc.schubergphilis.com/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>beta-nexus</id>
+      <name>MCC Nexus</name>
+      <url>https://beta-nexus.mcc.schubergphilis.com/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <properties>
     <cs.replace.properties>build/replace.properties</cs.replace.properties>
   </properties>
@@ -467,8 +482,7 @@
             </goals>
             <configuration>
               <target>
-                <copy
-                  todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
+                <copy todir="${basedir}/target/generated-webapp/WEB-INF/classes/scripts">
                   <fileset dir="${project.build.directory}/scripts" />
                 </copy>
                 <!-- CLOUDSTACK-1304 -->
@@ -493,8 +507,7 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile"
-                        value="${project.build.directory}/${cs.replace.properties}" />
+                      <param type="propertiesfile" value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -510,8 +523,7 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile"
-                        value="${project.build.directory}/${cs.replace.properties}" />
+                      <param type="propertiesfile" value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -522,8 +534,7 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile"
-                        value="${project.build.directory}/${cs.replace.properties}" />
+                      <param type="propertiesfile" value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -533,8 +544,7 @@
                   </fileset>
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile"
-                        value="${project.build.directory}/${cs.replace.properties}" />
+                      <param type="propertiesfile" value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
@@ -545,8 +555,7 @@
                   <globmapper from="*.in" to="*" />
                   <filterchain>
                     <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile"
-                        value="${project.build.directory}/${cs.replace.properties}" />
+                      <param type="propertiesfile" value="${project.build.directory}/${cs.replace.properties}" />
                     </filterreader>
                   </filterchain>
                 </copy>
