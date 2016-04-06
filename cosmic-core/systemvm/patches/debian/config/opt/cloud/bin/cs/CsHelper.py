@@ -29,8 +29,8 @@ from pprint import pprint
 
 PUBLIC_INTERFACES = {"router" : "eth2", "vpcrouter" : "eth1"}
 
-STATE_COMMANDS = {"router" : "ip addr | grep eth0 | grep inet | wc -l | xargs bash -c  'if [ $0 == 2 ]; then echo \"MASTER\"; else echo \"BACKUP\"; fi'",
-                  "vpcrouter" : "ip addr | grep eth1 | grep state | awk '{print $9;}' | xargs bash -c 'if [ $0 == \"UP\" ]; then echo \"MASTER\"; else echo \"BACKUP\"; fi'"}
+STATE_COMMANDS = {"router"    : "ip addr | grep eth2 | grep state | awk '{print $9;}' | xargs bash -c 'if [ \"$0\" == \"UP\" ]; then echo \"MASTER\"; else echo \"BACKUP\"; fi'",
+                  "vpcrouter" : "ip addr | grep eth1 | grep state | awk '{print $9;}' | xargs bash -c 'if [ $0 == \"UP\" ];     then echo \"MASTER\"; else echo \"BACKUP\"; fi'"}
 
 def reconfigure_interfaces(router_config, interfaces):
     for interface in interfaces:
