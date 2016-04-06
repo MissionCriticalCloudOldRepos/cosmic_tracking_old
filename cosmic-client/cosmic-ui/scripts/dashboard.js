@@ -14,6 +14,10 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
+// number of items to display on dashboards
+dashboardItemsToDisplay = 3;
+
 (function($, cloudStack) {
     // Admin dashboard
     cloudStack.sections.dashboard = {
@@ -103,7 +107,7 @@
                             data: {
                                 listAll: true,
                                 page: 1,
-                                pageSize: (pageSize > 4? 4: pageSize) //if default.page.size > 4, show 4 items only (since space on dashboard is limited)
+                                pageSize: (pageSize > dashboardItemsToDisplay? dashboardItemsToDisplay: pageSize) //if default.page.size > dashboardItemsToDisplay, show dashboardItemsToDisplay items only (since space on dashboard is limited)
                                 //pageSize: 1 //for testing only
                             },
                             success: function(json) {
@@ -197,7 +201,7 @@
                             url: createURL('listAlerts'),
                             data: {
                                 page: 1,
-                                pageSize: (pageSize > 4? 4: pageSize) //if default.page.size > 4, show 4 items only (since space on dashboard is limited)
+                                pageSize: (pageSize > dashboardItemsToDisplay? dashboardItemsToDisplay: pageSize) //if default.page.size > dashboardItemsToDisplay, show dashboardItemsToDisplay items only (since space on dashboard is limited)
                             },
                             success: function(json) {
                                 var alerts = json.listalertsresponse.alert ?
@@ -222,7 +226,7 @@
                             data: {
                                 state: 'Alert',
                                 page: 1,
-                                pageSize: (pageSize > 4? 4: pageSize) //if default.page.size > 4, show 4 items only (since space on dashboard is limited)
+                                pageSize: (pageSize > dashboardItemsToDisplay? dashboardItemsToDisplay: pageSize) //if default.page.size > dashboardItemsToDisplay, show dashboardItemsToDisplay items only (since space on dashboard is limited)
                             },
                             success: function(json) {
                                 var hosts = json.listhostsresponse.host ?
