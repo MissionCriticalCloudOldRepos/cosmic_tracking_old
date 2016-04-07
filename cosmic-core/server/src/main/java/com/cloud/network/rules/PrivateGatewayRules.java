@@ -50,7 +50,6 @@ public class PrivateGatewayRules extends RuleApplier {
 
     @Override
     public boolean accept(final NetworkTopologyVisitor visitor, final VirtualRouter router) throws ResourceUnavailableException {
-        s_logger.debug("DEBUG:: in accept");
         _router = router;
 
         boolean result = false;

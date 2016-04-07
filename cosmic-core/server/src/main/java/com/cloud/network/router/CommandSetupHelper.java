@@ -904,7 +904,7 @@ public class CommandSetupHelper {
                 int deviceId = nicProfile.getDeviceId();
                 ip.setNicDevId(deviceId);
 
-                s_logger.debug("DEBUG:: Nic device for IP address using: address = " + ipAddress + " and networkId = " + networkId + " is ==> " + deviceId);
+                s_logger.debug("Nic device for IP address using: address = " + ipAddress + " and networkId = " + networkId + " is ==> " + deviceId);
 
                 ipsToSend[i++] = ip;
 
