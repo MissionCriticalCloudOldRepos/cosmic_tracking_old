@@ -43,6 +43,7 @@ import org.apache.http.ssl.SSLContexts;
 
 public class HttpClientHelper {
 
+    private static final int MAX_ALLOCATED_CONNECTIONS_PER_ROUTE = 20;
     private static final int DEFAULT_SOCKET_TIMEOUT = 3000;
     private static final String HTTPS = HttpConstants.HTTPS;
 
@@ -61,6 +62,7 @@ public class HttpClientHelper {
             .setDefaultRequestConfig(requestConfig)
             .setDefaultCookieStore(cookieStore)
             .setRetryHandler(new StandardHttpRequestRetryHandler())
+            .setMaxConnPerRoute(MAX_ALLOCATED_CONNECTIONS_PER_ROUTE)
             .build();
     }
 
