@@ -25,25 +25,26 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
+import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CreateLogicalSwitchAnswer;
 import com.cloud.agent.api.CreateLogicalSwitchCommand;
 import com.cloud.agent.api.DeleteLogicalSwitchAnswer;
 import com.cloud.agent.api.DeleteLogicalSwitchCommand;
+import com.cloud.agent.api.FindLogicalSwitchCommand;
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.deploy.DeploymentPlan;
+import com.cloud.exception.AgentUnavailableException;
 import com.cloud.exception.InsufficientAddressCapacityException;
 import com.cloud.exception.InsufficientVirtualNetworkCapacityException;
+import com.cloud.exception.OperationTimedoutException;
 import com.cloud.host.HostVO;
 import com.cloud.host.dao.HostDao;
 import com.cloud.host.dao.HostDetailsDao;
 import com.cloud.network.Network;
-import com.cloud.network.Network.GuestType;
 import com.cloud.network.Network.Service;
 import com.cloud.network.Network.State;
 import com.cloud.network.NetworkModel;
@@ -62,9 +63,12 @@ import com.cloud.offerings.dao.NetworkOfferingServiceMapDao;
 import com.cloud.resource.ResourceManager;
 import com.cloud.user.Account;
 import com.cloud.user.dao.AccountDao;
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.log4j.Logger;
 
 public class NiciraNvpGuestNetworkGuru extends GuestNetworkGuru {
     private static final int MAX_NAME_LENGTH = 40;
@@ -106,14 +110,14 @@ public class NiciraNvpGuestNetworkGuru extends GuestNetworkGuru {
                 && isMyIsolationMethod(physicalNetwork) && ntwkOfferingSrvcDao.areServicesSupportedByNetworkOffering(offering.getId(), Service.Connectivity)) {
             return true;
         } else {
-            s_logger.trace("We only take care of Guest networks of type   " + GuestType.Isolated + " in zone of type " + NetworkType.Advanced);
+            s_logger.debug("Cannot handle rquest. See GuestNetworkGuru message to check isolation methods. Details I have:\nNetwork type = " + networkType + "\nTraffic type = " + offering.getTrafficType() + "\nGuest type = " + offering.getGuestType());
             return false;
         }
     }
 
     @Override
     public Network design(final NetworkOffering offering, final DeploymentPlan plan, final Network userSpecified, final Account owner) {
-        // Check of the isolation type of the related physical network is supported
+        // Check if the isolation type of the related physical network is supported
         final PhysicalNetworkVO physnet = physicalNetworkDao.findById(plan.getPhysicalNetworkId());
         final DataCenter dc = _dcDao.findById(plan.getDataCenterId());
         if (!canHandle(offering, dc.getNetworkType(), physnet)) {
@@ -126,7 +130,10 @@ public class NiciraNvpGuestNetworkGuru extends GuestNetworkGuru {
             s_logger.error("No NiciraNvp Controller on physical network " + physnet.getName());
             return null;
         }
-        s_logger.debug("Nicira Nvp " + devices.get(0).getUuid() + " found on physical network " + physnet.getId());
+        final NiciraNvpDeviceVO niciraNvpDeviceVO = devices.get(0);
+        s_logger.debug("Nicira Nvp " + niciraNvpDeviceVO.getUuid() + " found on physical network " + physnet.getId());
+
+        checkThatLogicalSwitchExists(userSpecified, niciraNvpDeviceVO);
 
         s_logger.debug("Physical isolation type is supported, asking GuestNetworkGuru to design this network");
         final NetworkVO networkObject = (NetworkVO) super.design(offering, plan, userSpecified, owner);
@@ -136,6 +143,26 @@ public class NiciraNvpGuestNetworkGuru extends GuestNetworkGuru {
         networkObject.setBroadcastDomainType(BroadcastDomainType.Lswitch);
 
         return networkObject;
+    }
+
+    private void checkThatLogicalSwitchExists(final Network userSpecified, final NiciraNvpDeviceVO niciraNvpDeviceVO) {
+      final URI broadcastUri = userSpecified.getBroadcastUri();
+      if(broadcastUri != null) {
+          final String lswitchUuid = broadcastUri.getRawSchemeSpecificPart();
+          if(!lswitchExists(lswitchUuid, niciraNvpDeviceVO)) {
+              throw new CloudRuntimeException("Refusing to design this network because the specified lswitch (" + lswitchUuid + ") does not exist.");
+          }
+      }
+    }
+
+    private boolean lswitchExists(String lswitchUuid, NiciraNvpDeviceVO niciraNvpDeviceVO) {
+      try {
+        final Answer answer = agentMgr.send(niciraNvpDeviceVO.getHostId(), new FindLogicalSwitchCommand(lswitchUuid));
+        return answer.getResult();
+      } catch (AgentUnavailableException | OperationTimedoutException e) {
+        s_logger.warn("There was an error while trying to find logical switch " + lswitchUuid);
+        return false;
+      }
     }
 
     @Override

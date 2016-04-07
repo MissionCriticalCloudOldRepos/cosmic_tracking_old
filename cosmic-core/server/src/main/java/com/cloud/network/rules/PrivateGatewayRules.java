@@ -17,9 +17,6 @@
 
 package com.cloud.network.rules;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-import org.apache.log4j.Logger;
-
 import com.cloud.exception.CloudException;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.ResourceUnavailableException;
@@ -34,6 +31,9 @@ import com.cloud.network.vpc.PrivateGateway;
 import com.cloud.network.vpc.PrivateIpVO;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineManager;
+
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
+import org.apache.log4j.Logger;
 
 public class PrivateGatewayRules extends RuleApplier {
 
@@ -68,7 +68,6 @@ public class PrivateGatewayRules extends RuleApplier {
             }
             final VirtualMachineManager itMgr = visitor.getVirtualNetworkApplianceFactory().getItMgr();
             _nicProfile = itMgr.addVmToNetwork(_router, _network, requested);
-            s_logger.debug("DEBUG:: nic profile = " + _nicProfile.toString());
 
             // setup source nat
             if (_nicProfile != null) {
