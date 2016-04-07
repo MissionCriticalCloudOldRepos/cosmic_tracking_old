@@ -43,15 +43,22 @@ import org.apache.http.ssl.SSLContexts;
 
 public class HttpClientHelper {
 
+    private static final int DEFAULT_SOCKET_TIMEOUT = 3000;
     private static final String HTTPS = HttpConstants.HTTPS;
 
     public static CloseableHttpClient createHttpClient(final int maxRedirects) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
         final Registry<ConnectionSocketFactory> socketFactoryRegistry = createSocketFactoryConfigration();
         final BasicCookieStore cookieStore = new BasicCookieStore();
+        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        RequestConfig requestConfig = RequestConfig.custom()
+            .setCookieSpec(CookieSpecs.DEFAULT)
+            .setMaxRedirects(maxRedirects)
+            .setSocketTimeout(DEFAULT_SOCKET_TIMEOUT)
+            .build();
         return HttpClientBuilder.create()
-            .setConnectionManager(new PoolingHttpClientConnectionManager(socketFactoryRegistry))
+            .setConnectionManager(connManager)
             .setRedirectStrategy(new LaxRedirectStrategy())
-            .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.DEFAULT).setMaxRedirects(maxRedirects).build())
+            .setDefaultRequestConfig(requestConfig)
             .setDefaultCookieStore(cookieStore)
             .setRetryHandler(new StandardHttpRequestRetryHandler())
             .build();
