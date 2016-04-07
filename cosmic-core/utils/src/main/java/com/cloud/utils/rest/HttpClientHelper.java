@@ -43,18 +43,25 @@ import org.apache.http.ssl.SSLContexts;
 
 public class HttpClientHelper {
 
-    private static final int MAX_ALLOCATED_CONNECTIONS_PER_ROUTE = 20;
+  private static final int MAX_ALLOCATED_CONNECTIONS = 50;
+  private static final int MAX_ALLOCATED_CONNECTIONS_PER_ROUTE = 25;
     private static final int DEFAULT_SOCKET_TIMEOUT = 3000;
+    private static final int DEFAULT_CONNECTION_REQUEST_TIMEOUT = 3000;
+    private static final int DEFAULT_CONNECT_TIMEOUT = 3000;
     private static final String HTTPS = HttpConstants.HTTPS;
 
     public static CloseableHttpClient createHttpClient(final int maxRedirects) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
         final Registry<ConnectionSocketFactory> socketFactoryRegistry = createSocketFactoryConfigration();
         final BasicCookieStore cookieStore = new BasicCookieStore();
-        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-        RequestConfig requestConfig = RequestConfig.custom()
+        final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        connManager.setDefaultMaxPerRoute(MAX_ALLOCATED_CONNECTIONS_PER_ROUTE);
+        connManager.setMaxTotal(MAX_ALLOCATED_CONNECTIONS);
+        final RequestConfig requestConfig = RequestConfig.custom()
             .setCookieSpec(CookieSpecs.DEFAULT)
             .setMaxRedirects(maxRedirects)
             .setSocketTimeout(DEFAULT_SOCKET_TIMEOUT)
+            .setConnectionRequestTimeout(DEFAULT_CONNECTION_REQUEST_TIMEOUT)
+            .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
             .build();
         return HttpClientBuilder.create()
             .setConnectionManager(connManager)
@@ -62,7 +69,6 @@ public class HttpClientHelper {
             .setDefaultRequestConfig(requestConfig)
             .setDefaultCookieStore(cookieStore)
             .setRetryHandler(new StandardHttpRequestRetryHandler())
-            .setMaxConnPerRoute(MAX_ALLOCATED_CONNECTIONS_PER_ROUTE)
             .build();
     }
 
