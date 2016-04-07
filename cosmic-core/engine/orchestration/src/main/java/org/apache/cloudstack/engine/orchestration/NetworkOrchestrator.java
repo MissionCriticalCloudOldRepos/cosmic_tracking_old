@@ -1224,7 +1224,10 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
 
     protected boolean prepareElement(final NetworkElement element, final Network network, final NicProfile profile, final VirtualMachineProfile vmProfile, final DeployDestination dest,
             final ReservationContext context) throws InsufficientCapacityException, ConcurrentOperationException, ResourceUnavailableException {
-        element.prepare(network, profile, vmProfile, dest, context);
+        if(!element.prepare(network, profile, vmProfile, dest, context)) {
+            s_logger.error("Network element preparation failed");
+            return false;
+        }
         if (vmProfile.getType() == Type.User && element.getProvider() != null) {
             if (_networkModel.areServicesSupportedInNetwork(network.getId(), Service.Dhcp)
                     && _networkModel.isProviderSupportServiceInNetwork(network.getId(), Service.Dhcp, element.getProvider()) && element instanceof DhcpServiceProvider) {

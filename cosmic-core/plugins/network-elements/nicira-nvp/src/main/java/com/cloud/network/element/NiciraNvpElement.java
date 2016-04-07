@@ -72,6 +72,7 @@ import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.NicPreparationException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.host.DetailVO;
 import com.cloud.host.Host;
@@ -104,6 +105,7 @@ import com.cloud.network.dao.PhysicalNetworkDao;
 import com.cloud.network.dao.PhysicalNetworkServiceProviderDao;
 import com.cloud.network.dao.PhysicalNetworkServiceProviderVO;
 import com.cloud.network.dao.PhysicalNetworkVO;
+import com.cloud.network.nicira.LogicalSwitchPort;
 import com.cloud.network.resource.NiciraNvpResource;
 import com.cloud.network.rules.PortForwardingRule;
 import com.cloud.network.rules.StaticNat;
@@ -223,16 +225,16 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             return false;
         }
 
-        List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
+        final List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
         if (devices.isEmpty()) {
             s_logger.error("No NiciraNvp Controller on physical network " + network.getPhysicalNetworkId());
             return false;
         }
-        NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
-        HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
+        final NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
+        final HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
         hostDao.loadDetails(niciraNvpHost);
 
-        Account owner = context.getAccount();
+        final Account owner = context.getAccount();
 
         /*
          * TODO Shouldn't we lock the network as we might need to do
@@ -243,15 +245,15 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
         if (networkModel.isProviderSupportServiceInNetwork(network.getId(), Service.SourceNat, Provider.NiciraNvp)) {
             s_logger.debug("Apparently we are supposed to provide SourceNat on this network");
 
-            PublicIp sourceNatIp = ipAddrMgr.assignSourceNatIpAddressToGuestNetwork(owner, network);
-            String publicCidr = sourceNatIp.getAddress().addr() + "/" + NetUtils.getCidrSize(sourceNatIp.getVlanNetmask());
-            String internalCidr = network.getGateway() + "/" + network.getCidr().split("/")[1];
+            final PublicIp sourceNatIp = ipAddrMgr.assignSourceNatIpAddressToGuestNetwork(owner, network);
+            final String publicCidr = sourceNatIp.getAddress().addr() + "/" + NetUtils.getCidrSize(sourceNatIp.getVlanNetmask());
+            final String internalCidr = network.getGateway() + "/" + network.getCidr().split("/")[1];
             // assuming a vlan:
             String vtag = sourceNatIp.getVlanTag();
             BroadcastDomainType tiep = null;
             try {
                 tiep = BroadcastDomainType.getTypeOf(vtag);
-            } catch (URISyntaxException use) {
+            } catch (final URISyntaxException use) {
                 throw new CloudRuntimeException("vlantag for sourceNatIp is not valid: " + vtag, use);
             }
             if (tiep == BroadcastDomainType.Vlan) {
@@ -259,20 +261,20 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             } else if (!(tiep == BroadcastDomainType.UnDecided || tiep == BroadcastDomainType.Native)) {
                 throw new CloudRuntimeException("only vlans are supported for sourceNatIp, at this moment: " + vtag);
             }
-            long vlanid = (Vlan.UNTAGGED.equals(vtag)) ? 0 : Long.parseLong(vtag);
+            final long vlanid = Vlan.UNTAGGED.equals(vtag) ? 0 : Long.parseLong(vtag);
 
-            CreateLogicalRouterCommand cmd =
+            final CreateLogicalRouterCommand cmd =
                     new CreateLogicalRouterCommand(niciraNvpHost.getDetail("l3gatewayserviceuuid"), vlanid, BroadcastDomainType.getValue(network.getBroadcastUri()),
                             "router-" + network.getDisplayText(), publicCidr, sourceNatIp.getGateway(), internalCidr, context.getDomain().getName() + "-" +
                                     context.getAccount().getAccountName());
-            CreateLogicalRouterAnswer answer = (CreateLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
+            final CreateLogicalRouterAnswer answer = (CreateLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
             if (answer.getResult() == false) {
                 s_logger.error("Failed to create Logical Router for network " + network.getDisplayText());
                 return false;
             }
 
             // Store the uuid so we can easily find it during cleanup
-            NiciraNvpRouterMappingVO routermapping = new NiciraNvpRouterMappingVO(answer.getLogicalRouterUuid(), network.getId());
+            final NiciraNvpRouterMappingVO routermapping = new NiciraNvpRouterMappingVO(answer.getLogicalRouterUuid(), network.getId());
             niciraNvpRouterMappingDao.persist(routermapping);
         }
 
@@ -292,24 +294,24 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             return false;
         }
 
-        NicVO nicVO = nicDao.findById(nic.getId());
+        final NicVO nicVO = nicDao.findById(nic.getId());
 
-        List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
+        final List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
         if (devices.isEmpty()) {
             s_logger.error("No NiciraNvp Controller on physical network " + network.getPhysicalNetworkId());
             return false;
         }
-        NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
-        HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
+        final NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
+        final HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
 
-        NiciraNvpNicMappingVO existingNicMap = niciraNvpNicMappingDao.findByNicUuid(nicVO.getUuid());
+        final NiciraNvpNicMappingVO existingNicMap = niciraNvpNicMappingDao.findByNicUuid(nicVO.getUuid());
         if (existingNicMap != null) {
-            FindLogicalSwitchPortCommand findCmd = new FindLogicalSwitchPortCommand(existingNicMap.getLogicalSwitchUuid(), existingNicMap.getLogicalSwitchPortUuid());
-            FindLogicalSwitchPortAnswer answer = (FindLogicalSwitchPortAnswer)agentMgr.easySend(niciraNvpHost.getId(), findCmd);
+            final FindLogicalSwitchPortCommand findCmd = new FindLogicalSwitchPortCommand(existingNicMap.getLogicalSwitchUuid(), existingNicMap.getLogicalSwitchPortUuid());
+            final FindLogicalSwitchPortAnswer answer = (FindLogicalSwitchPortAnswer)agentMgr.easySend(niciraNvpHost.getId(), findCmd);
 
             if (answer.getResult()) {
                 s_logger.warn("Existing Logical Switchport found for nic " + nic.getName() + " with uuid " + existingNicMap.getLogicalSwitchPortUuid());
-                UpdateLogicalSwitchPortCommand cmd =
+                final UpdateLogicalSwitchPortCommand cmd =
                         new UpdateLogicalSwitchPortCommand(existingNicMap.getLogicalSwitchPortUuid(), BroadcastDomainType.getValue(network.getBroadcastUri()),
                                 nicVO.getUuid(), context.getDomain().getName() + "-" + context.getAccount().getAccountName(), nic.getName());
                 agentMgr.easySend(niciraNvpHost.getId(), cmd);
@@ -320,17 +322,16 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             }
         }
 
-        CreateLogicalSwitchPortCommand cmd =
+        final CreateLogicalSwitchPortCommand cmd =
                 new CreateLogicalSwitchPortCommand(BroadcastDomainType.getValue(network.getBroadcastUri()), nicVO.getUuid(), context.getDomain().getName() + "-" +
                         context.getAccount().getAccountName(), nic.getName());
-        CreateLogicalSwitchPortAnswer answer = (CreateLogicalSwitchPortAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
+        final CreateLogicalSwitchPortAnswer answer = (CreateLogicalSwitchPortAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
 
         if (answer == null || !answer.getResult()) {
-            s_logger.error("CreateLogicalSwitchPortCommand failed");
-            return false;
+            throw new NicPreparationException("CreateLogicalSwitchPortCommand failed");
         }
 
-        NiciraNvpNicMappingVO nicMap =
+        final NiciraNvpNicMappingVO nicMap =
                 new NiciraNvpNicMappingVO(BroadcastDomainType.getValue(network.getBroadcastUri()), answer.getLogicalSwitchPortUuid(), nicVO.getUuid());
         niciraNvpNicMappingDao.persist(nicMap);
 
@@ -350,24 +351,24 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             return false;
         }
 
-        NicVO nicVO = nicDao.findById(nic.getId());
+        final NicVO nicVO = nicDao.findById(nic.getId());
 
-        List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
+        final List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
         if (devices.isEmpty()) {
             s_logger.error("No NiciraNvp Controller on physical network " + network.getPhysicalNetworkId());
             return false;
         }
-        NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
-        HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
+        final NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
+        final HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
 
-        NiciraNvpNicMappingVO nicMap = niciraNvpNicMappingDao.findByNicUuid(nicVO.getUuid());
+        final NiciraNvpNicMappingVO nicMap = niciraNvpNicMappingDao.findByNicUuid(nicVO.getUuid());
         if (nicMap == null) {
             s_logger.error("No mapping for nic " + nic.getName());
             return false;
         }
 
-        DeleteLogicalSwitchPortCommand cmd = new DeleteLogicalSwitchPortCommand(nicMap.getLogicalSwitchUuid(), nicMap.getLogicalSwitchPortUuid());
-        DeleteLogicalSwitchPortAnswer answer = (DeleteLogicalSwitchPortAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
+        final DeleteLogicalSwitchPortCommand cmd = new DeleteLogicalSwitchPortCommand(nicMap.getLogicalSwitchUuid(), nicMap.getLogicalSwitchPortUuid());
+        final DeleteLogicalSwitchPortAnswer answer = (DeleteLogicalSwitchPortAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
 
         if (answer == null || !answer.getResult()) {
             s_logger.error("DeleteLogicalSwitchPortCommand failed");
@@ -385,28 +386,28 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             return false;
         }
 
-        List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
+        final List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
         if (devices.isEmpty()) {
             s_logger.error("No NiciraNvp Controller on physical network " + network.getPhysicalNetworkId());
             return false;
         }
-        NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
-        HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
+        final NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
+        final HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
 
         if (networkModel.isProviderSupportServiceInNetwork(network.getId(), Service.SourceNat, Provider.NiciraNvp)) {
             s_logger.debug("Apparently we were providing SourceNat on this network");
 
             // Deleting the LogicalRouter will also take care of all provisioned
             // nat rules.
-            NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
+            final NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
             if (routermapping == null) {
                 s_logger.warn("No logical router uuid found for network " + network.getDisplayText());
                 // This might be cause by a failed deployment, so don't make shutdown fail as well.
                 return true;
             }
 
-            DeleteLogicalRouterCommand cmd = new DeleteLogicalRouterCommand(routermapping.getLogicalRouterUuid());
-            DeleteLogicalRouterAnswer answer = (DeleteLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
+            final DeleteLogicalRouterCommand cmd = new DeleteLogicalRouterCommand(routermapping.getLogicalRouterUuid());
+            final DeleteLogicalRouterAnswer answer = (DeleteLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
             if (answer.getResult() == false) {
                 s_logger.error("Failed to delete LogicalRouter for network " + network.getDisplayText());
                 return false;
@@ -460,7 +461,7 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
     }
 
     private static Map<Service, Map<Capability, String>> setCapabilities() {
-        Map<Service, Map<Capability, String>> capabilities = new HashMap<Service, Map<Capability, String>>();
+        final Map<Service, Map<Capability, String>> capabilities = new HashMap<Service, Map<Capability, String>>();
 
         // L2 Support : SDN provisioning
         capabilities.put(Service.Connectivity, null);
@@ -469,7 +470,7 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
         capabilities.put(Service.Gateway, null);
 
         // L3 Support : SourceNat
-        Map<Capability, String> sourceNatCapabilities = new HashMap<Capability, String>();
+        final Map<Capability, String> sourceNatCapabilities = new HashMap<Capability, String>();
         sourceNatCapabilities.put(Capability.SupportedSourceNatTypes, "peraccount");
         sourceNatCapabilities.put(Capability.RedundantRouter, "false");
         capabilities.put(Service.SourceNat, sourceNatCapabilities);
@@ -485,7 +486,7 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
 
     @Override
     public List<Class<?>> getCommands() {
-        List<Class<?>> cmdList = new ArrayList<Class<?>>();
+        final List<Class<?>> cmdList = new ArrayList<Class<?>>();
         cmdList.add(AddNiciraNvpDeviceCmd.class);
         cmdList.add(DeleteNiciraNvpDeviceCmd.class);
         cmdList.add(ListNiciraNvpDeviceNetworksCmd.class);
@@ -496,18 +497,18 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
     @Override
     @DB
     public NiciraNvpDeviceVO addNiciraNvpDevice(AddNiciraNvpDeviceCmd cmd) {
-        ServerResource resource = new NiciraNvpResource();
+        final ServerResource resource = new NiciraNvpResource();
         final String deviceName = Network.Provider.NiciraNvp.getName();
-        NetworkDevice networkDevice = NetworkDevice.getNetworkDevice(deviceName);
+        final NetworkDevice networkDevice = NetworkDevice.getNetworkDevice(deviceName);
         if (networkDevice == null) {
             throw new CloudRuntimeException("No network device found for " + deviceName);
         }
         final Long physicalNetworkId = cmd.getPhysicalNetworkId();
-        PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
+        final PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
         if (physicalNetwork == null) {
             throw new InvalidParameterValueException("Could not find phyical network with ID: " + physicalNetworkId);
         }
-        long zoneId = physicalNetwork.getDataCenterId();
+        final long zoneId = physicalNetwork.getDataCenterId();
 
         final PhysicalNetworkServiceProviderVO ntwkSvcProvider =
                 physicalNetworkServiceProviderDao.findByServiceProvider(physicalNetwork.getId(), networkDevice.getNetworkServiceProvder());
@@ -523,7 +524,7 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             throw new CloudRuntimeException("A NiciraNvp device is already configured on this physical network");
         }
 
-        Map<String, String> params = new HashMap<String, String>();
+        final Map<String, String> params = new HashMap<String, String>();
         params.put("guid", UUID.randomUUID().toString());
         params.put("zoneId", String.valueOf(physicalNetwork.getDataCenterId()));
         params.put("physicalNetworkId", String.valueOf(physicalNetwork.getId()));
@@ -538,7 +539,7 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             params.put("l3gatewayserviceuuid", cmd.getL3GatewayServiceUuid());
         }
 
-        Map<String, Object> hostdetails = new HashMap<String, Object>();
+        final Map<String, Object> hostdetails = new HashMap<String, Object>();
         hostdetails.putAll(params);
 
         try {
@@ -549,10 +550,10 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
                 return Transaction.execute(new TransactionCallback<NiciraNvpDeviceVO>() {
                     @Override
                     public NiciraNvpDeviceVO doInTransaction(TransactionStatus status) {
-                        NiciraNvpDeviceVO niciraNvpDevice = new NiciraNvpDeviceVO(host.getId(), physicalNetworkId, ntwkSvcProvider.getProviderName(), deviceName);
+                        final NiciraNvpDeviceVO niciraNvpDevice = new NiciraNvpDeviceVO(host.getId(), physicalNetworkId, ntwkSvcProvider.getProviderName(), deviceName);
                         niciraNvpDao.persist(niciraNvpDevice);
 
-                        DetailVO detail = new DetailVO(host.getId(), "niciranvpdeviceid", String.valueOf(niciraNvpDevice.getId()));
+                        final DetailVO detail = new DetailVO(host.getId(), "niciranvpdeviceid", String.valueOf(niciraNvpDevice.getId()));
                         hostDetailsDao.persist(detail);
 
                         return niciraNvpDevice;
@@ -561,19 +562,19 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             } else {
                 throw new CloudRuntimeException("Failed to add Nicira Nvp Device due to internal error.");
             }
-        } catch (ConfigurationException e) {
+        } catch (final ConfigurationException e) {
             throw new CloudRuntimeException(e.getMessage());
         }
     }
 
     @Override
     public NiciraNvpDeviceResponse createNiciraNvpDeviceResponse(NiciraNvpDeviceVO niciraNvpDeviceVO) {
-        HostVO niciraNvpHost = hostDao.findById(niciraNvpDeviceVO.getHostId());
+        final HostVO niciraNvpHost = hostDao.findById(niciraNvpDeviceVO.getHostId());
         hostDao.loadDetails(niciraNvpHost);
 
-        NiciraNvpDeviceResponse response = new NiciraNvpDeviceResponse();
+        final NiciraNvpDeviceResponse response = new NiciraNvpDeviceResponse();
         response.setDeviceName(niciraNvpDeviceVO.getDeviceName());
-        PhysicalNetwork pnw = ApiDBUtils.findPhysicalNetworkById(niciraNvpDeviceVO.getPhysicalNetworkId());
+        final PhysicalNetwork pnw = ApiDBUtils.findPhysicalNetworkById(niciraNvpDeviceVO.getPhysicalNetworkId());
         if (pnw != null) {
             response.setPhysicalNetworkId(pnw.getUuid());
         }
@@ -588,24 +589,24 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
 
     @Override
     public boolean deleteNiciraNvpDevice(DeleteNiciraNvpDeviceCmd cmd) {
-        Long niciraDeviceId = cmd.getNiciraNvpDeviceId();
-        NiciraNvpDeviceVO niciraNvpDevice = niciraNvpDao.findById(niciraDeviceId);
+        final Long niciraDeviceId = cmd.getNiciraNvpDeviceId();
+        final NiciraNvpDeviceVO niciraNvpDevice = niciraNvpDao.findById(niciraDeviceId);
         if (niciraNvpDevice == null) {
             throw new InvalidParameterValueException("Could not find a nicira device with id " + niciraDeviceId);
         }
 
         // Find the physical network we work for
-        Long physicalNetworkId = niciraNvpDevice.getPhysicalNetworkId();
-        PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
+        final Long physicalNetworkId = niciraNvpDevice.getPhysicalNetworkId();
+        final PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
         if (physicalNetwork != null) {
             // Lets see if there are networks that use us
             // Find the nicira networks on this physical network
-            List<NetworkVO> networkList = networkDao.listByPhysicalNetwork(physicalNetworkId);
+            final List<NetworkVO> networkList = networkDao.listByPhysicalNetwork(physicalNetworkId);
             if (networkList != null) {
                 // Networks with broadcast type lswitch are ours
-                for (NetworkVO network : networkList) {
+                for (final NetworkVO network : networkList) {
                     if (network.getBroadcastDomainType() == Networks.BroadcastDomainType.Lswitch) {
-                        if ((network.getState() != Network.State.Shutdown) && (network.getState() != Network.State.Destroy)) {
+                        if (network.getState() != Network.State.Shutdown && network.getState() != Network.State.Destroy) {
                             throw new CloudRuntimeException("This Nicira Nvp device can not be deleted as there are one or more logical networks provisioned by cloudstack.");
                         }
                     }
@@ -613,8 +614,8 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             }
         }
 
-        HostVO niciraHost = hostDao.findById(niciraNvpDevice.getHostId());
-        Long hostId = niciraHost.getId();
+        final HostVO niciraHost = hostDao.findById(niciraNvpDevice.getHostId());
+        final Long hostId = niciraHost.getId();
 
         niciraHost.setResourceState(ResourceState.Maintenance);
         hostDao.update(hostId, niciraHost);
@@ -626,8 +627,8 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
 
     @Override
     public List<NiciraNvpDeviceVO> listNiciraNvpDevices(ListNiciraNvpDevicesCmd cmd) {
-        Long physicalNetworkId = cmd.getPhysicalNetworkId();
-        Long niciraNvpDeviceId = cmd.getNiciraNvpDeviceId();
+        final Long physicalNetworkId = cmd.getPhysicalNetworkId();
+        final Long niciraNvpDeviceId = cmd.getNiciraNvpDeviceId();
         List<NiciraNvpDeviceVO> responseList = new ArrayList<NiciraNvpDeviceVO>();
 
         if (physicalNetworkId == null && niciraNvpDeviceId == null) {
@@ -635,13 +636,13 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
         }
 
         if (niciraNvpDeviceId != null) {
-            NiciraNvpDeviceVO niciraNvpDevice = niciraNvpDao.findById(niciraNvpDeviceId);
+            final NiciraNvpDeviceVO niciraNvpDevice = niciraNvpDao.findById(niciraNvpDeviceId);
             if (niciraNvpDevice == null) {
                 throw new InvalidParameterValueException("Could not find Nicira Nvp device with id: " + niciraNvpDevice);
             }
             responseList.add(niciraNvpDevice);
         } else {
-            PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
+            final PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
             if (physicalNetwork == null) {
                 throw new InvalidParameterValueException("Could not find a physical network with id: " + physicalNetworkId);
             }
@@ -653,29 +654,29 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
 
     @Override
     public List<? extends Network> listNiciraNvpDeviceNetworks(ListNiciraNvpDeviceNetworksCmd cmd) {
-        Long niciraDeviceId = cmd.getNiciraNvpDeviceId();
-        NiciraNvpDeviceVO niciraNvpDevice = niciraNvpDao.findById(niciraDeviceId);
+        final Long niciraDeviceId = cmd.getNiciraNvpDeviceId();
+        final NiciraNvpDeviceVO niciraNvpDevice = niciraNvpDao.findById(niciraDeviceId);
         if (niciraNvpDevice == null) {
             throw new InvalidParameterValueException("Could not find a nicira device with id " + niciraDeviceId);
         }
 
         // Find the physical network we work for
-        Long physicalNetworkId = niciraNvpDevice.getPhysicalNetworkId();
-        PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
+        final Long physicalNetworkId = niciraNvpDevice.getPhysicalNetworkId();
+        final PhysicalNetworkVO physicalNetwork = physicalNetworkDao.findById(physicalNetworkId);
         if (physicalNetwork == null) {
             // No such physical network, so no provisioned networks
             return Collections.emptyList();
         }
 
         // Find the nicira networks on this physical network
-        List<NetworkVO> networkList = networkDao.listByPhysicalNetwork(physicalNetworkId);
+        final List<NetworkVO> networkList = networkDao.listByPhysicalNetwork(physicalNetworkId);
         if (networkList == null) {
             return Collections.emptyList();
         }
 
         // Networks with broadcast type lswitch are ours
-        List<NetworkVO> responseList = new ArrayList<NetworkVO>();
-        for (NetworkVO network : networkList) {
+        final List<NetworkVO> responseList = new ArrayList<NetworkVO>();
+        for (final NetworkVO network : networkList) {
             if (network.getBroadcastDomainType() == Networks.BroadcastDomainType.Lswitch) {
                 responseList.add(network);
             }
@@ -729,23 +730,23 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
         if (services.contains(Service.SourceNat)) {
             // Only if we need to provide SourceNat we need to configure the logical router
             // SourceNat is required for StaticNat and PortForwarding
-            List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
+            final List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
             if (devices.isEmpty()) {
                 s_logger.error("No NiciraNvp Controller on physical network " + network.getPhysicalNetworkId());
                 return false;
             }
-            NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
-            HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
+            final NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
+            final HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
             hostDao.loadDetails(niciraNvpHost);
 
-            NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
+            final NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
             if (routermapping == null) {
                 s_logger.error("No logical router uuid found for network " + network.getDisplayText());
                 return false;
             }
 
-            List<String> cidrs = new ArrayList<String>();
-            for (PublicIpAddress ip : ipAddress) {
+            final List<String> cidrs = new ArrayList<String>();
+            for (final PublicIpAddress ip : ipAddress) {
                 if (ip.getState() == IpAddress.State.Releasing) {
                     // If we are releasing we don't need to push this ip to
                     // the Logical Router
@@ -753,9 +754,9 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
                 }
                 cidrs.add(ip.getAddress().addr() + "/" + NetUtils.getCidrSize(ip.getNetmask()));
             }
-            ConfigurePublicIpsOnLogicalRouterCommand cmd =
+            final ConfigurePublicIpsOnLogicalRouterCommand cmd =
                     new ConfigurePublicIpsOnLogicalRouterCommand(routermapping.getLogicalRouterUuid(), niciraNvpHost.getDetail("l3gatewayserviceuuid"), cidrs);
-            ConfigurePublicIpsOnLogicalRouterAnswer answer = (ConfigurePublicIpsOnLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
+            final ConfigurePublicIpsOnLogicalRouterAnswer answer = (ConfigurePublicIpsOnLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
             //FIXME answer can be null if the host is down
             return answer.getResult();
         } else {
@@ -774,33 +775,33 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             return false;
         }
 
-        List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
+        final List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
         if (devices.isEmpty()) {
             s_logger.error("No NiciraNvp Controller on physical network " + network.getPhysicalNetworkId());
             return false;
         }
-        NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
-        HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
+        final NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
+        final HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
 
-        NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
+        final NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
         if (routermapping == null) {
             s_logger.error("No logical router uuid found for network " + network.getDisplayText());
             return false;
         }
 
-        List<StaticNatRuleTO> staticNatRules = new ArrayList<StaticNatRuleTO>();
-        for (StaticNat rule : rules) {
-            IpAddress sourceIp = networkModel.getIp(rule.getSourceIpAddressId());
+        final List<StaticNatRuleTO> staticNatRules = new ArrayList<StaticNatRuleTO>();
+        for (final StaticNat rule : rules) {
+            final IpAddress sourceIp = networkModel.getIp(rule.getSourceIpAddressId());
             // Force the nat rule into the StaticNatRuleTO, no use making a new TO object
             // we only need the source and destination ip. Unfortunately no mention if a rule
             // is new.
-            StaticNatRuleTO ruleTO =
+            final StaticNatRuleTO ruleTO =
                     new StaticNatRuleTO(1, sourceIp.getAddress().addr(), MIN_PORT, MAX_PORT, rule.getDestIpAddress(), MIN_PORT, MAX_PORT, "any", rule.isForRevoke(), false);
             staticNatRules.add(ruleTO);
         }
 
-        ConfigureStaticNatRulesOnLogicalRouterCommand cmd = new ConfigureStaticNatRulesOnLogicalRouterCommand(routermapping.getLogicalRouterUuid(), staticNatRules);
-        ConfigureStaticNatRulesOnLogicalRouterAnswer answer = (ConfigureStaticNatRulesOnLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
+        final ConfigureStaticNatRulesOnLogicalRouterCommand cmd = new ConfigureStaticNatRulesOnLogicalRouterCommand(routermapping.getLogicalRouterUuid(), staticNatRules);
+        final ConfigureStaticNatRulesOnLogicalRouterAnswer answer = (ConfigureStaticNatRulesOnLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
 
         return answer.getResult();
     }
@@ -814,31 +815,31 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
             return false;
         }
 
-        List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
+        final List<NiciraNvpDeviceVO> devices = niciraNvpDao.listByPhysicalNetwork(network.getPhysicalNetworkId());
         if (devices.isEmpty()) {
             s_logger.error("No NiciraNvp Controller on physical network " + network.getPhysicalNetworkId());
             return false;
         }
-        NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
-        HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
+        final NiciraNvpDeviceVO niciraNvpDevice = devices.get(0);
+        final HostVO niciraNvpHost = hostDao.findById(niciraNvpDevice.getHostId());
 
-        NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
+        final NiciraNvpRouterMappingVO routermapping = niciraNvpRouterMappingDao.findByNetworkId(network.getId());
         if (routermapping == null) {
             s_logger.error("No logical router uuid found for network " + network.getDisplayText());
             return false;
         }
 
-        List<PortForwardingRuleTO> portForwardingRules = new ArrayList<PortForwardingRuleTO>();
-        for (PortForwardingRule rule : rules) {
-            IpAddress sourceIp = networkModel.getIp(rule.getSourceIpAddressId());
-            Vlan vlan = vlanDao.findById(sourceIp.getVlanId());
-            PortForwardingRuleTO ruleTO = new PortForwardingRuleTO(rule, vlan.getVlanTag(), sourceIp.getAddress().addr());
+        final List<PortForwardingRuleTO> portForwardingRules = new ArrayList<PortForwardingRuleTO>();
+        for (final PortForwardingRule rule : rules) {
+            final IpAddress sourceIp = networkModel.getIp(rule.getSourceIpAddressId());
+            final Vlan vlan = vlanDao.findById(sourceIp.getVlanId());
+            final PortForwardingRuleTO ruleTO = new PortForwardingRuleTO(rule, vlan.getVlanTag(), sourceIp.getAddress().addr());
             portForwardingRules.add(ruleTO);
         }
 
-        ConfigurePortForwardingRulesOnLogicalRouterCommand cmd =
+        final ConfigurePortForwardingRulesOnLogicalRouterCommand cmd =
                 new ConfigurePortForwardingRulesOnLogicalRouterCommand(routermapping.getLogicalRouterUuid(), portForwardingRules);
-        ConfigurePortForwardingRulesOnLogicalRouterAnswer answer = (ConfigurePortForwardingRulesOnLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
+        final ConfigurePortForwardingRulesOnLogicalRouterAnswer answer = (ConfigurePortForwardingRulesOnLogicalRouterAnswer)agentMgr.easySend(niciraNvpHost.getId(), cmd);
 
         return answer.getResult();
     }
