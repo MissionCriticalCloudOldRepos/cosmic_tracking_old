@@ -20,6 +20,7 @@ package com.cloud.network.rules;
 import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
 import org.apache.log4j.Logger;
 
+import com.cloud.exception.CloudException;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.Network;
@@ -75,8 +76,9 @@ public class PrivateGatewayRules extends RuleApplier {
                 // result = setupVpcPrivateNetwork(router, true, guestNic);
                 result = visitor.visit(this);
             }
-        } catch (final Exception ex) {
-            s_logger.warn("Failed to create private gateway " + _privateGateway + " on router " + _router + " due to ", ex);
+        } catch (final CloudException ex) {
+            s_logger.error("Failed to create private gateway " + _privateGateway + " on router " + _router + " due to ", ex);
+            result = false;
         } finally {
             if (!result) {
                 s_logger.debug("Failed to setup gateway " + _privateGateway + " on router " + _router + " with the source nat. Will now remove the gateway.");

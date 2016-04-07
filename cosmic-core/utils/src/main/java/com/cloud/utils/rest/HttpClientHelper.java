@@ -40,17 +40,21 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContexts;
+import org.apache.log4j.Logger;
 
 public class HttpClientHelper {
 
-  private static final int MAX_ALLOCATED_CONNECTIONS = 50;
-  private static final int MAX_ALLOCATED_CONNECTIONS_PER_ROUTE = 25;
+    static final Logger s_logger = Logger.getLogger(HttpClientHelper.class);
+
+    private static final int MAX_ALLOCATED_CONNECTIONS = 50;
+    private static final int MAX_ALLOCATED_CONNECTIONS_PER_ROUTE = 25;
     private static final int DEFAULT_SOCKET_TIMEOUT = 3000;
     private static final int DEFAULT_CONNECTION_REQUEST_TIMEOUT = 3000;
     private static final int DEFAULT_CONNECT_TIMEOUT = 3000;
     private static final String HTTPS = HttpConstants.HTTPS;
 
     public static CloseableHttpClient createHttpClient(final int maxRedirects) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
+        s_logger.info("Creating new HTTP connection pool and client");
         final Registry<ConnectionSocketFactory> socketFactoryRegistry = createSocketFactoryConfigration();
         final BasicCookieStore cookieStore = new BasicCookieStore();
         final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
