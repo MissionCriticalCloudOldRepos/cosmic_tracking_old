@@ -24,17 +24,17 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
-
 import com.google.common.base.Optional;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 /**
  * This abstraction encapsulates client side code for REST service communication. It encapsulates access in a REST client. There can be different implementations of that client
@@ -127,7 +127,7 @@ public class RESTServiceConnector {
         final HttpEntity entity = response.getEntity();
         try {
             final String stringEntity = EntityUtils.toString(entity);
-            s_logger.debug("Response entity: " + stringEntity);
+            s_logger.trace("Response entity: " + stringEntity);
             EntityUtils.consumeQuietly(entity);
             return gson.fromJson(stringEntity, type);
         } catch (final IOException e) {
