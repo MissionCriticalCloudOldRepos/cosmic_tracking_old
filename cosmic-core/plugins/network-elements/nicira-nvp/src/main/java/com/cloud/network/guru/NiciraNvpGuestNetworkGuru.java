@@ -110,7 +110,7 @@ public class NiciraNvpGuestNetworkGuru extends GuestNetworkGuru {
                 && isMyIsolationMethod(physicalNetwork) && ntwkOfferingSrvcDao.areServicesSupportedByNetworkOffering(offering.getId(), Service.Connectivity)) {
             return true;
         } else {
-            s_logger.debug("Cannot handle rquest. See GuestNetworkGuru message to check isolation methods. Details I have:\nNetwork type = " + networkType + "\nTraffic type = " + offering.getTrafficType() + "\nGuest type = " + offering.getGuestType());
+	    s_logger.debug("Cannot handle rquest. See GuestNetworkGuru message to check isolation methods. Details I have:\nNetwork type = " + networkType + "\nTraffic type = " + offering.getTrafficType() + "\nGuest type = " + offering.getGuestType());
             return false;
         }
     }

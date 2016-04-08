@@ -17,17 +17,11 @@
 package com.cloud.network.guru;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
-
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.config.Configurable;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
 
 import com.cloud.configuration.Config;
 import com.cloud.dc.DataCenter;
@@ -80,6 +74,13 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.NicDao;
+
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.config.Configurable;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.log4j.Logger;
 
 public abstract class GuestNetworkGuru extends AdapterBase implements NetworkGuru, Configurable {
     private static final Logger s_logger = Logger.getLogger(GuestNetworkGuru.class);
@@ -139,6 +140,7 @@ public abstract class GuestNetworkGuru extends AdapterBase implements NetworkGur
                 return true;
             }
         }
+        s_logger.debug("Traffic type " + type + " is not supported by this guru");
         return false;
     }
 
@@ -169,6 +171,8 @@ public abstract class GuestNetworkGuru extends AdapterBase implements NetworkGur
                 return true;
             }
         }
+
+        s_logger.debug("Isolation methods '" + Arrays.toString(methods.toArray(new String[methods.size()])) + "' are not supported by this guru");
 
         return false;
     }
