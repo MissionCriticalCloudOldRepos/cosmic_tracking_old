@@ -33,6 +33,7 @@ import logging
 from marvin.codes import (
     SUCCESS, FAILED, INVALID_INPUT
 )
+import uuid
 
 
 class SshClient(object):
@@ -57,7 +58,7 @@ class SshClient(object):
         self.keyPairFiles = keyPairFiles
         self.ssh = SSHClient()
         self.ssh.set_missing_host_key_policy(AutoAddPolicy())
-        self.logger = logging.getLogger('sshClient')
+        self.logger = logging.getLogger('sshClient.' + str(uuid.uuid4()))
         self.retryCnt = 0
         self.delay = 0
         self.timeout = 3.0
