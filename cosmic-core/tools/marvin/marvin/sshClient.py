@@ -33,6 +33,7 @@ import logging
 from marvin.codes import (
     SUCCESS, FAILED, INVALID_INPUT
 )
+import uuid
 
 
 class SshClient(object):
@@ -57,7 +58,7 @@ class SshClient(object):
         self.keyPairFiles = keyPairFiles
         self.ssh = SSHClient()
         self.ssh.set_missing_host_key_policy(AutoAddPolicy())
-        self.logger = logging.getLogger('sshClient')
+        self.logger = logging.getLogger('sshClient.' + str(uuid.uuid4()))
         self.retryCnt = 0
         self.delay = 0
         self.timeout = 3.0
@@ -93,8 +94,8 @@ class SshClient(object):
         else:
             for strOut in output:
                 results.append(strOut.rstrip())
-        self.logger.debug("{Cmd: %s via Host: %s} {returns: %s}" %
-                          (command, str(self.host), results))
+        self.logger.debug("[SSH] Executing command via host %s: %s Output: %s" %
+                          (str(self.host), command, results))
         return results
 
     def createConnection(self):
@@ -109,10 +110,8 @@ class SshClient(object):
         except_msg = ''
         while self.retryCnt >= 0:
             try:
-                self.logger.debug("====Trying SSH Connection: Host:%s User:%s\
-                                   Port:%s RetryCnt:%s===" %
-                                  (self.host, self.user, str(self.port),
-                                   str(self.retryCnt)))
+                self.logger.debug("[SSH] Trying SSH Connection to host %s on port %s as user %s. RetryCount: %s" %
+                                  (self.host, str(self.port), self.user, str(self.retryCnt)))
                 if self.keyPairFiles is None:
                     self.ssh.connect(hostname=self.host,
                                      port=self.port,
@@ -128,7 +127,7 @@ class SshClient(object):
                                      timeout=self.timeout,
                                      look_for_keys=False
                                      )
-                self.logger.debug("===SSH to Host %s port : %s SUCCESSFUL==="
+                self.logger.debug("[SSH] Connection to host %s on port %s is SUCCESSFUL"
                                   % (str(self.host), str(self.port)))
                 ret = SUCCESS
                 break
@@ -178,7 +177,8 @@ class SshClient(object):
         except Exception as e:
             printException(e)
         finally:
-            self.logger.debug(" Host: %s Cmd: %s Output:%s" % (self.host, command, str(ret)))
+            self.logger.debug("[SSH] Connection to host %s on port %s is SUCCESSFUL"
+                              (str(self.host), command, str(ret)))
             return ret
 
     def scp(self, srcFile, destPath):
