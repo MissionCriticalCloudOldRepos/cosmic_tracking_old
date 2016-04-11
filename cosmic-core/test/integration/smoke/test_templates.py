@@ -112,10 +112,6 @@ class TestCreateTemplate(cloudstackTestCase):
         cls.services = testClient.getParsedTestDataConfig()
         cls.unsupportedHypervisor = False
         cls.hypervisor = testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            # Template creation from root volume is not supported in LXC
-            cls.unsupportedHypervisor = True
-            return
 
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.apiclient)
@@ -305,10 +301,6 @@ class TestTemplates(cloudstackTestCase):
         cls.services = testClient.getParsedTestDataConfig()
         cls.unsupportedHypervisor = False
         cls.hypervisor = testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            # Template creation from root volume is not supported in LXC
-            cls.unsupportedHypervisor = True
-            return
 
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.apiclient)

@@ -238,8 +238,6 @@ class TestMemoryLimits(cloudstackTestCase):
         # 2. List Resource count for the root admin Memory usage
         # 3. Migrate vm, resource count should list properly.
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate feature is not supported on %s" % self.hypervisor.lower())
 
         account_list = Account.list(self.apiclient, id=self.account.id)
         self.assertIsInstance(account_list,
@@ -566,8 +564,6 @@ class TestDomainMemoryLimitsConfiguration(cloudstackTestCase):
         # 3. Migrate instance to another host
         # 4. Resource count should list properly.
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate feature is not supported on %s" % self.hypervisor.lower())
 
         self.debug("Setting up account and domain hierarchy")
         self.setupAccounts()

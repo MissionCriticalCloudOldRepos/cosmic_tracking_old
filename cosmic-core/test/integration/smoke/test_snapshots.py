@@ -47,8 +47,6 @@ class TestSnapshotRootDisk(cloudstackTestCase):
 
         cls.hypervisorNotSupported = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.hypervisorNotSupported = True
 
         cls._cleanup = []
         if not cls.hypervisorNotSupported:

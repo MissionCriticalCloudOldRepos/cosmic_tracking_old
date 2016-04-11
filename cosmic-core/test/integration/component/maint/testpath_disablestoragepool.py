@@ -405,8 +405,6 @@ class TestPathDisableStorage_Basic(cloudstackTestCase):
             zoneid=self.zone.id)
         verify_vm_state(self, self.virtual_machine_3.id, 'Running')
 
-        if self.hypervisor.lower() == 'lxc':
-            self.skipTest("Not running rest of tests in lxc")
 
         # Step 9: Create and attach new disk to VM
         self.volume = Volume.create(self.userapiclient,
@@ -567,8 +565,6 @@ class TestPathDisableStorage_Basic(cloudstackTestCase):
             else:
                 self.skipTest("Local storage not enabled")
 
-        if self.hypervisor.lower() == 'lxc':
-            self.skipTest("Not running rest of tests in lxc")
 
         # Keep one storage pool active and disable the rest
         try:
@@ -728,7 +724,7 @@ class TestPathDisableStorage_Basic(cloudstackTestCase):
             self.fail('Step 5: Volume resize on disabled pool failed: % s' % e)
 
         # Step 6: Take VM Snapshot
-        if self.hypervisor.lower() not in ('kvm', 'lxc'):
+        if self.hypervisor.lower() not in ('kvm'):
             try:
                 self.debug(
                     "Step 6: Taking VM Snapshot for vm id % s" %
@@ -846,7 +842,7 @@ class TestPathDisableStorage_Basic(cloudstackTestCase):
         verify_vm_state(self, self.virtual_machine_1.id, 'Running')
 
         # Step 14: Take Snapshot of VM
-        if self.hypervisor.lower() not in ('kvm', 'lxc'):
+        if self.hypervisor.lower() not in ('kvm'):
             try:
                 vm_snapshot = VmSnapshot.create(
                     self.userapiclient,
@@ -1386,8 +1382,6 @@ class TestPathDisableStorage_Cross_Cluster(cloudstackTestCase):
             12. Attach disk should now pass
 
             """
-        if self.hypervisor.lower() == 'lxc':
-            self.skipTest("Not running rest of tests in lxc")
 
         cluster_id_list = []
         clusters = list_clusters(self.userapiclient, listall='true')

@@ -140,9 +140,6 @@ class TestCreateTemplate(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
         cls.services["virtual_machine"]["zoneid"] = cls.zone.id
 
         cls.service_offering = ServiceOffering.create(
@@ -301,9 +298,6 @@ class TestTemplates(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
         # populate second zone id for iso copy
         cmd = listZones.listZonesCmd()
         zones = cls.api_client.listZones(cmd)
@@ -514,11 +508,6 @@ class TestTemplates(cloudstackTestCase):
         # 3. Create Template from snapshot
         # 4. Deploy Virtual machine using this template
         # 5. VM should be in running state
-
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "Snapshots feature is not supported on %s" %
-                self.hypervisor.lower())
 
         userapiclient = self.testClient.getUserApiClient(
             UserName=self.account.name,

@@ -266,11 +266,6 @@ public class ConsoleProxyServlet extends HttpServlet {
             return;
         }
 
-        if (Hypervisor.HypervisorType.LXC.equals(vm.getHypervisorType())){
-            sendResponse(resp, "<html><body><p>Console access is not supported for LXC</p></body></html>");
-            return;
-        }
-
         String rootUrl = _ms.getConsoleAccessUrlRoot(vmId);
         if (rootUrl == null) {
             sendResponse(resp, "<html><body><p>Console access will be ready in a few minutes. Please try it again later.</p></body></html>");

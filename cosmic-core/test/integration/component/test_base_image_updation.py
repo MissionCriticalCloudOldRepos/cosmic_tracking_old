@@ -529,8 +529,6 @@ class TestBaseImageUpdate(cloudstackTestCase):
         2) The recurring snapshot rule should be deleted
         """
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("snapshot creation is not supported in LXC")
         vms = VirtualMachine.list(
                                   self.apiclient,
                                   id=self.vm_with_reset.id,

@@ -116,11 +116,6 @@ class TestDeployVMFromISO(cloudstackTestCase):
         # 2. listVM command should return the deployed VM. State of this VM
         #    should be "Running".
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "vm deploy from ISO feature is not supported on %s" %
-                self.hypervisor.lower())
-
         self.iso = Iso.create(
             self.apiclient,
             self.testdata["configurableData"]["bootableIso"],

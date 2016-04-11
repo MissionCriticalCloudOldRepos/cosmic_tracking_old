@@ -499,10 +499,6 @@ class TestVPCRoutersBasic(cloudstackTestCase):
     def test_03_migrate_router_after_creating_vpc(self):
         """ Test migration of router to another host after creating VPC """
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "vm migrate is not supported in %s" %
-                self.hypervisor)
 
         self.validate_vpc_offering(self.vpc_off)
         self.validate_vpc_network(self.vpc)
@@ -1201,10 +1197,6 @@ class TestVPCRouterOneNetwork(cloudstackTestCase):
         # gateway's static routes work as expected
 
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "vm migrate is not supported in %s" %
-                self.hypervisor)
         self.validate_vpc_offering(self.vpc_off)
         self.validate_vpc_network(self.vpc)
         self.assertEqual(

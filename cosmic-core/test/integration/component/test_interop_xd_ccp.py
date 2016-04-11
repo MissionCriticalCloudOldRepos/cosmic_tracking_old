@@ -1196,9 +1196,6 @@ class TestXDCCPInterop(cloudstackTestCase):
         """ Test creation, listing and deletion tag on templates
         """
 
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("template creation from volume feature is not supported on %s" % self.hypervisor.lower())
-
         try:
             
             noffering=NetworkOffering.list(

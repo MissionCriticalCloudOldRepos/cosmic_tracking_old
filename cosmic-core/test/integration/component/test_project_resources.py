@@ -548,8 +548,6 @@ class TestTemplates(cloudstackTestCase):
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
         cls.services['mode'] = cls.zone.networktype
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            raise unittest.SkipTest("create template from volume is not supported on %s" % cls.hypervisor.lower())
 
         cls.template = get_template(
                             cls.api_client,
@@ -788,8 +786,6 @@ class TestSnapshots(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls._cleanup = []
         cls.snapshotSupported = True
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.snapshotSupported = False
 
         cls.template = get_template(
                             cls.api_client,

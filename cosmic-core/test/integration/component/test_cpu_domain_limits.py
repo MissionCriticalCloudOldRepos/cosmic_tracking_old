@@ -302,8 +302,6 @@ class TestDomainCPULimitsUpdateResources(cloudstackTestCase):
         # 4. Migrate instance to new host and check resource count
         # 5. Resource count should list properly.
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate is not supported in %s" % self.hypervisor)
 
         self.debug("Setting up account and domain hierarchy")
         self.setupAccounts()
@@ -483,9 +481,6 @@ class TestDomainCPULimitsUpdateResources(cloudstackTestCase):
 
             self.assertEqual(resource_count_after_delete, expected_resource_count,
                 "Resource count should match with the expected count")
-            #vm migration is not supported in LXC. So don't need to execute below vm migration code
-            if self.hypervisor.lower() in ['lxc']:
-                continue
             host = findSuitableHostForMigration(self.apiclient, vm_2.id)
             if host is None:
                 self.skipTest(ERROR_NO_HOST_FOR_MIGRATION)

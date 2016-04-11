@@ -43,8 +43,6 @@ class TestCreateIso(cloudstackTestCase):
         self.apiclient = self.testClient.getApiClient()
         self.dbclient = self.testClient.getDbConnection()
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("ISOs are not supported on %s" % self.hypervisor)
         # Get Zone, Domain and templates
         self.domain = get_domain(self.apiclient)
         self.zone = get_zone(self.apiclient, self.testClient.getZoneForTests())
@@ -154,7 +152,7 @@ class TestISO(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = get_hypervisor_type(cls.apiclient)
-        if cls.hypervisor.lower() in ["simulator", "lxc"]:
+        if cls.hypervisor.lower() in ["simulator"]:
             cls.unsupportedHypervisor = True
             return
 

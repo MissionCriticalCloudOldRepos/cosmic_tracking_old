@@ -75,7 +75,7 @@ public class KVMFencer extends AdapterBase implements FenceBuilder {
 
     @Override
     public Boolean fenceOff(VirtualMachine vm, Host host) {
-        if (host.getHypervisorType() != HypervisorType.KVM && host.getHypervisorType() != HypervisorType.LXC) {
+        if (host.getHypervisorType() != HypervisorType.KVM) {
             s_logger.warn("Don't know how to fence non kvm hosts " + host.getHypervisorType());
             return null;
         }
@@ -85,7 +85,7 @@ public class KVMFencer extends AdapterBase implements FenceBuilder {
 
         int i = 0;
         for (HostVO h : hosts) {
-            if (h.getHypervisorType() == HypervisorType.KVM || h.getHypervisorType() == HypervisorType.LXC) {
+            if (h.getHypervisorType() == HypervisorType.KVM) {
                 if (h.getStatus() != Status.Up) {
                     continue;
                 }

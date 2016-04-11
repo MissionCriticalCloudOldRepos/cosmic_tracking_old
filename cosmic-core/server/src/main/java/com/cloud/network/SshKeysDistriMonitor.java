@@ -70,8 +70,7 @@ public class SshKeysDistriMonitor implements Listener {
     @Override
     public void processConnect(Host host, StartupCommand cmd, boolean forRebalance) throws ConnectionException {
         if (cmd instanceof StartupRoutingCommand) {
-            if (((StartupRoutingCommand)cmd).getHypervisorType() == HypervisorType.KVM || ((StartupRoutingCommand)cmd).getHypervisorType() == HypervisorType.XenServer ||
-                ((StartupRoutingCommand)cmd).getHypervisorType() == HypervisorType.LXC) {
+            if (((StartupRoutingCommand)cmd).getHypervisorType() == HypervisorType.KVM || ((StartupRoutingCommand)cmd).getHypervisorType() == HypervisorType.XenServer) {
                 /*TODO: Get the private/public keys here*/
 
                 String pubKey = _configDao.getValue("ssh.publickey");

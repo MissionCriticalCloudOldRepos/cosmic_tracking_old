@@ -63,8 +63,6 @@ class TestDynamicServiceOffering(cloudstackTestCase):
         cls.zone = get_zone(cls.apiclient, testClient.getZoneForTests())
         cls.services['mode'] = cls.zone.networktype
         cls.hypervisor = self.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            raise unittest.SkipTest("dynamic scaling feature is not supported on %s" % cls.hypervisor.lower())
 
         cls.template = get_template(
             cls.apiclient,
@@ -902,7 +900,7 @@ class TestScaleVmDynamicServiceOffering(cloudstackTestCase):
         # 1. Scaling operation should be successful
 
         hypervisor = get_hypervisor_type(self.apiclient)
-        if hypervisor.lower() in ["kvm" 'lxc']:
+        if hypervisor.lower() in ["kvm"]:
             self.skipTest(
                 "Scaling VM in running state is not supported on %s" % hypervisor)
 
@@ -979,7 +977,7 @@ class TestScaleVmDynamicServiceOffering(cloudstackTestCase):
         # 2. Scale operation in step 6 should fail
 
         hypervisor = get_hypervisor_type(self.apiclient)
-        if hypervisor.lower() in ["kvm", 'lxc']:
+        if hypervisor.lower() in ["kvm"]:
             self.skipTest(
                 "Scaling VM in running state is not supported on %s" % hypervisor)
 
@@ -1079,7 +1077,7 @@ class TestScaleVmDynamicServiceOffering(cloudstackTestCase):
         # Validations:
         # 1. Scale operation in step 4 should be successful
         hypervisor = get_hypervisor_type(self.apiclient)
-        if hypervisor.lower() in ["kvm", 'lxc']:
+        if hypervisor.lower() in ["kvm"]:
             self.skipTest(
                 "Scaling VM in running state is not supported on %s" % hypervisor)
 
@@ -1162,7 +1160,7 @@ class TestScaleVmDynamicServiceOffering(cloudstackTestCase):
         # 3. Scale operation in step 6 should fail
 
         hypervisor = get_hypervisor_type(self.apiclient)
-        if hypervisor.lower() in ["kvm", "lxc"]:
+        if hypervisor.lower() in ["kvm"]:
             self.skipTest(
                 "Scaling VM in running state is not supported on %s" % hypervisor)
 
@@ -1263,8 +1261,6 @@ class TestAccountLimits(cloudstackTestCase):
         # Fill services from the external config file
         cls.services = cloudstackTestClient.getParsedTestDataConfig()
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            raise unittest.SkipTest("dynamic scaling feature is not supported on %s" % cls.hypervisor.lower())
 
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)
@@ -1603,8 +1599,6 @@ class TestAffinityGroup(cloudstackTestCase):
         # Fill services from the external config file
         cls.services = cloudstackTestClient.getParsedTestDataConfig()
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            raise unittest.SkipTest("dynamic scaling feature is not supported on %s" % cls.hypervisor.lower())
 
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)

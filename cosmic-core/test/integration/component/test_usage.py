@@ -498,10 +498,6 @@ class TestVolumeUsage(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedStorageType = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"]
@@ -787,9 +783,6 @@ class TestTemplateUsage(cloudstackTestCase):
         # 4. Destroy the account
 
         # Create template from Virtual machine and Volume ID
-        if self.hypervisor.lower() == 'lxc':
-            self.skipTest(
-                "template create from volume is not supported on %s . Hence, skipping the test" % self.hypervisor)
         self.template = Template.create(
             self.userapiclient,
             self.services["templates"],
@@ -1191,9 +1184,6 @@ class TestSnapshotUsage(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
 
         template = get_template(
             cls.api_client,

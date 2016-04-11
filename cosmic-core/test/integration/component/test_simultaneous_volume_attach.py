@@ -55,12 +55,6 @@ class TestMultipleVolumeAttach(cloudstackTestCase):
         cls.services['mode'] = cls.zone.networktype
         cls.hypervisor = testClient.getHypervisorInfo()
         cls.invalidStoragePoolType = False
-        #for LXC if the storage pool of type 'rbd' ex: ceph is not available, skip the test
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.apiclient, storagetype='rbd'):
-                # RBD storage type is required for data volumes for LXC
-                cls.invalidStoragePoolType = True
-                return
 
         cls.disk_offering = DiskOffering.create(
                                     cls.apiclient,

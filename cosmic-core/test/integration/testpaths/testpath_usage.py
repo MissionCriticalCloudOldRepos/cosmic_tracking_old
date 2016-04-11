@@ -2322,11 +2322,6 @@ class TestUsage(cloudstackTestCase):
         # 2. Migrate the VM to suitable host
         # 3. Verify that after migration, VM usage continues to be running
 
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "vm migrate feature is not supported on %s" %
-                self.hypervisor.lower())
-
         # Step 1:
         self.vm = VirtualMachine.create(
             self.userapiclient,

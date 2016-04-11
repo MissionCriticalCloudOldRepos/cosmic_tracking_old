@@ -514,11 +514,6 @@ class TestVolumeUsage(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.rbdStorageFound = True
         cls._cleanup = []
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.rbdStorageFound = False
-                return
-                #raise unittest.SkipTest("RBD storage type is required for data volumes for LXC")
         cls.disk_offering = DiskOffering.create(
                                     cls.api_client,
                                     cls.services["disk_offering"]
@@ -1268,9 +1263,6 @@ class TestSnapshotUsage(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.snapshotSupported = True
         cls._cleanup = []
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.snapshotSupported = False
-            return
         cls.services = Services().services
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)

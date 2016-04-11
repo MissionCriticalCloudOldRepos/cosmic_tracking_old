@@ -34,8 +34,6 @@ ebtables = Command("ebtables")
 driver = "qemu:///system"
 cfo = configFileOps("/etc/cloudstack/agent/agent.properties")
 hyper = cfo.getEntry("hypervisor.type")
-if hyper == "lxc":
-    driver = "lxc:///"
 def execute(cmd):
     logging.debug(cmd)
     return bash("-c", cmd).stdout

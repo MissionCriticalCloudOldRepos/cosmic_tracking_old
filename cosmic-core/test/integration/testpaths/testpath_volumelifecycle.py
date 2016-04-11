@@ -131,12 +131,6 @@ class TestPathVolume(cloudstackTestCase):
         cls.insuffStorage = False
         cls.unsupportedHypervisor = False
 
-        #for LXC if the storage pool of type 'rbd' ex: ceph is not available, skip the test
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.apiclient, storagetype='rbd'):
-                cls.insuffStorage   = True
-                return
-
         cls.template = get_template(
             cls.apiclient,
             cls.zone.id,
@@ -275,10 +269,6 @@ class TestPathVolume(cloudstackTestCase):
         # 20.Detach data disks from VM2 and delete volume
 
         """
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "feature is not supported in %s" %
-                self.hypervisor)
         # 1. Deploy a vm [vm1] with shared storage and data disk
         self.virtual_machine_1 = VirtualMachine.create(
             self.userapiclient,

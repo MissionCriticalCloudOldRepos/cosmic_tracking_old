@@ -42,9 +42,6 @@ class TestSnapshots(cloudstackTestCase):
             cls.services = cls.testClient.getParsedTestDataConfig()
             cls.unsupportedHypervisor = False
             cls.hypervisor = cls.testClient.getHypervisorInfo()
-            if cls.hypervisor.lower() in ("lxc"):
-                cls.unsupportedHypervisor = True
-                return
             # Get Domain, Zone, Template
             cls.domain = get_domain(cls.api_client)
             cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())

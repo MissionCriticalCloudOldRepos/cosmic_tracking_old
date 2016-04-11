@@ -753,9 +753,6 @@ public class InternalLoadBalancerVMManagerImpl extends ManagerBase implements In
                 case VMware:
                     templateName = VirtualNetworkApplianceManager.RouterTemplateVmware.valueIn(dest.getDataCenter().getId());
                     break;
-                case LXC:
-                    templateName = VirtualNetworkApplianceManager.RouterTemplateLxc.valueIn(dest.getDataCenter().getId());
-                    break;
                 default:
                     break;
                 }

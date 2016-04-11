@@ -142,8 +142,6 @@ class TestVMPasswordEnabled(cloudstackTestCase):
 
         networkid = cls.virtual_machine.nic[0].networkid
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            raise unittest.SkipTest("template creation is not supported on %s" % cls.hypervisor)
 
         # create egress rule to allow wget of my cloud-set-guest-password
         # script

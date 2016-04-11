@@ -284,9 +284,6 @@ class TestProjectsMemoryLimits(cloudstackTestCase):
         # 3. Migrate VM of an accounts added to the project to a new host
         # 4. Resource count should list properly.
 
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate feature is not supported on %s" % self.hypervisor.lower())
-
 
         self.debug("Checking memory resource count for project: %s" % self.project.name)
         project_list = Project.list(self.apiclient, id=self.project.id, listall=True)
