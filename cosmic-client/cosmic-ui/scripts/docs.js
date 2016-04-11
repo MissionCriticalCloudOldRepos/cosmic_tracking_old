@@ -209,7 +209,7 @@ cloudStack.docs = {
         externalLink: ''
     },
     helpClusterName: {
-        desc: 'Cluster name. Used for display only. For VMware hypervisor, this must be a predefined name in VCenter.',
+        desc: 'Cluster name. Used for display only.',
         externalLink: ''
     },
     helpClustervCenterHost: {
@@ -368,7 +368,7 @@ cloudStack.docs = {
         externalLink: ''
     },
     helpDiskOfferingHypervisorSnapshotReserve: {
-        desc: 'Hypervisor snapshot reserve space as a percent of a volume (for managed storage using XenServer or VMware) (Ex. The value 25 means 25%.)).'
+        desc: 'Hypervisor snapshot reserve space as a percent of a volume (for managed storage using XenServer) (Ex. The value 25 means 25%.)).'
     },
     helpDiskOfferingCacheMode: {
         desc: 'The write caching mode to use for disks created with this disk offering. This can improve write performance.',
@@ -1217,7 +1217,7 @@ cloudStack.docs = {
         externalLink: ''
     },
     helpRegisterTemplateDynamicallyScalable: {
-        desc: 'Check this if the template contains XS/VMWare tools to support dynamic scaling of VM cpu/memory.',
+        desc: 'Check this if the template contains XS tools to support dynamic scaling of VM cpu/memory.',
         externalLink: ''
     },
     helpRegisterTemplatePasswordEnabled: {
@@ -1250,7 +1250,7 @@ cloudStack.docs = {
         externalLink: ''
     },
     helpUploadVolumeFormat: {
-        desc: 'The disk image format of the volume. XenServer is VHD, VMware is OVA, and KVM is QCOW2. Hyper-V is VHD or VHDX. OVM is RAW.',
+        desc: 'The disk image format of the volume. XenServer is VHD, KVM is QCOW2 and OVM is RAW.',
         externalLink: ''
     },
     helpUploadVolumeURL: {

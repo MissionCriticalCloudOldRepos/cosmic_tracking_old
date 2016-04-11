@@ -411,24 +411,6 @@
                                 }
                                 //XenServer only (ends here)
 
-                                //VMware only (starts here)
-                                if (args.$form.find('.form-item[rel=rootDiskControllerType]').css("display") != "none" && args.data.rootDiskControllerType != "") {
-                                    $.extend(data, {
-                                        'details[0].rootDiskController': args.data.rootDiskControllerType
-                                    });
-                                }
-                                if (args.$form.find('.form-item[rel=nicAdapterType]').css("display") != "none" && args.data.nicAdapterType != "") {
-                                    $.extend(data, {
-                                        'details[0].nicAdapter': args.data.nicAdapterType
-                                    });
-                                }
-                                if (args.$form.find('.form-item[rel=keyboardType]').css("display") != "none" && args.data.keyboardType != "") {
-                                    $.extend(data, {
-                                        'details[0].keyboard': args.data.keyboardType
-                                    });
-                                }
-                                //VMware only (ends here)
-
                                 $.ajax({
                                     url: createURL('registerTemplate'),
                                     data: data,
