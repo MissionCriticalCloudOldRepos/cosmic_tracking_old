@@ -17,9 +17,7 @@
 
 package com.cloud.network.rules;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-import org.apache.log4j.Logger;
-
+import com.cloud.exception.CloudException;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.Network;
@@ -33,6 +31,9 @@ import com.cloud.network.vpc.PrivateGateway;
 import com.cloud.network.vpc.PrivateIpVO;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineManager;
+
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
+import org.apache.log4j.Logger;
 
 public class PrivateGatewayRules extends RuleApplier {
 
@@ -50,7 +51,6 @@ public class PrivateGatewayRules extends RuleApplier {
 
     @Override
     public boolean accept(final NetworkTopologyVisitor visitor, final VirtualRouter router) throws ResourceUnavailableException {
-        s_logger.debug("DEBUG:: in accept");
         _router = router;
 
         boolean result = false;
@@ -68,7 +68,6 @@ public class PrivateGatewayRules extends RuleApplier {
             }
             final VirtualMachineManager itMgr = visitor.getVirtualNetworkApplianceFactory().getItMgr();
             _nicProfile = itMgr.addVmToNetwork(_router, _network, requested);
-            s_logger.debug("DEBUG:: nic profile = " + _nicProfile.toString());
 
             // setup source nat
             if (_nicProfile != null) {
@@ -76,8 +75,9 @@ public class PrivateGatewayRules extends RuleApplier {
                 // result = setupVpcPrivateNetwork(router, true, guestNic);
                 result = visitor.visit(this);
             }
-        } catch (final Exception ex) {
-            s_logger.warn("Failed to create private gateway " + _privateGateway + " on router " + _router + " due to ", ex);
+        } catch (final CloudException ex) {
+            s_logger.error("Failed to create private gateway " + _privateGateway + " on router " + _router + " due to ", ex);
+            result = false;
         } finally {
             if (!result) {
                 s_logger.debug("Failed to setup gateway " + _privateGateway + " on router " + _router + " with the source nat. Will now remove the gateway.");

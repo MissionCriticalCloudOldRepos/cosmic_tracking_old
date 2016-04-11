@@ -38,6 +38,10 @@ public abstract class InsufficientCapacityException extends CloudException {
         this.id = id;
     }
 
+    public InsufficientCapacityException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     /**
      * @return scope where we are insufficient.  The possible classes are
      *         Host, StoragePool, Cluster, Pod, DataCenter, NetworkConfiguration.
@@ -58,7 +62,7 @@ public abstract class InsufficientCapacityException extends CloudException {
 
     @Override
     public String toString() {
-        String str = super.toString();
+        final String str = super.toString();
         return str + "Scope=" + scope + "; id=" + id;
     }
 }

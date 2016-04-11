@@ -223,7 +223,6 @@ public class AdvancedNetworkTopology extends BasicNetworkTopology {
 
         final NetworkAclsRules aclsRules = new NetworkAclsRules(network, rules, isPrivateGateway);
 
-        final boolean result = applyRules(network, router, typeString, isPodLevelException, podId, failWhenDisconnect, new RuleApplierWrapper<RuleApplier>(aclsRules));
-        return result;
+        return applyRules(network, router, typeString, isPodLevelException, podId, failWhenDisconnect, new RuleApplierWrapper<RuleApplier>(aclsRules));
     }
 }

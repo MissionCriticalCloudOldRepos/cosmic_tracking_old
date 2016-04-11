@@ -1723,8 +1723,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
             s_logger.info("creating new network for vpc " + vpc + " using broadcast uri: " + broadcastUri);
             final String networkName = "vpc-" + vpc.getName() + "-privateNetwork";
             privateNtwk = _ntwkSvc.createPrivateNetwork(networkName, networkName, physicalNetworkIdFinal, broadcastUri,
-                ipAddress, null, gateway, netmask,
-                gatewayOwnerId, vpcId, isSourceNat, networkOfferingId);
+                ipAddress, null, gateway, netmask, gatewayOwnerId, vpcId, isSourceNat, networkOfferingId);
           } else { // create the nic/ip as createPrivateNetwork
             // doesn''t do that work for us now
             s_logger.info("found and using existing network for vpc " + vpc + ": " + broadcastUri);

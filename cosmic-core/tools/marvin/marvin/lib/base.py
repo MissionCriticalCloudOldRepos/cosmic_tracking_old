@@ -4139,7 +4139,7 @@ class PrivateGateway:
 
     @classmethod
     def create(cls, apiclient, gateway, ipaddress, netmask, vlan, vpcid,
-               physicalnetworkid=None, aclid=None, sourcenatsupported=None):
+               physicalnetworkid=None, aclid=None, sourcenatsupported=None, networkofferingid=None):
         """Create private gateway"""
 
         cmd = createPrivateGateway.createPrivateGatewayCmd()
@@ -4148,6 +4148,7 @@ class PrivateGateway:
         cmd.netmask = netmask
         cmd.vlan = vlan
         cmd.vpcid = vpcid
+        cmd.networkofferingid = networkofferingid
         if sourcenatsupported:
             cmd.sourcenatsupported = sourcenatsupported
         if physicalnetworkid:
