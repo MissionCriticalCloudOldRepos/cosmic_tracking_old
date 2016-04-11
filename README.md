@@ -46,6 +46,9 @@ Go to your brouwser and type: [http://localhost:8080/client] (http://localhost:8
 ### Maven settings
 
 Configure maven to look for artefacts in [Cosmic's Nexus repository](https://beta-nexus.mcc.schubergphilis.com):
+
+```vim ~/.m2/settings.xml ```
+
 ```xml
 <settings>
   <mirrors>
