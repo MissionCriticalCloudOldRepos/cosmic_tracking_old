@@ -136,8 +136,6 @@
         trafficType.xennetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.kvmnetworklabel == null || trafficType.kvmnetworklabel == 0)
         trafficType.kvmnetworklabel = _l( 'label.network.label.display.for.blank.value');
-        if (trafficType.lxcnetworklabel == null || trafficType.lxcnetworklabel == 0)
-        trafficType.lxcnetworklabel = _l( 'label.network.label.display.for.blank.value');
         if (trafficType.ovm3networklabel == null || trafficType.ovm3networklabel == 0)
         trafficType.ovm3networklabel = _l( 'label.network.label.display.for.blank.value');
 
@@ -150,8 +148,6 @@
         array1.push("&xennetworklabel=" + labels.xennetworklabel);
         if (labels.kvmnetworklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&kvmnetworklabel=" + labels.kvmnetworklabel);
-        if (labels.lxcnetworklabel != _l( 'label.network.label.display.for.blank.value'))
-        array1.push("&lxcnetworklabel=" + labels.lxcnetworklabel);
         if (labels.ovm3networklabel != _l( 'label.network.label.display.for.blank.value'))
         array1.push("&ovm3networklabel=" + labels.ovm3networklabel);
 
@@ -628,10 +624,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    lxcnetworklabel: {
-                                        label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -654,7 +646,6 @@
                                             // Include traffic labels
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedPublicNetworkObj
@@ -932,10 +923,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    lxcnetworklabel: {
-                                        label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -954,7 +941,6 @@
 
                                             selectedPublicNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedPublicNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedPublicNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedPublicNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedPublicNetworkObj
@@ -1133,10 +1119,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    lxcnetworklabel: {
-                                        label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -1153,7 +1135,6 @@
 
                                             selectedManagementNetworkObj.xennetworklabel = trafficType.xennetworklabel;
                                             selectedManagementNetworkObj.kvmnetworklabel = trafficType.kvmnetworklabel;
-                                            selectedManagementNetworkObj.lxcnetworklabel = trafficType.lxcnetworklabel;
                                             selectedManagementNetworkObj.ovm3networklabel = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 data: selectedManagementNetworkObj
@@ -1311,10 +1292,6 @@
                                         label: 'label.kvm.traffic.label',
                                         isEditable: true
                                     },
-                                    lxcnetworklabel: {
-                                        label: 'label.lxc.traffic.label',
-                                        isEditable: true
-                                    },
                                     ovm3networklabel: {
                                         label: 'label.ovm3.traffic.label',
                                         isEditable: true
@@ -1353,7 +1330,6 @@
                                             //refresh Guest traffic type
                                             selectedPhysicalNetworkObj[ "xennetworklabel"] = trafficType.xennetworklabel;
                                             selectedPhysicalNetworkObj[ "kvmnetworklabel"] = trafficType.kvmnetworklabel;
-                                            selectedPhysicalNetworkObj[ "lxcnetworklabel"] = trafficType.lxcnetworklabel;
                                             selectedPhysicalNetworkObj[ "ovm3networklabel"] = trafficType.ovm3networklabel;
                                             args.response.success({
                                                 actionFilter: function () {
@@ -7547,7 +7523,7 @@
                                     var array1 = [];
 
                                     // ***** non XenServer (begin) *****
-                    var hypervisors = ["KVM", "BareMetal", "LXC", "Ovm3"];
+                    var hypervisors = ["KVM", "BareMetal", "Ovm3"];
 
                                             var supportSocketHypervisors = {
                                                 "KVM": 1,
@@ -13875,23 +13851,6 @@
                                                 items.push({
                                                     id: "custom",
                                                     description: "custom"
-                                                });
-                                                args.response.success({
-                                                    data: items
-                                                });
-                                            } else if (selectedClusterObj.hypervisortype == "LXC") {
-                                                var items =[];
-                                                items.push({
-                                                    id: "nfs",
-                                                    description: "nfs"
-                                                });
-                                                items.push({
-                                                    id: "SharedMountPoint",
-                                                    description: "SharedMountPoint"
-                                                });
-                                                items.push({
-                                                    id: "rbd",
-                                                    description: "RBD"
                                                 });
                                                 args.response.success({
                                                     data: items

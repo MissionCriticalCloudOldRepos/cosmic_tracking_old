@@ -79,9 +79,6 @@
             case 'BareMetal':
                 hypervisorAttr = 'baremetalnetworklabel';
                 break;
-            case 'LXC':
-                hypervisorAttr = 'lxcnetworklabel';
-                break;
             case 'Ovm3':
                 hypervisorAttr = 'ovm3networklabel';
                 break;
@@ -1221,23 +1218,6 @@
                                 items.push({
                                     id: "ocfs2",
                                     description: "ocfs2"
-                                });
-                                args.response.success({
-                                    data: items
-                                });
-                            } else if (selectedClusterObj.hypervisortype == "LXC") {
-                                var items = [];
-                                items.push({
-                                    id: "nfs",
-                                    description: "nfs"
-                                });
-                                items.push({
-                                    id: "SharedMountPoint",
-                                    description: "SharedMountPoint"
-                                });
-                                items.push({
-                                    id: "rbd",
-                                    description: "RBD"
                                 });
                                 args.response.success({
                                     data: items

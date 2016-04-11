@@ -293,12 +293,6 @@
                                                     id: 'BareMetal',
                                                     description: 'BareMetal'
                                                 });
-                                            } else if (args.hypervisor == "LXC") {
-                                                //formatSelect.append("<option value='TAR'>TAR</option>");
-                                                items.push({
-                                                    id: 'TAR',
-                                                    description: 'TAR'
-                                                });
                                             }
                                             args.response.success({
                                                 data: items
@@ -653,11 +647,6 @@
                                                 items.push({
                                                     id: 'BareMetal',
                                                     description: 'BareMetal'
-                                                });
-                                            } else if (args.hypervisor == "LXC") {
-                                                items.push({
-                                                    id: 'TAR',
-                                                    description: 'TAR'
                                                 });
                                             }
                                             args.response.success({
