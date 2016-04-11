@@ -24,13 +24,12 @@ import com.cloud.network.Networks.TrafficType;
  * called Traffic label. This might encapsulate physical network
  * specific properties like VLAN ID, name of virtual network object or more.
  * The name of virtual network object is dependent on type of hypervisor.
- * For example it is name of xenserver bridge in case of XenServer and
- * name of virtual switch in case of VMware hypervisor
+ * For example it is name of xenserver bridge in case of XenServer.
  */
 public interface TrafficLabel {
 
-    public TrafficType getTrafficType();
+  public TrafficType getTrafficType();
 
-    public String getNetworkLabel();
+  public String getNetworkLabel();
 
 }

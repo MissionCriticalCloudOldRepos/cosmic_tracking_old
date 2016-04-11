@@ -1378,7 +1378,7 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
 
     @Override
     public void prepareNicForMigration(final VirtualMachineProfile vm, final DeployDestination dest) {
-        if(vm.getType().equals(VirtualMachine.Type.DomainRouter) && (vm.getHypervisorType().equals(HypervisorType.KVM) || vm.getHypervisorType().equals(HypervisorType.VMware))) {
+        if(vm.getType().equals(VirtualMachine.Type.DomainRouter) && (vm.getHypervisorType().equals(HypervisorType.KVM))) {
             //Include nics hot plugged and not stored in DB
             prepareAllNicsForMigration(vm, dest);
             return;

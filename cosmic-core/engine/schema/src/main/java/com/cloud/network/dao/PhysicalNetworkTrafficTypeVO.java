@@ -33,129 +33,128 @@ import com.cloud.network.PhysicalNetworkTrafficType;
 @Entity
 @Table(name = "physical_network_traffic_types")
 public class PhysicalNetworkTrafficTypeVO implements PhysicalNetworkTrafficType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private long id;
 
-    @Column(name = "uuid")
-    private String uuid;
+  @Column(name = "uuid")
+  private String uuid;
 
-    @Column(name = "physical_network_id")
-    private long physicalNetworkId;
+  @Column(name = "physical_network_id")
+  private long physicalNetworkId;
 
-    @Column(name = "traffic_type")
-    @Enumerated(value = EnumType.STRING)
-    TrafficType trafficType;
+  @Column(name = "traffic_type")
+  @Enumerated(value = EnumType.STRING)
+  TrafficType trafficType;
 
-    @Column(name = "xenserver_network_label")
-    private String xenNetworkLabel;
+  @Column(name = "xenserver_network_label")
+  private String xenNetworkLabel;
 
-    @Column(name = "kvm_network_label")
-    private String kvmNetworkLabel;
+  @Column(name = "kvm_network_label")
+  private String kvmNetworkLabel;
 
-    @Column(name = "vmware_network_label")
-    private String vmwareNetworkLabel;
+  @Column(name = "vmware_network_label")
+  private String vmwareNetworkLabel;
 
-    @Column(name = "simulator_network_label")
-    private String simulatorNetworkLabel;
+  @Column(name = "simulator_network_label")
+  private String simulatorNetworkLabel;
 
-    @Column(name = "ovm_network_label")
-    private String ovm3NetworkLabel;
+  @Column(name = "ovm_network_label")
+  private String ovm3NetworkLabel;
 
-    @Column(name = "vlan")
-    private String vlan;
+  @Column(name = "vlan")
+  private String vlan;
 
-    public PhysicalNetworkTrafficTypeVO() {
-    }
+  public PhysicalNetworkTrafficTypeVO() {
+  }
 
-    public PhysicalNetworkTrafficTypeVO(long physicalNetworkId, TrafficType trafficType, String xenLabel, String kvmLabel, String vmwareLabel, String simulatorLabel,
-            String vlan, String ovm3Label) {
-        this.physicalNetworkId = physicalNetworkId;
-        this.trafficType = trafficType;
-        this.xenNetworkLabel = xenLabel;
-        this.kvmNetworkLabel = kvmLabel;
-        this.vmwareNetworkLabel = vmwareLabel;
-        this.simulatorNetworkLabel = simulatorLabel;
-        this.ovm3NetworkLabel = ovm3Label;
-        this.setVlan(vlan);
-        this.uuid = UUID.randomUUID().toString();
-    }
+  public PhysicalNetworkTrafficTypeVO(long physicalNetworkId, TrafficType trafficType, String xenLabel, String kvmLabel, String simulatorLabel,
+      String vlan, String ovm3Label) {
+    this.physicalNetworkId = physicalNetworkId;
+    this.trafficType = trafficType;
+    xenNetworkLabel = xenLabel;
+    kvmNetworkLabel = kvmLabel;
+    simulatorNetworkLabel = simulatorLabel;
+    ovm3NetworkLabel = ovm3Label;
+    setVlan(vlan);
+    uuid = UUID.randomUUID().toString();
+  }
 
-    @Override
-    public long getId() {
-        return id;
-    }
+  @Override
+  public long getId() {
+    return id;
+  }
 
-    @Override
-    public long getPhysicalNetworkId() {
-        return physicalNetworkId;
-    }
+  @Override
+  public long getPhysicalNetworkId() {
+    return physicalNetworkId;
+  }
 
-    @Override
-    public TrafficType getTrafficType() {
-        return trafficType;
-    }
+  @Override
+  public TrafficType getTrafficType() {
+    return trafficType;
+  }
 
-    public void setXenNetworkLabel(String xenNetworkLabel) {
-        this.xenNetworkLabel = xenNetworkLabel;
-    }
+  public void setXenNetworkLabel(String xenNetworkLabel) {
+    this.xenNetworkLabel = xenNetworkLabel;
+  }
 
-    @Override
-    public String getXenNetworkLabel() {
-        return xenNetworkLabel;
-    }
+  @Override
+  public String getXenNetworkLabel() {
+    return xenNetworkLabel;
+  }
 
-    public void setKvmNetworkLabel(String kvmNetworkLabel) {
-        this.kvmNetworkLabel = kvmNetworkLabel;
-    }
+  public void setKvmNetworkLabel(String kvmNetworkLabel) {
+    this.kvmNetworkLabel = kvmNetworkLabel;
+  }
 
-    @Override
-    public String getKvmNetworkLabel() {
-        return kvmNetworkLabel;
-    }
+  @Override
+  public String getKvmNetworkLabel() {
+    return kvmNetworkLabel;
+  }
 
-    public void setVmwareNetworkLabel(String vmwareNetworkLabel) {
-        this.vmwareNetworkLabel = vmwareNetworkLabel;
-    }
+  public void setVmwareNetworkLabel(String vmwareNetworkLabel) {
+    this.vmwareNetworkLabel = vmwareNetworkLabel;
+  }
 
-    @Override
-    public String getVmwareNetworkLabel() {
-        return vmwareNetworkLabel;
-    }
+  @Override
+  public String getVmwareNetworkLabel() {
+    return vmwareNetworkLabel;
+  }
 
-    public void setSimulatorNetworkLabel(String simulatorNetworkLabel) {
-        this.simulatorNetworkLabel = simulatorNetworkLabel;
-    }
+  public void setSimulatorNetworkLabel(String simulatorNetworkLabel) {
+    this.simulatorNetworkLabel = simulatorNetworkLabel;
+  }
 
-    @Override
-    public String getSimulatorNetworkLabel() {
-        return simulatorNetworkLabel;
-    }
+  @Override
+  public String getSimulatorNetworkLabel() {
+    return simulatorNetworkLabel;
+  }
 
-    public void setVlan(String vlan) {
-        this.vlan = vlan;
-    }
+  public void setVlan(String vlan) {
+    this.vlan = vlan;
+  }
 
-    public String getVlan() {
-        return vlan;
-    }
+  public String getVlan() {
+    return vlan;
+  }
 
-    @Override
-    public String getUuid() {
-        return this.uuid;
-    }
+  @Override
+  public String getUuid() {
+    return uuid;
+  }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
 
-    public void setOvm3NetworkLabel(String ovm3NetworkLabel) {
-        this.ovm3NetworkLabel = ovm3NetworkLabel;
-    }
+  public void setOvm3NetworkLabel(String ovm3NetworkLabel) {
+    this.ovm3NetworkLabel = ovm3NetworkLabel;
+  }
 
-    @Override
-    public String getOvm3NetworkLabel() {
-        return ovm3NetworkLabel;
-    }
+  @Override
+  public String getOvm3NetworkLabel() {
+    return ovm3NetworkLabel;
+  }
 }

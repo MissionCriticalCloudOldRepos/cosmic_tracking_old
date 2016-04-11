@@ -1187,7 +1187,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
         }
     }
 
-    // for managed storage on XenServer and VMware, need to update the DB with a path if the VDI/VMDK file was newly created
+    // for managed storage on XenServer, need to update the DB with a path if the VDI/VMDK file was newly created
     private void handlePath(final DiskTO[] disks, final Map<String, String> iqnToPath) {
         if (disks != null && iqnToPath != null) {
             for (final DiskTO disk : disks) {
@@ -1245,9 +1245,6 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
     protected boolean getExecuteInSequence(final HypervisorType hypervisorType) {
         if (HypervisorType.KVM == hypervisorType || HypervisorType.XenServer == hypervisorType) {
             return false;
-        } else if(HypervisorType.VMware == hypervisorType) {
-            final Boolean fullClone = HypervisorGuru.VmwareFullClone.value();
-            return fullClone;
         } else {
             return ExecuteInSequence.value();
         }
@@ -1775,28 +1772,6 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
                 //when start the vm next time, don;'t look at last_host_id, only choose the host based on volume/storage pool
                 vm.setLastHostId(null);
                 vm.setPodIdToDeployIn(destPool.getPodId());
-
-                // If VM was cold migrated between clusters belonging to two different VMware DCs,
-                // unregister the VM from the source host and cleanup the associated VM files.
-                if (vm.getHypervisorType().equals(HypervisorType.VMware)) {
-                    final Long destClusterId = destPool.getClusterId();
-                    if (srcClusterId != null && destClusterId != null && ! srcClusterId.equals(destClusterId)) {
-                        final String srcDcName = _clusterDetailsDao.getVmwareDcName(srcClusterId);
-                        final String destDcName = _clusterDetailsDao.getVmwareDcName(destClusterId);
-                        if (srcDcName != null && destDcName != null && !srcDcName.equals(destDcName)) {
-                            s_logger.debug("Since VM's storage was successfully migrated across VMware Datacenters, unregistering VM: " + vm.getInstanceName() +
-                                    " from source host: " + srcHost.getId());
-                            final UnregisterVMCommand uvc = new UnregisterVMCommand(vm.getInstanceName());
-                            uvc.setCleanupVmFiles(true);
-                            try {
-                                _agentMgr.send(srcHost.getId(), uvc);
-                            } catch (final Exception e) {
-                                throw new CloudRuntimeException("Failed to unregister VM: " + vm.getInstanceName() + " from source host: " + srcHost.getId() +
-                                        " after successfully migrating VM's storage across VMware Datacenters");
-                            }
-                        }
-                    }
-                }
 
             } else {
                 s_logger.debug("Storage migration failed");
@@ -3615,12 +3590,6 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
                         newServiceOffering.getSpeed(), minMemory * 1024L * 1024L, newServiceOffering.getRamSize() * 1024L * 1024L, newServiceOffering.getLimitCpuUse());
 
         final Long dstHostId = vm.getHostId();
-        if(vm.getHypervisorType().equals(HypervisorType.VMware)) {
-            final HypervisorGuru hvGuru = _hvGuruMgr.getGuru(vm.getHypervisorType());
-            Map<String, String> details = null;
-            details = hvGuru.getClusterSettings(vm.getId());
-            reconfigureCmd.getVirtualMachine().setDetails(details);
-        }
 
         final ItWorkVO work = new ItWorkVO(UUID.randomUUID().toString(), _nodeId, State.Running, vm.getType(), vm.getId());
 
@@ -3814,7 +3783,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
         case Stopped:
         case Migrating:
             s_logger.info("VM " + vm.getInstanceName() + " is at " + vm.getState() + " and we received a power-off report while there is no pending jobs on it");
-            if(vm.isHaEnabled() && vm.getState() == State.Running && vm.getHypervisorType() != HypervisorType.VMware) {
+            if(vm.isHaEnabled() && vm.getState() == State.Running) {
                 s_logger.info("Detected out-of-band stop of a HA enabled VM " + vm.getInstanceName() + ", will schedule restart");
                 if(!_haMgr.hasPendingHaWork(vm.getId())) {
                     _haMgr.scheduleRestart(vm, true);
