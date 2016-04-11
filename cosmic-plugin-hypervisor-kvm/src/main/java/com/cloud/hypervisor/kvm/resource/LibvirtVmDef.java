@@ -25,7 +25,7 @@ public class LibvirtVmDef {
 
   public static class GuestDef {
     enum GuestType {
-      KVM, XEN, EXE, LXC
+      KVM, XEN, EXE
     }
 
     enum BootOrder {
@@ -116,13 +116,6 @@ public class LibvirtVmDef {
           }
         }
         guestDef.append("<smbios mode='sysinfo'/>\n");
-        guestDef.append("</os>\n");
-        return guestDef.toString();
-      } else if (type == GuestType.LXC) {
-        final StringBuilder guestDef = new StringBuilder();
-        guestDef.append("<os>\n");
-        guestDef.append("<type>exe</type>\n");
-        guestDef.append("<init>/sbin/init</init>\n");
         guestDef.append("</os>\n");
         return guestDef.toString();
       } else {
@@ -423,17 +416,6 @@ public class LibvirtVmDef {
 
       for (final List<?> devs : devices.values()) {
         for (final Object dev : devs) {
-          if (guestType == GuestDef.GuestType.LXC) {
-            if (dev instanceof GraphicDef || dev instanceof InputDef) {
-              continue;
-            }
-            if (dev instanceof DiskDef) {
-              final DiskDef disk = (DiskDef) dev;
-              if (!disk.getDiskType().toString().equals("block")) {
-                continue;
-              }
-            }
-          }
           devicesBuilder.append(dev.toString());
         }
       }

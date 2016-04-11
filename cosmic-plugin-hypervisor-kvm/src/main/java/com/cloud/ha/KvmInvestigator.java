@@ -43,8 +43,7 @@ public class KvmInvestigator extends AdapterBase implements Investigator {
 
   @Override
   public Status isAgentAlive(Host agent) {
-    if (agent.getHypervisorType() != Hypervisor.HypervisorType.KVM
-        && agent.getHypervisorType() != Hypervisor.HypervisorType.LXC) {
+    if (agent.getHypervisorType() != Hypervisor.HypervisorType.KVM) {
       return null;
     }
     Status hostStatus = null;
@@ -65,8 +64,7 @@ public class KvmInvestigator extends AdapterBase implements Investigator {
 
     final List<HostVO> neighbors = resourceMgr.listHostsInClusterByStatus(agent.getClusterId(), Status.Up);
     for (final HostVO neighbor : neighbors) {
-      if (neighbor.getId() == agent.getId() || neighbor.getHypervisorType() != Hypervisor.HypervisorType.KVM
-          && neighbor.getHypervisorType() != Hypervisor.HypervisorType.LXC) {
+      if (neighbor.getId() == agent.getId() || neighbor.getHypervisorType() != Hypervisor.HypervisorType.KVM) {
         continue;
       }
       logger.debug("Investigating host:" + agent.getId() + " via neighbouring host:" + neighbor.getId());
