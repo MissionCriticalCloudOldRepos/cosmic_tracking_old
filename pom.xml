@@ -10,6 +10,11 @@
   <description>Cosmic is an IaaS (“Infrastructure as a Service”) cloud orchestration platform.</description>
   <url>http://www.cosmiccloud.io</url>
 
+  <scm>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic.git</developerConnection>
+  </scm>
+  
   <distributionManagement>
     <repository>
       <id>beta-nexus</id>
@@ -461,11 +466,6 @@
     </dependency>
   </dependencies>
 
-  <scm>
-    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic.git</connection>
-    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic.git</developerConnection>
-  </scm>
-
   <build>
     <pluginManagement>
       <plugins>
@@ -477,7 +477,6 @@
         <plugin>
           <groupId>com.github.danielflower.mavenplugins</groupId>
           <artifactId>multi-module-maven-release-plugin</artifactId>
-          <version>1.4.6</version>
           <configuration>
             <releaseGoals>
               <releaseGoal>deploy</releaseGoal>
@@ -631,6 +630,11 @@
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>0.7.6.201602180812</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.danielflower.mavenplugins</groupId>
+          <artifactId>multi-module-maven-release-plugin</artifactId>
+          <version>1.4.6</version>
         </plugin>
       </plugins>
     </pluginManagement>
