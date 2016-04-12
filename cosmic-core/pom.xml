@@ -10,6 +10,7 @@
   <artifactId>cosmic-core</artifactId>
   <packaging>pom</packaging>
   <name>Cosmic Core</name>
+  <version>5.0.0.1-SNAPSHOT</version>
   <description>Cosmic is an IaaS (“Infrastructure as a Service”) cloud orchestration platform.</description>
   <url>http://www.cosmic.cloud</url>
 
