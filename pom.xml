@@ -475,6 +475,16 @@
           <version>2.2</version>
         </plugin>
         <plugin>
+          <groupId>com.github.danielflower.mavenplugins</groupId>
+          <artifactId>multi-module-maven-release-plugin</artifactId>
+          <version>1.4.6</version>
+          <configuration>
+            <releaseGoals>
+              <releaseGoal>deploy</releaseGoal>
+            </releaseGoals>
+          </configuration>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.5.3</version>
