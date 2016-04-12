@@ -441,9 +441,6 @@ class TestMultipleChildDomain(cloudstackTestCase):
         """
         # Setting up account and domain hierarchy
 
-        if self.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(self.apiclient, storagetype='rbd'):
-                self.skipTest("RBD storage type is required for data volumes for LXC")
         result = self.setupAccounts()
         if result[0] == FAIL:
             self.fail(
@@ -551,9 +548,6 @@ class TestMultipleChildDomain(cloudstackTestCase):
         #    verify the primary storage resource count
         # 5. Delete volume which was created from snapshot and verify primary storage
              resource count"""
-
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor.lower())
 
         result = self.setupAccounts()
         if result[0] == FAIL:

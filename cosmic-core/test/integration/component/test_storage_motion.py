@@ -161,9 +161,6 @@ class TestStorageMotion(cloudstackTestCase):
         # 3. listVM command should return this VM.State of this VM
         #    should be "Running" and the host should be the host
         #    to which the VM was migrated to in a different cluster
-        if self.hypervisor.lower() in ["lxc"]:
-            self.skipTest("Migration across clusters is not supported on LXC")
-
         hosts = Host.listForMigration(
                           self.apiclient,
                           virtualmachineid=self.virtual_machine.id

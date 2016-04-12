@@ -151,10 +151,6 @@ class TestConcurrentSnapshots(cloudstackTestCase):
         cls.vm_pool = []
         cls.snapshotSupported = True
 
-        if cls.hypervisor.lower() in ["lxc"]:
-            cls.snapshotSupported = False
-            return
-
         # Set sleep time as per Snapshot Recurring Policy - HOURLY
         cls.sleep_time_for_hourly_policy = 60 * 60 * 1
 

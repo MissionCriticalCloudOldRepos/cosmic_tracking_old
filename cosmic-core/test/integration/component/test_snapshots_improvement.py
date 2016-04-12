@@ -136,9 +136,6 @@ class TestSnapshotOnRootVolume(cloudstackTestCase):
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
         cls.template = get_template(
                                     cls.api_client,
                                     cls.zone.id,
@@ -315,9 +312,6 @@ class TestCreateSnapshot(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
         cls.services = Services().services
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)
@@ -570,8 +564,6 @@ class TestCreateSnapshot(cloudstackTestCase):
         # a. Check all snapshots jobs are running concurrently on backgrounds
         # b. listSnapshots should list this newly created snapshot.
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate is not supported in %s" % self.hypervisor)
 
         self.debug("Create virtual machine and snapshot on ROOT disk volume")
         self.create_Snapshot_VM()

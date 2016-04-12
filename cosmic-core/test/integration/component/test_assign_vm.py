@@ -416,8 +416,6 @@ class TestVMOwnership(cloudstackTestCase):
         # Validate the following:
         # 1. deploy VM in sub subdomain1 with snapshot.
         # 3. assignVirtualMachine to subdomain2
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor)
         self.create_vm(self.sdomain_account_user1['account'], self.sdomain_account_user1['domain'], snapshot=True)
         self.virtual_machine.assign_virtual_machine(self.apiclient, self.sdomain_account_user2['account'].name ,self.sdomain_account_user2['domain'].id)
         snapshots = list_snapshots(self.apiclient,
@@ -448,8 +446,6 @@ class TestVMOwnership(cloudstackTestCase):
         # Validate the following:
         # 1. deploy VM in sub subdomain1 when account limit is reached.
         # 3. assignVirtualMachine to subdomain2
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor)
         update_resource_limit(self.apiclient,
                               0, # VM Instances
                               account=self.sdomain_account_user2['account'].name,
@@ -469,8 +465,6 @@ class TestVMOwnership(cloudstackTestCase):
         # Validate the following:
         # 1. deploy VM in sub subdomain1 when account limit is reached.
         # 3. assignVirtualMachine to subdomain2
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor)
         update_resource_limit(
                               self.apiclient,
                               0, # VM Instances

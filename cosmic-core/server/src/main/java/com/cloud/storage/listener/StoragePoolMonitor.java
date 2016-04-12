@@ -76,7 +76,6 @@ public class StoragePoolMonitor implements Listener {
             StartupRoutingCommand scCmd = (StartupRoutingCommand)cmd;
             if (scCmd.getHypervisorType() == HypervisorType.XenServer || scCmd.getHypervisorType() ==  HypervisorType.KVM ||
                 scCmd.getHypervisorType() == HypervisorType.VMware || scCmd.getHypervisorType() ==  HypervisorType.Simulator ||
-                scCmd.getHypervisorType() == HypervisorType.LXC ||
                 scCmd.getHypervisorType() == HypervisorType.Ovm3) {
                 List<StoragePoolVO> pools = _poolDao.listBy(host.getDataCenterId(), host.getPodId(), host.getClusterId(), ScopeType.CLUSTER);
                 List<StoragePoolVO> zoneStoragePoolsByTags = _poolDao.findZoneWideStoragePoolsByTags(host.getDataCenterId(), null);

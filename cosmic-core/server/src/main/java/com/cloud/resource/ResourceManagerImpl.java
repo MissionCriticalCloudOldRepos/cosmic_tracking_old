@@ -423,8 +423,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
         }
 
         if (zone.isSecurityGroupEnabled() && zone.getNetworkType().equals(NetworkType.Advanced)) {
-            if (hypervisorType != HypervisorType.KVM && hypervisorType != HypervisorType.XenServer
-                    && hypervisorType != HypervisorType.LXC && hypervisorType != HypervisorType.Simulator) {
+            if (hypervisorType != HypervisorType.KVM && hypervisorType != HypervisorType.XenServer && hypervisorType != HypervisorType.Simulator) {
                 throw new InvalidParameterValueException("Don't support hypervisor type " + hypervisorType + " in advanced security enabled zone");
             }
         }
@@ -1207,9 +1206,6 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
                     // Migration is not supported for VGPU Vms so stop them.
                     // for the last host in this cluster, stop all the VMs
                     _haMgr.scheduleStop(vm, hostId, WorkType.ForceStop);
-                } else if (HypervisorType.LXC.equals(host.getHypervisorType()) && VirtualMachine.Type.User.equals(vm.getType())){
-                    //Migration is not supported for LXC Vms. Schedule restart instead.
-                    _haMgr.scheduleRestart(vm, false);
                 } else {
                     _haMgr.scheduleMigration(vm);
                 }
@@ -2125,7 +2121,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
             _agentMgr.pullAgentOutMaintenance(hostId);
 
             // for kvm, need to log into kvm host, restart cloudstack-agent
-            if (host.getHypervisorType() == HypervisorType.KVM || host.getHypervisorType() == HypervisorType.LXC) {
+            if (host.getHypervisorType() == HypervisorType.KVM) {
 
                 final boolean sshToAgent = Boolean.parseBoolean(_configDao.getValue(Config.KvmSshToAgentEnabled.key()));
                 if (!sshToAgent) {
@@ -2199,7 +2195,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
             return true;
         }
 
-        if (host.getHypervisorType() == HypervisorType.KVM || host.getHypervisorType() == HypervisorType.LXC) {
+        if (host.getHypervisorType() == HypervisorType.KVM) {
             final MaintainAnswer answer = (MaintainAnswer)_agentMgr.easySend(hostId, new MaintainCommand());
         }
 

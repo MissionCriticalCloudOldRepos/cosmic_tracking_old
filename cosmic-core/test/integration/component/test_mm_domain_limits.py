@@ -360,8 +360,6 @@ class TestDomainMemoryLimits(cloudstackTestCase):
 
         #Resetting memory count in service offering
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate is not supported in %s" % self.hypervisor)
         self.services["service_offering"]["memory"] = 2048
 
         self.debug("Setting up account and domain hierarchy")

@@ -57,11 +57,6 @@ class TestConcurrentSnapshotLimit(cloudstackTestCase):
         cls._cleanup = []
         cls.supportedHypervisor = True
 
-        if cls.hypervisor.lower() in [
-                "lxc"]:
-            cls.supportedHypervisor = False
-            return
-
         # Create Service offering
         cls.service_offering = ServiceOffering.create(
             cls.apiclient,

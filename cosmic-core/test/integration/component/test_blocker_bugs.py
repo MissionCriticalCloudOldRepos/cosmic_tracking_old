@@ -758,9 +758,6 @@ class TestTemplates(cloudstackTestCase):
                             )
         cls.templateSupported = True
         cls._cleanup = []
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.templateSupported = False
-            return
         cls.services["virtual_machine"]["zoneid"] = cls.zone.id
         try:
             cls.account = Account.create(
@@ -1041,9 +1038,6 @@ class TestDataPersistency(cloudstackTestCase):
                             cls.services["ostype"]
                             )
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.templateSupported = False
-            return
         cls.services["virtual_machine"]["zoneid"] = cls.zone.id
 
         #Create an account, network, VM and IP addresses

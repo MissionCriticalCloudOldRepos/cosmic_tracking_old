@@ -542,9 +542,6 @@ class TestVMLifeCycle(cloudstackTestCase):
         if len(hosts) < 2:
             self.skipTest("At least two hosts should be present in the zone for migration")
 
-        if self.hypervisor.lower() in ["lxc"]:
-            self.skipTest("Migration is not supported on LXC")
-
         # For KVM, two hosts used for migration should  be present in same cluster
         # For XenServer and VMware, migration is possible between hosts belonging to different clusters
         # with the help of XenMotion and Vmotion respectively.
@@ -655,9 +652,6 @@ class TestVMLifeCycle(cloudstackTestCase):
         # 4. The device should be available for use
         # 5. Detach ISO
         # 6. Check the device is properly detached by logging into VM
-
-        if self.hypervisor.lower() in ["lxc"]:
-            self.skipTest("ISOs are not supported on LXC")
 
         iso = Iso.create(
                          self.apiclient,

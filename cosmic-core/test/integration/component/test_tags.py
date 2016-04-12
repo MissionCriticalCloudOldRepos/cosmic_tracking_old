@@ -953,9 +953,6 @@ class TestResourceTags(cloudstackTestCase):
         # 1. Create a tag on template/ISO using createTags API
         # 2. Delete above created tag using deleteTags API
 
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("template creation from volume feature is not supported on %s" % self.hypervisor.lower())
-
         try:
             self.debug("Stopping the virtual machine: %s" % self.vm_1.name)
             # Stop virtual machine
@@ -1158,10 +1155,6 @@ class TestResourceTags(cloudstackTestCase):
         # 1. Create a tag on volume using createTags API
         # 2. Delete above created tag using deleteTags API
 
-        if self.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(self.apiclient, storagetype='rbd'):
-                self.skipTest("RBD storage type is required for data volumes for LXC")
-
         self.debug("Creating volume for account: %s " %
                    self.account.name)
         volume = Volume.create(
@@ -1250,9 +1243,6 @@ class TestResourceTags(cloudstackTestCase):
         # Validate the following
         # 1. Create a tag on snapshot using createTags API
         # 2. Delete above created tag using deleteTags API
-
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor.lower())
 
         self.debug("Creating snapshot on ROOT volume for VM: %s " %
                    self.vm_1.name)
@@ -1451,9 +1441,6 @@ class TestResourceTags(cloudstackTestCase):
         # Validate the following
         # 1. Create a tag on VM using createTags API
         # 2. Delete above created tag using deleteTags API
-
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate feature is not supported on %s" % self.hypervisor.lower())
 
         vms = VirtualMachine.list(
             self.apiclient,
@@ -2319,8 +2306,6 @@ class TestResourceTags(cloudstackTestCase):
         4.list hosts for migration for the above deployed vm
         5.All untagged hosts in the cluster must be listed as available hosts for vm migration
         """
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("Unsupported Hypervisor Type for User VM migration")
         tag = "tag1"
         clusters = list_clusters(self.apiclient, zoneid=self.zone.id)
         self.assertEqual(

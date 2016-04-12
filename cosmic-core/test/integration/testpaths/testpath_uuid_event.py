@@ -61,7 +61,7 @@ class TestVerifyEventsTable(cloudstackTestCase):
         try:
 
             cls.unsupportedHypervisor = False
-            if cls.hypervisor.lower() in ['lxc', 'kvm']:
+            if cls.hypervisor.lower() in ['kvm']:
                 if cls.hypervisor.lower() == 'kvm':
                     configs = Configurations.list(
                         cls.apiclient,

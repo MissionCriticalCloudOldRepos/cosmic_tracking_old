@@ -56,11 +56,6 @@ class TestDeployVM(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.skip = False
 
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.apiclient, storagetype='rbd'):
-                cls.skip = True
-                return
-
         cls.template = get_template(
             cls.api_client,
             cls.zone.id,
@@ -638,11 +633,6 @@ class TestDeployVM(cloudstackTestCase):
         # 4. Stop the vm
         # 5.list primary storages in the cluster , should be more than one
         # 6.Migrate voluem to another available primary storage
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "vm migrate is not supported in %s" %
-                self.hypervisor)
-
         clusters = Cluster.list(
             self.apiclient,
             zoneid=self.zone.id
@@ -758,11 +748,6 @@ class TestDeployHaEnabledVM(cloudstackTestCase):
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.skip = False
         
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.apiclient, storagetype='rbd'):
-                cls.skip = True 
-                return
-
         cls.domain = get_domain(cls.api_client)
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
 
@@ -874,11 +859,6 @@ class TestDeployHaEnabledVM(cloudstackTestCase):
         # 1. deployHA enabled Vm using ISO with the startvm parameter=true
         # 2. listVM command should return the deployed VM. State of this VM
         #    should be "Running".
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "vm deploy from ISO feature is not supported on %s" %
-                self.hypervisor.lower())
-
         self.iso = Iso.create(
             self.apiclient,
             self.testdata["configurableData"]["bootableIso"],
@@ -931,10 +911,6 @@ class TestDeployHaEnabledVM(cloudstackTestCase):
         # 1. deployHA enabled Vm using ISO with the startvm parameter=false
         # 2. listVM command should return the deployed VM. State of this VM
         #    should be "Stopped".
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm deploy from ISO feature is not supported on %s" %
-                self.hypervisor.lower())
-
         self.debug("Deploying instance in the account: %s" %
                    self.account.name)
         self.virtual_machine = VirtualMachine.create(
@@ -968,11 +944,6 @@ class TestRouterStateAfterDeploy(cloudstackTestCase):
         # Get Zone, Domain and templates
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.skip = False
-
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.apiclient, storagetype='rbd'):
-                cls.skip = True
-                return
 
         cls.domain = get_domain(cls.api_client)
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
@@ -1145,11 +1116,6 @@ class TestDeployVMBasicZone(cloudstackTestCase):
         # Get Zone, Domain and templates
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.skip = False
-
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.apiclient, storagetype='rbd'):
-                cls.skip = True
-                return
 
         cls.domain = get_domain(cls.api_client)
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
@@ -1475,10 +1441,6 @@ class TestUploadAttachVolume(cloudstackTestCase):
         cls.testdata = cls.testClient.getParsedTestDataConfig()
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.skip = False
-
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.apiclient, storagetype='rbd'):
-                cls.skip = True
 
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.api_client)

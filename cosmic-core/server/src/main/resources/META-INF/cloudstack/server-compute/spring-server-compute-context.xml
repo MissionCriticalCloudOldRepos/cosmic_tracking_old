@@ -31,8 +31,4 @@
         <property name="name" value="KVMGuru" />
     </bean>
 
-    <bean id="LXCGuru" class="com.cloud.hypervisor.LXCGuru">
-        <property name="name" value="LXCGuru" />
-    </bean>
-
 </beans>

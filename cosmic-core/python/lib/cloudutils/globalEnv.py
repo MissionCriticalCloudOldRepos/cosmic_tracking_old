@@ -36,7 +36,7 @@ class globalEnv:
         self.pod = None
         #cluster id or cluster name
         self.cluster = None
-        #hypervisor type. KVM/LXC. Default is KVM
+        #hypervisor type. KVM. Default is KVM
         self.hypervisor = "kvm"
         #nics: 0: private nic, 1: guest nic, 2: public nic used by agent
         self.nics = []

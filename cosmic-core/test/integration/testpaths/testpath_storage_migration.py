@@ -2616,7 +2616,7 @@ class TestLiveStorageMigration(cloudstackTestCase):
 
         cls._cleanup = []
 
-        if cls.hypervisor.lower() in ["kvm", "lxc"]:
+        if cls.hypervisor.lower() in ["kvm"]:
             raise unittest.SkipTest(
                 "Live Storage migration not supported on %s" %
                 cls.hypervisor)

@@ -188,9 +188,6 @@ public class Upgrade452to460 implements DbUpgrade {
                 case VMware:
                     hypervisorsListInUse.add(Hypervisor.HypervisorType.VMware);
                     break;
-                case LXC:
-                    hypervisorsListInUse.add(Hypervisor.HypervisorType.LXC);
-                    break;
                 case Ovm3:
                     hypervisorsListInUse.add(Hypervisor.HypervisorType.Ovm3);
                     break;
@@ -209,7 +206,6 @@ public class Upgrade452to460 implements DbUpgrade {
                 put(Hypervisor.HypervisorType.XenServer, "systemvm-xenserver-4.6");
                 put(Hypervisor.HypervisorType.VMware, "systemvm-vmware-4.6");
                 put(Hypervisor.HypervisorType.KVM, "systemvm-kvm-4.6");
-                put(Hypervisor.HypervisorType.LXC, "systemvm-lxc-4.6");
                 put(Hypervisor.HypervisorType.Ovm3, "systemvm-ovm3-4.6");
             }
         };
@@ -219,7 +215,6 @@ public class Upgrade452to460 implements DbUpgrade {
                 put(Hypervisor.HypervisorType.XenServer, "router.template.xenserver");
                 put(Hypervisor.HypervisorType.VMware, "router.template.vmware");
                 put(Hypervisor.HypervisorType.KVM, "router.template.kvm");
-                put(Hypervisor.HypervisorType.LXC, "router.template.lxc");
                 put(Hypervisor.HypervisorType.Ovm3, "router.template.ovm3");
             }
         };
@@ -229,7 +224,6 @@ public class Upgrade452to460 implements DbUpgrade {
                 put(Hypervisor.HypervisorType.XenServer, "http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-xen.vhd.bz2");
                 put(Hypervisor.HypervisorType.VMware, "http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-vmware.ova");
                 put(Hypervisor.HypervisorType.KVM, "http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2");
-                put(Hypervisor.HypervisorType.LXC, "http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2");
                 put(Hypervisor.HypervisorType.Ovm3, "http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-ovm.raw.bz2");
             }
         };
@@ -239,7 +233,6 @@ public class Upgrade452to460 implements DbUpgrade {
                 put(Hypervisor.HypervisorType.XenServer, "8886f554a499ec5405b6f203d9d36460");
                 put(Hypervisor.HypervisorType.VMware, "4b415224fe00b258f66cad9fce9f73fc");
                 put(Hypervisor.HypervisorType.KVM, "c059b0d051e0cd6fbe9d5d4fc40c7e5d");
-                put(Hypervisor.HypervisorType.LXC, "c059b0d051e0cd6fbe9d5d4fc40c7e5d");
                 put(Hypervisor.HypervisorType.Ovm3, "c8577d27b2daafb2d9a4ed307ce2f00f");
             }
         };

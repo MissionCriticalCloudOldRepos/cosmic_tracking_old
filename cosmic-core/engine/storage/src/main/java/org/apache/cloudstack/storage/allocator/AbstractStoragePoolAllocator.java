@@ -230,22 +230,6 @@ public abstract class AbstractStoragePoolAllocator extends AdapterBase implement
     Check StoragePool and Volume type compatibility for the hypervisor
      */
     private boolean checkHypervisorCompatibility(HypervisorType hyperType, Volume.Type volType, Storage.StoragePoolType poolType){
-        if(HypervisorType.LXC.equals(hyperType)){
-            if(Volume.Type.ROOT.equals(volType)){
-                //LXC ROOT disks supports NFS and local storage pools only
-                if(!(Storage.StoragePoolType.NetworkFilesystem.equals(poolType) ||
-                        Storage.StoragePoolType.Filesystem.equals(poolType)) ){
-                    s_logger.debug("StoragePool does not support LXC ROOT disk, skipping this pool");
-                    return false;
-                }
-            } else if (Volume.Type.DATADISK.equals(volType)){
-                //LXC DATA disks supports RBD storage pool only
-                if(!Storage.StoragePoolType.RBD.equals(poolType)){
-                    s_logger.debug("StoragePool does not support LXC DATA disk, skipping this pool");
-                    return false;
-                }
-            }
-        }
         return true;
     }
 }

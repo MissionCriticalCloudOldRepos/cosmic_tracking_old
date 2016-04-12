@@ -183,8 +183,6 @@ class TestProjectsVolumeLimits(cloudstackTestCase):
         # 2. List the hosts suitable for migrating the VM
         # 3. Migrate the VM and verify that primary storage count of project remains same"""
         self.hypervisor = self.testClient.getHypervisorInfo()
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest("vm migrate feature is not supported on %s" % self.hypervisor.lower())
         try:
             hosts = Host.list(self.apiclient,virtualmachineid=self.vm.id,
                               listall=True)

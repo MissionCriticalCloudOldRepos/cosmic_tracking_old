@@ -758,8 +758,6 @@ class TestResourceLimitsProject(cloudstackTestCase):
         # 5. Try to create another snapshot in this project. It should give
         #    user an appropriate error and an alert should be generated.
 
-        if self.hypervisor.lower() in ['lxc']:
-            raise self.skipTest("Snapshots feature is not supported on %s" % self.hypervisor.lower())
         self.debug(
             "Updating snapshot resource limits for project: %s" %
                                         self.project.id)
@@ -835,9 +833,6 @@ class TestResourceLimitsProject(cloudstackTestCase):
         #    an appropriate error that Volume limit is exhausted and an alert
         #    should be generated.
 
-        if self.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(self.apiclient, storagetype='rbd'):
-                self.skipTest("RBD storage type is required for data volumes for LXC")
         self.project_1 = Project.create(
                          self.api_client,
                          self.services["project"],

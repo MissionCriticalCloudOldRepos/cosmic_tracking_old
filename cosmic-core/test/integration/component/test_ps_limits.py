@@ -66,10 +66,6 @@ class TestVolumeLimits(cloudstackTestCase):
         cls.services["mode"] = cls.zone.networktype
         cls._cleanup = []
         cls.unsupportedStorageType = False
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
 
         cls.template = get_template(
                             cls.api_client,

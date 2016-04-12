@@ -117,10 +117,6 @@ class TestAttachVolume(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedStorageType = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"]
@@ -386,10 +382,6 @@ class TestAttachDetachVolume(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedStorageType = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"]
@@ -623,10 +615,6 @@ class TestAttachVolumeISO(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedStorageType = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"]
@@ -716,8 +704,6 @@ class TestAttachVolumeISO(cloudstackTestCase):
         # 3. Verify that attach ISO is successful
 
         # Create 5 volumes and attach to VM
-        if self.hypervisor.lower() in ["lxc"]:
-            self.skipTest("attach ISO is not supported on LXC")
         for i in range(self.max_data_volumes):
             volume = Volume.create(
                 self.apiclient,
@@ -845,10 +831,6 @@ class TestVolumes(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedStorageType = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"]
@@ -1166,10 +1148,6 @@ class TestDeployVmWithCustomDisk(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedStorageType = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"],
@@ -1308,10 +1286,6 @@ class TestMigrateVolume(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedStorageType = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() == 'lxc':
-            if not find_storage_pool_type(cls.api_client, storagetype='rbd'):
-                cls.unsupportedStorageType = True
-                return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"]

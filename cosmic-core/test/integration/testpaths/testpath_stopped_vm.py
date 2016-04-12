@@ -661,10 +661,6 @@ class TestAdvancedZoneStoppedVM(cloudstackTestCase):
         # 4.  Verify that ISO is attached to the VM
         """
 
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "feature is not supported in %s" %
-                self.hypervisor)
         # Create VM in account
         virtual_machine = VirtualMachine.create(
             self.userapiclient,
@@ -725,11 +721,6 @@ class TestAdvancedZoneStoppedVM(cloudstackTestCase):
         # 3.  Register an ISO and attach it to the VM
         # 4.  Verify that ISO is attached to the VM
         """
-
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "feature is not supported in %s" %
-                self.hypervisor)
 
         # Create VM in account
         virtual_machine = VirtualMachine.create(
@@ -798,10 +789,6 @@ class TestAdvancedZoneStoppedVM(cloudstackTestCase):
         # 5.  Verify that new password is generated for the VM
         """
 
-        if self.hypervisor.lower() in ['lxc']:
-            self.skipTest(
-                "feature is not supported in %s" %
-                self.hypervisor)
         vm_for_template = VirtualMachine.create(
             self.userapiclient,
             self.testdata["small"],

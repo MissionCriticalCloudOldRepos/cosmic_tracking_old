@@ -170,9 +170,6 @@ class TestSnapshots(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = str(get_hypervisor_type(cls.api_client)).lower()
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
         cls.disk_offering = DiskOffering.create(
             cls.api_client,
             cls.services["disk_offering"]
@@ -964,9 +961,6 @@ class TestCreateVMSnapshotTemplate(cloudstackTestCase):
         cls.services['mode'] = cls.zone.networktype
         cls.unsupportedHypervisor = False
         cls.hypervisor = get_hypervisor_type(cls.api_client)
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
 
         cls.template = get_template(
             cls.api_client,
@@ -1182,9 +1176,6 @@ class TestSnapshotEvents(cloudstackTestCase):
         cls.services['mode'] = cls.zone.networktype
         cls.unsupportedHypervisor = False
         cls.hypervisor = get_hypervisor_type(cls.api_client)
-        if cls.hypervisor.lower() in ['lxc']:
-            cls.unsupportedHypervisor = True
-            return
 
         template = get_template(
             cls.api_client,

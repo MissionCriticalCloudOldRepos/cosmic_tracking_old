@@ -148,9 +148,6 @@ class TestRecurringSnapshots(cloudstackTestCase):
 
         cls.unsupportedHypervisor = False
         cls.hypervisor = cls.testClient.getHypervisorInfo()
-        if cls.hypervisor.lower() in ["lxc"]:
-            cls.unsupportedHypervisor = True
-            return
 
         cls.services = Services().services
         # Get Zone, Domain and templates

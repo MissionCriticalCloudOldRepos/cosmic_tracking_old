@@ -58,10 +58,6 @@ class TestStorageSnapshotsLimits(cloudstackTestCase):
         cls._cleanup = []
         cls.snapshotSupported = True
 
-        if cls.hypervisor.lower() in ["lxc"]:
-            cls.snapshotSupported = False
-            return
-
         try:
             # Create an account
             cls.account = Account.create(

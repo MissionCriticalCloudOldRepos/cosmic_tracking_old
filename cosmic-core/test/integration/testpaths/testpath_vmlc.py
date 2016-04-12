@@ -335,9 +335,6 @@ class TestPathVMLC(cloudstackTestCase):
         # 13. Find suitable host for VM to migrate and migrate the VM
         # 14. Verify VM accessibility on new host
         """
-        if self.hypervisor.lower() in ['lxc']  and value == VPC_NETWORK:
-            self.skipTest("cann't be run for {} hypervisor".format(self.hypervisor))
-
         # List created service offering in setUpClass by name
         listServiceOfferings = ServiceOffering.list(
             self.apiclient,
@@ -489,22 +486,6 @@ class TestPathVMLC(cloudstackTestCase):
         except Exception as e:
             self.fail("Exception while SSHing to VM: %s" % e)
 
-
-        if not self.hypervisor.lower() == "lxc":
-            # Find suitable host for VM to migrate and migrate the VM
-            # Verify that it is accessible on the new host
-            host = findSuitableHostForMigration(self.apiclient,
-                                            self.virtual_machine.id)
-            if host is not None:
-                self.virtual_machine.migrate(self.apiclient, host.id)
-
-                try:
-                    SshClient(host=publicip.ipaddress.ipaddress,
-                        port=22,
-                        user=self.virtual_machine.username,
-                        passwd=self.virtual_machine.password)
-                except Exception as e:
-                    self.fail("Exception while SSHing to VM: %s" % e)
         return
 
     @attr(tags=["advanced"], required_hardware="True")
@@ -705,21 +686,6 @@ class TestPathVMLC(cloudstackTestCase):
         except Exception as e:
             self.fail("Exception while SSHing to VM: %s" % e)
 
-        if not self.hypervisor.lower() == "lxc":
-            # Find suitable host for VM to migrate and migrate the VM
-            # Verify that it is accessible on the new host
-            host = findSuitableHostForMigration(self.apiclient,
-                                            self.virtual_machine.id)
-            if host is not None:
-                self.virtual_machine.migrate(self.apiclient, host.id)
-
-                try:
-                    SshClient(host=self.virtual_machine.ssh_ip,
-                        port=22,
-                        user=self.virtual_machine.username,
-                        passwd=self.virtual_machine.password)
-                except Exception as e:
-                    self.fail("Exception while SSHing to VM: %s" % e)
         return
 
     @attr(tags=["advanced"], required_hardware="True")
@@ -736,8 +702,6 @@ class TestPathVMLC(cloudstackTestCase):
         # 4. Try to stop the VM in destroyed state, operation should fail
         # 5. Try to reboot the VM in destroyed state, operation should fail
         """
-        if self.hypervisor.lower() in ['lxc'] and value == VPC_NETWORK:
-            self.skipTest("cann't be run for {} hypervisor".format(self.hypervisor))
         network = CreateNetwork(self, value)
         networkid = network.id
 
@@ -835,8 +799,6 @@ class TestPathVMLC(cloudstackTestCase):
         # 7. Try to recover the VM in expunging state, operation should fail
         """
 
-        if self.hypervisor.lower() in ['lxc'] and value == VPC_NETWORK:
-            self.skipTest("cann't be run for {} hypervisor".format(self.hypervisor))
         network = CreateNetwork(self, value)
         networkid = network.id
 

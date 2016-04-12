@@ -373,7 +373,7 @@ public abstract class LibvirtServerDiscoverer extends DiscovererBase implements 
 
     @Override
     public DeleteHostAnswer deleteHost(HostVO host, boolean isForced, boolean isForceDeleteStorage) throws UnableDeleteHostException {
-        if (host.getType() != Host.Type.Routing || (host.getHypervisorType() != HypervisorType.KVM && host.getHypervisorType() != HypervisorType.LXC)) {
+        if (host.getType() != Host.Type.Routing || host.getHypervisorType() != HypervisorType.KVM) {
             return null;
         }
 
