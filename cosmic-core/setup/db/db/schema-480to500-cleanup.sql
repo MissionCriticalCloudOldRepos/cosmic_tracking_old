@@ -22,11 +22,11 @@ DELETE FROM `cloud`.`hypervisor_capabilities` WHERE hypervisor_type = 'Hyperv';
 DELETE FROM `cloud`.`hypervisor_capabilities` WHERE hypervisor_type = 'VMware';
 
 # Remove HyperV and VMware global settings
-DELETE FROM `cloud`.`configuration` WHERE value = 'hyperv.guest.network.device';
-DELETE FROM `cloud`.`configuration` WHERE value = 'hyperv.private.network.device';
-DELETE FROM `cloud`.`configuration` WHERE value = 'hyperv.public.network.device';
-DELETE FROM `cloud`.`configuration` WHERE value = 'router.template.hyperv';
-DELETE FROM `cloud`.`configuration` WHERE value = 'router.template.vmware';
+DELETE FROM `cloud`.`configuration` WHERE name = 'hyperv.guest.network.device';
+DELETE FROM `cloud`.`configuration` WHERE name = 'hyperv.private.network.device';
+DELETE FROM `cloud`.`configuration` WHERE name = 'hyperv.public.network.device';
+DELETE FROM `cloud`.`configuration` WHERE name = 'router.template.hyperv';
+DELETE FROM `cloud`.`configuration` WHERE name = 'router.template.vmware';
 
 # Remove HyperV related column on physical_network_traffic_types table
 ALTER TABLE `cloud`.`physical_network_traffic_types` DROP COLUMN `hyperv_network_label`;
