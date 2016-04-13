@@ -666,7 +666,7 @@ class TestInternalLb(cloudstackTestCase):
         time.sleep(120)
         # self.logger.debug(dir(applb))
         results = self.run_ssh_test_accross_hosts(
-            client_vm, applb.sourceipaddress, max_http_requests)
+            client_vm, client_vm.public_ip, applb.sourceipaddress, max_http_requests)
         success = self.evaluate_http_responses(results, algorithm)
         self.assertTrue(success, "Test failed on algorithm: %s" % algorithm)
 
