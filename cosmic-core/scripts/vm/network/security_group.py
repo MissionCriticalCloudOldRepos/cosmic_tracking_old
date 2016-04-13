@@ -32,7 +32,7 @@ iptables = Command("iptables")
 bash = Command("/bin/bash")
 ebtables = Command("ebtables")
 driver = "qemu:///system"
-cfo = configFileOps("/etc/cloudstack/agent/agent.properties")
+cfo = configFileOps("/etc/cosmic/agent/agent.properties")
 hyper = cfo.getEntry("hypervisor.type")
 def execute(cmd):
     logging.debug(cmd)
@@ -1004,7 +1004,7 @@ def addFWFramework(brname):
         return False
 
 if __name__ == '__main__':
-    logging.basicConfig(filename="/var/log/cloudstack/agent/security_group.log", format="%(asctime)s - %(message)s", level=logging.DEBUG)
+    logging.basicConfig(filename="/var/log/cosmic/agent/security_group.log", format="%(asctime)s - %(message)s", level=logging.DEBUG)
     parser = OptionParser()
     parser.add_option("--vmname", dest="vmName")
     parser.add_option("--vmip", dest="vmIP")
