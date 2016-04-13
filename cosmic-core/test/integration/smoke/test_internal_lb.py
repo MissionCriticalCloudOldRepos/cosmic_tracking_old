@@ -497,7 +497,7 @@ class TestInternalLb(cloudstackTestCase):
             "/usr/sbin/httpd -v -p 0.0.0.0:80 -h /tmp/"
         ]
         try:
-            ssh_client = self.get_ssh_client(vm, public_ip, 25)
+            ssh_client = self.get_ssh_client(vm, public_ip, 10)
             for cmd in commands:
                 ssh_client.execute(cmd)
         except Exception as e:
@@ -819,7 +819,7 @@ class TestInternalLb(cloudstackTestCase):
         # Verify access to and the contents of the admin stats page on the
         # private address via a vm in the internal lb tier
         stats = self.verify_lb_stats(
-            applb.sourceipaddress, self.get_ssh_client(vm, nat_rule.ipaddress, 25), settings)
+            applb.sourceipaddress, self.get_ssh_client(vm, nat_rule.ipaddress, 10), settings)
         self.assertTrue(stats, "Failed to verify LB HAProxy stats")
 
     @classmethod
