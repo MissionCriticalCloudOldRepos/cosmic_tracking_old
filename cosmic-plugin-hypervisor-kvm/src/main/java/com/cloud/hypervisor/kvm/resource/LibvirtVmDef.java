@@ -1208,10 +1208,16 @@ public class LibvirtVmDef {
       if (path == null) {
         path = "/var/lib/libvirt/qemu";
       }
+      // Used by patchviasocket.pl
       virtioSerialBuilder.append("<channel type='unix'>\n");
       virtioSerialBuilder.append("<source mode='bind' path='" + path + "/" + name + ".agent'/>\n");
       virtioSerialBuilder.append("<target type='virtio' name='" + name + ".vport'/>\n");
       virtioSerialBuilder.append("<address type='virtio-serial'/>\n");
+      virtioSerialBuilder.append("</channel>\n");
+      // Qemu guest agent
+      virtioSerialBuilder.append("<channel type='unix'>\n");
+      virtioSerialBuilder.append("<source mode='bind'/>\n");
+      virtioSerialBuilder.append("<target type='virtio' name='org.qemu.guest_agent.0'/>\n");
       virtioSerialBuilder.append("</channel>\n");
       return virtioSerialBuilder.toString();
     }
