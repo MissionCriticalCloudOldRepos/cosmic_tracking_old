@@ -2548,16 +2548,15 @@
             allowedActions.push("stop");
             allowedActions.push("restart");
 
-            if ((jsonObj.hypervisor != 'KVM' || g_kvmsnapshotenabled == true)
-                    && (jsonObj.hypervisor != 'LXC')) {
+            if ((jsonObj.hypervisor != 'KVM' || g_kvmsnapshotenabled == true)) {
                 allowedActions.push("snapshot");
             }
 
             allowedActions.push("destroy");
             allowedActions.push("reinstall");
 
-            //when userVm is running, scaleUp is not supported for KVM, LXC
-            if (jsonObj.hypervisor != 'KVM' && jsonObj.hypervisor != 'LXC') {
+            //when userVm is running, scaleUp is not supported for KVM
+            if (jsonObj.hypervisor != 'KVM') {
                 allowedActions.push("scaleUp");
             }
 
@@ -2585,8 +2584,7 @@
             allowedActions.push("destroy");
             allowedActions.push("reinstall");
 
-            if ((jsonObj.hypervisor != 'KVM' || g_kvmsnapshotenabled == true)
-                    && (jsonObj.hypervisor != 'LXC')) {
+            if ((jsonObj.hypervisor != 'KVM' || g_kvmsnapshotenabled == true)) {
                 allowedActions.push("snapshot");
             }
 
