@@ -374,6 +374,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${cs.javadoc.version}</version>
         <configuration>
+          <skip>true</skip>
           <minmemory>128m</minmemory>
           <maxmemory>1g</maxmemory>
         </configuration>
