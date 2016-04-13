@@ -46,7 +46,7 @@ public class LibvirtConnection {
   }
 
   public static Connect getConnectionByVmName(String vmName) throws LibvirtException {
-    final HypervisorType[] hypervisors = new HypervisorType[] { HypervisorType.KVM, Hypervisor.HypervisorType.LXC };
+    final HypervisorType[] hypervisors = new HypervisorType[] { HypervisorType.KVM };
 
     for (final HypervisorType hypervisor : hypervisors) {
       try {
@@ -74,10 +74,6 @@ public class LibvirtConnection {
   }
 
   static String getHypervisorUri(String hypervisorType) {
-    if ("LXC".equalsIgnoreCase(hypervisorType)) {
-      return "lxc:///";
-    } else {
-      return "qemu:///system";
-    }
+    return "qemu:///system";
   }
 }

@@ -1835,16 +1835,11 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
     final GuestDef guest = new GuestDef();
 
-    if (HypervisorType.LXC == hypervisorType && VirtualMachine.Type.User == vmTo.getType()) {
-      // LXC domain is only valid for user VMs. Use KVM for system VMs.
-      guest.setGuestType(GuestDef.GuestType.LXC);
-      vm.setHvsType(HypervisorType.LXC.toString().toLowerCase());
-    } else {
-      guest.setGuestType(GuestDef.GuestType.KVM);
-      vm.setHvsType(HypervisorType.KVM.toString().toLowerCase());
-      vm.setLibvirtVersion(hypervisorLibvirtVersion);
-      vm.setQemuVersion(hypervisorQemuVersion);
-    }
+    guest.setGuestType(GuestDef.GuestType.KVM);
+    vm.setHvsType(HypervisorType.KVM.toString().toLowerCase());
+    vm.setLibvirtVersion(hypervisorLibvirtVersion);
+    vm.setQemuVersion(hypervisorQemuVersion);
+
     guest.setGuestArch(vmTo.getArch());
     guest.setMachineType("pc");
     guest.setUuid(uuid);
@@ -2120,38 +2115,6 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
         vm.getDevices().addDevice(iso);
       }
     }
-
-    // For LXC, find and add the root filesystem, rbd data disks
-    if (HypervisorType.LXC.toString().toLowerCase().equals(vm.getHvsType())) {
-      for (final DiskTO volume : disks) {
-        final DataTO data = volume.getData();
-        final PrimaryDataStoreTO store = (PrimaryDataStoreTO) data.getDataStore();
-        if (volume.getType() == Volume.Type.ROOT) {
-          final KvmPhysicalDisk physicalDisk = storagePoolMgr.getPhysicalDisk(store.getPoolType(), store.getUuid(),
-              data.getPath());
-          final FilesystemDef rootFs = new FilesystemDef(physicalDisk.getPath(), "/");
-          vm.getDevices().addDevice(rootFs);
-        } else if (volume.getType() == Volume.Type.DATADISK) {
-          final KvmPhysicalDisk physicalDisk = storagePoolMgr.getPhysicalDisk(store.getPoolType(), store.getUuid(),
-              data.getPath());
-          final KvmStoragePool pool = physicalDisk.getPool();
-          if (StoragePoolType.RBD.equals(pool.getType())) {
-            final int devId = volume.getDiskSeq().intValue();
-            final String device = mapRbdDevice(physicalDisk);
-            if (device != null) {
-              LOGGER.debug("RBD device on host is: " + device);
-              final DiskDef diskdef = new DiskDef();
-              diskdef.defBlockBasedDisk(device, devId, DiskDef.DiskBus.VIRTIO);
-              diskdef.setQemuDriver(false);
-              vm.getDevices().addDevice(diskdef);
-            } else {
-              throw new InternalErrorException("Error while mapping RBD device on host");
-            }
-          }
-        }
-      }
-    }
-
   }
 
   private void createVif(final LibvirtVmDef vm, final NicTO nic, final String nicAdapter)
@@ -2468,17 +2431,6 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
   private HashMap<String, HostVmStateReportEntry> getHostVmStateReport() {
     final HashMap<String, HostVmStateReportEntry> vmStates = new HashMap<String, HostVmStateReportEntry>();
     Connect conn = null;
-
-    if (hypervisorType == HypervisorType.LXC) {
-      try {
-        conn = LibvirtConnection.getConnectionByType(HypervisorType.LXC.toString());
-        vmStates.putAll(getHostVmStateReport(conn));
-        conn = LibvirtConnection.getConnectionByType(HypervisorType.KVM.toString());
-        vmStates.putAll(getHostVmStateReport(conn));
-      } catch (final LibvirtException e) {
-        LOGGER.debug("Failed to get connection: " + e.getMessage());
-      }
-    }
 
     if (hypervisorType == HypervisorType.KVM) {
       try {

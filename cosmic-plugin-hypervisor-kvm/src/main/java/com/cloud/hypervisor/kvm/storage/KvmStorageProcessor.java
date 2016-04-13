@@ -949,16 +949,6 @@ public class KvmStorageProcessor implements StorageProcessor {
         parser.parseDomainXml(xml);
         disks = parser.getDisks();
 
-        if (attachingPool.getType() == StoragePoolType.RBD) {
-          if (resource.getHypervisorType() == Hypervisor.HypervisorType.LXC) {
-            final String device = resource.mapRbdDevice(attachingDisk);
-            if (device != null) {
-              logger.debug("RBD device on host is: " + device);
-              attachingDisk.setPath(device);
-            }
-          }
-        }
-
         for (final DiskDef disk : disks) {
           final String file = disk.getDiskPath();
           if (file != null && file.equalsIgnoreCase(attachingDisk.getPath())) {
@@ -973,20 +963,9 @@ public class KvmStorageProcessor implements StorageProcessor {
         diskdef = new DiskDef();
         diskdef.setSerial(serial);
         if (attachingPool.getType() == StoragePoolType.RBD) {
-          if (resource.getHypervisorType() == Hypervisor.HypervisorType.LXC) {
-            // For LXC, map image to host and then attach to Vm
-            final String device = resource.mapRbdDevice(attachingDisk);
-            if (device != null) {
-              logger.debug("RBD device on host is: " + device);
-              diskdef.defBlockBasedDisk(device, devId, DiskDef.DiskBus.VIRTIO);
-            } else {
-              throw new InternalErrorException("Error while mapping disk " + attachingDisk.getPath() + " on host");
-            }
-          } else {
-            diskdef.defNetworkBasedDisk(attachingDisk.getPath(), attachingPool.getSourceHost(),
-                attachingPool.getSourcePort(), attachingPool.getAuthUserName(),
-                attachingPool.getUuid(), devId, DiskDef.DiskBus.VIRTIO, DiskProtocol.RBD, DiskDef.DiskFmtType.RAW);
-          }
+          diskdef.defNetworkBasedDisk(attachingDisk.getPath(), attachingPool.getSourceHost(),
+              attachingPool.getSourcePort(), attachingPool.getAuthUserName(),
+              attachingPool.getUuid(), devId, DiskDef.DiskBus.VIRTIO, DiskProtocol.RBD, DiskDef.DiskFmtType.RAW);
         } else if (attachingPool.getType() == StoragePoolType.Gluster) {
           final String mountpoint = attachingPool.getLocalPath();
           final String path = attachingDisk.getPath();
