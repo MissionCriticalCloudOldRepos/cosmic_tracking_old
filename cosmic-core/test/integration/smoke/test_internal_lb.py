@@ -609,7 +609,7 @@ class TestInternalLb(cloudstackTestCase):
         public_ssh_start_port = 2000
         num_app_vms = 3
 
-        self.logger.debug("Starting test_01_internallb_roundrobin_1VPC_3VM_HTTP_port80")
+        self.logger.debug("Starting execute_internallb_roundrobin_tests")
         # Create and enable network offerings
         network_offering_guestnet = self.create_and_enable_network_serviceoffering(
             self.services["network_offering"])
@@ -671,7 +671,7 @@ class TestInternalLb(cloudstackTestCase):
         self.assertTrue(success, "Test failed on algorithm: %s" % algorithm)
 
         self.logger.debug(
-            "Removing virtual machines and networks for test_01_internallb_roundrobin_2VM_port80")
+            "Removing virtual machines and networks for execute_internallb_roundrobin_tests")
 
         # Remove the virtual machines from the Internal LoadBalancer
         self.logger.debug("Remove virtual machines from LB: %s" % applb.id)
