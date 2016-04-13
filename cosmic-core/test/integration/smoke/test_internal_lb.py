@@ -497,7 +497,7 @@ class TestInternalLb(cloudstackTestCase):
             "/usr/sbin/httpd -v -p 0.0.0.0:80 -h /tmp/"
         ]
         try:
-            ssh_client = self.get_ssh_client(vm, public_ip, 25)
+            ssh_client = self.get_ssh_client(vm, public_ip, 10)
             for cmd in commands:
                 ssh_client.execute(cmd)
         except Exception as e:
@@ -609,7 +609,7 @@ class TestInternalLb(cloudstackTestCase):
         public_ssh_start_port = 2000
         num_app_vms = 3
 
-        self.logger.debug("Starting test_01_internallb_roundrobin_1VPC_3VM_HTTP_port80")
+        self.logger.debug("Starting execute_internallb_roundrobin_tests")
         # Create and enable network offerings
         network_offering_guestnet = self.create_and_enable_network_serviceoffering(
             self.services["network_offering"])
@@ -666,12 +666,12 @@ class TestInternalLb(cloudstackTestCase):
         time.sleep(120)
         # self.logger.debug(dir(applb))
         results = self.run_ssh_test_accross_hosts(
-            client_vm, applb.sourceipaddress, max_http_requests)
+            client_vm, client_vm.public_ip, applb.sourceipaddress, max_http_requests)
         success = self.evaluate_http_responses(results, algorithm)
         self.assertTrue(success, "Test failed on algorithm: %s" % algorithm)
 
         self.logger.debug(
-            "Removing virtual machines and networks for test_01_internallb_roundrobin_2VM_port80")
+            "Removing virtual machines and networks for execute_internallb_roundrobin_tests")
 
         # Remove the virtual machines from the Internal LoadBalancer
         self.logger.debug("Remove virtual machines from LB: %s" % applb.id)
@@ -819,7 +819,7 @@ class TestInternalLb(cloudstackTestCase):
         # Verify access to and the contents of the admin stats page on the
         # private address via a vm in the internal lb tier
         stats = self.verify_lb_stats(
-            applb.sourceipaddress, self.get_ssh_client(vm, nat_rule.ipaddress, 25), settings)
+            applb.sourceipaddress, self.get_ssh_client(vm, nat_rule.ipaddress, 10), settings)
         self.assertTrue(stats, "Failed to verify LB HAProxy stats")
 
     @classmethod
