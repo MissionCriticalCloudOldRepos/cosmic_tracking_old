@@ -54,9 +54,6 @@ public class PhysicalNetworkTrafficTypeVO implements PhysicalNetworkTrafficType 
   @Column(name = "kvm_network_label")
   private String kvmNetworkLabel;
 
-  @Column(name = "vmware_network_label")
-  private String vmwareNetworkLabel;
-
   @Column(name = "simulator_network_label")
   private String simulatorNetworkLabel;
 
@@ -112,15 +109,6 @@ public class PhysicalNetworkTrafficTypeVO implements PhysicalNetworkTrafficType 
   @Override
   public String getKvmNetworkLabel() {
     return kvmNetworkLabel;
-  }
-
-  public void setVmwareNetworkLabel(String vmwareNetworkLabel) {
-    this.vmwareNetworkLabel = vmwareNetworkLabel;
-  }
-
-  @Override
-  public String getVmwareNetworkLabel() {
-    return vmwareNetworkLabel;
   }
 
   public void setSimulatorNetworkLabel(String simulatorNetworkLabel) {
