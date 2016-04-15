@@ -4,6 +4,7 @@
   <artifactId>cloud-client-ui</artifactId>
   <name>Cosmic Client UI</name>
   <packaging>war</packaging>
+  <version>5.0.0.1-SNAPSHOT</version>
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
