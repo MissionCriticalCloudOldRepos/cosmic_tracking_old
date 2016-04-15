@@ -36,6 +36,7 @@ import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.IllegalVirtualMachineException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.OperationTimedoutException;
 import com.cloud.exception.ResourceUnavailableException;
@@ -109,7 +110,7 @@ public class CloudZonesNetworkElement extends AdapterBase implements NetworkElem
 
     @Override
     public boolean prepare(Network network, NicProfile nic, VirtualMachineProfile vmProfile, DeployDestination dest, ReservationContext context)
-        throws ConcurrentOperationException, InsufficientCapacityException, ResourceUnavailableException {
+        throws ConcurrentOperationException, InsufficientCapacityException, ResourceUnavailableException, IllegalVirtualMachineException {
         return true;
     }
 

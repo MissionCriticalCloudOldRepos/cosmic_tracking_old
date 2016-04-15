@@ -51,7 +51,6 @@ import com.cloud.host.Status.Event;
 import com.cloud.host.dao.HostDao;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
-import com.cloud.hypervisor.vmware.VmwareServerDiscoverer;
 import com.cloud.hypervisor.xenserver.resource.XcpOssResource;
 import com.cloud.resource.ServerResource;
 import com.cloud.utils.component.ManagerBase;
@@ -140,31 +139,6 @@ public class DirectAgentManagerSimpleImpl extends ManagerBase implements AgentMa
                 params.put("private.network.device", "cloudbr0");
                 resource.configure(host.getName(), params);
             } catch (ConfigurationException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        } else if (host.getHypervisorType() == HypervisorType.VMware) {
-            ClusterVO cluster = clusterDao.findById(host.getClusterId());
-            String url = clusterDetailsDao.findDetail(cluster.getId(), "url").getValue();
-            URI uri;
-            try {
-                uri = new URI(url);
-                String userName = clusterDetailsDao.findDetail(cluster.getId(), "username").getValue();
-                String password = clusterDetailsDao.findDetail(cluster.getId(), "password").getValue();
-                VmwareServerDiscoverer discover = new VmwareServerDiscoverer();
-
-                Map<? extends ServerResource, Map<String, String>> resources =
-                    discover.find(host.getDataCenterId(), host.getPodId(), host.getClusterId(), uri, userName, password, null);
-                for (Map.Entry<? extends ServerResource, Map<String, String>> entry : resources.entrySet()) {
-                    resource = entry.getKey();
-                }
-                if (resource == null) {
-                    throw new CloudRuntimeException("can't find resource");
-                }
-            } catch (DiscoveryException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (URISyntaxException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

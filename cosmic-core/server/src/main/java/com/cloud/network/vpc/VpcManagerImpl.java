@@ -16,6 +16,16 @@
 // under the License.
 package com.cloud.network.vpc;
 
+import org.apache.cloudstack.acl.ControlledEntity.ACLType;
+import org.apache.cloudstack.api.command.user.vpc.ListPrivateGatewaysCmd;
+import org.apache.cloudstack.api.command.user.vpc.ListStaticRoutesCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.config.ConfigDepot;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -131,16 +141,6 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.ReservationContextImpl;
 import com.cloud.vm.dao.DomainRouterDao;
 
-import org.apache.cloudstack.acl.ControlledEntity.ACLType;
-import org.apache.cloudstack.api.command.user.vpc.ListPrivateGatewaysCmd;
-import org.apache.cloudstack.api.command.user.vpc.ListStaticRoutesCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.config.ConfigDepot;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.log4j.Logger;
-
 public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvisioningService, VpcService {
   private static final Logger s_logger = Logger.getLogger(VpcManagerImpl.class);
 
@@ -237,7 +237,6 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   @PostConstruct
   protected void setupSupportedVpcHypervisorsList() {
     hTypes.add(HypervisorType.XenServer);
-    hTypes.add(HypervisorType.VMware);
     hTypes.add(HypervisorType.KVM);
     hTypes.add(HypervisorType.Simulator);
     hTypes.add(HypervisorType.Ovm3);
@@ -359,7 +358,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
 
   @Override
   @ActionEvent(eventType = EventTypes.EVENT_VPC_OFFERING_CREATE, eventDescription = "creating vpc offering",
-    create = true)
+  create = true)
   public VpcOffering createVpcOffering(final String name, final String displayText,
       final List<String> supportedServices, final Map<String, List<String>> serviceProviders,
       final Map serviceCapabilitystList, final Long serviceOfferingId) {
@@ -427,7 +426,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
           svcProviderMap.put(service, providers);
         } else {
           throw new InvalidParameterValueException("Service " + serviceEntry.getKey()
-              + " is not enabled for the network " + "offering, can't add a provider to it");
+          + " is not enabled for the network " + "offering, can't add a provider to it");
         }
       }
     }
@@ -825,7 +824,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       // global config variables
       if (networkDomain == null) {
         networkDomain = "cs" + Long.toHexString(owner.getId())
-            + NetworkOrchestrationService.GuestDomainSuffix.valueIn(zoneId);
+        + NetworkOrchestrationService.GuestDomainSuffix.valueIn(zoneId);
       }
     }
 
@@ -1364,7 +1363,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     for (final Provider provider : providers) {
       if (!supportedProviders.contains(provider)) {
         throw new InvalidParameterValueException("Provider of type " + provider.getName()
-            + " is not supported for network offerings that can be used in VPC");
+        + " is not supported for network offerings that can be used in VPC");
       }
     }
 
@@ -1374,7 +1373,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
 
       throw new InvalidParameterValueException(
           "Only network offerings of type " + GuestType.Isolated + " with service " + Service.SourceNat.getName()
-              + " are valid for vpc ");
+          + " are valid for vpc ");
     }
 
     // 3) No redundant router support
@@ -1665,12 +1664,12 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   @Override
   @DB
   @ActionEvent(eventType = EventTypes.EVENT_PRIVATE_GATEWAY_CREATE, eventDescription = "creating VPC private gateway",
-    create = true)
+  create = true)
   public PrivateGateway createVpcPrivateGateway(final long vpcId, Long physicalNetworkId, final String broadcastUri,
       final String ipAddress, final String gateway,
       final String netmask, final long gatewayOwnerId, final Long networkOfferingId, final Boolean isSourceNat,
       final Long aclId) throws ResourceAllocationException,
-          ConcurrentOperationException, InsufficientCapacityException {
+  ConcurrentOperationException, InsufficientCapacityException {
 
     // Validate parameters
     final Vpc vpc = getActiveVpc(vpcId);
@@ -1799,7 +1798,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
 
   @Override
   @ActionEvent(eventType = EventTypes.EVENT_PRIVATE_GATEWAY_CREATE, eventDescription = "Applying VPC private gateway",
-    async = true)
+  async = true)
   public PrivateGateway applyVpcPrivateGateway(final long gatewayId, final boolean destroyOnFailure)
       throws ConcurrentOperationException, ResourceUnavailableException {
     final VpcGatewayVO vo = _vpcGatewayDao.findById(gatewayId);
@@ -2112,7 +2111,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   @Override
   @DB
   @ActionEvent(eventType = EventTypes.EVENT_STATIC_ROUTE_CREATE, eventDescription = "creating static route",
-    create = true)
+  create = true)
   public StaticRoute createStaticRoute(final long gatewayId, final String cidr) throws NetworkRuleConflictException {
     final Account caller = CallContext.current().getCallingAccount();
 
@@ -2552,7 +2551,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
 
   @Override
   @ActionEvent(eventType = EventTypes.EVENT_STATIC_ROUTE_CREATE, eventDescription = "Applying static route",
-    async = true)
+  async = true)
   public boolean applyStaticRoute(final long routeId) throws ResourceUnavailableException {
     final StaticRoute route = _staticRouteDao.findById(routeId);
     return applyStaticRoutesForVpc(route.getVpcId());

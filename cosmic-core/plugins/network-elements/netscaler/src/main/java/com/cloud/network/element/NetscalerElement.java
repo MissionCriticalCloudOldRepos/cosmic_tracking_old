@@ -62,6 +62,7 @@ import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.dc.dao.DataCenterIpAddressDao;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.IllegalVirtualMachineException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InsufficientNetworkCapacityException;
 import com.cloud.exception.InvalidParameterValueException;
@@ -202,7 +203,7 @@ public class NetscalerElement extends ExternalLoadBalancerDeviceManagerImpl impl
 
     @Override
     public boolean prepare(Network config, NicProfile nic, VirtualMachineProfile vm, DeployDestination dest, ReservationContext context)
-        throws ConcurrentOperationException, InsufficientNetworkCapacityException, ResourceUnavailableException {
+        throws ConcurrentOperationException, InsufficientNetworkCapacityException, ResourceUnavailableException, IllegalVirtualMachineException {
         return true;
     }
 

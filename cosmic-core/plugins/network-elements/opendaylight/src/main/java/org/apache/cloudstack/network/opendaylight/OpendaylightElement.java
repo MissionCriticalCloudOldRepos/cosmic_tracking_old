@@ -35,6 +35,7 @@ import org.apache.cloudstack.network.opendaylight.agent.commands.StartupOpenDayl
 import com.cloud.agent.api.StartupCommand;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.IllegalVirtualMachineException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.host.Host;
@@ -92,7 +93,7 @@ public class OpendaylightElement extends AdapterBase implements ConnectivityProv
 
     @Override
     public boolean prepare(Network network, NicProfile nic, VirtualMachineProfile vm, DeployDestination dest, ReservationContext context) throws ConcurrentOperationException,
-    ResourceUnavailableException, InsufficientCapacityException {
+    ResourceUnavailableException, InsufficientCapacityException, IllegalVirtualMachineException {
         // TODO Auto-generated method stub
         return true;
     }

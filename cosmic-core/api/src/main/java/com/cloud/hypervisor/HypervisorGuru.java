@@ -19,8 +19,6 @@ package com.cloud.hypervisor;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.agent.api.to.VirtualMachineTO;
@@ -32,56 +30,55 @@ import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 
 public interface HypervisorGuru extends Adapter {
-    static final ConfigKey<Boolean> VmwareFullClone = new ConfigKey<Boolean>("Advanced", Boolean.class, "vmware.create.full.clone", "true",
-                        "If set to true, creates guest VMs as full clones on ESX", false);
-    HypervisorType getHypervisorType();
 
-    /**
-     * Convert from a virtual machine to the
-     * virtual machine that the hypervisor expects.
-     * @param vm
-     * @return
-     */
-    VirtualMachineTO implement(VirtualMachineProfile vm);
+  HypervisorType getHypervisorType();
 
-    /**
-     * Give hypervisor guru opportunity to decide if certain command needs to be delegated to other host, mainly to secondary storage VM host
-     *
-     * @param hostId original hypervisor host
-     * @param cmd command that is going to be sent, hypervisor guru usually needs to register various context objects into the command object
-     *
-     * @return delegated host id if the command will be delegated
-     */
-    Pair<Boolean, Long> getCommandHostDelegation(long hostId, Command cmd);
+  /**
+   * Convert from a virtual machine to the
+   * virtual machine that the hypervisor expects.
+   * @param vm
+   * @return
+   */
+  VirtualMachineTO implement(VirtualMachineProfile vm);
 
-    /**
-     *  @return true if VM can be migrated independently with CloudStack, and therefore CloudStack needs to track and reflect host change
-     *  into CloudStack database, false if CloudStack enforces VM sync logic
-     *
-     */
-    boolean trackVmHostChange();
+  /**
+   * Give hypervisor guru opportunity to decide if certain command needs to be delegated to other host, mainly to secondary storage VM host
+   *
+   * @param hostId original hypervisor host
+   * @param cmd command that is going to be sent, hypervisor guru usually needs to register various context objects into the command object
+   *
+   * @return delegated host id if the command will be delegated
+   */
+  Pair<Boolean, Long> getCommandHostDelegation(long hostId, Command cmd);
 
-    /**
-     * @param profile
-     * @return
-     */
-    NicTO toNicTO(NicProfile profile);
+  /**
+   *  @return true if VM can be migrated independently with CloudStack, and therefore CloudStack needs to track and reflect host change
+   *  into CloudStack database, false if CloudStack enforces VM sync logic
+   *
+   */
+  boolean trackVmHostChange();
 
-    /**
-     * Give hypervisor guru opportunity to decide if certain command needs to be done after expunge VM from DB
-     * @param vm
-     * @return a list of Commands
-     */
-    List<Command> finalizeExpunge(VirtualMachine vm);
+  /**
+   * @param profile
+   * @return
+   */
+  NicTO toNicTO(NicProfile profile);
 
-    /**
-     * Give the hypervisor guru the opportinity to decide if additional clean is
-     * required for nics before expunging the VM
-     *
-     */
-    List<Command> finalizeExpungeNics(VirtualMachine vm, List<NicProfile> nics);
+  /**
+   * Give hypervisor guru opportunity to decide if certain command needs to be done after expunge VM from DB
+   * @param vm
+   * @return a list of Commands
+   */
+  List<Command> finalizeExpunge(VirtualMachine vm);
 
-    List<Command> finalizeExpungeVolumes(VirtualMachine vm);
+  /**
+   * Give the hypervisor guru the opportinity to decide if additional clean is
+   * required for nics before expunging the VM
+   *
+   */
+  List<Command> finalizeExpungeNics(VirtualMachine vm, List<NicProfile> nics);
 
-    Map<String, String> getClusterSettings(long vmId);
+  List<Command> finalizeExpungeVolumes(VirtualMachine vm);
+
+  Map<String, String> getClusterSettings(long vmId);
 }

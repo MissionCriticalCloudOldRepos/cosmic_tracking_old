@@ -40,6 +40,7 @@ import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.IllegalVirtualMachineException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.exception.ResourceUnavailableException;
@@ -172,7 +173,7 @@ public class InternalLoadBalancerElement extends AdapterBase implements LoadBala
 
     @Override
     public boolean prepare(Network network, NicProfile nic, VirtualMachineProfile vm, DeployDestination dest, ReservationContext context)
-        throws ConcurrentOperationException, ResourceUnavailableException, InsufficientCapacityException {
+        throws ConcurrentOperationException, ResourceUnavailableException, InsufficientCapacityException, IllegalVirtualMachineException {
 
         if (!canHandle(network, null)) {
             s_logger.trace("No need to prepare " + getName());
