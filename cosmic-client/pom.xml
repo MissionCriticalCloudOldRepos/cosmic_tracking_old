@@ -37,7 +37,7 @@
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-nucleo</artifactId>
-      <version>${project.version}</version>
+      <version>5.0.0.1-SNAPSHOT</version>
       <type>jar</type>
     </dependency>
     <dependency>
