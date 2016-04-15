@@ -72,7 +72,6 @@
     <cs.servlet.version>2.5</cs.servlet.version>
     <cs.jstl.version>1.2</cs.jstl.version>
     <cs.selenium.server.version>1.0-20081010.060147</cs.selenium.server.version>
-    <cs.vmware.api.version>5.5</cs.vmware.api.version>
     <org.springframework.version>3.2.12.RELEASE</org.springframework.version>
     <cs.powermock.version>1.5.3</cs.powermock.version>
     <cs.aws.sdk.version>1.10.34</cs.aws.sdk.version>
