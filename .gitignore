@@ -56,3 +56,5 @@ cosmic-packaging/
 
 #PyDev settings
 .pydevproject
+
+target/
