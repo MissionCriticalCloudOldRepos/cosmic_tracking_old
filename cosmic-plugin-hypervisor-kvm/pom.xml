@@ -2,6 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-plugin-hypervisor-kvm</artifactId>
   <name>Cosmic Plugin - Hypervisor KVM</name>
+  <version>5.0.0.1-SNAPSHOT</version>
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
