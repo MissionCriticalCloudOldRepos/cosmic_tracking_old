@@ -353,7 +353,7 @@
             },
 
             addHost: function(args) {
-                return (args.groupedData.zone.hypervisor != "VMware");
+                return true;
             },
 
             addPrimaryStorage: function(args) {
@@ -884,33 +884,6 @@
 
                             var vSwitchEnabled = false;
                             var dvSwitchEnabled = false;
-                            // Check whether vSwitch capability is enabled
-                            $.ajax({
-                                url: createURL('listConfigurations'),
-                                data: {
-                                    name: 'vmware.use.nexus.vswitch'
-                                },
-                                async: false,
-                                success: function(json) {
-                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                        vSwitchEnabled = true;
-                                    }
-                                }
-                            });
-
-                            //Check whether dvSwitch is enabled or not
-                            $.ajax({
-                                url: createURL('listConfigurations'),
-                                data: {
-                                    name: 'vmware.use.dvswitch'
-                                },
-                                async: false,
-                                success: function(json) {
-                                    if (json.listconfigurationsresponse.configuration[0].value == 'true') {
-                                        dvSwitchEnabled = true;
-                                    }
-                                }
-                            });
 
                             args.$select.bind("change", function(event) {
                                 var $form = $(this).closest('form');
@@ -1124,7 +1097,7 @@
                                 return;
                             }
 
-                            //zone-wide-primary-storage is supported only for KVM and VMWare
+                            //zone-wide-primary-storage is supported only for KVM
                             if (selectedHypervisorObj.hypervisortype == "KVM") {
                                 var scope = [];
                                 scope.push({
@@ -3960,8 +3933,8 @@
                     array1.push("&name=" + todb(args.data.primaryStorage.name));
                     array1.push("&scope=" + todb(args.data.primaryStorage.scope));
 
-                    //zone-wide-primary-storage is supported only for KVM and VMWare
-                    if (args.data.primaryStorage.scope == "zone") { //hypervisor type of the hosts in zone that will be attached to this storage pool. KVM, VMware supported as of now.
+                    //zone-wide-primary-storage is supported only for KVM
+                    if (args.data.primaryStorage.scope == "zone") { //hypervisor type of the hosts in zone that will be attached to this storage pool. KVM supported as of now.
                         if(args.data.cluster.hypervisor != undefined) {
                             array1.push("&hypervisor=" + todb(args.data.cluster.hypervisor));
                         } else if(args.data.returnedCluster.hypervisortype != undefined) {

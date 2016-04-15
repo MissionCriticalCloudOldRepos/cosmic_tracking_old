@@ -6848,7 +6848,6 @@
                                                             desc: function (args) {
                                                                 var description = '';
                                                                 var vmObj = args.jsonObj;
-                                                                //if (vmObj.state == 'Running' && vmObj.hypervisor == 'VMware') { //needs to wait for API fix that will return hypervisor property
                                                                 if (vmObj.state == 'Running') {
                                                                     description = 'message.read.admin.guide.scaling.up';
                                                                 }
@@ -8092,7 +8091,6 @@
                                             desc: function (args) {
                                                 var description = '';
                                                 var vmObj = args.jsonObj;
-                                                //if (vmObj.state == 'Running' && vmObj.hypervisor == 'VMware') { //needs to wait for API fix that will return hypervisor property
                                                 if (vmObj.state == 'Running') {
                                                     description = 'message.read.admin.guide.scaling.up';
                                                 }
@@ -9351,7 +9349,6 @@
                                     desc: function (args) {
                                         var description = '';
                                         var vmObj = args.jsonObj;
-                                        //if (vmObj.state == 'Running' && vmObj.hypervisor == 'VMware') { //needs to wait for API fix that will return hypervisor property
                                         if (vmObj.state == 'Running') {
                                             description = 'message.read.admin.guide.scaling.up';
                                         }
@@ -11334,7 +11331,7 @@
                                             return $.inArray($(this).attr('rel'), nexusDvsReqFields) > -1;
                                         });
 
-                                        //XenServer, KVM, etc (non-VMware)
+                                        //XenServer, KVM, etc
                                         $form.find('.form-item[rel=vCenterHost]').css('display', 'none');
                                         $form.find('.form-item[rel=vCenterUsername]').css('display', 'none');
                                         $form.find('.form-item[rel=vCenterPassword]').css('display', 'none');
@@ -11539,10 +11536,7 @@
                                 array1.push("&zoneId=" + args.data.zoneid);
                                 array1.push("&hypervisor=" + args.data.hypervisor);
 
-                                var clusterType;
-                                if (args.data.hypervisor == "VMware")
-                                clusterType = "ExternalManaged"; else
-                                clusterType = "CloudManaged";
+                                var clusterType = "CloudManaged";
                                 array1.push("&clustertype=" + clusterType);
 
                                 array1.push("&podId=" + args.data.podId);
@@ -11631,22 +11625,6 @@
                         },
                         isMaximized: true,
                         tabFilter: function (args) {
-                            var vSwichConfigEnabled, vSwitchPresentOnCluster;
-                            $.ajax({
-                                url: createURL('listConfigurations'),
-                                data: {
-                                    name: 'vmware.use.nexus.vswitch'
-                                },
-                                async: false,
-                                success: function (json) {
-                                    vSwichConfigEnabled = json.listconfigurationsresponse.configuration[0].value;
-                                }
-                            });
-
-                            var hypervisorType = args.context.clusters[0].hypervisortype;
-                            if (vSwichConfigEnabled != "true") {
-                                return[ 'nexusVswitch'];
-                            }
                             return[];
                         },
 
