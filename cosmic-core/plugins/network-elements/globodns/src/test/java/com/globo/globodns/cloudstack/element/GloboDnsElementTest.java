@@ -1,19 +1,19 @@
 /*
-* Licensed to the Apache Software Foundation (ASF) under one or more
-* contributor license agreements.  See the NOTICE file distributed with
-* this work for additional information regarding copyright ownership.
-* The ASF licenses this file to You under the Apache License, Version 2.0
-* (the "License"); you may not use this file except in compliance with
-* the License.  You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.globo.globodns.cloudstack.element;
 
 import static org.mockito.Matchers.eq;
@@ -22,10 +22,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-
-import javax.inject.Inject;
 
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
@@ -49,6 +45,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
+import java.io.IOException;
+
+import javax.inject.Inject;
+
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -56,6 +56,7 @@ import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.IllegalVirtualMachineException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.exception.ResourceUnavailableException;
@@ -85,182 +86,182 @@ import com.globo.globodns.cloudstack.commands.RemoveRecordCommand;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class GloboDnsElementTest {
 
-    private static long zoneId = 5L;
-    private static long globoDnsHostId = 7L;
-    private static long domainId = 10L;
-    private AccountVO acct = null;
-    private UserVO user = null;
+  private static long zoneId = 5L;
+  private static long globoDnsHostId = 7L;
+  private static long domainId = 10L;
+  private AccountVO acct = null;
+  private UserVO user = null;
 
-    @Inject
-    DataCenterDao _datacenterDao;
+  @Inject
+  DataCenterDao _datacenterDao;
 
-    @Inject
-    GloboDnsElement _globodnsElement;
+  @Inject
+  GloboDnsElement _globodnsElement;
 
-    @Inject
-    HostDao _hostDao;
+  @Inject
+  HostDao _hostDao;
 
-    @Inject
-    AgentManager _agentMgr;
+  @Inject
+  AgentManager _agentMgr;
 
-    @Inject
-    AccountManager _acctMgr;
+  @Inject
+  AccountManager _acctMgr;
 
-    @Before
-    public void setUp() throws Exception {
-        ComponentContext.initComponentsLifeCycle();
+  @Before
+  public void setUp() throws Exception {
+    ComponentContext.initComponentsLifeCycle();
 
-        acct = new AccountVO(200L);
-        acct.setType(Account.ACCOUNT_TYPE_NORMAL);
-        acct.setAccountName("user");
-        acct.setDomainId(domainId);
+    acct = new AccountVO(200L);
+    acct.setType(Account.ACCOUNT_TYPE_NORMAL);
+    acct.setAccountName("user");
+    acct.setDomainId(domainId);
 
-        user = new UserVO();
-        user.setUsername("user");
-        user.setAccountId(acct.getAccountId());
+    user = new UserVO();
+    user.setUsername("user");
+    user.setAccountId(acct.getAccountId());
 
-        CallContext.register(user, acct);
-        when(_acctMgr.getSystemAccount()).thenReturn(this.acct);
-        when(_acctMgr.getSystemUser()).thenReturn(this.user);
+    CallContext.register(user, acct);
+    when(_acctMgr.getSystemAccount()).thenReturn(acct);
+    when(_acctMgr.getSystemUser()).thenReturn(user);
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    CallContext.unregister();
+    acct = null;
+  }
+
+  @Test(expected = InvalidParameterValueException.class)
+  public void testUpperCaseCharactersAreNotAllowed() throws ConcurrentOperationException, ResourceUnavailableException, InsufficientCapacityException, IllegalVirtualMachineException {
+    final Network network = mock(Network.class);
+    when(network.getDataCenterId()).thenReturn(zoneId);
+    when(network.getId()).thenReturn(1l);
+    final NicProfile nic = new NicProfile();
+    final VirtualMachineProfile vm = mock(VirtualMachineProfile.class);
+    when(vm.getHostName()).thenReturn("UPPERCASENAME");
+    when(vm.getType()).thenReturn(VirtualMachine.Type.User);
+    when(_datacenterDao.findById(zoneId)).thenReturn(mock(DataCenterVO.class));
+    final DeployDestination dest = new DeployDestination();
+    final ReservationContext context = new ReservationContextImpl(null, null, user);
+    _globodnsElement.prepare(network, nic, vm, dest, context);
+  }
+
+  @Test
+  public void testPrepareMethodCallGloboDnsToRegisterHostName() throws Exception {
+    final Network network = mock(Network.class);
+    when(network.getDataCenterId()).thenReturn(zoneId);
+    when(network.getId()).thenReturn(1l);
+    final NicProfile nic = new NicProfile();
+    nic.setIPv4Address("10.11.12.13");
+    final VirtualMachineProfile vm = mock(VirtualMachineProfile.class);
+    when(vm.getHostName()).thenReturn("vm-name");
+    when(vm.getType()).thenReturn(VirtualMachine.Type.User);
+    final DataCenterVO dataCenterVO = mock(DataCenterVO.class);
+    when(dataCenterVO.getId()).thenReturn(zoneId);
+    when(_datacenterDao.findById(zoneId)).thenReturn(dataCenterVO);
+    final DeployDestination dest = new DeployDestination();
+    final ReservationContext context = new ReservationContextImpl(null, null, user);
+
+    final HostVO hostVO = mock(HostVO.class);
+    when(hostVO.getId()).thenReturn(globoDnsHostId);
+    when(_hostDao.findByTypeNameAndZoneId(eq(zoneId), eq(Provider.GloboDns.getName()), eq(Type.L2Networking))).thenReturn(hostVO);
+
+    when(_agentMgr.easySend(eq(globoDnsHostId), isA(CreateOrUpdateRecordAndReverseCommand.class))).then(new org.mockito.stubbing.Answer<Answer>() {
+
+      @Override
+      public Answer answer(InvocationOnMock invocation) throws Throwable {
+        final Command cmd = (Command)invocation.getArguments()[1];
+        return new Answer(cmd);
+      }
+    });
+
+    _globodnsElement.prepare(network, nic, vm, dest, context);
+    verify(_agentMgr, times(1)).easySend(eq(globoDnsHostId), isA(CreateOrUpdateRecordAndReverseCommand.class));
+  }
+
+  @Test
+  public void testReleaseMethodCallResource() throws Exception {
+    final Network network = mock(Network.class);
+    when(network.getDataCenterId()).thenReturn(zoneId);
+    when(network.getId()).thenReturn(1l);
+    final NicProfile nic = new NicProfile();
+    nic.setIPv4Address("10.11.12.13");
+    final VirtualMachineProfile vm = mock(VirtualMachineProfile.class);
+    when(vm.getHostName()).thenReturn("vm-name");
+    when(vm.getType()).thenReturn(VirtualMachine.Type.User);
+    final DataCenterVO dataCenterVO = mock(DataCenterVO.class);
+    when(dataCenterVO.getId()).thenReturn(zoneId);
+    when(_datacenterDao.findById(zoneId)).thenReturn(dataCenterVO);
+    final ReservationContext context = new ReservationContextImpl(null, null, user);
+
+    final HostVO hostVO = mock(HostVO.class);
+    when(hostVO.getId()).thenReturn(globoDnsHostId);
+    when(_hostDao.findByTypeNameAndZoneId(eq(zoneId), eq(Provider.GloboDns.getName()), eq(Type.L2Networking))).thenReturn(hostVO);
+
+    when(_agentMgr.easySend(eq(globoDnsHostId), isA(RemoveRecordCommand.class))).then(new org.mockito.stubbing.Answer<Answer>() {
+
+      @Override
+      public Answer answer(InvocationOnMock invocation) throws Throwable {
+        final Command cmd = (Command)invocation.getArguments()[1];
+        return new Answer(cmd);
+      }
+    });
+
+    _globodnsElement.release(network, nic, vm, context);
+    verify(_agentMgr, times(1)).easySend(eq(globoDnsHostId), isA(RemoveRecordCommand.class));
+  }
+
+  @Configuration
+  @ComponentScan(basePackageClasses = {GloboDnsElement.class}, includeFilters = {@Filter(value = TestConfiguration.Library.class, type = FilterType.CUSTOM)}, useDefaultFilters = false)
+  public static class TestConfiguration extends SpringUtils.CloudStackTestConfiguration {
+
+    @Bean
+    public HostDao hostDao() {
+      return mock(HostDao.class);
     }
 
-    @After
-    public void tearDown() throws Exception {
-        CallContext.unregister();
-        acct = null;
+    @Bean
+    public DataCenterDao dataCenterDao() {
+      return mock(DataCenterDao.class);
     }
 
-    @Test(expected = InvalidParameterValueException.class)
-    public void testUpperCaseCharactersAreNotAllowed() throws ConcurrentOperationException, ResourceUnavailableException, InsufficientCapacityException {
-        Network network = mock(Network.class);
-        when(network.getDataCenterId()).thenReturn(zoneId);
-        when(network.getId()).thenReturn(1l);
-        NicProfile nic = new NicProfile();
-        VirtualMachineProfile vm = mock(VirtualMachineProfile.class);
-        when(vm.getHostName()).thenReturn("UPPERCASENAME");
-        when(vm.getType()).thenReturn(VirtualMachine.Type.User);
-        when(_datacenterDao.findById(zoneId)).thenReturn(mock(DataCenterVO.class));
-        DeployDestination dest = new DeployDestination();
-        ReservationContext context = new ReservationContextImpl(null, null, user);
-        _globodnsElement.prepare(network, nic, vm, dest, context);
+    @Bean
+    public PhysicalNetworkDao physicalNetworkDao() {
+      return mock(PhysicalNetworkDao.class);
     }
 
-    @Test
-    public void testPrepareMethodCallGloboDnsToRegisterHostName() throws Exception {
-        Network network = mock(Network.class);
-        when(network.getDataCenterId()).thenReturn(zoneId);
-        when(network.getId()).thenReturn(1l);
-        NicProfile nic = new NicProfile();
-        nic.setIPv4Address("10.11.12.13");
-        VirtualMachineProfile vm = mock(VirtualMachineProfile.class);
-        when(vm.getHostName()).thenReturn("vm-name");
-        when(vm.getType()).thenReturn(VirtualMachine.Type.User);
-        DataCenterVO dataCenterVO = mock(DataCenterVO.class);
-        when(dataCenterVO.getId()).thenReturn(zoneId);
-        when(_datacenterDao.findById(zoneId)).thenReturn(dataCenterVO);
-        DeployDestination dest = new DeployDestination();
-        ReservationContext context = new ReservationContextImpl(null, null, user);
-
-        HostVO hostVO = mock(HostVO.class);
-        when(hostVO.getId()).thenReturn(globoDnsHostId);
-        when(_hostDao.findByTypeNameAndZoneId(eq(zoneId), eq(Provider.GloboDns.getName()), eq(Type.L2Networking))).thenReturn(hostVO);
-
-        when(_agentMgr.easySend(eq(globoDnsHostId), isA(CreateOrUpdateRecordAndReverseCommand.class))).then(new org.mockito.stubbing.Answer<Answer>() {
-
-            @Override
-            public Answer answer(InvocationOnMock invocation) throws Throwable {
-                Command cmd = (Command)invocation.getArguments()[1];
-                return new Answer(cmd);
-            }
-        });
-
-        _globodnsElement.prepare(network, nic, vm, dest, context);
-        verify(_agentMgr, times(1)).easySend(eq(globoDnsHostId), isA(CreateOrUpdateRecordAndReverseCommand.class));
+    @Bean
+    public NetworkDao networkDao() {
+      return mock(NetworkDao.class);
     }
 
-    @Test
-    public void testReleaseMethodCallResource() throws Exception {
-        Network network = mock(Network.class);
-        when(network.getDataCenterId()).thenReturn(zoneId);
-        when(network.getId()).thenReturn(1l);
-        NicProfile nic = new NicProfile();
-        nic.setIPv4Address("10.11.12.13");
-        VirtualMachineProfile vm = mock(VirtualMachineProfile.class);
-        when(vm.getHostName()).thenReturn("vm-name");
-        when(vm.getType()).thenReturn(VirtualMachine.Type.User);
-        DataCenterVO dataCenterVO = mock(DataCenterVO.class);
-        when(dataCenterVO.getId()).thenReturn(zoneId);
-        when(_datacenterDao.findById(zoneId)).thenReturn(dataCenterVO);
-        ReservationContext context = new ReservationContextImpl(null, null, user);
-
-        HostVO hostVO = mock(HostVO.class);
-        when(hostVO.getId()).thenReturn(globoDnsHostId);
-        when(_hostDao.findByTypeNameAndZoneId(eq(zoneId), eq(Provider.GloboDns.getName()), eq(Type.L2Networking))).thenReturn(hostVO);
-
-        when(_agentMgr.easySend(eq(globoDnsHostId), isA(RemoveRecordCommand.class))).then(new org.mockito.stubbing.Answer<Answer>() {
-
-            @Override
-            public Answer answer(InvocationOnMock invocation) throws Throwable {
-                Command cmd = (Command)invocation.getArguments()[1];
-                return new Answer(cmd);
-            }
-        });
-
-        _globodnsElement.release(network, nic, vm, context);
-        verify(_agentMgr, times(1)).easySend(eq(globoDnsHostId), isA(RemoveRecordCommand.class));
+    @Bean
+    public ConfigurationDao configurationDao() {
+      return mock(ConfigurationDao.class);
     }
 
-    @Configuration
-    @ComponentScan(basePackageClasses = {GloboDnsElement.class}, includeFilters = {@Filter(value = TestConfiguration.Library.class, type = FilterType.CUSTOM)}, useDefaultFilters = false)
-    public static class TestConfiguration extends SpringUtils.CloudStackTestConfiguration {
-
-        @Bean
-        public HostDao hostDao() {
-            return mock(HostDao.class);
-        }
-
-        @Bean
-        public DataCenterDao dataCenterDao() {
-            return mock(DataCenterDao.class);
-        }
-
-        @Bean
-        public PhysicalNetworkDao physicalNetworkDao() {
-            return mock(PhysicalNetworkDao.class);
-        }
-
-        @Bean
-        public NetworkDao networkDao() {
-            return mock(NetworkDao.class);
-        }
-
-        @Bean
-        public ConfigurationDao configurationDao() {
-            return mock(ConfigurationDao.class);
-        }
-
-        @Bean
-        public AgentManager agentManager() {
-            return mock(AgentManager.class);
-        }
-
-        @Bean
-        public ResourceManager resourceManager() {
-            return mock(ResourceManager.class);
-        }
-
-        @Bean
-        public AccountManager accountManager() {
-            return mock(AccountManager.class);
-        }
-
-        public static class Library implements TypeFilter {
-
-            @Override
-            public boolean match(MetadataReader mdr, MetadataReaderFactory arg1) throws IOException {
-                ComponentScan cs = TestConfiguration.class.getAnnotation(ComponentScan.class);
-                return SpringUtils.includedInBasePackageClasses(mdr.getClassMetadata().getClassName(), cs);
-            }
-        }
+    @Bean
+    public AgentManager agentManager() {
+      return mock(AgentManager.class);
     }
+
+    @Bean
+    public ResourceManager resourceManager() {
+      return mock(ResourceManager.class);
+    }
+
+    @Bean
+    public AccountManager accountManager() {
+      return mock(AccountManager.class);
+    }
+
+    public static class Library implements TypeFilter {
+
+      @Override
+      public boolean match(MetadataReader mdr, MetadataReaderFactory arg1) throws IOException {
+        final ComponentScan cs = TestConfiguration.class.getAnnotation(ComponentScan.class);
+        return SpringUtils.includedInBasePackageClasses(mdr.getClassMetadata().getClassName(), cs);
+      }
+    }
+  }
 }

@@ -84,6 +84,7 @@ import com.cloud.domain.Domain;
 import com.cloud.event.dao.UsageEventDao;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.ConnectionException;
+import com.cloud.exception.IllegalVirtualMachineException;
 import com.cloud.exception.InsufficientAddressCapacityException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InsufficientVirtualNetworkCapacityException;
@@ -1224,9 +1225,10 @@ public class NetworkOrchestrator extends ManagerBase implements NetworkOrchestra
 
   protected boolean prepareElement(final NetworkElement element, final Network network, final NicProfile profile, final VirtualMachineProfile vmProfile, final DeployDestination dest,
       final ReservationContext context) throws InsufficientCapacityException, ConcurrentOperationException, ResourceUnavailableException {
-    if(!element.prepare(network, profile, vmProfile, dest, context)) {
-      s_logger.error("Network element preparation failed");
-      return false;
+    try {
+      element.prepare(network, profile, vmProfile, dest, context);
+    } catch (final IllegalVirtualMachineException e) {
+      s_logger.warn(e.getMessage());
     }
 
     if (vmProfile.getType() == Type.User && element.getProvider() != null) {

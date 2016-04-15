@@ -31,6 +31,7 @@ import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.dc.Pod;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.IllegalVirtualMachineException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.host.Host;
@@ -107,7 +108,7 @@ public class BaremetalDhcpElement extends AdapterBase implements DhcpServiceProv
     @Override
     @DB
     public boolean prepare(Network network, NicProfile nic, VirtualMachineProfile vm, DeployDestination dest, ReservationContext context)
-        throws ConcurrentOperationException, ResourceUnavailableException, InsufficientCapacityException {
+        throws ConcurrentOperationException, ResourceUnavailableException, InsufficientCapacityException, IllegalVirtualMachineException {
         Host host = dest.getHost();
         if (vm.getType() != Type.User || vm.getHypervisorType() != HypervisorType.BareMetal) {
             return false;
