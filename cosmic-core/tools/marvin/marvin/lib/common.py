@@ -64,8 +64,8 @@ from marvin.codes import (PASS, FAILED, ISOLATED_NETWORK, VPC_NETWORK,
                           RESOURCE_CPU, RESOURCE_MEMORY, PUBLIC_TRAFFIC,
                           GUEST_TRAFFIC, MANAGEMENT_TRAFFIC, STORAGE_TRAFFIC,
                           VMWAREDVS)
-from marvin.lib.utils import (validateList, 
-                              xsplit, 
+from marvin.lib.utils import (validateList,
+                              xsplit,
                               get_process_status,
                               random_gen,
                               format_volume_to_ext3)
@@ -258,6 +258,7 @@ def get_pod(apiclient, zone_id=None, pod_id=None, pod_name=None):
     if validateList(cmd_out)[0] != PASS:
         return FAILED
     return cmd_out[0]
+
 def get_template(
         apiclient, zone_id=None, ostype_desc=None, template_filter="featured", template_type='BUILTIN',
         template_id=None, template_name=None, account=None, domain_id=None, project_id=None,
@@ -1382,14 +1383,14 @@ def isNetworkDeleted(apiclient, networkid, timeout=600):
     return networkDeleted
 
 
-def createChecksum(service=None, 
-                   virtual_machine=None, 
-                   disk=None, 
+def createChecksum(service=None,
+                   virtual_machine=None,
+                   disk=None,
                    disk_type=None):
 
     """ Calculate the MD5 checksum of the disk by writing \
-		data on the disk where disk_type is either root disk or data disk 
-	@return: returns the calculated checksum"""
+        data on the disk where disk_type is either root disk or data disk
+    @return: returns the calculated checksum"""
 
     random_data_0 = random_gen(size=100)
     # creating checksum(MD5)
@@ -1403,7 +1404,7 @@ def createChecksum(service=None,
             virtual_machine.username,
             virtual_machine.password
         )
-    except Exception: 
+    except Exception:
         raise Exception("SSH access failed for server with IP address: %s" %
                     virtual_machine.ssh_ip)
 

@@ -266,5 +266,3 @@ class TestVMware(cloudstackTestCase):
         attachedIsoName=response[0].isoname;
         self.assertEqual(attachedIsoName, "vmware-tools.iso", "vmware-tools.iso not attached")
         return
-
-

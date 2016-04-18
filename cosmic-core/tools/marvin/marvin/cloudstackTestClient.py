@@ -15,16 +15,24 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from marvin.cloudstackConnection import CSConnection
-from marvin.asyncJobMgr import asyncJobMgr
-from marvin.dbConnection import DbConnection
-from marvin.cloudstackAPI import *
-from marvin.codes import (FAILED, PASS, ADMIN, DOMAIN_ADMIN,
-                          USER, SUCCESS, XEN_SERVER)
-from marvin.configGenerator import ConfigManager
-from marvin.cloudstackException import printException
-from marvin.lib.utils import (random_gen, validateList)
-from marvin.cloudstackAPI.cloudstackAPIClient import CloudStackAPIClient
+from cloudstackConnection import CSConnection
+from asyncJobMgr import asyncJobMgr
+from dbConnection import DbConnection
+from cloudstackAPI import *
+from codes import (
+    FAILED,
+    PASS,
+    ADMIN,
+    DOMAIN_ADMIN,
+    USER,
+    SUCCESS,
+    XEN_SERVER
+)
+from configGenerator import ConfigManager
+from cloudstackException import printException
+from lib.utils import (random_gen, validateList)
+from cloudstackAPI.cloudstackAPIClient import CloudStackAPIClient
+from marvinLog import MarvinLog
 import copy
 
 class CSTestClient(object):

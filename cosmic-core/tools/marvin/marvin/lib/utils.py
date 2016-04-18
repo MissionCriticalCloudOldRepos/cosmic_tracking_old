@@ -28,7 +28,7 @@ import email
 import socket
 import urlparse
 import datetime
-from marvin.cloudstackAPI import cloudstackAPIClient, listHosts, listRouters
+from marvin.cloudstackAPI import listHosts, listRouters
 from platform import system
 from marvin.cloudstackException import printException
 from marvin.sshClient import SshClient
@@ -192,20 +192,6 @@ def format_volume_to_ext3(ssh_client, device="/dev/sda"):
     for c in cmds:
         ssh_client.execute(c)
 
-
-def fetch_api_client(config_file='datacenterCfg'):
-    """Fetch the Cloudstack API Client"""
-    config = marvin.configGenerator.get_setup_config(config_file)
-    mgt = config.mgtSvr[0]
-    testClientLogger = logging.getLogger("testClient")
-    asyncTimeout = 3600
-    return cloudstackAPIClient.CloudStackAPIClient(
-        marvin.cloudstackConnection.cloudConnection(
-            mgt,
-            asyncTimeout,
-            testClientLogger
-        )
-    )
 
 def get_host_credentials(config, hostip):
     """Get login information for a host `hostip` (ipv4) from marvin's `config`
