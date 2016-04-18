@@ -66,11 +66,11 @@ class MarvinLog:
         @Desc : Sets the Logger and Level
         '''
         self.__logger = logging.getLogger(self.__loggerName)
-        self.__logger.setLevel(logging.DEBUG)
+        self.__logger.setLevel(logging.INFO)
 
     def __setLogHandler(self, log_file_path,
                         log_format=None,
-                        log_level=logging.DEBUG):
+                        log_level=logging.INFO):
         '''
         @Name : __setLogHandler
         @Desc: Adds the given Log handler to the current logger
@@ -173,10 +173,8 @@ class MarvinLog:
             tc_failed_exception_log = \
                 self.__logFolderDir + "/failed_plus_exceptions.txt"
             tc_run_log = self.__logFolderDir + "/runinfo.txt"
-            if self.__setLogHandler(tc_run_log,
-                                    log_level=logging.DEBUG) != FAILED:
-                self.__setLogHandler(tc_failed_exception_log,
-                                     log_level=logging.FATAL)
+            if self.__setLogHandler(tc_run_log, log_level=logging.INFO) != FAILED:
+                self.__setLogHandler(tc_failed_exception_log, log_level=logging.FATAL)
                 return SUCCESS
             return FAILED
         except Exception as e:

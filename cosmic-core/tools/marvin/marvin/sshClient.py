@@ -50,7 +50,7 @@ class SshClient(object):
     '''
 
     def __init__(self, host, port, user, passwd, retries=60, delay=10,
-                 log_lvl=logging.DEBUG, keyPairFiles=None, timeout=10.0):
+                 log_lvl=logging.INFO, keyPairFiles=None, timeout=10.0):
         self.host = None
         self.port = 22
         self.user = user
