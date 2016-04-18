@@ -1862,3 +1862,15 @@ def verifyVCenterPortGroups(
     except Exception as e:
         return [FAIL, e]
     return [PASS, None]
+
+def get_hypervisor_type(apiclient):
+
+    """Return the hypervisor type of the hosts in setup"""
+
+    cmd = listHosts.listHostsCmd()
+    cmd.type = 'Routing'
+    cmd.listall = True
+    hosts = apiclient.listHosts(cmd)
+    hosts_list_validation_result = validateList(hosts)
+    assert hosts_list_validation_result[0] == PASS, "host list validation failed"
+    return hosts_list_validation_result[1].hypervisor

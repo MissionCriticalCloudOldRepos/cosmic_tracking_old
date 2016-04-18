@@ -20,30 +20,32 @@
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase
 
-from marvin.lib.base import (Snapshot,
-                             Template,
-                             VirtualMachine,
-                             Account,
-                             ServiceOffering,
-                             DiskOffering,
-                             Volume)
-
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template,
-                               list_events,
-                               list_volumes,
-                               list_snapshots,
-                               list_templates,
-                               list_virtual_machines,
-                               )
-
-from marvin.lib.utils import (cleanup_resources,
-                              format_volume_to_ext3,
-                              random_gen,
-                              is_snapshot_on_nfs,
-                              get_hypervisor_type)
-
+from marvin.lib.base import (
+    Snapshot,
+     Template,
+     VirtualMachine,
+     Account,
+     ServiceOffering,
+     DiskOffering,
+     Volume
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    list_events,
+    list_volumes,
+    list_snapshots,
+    list_templates,
+    list_virtual_machines,
+    get_hypervisor_type
+)
+from marvin.lib.utils import (
+    cleanup_resources,
+    format_volume_to_ext3,
+    random_gen,
+    is_snapshot_on_nfs
+)
 from marvin.cloudstackAPI import detachVolume
 import time
 

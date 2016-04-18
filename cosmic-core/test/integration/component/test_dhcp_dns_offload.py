@@ -17,7 +17,7 @@
 """ Tests for DHCP DNS offload feature
 """
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
-from marvin.lib.utils import (random_gen, validateList, cleanup_resources, get_hypervisor_type)
+from marvin.lib.utils import (random_gen, validateList, cleanup_resources)
 from marvin.lib.base import (Account,
                              NIC,
                              ServiceOffering,
@@ -30,10 +30,12 @@ from marvin.lib.base import (Account,
                              Template,
                              SSHKeyPair,
                              Router)
-from marvin.lib.common import (get_zone,
-                               get_template,
-                               get_domain
-                               )
+from marvin.lib.common import (
+    get_zone,
+    get_template,
+    get_domain,
+    get_hypervisor_type
+)
 from nose.plugins.attrib import attr
 from marvin.codes import PASS,FAIL
 from random import randint

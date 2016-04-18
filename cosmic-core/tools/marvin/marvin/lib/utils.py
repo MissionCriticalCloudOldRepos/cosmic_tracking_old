@@ -251,17 +251,7 @@ def xsplit(txt, seps):
         txt = txt.replace(sep, default_sep)
     return [i.strip() for i in txt.split(default_sep)]
 
-def get_hypervisor_type(apiclient):
 
-    """Return the hypervisor type of the hosts in setup"""
-
-    cmd = listHosts.listHostsCmd()
-    cmd.type = 'Routing'
-    cmd.listall = True
-    hosts = apiclient.listHosts(cmd)
-    hosts_list_validation_result = validateList(hosts)
-    assert hosts_list_validation_result[0] == PASS, "host list validation failed"
-    return hosts_list_validation_result[1].hypervisor
 
 def is_snapshot_on_nfs(apiclient, dbconn, config, zoneid, snapshotid):
     """

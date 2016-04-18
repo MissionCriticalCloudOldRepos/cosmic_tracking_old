@@ -17,19 +17,25 @@
 
 #Import Local Modules
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import (cleanup_resources,
-                              validateList,
-                              get_hypervisor_type)
-from marvin.lib.base import (Account,
-                             VirtualMachine,
-                             ServiceOffering,
-                             Volume,
-                             DiskOffering,
-                             Template,
-                             listConfigurations)
-from marvin.lib.common import (get_domain,list_isos,
-                               get_zone,
-                               get_template)
+from marvin.lib.utils import (
+    cleanup_resources,
+    validateList
+)
+from marvin.lib.base import (
+    Account,
+    VirtualMachine,
+    ServiceOffering,
+    Volume,
+    DiskOffering,
+    Template,
+    listConfigurations
+)
+from marvin.lib.common import (
+    get_domain,list_isos,
+    get_zone,
+    get_template,
+    get_hypervisor_type
+)
 from nose.plugins.attrib import attr
 from ast import literal_eval
 from marvin.codes import PASS

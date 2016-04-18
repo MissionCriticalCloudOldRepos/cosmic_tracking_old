@@ -24,21 +24,23 @@
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from marvin.lib.base import (
-                             Account,
-                             ServiceOffering,
-                             VirtualMachine,
-                             NetworkOffering,
-                             Network,
-                             Template
-                             )
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template
-                               )
+    Account,
+    ServiceOffering,
+    VirtualMachine,
+    NetworkOffering,
+    Network,
+    Template
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    get_hypervisor_type
+)
 from marvin.lib.utils import (
-                              get_hypervisor_type,
-                              cleanup_resources,
-                              validateList)
+    cleanup_resources,
+    validateList
+)
 from marvin.codes import PASS
 
 

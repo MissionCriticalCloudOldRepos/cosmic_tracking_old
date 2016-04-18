@@ -30,37 +30,42 @@ from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from ddt import ddt, data
 from marvin.lib.base import (
-                                        Account,
-                                        Domain,
-                                        ServiceOffering,
-                                        VirtualMachine,
-                                        NetworkOffering,
-                                        Network,
-                                        VpcOffering,
-                                        VPC,
-                                        PublicIPAddress,
-                                        FireWallRule,
-                                        NATRule
-                                        )
-from marvin.lib.common import (get_domain,
-                                        get_zone,
-                                        get_template,
-                                        list_virtual_machines,
-                                        list_events,
-                                        list_zones,
-                                        get_free_vlan,
-                                        update_resource_limit,
-                                        list_nat_rules
-                                        )
+    Account,
+    Domain,
+    ServiceOffering,
+    VirtualMachine,
+    NetworkOffering,
+    Network,
+    VpcOffering,
+    VPC,
+    PublicIPAddress,
+    FireWallRule,
+    NATRule
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    list_virtual_machines,
+    list_events,
+    list_zones,
+    get_free_vlan,
+    update_resource_limit,
+    list_nat_rules,
+    get_hypervisor_type
+)
 
-from marvin.lib.utils import (validateList,
-                                          random_gen,
-                                          get_hypervisor_type,
-                                          cleanup_resources)
+from marvin.lib.utils import (
+    validateList,
+    random_gen,
+    cleanup_resources
+)
 
-from marvin.cloudstackAPI import (addNicToVirtualMachine,
-                                  removeNicFromVirtualMachine,
-                                  updateDefaultNicForVirtualMachine)
+from marvin.cloudstackAPI import (
+    addNicToVirtualMachine,
+    removeNicFromVirtualMachine,
+    updateDefaultNicForVirtualMachine
+)
 
 from marvin.codes import PASS
 import random
