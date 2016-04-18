@@ -20,28 +20,34 @@
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from marvin.cloudstackAPI import rebootRouter, stopRouter, startRouter
-from marvin.lib.base import (Account,
-                             Network,
-                             NetworkOffering,
-                             VirtualMachine,
-                             Project,
-                             PhysicalNetwork,
-                             Domain,
-                             StaticNATRule,
-                             FireWallRule,
-                             ServiceOffering,
-                             PublicIPAddress,
-                             Router,
-                             NATRule)
-from marvin.lib.utils import (cleanup_resources,
-                              validateList)
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template,
-                               get_free_vlan,
-                               wait_for_cleanup,
-                               verifyRouterState,
-                               verifyGuestTrafficPortGroups)
+from marvin.lib.base import (
+    Account,
+    Network,
+    NetworkOffering,
+    VirtualMachine,
+    Project,
+    PhysicalNetwork,
+    Domain,
+    StaticNATRule,
+    FireWallRule,
+    ServiceOffering,
+    PublicIPAddress,
+    Router,
+    NATRule
+)
+from marvin.lib.utils import (
+    cleanup_resources,
+    validateList
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    get_free_vlan,
+    wait_for_cleanup,
+    verifyRouterState,
+    verifyGuestTrafficPortGroups
+)
 from marvin.sshClient import SshClient
 from marvin.codes import PASS
 from ddt import ddt, data
@@ -3533,7 +3539,7 @@ class TestSharedNetworks(cloudstackTestCase):
         cmd.id = router.id
         self.api_client.stopRouter(cmd)
 
-        response = verifyRouterState(self.api_client, router.id, "stopped")
+        response = verifyRouterState(self.api_client, router.id, ["stopped"])
         exceptionOccured = response[0]
         isNetworkInDesiredState = response[1]
         exceptionMessage = response[2]
@@ -3547,7 +3553,7 @@ class TestSharedNetworks(cloudstackTestCase):
         cmd.id = router.id
         self.api_client.startRouter(cmd)
 
-        response = verifyRouterState(self.api_client, router.id, "running")
+        response = verifyRouterState(self.api_client, router.id, ["running"])
         exceptionOccured = response[0]
         isNetworkInDesiredState = response[1]
         exceptionMessage = response[2]

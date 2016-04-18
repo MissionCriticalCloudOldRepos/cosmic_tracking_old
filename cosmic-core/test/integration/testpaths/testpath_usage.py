@@ -18,43 +18,49 @@
 """
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import (cleanup_resources,
-                              validateList,
-                              verifyRouterState,
-                              get_process_status)
-from marvin.lib.base import (Account,
-                             ServiceOffering,
-                             VirtualMachine,
-                             Template,
-                             Iso,
-                             DiskOffering,
-                             Volume,
-                             Snapshot,
-                             PublicIPAddress,
-                             LoadBalancerRule,
-                             EgressFireWallRule,
-                             Router,
-                             VmSnapshot,
-                             Usage,
-                             Configurations,
-                             FireWallRule,
-                             NATRule,
-                             StaticNATRule,
-                             Network,
-                             Vpn,
-                             VpnUser,
-                             VpcOffering,
-                             VPC,
-                             NetworkACL)
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template,
-                               createEnabledNetworkOffering,
-                               get_builtin_template_info,
-                               findSuitableHostForMigration,
-                               list_hosts,
-                               list_volumes,
-                               list_routers)
+from marvin.lib.utils import (
+    cleanup_resources,
+    validateList,
+    get_process_status
+)
+from marvin.lib.base import (
+    Account,
+    ServiceOffering,
+    VirtualMachine,
+    Template,
+    Iso,
+    DiskOffering,
+    Volume,
+    Snapshot,
+    PublicIPAddress,
+    LoadBalancerRule,
+    EgressFireWallRule,
+    Router,
+    VmSnapshot,
+    Usage,
+    Configurations,
+    FireWallRule,
+    NATRule,
+    StaticNATRule,
+    Network,
+    Vpn,
+    VpnUser,
+    VpcOffering,
+    VPC,
+    NetworkACL
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    createEnabledNetworkOffering,
+    get_builtin_template_info,
+    findSuitableHostForMigration,
+    list_hosts,
+    list_volumes,
+    list_routers,
+    verifyRouterState
+)
 from marvin.codes import (PASS, FAIL, ERROR_NO_HOST_FOR_MIGRATION)
 from marvin.sshClient import SshClient
 import time
@@ -2194,10 +2200,7 @@ class TestUsage(cloudstackTestCase):
             id=router.id
         )
 
-        response = verifyRouterState(
-            self.apiclient,
-            router.id,
-            "stopped")
+        response = verifyRouterState(self.apiclient, router.id, ["stopped"])
         self.assertEqual(response[0], PASS, response[1])
 
         qresultset = self.dbclient.execute(
@@ -2236,10 +2239,7 @@ class TestUsage(cloudstackTestCase):
             id=router.id
         )
 
-        response = verifyRouterState(
-            self.apiclient,
-            router.id,
-            "running")
+        response = verifyRouterState(self.apiclient, router.id, ["running"])
         self.assertEqual(response[0], PASS, response[1])
 
         #  TODO: Verify iptables counters are reset when domR starts
@@ -2822,10 +2822,7 @@ class TestUsage(cloudstackTestCase):
             id=router.id
         )
 
-        response = verifyRouterState(
-            self.apiclient,
-            router.id,
-            "stopped")
+        response = verifyRouterState(self.apiclient, router.id, ["stopped"])
         self.assertEqual(response[0], PASS, response[1])
 
         # TODO: Verify iptables counters are reset when domR stops
@@ -2864,10 +2861,7 @@ class TestUsage(cloudstackTestCase):
             id=router.id
         )
 
-        response = verifyRouterState(
-            self.apiclient,
-            router.id,
-            "running")
+        response = verifyRouterState(self.apiclient, router.id, ["running"])
         self.assertEqual(response[0], PASS, response[1])
 
         # TODO

@@ -371,29 +371,6 @@ def checkVolumeSize(ssh_handle=None,
         return [FAILED,str(e)]
 
 
-def verifyRouterState(apiclient, routerid, allowedstates):
-    """List the router and verify that its state is in allowed states
-    @output: List, containing [Result, Reason]
-             Ist Argument ('Result'): FAIL: If router state is not
-                                                in allowed states
-                                          PASS: If router state is in
-                                                allowed states"""
-
-    try:
-        cmd = listRouters.listRoutersCmd()
-        cmd.id = routerid
-        cmd.listall = True
-        routers = apiclient.listRouters(cmd)
-    except Exception as e:
-        return [FAIL, e]
-    listvalidationresult = validateList(routers)
-    if listvalidationresult[0] == FAIL:
-        return [FAIL, listvalidationresult[2]]
-    if routers[0].state.lower() not in allowedstates:
-        return [FAIL, "state of the router should be in %s but is %s" %
-            (allowedstates, routers[0].state)]
-    return [PASS, None]
-
 
 def validateState(apiclient, obj, state, timeout=600, interval=5):
     """Check if an object is in the required state

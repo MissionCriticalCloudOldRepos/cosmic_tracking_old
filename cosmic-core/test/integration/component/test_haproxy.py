@@ -31,13 +31,16 @@ from marvin.lib.base import (
     Vpn,
     FireWallRule
 )
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template
-                               )
-from marvin.lib.utils import (cleanup_resources,
-                              random_gen,
-                              verifyRouterState)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    verifyRouterState
+)
+from marvin.lib.utils import (
+    cleanup_resources,
+    random_gen,
+)
 from marvin.cloudstackAPI import createLBStickinessPolicy
 from marvin.codes import PASS
 from marvin.sshClient import SshClient
@@ -758,7 +761,7 @@ class TestHAProxyStickyness(cloudstackTestCase):
 
         response = verifyRouterState(self.apiclient,
                                      router.id,
-                                     "running")
+                                     ["running"])
         self.assertEqual(response[0], PASS, response[1])
 
         self.debug("Policy: %s" % str(policy))

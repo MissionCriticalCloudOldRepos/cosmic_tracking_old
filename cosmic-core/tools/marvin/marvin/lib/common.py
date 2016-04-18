@@ -1524,32 +1524,6 @@ def compareChecksum(
     return
 
 
-
-def verifyRouterState(apiclient, routerid, state, listall=True):
-    """List router and check if the router state matches the given state"""
-    retriesCount = 10
-    isRouterInDesiredState = False
-    exceptionOccured = False
-    exceptionMessage = ""
-    try:
-        while retriesCount >= 0:
-            routers = Router.list(apiclient, id=routerid, listall=listall)
-            assert validateList(
-                routers)[0] == PASS, "Routers list validation failed"
-            if str(routers[0].state).lower() == state:
-                isRouterInDesiredState = True
-                break
-            retriesCount -= 1
-            time.sleep(60)
-        if not isRouterInDesiredState:
-            exceptionMessage = "Router state should be %s, it is %s" %\
-                                (state, routers[0].state)
-    except Exception as e:
-        exceptionOccured = True
-        exceptionMessage = e
-        return [exceptionOccured, isRouterInDesiredState, exceptionMessage]
-    return [exceptionOccured, isRouterInDesiredState, exceptionMessage]
-
 def isIpRangeInUse(api_client, publicIpRange):
     ''' Check that if any Ip in the IP Range is in use
         currently
@@ -1980,3 +1954,27 @@ def is_snapshot_on_nfs(apiclient, dbconn, config, zoneid, snapshotid):
         raise Exception("SSH failed for management server: %s - %s" %
                       (config.mgtSvr[0].mgtSvrIp, e))
     return 'snapshot exists' in result
+
+
+def verifyRouterState(apiclient, routerid, allowedstates):
+    """List the router and verify that its state is in allowed states
+    @output: List, containing [Result, Reason]
+             Ist Argument ('Result'): FAIL: If router state is not
+                                                in allowed states
+                                          PASS: If router state is in
+                                                allowed states"""
+
+    try:
+        cmd = listRouters.listRoutersCmd()
+        cmd.id = routerid
+        cmd.listall = True
+        routers = apiclient.listRouters(cmd)
+    except Exception as e:
+        return [FAIL, e]
+    listvalidationresult = validateList(routers)
+    if listvalidationresult[0] == FAIL:
+        return [FAIL, listvalidationresult[2]]
+    if routers[0].state.lower() not in allowedstates:
+        return [FAIL, "state of the router should be in %s but is %s" %
+            (allowedstates, routers[0].state)]
+    return [PASS, None]

@@ -23,20 +23,25 @@
     Feature Specifications: https://cwiki.apache.org/confluence/display/CLOUDSTACK/FS+-+IP+Range+Reservation+within+a+Network
 """
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
-from marvin.lib.utils import validateList, cleanup_resources, verifyRouterState
-from marvin.lib.base import (Account,
-                             Network,
-                             VirtualMachine,
-                             Router,
-                             ServiceOffering,
-                             NetworkOffering)
-from marvin.lib.common import (get_zone,
-                               get_template,
-                               get_domain,
-                               wait_for_cleanup,
-                               createEnabledNetworkOffering,
-                               createNetworkRulesForVM,
-                               verifyNetworkState)
+from marvin.lib.utils import validateList, cleanup_resources
+from marvin.lib.base import (
+    Account,
+    Network,
+    VirtualMachine,
+    Router,
+    ServiceOffering,
+    NetworkOffering
+)
+from marvin.lib.common import (
+    get_zone,
+    get_template,
+    get_domain,
+    wait_for_cleanup,
+    createEnabledNetworkOffering,
+    createNetworkRulesForVM,
+    verifyNetworkState,
+    verifyRouterState
+)
 from marvin.codes import (PASS, FAIL, FAILED, UNKNOWN, FAULT, MASTER,
                           NAT_RULE, STATIC_NAT_RULE)
 import netaddr
@@ -430,10 +435,10 @@ class TestIpReservation(cloudstackTestCase):
         # wait for VR to update state
         wait_for_cleanup(self.apiclient, ["router.check.interval"])
 
-        result = verifyRouterState(master_router.id, [UNKNOWN,FAULT])
+        result = verifyRouterState(self.apiclient, master_router.id, [UNKNOWN,FAULT])
         if result[0] == FAIL:
             self.fail(result[1])
-        result = verifyRouterState(backup_router.id, [MASTER])
+        result = verifyRouterState(self.apiclient, backup_router.id, [MASTER])
         if result[0] == FAIL:
             self.fail(result[1])
 
