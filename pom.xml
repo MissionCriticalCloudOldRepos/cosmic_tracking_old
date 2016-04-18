@@ -204,9 +204,14 @@
         <artifactId>javax.inject</artifactId>
         <version>1</version>
       </dependency>
+      <dependency>
+        <groupId>org.mariadb.jdbc</groupId>
+        <artifactId>mariadb-java-client</artifactId>
+        <version>1.4.0</version>
+      </dependency>
 
       <!-- go throught these dependencies and evaluate where they should be -->
-      <dependency>
+      <dependency> <!-- this dependency can be removed once the maria db driver is in use in cosmic-core -->
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>${cs.mysql.version}</version>
