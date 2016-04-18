@@ -95,8 +95,8 @@ public class LibvirtVmDef {
 
         guestDef.append("<sysinfo type='smbios'>\n");
         guestDef.append("<system>\n");
-        guestDef.append("<entry name='manufacturer'>Apache Software Foundation</entry>\n");
-        guestDef.append("<entry name='product'>CloudStack " + type.toString() + " Hypervisor</entry>\n");
+        guestDef.append("<entry name='manufacturer'>Mission Critical Cloud</entry>\n");
+        guestDef.append("<entry name='product'>Cosmic " + type.toString() + " Hypervisor</entry>\n");
         guestDef.append("<entry name='uuid'>" + uuid + "</entry>\n");
         guestDef.append("</system>\n");
         guestDef.append("</sysinfo>\n");
