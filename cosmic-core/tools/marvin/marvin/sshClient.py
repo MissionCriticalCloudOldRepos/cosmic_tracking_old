@@ -34,6 +34,7 @@ from marvin.codes import (
     SUCCESS, FAILED, INVALID_INPUT
 )
 import uuid
+import sys
 
 
 class SshClient(object):
@@ -58,13 +59,13 @@ class SshClient(object):
         self.keyPairFiles = keyPairFiles
         self.ssh = SSHClient()
         self.ssh.set_missing_host_key_policy(AutoAddPolicy())
-        self.logger = logging.getLogger('sshClient.' + str(uuid.uuid4()))
         self.retryCnt = 0
         self.delay = 0
         self.timeout = 3.0
-        ch = logging.StreamHandler()
-        ch.setLevel(log_lvl)
-        self.logger.addHandler(ch)
+        self.logger = logging.getLogger('sshClient.' + str(uuid.uuid4()))
+        stream_handler = logging.StreamHandler(sys.stdout)
+        stream_handler.setLevel(log_lvl)
+        self.logger.addHandler(stream_handler)
 
         # Check invalid host value and raise exception
         # Atleast host is required for connection
