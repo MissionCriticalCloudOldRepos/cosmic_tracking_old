@@ -18,17 +18,21 @@
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from marvin.lib.utils import cleanup_resources
-from marvin.lib.base import (Account,
-                             VirtualMachine,
-                             SnapshotPolicy,
-                             ServiceOffering)
-from marvin.lib.common import (get_zone,
-                               get_template,
-                               get_domain,
-                               list_volumes,
-                               list_snapshots,
-                               list_snapshot_policy)
-from marvin.lib.utils import is_snapshot_on_nfs
+from marvin.lib.base import (
+    Account,
+    VirtualMachine,
+    SnapshotPolicy,
+    ServiceOffering
+)
+from marvin.lib.common import (
+    get_zone,
+    get_template,
+    get_domain,
+    list_volumes,
+    list_snapshots,
+    list_snapshot_policy,
+    is_snapshot_on_nfs
+)
 import time
 
 

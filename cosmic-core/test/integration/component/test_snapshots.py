@@ -38,13 +38,13 @@ from marvin.lib.common import (
     list_snapshots,
     list_templates,
     list_virtual_machines,
-    get_hypervisor_type
+    get_hypervisor_type,
+    is_snapshot_on_nfs
 )
 from marvin.lib.utils import (
     cleanup_resources,
     format_volume_to_ext3,
-    random_gen,
-    is_snapshot_on_nfs
+    random_gen
 )
 from marvin.cloudstackAPI import detachVolume
 import time

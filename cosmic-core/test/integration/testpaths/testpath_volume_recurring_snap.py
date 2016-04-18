@@ -18,25 +18,28 @@
 """
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
-from marvin.lib.utils import (cleanup_resources,
-                              is_snapshot_on_nfs,
-                              validateList
-                              )
-from marvin.lib.base import (Account,
-                             ServiceOffering,
-                             DiskOffering,
-                             VirtualMachine,
-                             SnapshotPolicy,
-                             Snapshot,
-                             Configurations
-                             )
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template,
-                               list_volumes,
-                               list_snapshots,
-                               list_snapshot_policy
-                               )
+from marvin.lib.utils import (
+    cleanup_resources,
+    validateList
+)
+from marvin.lib.base import (
+    Account,
+    ServiceOffering,
+    DiskOffering,
+    VirtualMachine,
+    SnapshotPolicy,
+    Snapshot,
+    Configurations
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    list_volumes,
+    list_snapshots,
+    list_snapshot_policy,
+    is_snapshot_on_nfs
+)
 
 from marvin.codes import PASS
 

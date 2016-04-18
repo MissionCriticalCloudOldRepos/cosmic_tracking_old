@@ -20,26 +20,31 @@
 
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
-from marvin.lib.utils import (cleanup_resources, is_snapshot_on_nfs,
-                              validateList)
-from marvin.lib.base import (Account,
-                             StoragePool,
-                             Host,
-                             ServiceOffering,
-                             VirtualMachine,
-                             Configurations,
-                             Snapshot,
-                             SnapshotPolicy,
-                             )
-from marvin.lib.common import (get_domain,
-                               list_snapshot_policy,
-                               get_zone,
-                               get_template,
-                               list_volumes,
-                               list_snapshots,
-                               list_virtual_machines,
-                               createChecksum,
-                               )
+from marvin.lib.utils import (
+    cleanup_resources,
+    validateList
+)
+from marvin.lib.base import (
+    Account,
+    StoragePool,
+    Host,
+    ServiceOffering,
+    VirtualMachine,
+    Configurations,
+    Snapshot,
+    SnapshotPolicy,
+)
+from marvin.lib.common import (
+    get_domain,
+    list_snapshot_policy,
+    get_zone,
+    get_template,
+    list_volumes,
+    list_snapshots,
+    list_virtual_machines,
+    is_snapshot_on_nfs,
+    createChecksum
+)
 from marvin.sshClient import SshClient
 import time
 

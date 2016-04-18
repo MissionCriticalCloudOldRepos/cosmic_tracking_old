@@ -1863,6 +1863,7 @@ def verifyVCenterPortGroups(
         return [FAIL, e]
     return [PASS, None]
 
+
 def get_hypervisor_type(apiclient):
 
     """Return the hypervisor type of the hosts in setup"""
@@ -1874,3 +1875,108 @@ def get_hypervisor_type(apiclient):
     hosts_list_validation_result = validateList(hosts)
     assert hosts_list_validation_result[0] == PASS, "host list validation failed"
     return hosts_list_validation_result[1].hypervisor
+
+
+def is_snapshot_on_nfs(apiclient, dbconn, config, zoneid, snapshotid):
+    """
+    Checks whether a snapshot with id (not UUID) `snapshotid` is present on the nfs storage
+
+    @param apiclient: api client connection
+    @param @dbconn:  connection to the cloudstack db
+    @param config: marvin configuration file
+    @param zoneid: uuid of the zone on which the secondary nfs storage pool is mounted
+    @param snapshotid: uuid of the snapshot
+    @return: True if snapshot is found, False otherwise
+    """
+    # snapshot extension to be appended to the snapshot path obtained from db
+    snapshot_extensions = {"vmware": ".ovf",
+                            "kvm": "",
+                            "xenserver": ".vhd",
+                            "simulator":""}
+
+    qresultset = dbconn.execute(
+                        "select id from snapshots where uuid = '%s';" \
+                        % str(snapshotid)
+                        )
+    if len(qresultset) == 0:
+        raise Exception(
+            "No snapshot found in cloudstack with id %s" % snapshotid)
+
+
+    snapshotid = qresultset[0][0]
+    qresultset = dbconn.execute(
+        "select install_path,store_id from snapshot_store_ref where snapshot_id='%s' and store_role='Image';" % snapshotid
+    )
+
+    assert isinstance(qresultset, list), "Invalid db query response for snapshot %s" % snapshotid
+
+    if len(qresultset) == 0:
+        #Snapshot does not exist
+        return False
+
+    from base import ImageStore
+    #pass store_id to get the exact storage pool where snapshot is stored
+    secondaryStores = ImageStore.list(apiclient, zoneid=zoneid, id=int(qresultset[0][1]))
+
+    assert isinstance(secondaryStores, list), "Not a valid response for listImageStores"
+    assert len(secondaryStores) != 0, "No image stores found in zone %s" % zoneid
+
+    secondaryStore = secondaryStores[0]
+
+    if str(secondaryStore.providername).lower() != "nfs":
+        raise Exception(
+            "is_snapshot_on_nfs works only against nfs secondary storage. found %s" % str(secondaryStore.providername))
+
+    hypervisor = get_hypervisor_type(apiclient)
+    # append snapshot extension based on hypervisor, to the snapshot path
+    snapshotPath = str(qresultset[0][0]) + snapshot_extensions[str(hypervisor).lower()]
+
+    nfsurl = secondaryStore.url
+    from urllib2 import urlparse
+    parse_url = urlparse.urlsplit(nfsurl, scheme='nfs')
+    host, path = str(parse_url.netloc), str(parse_url.path)
+
+    if not config.mgtSvr:
+        raise Exception("Your marvin configuration does not contain mgmt server credentials")
+    mgtSvr, user, passwd = config.mgtSvr[0].mgtSvrIp, config.mgtSvr[0].user, config.mgtSvr[0].passwd
+
+    try:
+        ssh_client = SshClient(
+            mgtSvr,
+            22,
+            user,
+            passwd
+        )
+
+        pathSeparator = "" #used to form host:dir format
+        if not host.endswith(':'):
+            pathSeparator= ":"
+
+        cmds = [
+
+            "mkdir -p %s /mnt/tmp",
+            "mount -t %s %s%s%s /mnt/tmp" % (
+                'nfs',
+                host,
+                pathSeparator,
+                path,
+            ),
+            "test -f %s && echo 'snapshot exists'" % (
+                os.path.join("/mnt/tmp", snapshotPath)
+            ),
+        ]
+
+        for c in cmds:
+            result = ssh_client.execute(c)
+
+        # Unmount the Sec Storage
+        cmds = [
+                "cd",
+                "umount /mnt/tmp",
+            ]
+        for c in cmds:
+            ssh_client.execute(c)
+    except Exception as e:
+        raise Exception("SSH failed for management server: %s - %s" %
+                      (config.mgtSvr[0].mgtSvrIp, e))
+    return 'snapshot exists' in result
