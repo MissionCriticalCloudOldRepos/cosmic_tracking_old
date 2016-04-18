@@ -64,6 +64,8 @@ public class TransactionLegacy implements Closeable {
   private static final Logger s_lockLogger = Logger.getLogger(Transaction.class.getName() + "." + "Lock");
   private static final Logger s_connLogger = Logger.getLogger(Transaction.class.getName() + "." + "Connection");
 
+  private static final String DB_CONNECTION_SCHEME = "jdbc:mariadb";
+
   private static final ThreadLocal<TransactionLegacy> tls = new ThreadLocal<TransactionLegacy>();
   private static final String START_TXN = "start_txn";
   private static final String CURRENT_TXN = "current_txn";
@@ -1019,6 +1021,8 @@ public class TransactionLegacy implements Closeable {
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public static void initDataSource(Properties dbProps) {
+    loadMariaDbDriver();
+
     try {
       if (dbProps.size() == 0)
         return;
@@ -1085,7 +1089,7 @@ public class TransactionLegacy implements Closeable {
           cloudTimeBtwEvictionRunsMillis, 1, cloudMinEvcitableIdleTimeMillis, cloudTestWhileIdle);
 
       final ConnectionFactory cloudConnectionFactory = new DriverManagerConnectionFactory(
-          "jdbc:mysql://" + cloudHost + (s_dbHAEnabled ? "," + cloudSlaves : "") + ":" + cloudPort + "/" + cloudDbName +
+          DB_CONNECTION_SCHEME + "://" + cloudHost + (s_dbHAEnabled ? "," + cloudSlaves : "") + ":" + cloudPort + "/" + cloudDbName +
               "?autoReconnect=" + cloudAutoReconnect + (url != null ? "&" + url : "") + (useSSL ? "&useSSL=true" : "") +
               (s_dbHAEnabled ? "&" + cloudDbHAParams : "")
               + (s_dbHAEnabled ? "&loadBalanceStrategy=" + loadBalanceStrategy : ""),
@@ -1116,7 +1120,7 @@ public class TransactionLegacy implements Closeable {
       final GenericObjectPool usageConnectionPool = new GenericObjectPool(null, usageMaxActive,
           GenericObjectPool.DEFAULT_WHEN_EXHAUSTED_ACTION, usageMaxWait, usageMaxIdle);
 
-      final ConnectionFactory usageConnectionFactory = new DriverManagerConnectionFactory("jdbc:mysql://" + usageHost
+      final ConnectionFactory usageConnectionFactory = new DriverManagerConnectionFactory(DB_CONNECTION_SCHEME + "://" + usageHost
           + (s_dbHAEnabled ? "," + dbProps.getProperty("db.cloud.slaves") : "") + ":" + usagePort +
           "/" + usageDbName + "?autoReconnect=" + usageAutoReconnect + (usageUrl != null ? "&" + usageUrl : "") +
           (s_dbHAEnabled ? "&" + getDBHAParams("usage", dbProps) : "")
@@ -1145,8 +1149,7 @@ public class TransactionLegacy implements Closeable {
             GenericObjectPool.DEFAULT_WHEN_EXHAUSTED_ACTION, simulatorMaxWait, simulatorMaxIdle);
 
         final ConnectionFactory simulatorConnectionFactory = new DriverManagerConnectionFactory(
-            "jdbc:mysql://" + simulatorHost + ":" + simulatorPort + "/" + simulatorDbName + "?autoReconnect=" +
-                simulatorAutoReconnect,
+            DB_CONNECTION_SCHEME + "://" + simulatorHost + ":" + simulatorPort + "/" + simulatorDbName + "?autoReconnect=" + simulatorAutoReconnect,
             simulatorUsername, simulatorPassword);
 
         final PoolableConnectionFactory simulatorPoolableConnectionFactory = new PoolableConnectionFactory(
@@ -1162,6 +1165,15 @@ public class TransactionLegacy implements Closeable {
       s_logger.warn(
           "Unable to load db configuration, using defaults with 5 connections. Falling back on assumed datasource on localhost:3306 using username:password=cloud:cloud. Please check your configuration",
           e);
+    }
+  }
+
+  private static void loadMariaDbDriver() {
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      s_logger.debug("MariaDB driver loaded");
+    } catch (final ClassNotFoundException e) {
+      throw new IllegalStateException("Cannot find MariaDB driver in the classpath", e);
     }
   }
 
@@ -1181,8 +1193,7 @@ public class TransactionLegacy implements Closeable {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   private static DataSource getDefaultDataSource(final String database) {
     final GenericObjectPool connectionPool = new GenericObjectPool(null, 5);
-    final ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(
-        "jdbc:mysql://localhost:3306/" + database, "cloud", "cloud");
+    final ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(DB_CONNECTION_SCHEME + "://localhost:3306/" + database, "cloud", "cloud");
     final PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory,
         connectionPool, null, null, false, true);
     return new PoolingDataSource(
