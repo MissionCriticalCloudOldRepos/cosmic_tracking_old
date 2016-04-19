@@ -28,7 +28,6 @@ import email
 import socket
 import urlparse
 import datetime
-from marvin.cloudstackAPI import listHosts, listRouters
 from platform import system
 from marvin.cloudstackException import printException
 from marvin.sshClient import SshClient
