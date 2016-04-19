@@ -28,7 +28,6 @@ from marvin.configGenerator import getSetupConfig
 from marvin.marvinLog import MarvinLog
 from marvin.deployDataCenter import DeployDataCenters
 from marvin.cloudstackTestClient import CSTestClient
-from marvin.cloudstackException import printException
 from marvin.codes import(
     XEN_SERVER,
     SUCCESS,
@@ -39,16 +38,11 @@ import os
 
 class MarvinInit:
 
-    def __init__(self, config_file,
-                 deploy_dc_flag=False,
-                 test_mod_name="deploydc",
-                 zone=None,
-                 hypervisor_type=None,
-                 user_logfolder_path=None):
+    def __init__(self, config_file, deploy_dc_flag=False, test_mod_name="deploydc", zone=None, hypervisor_type=None):
         self.__configFile = config_file
         self.__deployFlag = deploy_dc_flag
-        self.__logFolderPath = None
-        self.__tcRunLogger = None
+        self.__tcRunLogger = MarvinLog('marvin').getLogger()
+        self.__tcRunLogger.info("=== Marvin Init Logging Successful ===")
         self.__testModName = test_mod_name
         self.__testClient = None
         self.__tcResultFile = None
@@ -56,7 +50,7 @@ class MarvinInit:
         self.__zoneForTests = zone
         self.__parsedConfig = None
         self.__hypervisorType = hypervisor_type
-        self.__userLogFolderPath = user_logfolder_path
+
 
     def __parseConfig(self):
         '''
@@ -67,13 +61,13 @@ class MarvinInit:
         '''
         try:
             if not os.path.isfile(self.__configFile):
-                print "\n=== Marvin Parse Config Init Failed ==="
+                self.__tcRunLogger.error("=== Marvin Parse Config Init Failed ===")
                 return FAILED
             self.__parsedConfig = getSetupConfig(self.__configFile)
-            print "\n=== Marvin Parse Config Successful ==="
+            self.__tcRunLogger.info("=== Marvin Parse Config Successful ===")
             return SUCCESS
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception("=== Marvin Parse Config Init Failed: %s ===" % e)
             return FAILED
 
     def getParsedConfig(self):
@@ -95,10 +89,8 @@ class MarvinInit:
         @Output : Returns the Result file to be used for writing
                 test outputs
         '''
-        if self.__logFolderPath is not None:
-            self.__tcResultFile = open(self.__logFolderPath +
-                                       "/results.txt", "w")
-            return self.__tcResultFile
+        self.__tcResultFile = open("results.txt", "w")
+        return self.__tcResultFile
 
     def __setHypervisorAndZoneInfo(self):
         '''
@@ -125,7 +117,7 @@ class MarvinInit:
                 self.__hypervisorType = XEN_SERVER
             return SUCCESS
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception("=== Set Hypervizor and Zone info Failed: %s ===" % e)
             return FAILED
 
     def init(self):
@@ -140,46 +132,20 @@ class MarvinInit:
         @Output : SUCCESS or FAILED
         '''
         try:
-            print "\n==== Marvin Init Started ===="
+            self.__tcRunLogger.info("=== Marvin Init Started ===")
             if ((self.__parseConfig() != FAILED) and
                     (self.__setHypervisorAndZoneInfo())and
                     (self.__setTestDataPath() != FAILED) and
-                    (self.__initLogging() != FAILED) and
                     (self.__createTestClient() != FAILED) and
                     (self.__deployDC() != FAILED)):
-                print "\n==== Marvin Init Successful ===="
+                self.__tcRunLogger.info("=== Marvin Init Successful ===")
                 return SUCCESS
-            print "\n==== Marvin Init Failed ===="
+            self.__tcRunLogger.error("=== Marvin Init Failed ===")
             return FAILED
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception("=== Marvin Init Failed with exception: %s ===" % e)
             return FAILED
 
-    def __initLogging(self):
-        '''
-        @Name : __initLogging
-        @Desc : 1. Initializes the logging for marvin and so provides
-                    various log features for automation run.
-                    2. Initializes all logs to be available under
-                    given Folder Path,where all test run logs
-                    are available for a given run.
-                    3. All logging like exception log,results, run info etc
-                     for a given test run are available under a given
-                     timestamped folder
-        @Output : SUCCESS or FAILED
-        '''
-        try:
-            log_obj = MarvinLog('marvin')
-            if log_obj:
-                log_obj.createLogs(self.__testModName, self.__parsedConfig.logger, self.__userLogFolderPath)
-                self.__logFolderPath = log_obj.getLogFolderPath()
-                self.__tcRunLogger = log_obj.getLogger()
-                log_obj.getLogger("=== Marvin Init Logging Successful ===")
-                return SUCCESS
-            return FAILED
-        except Exception as e:
-            printException(e)
-            return FAILED
 
     def __createTestClient(self):
         '''
@@ -194,7 +160,6 @@ class MarvinInit:
             self.__testClient = CSTestClient(
                 mgt_details,
                 dbsvr_details,
-                logger=self.__tcRunLogger,
                 test_data_filepath=self.__testDataFilePath,
                 zone=self.__zoneForTests,
                 hypervisor_type=self.__hypervisorType)
@@ -202,7 +167,7 @@ class MarvinInit:
                 return self.__testClient.createTestClient()
             return FAILED
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception("=== Marvin Create Test Client Failed: %s ===" % e)
             return FAILED
 
     def __setTestDataPath(self):
@@ -215,10 +180,10 @@ class MarvinInit:
             if ((self.__parsedConfig.TestData is not None) and
                     (self.__parsedConfig.TestData.Path is not None)):
                 self.__testDataFilePath = self.__parsedConfig.TestData.Path
-            print "\n=== Marvin Setting TestData Successful==="
+            self.__tcRunLogger.info("=== Marvin Setting TestData Successful ===")
             return SUCCESS
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception("=== Marvin Setting TestData Successful Failed: %s ===" % e)
             return FAILED
 
     def __deployDC(self):
@@ -235,8 +200,8 @@ class MarvinInit:
                                                self.__tcRunLogger)
                 ret = deploy_obj.deploy()
                 if ret != SUCCESS:
-                    print "==== Deploy DC Failed ===="
+                    self.__tcRunLogger.error("=== Deploy DC Failed ===")
             return ret
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception("=== Deploy DC Failed with exception: %s ===" % e)
             return FAILED
