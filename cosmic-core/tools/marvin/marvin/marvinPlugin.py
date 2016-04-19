@@ -21,12 +21,12 @@ import nose.core
 from nose.plugins.base import Plugin
 from cloudstackTestCase import cloudstackTestCase
 from marvinInit import MarvinInit
+from marvin.marvinLog import MarvinLog
 from codes import (
     SUCCESS,
     FAILED,
     EXCEPTION
 )
-from marvin.cloudstackException import printException
 
 
 class MarvinPlugin(Plugin):
@@ -60,7 +60,7 @@ class MarvinPlugin(Plugin):
         self.__testResult = SUCCESS
         self.__startTime = None
         self.__testName = None
-        self.__tcRunLogger = None
+        self.__tcRunLogger = MarvinLog('marvin').getLogger()
         self.__testModName = ''
         self.__hypervisorType = None
         Plugin.__init__(self)
@@ -82,7 +82,7 @@ class MarvinPlugin(Plugin):
         self.__hypervisorType = options.hypervisor_type
         self.conf = conf
         if self.startMarvin() == FAILED:
-            print "\nStarting Marvin Failed, exiting. Please Check"
+            self.__tcRunLogger.error('Starting Marvin Failed, exiting. Please Check')
             exit(1)
 
     def options(self, parser, env):
@@ -140,8 +140,7 @@ class MarvinPlugin(Plugin):
                     return True
             return False
         except ImportError as e:
-            print "File %s has import errors, detailed exception:" % filename
-            printException(e)
+            self.__tcRunLogger.exception("File %s has import errors: %s" % (filename, e))
             return False
 
     def wantFile(self, filename):
@@ -222,7 +221,6 @@ class MarvinPlugin(Plugin):
                                         self.__hypervisorType)
             if obj_marvininit and obj_marvininit.init() == SUCCESS:
                 self.__testClient = obj_marvininit.getTestClient()
-                self.__tcRunLogger = obj_marvininit.getLogger()
                 self.__parsedConfig = obj_marvininit.getParsedConfig()
                 self.__resultStream = obj_marvininit.getResultFile()
                 self.__testRunner = nose.core.TextTestRunner(
