@@ -94,3 +94,6 @@ tools/appliance/box/
 .pydevproject
 systemvm/.pydevproject
 test/.pydevprojec
+**/failed_plus_exceptions.txt
+**/runinfo.txt
+**/.cache/

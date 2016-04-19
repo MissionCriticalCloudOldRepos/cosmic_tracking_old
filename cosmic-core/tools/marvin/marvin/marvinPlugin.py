@@ -64,10 +64,6 @@ class MarvinPlugin(Plugin):
         self.__tcRunLogger = None
         self.__testModName = ''
         self.__hypervisorType = None
-        '''
-        The Log Path provided by user where all logs are routed to
-        '''
-        self.__userLogPath = None
         Plugin.__init__(self)
 
     def configure(self, options, conf):
@@ -85,7 +81,6 @@ class MarvinPlugin(Plugin):
         self.__deployDcFlag = options.deployDc
         self.__zoneForTests = options.zone
         self.__hypervisorType = options.hypervisor_type
-        self.__userLogPath = options.logFolder
         self.conf = conf
         if self.startMarvin() == FAILED:
             print "\nStarting Marvin Failed, exiting. Please Check"
@@ -228,14 +223,12 @@ class MarvinPlugin(Plugin):
                                         self.__deployDcFlag,
                                         None,
                                         self.__zoneForTests,
-                                        self.__hypervisorType,
-                                        self.__userLogPath)
+                                        self.__hypervisorType)
             if obj_marvininit and obj_marvininit.init() == SUCCESS:
                 self.__testClient = obj_marvininit.getTestClient()
                 self.__tcRunLogger = obj_marvininit.getLogger()
                 self.__parsedConfig = obj_marvininit.getParsedConfig()
                 self.__resultStream = obj_marvininit.getResultFile()
-                self.__logFolderPath = obj_marvininit.getLogFolderPath()
                 self.__testRunner = nose.core.\
                     TextTestRunner(stream=self.__resultStream,
                                    descriptions=True,
@@ -282,23 +275,6 @@ class MarvinPlugin(Plugin):
 
     def finalize(self, result):
         try:
-            src = self.__logFolderPath
-            tmp = ''
-            if not self.__userLogPath:
-                log_cfg = self.__parsedConfig.logger
-                tmp = log_cfg.__dict__.get('LogFolderPath') + "/MarvinLogs"
-            else:
-                tmp = self.__userLogPath + "/MarvinLogs"
-            dst = tmp + "//" + random_gen()
-            mod_name = "test_suite"
-            if self.__testModName:
-                mod_name = self.__testModName.split(".")
-                if len(mod_name) > 2:
-                    mod_name = mod_name[-2]
-            if mod_name and type(mod_name) is str:
-                dst = tmp + "/" + mod_name + "_" + random_gen()
-            cmd = "mv " + src + " " + dst
-            os.system(cmd)
-            print "===final results are now copied to: %s===" % str(dst)
+            self.__tcRunLogger.info('=== finalize does nothing!  ===')
         except Exception as e:
             printException(e)

@@ -20,7 +20,6 @@
 import marvin
 import os
 import time
-import logging
 import string
 import random
 import imaplib
@@ -396,3 +395,7 @@ def validateState(apiclient, obj, state, timeout=600, interval=5):
         time.sleep(interval)
         timeout -= interval
     return returnValue
+
+
+def key_maps_to_value(dictionary, key):
+    return key in dictionary and dictionary[key] is not None

@@ -169,17 +169,13 @@ class MarvinInit:
         @Output : SUCCESS or FAILED
         '''
         try:
-            log_obj = MarvinLog("CSLog")
+            log_obj = MarvinLog('marvin')
             if log_obj:
-                ret = log_obj.\
-                    createLogs(self.__testModName,
-                               self.__parsedConfig.logger,
-                               self.__userLogFolderPath)
-                if ret != FAILED:
-                    self.__logFolderPath = log_obj.getLogFolderPath()
-                    self.__tcRunLogger = log_obj.getLogger()
-                    print "\n=== Marvin Init Logging Successful==="
-                    return SUCCESS
+                log_obj.createLogs(self.__testModName, self.__parsedConfig.logger, self.__userLogFolderPath)
+                self.__logFolderPath = log_obj.getLogFolderPath()
+                self.__tcRunLogger = log_obj.getLogger()
+                log_obj.getLogger("=== Marvin Init Logging Successful ===")
+                return SUCCESS
             return FAILED
         except Exception as e:
             printException(e)
