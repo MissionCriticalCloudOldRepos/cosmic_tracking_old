@@ -58,7 +58,6 @@ setup(name="Marvin",
       py_modules=['marvin.marvinPlugin'],
       zip_safe=False,
       entry_points={
-          'nose.plugins': ['marvinPlugin = marvin.marvinPlugin:MarvinPlugin'],
-          'console_scripts': ['marvincli = marvin.deployAndRun:main']
+          'nose.plugins': ['marvinPlugin = marvin.marvinPlugin:MarvinPlugin']
       },
       )
