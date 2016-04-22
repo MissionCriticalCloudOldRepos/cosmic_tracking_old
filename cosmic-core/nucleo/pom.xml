@@ -6,7 +6,7 @@
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-core</artifactId>
-    <version>5.0.0.1-SNAPSHOT</version>
+    <version>5.0.1.0</version>
   </parent>
   
   <dependencies>
@@ -56,16 +56,13 @@
             </goals>
             <configuration>
               <target>
-                <copy
-                  todir="${basedir}/core-resources/scripts">
+                <copy todir="${basedir}/core-resources/scripts">
                   <fileset dir="${basedir}/../scripts" />
                 </copy>
-                <copy
-                  todir="${basedir}/core-resources/setup">
+                <copy todir="${basedir}/core-resources/setup">
                   <fileset dir="${basedir}/../setup" />
                 </copy>
-                <copy
-                  todir="${basedir}/core-resources/build">
+                <copy todir="${basedir}/core-resources/build">
                   <fileset dir="${basedir}/../build" />
                 </copy>
               </target>
