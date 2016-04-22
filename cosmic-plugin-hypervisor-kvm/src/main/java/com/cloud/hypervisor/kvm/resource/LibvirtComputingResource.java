@@ -67,13 +67,13 @@ import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.DiskDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.DiskDef.DeviceType;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.DiskDef.DiskProtocol;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.FeaturesDef;
-import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.FilesystemDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.GraphicDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.GuestDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.GuestResourceDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InputDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef.GuestNetType;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.QemuGuestAgentDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.SerialDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.TermPolicy;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.VideoDef;
@@ -1932,6 +1932,9 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
       final VirtioSerialDef vserial = new VirtioSerialDef(vmTo.getName(), null);
       devices.addDevice(vserial);
     }
+
+    final QemuGuestAgentDef guestagent = new QemuGuestAgentDef();
+    devices.addDevice(guestagent);
 
     final VideoDef videoCard = new VideoDef(videoHw, videoRam);
     devices.addDevice(videoCard);

@@ -1214,12 +1214,20 @@ public class LibvirtVmDef {
       virtioSerialBuilder.append("<target type='virtio' name='" + name + ".vport'/>\n");
       virtioSerialBuilder.append("<address type='virtio-serial'/>\n");
       virtioSerialBuilder.append("</channel>\n");
-      // Qemu guest agent
-      virtioSerialBuilder.append("<channel type='unix'>\n");
-      virtioSerialBuilder.append("<source mode='bind'/>\n");
-      virtioSerialBuilder.append("<target type='virtio' name='org.qemu.guest_agent.0'/>\n");
-      virtioSerialBuilder.append("</channel>\n");
       return virtioSerialBuilder.toString();
+    }
+  }
+
+  public static class QemuGuestAgentDef {
+    @Override
+    public String toString() {
+      final StringBuilder qemuGuestAgentBuilder = new StringBuilder();
+
+      qemuGuestAgentBuilder.append("<channel type='unix'>\n");
+      qemuGuestAgentBuilder.append("<source mode='bind'/>\n");
+      qemuGuestAgentBuilder.append("<target type='virtio' name='org.qemu.guest_agent.0'/>\n");
+      qemuGuestAgentBuilder.append("</channel>\n");
+      return qemuGuestAgentBuilder.toString();
     }
   }
 
