@@ -12,34 +12,34 @@
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-server</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
+      <version>5.0.1.0</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
+      <version>5.0.1.0</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-utils</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
+      <version>5.0.1.0</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-config</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
+      <version>5.0.1.0</version>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-api</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
+      <version>5.0.1.0</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-engine-storage</artifactId>
-      <version>5.0.0.1-SNAPSHOT</version>
+      <version>5.0.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
