@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-client-ui</artifactId>
   <name>Cosmic Client UI</name>
   <packaging>war</packaging>
-  <version>5.0.0.1-SNAPSHOT</version>
+  <version>5.0.1.0</version>
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
@@ -301,7 +300,7 @@
   <scm>
     <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</connection>
     <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>cloud-client-ui-5.0.1.0</tag>
   </scm>
 
   <build>
