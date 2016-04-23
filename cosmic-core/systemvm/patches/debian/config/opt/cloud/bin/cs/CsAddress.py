@@ -523,7 +523,9 @@ class CsIP:
             app.setup()
 
         cmdline = self.config.cmdline()
-        if self.get_type() in ["guest"]:
+        # Start passwd server on non-redundant routers and on the master router of redundant pairs
+        # CsRedundant will handle fail-over.
+        if self.get_type() in ["guest"] and (not self.cl.is_redundant() or self.cl.is_master()):
             CsPasswdSvc(self.address['public_ip']).start()
 
         if self.get_type() == "public" and self.config.is_vpc():
