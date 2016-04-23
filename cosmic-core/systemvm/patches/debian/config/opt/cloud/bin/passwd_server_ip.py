@@ -79,7 +79,7 @@ def savePasswordFile():
                     f.write('%s=%s\n' % (ip, passMap[ip]))
             f.close()
         except IOError, e:
-            syslog.syslog('serve_password: Unable to save to password file %s' % e)
+            syslog.syslog('serve_password[%s]: Unable to save to password file %s' % (listeningAddress, e))
 
 def getPassword(ip):
     return passMap.get(ip, None)
@@ -114,19 +114,19 @@ class PasswordRequestHandler(BaseHTTPRequestHandler):
             password = getPassword(clientAddress)
             if not password:
                 self.wfile.write('saved_password')
-                syslog.syslog('serve_password: requested password not found for %s' % clientAddress)
+                syslog.syslog('serve_password[%s]: requested password not found for %s' % (listeningAddress, clientAddress))
             else:
                 self.wfile.write(password)
-                syslog.syslog('serve_password: password sent to %s' % clientAddress)
+                syslog.syslog('serve_password[%s]: password sent to %s' % (listeningAddress, clientAddress))
         elif requestType == 'saved_password':
             removePassword(clientAddress)
             savePasswordFile()
             self.wfile.write('saved_password')
-            syslog.syslog('serve_password: saved_password ack received from %s' % clientAddress)
+            syslog.syslog('serve_password[%s]: saved_password ack received from %s' % (listeningAddress, clientAddress))
         else:
             self.send_response(400)
             self.wfile.write('bad_request')
-            syslog.syslog('serve_password: bad_request from IP %s' % clientAddress)
+            syslog.syslog('serve_password[%s]: bad_request from IP %s' % (listeningAddress, clientAddress))
         return
 
     def do_POST(self):
@@ -140,24 +140,24 @@ class PasswordRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         clientAddress = self.client_address[0]
         if clientAddress not in ['localhost', '127.0.0.1', listeningAddress]:
-            syslog.syslog('serve_password: non-localhost IP trying to save password: %s' % clientAddress)
+            syslog.syslog('serve_password[%s]: non-localhost IP trying to save password: %s' % (listeningAddress, clientAddress))
             self.send_response(403)
             return
         if 'ip' not in form or 'password' not in form or 'token' not in form or self.headers.get('DomU_Request') != 'save_password':
-            syslog.syslog('serve_password: request trying to save password does not contain both ip and password')
+            syslog.syslog('serve_password[%s]: request trying to save password does not contain both ip and password' % listeningAddress)
             self.send_response(403)
             return
         token = form['token'].value
         if not checkToken(token):
-            syslog.syslog('serve_password: invalid save_password token received from %s' % clientAddress)
+            syslog.syslog('serve_password[%s]: invalid save_password token received from %s' % (listeningAddress, clientAddress))
             self.send_response(403)
             return
         ip = form['ip'].value
         password = form['password'].value
         if not ip or not password:
-            syslog.syslog('serve_password: empty ip/password[%s/%s] received from savepassword' % (ip, password))
+            syslog.syslog('serve_password[%s]: empty ip/password[%s/%s] received from savepassword' % (listeningAddress, ip, password))
             return
-        syslog.syslog('serve_password: password saved for VM IP %s' % ip)
+        syslog.syslog('serve_password[%s]: password saved for VM IP %s' % (listeningAddress, ip))
         setPassword(ip, password)
         savePasswordFile()
         return
@@ -179,14 +179,14 @@ def serve(HandlerClass = PasswordRequestHandler,
     sa = passwordServer.socket.getsockname()
     initToken()
     loadPasswordFile()
-    syslog.syslog('serve_password running on %s:%s' % (sa[0], sa[1]))
+    syslog.syslog('serve_password[%s] running on %s:%s' % (listeningAddress, sa[0], sa[1]))
     try:
         passwordServer.serve_forever()
     except KeyboardInterrupt:
-        syslog.syslog('serve_password shutting down')
+        syslog.syslog('serve_password[%s] shutting down' % listeningAddress)
         passwordServer.socket.close()
     except Exception, e:
-        syslog.syslog('serve_password hit exception %s -- died' % e)
+        syslog.syslog('serve_password[%s] hit exception %s -- died' % (listeningAddress, e))
         passwordServer.socket.close()
 
 
