@@ -207,25 +207,6 @@ test_data = {
             "PortForwarding": 'VirtualRouter',
         },
     },
-    "nw_off_isolated_netscaler": {
-                "name": 'Netscaler',
-                "displaytext": 'Netscaler',
-                "guestiptype": 'Isolated',
-                "supportedservices": 'Dhcp,Dns,SourceNat,PortForwarding,Vpn,Firewall,Lb,UserData,StaticNat',
-                "traffictype": 'GUEST',
-                "availability": 'Optional',
-                "serviceProviderList": {
-                    "Dhcp": 'VirtualRouter',
-                    "Dns": 'VirtualRouter',
-                    "SourceNat": 'VirtualRouter',
-                    "PortForwarding": 'VirtualRouter',
-                    "Vpn": 'VirtualRouter',
-                    "Firewall": 'VirtualRouter',
-                    "Lb": 'Netscaler',
-                    "UserData": 'VirtualRouter',
-                    "StaticNat": 'VirtualRouter',
-                },
-    },
     "nw_off_isolated_persistent": {
         "name": 'Test Nw off isolated persistent',
         "displaytext": 'Test Nw off isolated persistent',
@@ -308,22 +289,6 @@ test_data = {
     "isolated_network": {
         "name": "Isolated Network",
         "displaytext": "Isolated Network"
-    },
-    "netscaler_VPX": {
-        "ipaddress": "10.223.240.174",
-        "username": "nsroot",
-        "password": "nsroot",
-        "networkdevicetype": "NetscalerVPXLoadBalancer",
-        "publicinterface": "1/1",
-        "privateinterface": "1/2",
-        "numretries": 2,
-        "lbdevicededicated": "True",
-        "lbdevicecapacity": 2,
-        "port": 22
-    },
-    "netscaler_network": {
-        "name": "Netscaler",
-        "displaytext": "Netscaler",
     },
     "network_without_acl": {
         "name": "TestNetwork",
@@ -657,28 +622,6 @@ test_data = {
         "endport": 22,
         "cidr": "0.0.0.0/0",
         "protocol": "TCP"
-    },
-    "nw_off_isolated_persistent_netscaler": {
-        "name": 'Netscaler',
-        "displaytext": 'Netscaler',
-        "guestiptype": 'Isolated',
-        "supportedservices":
-            'Dhcp,Dns,SourceNat,PortForwarding,Vpn,Firewall,Lb,UserData,StaticNat',
-        "traffictype": 'GUEST',
-        "ispersistent": 'True',
-        "availability": 'Optional',
-        "serviceProviderList": {
-            "Dhcp": 'VirtualRouter',
-            "Dns": 'VirtualRouter',
-            "SourceNat": 'VirtualRouter',
-            "PortForwarding": 'VirtualRouter',
-            "Vpn": 'VirtualRouter',
-            "Firewall": 'VirtualRouter',
-            "Lb": 'Netscaler',
-            "UserData": 'VirtualRouter',
-            "StaticNat": 'VirtualRouter',
-        },
-
     },
     "network_acl_rule": {
     "protocol": "TCP",
@@ -1418,18 +1361,6 @@ test_data = {
             "endip": "10.223.59.240",
             "vlan": "1000"
         },
-        "netscaler": {
-            "ipaddress": "",
-            "username": "",
-            "password": "",
-            "networkdevicetype": "",
-            "publicinterface": "",
-            "privateinterface": "",
-            "numretries": "",
-            "lbdevicededicated": "False",
-            "lbdevicecapacity": 2,
-            "port": 22
-        },
         "iscsi": {
             "url": "",
             "name": "Primary iSCSI"
@@ -1600,18 +1531,6 @@ test_data = {
                 "startip": "10.223.59.200",
                 "endip": "10.223.59.240",
                 "vlan": "1000"
-            },
-            "netscaler": {
-                "ipaddress": "",
-                "username": "",
-                "password": "",
-                "networkdevicetype": "",
-                "publicinterface": "",
-                "privateinterface": "",
-                "numretries": "",
-                "lbdevicededicated": "False",
-                "lbdevicecapacity": 2,
-                "port": 22
             },
             "iscsi": {
                 "url": "",

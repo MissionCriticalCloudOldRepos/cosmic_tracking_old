@@ -78,7 +78,6 @@ from marvin.lib.base import (PhysicalNetwork,
                              Account,
                              Project,
                              Snapshot,
-                             NetScaler,
                              VirtualMachine,
                              FireWallRule,
                              Template,
@@ -138,42 +137,6 @@ def wait_for_cleanup(apiclient, configs=None):
         # Sleep for the config_desc.value time
         time.sleep(int(config_desc.value))
     return
-
-
-def add_netscaler(apiclient, zoneid, NSservice):
-    """ Adds Netscaler device and enables NS provider"""
-
-    cmd = listPhysicalNetworks.listPhysicalNetworksCmd()
-    cmd.zoneid = zoneid
-    physical_networks = apiclient.listPhysicalNetworks(cmd)
-    if isinstance(physical_networks, list):
-        physical_network = physical_networks[0]
-
-    cmd = listNetworkServiceProviders.listNetworkServiceProvidersCmd()
-    cmd.name = 'Netscaler'
-    cmd.physicalnetworkid = physical_network.id
-    nw_service_providers = apiclient.listNetworkServiceProviders(cmd)
-
-    if isinstance(nw_service_providers, list):
-        netscaler_provider = nw_service_providers[0]
-    else:
-        cmd1 = addNetworkServiceProvider.addNetworkServiceProviderCmd()
-        cmd1.name = 'Netscaler'
-        cmd1.physicalnetworkid = physical_network.id
-        netscaler_provider = apiclient.addNetworkServiceProvider(cmd1)
-
-    netscaler = NetScaler.add(
-        apiclient,
-        NSservice,
-        physicalnetworkid=physical_network.id
-    )
-    if netscaler_provider.state != 'Enabled':
-        cmd = updateNetworkServiceProvider.updateNetworkServiceProviderCmd()
-        cmd.id = netscaler_provider.id
-        cmd.state = 'Enabled'
-        apiclient.updateNetworkServiceProvider(cmd)
-
-    return netscaler
 
 
 def get_region(apiclient, region_id=None, region_name=None):

@@ -1124,14 +1124,6 @@ public class ConfigurationServerImpl extends ManagerBase implements Configuratio
         defaultIsolatedSourceNatEnabledNetworkOfferingProviders.put(Service.PortForwarding, Provider.VirtualRouter);
         defaultIsolatedSourceNatEnabledNetworkOfferingProviders.put(Service.Vpn, Provider.VirtualRouter);
 
-        final Map<Network.Service, Network.Provider> netscalerServiceProviders = new HashMap<Network.Service, Network.Provider>();
-        netscalerServiceProviders.put(Service.Dhcp, Provider.VirtualRouter);
-        netscalerServiceProviders.put(Service.Dns, Provider.VirtualRouter);
-        netscalerServiceProviders.put(Service.UserData, Provider.VirtualRouter);
-        netscalerServiceProviders.put(Service.SecurityGroup, Provider.SecurityGroupProvider);
-        netscalerServiceProviders.put(Service.StaticNat, Provider.Netscaler);
-        netscalerServiceProviders.put(Service.Lb, Provider.Netscaler);
-
         // The only one diff between 1 and 2 network offerings is that the first one has SG enabled. In Basic zone only
         // first network offering has to be enabled, in Advance zone - the second one
         Transaction.execute(new TransactionCallbackNoReturn() {
@@ -1200,22 +1192,6 @@ public class ConfigurationServerImpl extends ManagerBase implements Configuratio
                 }
 
                 // Offering #5
-                NetworkOfferingVO defaultNetscalerNetworkOffering =
-                        new NetworkOfferingVO(NetworkOffering.DefaultSharedEIPandELBNetworkOffering,
-                                "Offering for Shared networks with Elastic IP and Elastic LB capabilities", TrafficType.Guest, false, true, null, null, true,
-                                Availability.Optional, null, Network.GuestType.Shared, true, false, false, false, true, true, true, false, false, true, true, false, false, false);
-
-                defaultNetscalerNetworkOffering.setState(NetworkOffering.State.Enabled);
-                defaultNetscalerNetworkOffering = _networkOfferingDao.persistDefaultNetworkOffering(defaultNetscalerNetworkOffering);
-
-                for (Service service : netscalerServiceProviders.keySet()) {
-                    NetworkOfferingServiceMapVO offService =
-                            new NetworkOfferingServiceMapVO(defaultNetscalerNetworkOffering.getId(), service, netscalerServiceProviders.get(service));
-                    _ntwkOfferingServiceMapDao.persist(offService);
-                    s_logger.trace("Added service for the network offering: " + offService);
-                }
-
-                // Offering #6
                 NetworkOfferingVO defaultNetworkOfferingForVpcNetworks =
                         new NetworkOfferingVO(NetworkOffering.DefaultIsolatedNetworkOfferingForVpcNetworks,
                                 "Offering for Isolated Vpc networks with Source Nat service enabled", TrafficType.Guest, false, false, null, null, true, Availability.Optional,
@@ -1243,7 +1219,7 @@ public class ConfigurationServerImpl extends ManagerBase implements Configuratio
                     s_logger.trace("Added service for the network offering: " + offService);
                 }
 
-                // Offering #7
+                // Offering #6
                 NetworkOfferingVO defaultNetworkOfferingForVpcNetworksNoLB =
                         new NetworkOfferingVO(NetworkOffering.DefaultIsolatedNetworkOfferingForVpcNetworksNoLB,
                                 "Offering for Isolated Vpc networks with Source Nat service enabled and LB service Disabled", TrafficType.Guest, false, false, null, null, true,
@@ -1270,7 +1246,7 @@ public class ConfigurationServerImpl extends ManagerBase implements Configuratio
                     s_logger.trace("Added service for the network offering: " + offService);
                 }
 
-                //offering #8 - network offering with internal lb service
+                //offering #7 - network offering with internal lb service
                 NetworkOfferingVO internalLbOff =
                         new NetworkOfferingVO(NetworkOffering.DefaultIsolatedNetworkOfferingForVpcNetworksWithInternalLB,
                                 "Offering for Isolated Vpc networks with Internal LB support", TrafficType.Guest, false, false, null, null, true, Availability.Optional, null,

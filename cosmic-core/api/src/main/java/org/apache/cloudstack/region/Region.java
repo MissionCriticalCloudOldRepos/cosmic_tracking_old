@@ -68,8 +68,6 @@ public interface Region {
         private String name;
         private Service service;
 
-        public static final Provider Netscaler = new Provider("Netscaler", Service.Gslb);
-
         public Provider(String name, Service service) {
             this.name = name;
             this.service = service;

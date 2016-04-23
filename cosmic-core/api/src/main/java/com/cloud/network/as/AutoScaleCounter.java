@@ -26,7 +26,6 @@ public class AutoScaleCounter {
         private String _name;
 
         public static final AutoScaleCounterType Snmp = new AutoScaleCounterType("snmp");
-        public static final AutoScaleCounterType Netscaler = new AutoScaleCounterType("netscaler");
         public static final AutoScaleCounterType Cpu = new AutoScaleCounterType("cpu");
         public static final AutoScaleCounterType Memory = new AutoScaleCounterType("memory");
 

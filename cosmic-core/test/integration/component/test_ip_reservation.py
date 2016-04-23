@@ -166,7 +166,7 @@ class TestIpReservation(cloudstackTestCase):
     def test_vm_create_after_reservation(self):
         """ Test creating VM in network after IP reservation
         # steps
-        # 1. Create vm in isolated network (LB through VR or Netscaler) with ip in guestvmcidr
+        # 1. Create vm in isolated network (LB through VR) with ip in guestvmcidr
         # 2. Update guestvmcidr
         # 3. Create another VM
         # validation
@@ -210,8 +210,7 @@ class TestIpReservation(cloudstackTestCase):
     def test_vm_create_outside_cidr_after_reservation(self):
         """ Test create VM outside the range of reserved IPs
         # steps
-        # 1. update guestvmcidr of persistent isolated network (LB through VR or
-        #    Netscaler
+        # 1. update guestvmcidr of persistent isolated network (LB through VR)
         # 2. create another VM with ip outside guestvmcidr
         """
         # validation

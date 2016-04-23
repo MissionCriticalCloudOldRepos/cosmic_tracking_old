@@ -964,8 +964,8 @@ class TestBrowseUploadVolume(cloudstackTestCase):
                             zoneid=ssvm.zoneid
                             )
             
-            # Execute the following assertion in all zones except EIP-ELB Zones
-            if not (self.zone.networktype.lower() == 'basic' and isinstance(NetScaler.list(self.apiclient,physicalnetworkid=listphyntwk[0].id), list) is True):
+            # Execute the following assertion in all zones except basic Zones
+            if not (self.zone.networktype.lower() == 'basic'):
                 self.assertEqual(
                             ssvm.gateway,
                             iprange.gateway,

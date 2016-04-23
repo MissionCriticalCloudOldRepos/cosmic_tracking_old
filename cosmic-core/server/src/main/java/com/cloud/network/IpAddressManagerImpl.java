@@ -356,20 +356,6 @@ public class IpAddressManagerImpl extends ManagerBase implements IpAddressManage
         internalLbOffProviders.put(Service.Lb, defaultInternalLbProvider);
         internalLbOffProviders.put(Service.SourceNat, defaultVpcProvider);
 
-        Map<Network.Service, Set<Network.Provider>> netscalerServiceProviders = new HashMap<Network.Service, Set<Network.Provider>>();
-        Set<Network.Provider> vrProvider = new HashSet<Network.Provider>();
-        vrProvider.add(Provider.VirtualRouter);
-        Set<Network.Provider> sgProvider = new HashSet<Network.Provider>();
-        sgProvider.add(Provider.SecurityGroupProvider);
-        Set<Network.Provider> nsProvider = new HashSet<Network.Provider>();
-        nsProvider.add(Provider.Netscaler);
-        netscalerServiceProviders.put(Service.Dhcp, vrProvider);
-        netscalerServiceProviders.put(Service.Dns, vrProvider);
-        netscalerServiceProviders.put(Service.UserData, vrProvider);
-        netscalerServiceProviders.put(Service.SecurityGroup, sgProvider);
-        netscalerServiceProviders.put(Service.StaticNat, nsProvider);
-        netscalerServiceProviders.put(Service.Lb, nsProvider);
-
         Map<Service, Map<Capability, String>> serviceCapabilityMap = new HashMap<Service, Map<Capability, String>>();
         Map<Capability, String> elb = new HashMap<Capability, String>();
         elb.put(Capability.ElasticLb, "true");

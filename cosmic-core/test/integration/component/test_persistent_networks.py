@@ -39,7 +39,6 @@ from marvin.lib.common import (get_domain,
                                get_zone,
                                get_template,
                                verifyNetworkState,
-                               add_netscaler,
                                wait_for_cleanup)
 from nose.plugins.attrib import attr
 from marvin.codes import PASS, FAIL, FAILED
@@ -84,35 +83,12 @@ class TestPersistentNetworks(cloudstackTestCase):
         )
         cls.isolated_persistent_network_offering = cls.createNetworkOffering(
             "nw_off_isolated_persistent")
-        cls.isolated_persistent_network_offering_netscaler =\
-            cls.createNetworkOffering(
-                "nw_off_isolated_persistent_netscaler"
-            )
         cls.isolated_persistent_network_offering_RVR =\
             cls.createNetworkOffering(
                 "nw_off_persistent_RVR"
             )
         cls.isolated_network_offering = cls.createNetworkOffering(
             "isolated_network_offering")
-        cls.isolated_network_offering_netscaler = cls.createNetworkOffering(
-            "nw_off_isolated_netscaler")
-
-        cls.services["configurableData"]["netscaler"]["lbdevicededicated"] =\
-            False
-
-        # Configure Netscaler device
-        # If configuration succeeds, set ns_configured to True so that
-        # Netscaler tests are executed
-        cls.ns_configured = False
-        try:
-            cls.netscaler = add_netscaler(
-                cls.api_client,
-                cls.zone.id,
-                cls.services["configurableData"]["netscaler"])
-            cls._cleanup.append(cls.netscaler)
-            cls.ns_configured = True
-        except Exception:
-            cls.ns_configured = False
 
         # network will be deleted as part of account cleanup
         cls._cleanup = [
@@ -120,9 +96,7 @@ class TestPersistentNetworks(cloudstackTestCase):
             cls.service_offering,
             cls.isolated_persistent_network_offering,
             cls.isolated_network_offering,
-            cls.isolated_persistent_network_offering_RVR,
-            cls.isolated_persistent_network_offering_netscaler,
-            cls.isolated_network_offering_netscaler]
+            cls.isolated_persistent_network_offering_RVR]
         return
 
     @classmethod
@@ -357,154 +331,6 @@ class TestPersistentNetworks(cloudstackTestCase):
             "ispersistent flag should be true for the network offering")
         return
 
-    @data("LB-VR", "LB-NS")
-    @attr(tags=["advanced", "advancedns"], required_hardware="true")
-    def test_upgrade_to_persistent_services_VR(self, value):
-
-        # This test is run against two networks (one with LB as virtual router
-        # and other one is LB with Netscaler)
-        # All other services through VR
-
-        # steps
-        # 1. create isolated network with network offering which
-        #    has ispersistent field disabled
-        # 2. upgrade isolated network offering to network offering
-        #    which has ispersistent field enabled
-        # 3. Deploy VM ,acquire IP, create Firewall, NAT rules
-        # 4. Verify the working of NAT, Firewall rules
-        # 5. Delete VM
-        # 6. Verify network state after network cleanup interval
-        #
-        # validation
-        # 1. update of network should happen successfully
-        # 2. NAT and Firewall rule should work as expected
-        # 3. After network clenaup interval, network state should be
-        # implemented and have some vlan assigned
-
-        # Set network offering as required (either LB through VR or LB through
-        # Netscaler)
-        networkOffering = self.isolated_network_offering
-
-        # This will be true in case of Netscaler case, you have to change cidr
-        # while updating network
-        changecidr = False
-
-        # In case Netscaler is used for LB
-        if value == "LB-NS":
-            if self.ns_configured:
-                networkOffering = self.isolated_network_offering_netscaler
-                changecidr = True
-            else:
-                self.skipTest(
-                    "Skipping - this test required netscaler\
-                    configured in the network")
-
-        # Create Account
-        account = Account.create(
-            self.api_client,
-            self.services["account"],
-            domainid=self.domain.id)
-        self.cleanup.append(account)
-
-        # create network with the appropriate offering (not persistent)
-        isolated_network = Network.create(
-            self.api_client,
-            self.services["isolated_network"],
-            networkofferingid=networkOffering.id,
-            accountid=account.name,
-            domainid=self.domain.id,
-            zoneid=self.zone.id)
-        response = verifyNetworkState(
-            self.api_client,
-            isolated_network.id,
-            "allocated")
-        exceptionOccured = response[0]
-        isNetworkInDesiredState = response[1]
-        exceptionMessage = response[2]
-
-        if (exceptionOccured or (not isNetworkInDesiredState)):
-            self.fail(exceptionMessage)
-
-        # Update the network with persistent network offering
-        isolated_network.update(
-            self.apiclient,
-            networkofferingid=self.isolated_persistent_network_offering.id,
-            changecidr=changecidr)
-
-        try:
-            virtual_machine = VirtualMachine.create(
-                self.apiclient,
-                self.services["virtual_machine"],
-                networkids=[
-                    isolated_network.id],
-                serviceofferingid=self.service_offering.id,
-                accountid=account.name,
-                domainid=self.domain.id)
-        except Exception as e:
-            self.fail("vm creation failed: %s" % e)
-
-        # Acquire public ip and open firewall for it
-        self.debug(
-            "Associating public IP for network: %s" %
-            isolated_network.id)
-        ipaddress = PublicIPAddress.create(
-            self.api_client,
-            accountid=account.name,
-            zoneid=self.zone.id,
-            domainid=account.domainid,
-            networkid=isolated_network.id)
-
-        FireWallRule.create(
-            self.apiclient,
-            ipaddressid=ipaddress.ipaddress.id,
-            protocol='TCP',
-            cidrlist=[
-                self.services["fwrule"]["cidr"]],
-            startport=self.services["fwrule"]["startport"],
-            endport=self.services["fwrule"]["endport"])
-
-        # Create NAT rule
-        NATRule.create(
-            self.api_client,
-            virtual_machine,
-            self.services["natrule"],
-            ipaddressid=ipaddress.ipaddress.id,
-            networkid=isolated_network.id)
-
-        # Check if SSH works
-        try:
-            virtual_machine.get_ssh_client(
-                ipaddress=ipaddress.ipaddress.ipaddress)
-        except Exception as e:
-            self.fail(
-                "Exception while SSHing to VM %s with IP %s" %
-                (virtual_machine.id, ipaddress.ipaddress.ipaddress))
-
-        # Delete VM
-        virtual_machine.delete(self.api_client)
-
-        # Verify VM is expunged
-        self.verifyVmExpungement(virtual_machine)
-
-        # wait for time such that, network is cleaned up
-        wait_for_cleanup(
-            self.api_client, [
-                "network.gc.interval", "network.gc.wait"])
-
-        # Check network state now, this will bolster that network updation has
-        # taken effect
-        response = verifyNetworkState(
-            self.api_client,
-            isolated_network.id,
-            "implemented")
-        exceptionOccured = response[0]
-        isNetworkInDesiredState = response[1]
-        exceptionMessage = response[2]
-
-        if (exceptionOccured or (not isNetworkInDesiredState)):
-            self.fail(exceptionMessage)
-        return
-
     @attr(tags=["advanced"], required_hardware="true")
     def test_upgrade_network_VR_to_PersistentRVR(self):
         # steps
@@ -622,252 +448,6 @@ class TestPersistentNetworks(cloudstackTestCase):
 
         if (exceptionOccured or (not isNetworkInDesiredState)):
             self.fail(exceptionMessage)
-        return
-
-    @attr(tags=["advanced", "advancedns"])
-    def test_upgrade_network_NS_to_persistent_NS(self):
-        # steps
-        # 1. create isolated network with network offering which
-        #    has ispersistent field disabled
-        #    and LB service through Netscaler
-        # 2. upgrade isolated network offering to network offering
-        #    which has ispersistent field enabled
-        #    and LB service through Netscaler
-        # 3. Deploy VM ,acquire IP, create Firewall, NAT rules
-        # 4. Verify the working of NAT, Firewall rules
-        # 5. Delete VM
-        # 6. Verify network state after network cleanup interval
-        #
-        # validation
-        # 1. update of network should happen successfully
-        # 2. NAT and Firewall rule should work as expected
-        # 3. After network clenaup interval, network state should be
-        # implemented and have some vlan assigned
-
-        # Skip test if Netscaler is not configured
-        if not self.ns_configured:
-            self.skipTest(
-                "Skipping - this test required netscaler\
-                configured in the network")
-
-        # Create Account and create isolated network in it
-        account = Account.create(
-            self.api_client,
-            self.services["account"],
-            domainid=self.domain.id)
-        self.cleanup.append(account)
-        isolated_network = Network.create(
-            self.api_client,
-            self.services["isolated_network"],
-            networkofferingid=self.isolated_network_offering_netscaler.id,
-            accountid=account.name,
-            domainid=self.domain.id,
-            zoneid=self.zone.id)
-        response = verifyNetworkState(
-            self.api_client,
-            isolated_network.id,
-            "allocated")
-        exceptionOccured = response[0]
-        isNetworkInDesiredState = response[1]
-        exceptionMessage = response[2]
-
-        if (exceptionOccured or (not isNetworkInDesiredState)):
-            self.fail(exceptionMessage)
-
-        isolated_network.update(
-            self.apiclient,
-            networkofferingid=(
-                self.isolated_persistent_network_offering_netscaler.id),
-            changecidr=True)
-
-        # Deploy VM
-        try:
-            virtual_machine = VirtualMachine.create(
-                self.apiclient,
-                self.services["virtual_machine"],
-                networkids=[
-                    isolated_network.id],
-                serviceofferingid=self.service_offering.id,
-                accountid=account.name,
-                domainid=self.domain.id)
-        except Exception as e:
-            self.fail("vm creation failed: %s" % e)
-
-        self.debug(
-            "Associating public IP for network: %s" %
-            isolated_network.id)
-        ipaddress = PublicIPAddress.create(
-            self.api_client,
-            accountid=account.name,
-            zoneid=self.zone.id,
-            domainid=account.domainid,
-            networkid=isolated_network.id)
-
-        FireWallRule.create(
-            self.apiclient,
-            ipaddressid=ipaddress.ipaddress.id,
-            protocol='TCP',
-            cidrlist=[
-                self.services["fwrule"]["cidr"]],
-            startport=self.services["fwrule"]["startport"],
-            endport=self.services["fwrule"]["endport"])
-
-        NATRule.create(
-            self.api_client,
-            virtual_machine,
-            self.services["natrule"],
-            ipaddressid=ipaddress.ipaddress.id,
-            networkid=isolated_network.id)
-
-        try:
-            virtual_machine.get_ssh_client(
-                ipaddress=ipaddress.ipaddress.ipaddress)
-        except Exception as e:
-            self.fail(
-                "Exception while SSHing to VM %s with IP %s" %
-                (virtual_machine.id, ipaddress.ipaddress.ipaddress))
-
-        virtual_machine.delete(self.api_client)
-
-        # Verify VM is expunged
-        self.verifyVmExpungement(virtual_machine)
-
-        # wait for time such that, network is cleaned up
-        wait_for_cleanup(
-            self.api_client, [
-                "network.gc.interval", "network.gc.wait"])
-
-        # Check network state now, this will bolster that network updation has
-        # taken effect
-        response = verifyNetworkState(
-            self.api_client,
-            isolated_network.id,
-            "implemented")
-        exceptionOccured = response[0]
-        isNetworkInDesiredState = response[1]
-        exceptionMessage = response[2]
-
-        if (exceptionOccured or (not isNetworkInDesiredState)):
-            self.fail(exceptionMessage)
-        return
-
-    @data("LB-VR", "LB-Netscaler")
-    @attr(tags=["advanced", "advancedns"], required_hardware="true")
-    def test_pf_nat_rule_persistent_network(self, value):
-
-        # This test shall run with two scenarios, one with LB services
-        # through VR and other through LB service
-        # through Netscaler"""
-
-        # steps
-        # 1. create isolated network with network offering which has
-        #    ispersistent field enabled
-        #    and LB service through VR or Netscaler
-        # 2. Check routers belonging to network and verify that router
-        #    is reachable through host using linklocalip
-        # 3. Deploy VM ,acquire IP, create Firewall, NAT rules
-        # 4. Verify the working of NAT, Firewall rules
-        #
-        # validation
-        # 1. Router should be reachable
-        # 2. NAT and Firewall rule should work as expected
-
-        # Set network offering according to data passed to test case
-        networkOffering = self.isolated_persistent_network_offering
-        if value == "LB-Netscaler":
-            if self.ns_configured:
-                networkOffering = (
-                    self.isolated_persistent_network_offering_netscaler)
-            else:
-                self.skipTest(
-                    "Skipping - this test required netscaler\
-                    configured in the network")
-
-        # Create account and network in it
-        account = Account.create(
-            self.api_client,
-            self.services["account"],
-            domainid=self.domain.id)
-        self.cleanup.append(account)
-        isolated_persistent_network = Network.create(
-            self.api_client,
-            self.services["isolated_network"],
-            networkofferingid=networkOffering.id,
-            accountid=account.name,
-            domainid=self.domain.id,
-            zoneid=self.zone.id)
-        self.assertEqual(
-            str(
-                isolated_persistent_network.state).lower(),
-            "implemented",
-            "network state should be implemented, it is %s" %
-            isolated_persistent_network.state)
-        self.assertIsNotNone(
-            isolated_persistent_network.vlan,
-            "vlan must not be null for persistent network")
-
-        # Check if router is assigned to the persistent network
-        routers = Router.list(self.api_client, account=account.name,
-                              domainid=account.domainid,
-                              networkid=isolated_persistent_network.id)
-
-        self.assertEqual(
-            validateList(routers)[0],
-            PASS,
-            "Routers list validation failed, list is %s" %
-            routers)
-        router = routers[0]
-
-        # Check if router if reachable from the host
-        self.checkRouterAccessibility(router)
-
-        # Deploy VM in the network
-        try:
-            virtual_machine = VirtualMachine.create(
-                self.apiclient,
-                self.services["virtual_machine"],
-                networkids=[
-                    isolated_persistent_network.id],
-                serviceofferingid=self.service_offering.id,
-                accountid=account.name,
-                domainid=self.domain.id)
-        except Exception as e:
-            self.fail("vm creation failed: %s" % e)
-
-        # Acquire IP address, create Firewall, NAT rule
-        self.debug(
-            "Associating public IP for network: %s" %
-            isolated_persistent_network.id)
-        ipaddress = PublicIPAddress.create(
-            self.api_client,
-            accountid=account.name,
-            zoneid=self.zone.id,
-            domainid=account.domainid,
-            networkid=isolated_persistent_network.id)
-
-        FireWallRule.create(
-            self.apiclient,
-            ipaddressid=ipaddress.ipaddress.id,
-            protocol='TCP',
-            cidrlist=[
-                self.services["fwrule"]["cidr"]],
-            startport=self.services["fwrule"]["startport"],
-            endport=self.services["fwrule"]["endport"])
-        NATRule.create(
-            self.api_client,
-            virtual_machine,
-            self.services["natrule"],
-            ipaddressid=ipaddress.ipaddress.id,
-            networkid=isolated_persistent_network.id)
-
-        # Check working of PF, NAT rules
-        try:
-            virtual_machine.get_ssh_client(
-                ipaddress=ipaddress.ipaddress.ipaddress)
-        except Exception as e:
-            self.fail(
-                "Exception while SSHing to VM %s with IP %s" %
-                (virtual_machine.id, ipaddress.ipaddress.ipaddress))
         return
 
     @attr(tags=["advanced"], required_hardware="true")
@@ -1500,31 +1080,11 @@ class TestAssignVirtualMachine(cloudstackTestCase):
             cls.createNetworkOffering(
                 "nw_off_persistent_RVR"
             )
-        cls.persistent_network_offering_netscaler = cls.createNetworkOffering(
-            "nw_off_isolated_persistent_netscaler")
 
-        cls.services["configurableData"]["netscaler"]["lbdevicededicated"] =\
-            False
-
-        # Configure Netscaler device
-        # If configuration succeeds, set ns_configured to True so that
-        # Netscaler tests are executed
-        cls.ns_configured = False
-        try:
-            cls.netscaler = add_netscaler(
-                cls.api_client,
-                cls.zone.id,
-                cls.services["configurableData"]["netscaler"])
-            cls._cleanup.append(cls.netscaler)
-            cls.ns_configured = True
-        except Exception:
-            cls.ns_configured = False
-
-        # network will be deleted as part of account cleanup
+         # network will be deleted as part of account cleanup
         cls._cleanup = [
             cls.service_offering, cls.isolated_persistent_network_offering,
-            cls.isolated_persistent_network_offering_RVR,
-            cls.persistent_network_offering_netscaler
+            cls.isolated_persistent_network_offering_RVR
         ]
         return
 
@@ -1573,12 +1133,11 @@ class TestAssignVirtualMachine(cloudstackTestCase):
 
         # This test shall be run with three types of persistent networks
         # a) All services through VR
-        # b) LB service through Netscaler
-        # c) with Redundant Virtual Router facility
+        # b) with Redundant Virtual Router facility
 
         # steps
         # 1. create two accounts (account1 and account2)
-        # 2. Create a persistent network (with VR/RVR/Netscaler-LB
+        # 2. Create a persistent network (with VR/RVR
         #    with VR services) in account1 and deploy VM in it with
         #    this network
         # 3. Stop the VM and assign the VM to account2
@@ -1606,13 +1165,6 @@ class TestAssignVirtualMachine(cloudstackTestCase):
             network_offering = self.isolated_persistent_network_offering
         elif value == "RVR":
             network_offering = self.isolated_persistent_network_offering_RVR
-        elif value == "LB-NS":
-            if self.ns_configured:
-                network_offering = self.persistent_network_offering_netscaler
-            else:
-                self.skipTest(
-                    "This test requires netscaler to be\
-                    configured in the network")
 
         network = Network.create(
             self.api_client,
@@ -1956,41 +1508,15 @@ class TestRestartPersistentNetwork(cloudstackTestCase):
             cls.services["nw_off_isolated_persistent_lb"],
             conservemode=False)
 
-        cls.isolated_persistent_network_offering_netscaler =\
-            NetworkOffering.create(
-                cls.api_client,
-                cls.services["nw_off_isolated_persistent_netscaler"],
-                conservemode=False
-            )
         # Update network offering state from disabled to enabled.
         cls.isolated_persistent_network_offering.update(
             cls.api_client,
             state="enabled")
-        cls.isolated_persistent_network_offering_netscaler.update(
-            cls.api_client,
-            state="enabled")
 
-        cls.services["configurableData"]["netscaler"]["lbdevicededicated"] =\
-            False
-
-        # Configure Netscaler device
-        # If configuration succeeds, set ns_configured to True so that
-        # Netscaler tests are executed
-        cls.ns_configured = False
-        try:
-            cls.netscaler = add_netscaler(
-                cls.api_client,
-                cls.zone.id,
-                cls.services["configurableData"]["netscaler"])
-            cls._cleanup.append(cls.netscaler)
-            cls.ns_configured = True
-        except Exception:
-            cls.ns_configured = False
 
         # network will be deleted as part of account cleanup
         cls._cleanup = [
-            cls.service_offering, cls.isolated_persistent_network_offering,
-            cls.isolated_persistent_network_offering_netscaler
+            cls.service_offering, cls.isolated_persistent_network_offering
         ]
         return
 
@@ -2190,141 +1716,7 @@ class TestRestartPersistentNetwork(cloudstackTestCase):
             self.fail(
                 "Exception while SSHing to VM %s with IP %s" %
                 (virtual_machine.id, ipaddress.ipaddress.ipaddress))
-
         return
-
-    @data("true", "false")
-    @attr(tags=["advanced", "advancedns"])
-    def test_cleanup_persistent_network_lb_netscaler(self, value):
-        # steps
-        # 1. Create account and create persistent network in
-        #    it with LB service provided by netscaler
-        # 2. Verify that router is reachable from the host
-        # 3. Acquire public IP, open firewall and create LB rule
-        # 4. Restart the network with clenup parameter true/false
-        # 5. Check network state after restart, it should be implemented
-        # 6. Deploy VM, assign LB rule to it, and verify the LB rule
-
-        if not self.ns_configured:
-            self.skipTest(
-                "This test required netscaler to be configured in the network")
-
-        account = Account.create(
-            self.apiclient,
-            self.services["account"],
-            domainid=self.domain.id)
-        self.cleanup.append(account)
-
-        isolated_persistent_network = Network.create(
-            self.api_client,
-            self.services["isolated_network"],
-            networkofferingid=(
-                self.isolated_persistent_network_offering_netscaler.id),
-            accountid=account.name,
-            domainid=self.domain.id,
-            zoneid=self.zone.id)
-        response = verifyNetworkState(
-            self.apiclient,
-            isolated_persistent_network.id,
-            "implemented")
-        exceptionOccured = response[0]
-        isNetworkInDesiredState = response[1]
-        exceptionMessage = response[2]
-
-        if (exceptionOccured or (not isNetworkInDesiredState)):
-            self.fail(exceptionMessage)
-        self.assertIsNotNone(
-            isolated_persistent_network.vlan,
-            "vlan must not be null for persistent network")
-
-        self.debug(
-            "Listing routers for network: %s" %
-            isolated_persistent_network.name)
-        routers = Router.list(self.api_client, listall=True,
-                              networkid=isolated_persistent_network.id)
-
-        self.assertEqual(
-            validateList(routers)[0],
-            PASS,
-            "Routers list validation failed, list is %s" %
-            routers)
-
-        # Check if router is reachable from the host
-        for router in routers:
-            self.checkRouterAccessibility(router)
-
-        self.debug(
-            "Associating public IP for network: %s" %
-            isolated_persistent_network.id)
-        ipaddress = PublicIPAddress.create(
-            self.api_client,
-            accountid=account.name,
-            zoneid=self.zone.id,
-            domainid=account.domainid,
-            networkid=isolated_persistent_network.id)
-
-        # Create LB Rule
-        lb_rule = LoadBalancerRule.create(
-            self.apiclient,
-            self.services["lbrule"],
-            ipaddressid=ipaddress.ipaddress.id,
-            accountid=account.name,
-            networkid=isolated_persistent_network.id,
-            domainid=account.domainid)
-
-        # Restart Network
-        isolated_persistent_network.restart(self.apiclient, cleanup=value)
-
-        # List networks
-        networks = Network.list(
-            self.apiclient,
-            account=account.name,
-            domainid=account.domainid)
-        self.assertEqual(
-            validateList(networks)[0],
-            PASS,
-            "networks list validation failed, list is %s" %
-            networks)
-
-        response = verifyNetworkState(
-            self.apiclient,
-            networks[0].id,
-            "implemented")
-        exceptionOccured = response[0]
-        isNetworkInDesiredState = response[1]
-        exceptionMessage = response[2]
-
-        if (exceptionOccured or (not isNetworkInDesiredState)):
-            self.fail(exceptionMessage)
-        self.assertIsNotNone(
-            networks[0].vlan,
-            "vlan must not be null for persistent network")
-
-        # Deploy VM
-        try:
-            virtual_machine = VirtualMachine.create(
-                self.apiclient,
-                self.services["virtual_machine"],
-                networkids=[
-                    isolated_persistent_network.id],
-                serviceofferingid=self.service_offering.id,
-                accountid=account.name,
-                domainid=self.domain.id)
-        except Exception as e:
-            self.fail("vm creation failed: %s" % e)
-
-        lb_rule.assign(self.api_client, [virtual_machine])
-
-        try:
-            virtual_machine.get_ssh_client(
-                ipaddress=ipaddress.ipaddress.ipaddress)
-        except Exception as e:
-            self.fail(
-                "Exception while SSHing to VM %s with IP %s" %
-                (virtual_machine.id, ipaddress.ipaddress.ipaddress))
-
-        return
-
 
 @ddt
 class TestVPCNetworkOperations(cloudstackTestCase):

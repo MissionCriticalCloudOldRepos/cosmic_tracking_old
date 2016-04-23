@@ -24,8 +24,7 @@ from marvin.cloudstackAPI import (stopSystemVm,
 from marvin.lib.utils import (cleanup_resources,
                               get_process_status,
                               get_host_credentials)
-from marvin.lib.base import (PhysicalNetwork,
-                             NetScaler)
+from marvin.lib.base import (PhysicalNetwork)
 from marvin.lib.common import (get_zone,
                                list_hosts,
                                list_ssvms,
@@ -185,13 +184,8 @@ class TestSSVMs(cloudstackTestCase):
                 zoneid=ssvm.zoneid
             )
 
-            # Execute the following assertion in all zones except EIP-ELB Zones
-            if not (
-                self.zone.networktype.lower() == 'basic' and isinstance(
-                    NetScaler.list(
-                        self.apiclient,
-                        physicalnetworkid=listphyntwk[0].id),
-                    list) is True):
+            # Execute the following assertion in all zones except basic Zones
+            if not (self.zone.networktype.lower() == 'basic'):
                 self.assertEqual(
                     ssvm.gateway,
                     iprange.gateway,
@@ -321,13 +315,8 @@ class TestSSVMs(cloudstackTestCase):
                 zoneid=cpvm.zoneid
             )
 
-            # Execute the following assertion in all zones except EIP-ELB Zones
-            if not (
-                self.zone.networktype.lower() == 'basic' and isinstance(
-                    NetScaler.list(
-                        self.apiclient,
-                        physicalnetworkid=listphyntwk[0].id),
-                    list) is True):
+            # Execute the following assertion in all zones except basic Zones
+            if not (self.zone.networktype.lower() == 'basic'):
                 self.assertEqual(
                     cpvm.gateway,
                     iprange.gateway,

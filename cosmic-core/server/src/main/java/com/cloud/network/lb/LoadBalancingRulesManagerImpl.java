@@ -354,7 +354,7 @@ public class LoadBalancingRulesManagerImpl<Type> extends ManagerBase implements 
         rule.setAutoScaleVmGroup(lbAutoScaleVmGroup);
 
         if (!isRollBackAllowedForProvider(lb)) {
-            // this is for Netscaler type of devices. if their is failure the db
+            // this is for loadbalancer type of devices. if their is failure the db
             // entries will be rollbacked.
             return false;
         }
@@ -926,8 +926,7 @@ public class LoadBalancingRulesManagerImpl<Type> extends ManagerBase implements 
         if (provider == null || provider.size() == 0) {
             return false;
         }
-        if (provider.get(0) == Provider.Netscaler || provider.get(0) == Provider.F5BigIp ||
-            provider.get(0) == Provider.VirtualRouter) {
+        if (provider.get(0) == Provider.F5BigIp || provider.get(0) == Provider.VirtualRouter) {
             return true;
         }
         return false;

@@ -462,8 +462,7 @@ class DeployDataCenters(object):
 
     def configureProviders(self, phynetwrk, providers):
         """
-        We will enable the virtualrouter elements for all zones. Other
-        providers like NetScalers, SRX, etc are explicitly added/configured
+        We will enable the virtualrouter elements for all zones.
         """
         try:
             for provider in providers:
@@ -517,7 +516,7 @@ class DeployDataCenters(object):
                     netprov.physicalnetworkid = phynetwrk.id
                     result = self.__apiClient.addNetworkServiceProvider(netprov)
                     self.enableProvider(result.id)
-                elif provider.name in ['Netscaler', 'JuniperSRX', 'F5BigIp', 'NiciraNvp']:
+                elif provider.name in ['JuniperSRX', 'F5BigIp', 'NiciraNvp']:
                     netprov = addNetworkServiceProvider.\
                         addNetworkServiceProviderCmd()
                     netprov.name = provider.name
@@ -533,24 +532,7 @@ class DeployDataCenters(object):
                             result.id)
                     if provider.devices is not None:
                         for device in provider.devices:
-                            if provider.name == 'Netscaler':
-                                dev = addNetscalerLoadBalancer.\
-                                    addNetscalerLoadBalancerCmd()
-                                dev.username = device.username
-                                dev.password = device.password
-                                dev.networkdevicetype = device.networkdevicetype
-                                dev.url = configGenerator.getDeviceUrl(device)
-                                dev.physicalnetworkid = phynetwrk.id
-                                ret = self.__apiClient.addNetscalerLoadBalancer(
-                                    dev)
-                                if ret.id:
-                                    self.__tcRunLogger.\
-                                        debug("==== AddNetScalerLB "
-                                              "Successful=====")
-                                    self.__addToCleanUp(
-                                        "NetscalerLoadBalancer",
-                                        ret.id)
-                            elif provider.name == 'JuniperSRX':
+                            if provider.name == 'JuniperSRX':
                                 dev = addSrxFirewall.addSrxFirewallCmd()
                                 dev.username = device.username
                                 dev.password = device.password
@@ -713,13 +695,7 @@ class DeployDataCenters(object):
                 if zone.networktype == "Basic":
                     listnetworkoffering =\
                         listNetworkOfferings.listNetworkOfferingsCmd()
-                    listnetworkoffering.name =\
-                        "DefaultSharedNetscalerEIPandELBNetworkOffering" \
-                        if len(filter(lambda x:
-                                      x.typ == 'Public',
-                                      zone.physical_networks[0].
-                                      traffictypes)) > 0 \
-                        else "DefaultSharedNetworkOfferingWithSGService"
+                    listnetworkoffering.name = "DefaultSharedNetworkOfferingWithSGService"
                     if zone.networkofferingname is not None:
                         listnetworkoffering.name = zone.networkofferingname
                     listnetworkofferingresponse = \

@@ -56,7 +56,7 @@ public class DeleteF5LoadBalancerCmd extends BaseAsyncCmd {
                type = CommandType.UUID,
                entityType = F5LoadBalancerResponse.class,
                required = true,
-               description = "netscaler load balancer device ID")
+               description = "f5 load balancer device ID")
     private Long lbDeviceId;
 
     /////////////////////////////////////////////////////

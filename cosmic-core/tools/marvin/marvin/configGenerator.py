@@ -249,28 +249,6 @@ class s3(object):
         self.usehttps = None
 
 
-class netscaler(object):
-
-    def __init__(self, hostname=None, username='nsroot', password='nsroot'):
-        self.hostname = hostname
-        self.username = username
-        self.password = password
-        self.networkdevicetype = 'NetscalerVPXLoadBalancer'
-        self.publicinterface = '1/1'
-        self.privateinterface = '1/1'
-        self.numretries = '2'
-        self.lbdevicecapacity = '50'
-        self.lbdevicededicated = 'false'
-
-    def getUrl(self):
-        return repr(self)
-
-    def __repr__(self):
-        req = zip(self.__dict__.keys(), self.__dict__.values())
-        return self.hostname + "?" + "&".join(["=".join([r[0], r[1]])
-                                               for r in req])
-
-
 class srx(object):
 
     def __init__(self, hostname=None, username='root', password='admin'):
@@ -549,131 +527,6 @@ def descSetupInBasicMode():
 
     return zs
 
-
-def descSetupInEipMode():
-    """
-    Setting up an EIP/ELB enabled zone with netscaler provider
-    """
-    zs = cloudstackConfiguration()
-
-    for l in range(1):
-        z = zone()
-        z.dns1 = "8.8.8.8"
-        z.dns2 = "8.8.4.4"
-        z.internaldns1 = "192.168.110.254"
-        z.internaldns2 = "192.168.110.253"
-        z.name = "test" + str(l)
-        z.networktype = 'Basic'
-
-        ips = iprange()
-        ips.vlan = "49"
-        ips.startip = "10.147.49.200"
-        ips.endip = "10.147.49.250"
-        ips.gateway = "10.147.49.1"
-        ips.netmask = "255.255.255.0"
-        z.ipranges.append(ips)
-
-        # If security groups are reqd
-        sgprovider = provider()
-        sgprovider.broadcastdomainrange = 'Pod'
-        sgprovider.name = 'SecurityGroupProvider'
-
-        nsprovider = provider()
-        nsprovider.name = 'Netscaler'
-        ns = netscaler()
-        ns.hostname = '10.147.40.100'
-        nsprovider.devices.append(ns)
-
-        pn = physicalNetwork()
-        pn.name = "test-network"
-        pn.traffictypes = [trafficType("Guest",
-                                       {"xen": "cloud-guest"}),
-                           trafficType("Management"),
-                           trafficType("Public", {"xen": "cloud-public"})]
-        pn.providers.extend([sgprovider, nsprovider])
-        z.physical_networks.append(pn)
-
-        '''create 10 pods'''
-        for i in range(2):
-            p = pod()
-            p.name = "test" + str(l) + str(i)
-            p.gateway = "192.168.%d.1" % i
-            p.netmask = "255.255.255.0"
-            p.startip = "192.168.%d.150" % i
-            p.endip = "192.168.%d.220" % i
-
-            '''add two pod guest ip ranges'''
-            for j in range(2):
-                ip = iprange()
-                ip.gateway = p.gateway
-                ip.netmask = p.netmask
-                ip.startip = "192.168.%d.%d" % (i, j * 20)
-                ip.endip = "192.168.%d.%d" % (i, j * 20 + 10)
-
-                p.guestIpRanges.append(ip)
-
-            '''add 10 clusters'''
-            for j in range(2):
-                c = cluster()
-                c.clustername = "test" + str(l) + str(i) + str(j)
-                c.clustertype = "CloudManaged"
-                c.hypervisor = "Simulator"
-
-                '''add 10 hosts'''
-                for k in range(2):
-                    h = host()
-                    h.username = "root"
-                    h.password = "password"
-                    h.url = "http://Sim/%d%d%d%d" % (l, i, j, k)
-                    c.hosts.append(h)
-
-                '''add 2 primary storages'''
-                for m in range(2):
-                    primary = primaryStorage()
-                    primary.name = "primary" + \
-                        str(l) + str(i) + str(j) + str(m)
-                    primary.url = "nfs://localhost/path%s" % (str(l) + str(i)
-                                                              + str(j)
-                                                              + str(m))
-                    c.primaryStorages.append(primary)
-
-                p.clusters.append(c)
-
-            z.pods.append(p)
-
-        '''add two secondary'''
-        for i in range(5):
-            secondary = secondaryStorage()
-            secondary.url = "nfs://localhost/path" + str(l) + str(i)
-            z.secondaryStorages.append(secondary)
-
-        zs.zones.append(z)
-
-    '''Add one mgt server'''
-    mgt = managementServer()
-    mgt.mgtSvrIp = "localhost"
-    zs.mgtSvr.append(mgt)
-
-    '''Add a database'''
-    db = dbServer()
-    db.dbSvr = "localhost"
-
-    zs.dbSvr = db
-
-    '''add global configuration'''
-    global_settings = {'expunge.delay': '60',
-                       'expunge.interval': '60',
-                       'expunge.workers': '3',
-                       }
-    for k, v in global_settings.iteritems():
-        cfg = configuration()
-        cfg.name = k
-        cfg.value = v
-        zs.globalConfig.append(cfg)
-
-    return zs
-
-
 def descSetupInAdvancedMode():
     '''sample code to generate setup configuration file'''
     zs = cloudstackConfiguration()
@@ -695,9 +548,6 @@ def descSetupInAdvancedMode():
                            trafficType("Public")]
 
         vpcprovider = provider('VpcVirtualRouter')
-
-        nsprovider = provider('Netscaler')
-        nsprovider.devices.append(netscaler(hostname='10.147.40.100'))
 
         srxprovider = provider('JuniperSRX')
         srxprovider.devices.append(srx(hostname='10.147.40.3'))

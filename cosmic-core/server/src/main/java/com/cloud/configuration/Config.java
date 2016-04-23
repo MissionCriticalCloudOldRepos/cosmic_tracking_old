@@ -1578,14 +1578,6 @@ public enum Config {
       "50",
       "default number of networks permitted per external load firewall device",
       null),
-  EIPWithMultipleNetScalersEnabled(
-      "Advanced",
-      ManagementServer.class,
-      Boolean.class,
-      "eip.use.multiple.netscalers",
-      "false",
-      "Should be set to true, if there will be multiple NetScaler devices providing EIP service in a zone",
-      null),
   ConsoleProxyServiceOffering(
       "Advanced",
       ManagementServer.class,
