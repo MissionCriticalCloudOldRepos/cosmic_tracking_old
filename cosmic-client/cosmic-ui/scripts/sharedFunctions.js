@@ -191,8 +191,8 @@ var pollAsyncJobResult = function(args) {
     //LB provider map
 var lbProviderMap = {
     "publicLb": {
-        "non-vpc": ["VirtualRouter", "Netscaler", "F5"],
-        "vpc": ["VpcVirtualRouter", "Netscaler"]
+        "non-vpc": ["VirtualRouter", "F5"],
+        "vpc": ["VpcVirtualRouter"]
     },
     "internalLb": {
         "non-vpc": [],
@@ -934,20 +934,6 @@ cloudStack.preFilter = {
             args.$form.find('.form-item[rel=isFeatured]').hide();
             args.$form.find('.form-item[rel=xenserverToolsVersion61plus]').hide();
         }
-    },
-    addLoadBalancerDevice: function(args) { //add netscaler device OR add F5 device
-        args.$form.find('.form-item[rel=dedicated]').bind('change', function() {
-            var $dedicated = args.$form.find('.form-item[rel=dedicated]');
-            var $capacity = args.$form.find('.form-item[rel=capacity]');
-            if ($dedicated.find('input[type=checkbox]:checked').length > 0) {
-                $capacity.hide();
-                $capacity.find('input[type=text]').val('1');
-            } else if ($dedicated.find('input[type=checkbox]:unchecked').length > 0) {
-                $capacity.css('display', 'inline-block');
-                $capacity.find('input[type=text]').val('');
-            }
-        });
-        args.$form.change();
     }
 }
 

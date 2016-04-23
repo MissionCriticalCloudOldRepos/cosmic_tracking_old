@@ -531,43 +531,6 @@ cloudStack.docs = {
         desc: 'Any labels that you use to categorize hosts for ease of maintenance or to enable HA.',
         externalLink: ''
     },
-    // Add Netscaler
-    helpNetScalerIPAddress: {
-        desc: 'The IP address of the device',
-        externalLink: ''
-    },
-    helpNetScalerUsername: {
-        desc: 'A user ID with valid authentication credentials that provide to access the device',
-        externalLink: ''
-    },
-    helpNetScalerPassword: {
-        desc: 'The password for the user ID provided in Username',
-        externalLink: ''
-    },
-    helpNetScalerType: {
-        desc: 'The type of device that is being added',
-        externalLink: ''
-    },
-    helpNetScalerPublicInterface: {
-        desc: 'Interface of device that is configured to be part of the public network',
-        externalLink: ''
-    },
-    helpNetScalerPrivateInterface: {
-        desc: 'Interface of device that is configured to be part of the private network',
-        externalLink: ''
-    },
-    helpNetScalerRetries: {
-        desc: 'Number of times to attempt a command on the device before considering the operation failed. Default is 2.',
-        externalLink: ''
-    },
-    helpNetScalerDedicated: {
-        desc: 'Check this box to dedicate the device to a single account. The value in the Capacity field will be ignored.',
-        externalLink: ''
-    },
-    helpNetScalerCapacity: {
-        desc: 'Number of guest networks/accounts that will share this device',
-        externalLink: ''
-    },
     // Add network offering
     helpNetworkOfferingName: {
         desc: 'Any desired name for the network offering',

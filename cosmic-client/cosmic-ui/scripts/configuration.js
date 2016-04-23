@@ -2292,10 +2292,9 @@
                                         }
                                         var $providers = $useVpcCb.closest('form').find('.dynamic-input select[name!="service.Connectivity.provider"]');
                                         var $optionsOfProviders = $providers.find('option');
-                                        //p.s. Netscaler is supported in both vpc and non-vpc
                                         if ($useVpc.is(':visible') && $useVpcCb.is(':checked')) { //*** vpc ***
                                             $optionsOfProviders.each(function(index) {
-                                                if ($(this).val() == 'InternalLbVm' || $(this).val() == 'VpcVirtualRouter' || $(this).val() == 'Netscaler'  || $(this).val() == 'NuageVsp' || $(this).val() == 'NuageVspVpc') {
+                                                if ($(this).val() == 'InternalLbVm' || $(this).val() == 'VpcVirtualRouter'  || $(this).val() == 'NuageVsp' || $(this).val() == 'NuageVspVpc') {
                                                     $(this).attr('disabled', false);
                                                 } else {
                                                     $(this).attr('disabled', true);
@@ -2335,7 +2334,7 @@
                                         if ($useVpcCb.is(':checked') && $("input[name='service.Lb.isEnabled']").is(":checked") == true) {
                                             $lbType.css('display', 'inline-block');
 
-                                            if ($lbType.find('select').val() == 'publicLb') { //disable all providers except the ones in lbProviderMap.publicLb.vpc => ["VpcVirtualRouter", "Netscaler"]
+                                            if ($lbType.find('select').val() == 'publicLb') { //disable all providers except the ones in lbProviderMap.publicLb.vpc => ["VpcVirtualRouter"]
                                                 for (var i = 0; i < $lbProviderOptions.length; i++) {
                                                     var $option = $lbProviderOptions.eq(i);
                                                     var supportedProviders = lbProviderMap.publicLb.vpc;
@@ -2526,35 +2525,11 @@
                                             args.$form.find('.form-item[rel=\"egressdefaultpolicy\"]').css('display', 'none');
                                         }
 
-                                        //show LB Isolation dropdown only when (1)LB Service is checked (2)Service Provider is Netscaler OR F5
-                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && (args.$form.find('.form-item[rel=\"service.Lb.provider\"]').find('select').val() == 'Netscaler' || args.$form.find('.form-item[rel=\"service.Lb.provider\"]').find('select').val() == 'F5BigIp')) {
+                                        //show LB Isolation dropdown only when (1)LB Service is checked (2)Service Provider is F5
+                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && args.$form.find('.form-item[rel=\"service.Lb.provider\"]').find('select').val() == 'F5BigIp') {
                                             args.$form.find('.form-item[rel=\"service.Lb.lbIsolationDropdown\"]').css('display', 'inline-block');
                                         } else {
                                             args.$form.find('.form-item[rel=\"service.Lb.lbIsolationDropdown\"]').hide();
-                                        }
-
-                                        //show Elastic LB checkbox only when (1)LB Service is checked (2)Service Provider is Netscaler (3)Guest IP Type is Shared
-                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && (args.$form.find('.form-item[rel=\"service.Lb.provider\"]').find('select').val() == 'Netscaler') && (args.$form.find('.form-item[rel=\"guestIpType\"]').find('select').val() == 'Shared')) {
-                                            args.$form.find('.form-item[rel=\"service.Lb.elasticLbCheckbox\"]').css('display', 'inline-block');
-                                        } else {
-                                            args.$form.find('.form-item[rel=\"service.Lb.elasticLbCheckbox\"]').hide();
-                                            args.$form.find('.form-item[rel=\"service.Lb.elasticLbCheckbox\"]').find('input[type=checkbox]').attr('checked', false);
-                                        }
-
-                                        //show Elastic IP checkbox only when (1)StaticNat service is checked (2)StaticNat service provider is Netscaler
-                                        if ((args.$form.find('.form-item[rel=\"service.StaticNat.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && (args.$form.find('.form-item[rel=\"service.StaticNat.provider\"]').find('select').val() == 'Netscaler')) {
-                                            args.$form.find('.form-item[rel=\"service.StaticNat.elasticIpCheckbox\"]').css('display', 'inline-block');
-                                        } else {
-                                            args.$form.find('.form-item[rel=\"service.StaticNat.elasticIpCheckbox\"]').hide();
-                                            args.$form.find('.form-item[rel=\"service.StaticNat.elasticIpCheckbox\"]').find('input[type=checkbox]').attr('checked', false);
-                                        }
-
-                                        //show Associate Public IP checkbox only when (1)StaticNat Service is checked (2)Service Provider is Netscaler (3)Guest IP Type is Shared (4) Elastic IP checkbox is checked
-                                        if ((args.$form.find('.form-item[rel=\"service.StaticNat.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && (args.$form.find('.form-item[rel=\"service.StaticNat.provider\"]').find('select').val() == 'Netscaler') && (args.$form.find('.form-item[rel=\"guestIpType\"]').find('select').val() == 'Shared') && (args.$form.find('.form-item[rel=\"service.StaticNat.elasticIpCheckbox\"]').find('input[type=checkbox]').attr('checked') == "checked")) {
-                                            args.$form.find('.form-item[rel=\"service.StaticNat.associatePublicIP\"]').css('display', 'inline-block');
-                                        } else {
-                                            args.$form.find('.form-item[rel=\"service.StaticNat.associatePublicIP\"]').hide();
-                                            args.$form.find('.form-item[rel=\"service.StaticNat.associatePublicIP\"]').find('input[type=checkbox]').attr('checked', false);
                                         }
 
                                         //StretchedL2Subnet checkbox should be displayed only when 'Connectivity' service is checked

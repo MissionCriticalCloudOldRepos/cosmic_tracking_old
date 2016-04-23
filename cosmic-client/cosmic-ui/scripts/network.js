@@ -3614,88 +3614,6 @@
                                                 }
                                             },
 
-                                            'health-check': {
-                                                label: 'label.health.check',
-                                                custom: {
-                                                    requireValidation: true,
-                                                    buttonLabel: 'Configure',
-                                                    action: cloudStack.uiCustom.healthCheck()
-                                                },
-                                                isHidden: function(args) {
-                                                    if (!('vpc' in args.context)) {  //From Guest Network section
-                                                        var lbProviderIsNetscaler = false;
-                                                        $.ajax({
-                                                            url: createURL('listNetworkOfferings'),
-                                                            data: {
-                                                                id: args.context.networks[0].networkofferingid
-                                                            },
-                                                            async: false,
-                                                            success: function(json) {
-                                                                var networkOffering = json.listnetworkofferingsresponse.networkoffering[0];
-                                                                var services = networkOffering.service;
-                                                                lbProviderIsNetscaler = checkIfNetScalerProviderIsEnabled(services);
-                                                            }
-                                                        });
-                                                        if (lbProviderIsNetscaler == true) { //Health-Check is only supported on Netscaler (but not on any other provider)
-                                                            return false; //Show Health-Check button
-                                                        } else {
-                                                            return 2; //Hide Health-Check button (Both Header and Form)
-                                                        }
-                                                    } else { //From VPC section
-                                                        var lbProviderIsNetscaler;
-                                                        var services = args.context.vpc[0].service;
-                                                        lbProviderIsNetscaler = checkIfNetScalerProviderIsEnabled(services);
-                                                        if (lbProviderIsNetscaler == true) { //Health-Check is only supported on Netscaler (but not on any other provider)
-                                                            return false; //Show Health-Check button
-                                                        } else {
-                                                            return 2; //Hide Health-Check button (both Header and Form)
-                                                        }
-                                                    }
-                                                }
-                                            },
-
-                                            'autoScale': {
-                                                label: 'label.autoscale',
-                                                custom: {
-                                                    requireValidation: true,
-                                                    buttonLabel: 'label.configure',
-                                                    action: cloudStack.uiCustom.autoscaler(cloudStack.autoscaler)
-                                                },
-                                                isHidden: function(args) {
-                                                    if (!('vpc' in args.context)) {  //from Guest Network section
-                                                        var lbProviderIsNetscaler = false;
-                                                        $.ajax({
-                                                            url: createURL('listNetworkOfferings'),
-                                                            data: {
-                                                                id: args.context.networks[0].networkofferingid
-                                                            },
-                                                            async: false,
-                                                            success: function(json) {
-                                                                var networkOffering = json.listnetworkofferingsresponse.networkoffering[0];
-                                                                var services = networkOffering.service;
-                                                                lbProviderIsNetscaler = checkIfNetScalerProviderIsEnabled(services);
-                                                            }
-                                                        });
-                                                        if (lbProviderIsNetscaler == true) { //AutoScale is only supported on Netscaler (but not on any other provider like VirtualRouter)
-                                                            return false; //show AutoScale button
-                                                        } else {
-                                                            return 2; //hide Autoscale button (both header and form)
-                                                        }
-                                                    } else { //from VPC section
-                                                        var lbProviderIsNetscaler;
-                                                        var services = args.context.vpc[0].service;
-
-                                                        lbProviderIsNetscaler = checkIfNetScalerProviderIsEnabled(services);
-
-                                                        if (lbProviderIsNetscaler == true) { //AutoScale is only supported on Netscaler (but not on any other provider like VirtualRouter)
-                                                            return false; //show AutoScale button
-                                                        } else {
-                                                            return 2; //hide Autoscale button (both header and form)
-                                                        }
-                                                    }
-                                                }
-                                            },
-
                                             'add-vm': {
                                                 label: 'label.add.vms',
                                                 addButton: true
@@ -5479,10 +5397,6 @@
                                                 id: 'VpcVirtualRouter',
                                                 description: 'VpcVirtualRouter'
                                             });
-                                            items.push({
-                                                id: 'Netscaler',
-                                                description: 'Netscaler'
-                                            });
                                             args.response.success({
                                                 data: items
                                             });
@@ -6574,46 +6488,6 @@
             }
         }
     };
-
-    function checkIfNetScalerProviderIsEnabled(services) {
-        if (services != null) {
-            for (var i = 0; i < services.length; i++) {
-                if (services[i].name == 'Lb') {
-                    var providers = services[i].provider;
-                    if (providers != null) {
-                        for (var k = 0; k < providers.length; k++) {
-                            if (providers[k].name == 'Netscaler') {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    function checkIfNetScalerProviderIsEnabled(services) {
-        if (services != null) {
-            for (var i = 0; i < services.length; i++) {
-                if (services[i].name == 'Lb') {
-                    var providers = services[i].provider;
-                    if (providers != null) {
-                        for (var k = 0; k < providers.length; k++) {
-                            if (providers[k].name == 'Netscaler') {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-            }
-        }
-
-        return false;
-    }
 
     function getExtaPropertiesForIpObj(ipObj, args) {
         if (!('vpc' in args.context)) { //***** Guest Network section > Guest Network page > IP Address page *****

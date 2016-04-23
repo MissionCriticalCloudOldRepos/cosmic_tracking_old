@@ -590,15 +590,7 @@ configurePaloAltoFirewall=1
 listPaloAltoFirewalls=1
 listPaloAltoFirewallNetworks=1
 
-#### netscaler load balancer commands
-addNetscalerLoadBalancer=1
-deleteNetscalerLoadBalancer=1
-configureNetscalerLoadBalancer=1
-listNetscalerLoadBalancers=1
-listNetscalerLoadBalancerNetworks=1
-
 #### nicira nvp commands
-
 addNiciraNvpDevice=1
 deleteNiciraNvpDevice=1
 listNiciraNvpDevices=1
