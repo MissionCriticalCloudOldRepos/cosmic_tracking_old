@@ -527,6 +527,9 @@ class CsIP:
         # CsRedundant will handle fail-over.
         if self.get_type() in ["guest"] and (not self.cl.is_redundant() or self.cl.is_master()):
             CsPasswdSvc(self.address['public_ip']).start()
+        elif self.get_type() in ["guest"]:
+            # Or else make sure it's stopped
+            CsPasswdSvc(self.address['public_ip']).stop()
 
         if self.get_type() == "public" and self.config.is_vpc():
             if self.address["source_nat"]:
