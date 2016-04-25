@@ -55,7 +55,6 @@ class CSTestClient(object):
     def __init__(self, mgmt_details,
                  dbsvr_details,
                  async_timeout=3600,
-                 logger=None,
                  test_data_filepath=None,
                  zone=None,
                  hypervisor_type=None):
@@ -65,7 +64,7 @@ class CSTestClient(object):
         self.__dbConnection = None
         self.__testClient = None
         self.__asyncTimeOut = async_timeout
-        self.__logger = logger
+        self.__logger = MarvinLog('marvin').getLogger()
         self.__apiClient = None
         self.__userApiClient = None
         self.__asyncJobMgr = None
