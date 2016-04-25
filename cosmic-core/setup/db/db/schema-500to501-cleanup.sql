@@ -42,3 +42,6 @@ DROP TABLE IF EXISTS `cloud`.`port_profile`;
 
 # Remove VMware related column on physical_network_traffic_types table
 ALTER TABLE `cloud`.`physical_network_traffic_types` DROP COLUMN `vmware_network_label`; 
+
+# Remove netscaler
+DROP TABLE IF EXISTS `cloud`.`netscaler_pod_ref`;

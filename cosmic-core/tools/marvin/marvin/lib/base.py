@@ -496,7 +496,6 @@ class VirtualMachine:
                 networkid=cmd.networkids[0] if cmd.networkids else None)
         elif mode.lower() == 'basic':
             if virtual_machine.publicip is not None:
-                # EIP/ELB (netscaler) enabled zone
                 vm_ssh_ip = virtual_machine.publicip
             else:
                 # regular basic zone with security group
@@ -3727,74 +3726,6 @@ class Configurations:
         cmd = listCapabilities.listCapabilitiesCmd()
         [setattr(cmd, k, v) for k, v in kwargs.items()]
         return(apiclient.listCapabilities(cmd))
-
-class NetScaler:
-    """Manage external netscaler device"""
-
-    def __init__(self, items):
-        self.__dict__.update(items)
-
-    @classmethod
-    def add(cls, apiclient, services, physicalnetworkid,
-            username=None, password=None):
-        """Add external netscaler device to cloudstack"""
-
-        cmd = addNetscalerLoadBalancer.addNetscalerLoadBalancerCmd()
-        cmd.physicalnetworkid = physicalnetworkid
-        if username:
-            cmd.username = username
-        else:
-            cmd.username = services["username"]
-
-        if password:
-            cmd.password = password
-        else:
-            cmd.password = services["password"]
-
-        cmd.networkdevicetype = services["networkdevicetype"]
-
-        # Generate the URL
-        url = 'https://' + str(services["ipaddress"]) + '?'
-        url = url + 'publicinterface=' + str(services["publicinterface"]) + '&'
-        url = url + 'privateinterface=' + \
-            str(services["privateinterface"]) + '&'
-        url = url + 'numretries=' + str(services["numretries"]) + '&'
-
-        if "lbdevicecapacity" in services:
-            url = url + 'lbdevicecapacity=' + \
-                str(services["lbdevicecapacity"]) + '&'
-
-        url = url + 'lbdevicededicated=' + str(services["lbdevicededicated"])
-
-        cmd.url = url
-        return NetScaler(apiclient.addNetscalerLoadBalancer(cmd).__dict__)
-
-    def delete(self, apiclient):
-        """Deletes a netscaler device from CloudStack"""
-
-        cmd = deleteNetscalerLoadBalancer.deleteNetscalerLoadBalancerCmd()
-        cmd.lbdeviceid = self.lbdeviceid
-        apiclient.deleteNetscalerLoadBalancer(cmd)
-        return
-
-    def configure(self, apiclient, **kwargs):
-        """List already registered netscaler devices"""
-
-        cmd = configureNetscalerLoadBalancer.\
-            configureNetscalerLoadBalancerCmd()
-        cmd.lbdeviceid = self.lbdeviceid
-        [setattr(cmd, k, v) for k, v in kwargs.items()]
-        return(apiclient.configureNetscalerLoadBalancer(cmd))
-
-    @classmethod
-    def list(cls, apiclient, **kwargs):
-        """List already registered netscaler devices"""
-
-        cmd = listNetscalerLoadBalancers.listNetscalerLoadBalancersCmd()
-        [setattr(cmd, k, v) for k, v in kwargs.items()]
-        if 'account' in kwargs.keys() and 'domainid' in kwargs.keys():
-            cmd.listall = True
-        return(apiclient.listNetscalerLoadBalancers(cmd))
 
 class NiciraNvp:
 

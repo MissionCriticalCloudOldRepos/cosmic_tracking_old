@@ -32,7 +32,7 @@ import org.apache.cloudstack.api.InternalIdentity;
 import org.apache.cloudstack.network.ExternalNetworkDeviceManager;
 
 /**
- * ExternalLoadBalancerDeviceVO contains information on external load balancer devices (F5/Netscaler VPX,MPX,SDX) added into a deployment
+ * ExternalLoadBalancerDeviceVO contains information on external load balancer devices (F5,VPX,MPX,SDX) added into a deployment
   */
 
 @Entity
@@ -119,9 +119,6 @@ public class ExternalLoadBalancerDeviceVO implements InternalIdentity, Identity 
         this.gslbProvider = gslbProvider;
         this.gslbSitePublicIP = null;
         this.gslbSitePrivateIP = null;
-        if (deviceName.equalsIgnoreCase(ExternalNetworkDeviceManager.NetworkDevice.NetscalerSDXLoadBalancer.getName())) {
-            this.allocationState = LBDeviceAllocationState.Provider;
-        }
     }
 
     public ExternalLoadBalancerDeviceVO(long hostId, long physicalNetworkId, String providerName, String deviceName, long capacity, boolean dedicated, boolean managed,

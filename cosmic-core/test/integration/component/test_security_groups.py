@@ -1520,33 +1520,33 @@ class TestIngressRule(cloudstackTestCase):
         )
         self.assertEqual(validateList(vm_nw)[0], PASS, "invalid network response")
         vm_nw_off = vm_nw[0].networkofferingname
-        if vm_nw_off != "DefaultSharedNetscalerEIPandELBNetworkOffering":
-            result = security_group.revoke(
-                self.apiclient,
-                id=icmp_rule["ruleid"]
-            )
-            self.debug("Revoke ingress rule result: %s" % result)
-            time.sleep(self.testdata["sleep"])
-            # User should not be able to ping VM
-            try:
-                self.debug("Trying to ping VM %s" % self.virtual_machine.ssh_ip)
-                if platform_type == 'windows':
-                    result = subprocess.call(
-                        ['ping', '-n', '1', self.virtual_machine.ssh_ip])
-                else:
-                    result = subprocess.call(
-                        ['ping', '-c 1', self.virtual_machine.ssh_ip])
 
-                self.debug("Ping result: %s" % result)
-                # if ping successful, then result should be 0
-                self.assertNotEqual(
-                    result,
-                    0,
-                    "Check if ping is successful or not"
-                )
-            except Exception as e:
-                self.fail("Ping failed for ingress rule ID: %s, %s"
-                          % (icmp_rule["ruleid"], e))
+        result = security_group.revoke(
+            self.apiclient,
+            id=icmp_rule["ruleid"]
+        )
+        self.debug("Revoke ingress rule result: %s" % result)
+        time.sleep(self.testdata["sleep"])
+        # User should not be able to ping VM
+        try:
+            self.debug("Trying to ping VM %s" % self.virtual_machine.ssh_ip)
+            if platform_type == 'windows':
+                result = subprocess.call(
+                    ['ping', '-n', '1', self.virtual_machine.ssh_ip])
+            else:
+                result = subprocess.call(
+                    ['ping', '-c 1', self.virtual_machine.ssh_ip])
+
+            self.debug("Ping result: %s" % result)
+            # if ping successful, then result should be 0
+            self.assertNotEqual(
+                result,
+                0,
+                "Check if ping is successful or not"
+            )
+        except Exception as e:
+            self.fail("Ping failed for ingress rule ID: %s, %s"
+                      % (icmp_rule["ruleid"], e))
         return
 
     @attr(tags=["sg", "basic", "eip", "advancedsg"])

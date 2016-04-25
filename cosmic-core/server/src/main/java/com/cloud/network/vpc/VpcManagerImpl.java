@@ -225,7 +225,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   private List<VpcProvider> vpcElements = null;
   private final List<Service> nonSupportedServices = Arrays.asList(Service.SecurityGroup, Service.Firewall);
   private final List<Provider> supportedProviders = Arrays.asList(Provider.VPCVirtualRouter,
-      Provider.NiciraNvp, Provider.InternalLbVm, Provider.Netscaler, Provider.JuniperContrailVpcRouter,
+      Provider.NiciraNvp, Provider.InternalLbVm, Provider.JuniperContrailVpcRouter,
       Provider.NuageVsp);
 
   int _cleanupInterval;
@@ -268,28 +268,6 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
           }
           createVpcOffering(VpcOffering.defaultVPCOfferingName, VpcOffering.defaultVPCOfferingName, svcProviderMap,
               true, State.Enabled, null, false, false, false);
-        }
-
-        // configure default vpc offering with Netscaler as LB Provider
-        if (_vpcOffDao.findByUniqueName(VpcOffering.defaultVPCNSOfferingName) == null) {
-          s_logger.debug(
-              "Creating default VPC offering with Netscaler as LB Provider" + VpcOffering.defaultVPCNSOfferingName);
-          final Map<Service, Set<Provider>> svcProviderMap = new HashMap<Service, Set<Provider>>();
-          final Set<Provider> defaultProviders = new HashSet<Provider>();
-          defaultProviders.add(Provider.VPCVirtualRouter);
-          for (final Service svc : getSupportedServices()) {
-            if (svc == Service.Lb) {
-              final Set<Provider> lbProviders = new HashSet<Provider>();
-              lbProviders.add(Provider.Netscaler);
-              lbProviders.add(Provider.InternalLbVm);
-              svcProviderMap.put(svc, lbProviders);
-            } else {
-              svcProviderMap.put(svc, defaultProviders);
-            }
-          }
-          createVpcOffering(VpcOffering.defaultVPCNSOfferingName, VpcOffering.defaultVPCNSOfferingName, svcProviderMap,
-              false, State.Enabled, null, false, false, false);
-
         }
 
         if (_vpcOffDao.findByUniqueName(VpcOffering.redundantVPCOfferingName) == null) {
@@ -1386,12 +1364,6 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     if (guestNtwkOff.isConserveMode()) {
       throw new InvalidParameterValueException("Only networks with conserve mode Off can belong to VPC");
     }
-
-    // 5) If Netscaler is LB provider make sure it is in dedicated mode
-    if (providers.contains(Provider.Netscaler) && !guestNtwkOff.getDedicatedLB()) {
-      throw new InvalidParameterValueException("Netscaler only with Dedicated LB can belong to VPC");
-    }
-    return;
   }
 
   @DB
