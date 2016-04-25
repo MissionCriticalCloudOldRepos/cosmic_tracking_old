@@ -74,6 +74,8 @@ class CsPasswdSvc():
 
     def stop(self):
         proc = CsProcess(["Password Service"])
+        pid = proc.grep("passwd_server_ip.py %s" % self.ip)
+        proc.kill(pid)
         pid = proc.grep("passwd_server_ip %s" % self.ip)
         proc.kill(pid)
         pid = proc.grep("8080,reuseaddr,fork,crnl,bind=%s" % self.ip)

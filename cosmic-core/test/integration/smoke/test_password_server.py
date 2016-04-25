@@ -282,13 +282,11 @@ class TestPasswordService(cloudstackTestCase):
         vm1 = self.createVM(network_1)
         self.cleanup.insert(0, vm1)
 
-        self.logger.debug("Check whether routers are happy")
+        # Routers in the right state?
+        self.assertEqual(self.routers_in_right_state(), True,
+                         "Check whether the routers are in the right state.")
+
         routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
-
-        self.assertEqual(isinstance(routers, list), True,
-                         "Check for list routers response return valid data")
-        self.check_routers_state(routers)
-
         for router in routers:
             self._perform_password_service_test(router, vm1)
 
@@ -304,61 +302,92 @@ class TestPasswordService(cloudstackTestCase):
         self.assertEqual(isinstance(routers, list), True,
                          "Check for list routers response return valid data")
         self.logger.debug("Check whether routers are happy")
-        self.check_routers_state(routers)
 
-        # Stop/start vm or else password will not be on the cleaned-up router
-        self.stop_start_virtual_machine(vm1)
+        vm2 = self.createVM(network_1)
+        self.cleanup.insert(0, vm2)
+
+        # Routers in the right state?
+        self.assertEqual(self.routers_in_right_state(), True,
+                         "Check whether the routers are in the right state.")
 
         for router in routers:
-            self._perform_password_service_test(router, vm1)
+            self._perform_password_service_test(router, vm2)
+
+    def routers_in_right_state(self):
+        self.logger.debug("Check whether routers are happy")
+        max_tries = 30
+        test_tries = 0
+        master_found = 0
+        backup_found = 0
+        while test_tries < max_tries:
+            routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
+            self.assertEqual(isinstance(routers, list), True,
+                             "Check for list routers response return valid data")
+            for router in routers:
+                if not router.isredundantrouter:
+                    self.logger.debug("Router %s has is_redundant_router %s so continuing" % (router.linklocalip, router.isredundantrouter))
+                    return True
+                router_state = self.get_router_state(router)
+                if router_state == "BACKUP":
+                    backup_found += 1
+                    self.logger.debug("Router %s currently is in state BACKUP" % router.linklocalip)
+                if router_state == "MASTER":
+                    master_found += 1
+                    self.logger.debug("Router %s currently is in state MASTER" % router.linklocalip)
+            if master_found > 0 and backup_found > 0:
+                self.logger.debug("Found at least one router in MASTER and one in BACKUP state so continuing")
+                break
+            test_tries += 1
+            self.logger.debug("Testing router states round %s/%s" % (test_tries, max_tries))
+            time.sleep(2)
+
+        if master_found == 1 and backup_found == 1:
+            return True
+        return False
 
     def _perform_password_service_test(self, router, vm):
+        self.logger.debug("Checking router %s for passwd_server_ip.py process, state %s", router.linklocalip, router.redundantstate)
+        self.test_process_running("passwd_server_ip.py", router)
+        self.logger.debug("Checking router %s for dnsmasq process, state %s", router.linklocalip, router.redundantstate)
+        self.test_process_running("dnsmasq", router)
         self.logger.debug("Checking password of %s in router %s, state %s", vm.name, router.linklocalip, router.redundantstate)
-        self.test_password_service_running(router)
         self.test_password_file_not_empty(vm, router)
 
-    def test_password_service_running(self, router):
-        hosts = list_hosts(self.apiclient, id=router.hostid, type="Routing")
+    def test_process_running(self, find_process, router):
+        host = self.get_host_details(router)
 
-        self.assertEqual(isinstance(hosts, list), True, "Check for list hosts response return valid data")
+        router_state = self.get_router_state(router)
 
-        host = hosts[0]
-        host.user = self.services["configurableData"]["host"]["username"]
-        host.passwd = self.services["configurableData"]["host"]["password"]
-        host.port = self.services["configurableData"]["host"]["port"]
-
-        number_of_password_service_processes = 0
+        number_of_processes_found = 0
         try:
-            number_of_password_service_processes = get_process_status(
+            number_of_processes_found = get_process_status(
                 host.ipaddress,
                 host.port,
                 host.user,
                 host.passwd,
                 router.linklocalip,
-                "ps aux | grep passwd_server_ip.py | grep -v grep | wc -l"
+                "ps aux | grep " + find_process + " | grep -v grep | wc -l"
             )
 
         except KeyError:
             self.skipTest("Provide a marvin config file with host credentials to run %s" % self._testMethodName)
 
-        self.logger.debug("Result from the Router on IP '%s' is -> Number of password service processess found: '%s'" % (router.linklocalip, number_of_password_service_processes[0]))
-        self.assertNotEqual(int(number_of_password_service_processes[0]), 0, msg="Router should have at least one password service process running!")
+        self.logger.debug("Result from the Router on IP '%s' is -> Number of processess found: '%s'" % (router.linklocalip, number_of_processes_found[0]))
+
+        expected_nr_or_processes = 1
+        if router.isredundantrouter and router_state == "BACKUP":
+            expected_nr_or_processes = 0
+
+        self.assertEqual(int(number_of_processes_found[0]), expected_nr_or_processes, msg="Router should have " + str(expected_nr_or_processes) + " '" + find_process + "' processes running, found " + str(number_of_processes_found[0]))
 
     def test_password_file_not_empty(self, vm, router):
-        hosts = list_hosts(
-            self.apiclient,
-            id=router.hostid)
+        host = self.get_host_details(router)
 
-        self.assertEqual(
-            isinstance(hosts, list),
-            True,
-            "Check for list hosts response return valid data")
+        router_state = self.get_router_state(router)
 
-        host = hosts[0]
-        host.user = self.services["configurableData"]["host"]["username"]
-        host.passwd = self.services["configurableData"]["host"]["password"]
-        host.port = self.services["configurableData"]["host"]["port"]
-
+        if router.isredundantrouter and router_state != "MASTER":
+            print "Found router in non-MASTER state '" + router.redundantstate + "' so skipping test."
+            return True
 
         password_service_listen_ip = vm.nic[0].gateway
         if router.isredundantrouter:
@@ -387,6 +416,17 @@ class TestPasswordService(cloudstackTestCase):
             res.count(vm.nic[0].ipaddress),
             1,
             "Password file is empty or doesn't exist!")
+
+    def get_host_details(self, router):
+        hosts = list_hosts(self.apiclient, id=router.hostid, type="Routing")
+
+        self.assertEqual(isinstance(hosts, list), True, "Check for list hosts response return valid data")
+
+        host = hosts[0]
+        host.user = self.services["configurableData"]["host"]["username"]
+        host.passwd = self.services["configurableData"]["host"]["password"]
+        host.port = self.services["configurableData"]["host"]["port"]
+        return host
 
     def stop_start_virtual_machine(self, vm):
         try:
@@ -565,30 +605,22 @@ class TestPasswordService(cloudstackTestCase):
         except Exception, e:
             self.fail('Unable to restart network with cleanup due to %s ' % e)
 
-    def check_routers_state(self, routers, status_to_check="MASTER", expected_count=1):
-        vals = ["MASTER", "BACKUP", "UNKNOWN"]
-        cnts = [0, 0, 0]
+    def get_router_state(self, router):
+        host = self.get_host_details(router)
 
-        result = "UNKNOWN"
-        for router in routers:
-            self.logger.debug("Checking router %s", router)
-            if router.state == "Running" and router.isredundantrouter:
-                hosts = list_hosts(self.apiclient, zoneid=router.zoneid, type='Routing', state='Up', id=router.hostid)
-                self.assertEqual(isinstance(hosts, list), True, "Check list host returns a valid list")
-                host = hosts[0]
-
-                try:
-                    host.user, host.passwd = get_host_credentials(self.config, host.ipaddress)
-                    result = str(get_process_status(host.ipaddress, 22, host.user, host.passwd, router.linklocalip, "sh /opt/cloud/bin/checkrouter.sh "))
-
-                except KeyError:
-                    self.skipTest("Marvin configuration has no host credentials to check router services")
-
-                if result.count(status_to_check) == 1:
-                    cnts[vals.index(status_to_check)] += 1
-            else:
-                self.logger.debug("Skipping router %s because state is %s and is_redundant is %s", router.linklocalip, router.state, router.isredundantrouter)
-                return
-
-        if cnts[vals.index(status_to_check)] != expected_count:
-            self.fail("Expected '%s' routers at state '%s', but found '%s'!" % (expected_count, status_to_check, cnts[vals.index(status_to_check)]))
+        router_state = "UNKNOWN"
+        if router.isredundantrouter:
+            try:
+                router_state = get_process_status(
+                    host.ipaddress,
+                    host.port,
+                    host.user,
+                    host.passwd,
+                    router.linklocalip,
+                    "/opt/cloud/bin/checkrouter.sh | cut -d\" \" -f2"
+                )
+            except:
+                self.logger.debug("Oops, unable to determine redundant state for router with link local address %s" % (router.linklocalip))
+                pass
+        self.logger.debug("The router with link local address %s reports state %s" % (router.linklocalip, router_state))
+        return router_state[0]
