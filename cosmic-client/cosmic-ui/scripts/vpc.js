@@ -3888,7 +3888,7 @@
                                                         }
                                                     });
 
-                                                    //only one network(tier) is allowed to have PublicLb (i.e. provider is PublicLb provider like "VpcVirtualRouter", "Netscaler") in a VPC
+                                                    //only one network(tier) is allowed to have PublicLb (i.e. provider is PublicLb provider like "VpcVirtualRouter") in a VPC
                                                     var items;
                                                     if (publicLbNetworkExists == true) { //so, if a PublicLb network(tier) already exists in the vpc, exclude PublicLb network offerings from dropdown
                                                         items = $.grep(networkOfferings, function(networkOffering) {

@@ -19,7 +19,6 @@
     var selectedNetworkOfferingHavingSG = false;
     var selectedNetworkOfferingHavingEIP = false;
     var selectedNetworkOfferingHavingELB = false;
-    var selectedNetworkOfferingHavingNetscaler = false;
     var returnedPublicVlanIpRanges = []; //public VlanIpRanges returned by API
     var configurationUseLocalStorage = false;
     var skipGuestTrafficStep = false;
@@ -282,18 +281,6 @@
         },
 
         preFilters: {
-            addNetscalerDevice: function(args) { //add Netscaler
-                var isShown;
-                if (selectedNetworkOfferingHavingNetscaler == true) {
-                    isShown = true;
-                    $('.conditional.netscaler').show();
-                } else {
-                    isShown = false;
-                    $('.conditional.netscaler').hide();
-                }
-                return isShown;
-            },
-
             addPublicNetwork: function(args) {
                 var isShown;
                 var $publicTrafficDesc = $('.zone-wizard:visible').find('#add_zone_public_traffic_desc');
@@ -510,7 +497,6 @@
                                 selectedNetworkOfferingHavingSG = false;
                                 selectedNetworkOfferingHavingEIP = false;
                                 selectedNetworkOfferingHavingELB = false;
-                                selectedNetworkOfferingHavingNetscaler = false;
 
                                 var selectedNetworkOfferingId = $(this).val();
                                 $(networkOfferingObjs).each(function() {
@@ -520,8 +506,6 @@
                                     }
                                 });
 
-                                if (selectedNetworkOfferingObj.havingNetscaler == true)
-                                    selectedNetworkOfferingHavingNetscaler = true;
                                 if (selectedNetworkOfferingObj.havingSG == true)
                                     selectedNetworkOfferingHavingSG = true;
                                 if (selectedNetworkOfferingObj.havingEIP == true)
@@ -544,9 +528,7 @@
                                             var thisService = this;
 
                                             $(thisService.provider).each(function() {
-                                                if (this.name == "Netscaler") {
-                                                    thisNetworkOffering.havingNetscaler = true;
-                                                } else if ($.inArray(this.name, baremetalProviders) != -1) {
+                                                if ($.inArray(this.name, baremetalProviders) != -1) {
                                                     selectedBaremetalProviders.push(this.name);
                                                 }
                                             });
@@ -710,7 +692,7 @@
                 }
             },
 
-            basicPhysicalNetwork: { //"Netscaler" now
+            basicPhysicalNetwork: {
                 preFilter: function(args) {
                     if (args.data['network-model'] == 'Basic' && (selectedNetworkOfferingHavingELB || selectedNetworkOfferingHavingEIP)) {
                         args.$form.find('[rel=dedicated]').hide();
@@ -729,27 +711,6 @@
                     password: {
                         label: 'label.password',
                         isPassword: true
-                    },
-                    networkdevicetype: {
-                        label: 'label.type',
-                        select: function(args) {
-                            var items = [];
-                            items.push({
-                                id: "NetscalerMPXLoadBalancer",
-                                description: "NetScaler MPX LoadBalancer"
-                            });
-                            items.push({
-                                id: "NetscalerVPXLoadBalancer",
-                                description: "NetScaler VPX LoadBalancer"
-                            });
-                            items.push({
-                                id: "NetscalerSDXLoadBalancer",
-                                description: "NetScaler SDX LoadBalancer"
-                            });
-                            args.response.success({
-                                data: items
-                            });
-                        }
                     },
                     publicinterface: {
                         label: 'label.public.interface'
@@ -2627,11 +2588,7 @@
                                                                                                                                     } else {
                                                                                                                                         clearInterval(enableSecurityGroupProviderIntervalID);
 
-                                                                                                                                        if (result.jobstatus == 1) { //Security group provider has been enabled successfully
-                                                                                                                                            stepFns.addNetscalerProvider({
-                                                                                                                                                data: args.data
-                                                                                                                                            });
-                                                                                                                                        } else if (result.jobstatus == 2) {
+                                                                                                                                        if (result.jobstatus == 2) {
                                                                                                                                             alert("failed to enable security group provider. Error: " + _s(result.jobresult.errortext));
                                                                                                                                         }
                                                                                                                                     }
@@ -2643,10 +2600,6 @@
                                                                                                                             });
                                                                                                                         }, g_queryAsyncJobResultInterval);
                                                                                                                     }
-                                                                                                                });
-                                                                                                            } else { //selectedNetworkOfferingHavingSG == false
-                                                                                                                stepFns.addNetscalerProvider({
-                                                                                                                    data: args.data
                                                                                                                 });
                                                                                                             }
                                                                                                         } else if (result.jobstatus == 2) {
@@ -3190,215 +3143,6 @@
                             });
                         });
                     }
-                },
-
-                addNetscalerProvider: function(args) {
-
-                    if (selectedNetworkOfferingHavingNetscaler == true) {
-                        message(_l('message.adding.Netscaler.provider'));
-
-                        $.ajax({
-                            url: createURL("addNetworkServiceProvider&name=Netscaler&physicalnetworkid=" + args.data.returnedBasicPhysicalNetwork.id),
-                            dataType: "json",
-                            async: false,
-                            success: function(json) {
-                                var addNetscalerProviderIntervalID = setInterval(function() {
-                                    $.ajax({
-                                        url: createURL("queryAsyncJobResult&jobId=" + json.addnetworkserviceproviderresponse.jobid),
-                                        dataType: "json",
-                                        success: function(json) {
-                                            var result = json.queryasyncjobresultresponse;
-                                            if (result.jobstatus == 0) {
-                                                return; //Job has not completed
-                                            } else {
-                                                clearInterval(addNetscalerProviderIntervalID);
-
-                                                if (result.jobstatus == 1) {
-                                                    args.data.returnedNetscalerProvider = result.jobresult.networkserviceprovider;
-                                                    stepFns.addNetscalerDevice({
-                                                        data: args.data
-                                                    });
-                                                } else if (result.jobstatus == 2) {
-                                                    alert("addNetworkServiceProvider&name=Netscaler failed. Error: " + _s(result.jobresult.errortext));
-                                                }
-                                            }
-                                        },
-                                        error: function(XMLHttpResponse) {
-                                            var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                            alert("addNetworkServiceProvider&name=Netscaler failed. Error: " + errorMsg);
-                                        }
-                                    });
-                                }, g_queryAsyncJobResultInterval);
-                            }
-                        });
-                        //add netscaler provider (end)
-                    } else { //selectedNetworkOfferingHavingNetscaler == false
-                        //create a guest network for basic zone
-                        stepFns.addGuestNetwork({
-                            data: args.data
-                        });
-                    }
-                },
-
-
-                addNetscalerDevice: function(args) {
-                    message(_l('message.adding.Netscaler.device'));
-
-                    var array1 = [];
-                    array1.push("&physicalnetworkid=" + args.data.returnedBasicPhysicalNetwork.id);
-                    array1.push("&username=" + todb(args.data.basicPhysicalNetwork.username));
-                    array1.push("&password=" + todb(args.data.basicPhysicalNetwork.password));
-                    array1.push("&networkdevicetype=" + todb(args.data.basicPhysicalNetwork.networkdevicetype));
-                    array1.push("&gslbprovider=" + (args.data.basicPhysicalNetwork.gslbprovider == "on"));
-                    array1.push("&gslbproviderpublicip=" + todb(args.data.basicPhysicalNetwork.gslbproviderpublicip));
-                    array1.push("&gslbproviderprivateip=" + todb(args.data.basicPhysicalNetwork.gslbproviderprivateip));
-
-                    //construct URL starts here
-                    var url = [];
-
-                    var ip = args.data.basicPhysicalNetwork.ip;
-                    url.push("https://" + ip);
-
-                    var isQuestionMarkAdded = false;
-
-                    var publicInterface = args.data.basicPhysicalNetwork.publicinterface;
-                    if (publicInterface != null && publicInterface.length > 0) {
-                        if (isQuestionMarkAdded == false) {
-                            url.push("?");
-                            isQuestionMarkAdded = true;
-                        } else {
-                            url.push("&");
-                        }
-                        url.push("publicinterface=" + publicInterface);
-                    }
-
-                    var privateInterface = args.data.basicPhysicalNetwork.privateinterface;
-                    if (privateInterface != null && privateInterface.length > 0) {
-                        if (isQuestionMarkAdded == false) {
-                            url.push("?");
-                            isQuestionMarkAdded = true;
-                        } else {
-                            url.push("&");
-                        }
-                        url.push("privateinterface=" + privateInterface);
-                    }
-
-                    var numretries = args.data.basicPhysicalNetwork.numretries;
-                    if (numretries != null && numretries.length > 0) {
-                        if (isQuestionMarkAdded == false) {
-                            url.push("?");
-                            isQuestionMarkAdded = true;
-                        } else {
-                            url.push("&");
-                        }
-                        url.push("numretries=" + numretries);
-                    }
-
-                    var isInline = args.data.basicPhysicalNetwork.inline;
-                    if (isInline != null && isInline.length > 0) {
-                        if (isQuestionMarkAdded == false) {
-                            url.push("?");
-                            isQuestionMarkAdded = true;
-                        } else {
-                            url.push("&");
-                        }
-                        url.push("inline=" + isInline);
-                    }
-
-                    var capacity = args.data.basicPhysicalNetwork.capacity;
-                    if (capacity != null && capacity.length > 0) {
-                        if (isQuestionMarkAdded == false) {
-                            url.push("?");
-                            isQuestionMarkAdded = true;
-                        } else {
-                            url.push("&");
-                        }
-                        url.push("lbdevicecapacity=" + capacity);
-                    }
-
-                    var dedicated = (args.data.basicPhysicalNetwork.dedicated == "on"); //boolean    (true/false)
-                    if (isQuestionMarkAdded == false) {
-                        url.push("?");
-                        isQuestionMarkAdded = true;
-                    } else {
-                        url.push("&");
-                    }
-                    url.push("lbdevicededicated=" + dedicated.toString());
-
-
-                    array1.push("&url=" + todb(url.join("")));
-                    //construct URL ends here
-
-                    $.ajax({
-                        url: createURL("addNetscalerLoadBalancer" + array1.join("")),
-                        type: "POST",
-                        dataType: "json",
-                        success: function(json) {
-                            var addNetscalerLoadBalancerIntervalID = setInterval(function() {
-                                $.ajax({
-                                    url: createURL("queryAsyncJobResult&jobid=" + json.addnetscalerloadbalancerresponse.jobid),
-                                    dataType: "json",
-                                    success: function(json) {
-                                        var result = json.queryasyncjobresultresponse;
-                                        if (result.jobstatus == 0) {
-                                            return;
-                                        } else {
-                                            clearInterval(addNetscalerLoadBalancerIntervalID);
-
-                                            if (result.jobstatus == 1) {
-                                                args.data.returnedNetscalerProvider.returnedNetscalerloadbalancer = result.jobresult.netscalerloadbalancer;
-
-                                                $.ajax({
-                                                    url: createURL("updateNetworkServiceProvider&state=Enabled&id=" + args.data.returnedNetscalerProvider.id),
-                                                    dataType: "json",
-                                                    success: function(json) {
-                                                        var enableNetscalerProviderIntervalID = setInterval(function() {
-                                                            $.ajax({
-                                                                url: createURL("queryAsyncJobResult&jobid=" + json.updatenetworkserviceproviderresponse.jobid),
-                                                                dataType: "json",
-                                                                success: function(json) {
-                                                                    var result = json.queryasyncjobresultresponse;
-                                                                    if (result.jobstatus == 0) {
-                                                                        return;
-                                                                    } else {
-                                                                        clearInterval(enableNetscalerProviderIntervalID);
-
-                                                                        if (result.jobstatus == 1) {
-                                                                            stepFns.addGuestNetwork({
-                                                                                data: args.data
-                                                                            });
-                                                                        } else if (result.jobstatus == 2) {
-                                                                            alert("failed to enable Netscaler provider. Error: " + _s(result.jobresult.errortext));
-                                                                        }
-                                                                    }
-                                                                }
-                                                            });
-                                                        }, g_queryAsyncJobResultInterval);
-                                                    },
-                                                    error: function(XMLHttpResponse) {
-                                                        var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                                                        alert("failed to enable Netscaler provider. Error: " + errorMsg);
-                                                    }
-                                                });
-                                            } else if (result.jobstatus == 2) { //addNetscalerLoadBalancer failed
-                                                error('addNetscalerDevice', _s(result.jobresult.errortext), {
-                                                    fn: 'addNetscalerDevice',
-                                                    args: args
-                                                });
-                                            }
-                                        }
-                                    }
-                                });
-                            }, g_queryAsyncJobResultInterval);
-                        },
-                        error: function(XMLHttpResponse) {
-                            var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                            error('addNetscalerDevice', errorMsg, {
-                                fn: 'addNetscalerDevice',
-                                args: args
-                            });
-                        }
-                    });
                 },
 
                 addGuestNetwork: function(args) { //create a guest network for Basic zone or Advanced zone with SG

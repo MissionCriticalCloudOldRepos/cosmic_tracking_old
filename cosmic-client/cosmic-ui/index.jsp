@@ -819,28 +819,10 @@
                             <form></form>
                         </div>
                     </div>
-                    <!-- Step 3.1b: Add Netscaler device -->
-                    <div class="setup-physical-network-basic"
-                         zone-wizard-step-id="addNetscalerDevice"
-                         zone-wizard-form="basicPhysicalNetwork"
-                         zone-wizard-prefilter="addNetscalerDevice">
-                        <ul class="subnav">
-                            <li class="conditional netscaler physical-network active"><fmt:message key="label.netScaler"/></li>
-                            <li class="public-network"><fmt:message key="label.public.traffic"/></li>
-                            <li class="pod"><fmt:message key="label.pod"/></li>
-                            <li class="guest-traffic"><fmt:message key="label.guest.traffic"/></li>
-                            <li class="conditional storage-traffic"><fmt:message key="label.storage.traffic"/></li>
-                        </ul>
-                        <div class="info-desc"><fmt:message key="label.please.specify.netscaler.info"/></div>
-                        <div class="content input-area">
-                            <div class="select-container"></div>
-                        </div>
-                    </div>
                     <!-- Step 3.2: Configure public traffic -->
                     <div class="setup-public-traffic" zone-wizard-prefilter="addPublicNetwork"
                          zone-wizard-step-id="configurePublicTraffic">
                         <ul class="subnav">
-                            <li class="conditional netscaler physical-network"><fmt:message key="label.netScaler"/></li>
                             <li class="public-network active"><fmt:message key="label.public.traffic"/></li>
                             <li class="pod"><fmt:message key="label.pod"/></li>
                             <li class="guest-traffic"><fmt:message key="label.guest.traffic"/></li>
@@ -856,7 +838,6 @@
                     <div class="add-pod" zone-wizard-form="pod"
                          zone-wizard-step-id="addPod">
                         <ul class="subnav">
-                            <li class="conditional netscaler physical-network"><fmt:message key="label.netScaler"/></li>
                             <li class="public-network"><fmt:message key="label.public.traffic"/></li>
                             <li class="pod active"><fmt:message key="label.pod"/></li>
                             <li class="guest-traffic"><fmt:message key="label.guest.traffic"/></li>
@@ -875,7 +856,6 @@
                          zone-wizard-step-id="configureGuestTraffic"
                          zone-wizard-prefilter="configureGuestTraffic">
                         <ul class="subnav">
-                            <li class="conditional netscaler physical-network"><fmt:message key="label.netScaler"/></li>
                             <li class="public-network"><fmt:message key="label.public.traffic"/></li>
                             <li class="pod"><fmt:message key="label.pod"/></li>
                             <li class="guest-traffic active"><fmt:message key="label.guest.traffic"/></li>
@@ -893,7 +873,6 @@
                     <div class="setup-storage-traffic" zone-wizard-prefilter="configureStorageTraffic"
                          zone-wizard-step-id="configureStorageTraffic">
                         <ul class="subnav">
-                            <li class="conditional netscaler physical-network"><fmt:message key="label.netScaler"/></li>
                             <li class="public-network"><fmt:message key="label.public.traffic"/></li>
                             <li class="pod"><fmt:message key="label.pod"/><</li>
                                                                                <li class="guest-traffic"><fmt:message key="label.guest.traffic"/></li>
