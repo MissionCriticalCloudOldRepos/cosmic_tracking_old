@@ -3,7 +3,7 @@
   <artifactId>cloud-client-ui</artifactId>
   <name>Cosmic Client UI</name>
   <packaging>war</packaging>
-  <version>5.0.1.1</version>
+  <version>5.0.1.2-SNAPSHOT</version>
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
@@ -295,7 +295,7 @@
   <scm>
     <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</connection>
     <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-client.git</developerConnection>
-    <tag>cloud-client-ui-5.0.1.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
