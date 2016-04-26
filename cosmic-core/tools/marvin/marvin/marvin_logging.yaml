@@ -34,3 +34,7 @@ loggers:
     level: INFO
     handlers: [console, file_run_info, file_failed_plus_exceptions]
     propagate: yes
+  ssh:
+    level: INFO
+    handlers: [console, file_run_info]
+    propagate: yes

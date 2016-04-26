@@ -26,17 +26,15 @@ from paramiko import (
 )
 import socket
 import time
-from cloudstackException import (
-    internalError,
-    printException
-)
+from cloudstackException import internalError
 import contextlib
 import logging
-from odes import (
+from codes import (
     SUCCESS,
     FAILED,
     INVALID_INPUT
 )
+from marvinLog import MarvinLog
 
 
 class SshClient(object):
@@ -64,10 +62,7 @@ class SshClient(object):
         self.retryCnt = 0
         self.delay = 0
         self.timeout = 3.0
-        self.logger = logging.getLogger('sshClient.' + str(uuid.uuid4()))
-        stream_handler = logging.StreamHandler(sys.stdout)
-        stream_handler.setLevel(log_lvl)
-        self.logger.addHandler(stream_handler)
+        self.logger = MarvinLog('ssh').getLogger()
 
         # Check invalid host value and raise exception
         # Atleast host is required for connection
@@ -82,7 +77,7 @@ class SshClient(object):
         if port is not None and port >= 0:
             self.port = port
         if self.createConnection() == FAILED:
-            raise internalError("SSH Connection Failed")
+            raise internalError("Connection Failed")
 
     def execute(self, command):
         stdin, stdout, stderr = self.ssh.exec_command(command)
@@ -97,8 +92,7 @@ class SshClient(object):
         else:
             for strOut in output:
                 results.append(strOut.rstrip())
-        self.logger.info("[SSH] Executing command via host %s: %s Output: %s" %
-                          (str(self.host), command, results))
+        self.logger.info("Executing command via host %s: %s Output: %s" % (str(self.host), command, results))
         return results
 
     def createConnection(self):
@@ -110,10 +104,9 @@ class SshClient(object):
                  FAILED If connection through ssh failed
         '''
         ret = FAILED
-        except_msg = ''
         while self.retryCnt >= 0:
             try:
-                self.logger.info("[SSH] Trying SSH Connection to host %s on port %s as user %s. RetryCount: %s" %
+                self.logger.info("Trying SSH Connection to host %s on port %s as user %s. RetryCount: %s" %
                                   (self.host, str(self.port), self.user, str(self.retryCnt)))
                 if self.keyPairFiles is None:
                     self.ssh.connect(hostname=self.host,
@@ -130,20 +123,19 @@ class SshClient(object):
                                      timeout=self.timeout,
                                      look_for_keys=False
                                      )
-                self.logger.info("[SSH] Connection to host %s on port %s is SUCCESSFUL"
-                                  % (str(self.host), str(self.port)))
+                self.logger.info("Connection to host %s on port %s is SUCCESSFUL" % (str(self.host), str(self.port)))
                 ret = SUCCESS
                 break
             except BadHostKeyException as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except AuthenticationException as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except SSHException as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except socket.error as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except Exception as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             finally:
                 if self.retryCnt == 0 or ret == SUCCESS:
                     break
@@ -177,10 +169,9 @@ class SshClient(object):
                 if stderr is not None:
                     ret["stderr"] = stderr.readlines()
         except Exception as e:
-            printException(e)
+            self.logger.exception("Failed to run command: %s" % e)
         finally:
-            self.logger.info("[SSH] Connection to host %s on port %s is SUCCESSFUL"
-                              (str(self.host), command, str(ret)))
+            self.logger.info("Connection to host %s on port %s is SUCCESSFUL" % (str(self.host), command))
             return ret
 
     def scp(self, srcFile, destPath):
