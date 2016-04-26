@@ -14,19 +14,18 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-import marvin
 from sys import stdout, exit
-import logging
 import time
 import os
 import nose.core
-from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.marvinInit import MarvinInit
 from nose.plugins.base import Plugin
-from marvin.codes import (SUCCESS,
-                          FAILED,
-                          EXCEPTION)
-from marvin.lib.utils import random_gen
+from cloudstackTestCase import cloudstackTestCase
+from marvinInit import MarvinInit
+from codes import (
+    SUCCESS,
+    FAILED,
+    EXCEPTION
+)
 from marvin.cloudstackException import printException
 
 
