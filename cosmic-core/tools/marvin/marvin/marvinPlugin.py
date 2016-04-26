@@ -170,18 +170,15 @@ class MarvinPlugin(Plugin):
         Currently used to record start time for tests
         Dump Start Msg of TestCase to Log
         """
-        if self.__tcRunLogger:
-            self.__tcRunLogger.debug("::::::::::::STARTED : TC: " +
-                                     str(self.__testName) + " :::::::::::")
+        self.__tcRunLogger.info("=== Started Test %s ===" % str(self.__testName))
         self.__startTime = time.time()
 
     def printMsg(self, status, tname, err):
         if status in [FAILED, EXCEPTION] and self.__tcRunLogger:
-            printException(err)
             self.__tcRunLogger.fatal("%s: %s: %s" % (status, tname, err))
-        write_str = "=== TestName: %s | Status : %s ===\n" % (tname, status)
+        write_str = "=== TestName: %s | Status : %s ===" % (tname, status)
         self.__resultStream.write(write_str)
-        print write_str
+        self.__tcRunLogger.info(write_str)
 
     def addSuccess(self, test, capt):
         '''
@@ -228,15 +225,16 @@ class MarvinPlugin(Plugin):
                 self.__tcRunLogger = obj_marvininit.getLogger()
                 self.__parsedConfig = obj_marvininit.getParsedConfig()
                 self.__resultStream = obj_marvininit.getResultFile()
-                self.__testRunner = nose.core.\
-                    TextTestRunner(stream=self.__resultStream,
-                                   descriptions=True,
-                                   verbosity=2,
-                                   config=self.conf)
+                self.__testRunner = nose.core.TextTestRunner(
+                    stream=self.__resultStream,
+                    descriptions=True,
+                    verbosity=2,
+                    config=self.conf
+                )
                 return SUCCESS
             return FAILED
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception(("=== Start Marvin failed: %s ===" % e))
             return FAILED
 
     def stopTest(self, test):
@@ -246,15 +244,14 @@ class MarvinPlugin(Plugin):
         endTime = time.time()
         if self.__startTime:
             totTime = int(endTime - self.__startTime)
-            if self.__tcRunLogger:
-                self.__tcRunLogger.\
-                    debug("TestCaseName: %s; "
-                          "Time Taken: %s Seconds; StartTime: %s; "
-                          "EndTime: %s; Result: %s" %
-                          (self.__testName, str(totTime),
-                           str(time.ctime(self.__startTime)),
-                           str(time.ctime(endTime)),
-                           self.__testResult))
+            self.__tcRunLogger.info("TestCaseName: %s; Time Taken: %s Seconds; StartTime: %s; EndTime: %s; Result: %s" % (
+                    self.__testName,
+                    str(totTime),
+                    str(time.ctime(self.__startTime)),
+                    str(time.ctime(endTime)),
+                    self.__testResult
+                )
+            )
 
     def _injectClients(self, test):
         setattr(test, "debug", self.__tcRunLogger.debug)
@@ -273,7 +270,4 @@ class MarvinPlugin(Plugin):
                                                test.AcctType)
 
     def finalize(self, result):
-        try:
-            self.__tcRunLogger.info('=== finalize does nothing!  ===')
-        except Exception as e:
-            printException(e)
+        self.__tcRunLogger.info('=== finalize does nothing!  ===')
