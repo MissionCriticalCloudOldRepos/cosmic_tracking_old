@@ -15,26 +15,28 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from paramiko import (BadHostKeyException,
-                      AuthenticationException,
-                      SSHException,
-                      SSHClient,
-                      AutoAddPolicy,
-                      Transport,
-                      SFTPClient)
+from paramiko import (
+    BadHostKeyException,
+    AuthenticationException,
+    SSHException,
+    SSHClient,
+    AutoAddPolicy,
+    Transport,
+    SFTPClient
+)
 import socket
 import time
-from marvin.cloudstackException import (
+from cloudstackException import (
     internalError,
     printException
 )
 import contextlib
 import logging
-from marvin.codes import (
-    SUCCESS, FAILED, INVALID_INPUT
+from odes import (
+    SUCCESS,
+    FAILED,
+    INVALID_INPUT
 )
-import uuid
-import sys
 
 
 class SshClient(object):
@@ -166,8 +168,7 @@ class SshClient(object):
             return ret
         try:
             status_check = 1
-            stdin, stdout, stderr = self.ssh.\
-                exec_command(command, timeout=self.timeout)
+            stdin, stdout, stderr = self.ssh.exec_command(command, timeout=self.timeout)
             if stdout is not None:
                 status_check = stdout.channel.recv_exit_status()
                 if status_check == 0:
@@ -201,7 +202,6 @@ class SshClient(object):
 
 
 if __name__ == "__main__":
-    with contextlib.closing(SshClient("127.0.0.1", 22, "root",
-                                      "asdf!@34")) as ssh:
+    with contextlib.closing(SshClient("127.0.0.1", 22, "root", "asdf!@34")) as ssh:
         ret = ssh.runCommand("ls -l")
         print ret
