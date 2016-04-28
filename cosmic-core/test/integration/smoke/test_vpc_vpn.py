@@ -52,7 +52,9 @@ from marvin.sshClient import SshClient
 from marvin.lib.common import (get_zone,
                                get_domain,
                                get_template,
-                               list_network_offerings)
+                               list_hosts,
+                               list_network_offerings,
+                               list_routers)
 
 from nose.plugins.attrib import attr
 
@@ -450,7 +452,6 @@ class TestVpcRemoteAccessVpn(cloudstackTestCase):
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-
 class TestVpcSite2SiteVpn(cloudstackTestCase):
 
     @classmethod
@@ -601,6 +602,68 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
 
         return vpc_off
 
+    def get_host_details(self, router, username='root', password='password', port=22):
+        hosts = list_hosts(self.apiclient, id=router.hostid, type="Routing")
+
+        self.assertEqual(isinstance(hosts, list), True, "Check for list hosts response return valid data")
+
+        host = hosts[0]
+        host.user = username
+        host.passwd = password
+        host.port = port
+        return host
+
+    def get_router_state(self, router):
+        host = self.get_host_details(router)
+
+        router_state = "UNKNOWN"
+        try:
+            router_state = get_process_status(
+                host.ipaddress,
+                host.port,
+                host.user,
+                host.passwd,
+                router.linklocalip,
+                "/opt/cloud/bin/checkrouter.sh | cut -d\" \" -f2"
+            )
+        except:
+            self.logger.debug("Oops, unable to determine redundant state for router with link local address %s" % (router.linklocalip))
+            pass
+        self.logger.debug("The router with link local address %s reports state %s" % (router.linklocalip, router_state))
+        return router_state[0]
+
+    def routers_in_right_state(self, vpcid=None):
+        self.logger.debug("Check whether routers are happy")
+        max_tries = 30
+        test_tries = 0
+        master_found = 0
+        backup_found = 0
+        while test_tries < max_tries:
+            routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid, vpcid=vpcid)
+            self.assertEqual(isinstance(routers, list), True,
+                             "Check for list routers response return valid data")
+            for router in routers:
+                if not router.isredundantrouter:
+                    self.logger.debug("Router %s has is_redundant_router %s so continuing" % (router.linklocalip, router.isredundantrouter))
+                    return True
+                router_state = self.get_router_state(router)
+                if router_state == "BACKUP":
+                    backup_found += 1
+                    self.logger.debug("Router %s currently is in state BACKUP" % router.linklocalip)
+                if router_state == "MASTER":
+                    master_found += 1
+                    self.logger.debug("Router %s currently is in state MASTER" % router.linklocalip)
+            if master_found > 0 and backup_found > 0:
+                self.logger.debug("Found at least one router in MASTER and one in BACKUP state so continuing")
+                break
+            test_tries += 1
+            self.logger.debug("Testing router states round %s/%s" % (test_tries, max_tries))
+            time.sleep(2)
+
+        if master_found == 1 and backup_found == 1:
+            return True
+        return False
+        
     def _test_vpc_site2site_vpn(self, vpc_offering, num_VPCs=3):
         # Number of VPNs (to test) is number_of_VPCs - 1
         # By default test setting up 2 VPNs from VPC0, requiring total of 3 VPCs
@@ -725,6 +788,13 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
             vpn_cust_gw_list.append(customer_response)
             # self.logger.debug(vars(vpn_cust_gw_list[i]))
 
+        # Before the next step ensure the last VPC is up and running
+        maxnumVPC = num_VPCs - 1
+        # Routers in the right state?
+        self.assertEqual(self.routers_in_right_state(vpcid=vpc_list[maxnumVPC].id), True,
+                         "Check whether the routers are in the right state.")
+
+        
         # 6) Connect VPCi with VPC0
         for i in range(num_VPCs)[1:]:
             vpnconn1_response = Vpn.createVpnConnection(
@@ -741,6 +811,7 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
                 vpnconn2_response['state'], "Connected", "Failed to connect between VPCs 0 and %d!" % i)
             self.logger.debug("VPN connected between VPC0 and VPC%d" % i)
 
+        # First the last VM
         maxnumVM = num_VPCs - 1
 		# acquire an extra ip address to use to ssh into vm maxnumVM
         try:
