@@ -174,6 +174,8 @@ public class VpcRouterDeploymentDefinition extends RouterDeploymentDefinition {
 
             if (router != null) {
                 routers.add(router);
+            } else {
+                logger.error("We didn't get any routers returned, probably the deployment failed.");
             }
         }
     }
