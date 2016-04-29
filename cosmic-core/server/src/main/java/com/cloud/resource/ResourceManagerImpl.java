@@ -2090,7 +2090,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
       resourceStateTransitTo(host, ResourceState.Event.AdminCancelMaintenance, _nodeId);
       _agentMgr.pullAgentOutMaintenance(hostId);
 
-      // for kvm, need to log into kvm host, restart cloudstack-agent
+      // for kvm, need to log into kvm host, restart cosmic-agent
       if ((host.getHypervisorType() == HypervisorType.KVM && !vms_migrating)) {
 
         final boolean sshToAgent = Boolean.parseBoolean(_configDao.getValue(Config.KvmSshToAgentEnabled.key()));
@@ -2113,9 +2113,12 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
         }
 
         try {
-          SSHCmdHelper.sshExecuteCmdOneShot(connection, "service cloudstack-agent restart");
+          SSHCmdHelper.sshExecuteCmdOneShot(connection, "systemctl restart cosmic-agent");
         } catch (final SshException e) {
-          return false;
+          s_logger.info("Tried to restart agent but it failed. Please restart the Agent (" + hostId + ")  manually");
+          // We return true here because cancel maintenance works fine even without restarting the agent
+          // No need to send an error.
+          return true;
         }
       }
 
