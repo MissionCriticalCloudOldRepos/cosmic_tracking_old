@@ -2076,11 +2076,13 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
 
     /* TODO: move to listener */
     _haMgr.cancelScheduledMigrations(host);
+
+    boolean vms_migrating = false;
     final List<VMInstanceVO> vms = _haMgr.findTakenMigrationWork();
     for (final VMInstanceVO vm : vms) {
-      if (vm != null && vm.getHostId() != null && vm.getHostId() == hostId) {
-        s_logger.info("Unable to cancel migration because the vm is being migrated: " + vm);
-        return false;
+      if (vm.getHostId() != null && vm.getHostId() == hostId) {
+        s_logger.warn("Unable to cancel migration because the vm is being migrated: " + vm + ", hostId = " + hostId);
+        vms_migrating = true;
       }
     }
 
@@ -2089,7 +2091,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
       _agentMgr.pullAgentOutMaintenance(hostId);
 
       // for kvm, need to log into kvm host, restart cloudstack-agent
-      if (host.getHypervisorType() == HypervisorType.KVM) {
+      if ((host.getHypervisorType() == HypervisorType.KVM && !vms_migrating)) {
 
         final boolean sshToAgent = Boolean.parseBoolean(_configDao.getValue(Config.KvmSshToAgentEnabled.key()));
         if (!sshToAgent) {
