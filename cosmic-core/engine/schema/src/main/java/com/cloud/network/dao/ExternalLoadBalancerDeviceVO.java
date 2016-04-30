@@ -32,7 +32,7 @@ import org.apache.cloudstack.api.InternalIdentity;
 import org.apache.cloudstack.network.ExternalNetworkDeviceManager;
 
 /**
- * ExternalLoadBalancerDeviceVO contains information on external load balancer devices (F5,VPX,MPX,SDX) added into a deployment
+ * ExternalLoadBalancerDeviceVO contains information on external load balancer devices (VPX,MPX,SDX) added into a deployment
   */
 
 @Entity

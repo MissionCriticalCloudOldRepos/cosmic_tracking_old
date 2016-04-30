@@ -28,7 +28,7 @@ import com.cloud.resource.ServerResource;
 import com.cloud.utils.component.Manager;
 
 /* ExternalLoadBalancerDeviceManager provides a abstract implementation for managing a external load balancer in device agnostic manner.
- * Device specific managers for external load balancers (like F5) should be implemented as pluggable service extending
+ * Device specific managers for external load balancers should be implemented as pluggable service extending
  * ExternalLoadBalancerDeviceManager implementation. An implementation of device specific manager can override default behaviour if needed.
  */
 
