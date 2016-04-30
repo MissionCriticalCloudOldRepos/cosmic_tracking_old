@@ -2511,8 +2511,8 @@
                                         }
                                         //hide/show service fields ***** (end) *****
 
-                                        //show LB InlineMode dropdown only when (1)LB service is checked and LB service provider is F5BigIp (2)Firewall service is checked and Firewall service provider is JuniperSRX
-                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && (args.$form.find('.form-item[rel=\"service.Lb.provider\"]').find('select').val() == 'F5BigIp') &&
+                                        //show LB InlineMode dropdown only when (1)LB service is checked  (2)Firewall service is checked and Firewall service provider is JuniperSRX
+                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) &&
                                             (args.$form.find('.form-item[rel=\"service.Firewall.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && (args.$form.find('.form-item[rel=\"service.Firewall.provider\"]').find('select').val() == 'JuniperSRX')) {
                                             args.$form.find('.form-item[rel=\"service.Lb.inlineModeDropdown\"]').css('display', 'inline-block');
                                         } else {
@@ -2525,8 +2525,8 @@
                                             args.$form.find('.form-item[rel=\"egressdefaultpolicy\"]').css('display', 'none');
                                         }
 
-                                        //show LB Isolation dropdown only when (1)LB Service is checked (2)Service Provider is F5
-                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) && args.$form.find('.form-item[rel=\"service.Lb.provider\"]').find('select').val() == 'F5BigIp') {
+                                        //show LB Isolation dropdown only when (1)LB Service is checked
+                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) {
                                             args.$form.find('.form-item[rel=\"service.Lb.lbIsolationDropdown\"]').css('display', 'inline-block');
                                         } else {
                                             args.$form.find('.form-item[rel=\"service.Lb.lbIsolationDropdown\"]').hide();
@@ -2993,13 +2993,6 @@
                                             inputData['servicecapabilitylist[' + serviceCapabilityIndex + '].capabilitytype'] = 'ElasticLb';
                                             inputData['servicecapabilitylist[' + serviceCapabilityIndex + '].capabilityvalue'] = true; //because this checkbox's value == "on"
                                             serviceCapabilityIndex++;
-                                        } else if ((key == 'service.Lb.inlineModeDropdown') && ("Lb" in serviceProviderMap) && (serviceProviderMap.Lb == "F5BigIp")) {
-                                            if (value == 'true') { //CS-16605 do not pass parameter if value is 'false'(side by side)
-                                                inputData['servicecapabilitylist[' + serviceCapabilityIndex + '].service'] = 'lb';
-                                                inputData['servicecapabilitylist[' + serviceCapabilityIndex + '].capabilitytype'] = 'InlineMode';
-                                                inputData['servicecapabilitylist[' + serviceCapabilityIndex + '].capabilityvalue'] = value;
-                                                serviceCapabilityIndex++;
-                                            }
                                         } else if ((key == 'service.Lb.lbIsolationDropdown') && ("Lb" in serviceProviderMap)) {
                                             inputData['servicecapabilitylist[' + serviceCapabilityIndex + '].service'] = 'lb';
                                             inputData['servicecapabilitylist[' + serviceCapabilityIndex + '].capabilitytype'] = 'SupportedLbIsolation';
