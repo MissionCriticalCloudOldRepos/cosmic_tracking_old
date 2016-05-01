@@ -659,7 +659,6 @@ class TestVPCRedundancy(cloudstackTestCase):
 
         time.sleep(total_sleep * 3)
 
-        self.check_routers_state(status_to_check="MASTER")
         self.check_routers_interface(interface_to_check="eth2", expected_exists=False)
         self.start_vm()
         self.check_routers_state(status_to_check="MASTER")
