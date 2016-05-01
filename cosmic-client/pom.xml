@@ -416,7 +416,6 @@
           <webAppSourceDirectory>${project.build.directory}/generated-webapp</webAppSourceDirectory>
           <webAppConfig>
             <contextPath>/client</contextPath>
-            <extraClasspath>${project.build.directory}/utilities/scripts/db/;${project.build.directory}/utilities/scripts/db/db/</extraClasspath>
           </webAppConfig>
 
           <systemProperties>
@@ -506,7 +505,7 @@
                     <exclude name="*.in" />
                   </fileset>
                 </copy>
-                <copy overwrite="true" todir="${basedir}/target/utilities/bin">
+                <copy overwrite="true" todir="${basedir}/target/generated-webapp/WEB-INF/classes/bin">
                   <fileset dir="${project.build.directory}/setup/bindir">
                     <include name="*.in" />
                   </fileset>
@@ -517,19 +516,8 @@
                     </filterreader>
                   </filterchain>
                 </copy>
-                <copy overwrite="true" todir="${basedir}/target/utilities/bin">
-                  <fileset dir="${basedir}/bindir">
-                    <include name="*.in" />
-                  </fileset>
-                  <globmapper from="*.in" to="*" />
-                  <filterchain>
-                    <filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-                      <param type="propertiesfile" value="${project.build.directory}/${cs.replace.properties}" />
-                    </filterreader>
-                  </filterchain>
-                </copy>
-                <copy overwrite="true" todir="${basedir}/target/utilities/scripts/db">
-                  <fileset dir="${project.build.directory}/setup/db">
+                <copy overwrite="true" todir="${basedir}/target/generated-webapp/WEB-INF/classes/db">
+                  <fileset dir="${project.build.directory}/setup/db/db">
                     <include name="**/*" />
                   </fileset>
                   <filterchain>
