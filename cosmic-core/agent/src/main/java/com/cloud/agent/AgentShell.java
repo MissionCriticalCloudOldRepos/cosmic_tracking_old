@@ -156,10 +156,7 @@ public class AgentShell implements IAgentShell, Daemon {
 
     @Override
     public void setPersistentProperty(String prefix, String name, String value) {
-        if (prefix != null)
-            _storage.persist(prefix + "." + name, value);
-        else
-            _storage.persist(name, value);
+        // Don't let the agent edit the configuration file.
     }
 
     void loadProperties() throws ConfigurationException {
