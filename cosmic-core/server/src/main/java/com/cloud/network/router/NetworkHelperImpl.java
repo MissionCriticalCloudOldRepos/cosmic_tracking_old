@@ -432,6 +432,13 @@ public class NetworkHelperImpl implements NetworkHelper {
       throws InsufficientAddressCapacityException, InsufficientServerCapacityException, InsufficientCapacityException, StorageUnavailableException, ResourceUnavailableException {
 
     final ServiceOfferingVO routerOffering = _serviceOfferingDao.findById(routerDeploymentDefinition.getServiceOfferingId());
+    _serviceOfferingDao.loadDetails(routerOffering);
+    final String serviceofferingHypervisor = routerOffering.getDetail("hypervisor");
+    if (serviceofferingHypervisor != null && !serviceofferingHypervisor.isEmpty()) {
+      s_logger.debug(String.format("Found hypervisor '%s' in details of serviceoffering with id %s. Going to check if that hypervisor is available.",
+                serviceofferingHypervisor, routerDeploymentDefinition.getServiceOfferingId()));
+    }
+
     final Account owner = routerDeploymentDefinition.getOwner();
 
     // Router is the network element, we don't know the hypervisor type yet.
@@ -446,10 +453,14 @@ public class NetworkHelperImpl implements NetworkHelper {
       final HypervisorType hType = iter.next();
       try {
         final long id = _routerDao.getNextInSequence(Long.class, "id");
-        if (s_logger.isDebugEnabled()) {
-          s_logger.debug(String.format("Allocating the VR with id=%s in datacenter %s with the hypervisor type %s", id, routerDeploymentDefinition.getDest()
-              .getDataCenter(), hType));
+        if (serviceofferingHypervisor != null && !serviceofferingHypervisor.isEmpty() && !hType.toString().equalsIgnoreCase(serviceofferingHypervisor)) {
+          s_logger.debug(String.format("Skipping hypervisor type '%s' as the service offering details request hypervisor '%s'",
+                    hType, serviceofferingHypervisor));
+          continue;
         }
+
+        s_logger.debug(String.format("Allocating the VR with id=%s in datacenter %s with the hypervisor type %s", id, routerDeploymentDefinition.getDest()
+              .getDataCenter(), hType));
 
         final String templateName = retrieveTemplateName(hType, routerDeploymentDefinition.getDest().getDataCenter().getId());
         final VMTemplateVO template = _templateDao.findRoutingTemplate(hType, templateName);
