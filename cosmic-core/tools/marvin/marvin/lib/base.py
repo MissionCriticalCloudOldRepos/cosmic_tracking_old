@@ -323,40 +323,100 @@ class VirtualMachine:
         Program NAT and PF rules to open up ssh access to deployed guest
         @return:
         """
+
+        vpcid = None
+        network=None
+        
+        if not networkid is None:
+            network = Network.list(
+                apiclient=apiclient,
+                accountid=virtual_machine.account,
+                domainid=virtual_machine.domainid,
+                id=networkid
+            )
+            if not network is None:
+                network = network[0]
+                vpcid = network.vpcid
+
         public_ip = PublicIPAddress.create(
             apiclient=apiclient,
             accountid=virtual_machine.account,
             zoneid=virtual_machine.zoneid,
             domainid=virtual_machine.domainid,
             services=services,
-            networkid=networkid
+            networkid=networkid,
+            vpcid=vpcid
         )
-        FireWallRule.create(
-            apiclient=apiclient,
-            ipaddressid=public_ip.ipaddress.id,
-            protocol='TCP',
-            cidrlist=['0.0.0.0/0'],
-            startport=22,
-            endport=22
-        )
+
+        if vpcid is None:
+            FireWallRule.create(
+                apiclient=apiclient,
+                ipaddressid=public_ip.ipaddress.id,
+                protocol='TCP',
+                cidrlist=['0.0.0.0/0'],
+                startport=22,
+                endport=22
+            )
+        elif network is not None:
+            acl_list = NetworkACLList.list(
+                apiclient=apiclient,
+                accountid=virtual_machine.account,
+                domainid=virtual_machine.domainid,
+                id=network.aclid
+            )
+
+            acl_name = acl_list[0].name
+            if (acl_name!="default_allow") and (acl_name!="default_deny"):
+                target_acl = NetworkACL.list(
+                    apiclient=apiclient,
+                    accountid=virtual_machine.account,
+                    domainid=virtual_machine.domainid,
+                    aclid=acl_list[0].id
+                )
+
+                services_acl = {}
+                services_acl["protocol"] = services["protocol"] if "protocol" in services else 'TCP'
+                services_acl["startport"] = services["publicport"] if "publicport" in services else 22
+                services_acl["endport"] = services["publicport"] if "publicport" in services else 22
+                services_acl["cidrlist"] = ['0.0.0.0/0']
+                services_acl["action"] = 'Allow'
+                services_acl["traffictype"] = 'Ingress'
+                
+                ace_number = 1
+                for ace in target_acl:
+                    ace_number = max(ace.number, ace_number)
+                ace_number += 1
+                
+                services_acl["number"] = ace_number
+
+                NetworkACL.create(
+                    apiclient=apiclient,
+                    services=services_acl,
+                    networkid=networkid, 
+                    aclid=network.aclid, 
+                )
+
         nat_rule = NATRule.create(
             apiclient=apiclient,
             virtual_machine=virtual_machine,
             services=services,
-            ipaddressid=public_ip.ipaddress.id
+            ipaddressid=public_ip.ipaddress.id,
+            networkid=networkid
         )
         if allow_egress:
-            try:
-                EgressFireWallRule.create(
-                    apiclient=apiclient,
-                    networkid=virtual_machine.nic[0].networkid,
-                    protocol='All',
-                    cidrlist='0.0.0.0/0'
-                )
-            except CloudstackAPIException, e:
-                # This could fail because we've already set up the same rule
-                if not "There is already a firewall rule specified".lower() in e.errorMsg.lower():
-                    raise
+            if vpcid is None:
+                try:
+                    EgressFireWallRule.create(
+                        apiclient=apiclient,
+                        networkid=virtual_machine.nic[0].networkid,
+                        protocol='All',
+                        cidrlist='0.0.0.0/0'
+                    )
+                except CloudstackAPIException, e:
+                    # This could fail because we've already set up the same rule
+                    if not "There is already a firewall rule specified".lower() in e.errorMsg.lower():
+                        raise
+
         virtual_machine.ssh_ip = nat_rule.ipaddress
         virtual_machine.public_ip = nat_rule.ipaddress
 
