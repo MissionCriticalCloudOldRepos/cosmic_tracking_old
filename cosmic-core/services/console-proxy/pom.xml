@@ -6,7 +6,7 @@
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-services</artifactId>
-    <version>5.0.1.3</version>
+    <version>5.0.1.4-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <build>
