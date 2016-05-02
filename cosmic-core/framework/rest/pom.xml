@@ -3,7 +3,7 @@
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-framework</artifactId>
-    <version>5.0.1.2-SNAPSHOT</version>
+    <version>5.0.1.3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>cloud-framework-rest</artifactId>

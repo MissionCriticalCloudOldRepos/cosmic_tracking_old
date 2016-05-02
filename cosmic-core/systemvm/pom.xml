@@ -5,7 +5,7 @@
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic-core</artifactId>
-    <version>5.0.1.2-SNAPSHOT</version>
+    <version>5.0.1.3</version>
   </parent>
   <properties>
     <mkisofs>mkisofs</mkisofs>
