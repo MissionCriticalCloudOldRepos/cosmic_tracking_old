@@ -519,52 +519,6 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-    def _get_ssh_client(self, virtual_machine, services, retries):
-        """ Setup ssh client connection and return connection
-        vm requires attributes public_ip, public_port, username, password """
-
-        try:
-            ssh_client = SshClient(
-                virtual_machine.public_ip,
-                services["virtual_machine"]["ssh_port"],
-                services["virtual_machine"]["username"],
-                services["virtual_machine"]["password"],
-                retries)
-
-        except Exception as e:
-            self.fail("Unable to create ssh connection: %s" % e)
-
-        self.assertIsNotNone(
-            ssh_client, "Failed to setup ssh connection to vm=%s on public_ip=%s" % (virtual_machine.name, virtual_machine.public_ip))
-
-        return ssh_client
-
-    def _create_natrule(self, vpc, vm, public_port, private_port, public_ip, network, services=None):
-        self.logger.debug("Creating NAT rule in network for vm with public IP")
-        if not services:
-            self.services["natrule"]["privateport"] = private_port
-            self.services["natrule"]["publicport"] = public_port
-            self.services["natrule"]["startport"] = public_port
-            self.services["natrule"]["endport"] = public_port
-            services = self.services["natrule"]
-
-        nat_rule = NATRule.create(
-            apiclient=self.apiclient,
-            services=services,
-            ipaddressid=public_ip.ipaddress.id,
-            virtual_machine=vm,
-            networkid=network.id
-        )
-        self.assertIsNotNone(
-            nat_rule, "Failed to create NAT Rule for %s" % public_ip.ipaddress.ipaddress)
-        self.logger.debug(
-            "Adding NetworkACL rules to make NAT rule accessible")
-
-        vm.ssh_ip = nat_rule.ipaddress
-        vm.public_ip = nat_rule.ipaddress
-        vm.public_port = int(public_port)
-        return nat_rule
-
     def _validate_vpc_offering(self, vpc_offering):
 
         self.logger.debug("Check if the VPC offering is created successfully?")
@@ -668,6 +622,7 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
         # Number of VPNs (to test) is number_of_VPCs - 1
         # By default test setting up 2 VPNs from VPC0, requiring total of 3 VPCs
 
+        maxnumVM = num_VPCs - 1
         # Create VPC i
         vpc_list = []
         for i in range(num_VPCs):
@@ -733,6 +688,7 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
         # Deploy a vm in network i
         vm_list = []
         vm_n = None
+
         for i in range(num_VPCs):
             try:
                 vm_n = VirtualMachine.create(self.apiclient, services=self.services["virtual_machine"],
@@ -741,8 +697,9 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
                                             accountid=self.account.name,
                                             domainid=self.account.domainid,
                                             serviceofferingid=self.compute_offering.id,
-                                            networkids=ntwk_list[i].id,
-                                            hypervisor=self.hypervisor
+                                            networkids=[ntwk_list[i].id],
+                                            hypervisor=self.hypervisor,
+                                            mode='advanced' if (i == 0) or (i == maxnumVM) else 'default'
                                             )
             except Exception as e:
                 self.fail(e)
@@ -786,12 +743,10 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
 
             self.cleanup.append( customer_response )
             vpn_cust_gw_list.append(customer_response)
-            # self.logger.debug(vars(vpn_cust_gw_list[i]))
 
         # Before the next step ensure the last VPC is up and running
-        maxnumVPC = num_VPCs - 1
         # Routers in the right state?
-        self.assertEqual(self.routers_in_right_state(vpcid=vpc_list[maxnumVPC].id), True,
+        self.assertEqual(self.routers_in_right_state(vpcid=vpc_list[maxnumVM].id), True,
                          "Check whether the routers are in the right state.")
 
         
@@ -800,87 +755,34 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
             vpnconn1_response = Vpn.createVpnConnection(
                 self.apiclient, vpn_cust_gw_list[0].id, vpn_response_list[i]['id'], True)
             self.debug("VPN passive connection created for VPC%d %s" % (i, vpc_list[i].id))
-            #self.cleanup.append( vpnconn1_response )
 
             vpnconn2_response = Vpn.createVpnConnection(
                 self.apiclient, vpn_cust_gw_list[i].id, vpn_response_list[0]['id'])
             self.debug("VPN connection created for VPC%d %s" % (0, vpc_list[0].id))
-            #self.cleanup.append( vpnconn2_response )
 
             self.assertEqual(
                 vpnconn2_response['state'], "Connected", "Failed to connect between VPCs 0 and %d!" % i)
             self.logger.debug("VPN connected between VPC0 and VPC%d" % i)
 
         # First the last VM
-        maxnumVM = num_VPCs - 1
-		# acquire an extra ip address to use to ssh into vm maxnumVM
-        try:
-            vm_list[maxnumVM].public_ip = PublicIPAddress.create(
-                apiclient=self.apiclient,
-                accountid=self.account.name,
-                zoneid=self.zone.id,
-                domainid=self.account.domainid,
-                services=self.services,
-                networkid=ntwk_list[maxnumVM].id,
-                vpcid=vpc_list[maxnumVM].id)
-        except Exception as e:
-            self.fail(e)
-        finally:
-            self.assert_(
-                vm_list[maxnumVM].public_ip is not None, "Failed to aqcuire public ip for last VM created (%d)" % maxnumVM)
-
-        natrule = None
-        # Create port forward to be able to ssh into maxnumVM
-        try:
-            natrule = self._create_natrule(
-                vpc_list[maxnumVM], vm_list[maxnumVM], 22, 22, vm_list[maxnumVM].public_ip, ntwk_list[maxnumVM])
-        except Exception as e:
-            self.fail(e)
-        finally:
-            self.assert_(
-                natrule is not None, "Failed to create portforward for last VM created (%d)" % maxnumVM)
-            time.sleep(20)
-
         # setup ssh connection to vm maxnumVM
         self.logger.debug("Setup SSH connection to last VM created (%d) to ensure availability for ping tests" % maxnumVM)
         try:
-            ssh_max_client = self._get_ssh_client(vm_list[maxnumVM], self.services, 20)
+            ssh_max_client = vm_list[maxnumVM].get_ssh_client(retries=20)
         except Exception as e:
             self.fail(e)
         finally:
             self.assert_(
                 ssh_max_client is not None, "Failed to setup SSH to last VM created (%d)" % maxnumVM)
 
-        # acquire an extra ip address to use to ssh into vm0
+        self.logger.debug("Setup SSH connection to first VM created (0) to ensure availability for ping tests")
         try:
-            vm_list[0].public_ip = PublicIPAddress.create(
-                apiclient=self.apiclient,
-                accountid=self.account.name,
-                zoneid=self.zone.id,
-                domainid=self.account.domainid,
-                services=self.services,
-                networkid=ntwk_list[0].id,
-                vpcid=vpc_list[0].id)
+            ssh_client = vm_list[0].get_ssh_client(retries=10)
         except Exception as e:
             self.fail(e)
         finally:
             self.assert_(
-                vm_list[0].public_ip is not None, "Failed to aqcuire public ip for vm0")
-
-        natrule = None
-        # Create port forward to be able to ssh into vm2
-        try:
-            natrule = self._create_natrule(
-                vpc_list[0], vm_list[0], 22, 22, vm_list[0].public_ip, ntwk_list[0])
-        except Exception as e:
-            self.fail(e)
-        finally:
-            self.assert_(
-                natrule is not None, "Failed to create portforward for vm0")
-            time.sleep(20)
-
-        # setup ssh connection to vm0
-        ssh_client = self._get_ssh_client(vm_list[0], self.services, 10)
+                ssh_client is not None, "Failed to setup SSH to VM0")
 
         if ssh_client:
             # run ping test
@@ -891,14 +793,6 @@ class TestVpcSite2SiteVpn(cloudstackTestCase):
                 self.logger.debug("Ping from vm0 to vm%d did succeed" % i)
         else:
             self.fail("Failed to setup ssh connection to %s" % vm_list[0].public_ip)
-
-        # Build cleanup list, in correct order
-        # self.cleanup.reverse()
-        #self.cleanup.extend(vm_list)
-        #self.cleanup.extend(ntwk_list)
-        #self.cleanup.extend(vpc_list)
-        # Delete cust gateways last as delete vpc takes care of deleting VPNs/Connections
-        #self.cleanup.extend(vpn_cust_gw_list)
 
         return
 
