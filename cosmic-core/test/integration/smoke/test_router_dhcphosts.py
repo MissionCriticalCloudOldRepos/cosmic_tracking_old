@@ -18,37 +18,31 @@
 # Import Local Modules
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.cloudstackAPI import (stopVirtualMachine,
-                                  stopRouter,
-                                  startRouter)
-from marvin.lib.utils import (cleanup_resources,
-                              get_process_status)
-from marvin.lib.base import (ServiceOffering,
-                             VirtualMachine,
-                             Account,
-                             ServiceOffering,
-                             NATRule,
-                             NetworkACL,
-                             FireWallRule,
-                             PublicIPAddress,
-                             NetworkOffering,
-                             Network,
-                             Router)
-from marvin.lib.common import (get_zone,
-                               get_template,
-                               get_domain,
-                               list_virtual_machines,
-                               list_networks,
-                               list_configurations,
-                               list_routers,
-                               list_nat_rules,
-                               list_publicIP,
-                               list_firewall_rules,
-                               list_hosts,
-                               list_vlan_ipranges)
-
+from marvin.lib.utils import (
+    cleanup_resources,
+    get_process_status
+)
+from marvin.lib.base import (
+    VirtualMachine,
+    Account,
+    ServiceOffering,
+    NATRule,
+    FireWallRule,
+    NetworkOffering,
+    Network
+)
+from marvin.lib.common import (
+    get_zone,
+    get_template,
+    get_domain,
+    list_networks,
+    list_routers,
+    list_nat_rules,
+    list_publicIP,
+    list_hosts,
+    list_vlan_ipranges
+)
 # Import System modules
-import time
 import logging
 
 
@@ -191,7 +185,7 @@ class TestRouterDHCPHosts(cloudstackTestCase):
         self.logger.debug('::: Public Networks ::: ==> %s' % networks)
 
         self.assertTrue(len(networks) == 1, "Test expects only 1 Public network but found -> '%s'" % len(networks))
-        
+
         ip_ranges = list_vlan_ipranges(self.apiclient,
                                        zoneid = self.zone.id,
                                        networkid = networks[0].id)
@@ -253,7 +247,7 @@ class TestRouterDHCPHosts(cloudstackTestCase):
 
         self.logger.debug("cat /etc/dhcphosts.txt | grep %s | sed 's/\,/ /g' | awk '{print $2}' RESULT IS ==> %s" % (vm.nic[0].ipaddress, result))
         res = str(result)
-        
+
         self.assertEqual(
             res.count(vm.nic[0].ipaddress),
             1,
@@ -357,7 +351,7 @@ class TestRouterDHCPHosts(cloudstackTestCase):
             'Active',
             "Check list port forwarding rules"
         )
-        
+
         nat_rules = list_nat_rules(
             self.apiclient,
             id=nat_rule2.id
@@ -383,7 +377,7 @@ class TestRouterDHCPHosts(cloudstackTestCase):
 
         self.logger.debug("Deleting and Expunging VM %s with ip %s" % (self.vm_1.id, self.vm_1.nic[0].ipaddress))
         self.vm_1.delete(self.apiclient)
-        
+
         self.logger.debug("Creating new VM using the same IP as the one which was deleted => IP 10.1.1.50")
         self.vm_1 = VirtualMachine.create(self.apiclient,
                                          self.services["virtual_machine"],

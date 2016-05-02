@@ -25,7 +25,6 @@ from marvin.lib.base import *
 from marvin.lib.common import *
 from nose.plugins.attrib import attr
 
-import time
 import logging
 
 class Services:

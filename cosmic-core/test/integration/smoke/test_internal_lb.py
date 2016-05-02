@@ -17,41 +17,29 @@
 """ Tests for configuring Internal Load Balancing Rules.
 """
 # Import Local Modules
-from marvin.codes import PASS, FAILED
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import (cleanup_resources,
-                              get_process_status,
-                              get_host_credentials)
-from marvin.lib.base import (Domain,
-                             Account,
-                             Configurations,
-                             VPC,
-                             VpcOffering,
-                             ServiceOffering,
-                             NetworkOffering,
-                             Network,
-                             PublicIPAddress,
-                             NATRule,
-                             NetworkACL,
-                             LoadBalancerRule,
-                             ApplicationLoadBalancer,
-                             VirtualMachine,
-                             Template,
-                             FireWallRule,
-                             StaticNATRule,
-                             NetworkACLList
-                             )
-
-from marvin.sshClient import SshClient
-
-
-from marvin.lib.common import (get_zone,
-                               get_domain,
-                               get_template,
-                               list_network_offerings)
-
+from marvin.lib.utils import cleanup_resources
+from marvin.lib.base import (
+    Account,
+    Configurations,
+    VPC,
+    VpcOffering,
+    ServiceOffering,
+    NetworkOffering,
+    Network,
+    PublicIPAddress,
+    NATRule,
+    ApplicationLoadBalancer,
+    VirtualMachine,
+    Template,
+    NetworkACLList
+)
+from marvin.lib.common import (
+    get_zone,
+    get_domain,
+    list_network_offerings
+)
 from nose.plugins.attrib import attr
-
 import logging
 import time
 import math
