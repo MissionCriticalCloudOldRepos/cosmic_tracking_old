@@ -23,7 +23,6 @@ from marvin.lib.utils import *
 from marvin.lib.base import *
 from marvin.lib.common import *
 from nose.plugins.attrib import attr
-#Import System modules
 import time
 
 _multiprocess_shared_ = True
@@ -34,7 +33,7 @@ class TestLoadBalance(cloudstackTestCase):
     def setUpClass(cls):
 
         testClient = super(TestLoadBalance, cls).getClsTestClient()
-        cls.apiclient = testClient.getApiClient() 
+        cls.apiclient = testClient.getApiClient()
         cls.services = testClient.getParsedTestDataConfig()
 
         # Get Zone, Domain and templates
@@ -47,7 +46,7 @@ class TestLoadBalance(cloudstackTestCase):
                             )
         if template == FAILED:
             assert False, "get_template() failed to return template with description %s" % cls.services["ostype"]
-        
+
         cls.services["virtual_machine"]["zoneid"] = cls.zone.id
 
         #Create an account, network, VM and IP addresses

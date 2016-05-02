@@ -18,167 +18,51 @@
 @Desc: Module for providing logging facilities to marvin
 '''
 import logging
-import sys
-import time
+import logging.config
 import os
-from marvin.codes import (
-    SUCCESS,
-    FAILED
-)
-from marvin.cloudstackException import printException
-from marvin.lib.utils import random_gen
-
+import yaml
+import marvin
 
 class MarvinLog:
 
-    '''
-    @Name  : MarvinLog
-    @Desc  : provides interface for logging to marvin
-    @Input : logger_name : name for logger
-    '''
-    logFormat = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-    _instance = None
-
-    def __new__(cls, logger_name):
-        if not cls._instance:
-            cls._instance = super(MarvinLog, cls).__new__(cls, logger_name)
-            return cls._instance
-
-    def __init__(self, logger_name):
-        '''
-        @Name: __init__
-        @Input: logger_name for logger
-        '''
+    def __init__(self, logger_name=__name__):
         self.__loggerName = logger_name
-        '''
-        Logger for Logging Info
-        '''
         self.__logger = None
-        '''
-        Log Folder Directory
-        '''
         self.__logFolderDir = None
-        self.__setLogger()
+        self.__setup_logging()
 
-    def __setLogger(self):
-        '''
-        @Name : __setLogger
-        @Desc : Sets the Logger and Level
-        '''
+
+
+    ''' code is courtesy of http://victorlin.me/posts/2012/08/26/good-logging-practice-in-python '''
+    def __setup_logging(self, default_path='marvin_logging.yaml', default_level=logging.INFO, env_key='LOG_CFG'):
+        path = default_path
+        value = os.getenv(env_key, None)
+        if value:
+            path = value
+        path = self.get_relative_file_or_default(path)
+
+        if os.path.exists(path):
+            config = self.read_logging_config(path)
+            logging.config.dictConfig(config)
+        else:
+            logging.basicConfig(level=default_level)
         self.__logger = logging.getLogger(self.__loggerName)
-        self.__logger.setLevel(logging.DEBUG)
 
-    def __setLogHandler(self, log_file_path,
-                        log_format=None,
-                        log_level=logging.DEBUG):
-        '''
-        @Name : __setLogHandler
-        @Desc: Adds the given Log handler to the current logger
-        @Input: log_file_path: Log File Path as where to store the logs
-               log_format : Format of log messages to be dumped
-               log_level : Determines the level of logging for this logger
-        @Output: SUCCESS if no issues else FAILED
-        '''
-        try:
-            if log_file_path is not None:
-                stream = logging.FileHandler(log_file_path)
-            else:
-                stream = logging.StreamHandler(stream=sys.stdout)
+    def __get_marvin_installation_directory(self):
+        return os.path.dirname(marvin.__file__)
 
-            if log_format is not None:
-                stream.setFormatter(log_format)
-            else:
-                stream.setFormatter(self.__class__.logFormat)
-            stream.setLevel(log_level)
-            self.__logger.addHandler(stream)
-            return SUCCESS
-        except Exception as e:
-            printException(e)
-            return FAILED
+    def get_relative_file_or_default(self, path):
+        if not os.path.exists(path):
+            marvin_directory = self.__get_marvin_installation_directory()
+            path = marvin_directory + '/' + path
+        return path
 
-    def __cleanPreviousLogs(self, logfolder_to_remove):
-        '''
-        @Name : __cleanPreviousLogs
-        @Desc : Removes the Previous Logs
-        @Return: N\A
-        @Input: logfolder_to_remove: Path of Log to remove
-        '''
-        try:
-            if os.path.isdir(logfolder_to_remove):
-                os.rmdir(logfolder_to_remove)
-        except Exception as e:
-            printException(e)
-            return FAILED
+    def read_logging_config(self, path):
+        config = None
+        with open(path, 'rt') as f:
+            config = yaml.safe_load(f.read())
+        return config
+
 
     def getLogger(self):
-        '''
-        @Name:getLogger
-        @Desc : Returns the Logger
-        '''
         return self.__logger
-
-    def getLogFolderPath(self):
-        '''
-        @Name : getLogFolderPath
-        @Desc : Returns the final log directory path for marvin run
-        '''
-        return self.__logFolderDir
-
-    def createLogs(self,
-                   test_module_name=None,
-                   log_cfg=None,
-                   user_provided_logpath=None):
-        '''
-        @Name : createLogs
-        @Desc : Gets the Logger with file paths initialized and created
-        @Inputs :test_module_name: Test Module Name to use for logs while
-                 creating log folder path
-                 log_cfg: Log Configuration provided inside of
-                 Configuration
-                 user_provided_logpath:LogPath provided by user
-                                       If user provided log path
-                                       is available, then one in cfg
-                                       will  not be picked up.
-        @Output : SUCCESS\FAILED
-        '''
-        try:
-            temp_ts = time.strftime("%b_%d_%Y_%H_%M_%S",
-                                    time.localtime())
-            if test_module_name is None:
-                temp_path = temp_ts + "_" + random_gen()
-            else:
-                temp_path = str(test_module_name) + \
-                    "__" + str(temp_ts) + "_" + random_gen()
-
-            if user_provided_logpath:
-                temp_dir = user_provided_logpath + "/MarvinLogs"
-            elif ((log_cfg is not None) and
-                    ('LogFolderPath' in log_cfg.__dict__.keys()) and
-                    (log_cfg.__dict__.get('LogFolderPath') is not None)):
-                temp_dir = \
-                    log_cfg.__dict__.get('LogFolderPath') + "/MarvinLogs"
-
-            self.__logFolderDir = temp_dir + "//" + temp_path
-            print "\n==== Log Folder Path: %s. " \
-                  "All logs will be available here ====" \
-                  % str(self.__logFolderDir)
-            os.makedirs(self.__logFolderDir)
-
-            '''
-            Log File Paths
-            1. FailedExceptionLog
-            2. RunLog contains the complete Run Information for Test Run
-            3. ResultFile contains the TC result information for Test Run
-            '''
-            tc_failed_exception_log = \
-                self.__logFolderDir + "/failed_plus_exceptions.txt"
-            tc_run_log = self.__logFolderDir + "/runinfo.txt"
-            if self.__setLogHandler(tc_run_log,
-                                    log_level=logging.DEBUG) != FAILED:
-                self.__setLogHandler(tc_failed_exception_log,
-                                     log_level=logging.FATAL)
-                return SUCCESS
-            return FAILED
-        except Exception as e:
-            printException(e)
-            return FAILED

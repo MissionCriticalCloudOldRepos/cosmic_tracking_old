@@ -15,31 +15,37 @@
 # specific language governing permissions and limitations
 # under the License.
 """ Tests for Persistent Networks without running VMs feature"""
-from marvin.lib.utils import (cleanup_resources,
-                              validateList,
-                              get_hypervisor_type)
-from marvin.lib.base import (Account,
-                             VPC,
-                             VirtualMachine,
-                             LoadBalancerRule,
-                             Network,
-                             Domain,
-                             Router,
-                             NetworkACL,
-                             PublicIPAddress,
-                             VpcOffering,
-                             ServiceOffering,
-                             Project,
-                             NetworkOffering,
-                             NATRule,
-                             FireWallRule,
-                             Host,
-                             StaticNATRule)
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template,
-                               verifyNetworkState,
-                               wait_for_cleanup)
+from marvin.lib.utils import (
+    cleanup_resources,
+    validateList
+)
+from marvin.lib.base import (
+    Account,
+    VPC,
+    VirtualMachine,
+    LoadBalancerRule,
+    Network,
+    Domain,
+    Router,
+    NetworkACL,
+    PublicIPAddress,
+    VpcOffering,
+    ServiceOffering,
+    Project,
+    NetworkOffering,
+    NATRule,
+    FireWallRule,
+    Host,
+    StaticNATRule
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    verifyNetworkState,
+    wait_for_cleanup,
+    get_hypervisor_type
+)
 from nose.plugins.attrib import attr
 from marvin.codes import PASS, FAIL, FAILED
 from marvin.sshClient import SshClient

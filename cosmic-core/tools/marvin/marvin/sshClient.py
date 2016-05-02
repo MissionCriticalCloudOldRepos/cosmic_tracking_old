@@ -15,25 +15,26 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from paramiko import (BadHostKeyException,
-                      AuthenticationException,
-                      SSHException,
-                      SSHClient,
-                      AutoAddPolicy,
-                      Transport,
-                      SFTPClient)
+from paramiko import (
+    BadHostKeyException,
+    AuthenticationException,
+    SSHException,
+    SSHClient,
+    AutoAddPolicy,
+    Transport,
+    SFTPClient
+)
 import socket
 import time
-from marvin.cloudstackException import (
-    internalError,
-    printException
-)
+from cloudstackException import internalError
 import contextlib
 import logging
-from marvin.codes import (
-    SUCCESS, FAILED, INVALID_INPUT
+from codes import (
+    SUCCESS,
+    FAILED,
+    INVALID_INPUT
 )
-import uuid
+from marvinLog import MarvinLog
 
 
 class SshClient(object):
@@ -50,7 +51,7 @@ class SshClient(object):
     '''
 
     def __init__(self, host, port, user, passwd, retries=60, delay=10,
-                 log_lvl=logging.DEBUG, keyPairFiles=None, timeout=10.0):
+                 log_lvl=logging.INFO, keyPairFiles=None, timeout=10.0):
         self.host = None
         self.port = 22
         self.user = user
@@ -58,13 +59,10 @@ class SshClient(object):
         self.keyPairFiles = keyPairFiles
         self.ssh = SSHClient()
         self.ssh.set_missing_host_key_policy(AutoAddPolicy())
-        self.logger = logging.getLogger('sshClient.' + str(uuid.uuid4()))
         self.retryCnt = 0
         self.delay = 0
         self.timeout = 3.0
-        ch = logging.StreamHandler()
-        ch.setLevel(log_lvl)
-        self.logger.addHandler(ch)
+        self.logger = MarvinLog('ssh').getLogger()
 
         # Check invalid host value and raise exception
         # Atleast host is required for connection
@@ -79,7 +77,7 @@ class SshClient(object):
         if port is not None and port >= 0:
             self.port = port
         if self.createConnection() == FAILED:
-            raise internalError("SSH Connection Failed")
+            raise internalError("Connection Failed")
 
     def execute(self, command):
         stdin, stdout, stderr = self.ssh.exec_command(command)
@@ -94,8 +92,7 @@ class SshClient(object):
         else:
             for strOut in output:
                 results.append(strOut.rstrip())
-        self.logger.debug("[SSH] Executing command via host %s: %s Output: %s" %
-                          (str(self.host), command, results))
+        self.logger.info("Executing command via host %s: %s Output: %s" % (str(self.host), command, results))
         return results
 
     def createConnection(self):
@@ -107,10 +104,9 @@ class SshClient(object):
                  FAILED If connection through ssh failed
         '''
         ret = FAILED
-        except_msg = ''
         while self.retryCnt >= 0:
             try:
-                self.logger.debug("[SSH] Trying SSH Connection to host %s on port %s as user %s. RetryCount: %s" %
+                self.logger.info("Trying SSH Connection to host %s on port %s as user %s. RetryCount: %s" %
                                   (self.host, str(self.port), self.user, str(self.retryCnt)))
                 if self.keyPairFiles is None:
                     self.ssh.connect(hostname=self.host,
@@ -127,20 +123,19 @@ class SshClient(object):
                                      timeout=self.timeout,
                                      look_for_keys=False
                                      )
-                self.logger.debug("[SSH] Connection to host %s on port %s is SUCCESSFUL"
-                                  % (str(self.host), str(self.port)))
+                self.logger.info("Connection to host %s on port %s is SUCCESSFUL" % (str(self.host), str(self.port)))
                 ret = SUCCESS
                 break
             except BadHostKeyException as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except AuthenticationException as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except SSHException as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except socket.error as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             except Exception as e:
-                printException(e)
+                self.logger.exception("Failed to create connection: %s" % e)
             finally:
                 if self.retryCnt == 0 or ret == SUCCESS:
                     break
@@ -165,8 +160,7 @@ class SshClient(object):
             return ret
         try:
             status_check = 1
-            stdin, stdout, stderr = self.ssh.\
-                exec_command(command, timeout=self.timeout)
+            stdin, stdout, stderr = self.ssh.exec_command(command, timeout=self.timeout)
             if stdout is not None:
                 status_check = stdout.channel.recv_exit_status()
                 if status_check == 0:
@@ -175,10 +169,9 @@ class SshClient(object):
                 if stderr is not None:
                     ret["stderr"] = stderr.readlines()
         except Exception as e:
-            printException(e)
+            self.logger.exception("Failed to run command: %s" % e)
         finally:
-            self.logger.debug("[SSH] Connection to host %s on port %s is SUCCESSFUL"
-                              (str(self.host), command, str(ret)))
+            self.logger.info("Connection to host %s on port %s is SUCCESSFUL" % (str(self.host), command))
             return ret
 
     def scp(self, srcFile, destPath):
@@ -200,7 +193,6 @@ class SshClient(object):
 
 
 if __name__ == "__main__":
-    with contextlib.closing(SshClient("127.0.0.1", 22, "root",
-                                      "asdf!@34")) as ssh:
+    with contextlib.closing(SshClient("127.0.0.1", 22, "root", "asdf!@34")) as ssh:
         ret = ssh.runCommand("ls -l")
         print ret

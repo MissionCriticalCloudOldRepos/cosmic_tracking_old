@@ -14,20 +14,19 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-import marvin
 from sys import stdout, exit
-import logging
 import time
 import os
 import nose.core
-from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.marvinInit import MarvinInit
 from nose.plugins.base import Plugin
-from marvin.codes import (SUCCESS,
-                          FAILED,
-                          EXCEPTION)
-from marvin.lib.utils import random_gen
-from marvin.cloudstackException import printException
+from cloudstackTestCase import cloudstackTestCase
+from marvinInit import MarvinInit
+from marvin.marvinLog import MarvinLog
+from codes import (
+    SUCCESS,
+    FAILED,
+    EXCEPTION
+)
 
 
 class MarvinPlugin(Plugin):
@@ -61,13 +60,9 @@ class MarvinPlugin(Plugin):
         self.__testResult = SUCCESS
         self.__startTime = None
         self.__testName = None
-        self.__tcRunLogger = None
+        self.__tcRunLogger = MarvinLog('marvin').getLogger()
         self.__testModName = ''
         self.__hypervisorType = None
-        '''
-        The Log Path provided by user where all logs are routed to
-        '''
-        self.__userLogPath = None
         Plugin.__init__(self)
 
     def configure(self, options, conf):
@@ -85,10 +80,9 @@ class MarvinPlugin(Plugin):
         self.__deployDcFlag = options.deployDc
         self.__zoneForTests = options.zone
         self.__hypervisorType = options.hypervisor_type
-        self.__userLogPath = options.logFolder
         self.conf = conf
         if self.startMarvin() == FAILED:
-            print "\nStarting Marvin Failed, exiting. Please Check"
+            self.__tcRunLogger.error('Starting Marvin Failed, exiting. Please Check')
             exit(1)
 
     def options(self, parser, env):
@@ -146,8 +140,7 @@ class MarvinPlugin(Plugin):
                     return True
             return False
         except ImportError as e:
-            print "File %s has import errors, detailed exception:" % filename
-            printException(e)
+            self.__tcRunLogger.exception("File %s has import errors: %s" % (filename, e))
             return False
 
     def wantFile(self, filename):
@@ -176,18 +169,15 @@ class MarvinPlugin(Plugin):
         Currently used to record start time for tests
         Dump Start Msg of TestCase to Log
         """
-        if self.__tcRunLogger:
-            self.__tcRunLogger.debug("::::::::::::STARTED : TC: " +
-                                     str(self.__testName) + " :::::::::::")
+        self.__tcRunLogger.info("=== Started Test %s ===" % str(self.__testName))
         self.__startTime = time.time()
 
     def printMsg(self, status, tname, err):
         if status in [FAILED, EXCEPTION] and self.__tcRunLogger:
-            printException(err)
             self.__tcRunLogger.fatal("%s: %s: %s" % (status, tname, err))
-        write_str = "=== TestName: %s | Status : %s ===\n" % (tname, status)
+        write_str = "=== TestName: %s | Status : %s ===" % (tname, status)
         self.__resultStream.write(write_str)
-        print write_str
+        self.__tcRunLogger.info(write_str)
 
     def addSuccess(self, test, capt):
         '''
@@ -228,23 +218,21 @@ class MarvinPlugin(Plugin):
                                         self.__deployDcFlag,
                                         None,
                                         self.__zoneForTests,
-                                        self.__hypervisorType,
-                                        self.__userLogPath)
+                                        self.__hypervisorType)
             if obj_marvininit and obj_marvininit.init() == SUCCESS:
                 self.__testClient = obj_marvininit.getTestClient()
-                self.__tcRunLogger = obj_marvininit.getLogger()
                 self.__parsedConfig = obj_marvininit.getParsedConfig()
                 self.__resultStream = obj_marvininit.getResultFile()
-                self.__logFolderPath = obj_marvininit.getLogFolderPath()
-                self.__testRunner = nose.core.\
-                    TextTestRunner(stream=self.__resultStream,
-                                   descriptions=True,
-                                   verbosity=2,
-                                   config=self.conf)
+                self.__testRunner = nose.core.TextTestRunner(
+                    stream=self.__resultStream,
+                    descriptions=True,
+                    verbosity=2,
+                    config=self.conf
+                )
                 return SUCCESS
             return FAILED
         except Exception as e:
-            printException(e)
+            self.__tcRunLogger.exception(("=== Start Marvin failed: %s ===" % e))
             return FAILED
 
     def stopTest(self, test):
@@ -254,15 +242,14 @@ class MarvinPlugin(Plugin):
         endTime = time.time()
         if self.__startTime:
             totTime = int(endTime - self.__startTime)
-            if self.__tcRunLogger:
-                self.__tcRunLogger.\
-                    debug("TestCaseName: %s; "
-                          "Time Taken: %s Seconds; StartTime: %s; "
-                          "EndTime: %s; Result: %s" %
-                          (self.__testName, str(totTime),
-                           str(time.ctime(self.__startTime)),
-                           str(time.ctime(endTime)),
-                           self.__testResult))
+            self.__tcRunLogger.info("TestCaseName: %s; Time Taken: %s Seconds; StartTime: %s; EndTime: %s; Result: %s" % (
+                    self.__testName,
+                    str(totTime),
+                    str(time.ctime(self.__startTime)),
+                    str(time.ctime(endTime)),
+                    self.__testResult
+                )
+            )
 
     def _injectClients(self, test):
         setattr(test, "debug", self.__tcRunLogger.debug)
@@ -281,24 +268,4 @@ class MarvinPlugin(Plugin):
                                                test.AcctType)
 
     def finalize(self, result):
-        try:
-            src = self.__logFolderPath
-            tmp = ''
-            if not self.__userLogPath:
-                log_cfg = self.__parsedConfig.logger
-                tmp = log_cfg.__dict__.get('LogFolderPath') + "/MarvinLogs"
-            else:
-                tmp = self.__userLogPath + "/MarvinLogs"
-            dst = tmp + "//" + random_gen()
-            mod_name = "test_suite"
-            if self.__testModName:
-                mod_name = self.__testModName.split(".")
-                if len(mod_name) > 2:
-                    mod_name = mod_name[-2]
-            if mod_name and type(mod_name) is str:
-                dst = tmp + "/" + mod_name + "_" + random_gen()
-            cmd = "mv " + src + " " + dst
-            os.system(cmd)
-            print "===final results are now copied to: %s===" % str(dst)
-        except Exception as e:
-            printException(e)
+        self.__tcRunLogger.info('=== finalize does nothing!  ===')

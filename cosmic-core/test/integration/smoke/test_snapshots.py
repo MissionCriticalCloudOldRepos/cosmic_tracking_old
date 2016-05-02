@@ -18,17 +18,21 @@
 from marvin.codes import FAILED
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import (cleanup_resources,
-                              is_snapshot_on_nfs)
-from marvin.lib.base import (VirtualMachine,
-                             Account,
-                             ServiceOffering,
-                             Snapshot)
-from marvin.lib.common import (get_domain,
-                               get_template,
-                               get_zone,
-                               list_volumes,
-                               list_snapshots)
+from marvin.lib.utils import cleanup_resources
+from marvin.lib.base import (
+    VirtualMachine,
+    Account,
+    ServiceOffering,
+    Snapshot
+)
+from marvin.lib.common import (
+    get_domain,
+    get_template,
+    get_zone,
+    list_volumes,
+    list_snapshots,
+    is_snapshot_on_nfs
+)
 from marvin.lib.decoratorGenerators import skipTestIf
 
 

@@ -17,7 +17,7 @@
 import cloudstackException
 import json
 import inspect
-from marvin.cloudstackAPI import *
+from cloudstackAPI import *
 
 
 class jsonLoader(object):

@@ -28,28 +28,37 @@
 """
 # Import Local Modules
 from nose.plugins.attrib import attr
-from marvin.cloudstackTestCase import cloudstackTestCase, unittest
-from marvin.lib.base import (Account,
-                             ServiceOffering,
-                             VirtualMachine,
-                             Resources,
-                             Domain,
-                             DiskOffering,
-                             Volume)
-from marvin.lib.common import (get_domain,
-                               get_zone,
-                               get_template,
-                               matchResourceCount,
-                               isDomainResourceCountEqualToExpectedCount,
-                               find_storage_pool_type)
-from marvin.lib.utils import (cleanup_resources,
-                              get_hypervisor_type)
-from marvin.codes import (PASS,
-                          FAIL,
-                          FAILED,
-                          RESOURCE_PRIMARY_STORAGE,
-                          RESOURCE_SECONDARY_STORAGE,
-                          XEN_SERVER)
+from marvin.cloudstackTestCase import (
+    cloudstackTestCase,
+    unittest
+)
+from marvin.lib.base import (
+    Account,
+    ServiceOffering,
+    VirtualMachine,
+    Resources,
+    Domain,
+    DiskOffering,
+    Volume
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    matchResourceCount,
+    isDomainResourceCountEqualToExpectedCount,
+    find_storage_pool_type,
+    get_hypervisor_type
+)
+from marvin.lib.utils import cleanup_resources
+from marvin.codes import (
+    PASS,
+    FAIL,
+    FAILED,
+    RESOURCE_PRIMARY_STORAGE,
+    RESOURCE_SECONDARY_STORAGE,
+    XEN_SERVER
+)
 
 
 class TestResizeVolume(cloudstackTestCase):

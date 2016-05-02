@@ -20,29 +20,33 @@
 # Import Local Modules
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import (random_gen,
-                                          is_snapshot_on_nfs,
-                                          cleanup_resources)
+from marvin.lib.utils import (
+    random_gen,
+    cleanup_resources
+)
 from marvin.lib.base import (
-                                        Account,
-                                        ServiceOffering,
-                                        VirtualMachine,
-                                        Snapshot,
-                                        Template,
-                                        Volume,
-                                        DiskOffering
-                                        )
-from marvin.lib.common import (get_domain,
-                                        get_zone,
-                                        get_template,
-                                        list_snapshots
-                                        )
-from marvin.cloudstackAPI import (createSnapshot,
-                                  createVolume,
-                                  createTemplate,
-                                  listOsTypes,
-                                  stopVirtualMachine
-                                  )
+    Account,
+    ServiceOffering,
+    VirtualMachine,
+    Snapshot,
+    Template,
+    Volume,
+    DiskOffering
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    list_snapshots,
+    is_snapshot_on_nfs
+)
+from marvin.cloudstackAPI import (
+    createSnapshot,
+    createVolume,
+    createTemplate,
+    listOsTypes,
+    stopVirtualMachine
+)
 
 class Services:
     def __init__(self):

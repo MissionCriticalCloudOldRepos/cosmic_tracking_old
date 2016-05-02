@@ -1,13 +1,13 @@
 import unittest
 
-from test_utils import (
-    MockApiClient,
-    MockObject
+from test_utils import MockApiClient
+
+from marvin.lib.utils import (
+    validateState,
+    key_maps_to_value
 )
 
-from lib.utils import validateState
-
-from codes import (
+from marvin.codes import (
     FAIL,
     PASS
 )
@@ -17,6 +17,11 @@ class TestUtils(unittest.TestCase):
     @classmethod
     def list(cls, apiclient, **kwargs):
         return(apiclient.listMockObjects(None))
+
+
+    def state_check_function(self, objects, state):
+        return str(objects[0].state).lower().decode("string_escape") == str(state).lower()
+
 
     def test_validateState_succeeds_before_retry_limit(self):
         retries = 2
@@ -46,6 +51,31 @@ class TestUtils(unittest.TestCase):
 
         self.assertEqual(state, [FAIL, 'TestUtils state not trasited to final state, operation timed out'])
         self.assertEqual(retries, api_client.retry_counter)
+
+
+    def test_key_maps_to_value_when_empty_dict(self):
+        dictionry = {}
+
+        self.assertFalse(key_maps_to_value(dictionry, 'some key'))
+
+
+    def test_key_maps_to_value_when_key_not_in_dict(self):
+        dictionry = {'other key': 1}
+
+        self.assertFalse(key_maps_to_value(dictionry, 'some key'))
+
+
+    def test_key_maps_to_value_when_value_is_none(self):
+        dictionry = {'some key': None}
+
+        self.assertFalse(key_maps_to_value(dictionry, 'some key'))
+
+
+    def test_key_maps_to_value_when_value_is_not_none(self):
+        dictionry = {'some key': 1}
+
+        self.assertTrue(key_maps_to_value(dictionry, 'some key'))
+
 
 if __name__ == '__main__':
     unittest.main()

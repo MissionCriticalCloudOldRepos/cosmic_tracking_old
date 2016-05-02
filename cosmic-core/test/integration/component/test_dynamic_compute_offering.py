@@ -26,20 +26,26 @@
     CLOUDSTACK/Dynamic+Compute+Offering+FS
 """
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
-from marvin.lib.utils import (cleanup_resources,
-                              validateList,
-                              random_gen,
-                              get_hypervisor_type)
-from marvin.lib.base import (Account,
-                             VirtualMachine,
-                             ServiceOffering,
-                             Resources,
-                             AffinityGroup,
-                             Host)
-from marvin.lib.common import (get_zone,
-                               get_domain,
-                               get_template,
-                               verifyComputeOfferingCreation)
+from marvin.lib.utils import (
+    cleanup_resources,
+    validateList,
+    random_gen
+)
+from marvin.lib.base import (
+    Account,
+    VirtualMachine,
+    ServiceOffering,
+    Resources,
+    AffinityGroup,
+    Host
+)
+from marvin.lib.common import (
+    get_zone,
+    get_domain,
+    get_template,
+    verifyComputeOfferingCreation,
+    get_hypervisor_type
+)
 
 from nose.plugins.attrib import attr
 from marvin.codes import PASS, ADMIN_ACCOUNT, USER_ACCOUNT, FAILED

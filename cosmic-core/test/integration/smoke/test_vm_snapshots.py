@@ -19,17 +19,21 @@
 from marvin.codes import FAILED, KVM, PASS
 from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import random_gen, cleanup_resources, validateList, is_snapshot_on_nfs
-from marvin.lib.base import (Account,
-                             ServiceOffering,
-                             VirtualMachine,
-                             VmSnapshot,
-                             Volume,
-                             Snapshot)
-from marvin.lib.common import (get_zone,
-                               get_domain,
-                               get_template,
-                               list_snapshots)
+from marvin.lib.utils import random_gen, cleanup_resources, validateList
+from marvin.lib.base import (
+    Account,
+    ServiceOffering,
+    VirtualMachine,
+    VmSnapshot,
+    Volume,
+    Snapshot
+)
+from marvin.lib.common import (
+    get_zone,
+    get_domain,
+    get_template,
+    list_snapshots
+)
 import time
 
 

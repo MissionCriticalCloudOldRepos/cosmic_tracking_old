@@ -30,37 +30,42 @@ from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from ddt import ddt, data
 from marvin.lib.base import (
-                                        Account,
-                                        Domain,
-                                        ServiceOffering,
-                                        VirtualMachine,
-                                        NetworkOffering,
-                                        Network,
-                                        VpcOffering,
-                                        VPC,
-                                        PublicIPAddress,
-                                        FireWallRule,
-                                        NATRule
-                                        )
-from marvin.lib.common import (get_domain,
-                                        get_zone,
-                                        get_template,
-                                        list_virtual_machines,
-                                        list_events,
-                                        list_zones,
-                                        get_free_vlan,
-                                        update_resource_limit,
-                                        list_nat_rules
-                                        )
+    Account,
+    Domain,
+    ServiceOffering,
+    VirtualMachine,
+    NetworkOffering,
+    Network,
+    VpcOffering,
+    VPC,
+    PublicIPAddress,
+    FireWallRule,
+    NATRule
+)
+from marvin.lib.common import (
+    get_domain,
+    get_zone,
+    get_template,
+    list_virtual_machines,
+    list_events,
+    list_zones,
+    get_free_vlan,
+    update_resource_limit,
+    list_nat_rules,
+    get_hypervisor_type
+)
 
-from marvin.lib.utils import (validateList,
-					                      random_gen,
-                                          get_hypervisor_type,
-                                          cleanup_resources)
+from marvin.lib.utils import (
+    validateList,
+    random_gen,
+    cleanup_resources
+)
 
-from marvin.cloudstackAPI import (addNicToVirtualMachine,
-                                  removeNicFromVirtualMachine,
-                                  updateDefaultNicForVirtualMachine)
+from marvin.cloudstackAPI import (
+    addNicToVirtualMachine,
+    removeNicFromVirtualMachine,
+    updateDefaultNicForVirtualMachine
+)
 
 from marvin.codes import PASS
 import random
@@ -299,7 +304,7 @@ class TestAddNetworkToVirtualMachine(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=vm.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
 
         self.debug("virtual machine nics: %s" % vm_list[0].nic)
         nics = [x for x in vm_list[0].nic if x.networkid == network.id]
@@ -351,7 +356,7 @@ class TestAddNetworkToVirtualMachine(cloudstackTestCase):
                              type='NIC.CREATE')
         event_list_validation_result = validateList(events)
         self.assertEqual(event_list_validation_result[0], PASS, "event list validation failed due to %s" %
-			 event_list_validation_result[2])
+             event_list_validation_result[2])
         self.debug("Events list contains event NIC.CREATE")
 
         return
@@ -812,7 +817,7 @@ class TestRemoveNetworkFromVirtualMachine(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=vm.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         self.debug("virtual machine nics: %s" % vm_list[0].nic)
         # Add nic of network to list so that it can be deleted later accessing its id from this list
         self.nics = [x for x in vm_list[0].nic if x.networkid == network.id]
@@ -843,7 +848,7 @@ class TestRemoveNetworkFromVirtualMachine(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         self.debug("virtual machine nics: %s" % vm_list[0].nic)
         # Verify the nic is removed from the virtual machine
         self.debug("Verifying the nic is removed from the virtual machine")
@@ -859,7 +864,7 @@ class TestRemoveNetworkFromVirtualMachine(cloudstackTestCase):
                              )
         event_list_validation_result = validateList(events)
         self.assertEqual(event_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 event_list_validation_result[2])
+             event_list_validation_result[2])
         self.debug("Events list contains event NIC.DELETE")
         self.debug("events: %s" % events)
         return
@@ -877,7 +882,7 @@ class TestRemoveNetworkFromVirtualMachine(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         self.debug("virtual machine nics: %s" % vm_list[0].nic)
         self.assertEqual(len(vm_list[0].nic), 1, "There should only be default nic present in the vm")
         self.debug("Trying to remove the default nic of vm : %s, this should fail" %
@@ -1198,7 +1203,7 @@ class TestUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=vm.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         self.debug("virtual machine nics: %s" % vm_list[0].nic)
         # Add nic of network to list so that it can be deleted later accessing its id from this list
         self.nics = [x for x in vm_list[0].nic if x.networkid == network.id]
@@ -1226,7 +1231,7 @@ class TestUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         if len(vm_list[0].nic) != 2:
             self.fail("VM should have exactly two NICs")
 
@@ -1248,7 +1253,7 @@ class TestUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
 
         if len(vm_list[0].nic) != 2:
             self.fail("VM should have exactly two NICs")
@@ -1268,7 +1273,7 @@ class TestUpdateVirtualMachineNIC(cloudstackTestCase):
                              )
         event_list_validation_result = validateList(events)
         self.assertEqual(event_list_validation_result[0], PASS, "event list validation failed due to %s" %
-			 event_list_validation_result[2])
+             event_list_validation_result[2])
         self.debug("Events list contains event NIC.UPDATE")
         self.debug("events: %s" % events)
         return
@@ -1287,7 +1292,7 @@ class TestUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
 
         defaultNicId = None
 
@@ -1419,7 +1424,7 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
 
         with self.assertRaises(Exception) as e:
             self.apiclient.addNicToVirtualMachine(cmd)
-	    self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1438,7 +1443,7 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
 
         with self.assertRaises(Exception) as e:
             self.apiclient.addNicToVirtualMachine(cmd)
-	    self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1447,8 +1452,8 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
         """Add network to vm where both belong to different zones"""
 
         # 1. Deploy a VM in zone 1
-	    # 2. Create a network in zone 2
-    	# 3. Try to add this network to the VM (both belong to different zones)
+        # 2. Create a network in zone 2
+        # 3. Try to add this network to the VM (both belong to different zones)
 
         # Validate the following:
         # 1. API should throw exception vminstance is in zone<id>, but  network is in zone <id>
@@ -1458,16 +1463,16 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
         zones = list_zones(self.apiclient, available=True)
         list_zones_validation_result = validateList(zones)
         self.assertEqual(list_zones_validation_result[0], PASS, "list zones validation failed due to: %s" %
-		                 list_zones_validation_result[2])
+                         list_zones_validation_result[2])
         if len(zones) >= 2:
             for zone in zones:
                 if zone.id != self.zone.id:
-		            foreignZoneId = zone.id
-		            break
-	    else:
-	        self.skipTest("This test requires at least two zones to be present in the setup")
+                    foreignZoneId = zone.id
+                    break
+        else:
+            self.skipTest("This test requires at least two zones to be present in the setup")
 
-	    self.services["isolated_network"]["zoneid"] = foreignZoneId
+        self.services["isolated_network"]["zoneid"] = foreignZoneId
 
         self.debug("Creating isolated network in zone %s which is foreign to VM" %
                     foreignZoneId)
@@ -1485,7 +1490,7 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
         with self.assertRaises(Exception) as e:
             time.sleep(5)
             self.apiclient.addNicToVirtualMachine(cmd)
-	    self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1504,13 +1509,13 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
         zones = list_zones(self.apiclient, available=True)
         list_zones_validation_result = validateList(zones)
         self.assertEqual(list_zones_validation_result[0], PASS, "list zones validation failed due to: %s" %
-			 list_zones_validation_result[2])
+             list_zones_validation_result[2])
         for zone in zones:
-		    if zone.networktype.lower() == 'BASIC':
-		        basicZone = zone.id
-		        break
+            if zone.networktype.lower() == 'BASIC':
+                basicZone = zone.id
+                break
         if basicZone is None:
-	        self.skipTest("This test requires at least one basic zone to be present in the setup")
+            self.skipTest("This test requires at least one basic zone to be present in the setup")
         self.services["isolated_network"]["zoneid"] = basicZone.id
         self.debug("Creating isolated network in basic zone: %s" % basicZone.id)
         isolated_network = Network.create(self.apiclient,self.services["isolated_network"],
@@ -1535,9 +1540,9 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
         self.dedbug("Trying to add isolated network to VM (both in basic zone,\
                     this operation should fail")
         with self.assertRaises(Exception) as e:
-            time.sleep(5) 
+            time.sleep(5)
             self.apiclient.addNicToVirtualMachine(cmd)
-	    self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1568,9 +1573,9 @@ class TestFailureScenariosAddNetworkToVM(cloudstackTestCase):
                     insufficient permission")
 
         with self.assertRaises(Exception) as e:
-            time.sleep(5) 
+            time.sleep(5)
             api_client.addNicToVirtualMachine(cmd)
-	    self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("addNicToVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1664,7 +1669,7 @@ class TestFailureScenariosRemoveNicFromVM(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         vm = vm_list_validation_result[1]
 
         nics = [x for x in vm.nic if x.networkid == self.isolated_network.id]
@@ -1678,7 +1683,7 @@ class TestFailureScenariosRemoveNicFromVM(cloudstackTestCase):
 
         with self.assertRaises(Exception) as e:
             self.apiclient.removeNicFromVirtualMachine(cmd)
-	    self.debug("removeNicFromVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("removeNicFromVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1697,7 +1702,7 @@ class TestFailureScenariosRemoveNicFromVM(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         vm = vm_list_validation_result[1]
 
         nics = [x for x in vm.nic if x.networkid == self.isolated_network.id]
@@ -1711,7 +1716,7 @@ class TestFailureScenariosRemoveNicFromVM(cloudstackTestCase):
 
         with self.assertRaises(Exception) as e:
             self.apiclient.removeNicFromVirtualMachine(cmd)
-	    self.debug("removeNicFromVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("removeNicFromVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1727,7 +1732,7 @@ class TestFailureScenariosRemoveNicFromVM(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         vm = vm_list_validation_result[1]
 
         nics = [x for x in vm.nic if x.networkid == self.isolated_network.id]
@@ -1754,7 +1759,7 @@ class TestFailureScenariosRemoveNicFromVM(cloudstackTestCase):
 
         with self.assertRaises(Exception) as e:
             api_client.removeNicFromVirtualMachine(cmd)
-	    self.debug("removeNicFromVirtualMachine API failed with exception: %s" % e.exception)
+        self.debug("removeNicFromVirtualMachine API failed with exception: %s" % e.exception)
 
         return
 
@@ -1851,7 +1856,7 @@ class TestFailureScenariosUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
         if len(vm_list[0].nic) != 2:
             self.fail("VM should have exactly two NICs")
 
@@ -1896,7 +1901,7 @@ class TestFailureScenariosUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
 
         if len(vm_list[0].nic) != 2:
             self.fail("VM should have exactly two NICs")
@@ -1963,7 +1968,7 @@ class TestFailureScenariosUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=virtual_machine.id, listall=True)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
 
         if len(vm_list[0].nic) != 2:
             self.fail("VM should have exactly two NICs")
@@ -2015,7 +2020,7 @@ class TestFailureScenariosUpdateVirtualMachineNIC(cloudstackTestCase):
         vm_list = list_virtual_machines(self.apiclient, id=self.virtual_machine.id)
         vm_list_validation_result = validateList(vm_list)
         self.assertEqual(vm_list_validation_result[0], PASS, "vm list validation failed due to %s" %
-			 vm_list_validation_result[2])
+             vm_list_validation_result[2])
 
         if len(vm_list[0].nic) != 2:
             self.fail("VM should have exactly two NICs")

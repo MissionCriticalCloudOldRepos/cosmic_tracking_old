@@ -44,6 +44,7 @@ setup(name="Marvin",
                 "marvin.lib", "marvin.config", "marvin.sandbox",
                 "marvin.sandbox.advanced", "marvin.sandbox.advancedsg",
                 "marvin.sandbox.basic"],
+      package_data={'marvin': ['marvin_logging.yaml']},
       license="LICENSE.txt",
       install_requires=[
           "mysql-connector-python >= 1.1.6",
@@ -57,7 +58,6 @@ setup(name="Marvin",
       py_modules=['marvin.marvinPlugin'],
       zip_safe=False,
       entry_points={
-          'nose.plugins': ['marvinPlugin = marvin.marvinPlugin:MarvinPlugin'],
-          'console_scripts': ['marvincli = marvin.deployAndRun:main']
+          'nose.plugins': ['marvinPlugin = marvin.marvinPlugin:MarvinPlugin']
       },
       )

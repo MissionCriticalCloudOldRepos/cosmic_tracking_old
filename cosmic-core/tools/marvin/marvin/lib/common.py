@@ -64,8 +64,8 @@ from marvin.codes import (PASS, FAILED, ISOLATED_NETWORK, VPC_NETWORK,
                           RESOURCE_CPU, RESOURCE_MEMORY, PUBLIC_TRAFFIC,
                           GUEST_TRAFFIC, MANAGEMENT_TRAFFIC, STORAGE_TRAFFIC,
                           VMWAREDVS)
-from marvin.lib.utils import (validateList, 
-                              xsplit, 
+from marvin.lib.utils import (validateList,
+                              xsplit,
                               get_process_status,
                               random_gen,
                               format_volume_to_ext3)
@@ -258,6 +258,7 @@ def get_pod(apiclient, zone_id=None, pod_id=None, pod_name=None):
     if validateList(cmd_out)[0] != PASS:
         return FAILED
     return cmd_out[0]
+
 def get_template(
         apiclient, zone_id=None, ostype_desc=None, template_filter="featured", template_type='BUILTIN',
         template_id=None, template_name=None, account=None, domain_id=None, project_id=None,
@@ -1382,14 +1383,14 @@ def isNetworkDeleted(apiclient, networkid, timeout=600):
     return networkDeleted
 
 
-def createChecksum(service=None, 
-                   virtual_machine=None, 
-                   disk=None, 
+def createChecksum(service=None,
+                   virtual_machine=None,
+                   disk=None,
                    disk_type=None):
 
     """ Calculate the MD5 checksum of the disk by writing \
-		data on the disk where disk_type is either root disk or data disk 
-	@return: returns the calculated checksum"""
+        data on the disk where disk_type is either root disk or data disk
+    @return: returns the calculated checksum"""
 
     random_data_0 = random_gen(size=100)
     # creating checksum(MD5)
@@ -1403,7 +1404,7 @@ def createChecksum(service=None,
             virtual_machine.username,
             virtual_machine.password
         )
-    except Exception: 
+    except Exception:
         raise Exception("SSH access failed for server with IP address: %s" %
                     virtual_machine.ssh_ip)
 
@@ -1522,32 +1523,6 @@ def compareChecksum(
 
     return
 
-
-
-def verifyRouterState(apiclient, routerid, state, listall=True):
-    """List router and check if the router state matches the given state"""
-    retriesCount = 10
-    isRouterInDesiredState = False
-    exceptionOccured = False
-    exceptionMessage = ""
-    try:
-        while retriesCount >= 0:
-            routers = Router.list(apiclient, id=routerid, listall=listall)
-            assert validateList(
-                routers)[0] == PASS, "Routers list validation failed"
-            if str(routers[0].state).lower() == state:
-                isRouterInDesiredState = True
-                break
-            retriesCount -= 1
-            time.sleep(60)
-        if not isRouterInDesiredState:
-            exceptionMessage = "Router state should be %s, it is %s" %\
-                                (state, routers[0].state)
-    except Exception as e:
-        exceptionOccured = True
-        exceptionMessage = e
-        return [exceptionOccured, isRouterInDesiredState, exceptionMessage]
-    return [exceptionOccured, isRouterInDesiredState, exceptionMessage]
 
 def isIpRangeInUse(api_client, publicIpRange):
     ''' Check that if any Ip in the IP Range is in use
@@ -1860,4 +1835,146 @@ def verifyVCenterPortGroups(
 
     except Exception as e:
         return [FAIL, e]
+    return [PASS, None]
+
+
+def get_hypervisor_type(apiclient):
+
+    """Return the hypervisor type of the hosts in setup"""
+
+    cmd = listHosts.listHostsCmd()
+    cmd.type = 'Routing'
+    cmd.listall = True
+    hosts = apiclient.listHosts(cmd)
+    hosts_list_validation_result = validateList(hosts)
+    assert hosts_list_validation_result[0] == PASS, "host list validation failed"
+    return hosts_list_validation_result[1].hypervisor
+
+
+def is_snapshot_on_nfs(apiclient, dbconn, config, zoneid, snapshotid):
+    """
+    Checks whether a snapshot with id (not UUID) `snapshotid` is present on the nfs storage
+
+    @param apiclient: api client connection
+    @param @dbconn:  connection to the cloudstack db
+    @param config: marvin configuration file
+    @param zoneid: uuid of the zone on which the secondary nfs storage pool is mounted
+    @param snapshotid: uuid of the snapshot
+    @return: True if snapshot is found, False otherwise
+    """
+    # snapshot extension to be appended to the snapshot path obtained from db
+    snapshot_extensions = {"vmware": ".ovf",
+                            "kvm": "",
+                            "xenserver": ".vhd",
+                            "simulator":""}
+
+    qresultset = dbconn.execute(
+                        "select id from snapshots where uuid = '%s';" \
+                        % str(snapshotid)
+                        )
+    if len(qresultset) == 0:
+        raise Exception(
+            "No snapshot found in cloudstack with id %s" % snapshotid)
+
+
+    snapshotid = qresultset[0][0]
+    qresultset = dbconn.execute(
+        "select install_path,store_id from snapshot_store_ref where snapshot_id='%s' and store_role='Image';" % snapshotid
+    )
+
+    assert isinstance(qresultset, list), "Invalid db query response for snapshot %s" % snapshotid
+
+    if len(qresultset) == 0:
+        #Snapshot does not exist
+        return False
+
+    from base import ImageStore
+    #pass store_id to get the exact storage pool where snapshot is stored
+    secondaryStores = ImageStore.list(apiclient, zoneid=zoneid, id=int(qresultset[0][1]))
+
+    assert isinstance(secondaryStores, list), "Not a valid response for listImageStores"
+    assert len(secondaryStores) != 0, "No image stores found in zone %s" % zoneid
+
+    secondaryStore = secondaryStores[0]
+
+    if str(secondaryStore.providername).lower() != "nfs":
+        raise Exception(
+            "is_snapshot_on_nfs works only against nfs secondary storage. found %s" % str(secondaryStore.providername))
+
+    hypervisor = get_hypervisor_type(apiclient)
+    # append snapshot extension based on hypervisor, to the snapshot path
+    snapshotPath = str(qresultset[0][0]) + snapshot_extensions[str(hypervisor).lower()]
+
+    nfsurl = secondaryStore.url
+    from urllib2 import urlparse
+    parse_url = urlparse.urlsplit(nfsurl, scheme='nfs')
+    host, path = str(parse_url.netloc), str(parse_url.path)
+
+    if not config.mgtSvr:
+        raise Exception("Your marvin configuration does not contain mgmt server credentials")
+    mgtSvr, user, passwd = config.mgtSvr[0].mgtSvrIp, config.mgtSvr[0].user, config.mgtSvr[0].passwd
+
+    try:
+        ssh_client = SshClient(
+            mgtSvr,
+            22,
+            user,
+            passwd
+        )
+
+        pathSeparator = "" #used to form host:dir format
+        if not host.endswith(':'):
+            pathSeparator= ":"
+
+        cmds = [
+
+            "mkdir -p %s /mnt/tmp",
+            "mount -t %s %s%s%s /mnt/tmp" % (
+                'nfs',
+                host,
+                pathSeparator,
+                path,
+            ),
+            "test -f %s && echo 'snapshot exists'" % (
+                os.path.join("/mnt/tmp", snapshotPath)
+            ),
+        ]
+
+        for c in cmds:
+            result = ssh_client.execute(c)
+
+        # Unmount the Sec Storage
+        cmds = [
+                "cd",
+                "umount /mnt/tmp",
+            ]
+        for c in cmds:
+            ssh_client.execute(c)
+    except Exception as e:
+        raise Exception("SSH failed for management server: %s - %s" %
+                      (config.mgtSvr[0].mgtSvrIp, e))
+    return 'snapshot exists' in result
+
+
+def verifyRouterState(apiclient, routerid, allowedstates):
+    """List the router and verify that its state is in allowed states
+    @output: List, containing [Result, Reason]
+             Ist Argument ('Result'): FAIL: If router state is not
+                                                in allowed states
+                                          PASS: If router state is in
+                                                allowed states"""
+
+    try:
+        cmd = listRouters.listRoutersCmd()
+        cmd.id = routerid
+        cmd.listall = True
+        routers = apiclient.listRouters(cmd)
+    except Exception as e:
+        return [FAIL, e]
+    listvalidationresult = validateList(routers)
+    if listvalidationresult[0] == FAIL:
+        return [FAIL, listvalidationresult[2]]
+    if routers[0].state.lower() not in allowedstates:
+        return [FAIL, "state of the router should be in %s but is %s" %
+            (allowedstates, routers[0].state)]
     return [PASS, None]

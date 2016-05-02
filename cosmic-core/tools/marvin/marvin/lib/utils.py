@@ -20,7 +20,6 @@
 import marvin
 import os
 import time
-import logging
 import string
 import random
 import imaplib
@@ -28,7 +27,6 @@ import email
 import socket
 import urlparse
 import datetime
-from marvin.cloudstackAPI import cloudstackAPIClient, listHosts, listRouters
 from platform import system
 from marvin.cloudstackException import printException
 from marvin.sshClient import SshClient
@@ -193,20 +191,6 @@ def format_volume_to_ext3(ssh_client, device="/dev/sda"):
         ssh_client.execute(c)
 
 
-def fetch_api_client(config_file='datacenterCfg'):
-    """Fetch the Cloudstack API Client"""
-    config = marvin.configGenerator.get_setup_config(config_file)
-    mgt = config.mgtSvr[0]
-    testClientLogger = logging.getLogger("testClient")
-    asyncTimeout = 3600
-    return cloudstackAPIClient.CloudStackAPIClient(
-        marvin.cloudstackConnection.cloudConnection(
-            mgt,
-            asyncTimeout,
-            testClientLogger
-        )
-    )
-
 def get_host_credentials(config, hostip):
     """Get login information for a host `hostip` (ipv4) from marvin's `config`
 
@@ -265,121 +249,9 @@ def xsplit(txt, seps):
         txt = txt.replace(sep, default_sep)
     return [i.strip() for i in txt.split(default_sep)]
 
-def get_hypervisor_type(apiclient):
-
-    """Return the hypervisor type of the hosts in setup"""
-
-    cmd = listHosts.listHostsCmd()
-    cmd.type = 'Routing'
-    cmd.listall = True
-    hosts = apiclient.listHosts(cmd)
-    hosts_list_validation_result = validateList(hosts)
-    assert hosts_list_validation_result[0] == PASS, "host list validation failed"
-    return hosts_list_validation_result[1].hypervisor
-
-def is_snapshot_on_nfs(apiclient, dbconn, config, zoneid, snapshotid):
-    """
-    Checks whether a snapshot with id (not UUID) `snapshotid` is present on the nfs storage
-
-    @param apiclient: api client connection
-    @param @dbconn:  connection to the cloudstack db
-    @param config: marvin configuration file
-    @param zoneid: uuid of the zone on which the secondary nfs storage pool is mounted
-    @param snapshotid: uuid of the snapshot
-    @return: True if snapshot is found, False otherwise
-    """
-    # snapshot extension to be appended to the snapshot path obtained from db
-    snapshot_extensions = {"vmware": ".ovf",
-                            "kvm": "",
-                            "xenserver": ".vhd",
-                            "simulator":""}
-
-    qresultset = dbconn.execute(
-                        "select id from snapshots where uuid = '%s';" \
-                        % str(snapshotid)
-                        )
-    if len(qresultset) == 0:
-        raise Exception(
-            "No snapshot found in cloudstack with id %s" % snapshotid)
 
 
-    snapshotid = qresultset[0][0]
-    qresultset = dbconn.execute(
-        "select install_path,store_id from snapshot_store_ref where snapshot_id='%s' and store_role='Image';" % snapshotid
-    )
 
-    assert isinstance(qresultset, list), "Invalid db query response for snapshot %s" % snapshotid
-
-    if len(qresultset) == 0:
-        #Snapshot does not exist
-        return False
-
-    from base import ImageStore
-    #pass store_id to get the exact storage pool where snapshot is stored
-    secondaryStores = ImageStore.list(apiclient, zoneid=zoneid, id=int(qresultset[0][1]))
-
-    assert isinstance(secondaryStores, list), "Not a valid response for listImageStores"
-    assert len(secondaryStores) != 0, "No image stores found in zone %s" % zoneid
-
-    secondaryStore = secondaryStores[0]
-
-    if str(secondaryStore.providername).lower() != "nfs":
-        raise Exception(
-            "is_snapshot_on_nfs works only against nfs secondary storage. found %s" % str(secondaryStore.providername))
-
-    hypervisor = get_hypervisor_type(apiclient)
-    # append snapshot extension based on hypervisor, to the snapshot path
-    snapshotPath = str(qresultset[0][0]) + snapshot_extensions[str(hypervisor).lower()]
-
-    nfsurl = secondaryStore.url
-    from urllib2 import urlparse
-    parse_url = urlparse.urlsplit(nfsurl, scheme='nfs')
-    host, path = str(parse_url.netloc), str(parse_url.path)
-
-    if not config.mgtSvr:
-        raise Exception("Your marvin configuration does not contain mgmt server credentials")
-    mgtSvr, user, passwd = config.mgtSvr[0].mgtSvrIp, config.mgtSvr[0].user, config.mgtSvr[0].passwd
-
-    try:
-        ssh_client = SshClient(
-            mgtSvr,
-            22,
-            user,
-            passwd
-        )
-
-        pathSeparator = "" #used to form host:dir format
-        if not host.endswith(':'):
-            pathSeparator= ":"
-
-        cmds = [
-
-            "mkdir -p %s /mnt/tmp",
-            "mount -t %s %s%s%s /mnt/tmp" % (
-                'nfs',
-                host,
-                pathSeparator,
-                path,
-            ),
-            "test -f %s && echo 'snapshot exists'" % (
-                os.path.join("/mnt/tmp", snapshotPath)
-            ),
-        ]
-
-        for c in cmds:
-            result = ssh_client.execute(c)
-
-        # Unmount the Sec Storage
-        cmds = [
-                "cd",
-                "umount /mnt/tmp",
-            ]
-        for c in cmds:
-            ssh_client.execute(c)
-    except Exception as e:
-        raise Exception("SSH failed for management server: %s - %s" %
-                      (config.mgtSvr[0].mgtSvrIp, e))
-    return 'snapshot exists' in result
 
 def validateList(inp):
     """
@@ -497,29 +369,6 @@ def checkVolumeSize(ssh_handle=None,
         return [FAILED,str(e)]
 
 
-def verifyRouterState(apiclient, routerid, allowedstates):
-    """List the router and verify that its state is in allowed states
-    @output: List, containing [Result, Reason]
-             Ist Argument ('Result'): FAIL: If router state is not
-                                                in allowed states
-                                          PASS: If router state is in
-                                                allowed states"""
-
-    try:
-        cmd = listRouters.listRoutersCmd()
-        cmd.id = routerid
-        cmd.listall = True
-        routers = apiclient.listRouters(cmd)
-    except Exception as e:
-        return [FAIL, e]
-    listvalidationresult = validateList(routers)
-    if listvalidationresult[0] == FAIL:
-        return [FAIL, listvalidationresult[2]]
-    if routers[0].state.lower() not in allowedstates:
-        return [FAIL, "state of the router should be in %s but is %s" %
-            (allowedstates, routers[0].state)]
-    return [PASS, None]
-
 
 def validateState(apiclient, obj, state, timeout=600, interval=5):
     """Check if an object is in the required state
@@ -546,3 +395,7 @@ def validateState(apiclient, obj, state, timeout=600, interval=5):
         time.sleep(interval)
         timeout -= interval
     return returnValue
+
+
+def key_maps_to_value(dictionary, key):
+    return key in dictionary and dictionary[key] is not None
