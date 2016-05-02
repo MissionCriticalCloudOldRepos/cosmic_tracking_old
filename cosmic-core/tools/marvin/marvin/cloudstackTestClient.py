@@ -29,7 +29,6 @@ from codes import (
     XEN_SERVER
 )
 from configGenerator import ConfigManager
-from cloudstackException import printException
 from lib.utils import (random_gen, validateList)
 from cloudstackAPI.cloudstackAPIClient import CloudStackAPIClient
 from marvinLog import MarvinLog
@@ -122,7 +121,7 @@ class CSTestClient(object):
                 self.__hypervisor = XEN_SERVER
             return SUCCESS
         except Exception as e:
-            printException(e)
+            self.__logger.exception("Set hypervisor failed: %s" % e)
             return FAILED
 
     def __createApiClient(self):
@@ -150,8 +149,7 @@ class CSTestClient(object):
                 list_user_res = self.__apiClient.listUsers(list_user)
                 if list_user_res is None or\
                         (validateList(list_user_res)[0] != PASS):
-                    self.__logger.error("__createApiClient: API "
-                                        "Client Creation Failed")
+                    self.__logger.error("API Client Creation Failed")
                     return FAILED
                 user_id = list_user_res[0].id
                 api_key = list_user_res[0].apikey
@@ -162,9 +160,7 @@ class CSTestClient(object):
                         mgmt_details.apiKey = ret[0]
                         mgmt_details.securityKey = ret[1]
                     else:
-                        self.__logger.error("__createApiClient: API Client "
-                                            "Creation Failed while "
-                                            "Registering User")
+                        self.__logger.error("API Client Creation Failed while Registering User")
                         return FAILED
                 else:
                     mgmt_details.port = 8080
@@ -180,7 +176,7 @@ class CSTestClient(object):
                 self.__apiClient = CloudStackAPIClient(self.__csConnection)
             return SUCCESS
         except Exception as e:
-            printException(e)
+            self.__logger.exception("Create API client failed: %s" % e)
             return FAILED
 
     def __createDbConnection(self):
@@ -216,7 +212,7 @@ class CSTestClient(object):
                 return FAILED
             return (register_user_res.apikey, register_user_res.secretkey)
         except Exception as e:
-            printException(e)
+            self.__logger.exception("Key retrival failed: %s" % e)
             return FAILED
 
     def createTestClient(self):
@@ -248,14 +244,11 @@ class CSTestClient(object):
             self.__configObj = ConfigManager(self.__testDataFilePath)
 
             if not self.__configObj or not self.__hypervisor:
-                self.__logger.error("createTestClient : "
-                                    "Either Hypervisor is None or "
-                                    "Not able to create "
-                                    "ConfigManager Object")
+                self.__logger.error("Either Hypervisor is None or Not able to create ConfigManager Object")
                 return FAILED
 
             self.__parsedTestDataConfig = self.__configObj.getConfig()
-            self.__logger.debug("Parsing Test data successful")
+            self.__logger.info("Parsing Test data successful")
 
             '''
             2. Create DB Connection
@@ -266,14 +259,12 @@ class CSTestClient(object):
             '''
             ret = self.__createApiClient()
             if ret == FAILED:
-                self.__logger.\
-                    error("==== Test Client Creation Failed ====")
+                self.__logger.error("=== Test Client Creation Failed ===")
             else:
-                self.__logger.\
-                    debug("==== Test Client Creation Successful ====")
+                self.__logger.info("=== Test Client Creation Successful ===")
             return ret
         except Exception as e:
-            printException(e)
+            self.__logger.exception("Test Client creation failed: %s" % e)
             return FAILED
 
     def isAdminContext(self):
@@ -359,9 +350,7 @@ class CSTestClient(object):
                     mgmt_details.apiKey = ret[0]
                     mgmt_details.securityKey = ret[1]
                 else:
-                    self.__logger.error("__createUserApiClient: "
-                                        "User API Client Creation."
-                                        " While Registering User Failed")
+                    self.__logger.error("User API Client Creation While Registering User Failed")
                     return FAILED
             else:
                 mgmt_details.port = 8080
@@ -377,7 +366,7 @@ class CSTestClient(object):
             self.__userApiClient.hypervisor = self.__hypervisor
             return self.__userApiClient
         except Exception as e:
-            printException(e)
+            self.__logger.exception("API user creation failed: %s" % e)
             return FAILED
 
     def close(self):
