@@ -250,7 +250,6 @@
               <exclude>tools/appliance/definitions/systemvm64template/*</exclude>
               <exclude>tools/appliance/definitions/builtin/*</exclude>
               <exclude>tools/cli/cloudmonkey.egg-info/*</exclude>
-              <exclude>tools/marvin/Marvin.egg-info/*</exclude>
               <exclude>systemvm/conf/agent.properties</exclude>
               <exclude>systemvm/conf/environment.properties</exclude>
               <exclude>systemvm/js/jquery.js</exclude>
@@ -284,7 +283,6 @@
               <exclude>systemvm/patches/debian/vpn/etc/ipsec.d/l2tp.conf</exclude>
               <exclude>tools/transifex/.tx/config</exclude>
               <exclude>tools/logo/apache_cloudstack.png</exclude>
-              <exclude>tools/marvin/marvin/sandbox/advanced/sandbox.cfg</exclude>
               <exclude>tools/ngui/static/bootstrap/*</exclude>
               <exclude>tools/ngui/static/js/lib/*</exclude>
               <exclude>**/.checkstyle</exclude>
