@@ -17,6 +17,5 @@
   </build>
   <modules>
     <module>apidoc</module>
-    <module>marvin</module>
   </modules>
 </project>
