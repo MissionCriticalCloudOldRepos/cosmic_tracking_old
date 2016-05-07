@@ -35,37 +35,8 @@ from cs.CsConfig import CsConfig
 from cs.CsProcess import CsProcess
 from cs.CsStaticRoutes import CsStaticRoutes
 
+
 OCCURRENCES = 1
-
-class CsPassword(CsDataBag):
-    
-    TOKEN_FILE="/tmp/passwdsrvrtoken"
-    
-    def process(self):
-        for item in self.dbag:
-            if item == "id":
-                continue
-            self.__update(item, self.dbag[item])
-
-    def __update(self, vm_ip, password):
-        token = ""
-        try:
-            tokenFile = open(self.TOKEN_FILE)
-            token = tokenFile.read()
-        except IOError:
-            logging.debug("File %s does not exist" % self.TOKEN_FILE)
-
-        ips_cmd = "ip addr show | grep inet | awk '{print $2}'"
-        ips = CsHelper.execute(ips_cmd)
-        for ip in ips:
-            server_ip = ip.split('/')[0]
-            proc = CsProcess(['/opt/cloud/bin/passwd_server_ip.py', server_ip])
-            if proc.find():
-                update_command = 'curl --header "DomU_Request: save_password" "http://{SERVER_IP}:8080/" -F "ip={VM_IP}" -F "password={PASSWORD}" ' \
-                '-F "token={TOKEN}" --interface 127.0.0.1 >/dev/null 2>/dev/null &'.format(SERVER_IP=server_ip, VM_IP=vm_ip, PASSWORD=password, TOKEN=token)
-                result = CsHelper.execute(update_command)
-                logging.debug("Update password server result ==> %s" % result)
-
 
 class CsAcl(CsDataBag):
     """
@@ -964,7 +935,6 @@ def main(argv):
     config.address().process()
 
     databag_map = OrderedDict([("guest_network.json", {"process_iptables" : True, "executor" : IpTablesExecutor(config)}),
-                                ("vm_password.json", {"process_iptables" : False, "executor" : CsPassword("vmpassword", config)}),
                                 ("vm_metadata.json", {"process_iptables" : False, "executor" : CsVmMetadata('vmdata', config)}),
                                 ("network_acl.json", {"process_iptables" : True, "executor" : IpTablesExecutor(config)}),
                                 ("firewall_rules.json", {"process_iptables" : True, "executor" : IpTablesExecutor(config)}),
