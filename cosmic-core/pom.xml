@@ -282,7 +282,6 @@
               <exclude>systemvm/patches/debian/config/var/www/html/latest/.htaccess</exclude>
               <exclude>systemvm/patches/debian/vpn/etc/ipsec.d/l2tp.conf</exclude>
               <exclude>tools/transifex/.tx/config</exclude>
-              <exclude>tools/logo/apache_cloudstack.png</exclude>
               <exclude>tools/ngui/static/bootstrap/*</exclude>
               <exclude>tools/ngui/static/js/lib/*</exclude>
               <exclude>**/.checkstyle</exclude>
