@@ -83,23 +83,7 @@
                         <!-- Select language -->
                         <div class="select-language">
                             <select name="language">
-                                <option value=""></option> <!-- when this blank option is selected, default language of the browser will be used -->
                                 <option value="en"><fmt:message key="label.lang.english"/></option>
-                                <option value="ja_JP"><fmt:message key="label.lang.japanese"/></option>
-                                <option value="zh_CN"><fmt:message key="label.lang.chinese"/></option>
-                                <option value="ru_RU"><fmt:message key="label.lang.russian"/></option>
-                                <option value="fr_FR"><fmt:message key="label.lang.french"/></option>
-                                <option value="pt_BR"><fmt:message key="label.lang.brportugese"/></option>
-                                <option value="ca"><fmt:message key="label.lang.catalan"/></option>
-                                <option value="ko_KR"><fmt:message key="label.lang.korean"/></option>
-                                <option value="es"><fmt:message key="label.lang.spanish"/></option>
-                                <option value="de_DE"><fmt:message key="label.lang.german"/></option>
-                                <option value="it_IT"><fmt:message key="label.lang.italian"/></option>
-                                <option value="nb_NO"><fmt:message key="label.lang.norwegian"/></option>
-                                <option value="ar"><fmt:message key="label.lang.arabic"/></option>
-                                <option value="nl_NL"><fmt:message key="label.lang.dutch"/></option>
-                                <option value="pl"><fmt:message key="label.lang.polish"/></option>
-                                <option value="hu"><fmt:message key="label.lang.hungarian"/></option>
                             </select>
                         </div>
                     </div>
