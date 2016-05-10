@@ -3,7 +3,7 @@
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cloud-engine</artifactId>
-    <version>5.0.1.5-SNAPSHOT</version>
+    <version>5.0.1.5</version>
   </parent>
   <artifactId>cloud-engine-service</artifactId>
   <packaging>war</packaging>
