@@ -26,3 +26,7 @@
         path = cosmic-plugin-event-bus-rabbitmq
         url = git@github.com:MissionCriticalCloud/cosmic-plugin-event-bus-rabbitmq.git
         branch = master
+[submodule "cosmic-plugin-user-authenticator-ldap"]
+	path = cosmic-plugin-user-authenticator-ldap
+	url = git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-ldap.git
+        branch = master
