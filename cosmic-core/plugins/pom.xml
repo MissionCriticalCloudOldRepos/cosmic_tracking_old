@@ -28,7 +28,6 @@
     <module>network-elements/nicira-nvp</module>
     <module>network-elements/opendaylight</module>
     <module>storage-allocators/random</module>
-    <module>user-authenticators/ldap</module>
     <module>user-authenticators/pbkdf2</module>
     <module>user-authenticators/saml2</module>
     <module>user-authenticators/sha256salted</module>
