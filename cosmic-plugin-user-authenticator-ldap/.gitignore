@@ -1,16 +1,9 @@
-*.class
+# Eclipse project files
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
+.classpath
+.project
+.settings/
+target/
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
 *.iml
@@ -39,22 +32,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-# Eclipse project settings
-.project
-.settings/
-
-# RPM packaging
-dist/
-
-# Management Server logs
-api.log
-vmops.log*
-
-# Packaging directory
-packaging/
-cosmic-packaging/
-
-#PyDev settings
-.pydevproject
-
-target/
+# Checkstyle settings
+.checkstyle
