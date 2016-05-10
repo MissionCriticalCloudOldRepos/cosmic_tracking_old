@@ -24,7 +24,7 @@ from marvin.lib.utils import *
 from marvin.lib.base import *
 from marvin.lib.common import *
 from nose.plugins.attrib import attr
-
+import time
 import logging
 
 class Services:
@@ -267,6 +267,7 @@ class TestPasswordService(cloudstackTestCase):
         if vpc_off is None:
             self.logger.debug("No need to create a VPC, creating isolated network")
             network_1 = self.createIsolatedNetwork()
+            vpc_1 = None
         else:
             self.logger.debug("Creating VPC with offering ID %s" % vpc_off.id)
             vpc_1 = self.createVPC(vpc_off, cidr = '10.0.0.0/16')
@@ -280,6 +281,8 @@ class TestPasswordService(cloudstackTestCase):
         # VM
         vm1 = self.createVM(network_1)
         self.cleanup.insert(0, vm1)
+        vm2 = self.createVM(network_1)
+        self.cleanup.insert(0, vm2)
 
         # Routers in the right state?
         self.assertEqual(self.routers_in_right_state(), True,
@@ -287,7 +290,7 @@ class TestPasswordService(cloudstackTestCase):
 
         routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
         for router in routers:
-            self._perform_password_service_test(router, vm1)
+            self._perform_password_service_test(router, vm2)
 
         # Do the same after restart with cleanup
         if vpc_off is None:
@@ -302,15 +305,49 @@ class TestPasswordService(cloudstackTestCase):
                          "Check for list routers response return valid data")
         self.logger.debug("Check whether routers are happy")
 
-        vm2 = self.createVM(network_1)
-        self.cleanup.insert(0, vm2)
+        vm3 = self.createVM(network_1)
+        self.cleanup.insert(0, vm3)
 
         # Routers in the right state?
         self.assertEqual(self.routers_in_right_state(), True,
                          "Check whether the routers are in the right state.")
 
         for router in routers:
-            self._perform_password_service_test(router, vm2)
+            self._perform_password_service_test(router, vm3)
+
+    def wait_vm_ready(self, router, vmip):
+        self.logger.debug("Check whether VM %s is up" % vmip)
+        max_tries = 15
+        test_tries = 0
+        ping_result = 0
+        host = self.get_host_details(router)
+
+        while test_tries < max_tries:
+            try:
+                ping_result = get_process_status(
+                    host.ipaddress,
+                    host.port,
+                    host.user,
+                    host.passwd,
+                    router.linklocalip,
+                    "ping -c 1 " + vmip + ">/dev/null; echo $?"
+                )
+                # Return value 0 means we were able to ping
+                if int(ping_result[0]) == 0:
+                    self.logger.debug("VM %s is pingable, give it 10s to request the password" % vmip)
+                    time.sleep(10)
+                    return True
+
+            except KeyError:
+                self.skipTest("Provide a marvin config file with host credentials to run %s" % self._testMethodName)
+
+            self.logger.debug("Ping result from the Router on IP '%s' is -> '%s'" % (router.linklocalip, ping_result[0]))
+
+            test_tries += 1
+            self.logger.debug("Executing vm ping %s/%s" % (test_tries, max_tries))
+            time.sleep(5)
+        return False
+
 
     def routers_in_right_state(self):
         self.logger.debug("Check whether routers are happy")
@@ -345,12 +382,13 @@ class TestPasswordService(cloudstackTestCase):
         return False
 
     def _perform_password_service_test(self, router, vm):
+        self.wait_vm_ready(router, vm.nic[0].ipaddress)
         self.logger.debug("Checking router %s for passwd_server_ip.py process, state %s", router.linklocalip, router.redundantstate)
         self.test_process_running("passwd_server_ip.py", router)
         self.logger.debug("Checking router %s for dnsmasq process, state %s", router.linklocalip, router.redundantstate)
         self.test_process_running("dnsmasq", router)
         self.logger.debug("Checking password of %s in router %s, state %s", vm.name, router.linklocalip, router.redundantstate)
-        self.test_password_file_not_empty(vm, router)
+        self.test_password_server_logs(vm, router)
 
     def test_process_running(self, find_process, router):
         host = self.get_host_details(router)
@@ -379,7 +417,7 @@ class TestPasswordService(cloudstackTestCase):
 
         self.assertEqual(int(number_of_processes_found[0]), expected_nr_or_processes, msg="Router should have " + str(expected_nr_or_processes) + " '" + find_process + "' processes running, found " + str(number_of_processes_found[0]))
 
-    def test_password_file_not_empty(self, vm, router):
+    def test_password_server_logs(self, vm, router):
         host = self.get_host_details(router)
 
         router_state = self.get_router_state(router)
@@ -388,14 +426,12 @@ class TestPasswordService(cloudstackTestCase):
             print "Found router in non-MASTER state '" + router.redundantstate + "' so skipping test."
             return True
 
-        password_service_listen_ip = vm.nic[0].gateway
-        if router.isredundantrouter:
-            password_service_listen_ip = router.guestipaddress
-        command_to_execute = "cat /var/cache/cloud/passwords-%s | grep %s | sed 's/=/ /g' | awk '{print $1}'" % (password_service_listen_ip, vm.nic[0].ipaddress)
+        # Get the related passwd server logs for our vm
+        command_to_execute = "grep %s /var/log/messages" % vm.nic[0].ipaddress
 
-        password_found_result = ""
+        password_log_result = ""
         try:
-            password_found_result = get_process_status(
+            password_log_result = get_process_status(
                 host.ipaddress,
                 host.port,
                 host.user,
@@ -408,13 +444,20 @@ class TestPasswordService(cloudstackTestCase):
                         credentials to run %s" %
                 self._testMethodName)
 
-        self.logger.debug("%s RESULT IS ==> %s", command_to_execute, password_found_result)
-        res = str(password_found_result)
+        command_result = str(password_log_result)
 
-        self.assertEqual(
-            res.count(vm.nic[0].ipaddress),
-            1,
-            "Password file is empty or doesn't exist!")
+        # Check to see if our VM is in the password file
+        self.assertGreater(
+            command_result.count("password saved for VM IP"),
+            0,
+            "Log line 'password saved for VM IP' not found, password was not saved.")
+
+        # Check if the password was retrieved from the passwd server. If it is, the actual password is replaced with 'saved_password'
+        self.assertGreater(
+            command_result.count("password sent to"),
+            0,
+            "Log line 'password sent to' not found. The password was not retrieved by the VM!")
+
 
     def get_host_details(self, router):
         hosts = list_hosts(self.apiclient, id=router.hostid, type="Routing")
@@ -426,19 +469,6 @@ class TestPasswordService(cloudstackTestCase):
         host.passwd = self.services["configurableData"]["host"]["password"]
         host.port = self.services["configurableData"]["host"]["port"]
         return host
-
-    def stop_start_virtual_machine(self, vm):
-        try:
-            self.logger.debug("Stopping vm %s", vm.name)
-            cmd = stopVirtualMachine.stopVirtualMachineCmd()
-            cmd.id = vm.id
-            self.apiclient.startVirtualMachine(cmd)
-            self.logger.debug("Starting vm %s", vm.name)
-            cmd = startVirtualMachine.startVirtualMachineCmd()
-            cmd.id = vm.id
-            self.apiclient.startVirtualMachine(cmd)
-        except Exception, e:
-            self.fail('Unable to stop/start VM due to %s ' % e)
 
     def createVPC(self, vpc_offering, cidr = '10.1.1.1/16'):
         try:
