@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-plugin-hypervisor-kvm</artifactId>
   <name>Cosmic Plugin - Hypervisor KVM</name>
-  <version>5.0.1.5-SNAPSHOT</version>
+  <version>5.0.1.5</version>
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
@@ -80,7 +80,7 @@
   <scm>
     <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git</connection>
     <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-kvm.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>cloud-plugin-hypervisor-kvm-5.0.1.5</tag>
   </scm>
 
   <build>
