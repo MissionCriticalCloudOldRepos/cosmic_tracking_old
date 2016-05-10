@@ -61,7 +61,7 @@
 
   <scm>
     <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-ldap.git</connection>
-    <developerConnection>git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-ldap.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-ldap.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
