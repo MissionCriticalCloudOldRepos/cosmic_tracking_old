@@ -17,7 +17,7 @@
     <dependency>
       <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-framework-events</artifactId>
-      <version>5.0.1.7-SNAPSHOT</version>
+      <version>5.0.1.7</version>
     </dependency>
   </dependencies>
   <build>
