@@ -651,13 +651,11 @@ class TestPrivateGwACL(cloudstackTestCase):
         return nat_rule
 
     def check_pvt_gw_connectivity(self, virtual_machine, public_ip, vms_ips):
-
-        result = self.check_default_route()
-        assertEqual(result.count("default eth1"), 1, "Default routes should be setup in the router.")
-
         for vm_ip in vms_ips:
             ssh_command = "ping -c 3 %s" % vm_ip
 
+            # Should be able to SSH VM
+            result = 'failed'
             try:
                 self.logger.debug("SSH into VM: %s" % public_ip.ipaddress.ipaddress)
 
@@ -671,6 +669,8 @@ class TestPrivateGwACL(cloudstackTestCase):
                 self.fail("SSH Access failed for %s: %s" % (virtual_machine.nic[0].ipaddress, e))
 
             self.assertEqual(result.count("3 packets received"), 1, "Ping to VM on Network Tier N from VM in Network Tier A should be successful")
+
+            time.sleep(5)
 
     def reboot_vpc_with_cleanup(self, vpc, cleanup = True):
         self.logger.debug("Restarting VPC %s with cleanup" % vpc.id)
@@ -735,31 +735,13 @@ class TestPrivateGwACL(cloudstackTestCase):
         result = "UNKNOWN"
         for router in routers:
             if router.state == "Running":
-                hosts = list_hosts(self.apiclient,
-                            zoneid=router.zoneid,
-                            type='Routing',
-                            state='Up',
-                            id=router.hostid
-                        )
-
-                self.assertEqual(
-                    isinstance(hosts, list),
-                    True,
-                    "Check list host returns a valid list"
-                )
-
+                hosts = list_hosts(self.apiclient, zoneid=router.zoneid, type='Routing', state='Up', id=router.hostid)
+                self.assertEqual(isinstance(hosts, list), True, "Check list host returns a valid list")
                 host = hosts[0]
 
                 try:
                     host.user, host.passwd = get_host_credentials(self.config, host.ipaddress)
-                    result = str(get_process_status(
-                                    host.ipaddress,
-                                    22,
-                                    host.user,
-                                    host.passwd,
-                                    router.linklocalip,
-                                    "sh /opt/cloud/bin/checkrouter.sh "
-                                ))
+                    result = str(get_process_status(host.ipaddress, 22, host.user, host.passwd, router.linklocalip, "sh /opt/cloud/bin/checkrouter.sh "))
 
                 except KeyError:
                     self.skipTest("Marvin configuration has no host credentials to check router services")
@@ -769,50 +751,3 @@ class TestPrivateGwACL(cloudstackTestCase):
 
         if cnts[vals.index(status_to_check)] != expected_count:
             self.fail("Expected '%s' routers at state '%s', but found '%s'!" % (expected_count, status_to_check, cnts[vals.index(status_to_check)]))
-
-    def check_default_route(self, retries = 3, sleeping = 5):
-        result = 'failed'
-
-        routers = list_routers(self.apiclient, account=self.account.name, domainid=self.account.domainid)
-
-        while retries > 0:
-            for router in routers:
-                if router.state == "Running":
-                    hosts = list_hosts(
-                                self.apiclient,
-                                zoneid=router.zoneid,
-                                type='Routing',
-                                state='Up',
-                                id=router.hostid
-                            )
-
-                    self.assertEqual(
-                        isinstance(hosts, list),
-                        True,
-                        "Check list host returns a valid list"
-                    )
-                    host = hosts[0]
-
-                    try:
-                        host.user, host.passwd = get_host_credentials(self.config, host.ipaddress)
-                        result = str(get_process_status(
-                                        host.ipaddress,
-                                        22,
-                                        host.user,
-                                        host.passwd,
-                                        router.linklocalip,
-                                        "ip route show | grep default | awk '{print $1, $5}'"
-                                    ))
-
-                        if result.count("default eth1") == 0:
-                            time.sleep(sleeping)
-                        else:
-                            retries = 0
-                            break
-
-                    except KeyError:
-                        self.skipTest("Marvin configuration has no host credentials to check router services")
-
-            retries -= 1
-
-        return result
