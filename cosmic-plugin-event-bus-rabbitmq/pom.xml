@@ -23,4 +23,10 @@
   <build>
     <defaultGoal>install</defaultGoal>
   </build>
+
+  <scm>
+    <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-event-bus-rabbitmq.git</connection>
+    <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-event-bus-rabbitmq.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 </project>
