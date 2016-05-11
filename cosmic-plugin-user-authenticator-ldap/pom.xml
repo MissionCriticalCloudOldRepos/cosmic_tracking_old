@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cloud-plugin-user-authenticator-ldap</artifactId>
   <name>Cosmic Plugin - User Authenticator LDAP</name>
-  <version>5.0.1.7</version>
+  <version>5.0.1.8-SNAPSHOT</version>
 
   <parent>
     <groupId>cloud.cosmic</groupId>
@@ -62,7 +62,7 @@
   <scm>
     <connection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-ldap.git</connection>
     <developerConnection>scm:git:git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-ldap.git</developerConnection>
-    <tag>cloud-plugin-user-authenticator-ldap-5.0.1.7</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
