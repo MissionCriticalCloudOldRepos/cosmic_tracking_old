@@ -148,23 +148,6 @@
                                 });
                             }
                         });
-
-                        // SAML: Check Append Domain Setting
-                        if (g_idpList) {
-                            $.ajax({
-                                type: 'GET',
-                                url: createURL('listConfigurations&name=saml2.append.idpdomain'),
-                                dataType: 'json',
-                                async: false,
-                                success: function(data, textStatus, xhr) {
-                                    if (data && data.listconfigurationsresponse && data.listconfigurationsresponse.configuration) {
-                                        g_appendIdpDomain = (data.listconfigurationsresponse.configuration[0].value === 'true');
-                                    }
-                                },
-                                error: function(xhr) {
-                                }
-                            });
-                        }
                     },
 
                     detailView: {
