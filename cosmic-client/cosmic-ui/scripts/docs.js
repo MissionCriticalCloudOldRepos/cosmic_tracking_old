@@ -395,47 +395,6 @@ cloudStack.docs = {
         desc: 'If you want to assign a special domain name to this domain\'s guest VM network, specify the DNS suffix',
         externalLink: ''
     },
-    // Add F5
-    helpF5IPAddress: {
-        desc: 'The IP address of the device',
-        externalLink: ''
-    },
-    helpF5Username: {
-        desc: 'A user ID with valid authentication credentials that provide to access the device',
-        externalLink: ''
-    },
-    helpF5Password: {
-        desc: 'The password for the user ID provided in Username',
-        externalLink: ''
-    },
-    helpF5Type: {
-        desc: 'The type of device that is being added',
-        externalLink: ''
-    },
-    helpF5PublicInterface: {
-        desc: 'Interface of device that is configured to be part of the public network',
-        externalLink: ''
-    },
-    helpF5PrivateInterface: {
-        desc: 'Interface of device that is configured to be part of the private network',
-        externalLink: ''
-    },
-    helpF5Retries: {
-        desc: 'Number of times to attempt a command on the device before considering the operation failed. Default is 2.',
-        externalLink: ''
-    },
-    helpF5Mode: {
-        desc: 'Side by side mode is supported for the F5.',
-        externalLink: ''
-    },
-    helpF5Dedicated: {
-        desc: 'Check this box to dedicate the device to a single account. The value in the Capacity field will be ignored.',
-        externalLink: ''
-    },
-    helpF5Capacity: {
-        desc: 'Number of guest networks/accounts that will share this device',
-        externalLink: ''
-    },
     // Add guest network
     helpGuestNetworkName: {
         desc: 'The name of the network. This will be user-visible.',

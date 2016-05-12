@@ -191,7 +191,7 @@ var pollAsyncJobResult = function(args) {
     //LB provider map
 var lbProviderMap = {
     "publicLb": {
-        "non-vpc": ["VirtualRouter", "F5"],
+        "non-vpc": ["VirtualRouter"],
         "vpc": ["VpcVirtualRouter"]
     },
     "internalLb": {
