@@ -2622,23 +2622,6 @@ public class QueryManagerImpl extends ManagerBase implements QueryService, Confi
     return _diskOfferingJoinDao.searchAndCount(sc, searchFilter);
   }
 
-  private List<ServiceOfferingJoinVO> filterOfferingsOnCurrentTags(List<ServiceOfferingJoinVO> offerings, ServiceOfferingVO currentVmOffering){
-    if(currentVmOffering == null) {
-      return offerings;
-    }
-    final List<String> currentTagsList = StringUtils.csvTagsToList(currentVmOffering.getTags());
-
-    // New offerings should be a subset of existing storage tags. Discard offerings who are not.
-    final List<ServiceOfferingJoinVO> filteredOfferings = new ArrayList<>();
-    for (final ServiceOfferingJoinVO offering : offerings){
-      final List<String> tags = StringUtils.csvTagsToList(offering.getTags());
-      if(currentTagsList.containsAll(tags)){
-        filteredOfferings.add(offering);
-      }
-    }
-    return filteredOfferings;
-  }
-
   @Override
   public ListResponse<ServiceOfferingResponse> searchForServiceOfferings(ListServiceOfferingsCmd cmd) {
     final Pair<List<ServiceOfferingJoinVO>, Integer> result = searchForServiceOfferingsInternal(cmd);
@@ -2794,10 +2777,7 @@ public class QueryManagerImpl extends ManagerBase implements QueryService, Confi
     }
 
     final Pair<List<ServiceOfferingJoinVO>, Integer> result = _srvOfferingJoinDao.searchAndCount(sc, searchFilter);
-
-    //Couldn't figure out a smart way to filter offerings based on tags in sql so doing it in Java.
-    final List<ServiceOfferingJoinVO> filteredOfferings = filterOfferingsOnCurrentTags(result.first(), currentVmOffering);
-    return new Pair<>(filteredOfferings, result.second());
+    return result;
   }
 
   @Override
