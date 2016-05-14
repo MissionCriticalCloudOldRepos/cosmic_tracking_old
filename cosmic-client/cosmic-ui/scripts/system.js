@@ -10329,21 +10329,11 @@
                                         $nexusDvsOptFields.hide();
                                         $nexusDvsReqFields.hide();
 
-                                        if ($form.find('.form-item[rel=overridepublictraffic]').css('display') != 'none' && $overridePublicTraffic.is(':checked')) {
-                                            $form.find('.form-item[rel=vSwitchPublicType]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vSwitchPublicName]').css('display', 'inline-block');
-                                        } else {
-                                            $form.find('.form-item[rel=vSwitchPublicType]').css('display', 'none');
-                                            $form.find('.form-item[rel=vSwitchPublicName]').css('display', 'none');
-                                        }
+                                        $form.find('.form-item[rel=vSwitchPublicType]').css('display', 'none');
+                                        $form.find('.form-item[rel=vSwitchPublicName]').css('display', 'none');
+                                        $form.find('.form-item[rel=vSwitchGuestType]').css('display', 'none');
+                                        $form.find('.form-item[rel=vSwitchGuestName]').css('display', 'none');
 
-                                        if ($form.find('.form-item[rel=overrideguesttraffic]').css('display') != 'none' && $overrideGuestTraffic.is(':checked')) {
-                                            $form.find('.form-item[rel=vSwitchGuestType]').css('display', 'inline-block');
-                                            $form.find('.form-item[rel=vSwitchGuestName]').css('display', 'inline-block');
-                                        } else {
-                                            $form.find('.form-item[rel=vSwitchGuestType]').css('display', 'none');
-                                            $form.find('.form-item[rel=vSwitchGuestName]').css('display', 'none');
-                                        }
                                     });
 
                                     $form.trigger('click');
