@@ -745,11 +745,11 @@
                                             },
                                             select: function(args) {
                                                 $.ajax({
-                                                    url: createURL("findStoragePoolsForMigration&id=" + args.context.volumes[0].id),
+                                                    url: createURL("listStoragePools"),
                                                     dataType: "json",
                                                     async: true,
                                                     success: function(json) {
-                                                        var pools = json.findstoragepoolsformigrationresponse.storagepool;
+                                                        var pools = json.liststoragepoolsresponse.storagepool;
                                                         var items = [];
                                                         $(pools).each(function() {
                                                             items.push({
