@@ -1896,7 +1896,7 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
         // to make sure that the destination storage pool is in the same cluster as the vm.
         if (liveMigrateVolume && destPool.getClusterId() != null && srcClusterId != null) {
           if (!srcClusterId.equals(destPool.getClusterId())) {
-            throw new InvalidParameterValueException("Cannot migrate a volume of a virtual machine to a storage pool in a different cluster");
+            throw new InvalidParameterValueException("Cannot live migrate a volume of a virtual machine to a storage pool in a different cluster. Please stop VM and try again.");
           }
         }
       }
