@@ -2526,7 +2526,7 @@
                                         }
 
                                         //show LB Isolation dropdown only when (1)LB Service is checked
-                                        if ((args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) {
+                                        if (args.$form.find('.form-item[rel=\"service.Lb.isEnabled\"]').find('input[type=checkbox]').is(':checked') == true) {
                                             args.$form.find('.form-item[rel=\"service.Lb.lbIsolationDropdown\"]').css('display', 'inline-block');
                                         } else {
                                             args.$form.find('.form-item[rel=\"service.Lb.lbIsolationDropdown\"]').hide();
