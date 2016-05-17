@@ -1790,7 +1790,12 @@ public class QueryManagerImpl extends ManagerBase implements QueryService, Confi
       sc.setParameters("display", display);
     }
 
+    // normal users and domain admins cannot see volumes of type system
     sc.setParameters("systemUse", 1);
+    // root admins can see them
+    if (caller.getType() == Account.ACCOUNT_TYPE_ADMIN) {
+      sc.setParameters("systemUse", -1);
+    }
 
     if (tags != null && !tags.isEmpty()) {
       final SearchCriteria<VolumeJoinVO> tagSc = _volumeJoinDao.createSearchCriteria();
@@ -1828,8 +1833,8 @@ public class QueryManagerImpl extends ManagerBase implements QueryService, Confi
       sc.setParameters("storageId", storageId);
     }
 
-    // Don't return DomR and ConsoleProxy volumes
-    sc.setParameters("type", VirtualMachine.Type.ConsoleProxy, VirtualMachine.Type.SecondaryStorageVm, VirtualMachine.Type.DomainRouter);
+    // The only thing we don't need is UserBareMetal volumes as those are fake anyway
+    sc.setParameters("type", VirtualMachine.Type.UserBareMetal);
 
     // Only return volumes that are not destroyed
     sc.setParameters("state", Volume.State.Destroy);
