@@ -3868,7 +3868,6 @@
                                                     forvpc: true,
                                                     zoneid: args.zoneId,
                                                     guestiptype: 'Isolated',
-                                                    supportedServices: 'SourceNat',
                                                     state: 'Enabled'
                                                 },
                                                 success: function(json) {
