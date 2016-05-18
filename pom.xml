@@ -117,6 +117,7 @@
     <module>cosmic-plugin-hypervisor-ovm3</module>
     <module>cosmic-plugin-hypervisor-xenserver</module>
     <module>cosmic-plugin-user-authenticator-ldap</module>
+    <module>cosmic-plugin-user-authenticator-sha256salted</module>
   </modules>
 
   <repositories>
