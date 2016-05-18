@@ -19,6 +19,7 @@ package org.cloud.network.router.deployment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -73,11 +74,6 @@ public class VpcRouterDeploymentDefinition extends RouterDeploymentDefinition {
     }
 
     @Override
-    public boolean isPublicNetwork() {
-        return true;
-    }
-
-    @Override
     protected void lock() {
         final Vpc vpcLock = vpcDao.acquireInLockTable(vpc.getId());
         if (vpcLock == null) {
@@ -115,7 +111,19 @@ public class VpcRouterDeploymentDefinition extends RouterDeploymentDefinition {
      */
     @Override
     protected boolean prepareDeployment() {
-        return true;
+        // Check if public network has to be set on VR
+        final Map<Network.Service, Set<Network.Provider>> vpcOffSvcProvidersMap = vpcMgr.getVpcOffSvcProvidersMap(vpc.getVpcOfferingId());
+        isPublicNetwork = vpcOffSvcProvidersMap.get(Network.Service.SourceNat).contains(Network.Provider.VPCVirtualRouter);
+
+        boolean canProceed = true;
+        if (isRedundant() && !isPublicNetwork) {
+            // TODO Shouldn't be this throw an exception instead of log error and empty list of routers
+            logger.error("Didn't support redundant virtual router without public network!");
+            routers = new ArrayList<DomainRouterVO>();
+            canProceed = false;
+        }
+
+        return canProceed;
     }
 
     @Override
