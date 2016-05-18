@@ -91,11 +91,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-user-authenticator-saml2</artifactId>
-      <version>5.0.1.8-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-plugin-user-authenticator-sha256salted</artifactId>
       <version>5.0.1.8-SNAPSHOT</version>
     </dependency>
