@@ -580,50 +580,5 @@
         </property>
       </activation>
     </profile>
-    <profile>
-      <id>simulator</id>
-      <activation>
-        <property>
-          <name>simulator</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-hypervisor-simulator</artifactId>
-          <version>5.0.1.6-SNAPSHOT</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>srx</id>
-      <activation>
-        <property>
-          <name>noredist</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-plugin-network-srx</artifactId>
-          <version>5.0.1.6-SNAPSHOT</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>quickcloud</id>
-      <activation>
-        <property>
-          <name>quickcloud</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>cloud.cosmic</groupId>
-          <artifactId>cloud-quickcloud</artifactId>
-          <version>5.0.1.6-SNAPSHOT</version>
-        </dependency>
-      </dependencies>
-    </profile>
   </profiles>
 </project>
