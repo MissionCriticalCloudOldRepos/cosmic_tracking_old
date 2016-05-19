@@ -36,6 +36,12 @@
         <property name="orderConfigDefault" value="PBKDF2,SHA256SALT,LDAP,PLAINTEXT" />
     </bean>
 
+    <bean id="pluggableAPIAuthenticatorsRegistry"
+          class="org.apache.cloudstack.spring.lifecycle.registry.ExtensionRegistry">
+        <property name="orderConfigKey" value="pluggableApi.authenticators.order" />
+        <property name="excludeKey" value="pluggableApi.authenticators.exclude" />
+    </bean>
+
     <bean id="userPasswordEncodersRegistry"
         class="org.apache.cloudstack.spring.lifecycle.registry.ExtensionRegistry">
         <property name="orderConfigKey" value="user.password.encoders.order" />
