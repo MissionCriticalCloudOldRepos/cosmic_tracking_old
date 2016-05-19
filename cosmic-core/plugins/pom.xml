@@ -27,7 +27,6 @@
     <module>network-elements/nicira-nvp</module>
     <module>network-elements/opendaylight</module>
     <module>storage-allocators/random</module>
-    <module>user-authenticators/pbkdf2</module>
     <module>storage/image/s3</module>
     <module>storage/image/swift</module>
     <module>storage/image/default</module>
