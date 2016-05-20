@@ -110,6 +110,7 @@
   </organization>
 
   <modules>
+    <module>cosmic-agent</module>
     <module>cosmic-client</module>
     <module>cosmic-core</module>
     <module>cosmic-plugin-event-bus-rabbitmq</module>
