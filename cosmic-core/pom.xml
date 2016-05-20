@@ -94,7 +94,6 @@
 
   <modules>
     <module>api</module>
-    <module>agent</module>
     <module>nucleo</module>
     <module>server</module>
     <module>usage</module>
