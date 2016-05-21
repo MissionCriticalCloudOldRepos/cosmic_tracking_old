@@ -65,13 +65,6 @@ unplug_nic() {
   done
   # remove apache config for this eth
   rm -f /etc/apache2/conf.d/vhost$dev.conf
-
-  # Remove device from udev rules, but only if really gone
-  if [ ! -L /sys/class/net/$dev ]; then
-    sudo -E sed -i -e "s/^.*$dev.*$//g"  /etc/udev/rules.d/70-persistent-net.rules
-    sudo -E sed -i -e '/^# PCI.*$/{$!{N;s/^# PCI.*\n$/\n/;ty;P;D;:y}}' /etc/udev/rules.d/70-persistent-net.rules
-    sudo -E sed -i -e '/^$/N;/^\n$/D'  /etc/udev/rules.d/70-persistent-net.rules
-  fi
 }
 
 action=$1
