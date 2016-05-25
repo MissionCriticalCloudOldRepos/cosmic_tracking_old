@@ -40,6 +40,7 @@ import javax.naming.ConfigurationException;
 import com.cloud.agent.api.AttachOrDettachConfigDriveCommand;
 import com.cloud.dc.ClusterDetailsDao;
 import com.cloud.dc.ClusterDetailsVO;
+import com.cloud.dc.ClusterVO;
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.HostPodVO;
