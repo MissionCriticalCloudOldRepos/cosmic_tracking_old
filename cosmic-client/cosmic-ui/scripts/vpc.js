@@ -3408,10 +3408,7 @@
                             if (args.context.networks[0].type == "Isolated") {
                                 hiddenFields.push("networkofferingdisplaytext");
                                 hiddenFields.push("networkdomaintext");
-                                //hiddenFields.push("gateway");
-                                //hiddenFields.push("networkofferingname");
-                                //hiddenFields.push("netmask");
-                            } else { //selectedGuestNetworkObj.type == "Shared"
+                            } else {
                                 hiddenFields.push("networkofferingid");
                                 hiddenFields.push("networkdomain");
                             }
@@ -3520,7 +3517,6 @@
                                     });
                                 }
                             },
-                            //aclid:{label:'ACL id'},
                             id: {
                                 label: 'label.id'
                             }
