@@ -51,11 +51,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.cosmic</groupId>
-      <artifactId>cloud-plugin-storage-volume-solidfire</artifactId>
-      <version>5.0.1.8-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>cloud.cosmic</groupId>
       <artifactId>cloud-server</artifactId>
       <version>5.0.1.8-SNAPSHOT</version>
     </dependency>
