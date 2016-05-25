@@ -892,7 +892,7 @@ cloudStack.docs = {
         externalLink: ''
     },
     helpTierGateway: {
-        desc: 'The gateway for the tier. Must be in the Super CIDR range of the VPC and not overlapping the CIDR of any other tier in this VPC.',
+        desc: 'The gateway for VMs in the tier. Must be in the Super CIDR range of the VPC and not overlapping the CIDR of any other tier in this VPC. On the specified ip-address, the VPC router will act as the gateway for VMs on this tier. When used in combination with a VPC offering without SNAT (bridged networks) the gateway is expected to pre-exist on the network. The VPC router will just hand out this gateway ip address over DHCP to VMs. In which case it does not act as the gateway itself.',
         externalLink: ''
     },
     helpTierNetmask: {

@@ -3408,10 +3408,7 @@
                             if (args.context.networks[0].type == "Isolated") {
                                 hiddenFields.push("networkofferingdisplaytext");
                                 hiddenFields.push("networkdomaintext");
-                                hiddenFields.push("gateway");
-                                hiddenFields.push("networkofferingname");
-                                //hiddenFields.push("netmask");
-                            } else { //selectedGuestNetworkObj.type == "Shared"
+                            } else {
                                 hiddenFields.push("networkofferingid");
                                 hiddenFields.push("networkdomain");
                             }
@@ -3423,15 +3420,40 @@
                                 isEditable: true
                             }
                         }, {
-                            id: {
-                                label: 'label.id'
+                            displaytext: {
+                                label: 'label.description',
+                                isEditable: true
+                            },
+                            cidr: {
+                                label: 'label.cidr'
+                            },
+                            gateway: {
+                                label: 'label.gateway'
+                            },
+                            netmask: {
+                                label: 'Netmask'
+                            },
+                            networkdomaintext: {
+                                label: 'label.network.domain.text'
+                            },
+                            networkdomain: {
+                                label: 'label.network.domain',
+                                isEditable: true
+                            },
+                            vlan: {
+                                label: 'label.vlan.id'
+                            },
+                            aclname: {
+                                label: 'label.acl.name'
                             },
                             zonename: {
                                 label: 'label.zone'
                             },
-                            displaytext: {
-                                label: 'label.description',
-                                isEditable: true
+                            domain: {
+                                label: 'label.domain'
+                            },
+                            account: {
+                                label: 'label.account'
                             },
                             type: {
                                 label: 'label.type'
@@ -3439,7 +3461,6 @@
                             state: {
                                 label: 'label.state'
                             },
-
                             ispersistent: {
                                 label: 'label.persistent',
                                 converter: cloudStack.converters.toBooleanText
@@ -3455,14 +3476,9 @@
                                         return "No";
                                 }
                             },
-                            vlan: {
-                                label: 'label.vlan.id'
-                            },
-
                             networkofferingname: {
                                 label: 'label.network.offering'
                             },
-
                             networkofferingid: {
                                 label: 'label.network.offering',
                                 isEditable: true,
@@ -3501,34 +3517,8 @@
                                     });
                                 }
                             },
-
-                            gateway: {
-                                label: 'label.gateway'
-                            },
-
-                            //netmask: { label: 'Netmask' },
-                            cidr: {
-                                label: 'label.cidr'
-                            },
-
-                            networkdomaintext: {
-                                label: 'label.network.domain.text'
-                            },
-                            networkdomain: {
-                                label: 'label.network.domain',
-                                isEditable: true
-                            },
-
-                            aclname: {
-                                label: 'label.acl.name'
-                            },
-                            //aclid:{label:'ACL id'},
-
-                            domain: {
-                                label: 'label.domain'
-                            },
-                            account: {
-                                label: 'label.account'
+                            id: {
+                                label: 'label.id'
                             }
                         }],
                         dataProvider: function(args) {
@@ -3868,7 +3858,6 @@
                                                     forvpc: true,
                                                     zoneid: args.zoneId,
                                                     guestiptype: 'Isolated',
-                                                    supportedServices: 'SourceNat',
                                                     state: 'Enabled'
                                                 },
                                                 success: function(json) {
