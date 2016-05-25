@@ -38,6 +38,12 @@ import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
 import com.cloud.agent.api.AttachOrDettachConfigDriveCommand;
+import com.cloud.dc.ClusterDetailsDao;
+import com.cloud.dc.ClusterDetailsVO;
+import com.cloud.dc.DataCenter;
+import com.cloud.dc.DataCenterVO;
+import com.cloud.dc.HostPodVO;
+import com.cloud.dc.Pod;
 import org.apache.cloudstack.affinity.dao.AffinityGroupVMMapDao;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
@@ -94,7 +100,6 @@ import com.cloud.agent.api.StopAnswer;
 import com.cloud.agent.api.StopCommand;
 import com.cloud.agent.api.UnPlugNicAnswer;
 import com.cloud.agent.api.UnPlugNicCommand;
-import com.cloud.agent.api.UnregisterVMCommand;
 import com.cloud.agent.api.to.DiskTO;
 import com.cloud.agent.api.to.GPUDeviceTO;
 import com.cloud.agent.api.to.NicTO;
@@ -103,12 +108,6 @@ import com.cloud.agent.manager.Commands;
 import com.cloud.agent.manager.allocator.HostAllocator;
 import com.cloud.alert.AlertManager;
 import com.cloud.capacity.CapacityManager;
-import com.cloud.dc.ClusterDetailsDao;
-import com.cloud.dc.ClusterDetailsVO;
-import com.cloud.dc.DataCenter;
-import com.cloud.dc.DataCenterVO;
-import com.cloud.dc.HostPodVO;
-import com.cloud.dc.Pod;
 import com.cloud.dc.dao.ClusterDao;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.dc.dao.HostPodDao;
@@ -176,7 +175,6 @@ import com.cloud.utils.Journal;
 import com.cloud.utils.Pair;
 import com.cloud.utils.Predicate;
 import com.cloud.utils.ReflectionUse;
-import com.cloud.utils.StringUtils;
 import com.cloud.utils.Ternary;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.concurrency.NamedThreadFactory;
@@ -908,17 +906,7 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
                             if (planToDeploy != null && planToDeploy.getDataCenterId() != 0) {
                                 final Long clusterIdSpecified = planToDeploy.getClusterId();
                                 if (clusterIdSpecified != null && rootVolClusterId != null) {
-                                    if (rootVolClusterId.longValue() != clusterIdSpecified.longValue()) {
-                                        // cannot satisfy the plan passed in to the
-                                        // planner
-                                        if (s_logger.isDebugEnabled()) {
-                                            s_logger.debug("Cannot satisfy the deployment plan passed in since the ready Root volume is in different cluster. volume's cluster: " +
-                                                    rootVolClusterId + ", cluster specified: " + clusterIdSpecified);
-                                        }
-                                        throw new ResourceUnavailableException(
-                                                "Root volume is ready in different cluster, Deployment plan provided cannot be satisfied, unable to create a deployment for " +
-                                                        vm, Cluster.class, clusterIdSpecified);
-                                    }
+                                    checkIfPlanIsDeployable(vm, rootVolClusterId, clusterIdSpecified);
                                 }
                                 plan =
                                         new DataCenterDeployment(planToDeploy.getDataCenterId(), planToDeploy.getPodId(), planToDeploy.getClusterId(),
@@ -1153,6 +1141,23 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
 
         if (startedVm == null) {
             throw new CloudRuntimeException("Unable to start instance '" + vm.getHostName() + "' (" + vm.getUuid() + "), see management server log for details");
+        }
+    }
+
+    private void checkIfPlanIsDeployable(final VMInstanceVO vm, final Long rootVolClusterId, final Long clusterIdSpecified) throws ResourceUnavailableException {
+        if (rootVolClusterId.longValue() != clusterIdSpecified.longValue()) {
+            // cannot satisfy the plan passed in to the planner
+            ClusterVO volumeCluster = _clusterDao.findById(rootVolClusterId);
+            ClusterVO vmCluster = _clusterDao.findById(clusterIdSpecified);
+
+            String errorMsg;
+            errorMsg = String.format("Root volume is ready in cluster '%s' while VM is to be started in cluster '%s'. Make sure these match. Unable to create a deployment for %s",
+                    volumeCluster.getName(), vmCluster.getName(), vm);
+
+            if (s_logger.isDebugEnabled()) {
+                s_logger.debug(errorMsg);
+            }
+            throw new ResourceUnavailableException(errorMsg, Cluster.class, clusterIdSpecified);
         }
     }
 
@@ -2856,15 +2861,6 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
 
         final ServiceOfferingVO currentServiceOffering = _offeringDao.findByIdIncludingRemoved(vmInstance.getId(), vmInstance.getServiceOfferingId());
 
-        // Check that the service offering being upgraded to has the same Guest IP type as the VM's current service offering
-        // NOTE: With the new network refactoring in 2.2, we shouldn't need the check for same guest IP type anymore.
-        /*
-         * if (!currentServiceOffering.getGuestIpType().equals(newServiceOffering.getGuestIpType())) { String errorMsg =
-         * "The service offering being upgraded to has a guest IP type: " + newServiceOffering.getGuestIpType(); errorMsg +=
-         * ". Please select a service offering with the same guest IP type as the VM's current service offering (" +
-         * currentServiceOffering.getGuestIpType() + ")."; throw new InvalidParameterValueException(errorMsg); }
-         */
-
         // Check that the service offering being upgraded to has the same storage pool preference as the VM's current service
         // offering
         if (currentServiceOffering.getUseLocalStorage() != newServiceOffering.getUseLocalStorage()) {
@@ -2882,14 +2878,6 @@ public class VirtualMachineManagerImpl extends ManagerBase implements VirtualMac
         if (!isVirtualMachineUpgradable(vmInstance, newServiceOffering)) {
             throw new InvalidParameterValueException("Unable to upgrade virtual machine, not enough resources available " + "for an offering of " +
                     newServiceOffering.getCpu() + " cpu(s) at " + newServiceOffering.getSpeed() + " Mhz, and " + newServiceOffering.getRamSize() + " MB of memory");
-        }
-
-        // Check that the service offering being upgraded to has storage tags subset of the current service offering storage tags, since volume is not migrated.
-        final List<String> currentTags = StringUtils.csvTagsToList(currentServiceOffering.getTags());
-        final List<String> newTags = StringUtils.csvTagsToList(newServiceOffering.getTags());
-        if (!currentTags.containsAll(newTags)) {
-            throw new InvalidParameterValueException("Unable to upgrade virtual machine; the new service offering " + " should have tags as subset of " +
-                    "current service offering tags. Current service offering tags: " + currentTags + "; " + "new service " + "offering tags: " + newTags);
         }
     }
 

@@ -913,8 +913,8 @@ public class VolumeOrchestrator extends ManagerBase implements VolumeOrchestrati
         try {
             VolumeApiResult result = future.get();
             if (result.isFailed()) {
-                s_logger.error("Migrate volume failed:" + result.getResult());
-                throw new StorageUnavailableException("Migrate volume failed: " + result.getResult(), destPool.getId());
+                s_logger.error("Migrate volume failed. Error received from hypervisor:" + result.getResult());
+                throw new StorageUnavailableException("Migrate volume failed. Error received from hypervisor: " + result.getResult(), destPool.getId());
             } else {
                 // update the volumeId for snapshots on secondary
                 if (!_snapshotDao.listByVolumeId(vol.getId()).isEmpty()) {

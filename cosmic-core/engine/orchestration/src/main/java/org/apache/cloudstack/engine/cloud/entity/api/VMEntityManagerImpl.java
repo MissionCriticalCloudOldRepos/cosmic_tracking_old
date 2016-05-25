@@ -22,6 +22,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import com.cloud.dc.ClusterVO;
+import com.cloud.dc.dao.ClusterDao;
 import org.apache.cloudstack.affinity.dao.AffinityGroupVMMapDao;
 import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
 import org.apache.cloudstack.engine.cloud.entity.api.db.VMReservationVO;
@@ -88,6 +90,9 @@ public class VMEntityManagerImpl implements VMEntityManager {
 
     @Inject
     protected UserDao _userDao = null;
+
+    @Inject
+    protected ClusterDao _clusterDao;
 
     @Inject
     protected VMEntityDao _vmEntityDao;
@@ -168,13 +173,7 @@ public class VMEntityManagerImpl implements VMEntityManager {
                 if (planToDeploy != null && planToDeploy.getDataCenterId() != 0) {
                     Long clusterIdSpecified = planToDeploy.getClusterId();
                     if (clusterIdSpecified != null && rootVolClusterId != null) {
-                        if (rootVolClusterId.longValue() != clusterIdSpecified.longValue()) {
-                            // cannot satisfy the plan passed in to the
-                            // planner
-                            throw new ResourceUnavailableException(
-                                "Root volume is ready in different cluster, Deployment plan provided cannot be satisfied, unable to create a deployment for " + vm,
-                                Cluster.class, clusterIdSpecified);
-                        }
+                        checkIfPlanIsDeployable(vm, rootVolClusterId, clusterIdSpecified);
                     }
                     plan =
                         new DataCenterDeployment(planToDeploy.getDataCenterId(), planToDeploy.getPodId(), planToDeploy.getClusterId(), planToDeploy.getHostId(),
@@ -214,6 +213,23 @@ public class VMEntityManagerImpl implements VMEntityManager {
                 throw new InsufficientServerCapacityException("Unable to create a deployment for " + vmProfile, DataCenter.class, plan.getDataCenterId(),
                     areAffinityGroupsAssociated(vmProfile));
             }
+        }
+    }
+
+    private void checkIfPlanIsDeployable(final VMInstanceVO vm, final Long rootVolClusterId, final Long clusterIdSpecified) throws ResourceUnavailableException {
+        if (rootVolClusterId.longValue() != clusterIdSpecified.longValue()) {
+            // cannot satisfy the plan passed in to the planner
+            ClusterVO volumeCluster = _clusterDao.findById(rootVolClusterId);
+            ClusterVO vmCluster = _clusterDao.findById(clusterIdSpecified);
+
+            String errorMsg;
+            errorMsg = String.format("Root volume is ready in cluster '%s' while VM is to be started in cluster '%s'. Make sure these match. Unable to create a deployment for %s",
+                    volumeCluster.getName(), vmCluster.getName(), vm);
+
+            if (s_logger.isDebugEnabled()) {
+                s_logger.debug(errorMsg);
+            }
+            throw new ResourceUnavailableException(errorMsg, Cluster.class, clusterIdSpecified);
         }
     }
 

@@ -1896,7 +1896,7 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
         // to make sure that the destination storage pool is in the same cluster as the vm.
         if (liveMigrateVolume && destPool.getClusterId() != null && srcClusterId != null) {
           if (!srcClusterId.equals(destPool.getClusterId())) {
-            throw new InvalidParameterValueException("Cannot migrate a volume of a virtual machine to a storage pool in a different cluster");
+            throw new InvalidParameterValueException("Cannot live migrate a volume of a virtual machine to a storage pool in a different cluster. Please stop VM and try again.");
           }
         }
       }
@@ -1981,15 +1981,15 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
     try {
       final VolumeApiResult result = future.get();
       if (result.isFailed()) {
-        s_logger.debug("migrate volume failed:" + result.getResult());
-        throw new StorageUnavailableException("Migrate volume failed: " + result.getResult(), destPool.getId());
+        s_logger.debug("Live migrate volume failed:" + result.getResult());
+        throw new StorageUnavailableException("Live migrate volume failed: " + result.getResult(), destPool.getId());
       }
       return result.getVolume();
     } catch (final InterruptedException e) {
-      s_logger.debug("migrate volume failed", e);
+      s_logger.debug("Live migrate volume failed", e);
       throw new CloudRuntimeException(e.getMessage());
     } catch (final ExecutionException e) {
-      s_logger.debug("migrate volume failed", e);
+      s_logger.debug("Live migrate volume failed", e);
       throw new CloudRuntimeException(e.getMessage());
     }
   }
