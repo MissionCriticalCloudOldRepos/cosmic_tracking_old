@@ -30,7 +30,6 @@
     <module>storage/image/s3</module>
     <module>storage/image/swift</module>
     <module>storage/image/default</module>
-    <module>storage/volume/nexenta</module>
     <module>storage/volume/default</module>
     <module>network-elements/internal-loadbalancer</module>
     <module>network-elements/globodns</module>
