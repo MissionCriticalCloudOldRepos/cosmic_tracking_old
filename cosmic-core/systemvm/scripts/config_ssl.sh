@@ -206,7 +206,7 @@ if [ -f "$customCACert" ]
 then
   keytool -delete -alias $aliasName -keystore $keyStore -storepass $storepass -noprompt
   keytool -import -alias $aliasName -keystore $keyStore -storepass $storepass -noprompt -file $customCACert
-  keytool -importkeystore -srckeystore $defaultJavaKeyStoreFile -destkeystore $keyStore -srcstorepass $defaultJavaKeyStorePass -deststorepass $storepass
+  keytool -importkeystore -srckeystore $defaultJavaKeyStoreFile -destkeystore $keyStore -srcstorepass $defaultJavaKeyStorePass -deststorepass $storepass -noprompt
 fi
 
 if [ -d /etc/apache2 ]
@@ -217,5 +217,4 @@ then
 else
   config_httpd_conf $publicIp $hostName
 fi
-
 
