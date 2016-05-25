@@ -145,10 +145,10 @@ public class UserVmJoinDaoImpl extends GenericDaoBase<UserVmJoinVO, Long> implem
         userVmResponse.setZoneId(userVm.getDataCenterUuid());
         userVmResponse.setZoneName(userVm.getDataCenterName());
         if (view == ResponseView.Full) {
-            userVmResponse.setInstanceName(userVm.getInstanceName());
             userVmResponse.setHostId(userVm.getHostUuid());
-            userVmResponse.setHostName(userVm.getHostName());
         }
+        userVmResponse.setInstanceName(userVm.getInstanceName());
+        userVmResponse.setHostName(userVm.getHostName());
 
         if (details.contains(VMDetails.all) || details.contains(VMDetails.tmpl)) {
             userVmResponse.setTemplateId(userVm.getTemplateUuid());
