@@ -41,9 +41,6 @@ public class StaticRouteVO implements StaticRoute {
     @Column(name = "uuid")
     String uuid;
 
-    @Column(name = "vpc_gateway_id", updatable = false)
-    long vpcGatewayId;
-
     @Column(name = "cidr")
     private String cidr;
 
@@ -71,14 +68,12 @@ public class StaticRouteVO implements StaticRoute {
     }
 
     /**
-     * @param vpcGatewayId
      * @param cidr
      * @param vpcId
      * @param accountId TODO
      * @param domainId TODO
      */
-    public StaticRouteVO(long vpcGatewayId, String cidr, Long vpcId, long accountId, long domainId, String gwIpAddress) {
-        this.vpcGatewayId = vpcGatewayId;
+    public StaticRouteVO(String cidr, Long vpcId, long accountId, long domainId, String gwIpAddress) {
         this.cidr = cidr;
         state = State.Staged;
         this.vpcId = vpcId;
@@ -86,11 +81,6 @@ public class StaticRouteVO implements StaticRoute {
         this.domainId = domainId;
         this.gwIpAddress = gwIpAddress;
         uuid = UUID.randomUUID().toString();
-    }
-
-    @Override
-    public long getVpcGatewayId() {
-        return vpcGatewayId;
     }
 
     @Override
@@ -140,7 +130,7 @@ public class StaticRouteVO implements StaticRoute {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder("StaticRoute[");
-        buf.append(uuid).append("|").append(cidr).append("|").append(vpcGatewayId).append("]");
+        buf.append(uuid).append("|").append(cidr).append("]");
         return buf.toString();
     }
 

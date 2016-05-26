@@ -2117,7 +2117,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     return Transaction.execute(new TransactionCallbackWithException<StaticRouteVO, NetworkRuleConflictException>() {
       @Override
       public StaticRouteVO doInTransaction(final TransactionStatus status) throws NetworkRuleConflictException {
-        StaticRouteVO newRoute = new StaticRouteVO(0l, cidr, vpc.getId(), vpc.getAccountId(),
+        StaticRouteVO newRoute = new StaticRouteVO(cidr, vpc.getId(), vpc.getAccountId(),
             vpc.getDomainId(), gwIpAddress);
         s_logger.debug("Adding static route " + newRoute);
         newRoute = _staticRouteDao.persist(newRoute);
@@ -2181,7 +2181,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
 
     sb.and("id", sb.entity().getId(), SearchCriteria.Op.EQ);
     sb.and("vpcId", sb.entity().getVpcId(), SearchCriteria.Op.EQ);
-    sb.and("vpcGatewayId", sb.entity().getVpcGatewayId(), SearchCriteria.Op.EQ);
+    sb.and("gwIpAddress", sb.entity().getGwIpAddress(), SearchCriteria.Op.EQ);
 
     if (tags != null && !tags.isEmpty()) {
       final SearchBuilder<ResourceTagVO> tagSearch = _resourceTagDao.createSearchBuilder();
