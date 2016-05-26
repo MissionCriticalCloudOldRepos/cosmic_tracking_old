@@ -25,6 +25,7 @@ import os.path
 import re
 import shutil
 from netaddr import *
+from subprocess import check_output
 from pprint import pprint
 
 PUBLIC_INTERFACES = {"router" : "eth2", "vpcrouter" : "eth1"}
@@ -206,6 +207,11 @@ def execute2(command):
     p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     p.wait()
     return p
+
+def get_output_of_command(command):
+    """ Execute command """
+    logging.debug("Executing command and returning output: %s" % command)
+    return check_output(command,shell=True)
 
 
 def service(name, op):
