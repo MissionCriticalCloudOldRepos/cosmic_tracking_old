@@ -2122,7 +2122,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
         s_logger.debug("Adding static route " + newRoute);
         newRoute = _staticRouteDao.persist(newRoute);
 
-        detectRoutesConflict(newRoute);
+        detectDuplicateCidr(newRoute);
 
         if (!_staticRouteDao.setStateToAdd(newRoute)) {
           throw new CloudRuntimeException("Unable to update the state to add for " + newRoute);
@@ -2224,21 +2224,16 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     return new Pair<List<? extends StaticRoute>, Integer>(result.first(), result.second());
   }
 
-  protected void detectRoutesConflict(final StaticRoute newRoute) throws NetworkRuleConflictException {
-    // Multiple private gateways can exist within Vpc. Check for conflicts
-    // for all static routes in Vpc
-    // and not just the gateway
+  private void detectDuplicateCidr(final StaticRoute newRoute) throws NetworkRuleConflictException {
     final List<? extends StaticRoute> routes = _staticRouteDao.listByVpcIdAndNotRevoked(newRoute.getVpcId());
     assert routes.size() >= 1 : "For static routes, we now always first persist the route and then check for "
-        + "network conflicts so we should at least have one rule at this point.";
-
+            + "network conflicts so we should at least have one rule at this point.";
     for (final StaticRoute route : routes) {
       if (route.getId() == newRoute.getId()) {
         continue; // Skips my own route.
       }
-
-      if (NetUtils.isNetworksOverlap(route.getCidr(), newRoute.getCidr())) {
-        throw new NetworkRuleConflictException("New static route cidr conflicts with existing route " + route);
+      if (newRoute.getCidr().equals(route.getCidr())) {
+        throw new NetworkRuleConflictException("New static route cidr already exists in VPC. UUID of existing static route is " + route.getUuid());
       }
     }
   }
