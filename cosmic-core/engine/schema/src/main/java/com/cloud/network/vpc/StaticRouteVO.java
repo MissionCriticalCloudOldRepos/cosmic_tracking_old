@@ -60,6 +60,9 @@ public class StaticRouteVO implements StaticRoute {
     @Column(name = "domain_id")
     long domainId;
 
+    @Column(name = "gateway_ip_address")
+    String gwIpAddress;
+
     @Column(name = GenericDao.CREATED_COLUMN)
     Date created;
 
@@ -74,14 +77,14 @@ public class StaticRouteVO implements StaticRoute {
      * @param accountId TODO
      * @param domainId TODO
      */
-    public StaticRouteVO(long vpcGatewayId, String cidr, Long vpcId, long accountId, long domainId) {
-        super();
+    public StaticRouteVO(long vpcGatewayId, String cidr, Long vpcId, long accountId, long domainId, String gwIpAddress) {
         this.vpcGatewayId = vpcGatewayId;
         this.cidr = cidr;
         state = State.Staged;
         this.vpcId = vpcId;
         this.accountId = accountId;
         this.domainId = domainId;
+        this.gwIpAddress = gwIpAddress;
         uuid = UUID.randomUUID().toString();
     }
 
@@ -123,6 +126,11 @@ public class StaticRouteVO implements StaticRoute {
     @Override
     public long getDomainId() {
         return domainId;
+    }
+
+    @Override
+    public String getGwIpAddress() {
+        return gwIpAddress;
     }
 
     public void setState(State state) {

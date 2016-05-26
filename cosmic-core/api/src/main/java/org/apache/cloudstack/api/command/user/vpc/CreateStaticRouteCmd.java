@@ -16,20 +16,6 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpc;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiCommandJobType;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.BaseAsyncCmd;
-import org.apache.cloudstack.api.BaseAsyncCreateCmd;
-import org.apache.cloudstack.api.Parameter;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.response.PrivateGatewayResponse;
-import org.apache.cloudstack.api.response.StaticRouteResponse;
-import org.apache.cloudstack.context.CallContext;
-
 import com.cloud.event.EventTypes;
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.exception.NetworkRuleConflictException;
@@ -38,6 +24,18 @@ import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.vpc.StaticRoute;
 import com.cloud.network.vpc.Vpc;
 import com.cloud.network.vpc.VpcGateway;
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiCommandJobType;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseAsyncCmd;
+import org.apache.cloudstack.api.BaseAsyncCreateCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.response.StaticRouteResponse;
+import org.apache.cloudstack.api.response.VpcResponse;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.log4j.Logger;
 
 @APICommand(name = "createStaticRoute", description = "Creates a static route", responseObject = StaticRouteResponse.class, entityType = {StaticRoute.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
@@ -45,25 +43,32 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
     private static final String s_name = "createstaticrouteresponse";
     public static final Logger s_logger = Logger.getLogger(CreateStaticRouteCmd.class.getName());
 
-    @Parameter(name = ApiConstants.GATEWAY_ID,
+    @Parameter(name = ApiConstants.VPC_ID,
                type = CommandType.UUID,
-               entityType = PrivateGatewayResponse.class,
+               entityType = VpcResponse.class,
                required = true,
-               description = "the gateway id we are creating static route for")
-    private Long gatewayId;
+               description = "The VPC id we are creating static route for.")
+    private Long vpcId;
 
     @Parameter(name = ApiConstants.CIDR, required = true, type = CommandType.STRING, description = "static route cidr")
     private String cidr;
 
+    @Parameter(name = ApiConstants.GATEWAY, required = true, type = CommandType.STRING, description = "static route gateway ip address")
+    private String gwIpAddress;
+
     /////////////////////////////////////////////////////
     /////////////////// Accessors ///////////////////////
     /////////////////////////////////////////////////////
-    public long getGatewayId() {
-        return gatewayId;
+    public Long getVpcId() {
+        return vpcId;
     }
 
     public String getCidr() {
         return cidr;
+    }
+
+    public String getGwIpAddress() {
+        return gwIpAddress;
     }
 
     /////////////////////////////////////////////////////
@@ -72,7 +77,7 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
     @Override
     public void create() throws ResourceAllocationException {
         try {
-            StaticRoute result = _vpcService.createStaticRoute(getGatewayId(), getCidr());
+            StaticRoute result = _vpcService.createStaticRoute(getVpcId(), getCidr(), getGwIpAddress());
             setEntityId(result.getId());
             setEntityUuid(result.getUuid());
         } catch (NetworkRuleConflictException ex) {
@@ -122,7 +127,7 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
 
     @Override
     public long getEntityOwnerId() {
-        VpcGateway gateway = _entityMgr.findById(VpcGateway.class, gatewayId);
+        VpcGateway gateway = _entityMgr.findById(VpcGateway.class, vpcId);
         if (gateway == null) {
             throw new InvalidParameterValueException("Invalid gateway id is specified");
         }
@@ -136,7 +141,7 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
 
     @Override
     public Long getSyncObjId() {
-        VpcGateway gateway = _entityMgr.findById(VpcGateway.class, gatewayId);
+        VpcGateway gateway = _entityMgr.findById(VpcGateway.class, vpcId);
         if (gateway == null) {
             throw new InvalidParameterValueException("Invalid id is specified for the gateway");
         }

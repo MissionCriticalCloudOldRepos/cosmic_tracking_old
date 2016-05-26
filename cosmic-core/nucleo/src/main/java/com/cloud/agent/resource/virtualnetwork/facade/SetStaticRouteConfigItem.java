@@ -30,7 +30,6 @@ import com.cloud.agent.resource.virtualnetwork.model.ConfigBase;
 import com.cloud.agent.resource.virtualnetwork.model.StaticRoute;
 import com.cloud.agent.resource.virtualnetwork.model.StaticRoutes;
 import com.cloud.network.vpc.StaticRouteProfile;
-import com.cloud.utils.net.NetUtils;
 
 public class SetStaticRouteConfigItem extends AbstractConfigItemFacade {
 
@@ -41,12 +40,9 @@ public class SetStaticRouteConfigItem extends AbstractConfigItemFacade {
         final LinkedList<StaticRoute> routes = new LinkedList<>();
 
         for (final StaticRouteProfile profile : command.getStaticRoutes()) {
-            final String cidr = profile.getCidr();
-            final String subnet = NetUtils.getCidrSubNet(cidr);
-            final String cidrSize = cidr.split("\\/")[1];
             final boolean keep = profile.getState() == com.cloud.network.vpc.StaticRoute.State.Active || profile.getState() == com.cloud.network.vpc.StaticRoute.State.Add;
 
-            routes.add(new StaticRoute(!keep, profile.getIp4Address(), profile.getGateway(), subnet + "/" + cidrSize));
+            routes.add(new StaticRoute(!keep, profile.getIp4Address(), profile.getCidr()));
         }
 
         return generateConfigItems(new StaticRoutes(routes));

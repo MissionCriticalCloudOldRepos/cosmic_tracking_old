@@ -26,12 +26,9 @@ public class StaticRouteProfile implements StaticRoute {
     private long gatewayId;
     private StaticRoute.State state;
     private long vpcId;
-    String vlanTag;
-    String gateway;
-    String netmask;
     String ipAddress;
 
-    public StaticRouteProfile(StaticRoute staticRoute, VpcGateway gateway) {
+    public StaticRouteProfile(StaticRoute staticRoute) {
         id = staticRoute.getId();
         uuid = staticRoute.getUuid();
         targetCidr = staticRoute.getCidr();
@@ -40,10 +37,7 @@ public class StaticRouteProfile implements StaticRoute {
         gatewayId = staticRoute.getVpcGatewayId();
         state = staticRoute.getState();
         vpcId = staticRoute.getVpcId();
-        vlanTag = gateway.getBroadcastUri();
-        this.gateway = gateway.getGateway();
-        netmask = gateway.getNetmask();
-        ipAddress = gateway.getIp4Address();
+        ipAddress = staticRoute.getGwIpAddress();
     }
 
     @Override
@@ -86,20 +80,12 @@ public class StaticRouteProfile implements StaticRoute {
         return uuid;
     }
 
-    public String getVlanTag() {
-        return vlanTag;
+    public String getGwIpAddress() {
+        return ipAddress;
     }
 
     public String getIp4Address() {
         return ipAddress;
-    }
-
-    public String getGateway() {
-        return gateway;
-    }
-
-    public String getNetmask() {
-        return netmask;
     }
 
     @Override

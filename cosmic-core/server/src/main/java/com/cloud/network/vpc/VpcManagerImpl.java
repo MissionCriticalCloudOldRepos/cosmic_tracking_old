@@ -1984,14 +1984,13 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       final boolean updateRoutesInDB) throws ResourceUnavailableException {
     final boolean success = true;
     final List<StaticRouteProfile> staticRouteProfiles = new ArrayList<StaticRouteProfile>(routes.size());
-    final Map<Long, VpcGateway> gatewayMap = new HashMap<Long, VpcGateway>();
+
+    final Map<String, String> cidrGwIpMap = new HashMap<>();
+
     for (final StaticRoute route : routes) {
-      VpcGateway gateway = gatewayMap.get(route.getVpcGatewayId());
-      if (gateway == null) {
-        gateway = _vpcGatewayDao.findById(route.getVpcGatewayId());
-        gatewayMap.put(gateway.getId(), gateway);
-      }
-      staticRouteProfiles.add(new StaticRouteProfile(route, gateway));
+      cidrGwIpMap.put(route.getCidr(), route.getGwIpAddress());
+
+      staticRouteProfiles.add(new StaticRouteProfile(route));
     }
     if (!applyStaticRoutes(staticRouteProfiles)) {
       s_logger.warn("Routes are not completely applied");
@@ -2084,21 +2083,10 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   @DB
   @ActionEvent(eventType = EventTypes.EVENT_STATIC_ROUTE_CREATE, eventDescription = "creating static route",
   create = true)
-  public StaticRoute createStaticRoute(final long gatewayId, final String cidr) throws NetworkRuleConflictException {
+  public StaticRoute createStaticRoute(final long vpcId, final String cidr, final String gwIpAddress) throws NetworkRuleConflictException {
     final Account caller = CallContext.current().getCallingAccount();
 
-    // parameters validation
-    final VpcGateway gateway = _vpcGatewayDao.findById(gatewayId);
-    if (gateway == null) {
-      throw new InvalidParameterValueException("Invalid gateway id is given");
-    }
-
-    if (gateway.getState() != VpcGateway.State.Ready) {
-      throw new InvalidParameterValueException(
-          "Gateway is not in the " + VpcGateway.State.Ready + " state: " + gateway.getState());
-    }
-
-    final Vpc vpc = getActiveVpc(gateway.getVpcId());
+    final Vpc vpc = getActiveVpc(vpcId);
     if (vpc == null) {
       throw new InvalidParameterValueException("Can't add static route to VPC that is being deleted");
     }
@@ -2129,8 +2117,8 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     return Transaction.execute(new TransactionCallbackWithException<StaticRouteVO, NetworkRuleConflictException>() {
       @Override
       public StaticRouteVO doInTransaction(final TransactionStatus status) throws NetworkRuleConflictException {
-        StaticRouteVO newRoute = new StaticRouteVO(gateway.getId(), cidr, vpc.getId(), vpc.getAccountId(),
-            vpc.getDomainId());
+        StaticRouteVO newRoute = new StaticRouteVO(0l, cidr, vpc.getId(), vpc.getAccountId(),
+            vpc.getDomainId(), gwIpAddress);
         s_logger.debug("Adding static route " + newRoute);
         newRoute = _staticRouteDao.persist(newRoute);
 

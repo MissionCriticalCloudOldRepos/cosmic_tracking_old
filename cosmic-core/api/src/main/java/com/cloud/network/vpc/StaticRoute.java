@@ -48,4 +48,6 @@ public interface StaticRoute extends ControlledEntity, Identity, InternalIdentit
      * @return
      */
     Long getVpcId();
+
+    String getGwIpAddress();
 }
