@@ -42,12 +42,12 @@ public class StaticRouteResponse extends BaseResponse implements ControlledEntit
     @Param(description = "VPC the static route belongs to")
     private String vpcId;
 
-    @SerializedName(ApiConstants.GATEWAY_ID)
-    @Param(description = "VPC gateway the route is created for")
-    private String gatewayId;
+    @SerializedName(ApiConstants.IP_ADDRESS)
+    @Param(description = "Gateway ip address the CIDR is routed to")
+    private String gwIpAddress;
 
     @SerializedName(ApiConstants.CIDR)
-    @Param(description = "static route CIDR")
+    @Param(description = "The CIDR to route")
     private String cidr;
 
     @SerializedName(ApiConstants.ACCOUNT)
@@ -91,8 +91,8 @@ public class StaticRouteResponse extends BaseResponse implements ControlledEntit
         this.vpcId = vpcId;
     }
 
-    public void setGatewayId(String gatewayId) {
-        this.gatewayId = gatewayId;
+    public void setGwIpAddress(String gwIpAddress) {
+        this.gwIpAddress = gwIpAddress;
     }
 
     public void setCidr(String cidr) {

@@ -2154,7 +2154,8 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   @Override
   public Pair<List<? extends StaticRoute>, Integer> listStaticRoutes(final ListStaticRoutesCmd cmd) {
     final Long id = cmd.getId();
-    final Long gatewayId = cmd.getGatewayId();
+    final String gwIpAddress = cmd.getGwIpAddress();
+    final String cidr = cmd.getCidr();
     final Long vpcId = cmd.getVpcId();
     Long domainId = cmd.getDomainId();
     Boolean isRecursive = cmd.isRecursive();
@@ -2182,6 +2183,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     sb.and("id", sb.entity().getId(), SearchCriteria.Op.EQ);
     sb.and("vpcId", sb.entity().getVpcId(), SearchCriteria.Op.EQ);
     sb.and("gwIpAddress", sb.entity().getGwIpAddress(), SearchCriteria.Op.EQ);
+    sb.and("cidr", sb.entity().getCidr(), SearchCriteria.Op.EQ);
 
     if (tags != null && !tags.isEmpty()) {
       final SearchBuilder<ResourceTagVO> tagSearch = _resourceTagDao.createSearchBuilder();
@@ -2206,8 +2208,12 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       sc.addAnd("vpcId", Op.EQ, vpcId);
     }
 
-    if (gatewayId != null) {
-      sc.addAnd("vpcGatewayId", Op.EQ, gatewayId);
+    if (gwIpAddress != null) {
+      sc.addAnd("gwIpAddress", Op.EQ, gwIpAddress);
+    }
+
+    if (cidr != null) {
+      sc.addAnd("cidr", Op.EQ, cidr);
     }
 
     if (tags != null && !tags.isEmpty()) {

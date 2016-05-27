@@ -45,8 +45,11 @@ public class ListStaticRoutesCmd extends BaseListTaggedResourcesCmd {
     @Parameter(name = ApiConstants.VPC_ID, type = CommandType.UUID, entityType = VpcResponse.class, description = "list static routes by vpc id")
     private Long vpcId;
 
-    @Parameter(name = ApiConstants.GATEWAY_ID, type = CommandType.UUID, entityType = PrivateGatewayResponse.class, description = "list static routes by gateway id")
-    private Long gatewayId;
+    @Parameter(name = ApiConstants.IP_ADDRESS, type = CommandType.STRING, entityType = VpcResponse.class, description = "list static routes by gateway ip address")
+    private String gwIpAddress;
+
+    @Parameter(name = ApiConstants.CIDR, type = CommandType.STRING, entityType = VpcResponse.class, description = "list static routes by cidr")
+    private String cidr;
 
     public Long getId() {
         return id;
@@ -56,8 +59,12 @@ public class ListStaticRoutesCmd extends BaseListTaggedResourcesCmd {
         return vpcId;
     }
 
-    public Long getGatewayId() {
-        return gatewayId;
+    public String getGwIpAddress() {
+        return gwIpAddress;
+    }
+
+    public String getCidr() {
+        return cidr;
     }
 
     /////////////////////////////////////////////////////
