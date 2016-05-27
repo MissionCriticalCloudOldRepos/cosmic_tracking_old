@@ -17,11 +17,13 @@
 package org.apache.cloudstack.api.command.user.vpc;
 
 import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.exception.NetworkRuleConflictException;
 import com.cloud.exception.ResourceAllocationException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.vpc.StaticRoute;
 import com.cloud.network.vpc.Vpc;
+import com.cloud.network.vpc.VpcGateway;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -30,6 +32,7 @@ import org.apache.cloudstack.api.BaseAsyncCmd;
 import org.apache.cloudstack.api.BaseAsyncCreateCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.response.PrivateGatewayResponse;
 import org.apache.cloudstack.api.response.StaticRouteResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
 import org.apache.cloudstack.context.CallContext;
@@ -44,20 +47,47 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
     @Parameter(name = ApiConstants.VPC_ID,
                type = CommandType.UUID,
                entityType = VpcResponse.class,
-               required = true,
                description = "The VPC id we are creating static route for.")
     private Long vpcId;
 
     @Parameter(name = ApiConstants.CIDR, required = true, type = CommandType.STRING, description = "static route cidr")
     private String cidr;
 
-    @Parameter(name = ApiConstants.IP_ADDRESS, required = true, type = CommandType.STRING, description = "static route gateway ip address")
+    @Parameter(name = ApiConstants.IP_ADDRESS, type = CommandType.STRING, description = "static route gateway ip address")
     private String gwIpAddress;
+
+    @Parameter(name = ApiConstants.GATEWAY_ID,
+            type = CommandType.UUID,
+            entityType = PrivateGatewayResponse.class,
+            description = "The private gateway id to get the ipaddress from (DEPRECATED!).")
+    private Long gatewayId;
+
+    // Compatibility with < 5.2
+    private void Compatibility() {
+        if (getGatewayId() != null) {
+            VpcGateway gateway = _vpcService.getVpcPrivateGateway(getGatewayId());
+            gwIpAddress = gateway.getGateway();
+            vpcId = gateway.getVpcId();
+        }
+        CheckParameters();
+    }
+
+    private void CheckParameters() throws InvalidParameterValueException {
+        if (vpcId == null) {
+            throw new InvalidParameterValueException(
+                    "VpcId should not be empty. Either specify VpcId (recommended) or specify gatewayId (deprecated).");
+        }
+        if (gwIpAddress == null) {
+            throw new InvalidParameterValueException(
+                    "Parameter nexthop should not be empty. Either specify nexthop ip address (recommended) or specify gatewayId (deprecated).");
+        }
+    }
 
     /////////////////////////////////////////////////////
     /////////////////// Accessors ///////////////////////
     /////////////////////////////////////////////////////
     public Long getVpcId() {
+        Compatibility();
         return vpcId;
     }
 
@@ -66,7 +96,12 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
     }
 
     public String getGwIpAddress() {
+        Compatibility();
         return gwIpAddress;
+    }
+
+    public Long getGatewayId() {
+        return gatewayId;
     }
 
     /////////////////////////////////////////////////////
@@ -125,7 +160,7 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
 
     @Override
     public long getEntityOwnerId() {
-        return _entityMgr.findById(Vpc.class, vpcId).getAccountId();
+        return _entityMgr.findById(Vpc.class, getVpcId()).getAccountId();
     }
 
     @Override
