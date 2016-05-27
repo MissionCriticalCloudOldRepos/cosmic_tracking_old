@@ -2096,6 +2096,10 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       throw new InvalidParameterValueException("Invalid format for cidr " + cidr);
     }
 
+    if (!NetUtils.isValidIp(gwIpAddress)) {
+      throw new InvalidParameterValueException("Invalid format for ip address " + gwIpAddress);
+    }
+
     // validate the cidr
     // 1) CIDR should be outside of VPC cidr for guest networks
     if (NetUtils.isNetworksOverlap(vpc.getCidr(), cidr)) {
