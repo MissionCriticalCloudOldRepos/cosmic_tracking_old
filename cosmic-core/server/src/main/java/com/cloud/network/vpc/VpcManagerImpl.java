@@ -2100,19 +2100,13 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       throw new InvalidParameterValueException("Invalid format for ip address " + gwIpAddress);
     }
 
-    // validate the cidr
-    // 1) CIDR should be outside of VPC cidr for guest networks
-    if (NetUtils.isNetworksOverlap(vpc.getCidr(), cidr)) {
-      throw new InvalidParameterValueException("CIDR should be outside of VPC cidr " + vpc.getCidr());
-    }
-
-    // 2) CIDR should be outside of link-local cidr
-    if (NetUtils.isNetworksOverlap(vpc.getCidr(), NetUtils.getLinkLocalCIDR())) {
+    // CIDR should be outside of link-local cidr
+    if (NetUtils.isNetworksOverlap(cidr, NetUtils.getLinkLocalCIDR())) {
       throw new InvalidParameterValueException(
           "CIDR should be outside of link local cidr " + NetUtils.getLinkLocalCIDR());
     }
 
-    // 3) Verify against blacklisted routes
+    // Verify against blacklisted routes
     if (isCidrBlacklisted(cidr, vpc.getZoneId())) {
       throw new InvalidParameterValueException(
           "The static gateway cidr overlaps with one of the blacklisted routes of the zone the VPC belongs to");
