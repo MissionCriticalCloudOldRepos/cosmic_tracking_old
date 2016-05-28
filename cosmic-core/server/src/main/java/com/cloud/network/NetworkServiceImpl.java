@@ -16,6 +16,8 @@
 // under the License.
 package com.cloud.network;
 
+import com.cloud.network.vpc.StaticRoute;
+import com.cloud.network.vpc.dao.StaticRouteDao;
 import org.apache.cloudstack.acl.ControlledEntity.ACLType;
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -311,6 +313,8 @@ public class NetworkServiceImpl extends ManagerBase implements  NetworkService {
   @Inject
   LoadBalancerVMMapDao _lbVmMapDao;
 
+  @Inject
+  StaticRouteDao _staticRouteDao;
   @Inject
   LoadBalancingRulesService _lbService;
 
@@ -1848,6 +1852,21 @@ public class NetworkServiceImpl extends ManagerBase implements  NetworkService {
 
     if (forced && !_accountMgr.isRootAdmin(caller.getId())) {
       throw new InvalidParameterValueException("Delete network with 'forced' option can only be called by root admins");
+    }
+
+    // VPC networks should be checked for static routes before deletion
+    if (network.getVpcId() != null) {
+      // don't allow to remove network tier when there are static routes pointing to an ipaddress in the tier CIDR.
+      final List<? extends StaticRoute> routes = _staticRouteDao.listByVpcIdAndNotRevoked(network.getVpcId());
+
+      for (final StaticRoute route : routes) {
+        if (NetUtils.isIpWithtInCidrRange(route.getGwIpAddress(), network.getCidr())) {
+          throw new CloudRuntimeException("Can't delete network " + network.getName() + " as it has static routes " +
+                  "applied pointing to the CIDR of the network (" + network.getCidr() + "). Example static route: " +
+                  route.getCidr() + " to " + route.getGwIpAddress() + ". Please remove all the routes pointing to the " +
+                  "network tier CIDR before attempting to delete it.");
+        }
+      }
     }
 
     final User callerUser = _accountMgr.getActiveUser(CallContext.current().getCallingUserId());
