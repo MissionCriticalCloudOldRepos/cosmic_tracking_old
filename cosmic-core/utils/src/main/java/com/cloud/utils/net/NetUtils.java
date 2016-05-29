@@ -1535,6 +1535,9 @@ public class NetUtils {
         if (!isValidCIDR(cidr)) {
             return false;
         }
+        if (cidr.equals("0.0.0.0/0")) {
+            return true;
+        }
 
         // check if the gatewayip is the part of the ip range being added.
         // RFC 3021 - 31-Bit Prefixes on IPv4 Point-to-Point Links
