@@ -719,8 +719,6 @@ class TestRebootRouter(cloudstackTestCase):
         timeout = self.services["timeout"]
 
         while True:
-            time.sleep(self.services["sleep"])
-
             # Ensure that VM is in stopped state
             list_vm_response = list_virtual_machines(
                 self.apiclient,
@@ -739,6 +737,7 @@ class TestRebootRouter(cloudstackTestCase):
                     "Failed to start VM (ID: %s) in change service offering" %
                     vm.id)
 
+            time.sleep(self.services["sleep"])
             timeout = timeout - 1
 
         # we should be able to SSH after successful reboot
@@ -750,7 +749,7 @@ class TestRebootRouter(cloudstackTestCase):
                 self.services["natrule"]["publicport"],
                 self.vm_1.username,
                 self.vm_1.password,
-                retries=5
+                retries=20
             )
         except Exception as e:
             self.fail(
