@@ -668,6 +668,25 @@ class TestRebootRouter(cloudstackTestCase):
     def test_reboot_router(self):
         """Test for reboot router"""
 
+        # Before restart validate the VM can be accessed;
+        #    if the router restarts while the VM has not finished starting,
+        #    the VM will fail to get an IP from the router
+        try:
+            logger.debug("SSH into VM (ID : %s ) before reboot of router" % self.vm_1.id)
+
+            SshClient(
+                self.public_ip.ipaddress.ipaddress,
+                self.services["natrule"]["publicport"],
+                self.vm_1.username,
+                self.vm_1.password,
+                retries=20
+            )
+        except Exception as e:
+            self.fail(
+                "SSH Access failed for %s: %si, before reboot of Router" %
+                (self.public_ip.ipaddress.ipaddress, e))
+
+
         # Validate the Following
         # 1. Post restart PF and LB rules should still function
         # 2. verify if the ssh into the virtual machine
