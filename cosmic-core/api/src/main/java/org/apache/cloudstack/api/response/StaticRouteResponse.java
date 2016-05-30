@@ -46,7 +46,7 @@ public class StaticRouteResponse extends BaseResponse implements ControlledEntit
     @Param(description = "VPC gateway the route is created for")
     private String gatewayId;
 
-    @SerializedName(ApiConstants.IP_ADDRESS)
+    @SerializedName(ApiConstants.NEXT_HOP)
     @Param(description = "Gateway ip address the CIDR is routed to")
     private String gwIpAddress;
 

@@ -50,7 +50,7 @@ public class ListStaticRoutesCmd extends BaseListTaggedResourcesCmd {
     @Parameter(name = ApiConstants.GATEWAY_ID, type = CommandType.UUID, entityType = PrivateGatewayResponse.class, description = "list static routes by gateway id (DEPRECATED!)")
     private Long gatewayId;
 
-    @Parameter(name = ApiConstants.IP_ADDRESS, type = CommandType.STRING, entityType = VpcResponse.class, description = "list static routes by gateway ip address")
+    @Parameter(name = ApiConstants.NEXT_HOP, type = CommandType.STRING, entityType = VpcResponse.class, description = "list static routes by nexthop ip address")
     private String gwIpAddress;
 
     @Parameter(name = ApiConstants.CIDR, type = CommandType.STRING, entityType = VpcResponse.class, description = "list static routes by cidr")

@@ -50,10 +50,10 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
                description = "The VPC id we are creating static route for.")
     private Long vpcId;
 
-    @Parameter(name = ApiConstants.CIDR, required = true, type = CommandType.STRING, description = "static route cidr")
+    @Parameter(name = ApiConstants.CIDR, required = true, type = CommandType.STRING, description = "The CIDR to create the static route for")
     private String cidr;
 
-    @Parameter(name = ApiConstants.IP_ADDRESS, type = CommandType.STRING, description = "static route gateway ip address")
+    @Parameter(name = ApiConstants.NEXT_HOP, type = CommandType.STRING, description = "Ip address of the nexthop to route the CIDR to")
     private String gwIpAddress;
 
     @Parameter(name = ApiConstants.GATEWAY_ID,
