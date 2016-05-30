@@ -17,6 +17,7 @@ CREATE TABLE `cloud`.`static_routes` (
   `uuid` varchar(40),
   `cidr` varchar(18) COMMENT 'cidr for the static route',
   `gateway_ip_address` varchar(45) COMMENT 'gateway ip address for the static route',
+  `metric` INT(10) DEFAULT 100 COMMENT 'metric value for the route',
   `state` char(32) NOT NULL COMMENT 'current state of this rule',
   `vpc_id` bigint unsigned COMMENT 'vpc the firewall rule is associated with',
   `account_id` bigint unsigned NOT NULL COMMENT 'owner id',
