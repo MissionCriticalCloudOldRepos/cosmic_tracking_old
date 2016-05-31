@@ -290,8 +290,14 @@ public class VpcRouterDeploymentDefinitionTest extends RouterDeploymentDefinitio
         // Execute
         deployment.findSourceNatIP();
 
-        // Assert
-        assertEquals("SourceNatIp returned by the VpcManager was not correctly set", publicIp, deployment.sourceNatIp);
+        final VpcRouterDeploymentDefinition vpcDeployment = (VpcRouterDeploymentDefinition) deployment;
+        if (vpcDeployment.hasSourceNatService()) {
+            // Assert an ip address when we do have sourceNat service
+            assertEquals("SourceNatIp returned by the VpcManager was not correctly set", publicIp, deployment.sourceNatIp);
+        } else {
+            // Assert null when we have no sourceNat service
+            assertEquals("SourceNatIp returned by the VpcManager was not correctly set", null, deployment.sourceNatIp);
+        }
     }
 
     @Test
