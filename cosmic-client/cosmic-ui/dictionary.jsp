@@ -460,6 +460,7 @@ dictionary = {
 'label.cidr.list': '<fmt:message key="label.cidr.list" />',
 'label.CIDR.list': '<fmt:message key="label.CIDR.list" />',
 'label.CIDR.of.destination.network': '<fmt:message key="label.CIDR.of.destination.network" />',
+'label.nexthop': '<fmt:message key="label.nexthop" />',
 'label.clean.up': '<fmt:message key="label.clean.up" />',
 'label.make.redundant': '<fmt:message key="label.make.redundant" />',
 'label.clear.list': '<fmt:message key="label.clear.list" />',
