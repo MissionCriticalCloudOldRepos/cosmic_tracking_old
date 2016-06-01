@@ -92,13 +92,6 @@ public class StaticRouteDaoImpl extends GenericDaoBase<StaticRouteVO, Long> impl
     }
 
     @Override
-    public long countRoutesByGateway(long gatewayId) {
-        SearchCriteria<Long> sc = RoutesByGatewayCount.create();
-        sc.setParameters("gatewayId", gatewayId);
-        return customSearch(sc, null).get(0);
-    }
-
-    @Override
     @DB
     public boolean remove(Long id) {
         TransactionLegacy txn = TransactionLegacy.currentTxn();
