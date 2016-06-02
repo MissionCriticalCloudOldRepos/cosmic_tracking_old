@@ -22,19 +22,17 @@ package com.cloud.agent.resource.virtualnetwork.model;
 public class StaticRoute {
     private boolean revoke;
     private String ipAddress;
-    private String gateway;
-    private String network;
+    private String cidr;
 
     public StaticRoute() {
         // Empty constructor for (de)serialization
     }
 
-    public StaticRoute(boolean revoke, String ipAddress, String gateway, String network) {
+    public StaticRoute(boolean revoke, String ipAddress, String cidr) {
         super();
         this.revoke = revoke;
         this.ipAddress = ipAddress;
-        this.gateway = gateway;
-        this.network = network;
+        this.cidr = cidr;
     }
 
     public boolean isRevoke() {
@@ -53,20 +51,12 @@ public class StaticRoute {
         this.ipAddress = ipAddress;
     }
 
-    public String getGateway() {
-        return gateway;
+    public String getCidr() {
+        return cidr;
     }
 
-    public void setGateway(String gateway) {
-        this.gateway = gateway;
-    }
-
-    public String getNetwork() {
-        return network;
-    }
-
-    public void setNetwork(String network) {
-        this.network = network;
+    public void setCidr(String cidr) {
+        this.cidr = cidr;
     }
 
 }

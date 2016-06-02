@@ -406,15 +406,14 @@ public class VpcVirtualNetworkApplianceManagerImpl extends VirtualNetworkApplian
 
             // 4) RE-APPLY ALL STATIC ROUTE RULES
             final List<? extends StaticRoute> routes = _staticRouteDao.listByVpcId(domainRouterVO.getVpcId());
-            final List<StaticRouteProfile> staticRouteProfiles = new ArrayList<StaticRouteProfile>(routes.size());
-            final Map<Long, VpcGateway> gatewayMap = new HashMap<Long, VpcGateway>();
+            final List<StaticRouteProfile> staticRouteProfiles = new ArrayList<>(routes.size());
+
+            final Map<String, String> cidrGwIpMap = new HashMap<>();
+
             for (final StaticRoute route : routes) {
-                VpcGateway gateway = gatewayMap.get(route.getVpcGatewayId());
-                if (gateway == null) {
-                    gateway = _entityMgr.findById(VpcGateway.class, route.getVpcGatewayId());
-                    gatewayMap.put(gateway.getId(), gateway);
-                }
-                staticRouteProfiles.add(new StaticRouteProfile(route, gateway));
+                cidrGwIpMap.put(route.getCidr(), route.getGwIpAddress());
+
+                staticRouteProfiles.add(new StaticRouteProfile(route));
             }
 
             s_logger.debug("Found " + staticRouteProfiles.size() + " static routes to apply as a part of vpc route " + domainRouterVO + " start");

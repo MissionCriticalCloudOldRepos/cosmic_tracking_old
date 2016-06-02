@@ -226,7 +226,7 @@ public interface VpcService {
      * @param cidr
      * @return
      */
-    public StaticRoute createStaticRoute(long gatewayId, String cidr) throws NetworkRuleConflictException;
+    public StaticRoute createStaticRoute(long vpcId, String cidr, String gwIpAddress) throws NetworkRuleConflictException;
 
     /**
      * Lists static routes based on parameters passed to the call

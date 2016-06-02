@@ -20,6 +20,6 @@ from pprint import pprint
 
 def merge(dbag, staticroutes):
     for route in staticroutes['routes']:
-        key = route['network']
+        key = route['cidr']
         dbag[key] = route
     return dbag

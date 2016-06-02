@@ -1832,12 +1832,17 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       Transaction.execute(new TransactionCallbackNoReturn() {
         @Override
         public void doInTransactionWithoutResult(final TransactionStatus status) {
-          // don't allow to remove gateway when there are static
-          // routes associated with it
-          final long routeCount = _staticRouteDao.countRoutesByGateway(gatewayVO.getId());
-          if (routeCount > 0) {
-            throw new CloudRuntimeException("Can't delete private gateway " + gatewayVO + " as it has " + routeCount
-                + " static routes applied. Remove the routes first");
+          // don't allow to remove gateway when there are static routes pointing to an ipaddress in the private gateway CIDR.
+          final List<? extends StaticRoute> routes = _staticRouteDao.listByVpcIdAndNotRevoked(gatewayVO.getVpcId());
+          String GatewayCidr = NetUtils.ipAndNetMaskToCidr(gatewayVO.getGateway(), gatewayVO.getNetmask());
+
+          for (final StaticRoute route : routes) {
+            if (NetUtils.isIpWithtInCidrRange(route.getGwIpAddress(), GatewayCidr)) {
+              throw new CloudRuntimeException("Can't delete private gateway " + gatewayVO + " as it has static routes " +
+                      "applied pointing to the CIDR of the gateway (" + GatewayCidr + "). Example static route: " +
+                      route.getCidr() + " to " + route.getGwIpAddress() + ". Please remove all the routes pointing to the " +
+                      "private gateway CIDR before attempting to delete it.");
+            }
           }
 
           gatewayVO.setState(VpcGateway.State.Deleting);
@@ -1984,14 +1989,13 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       final boolean updateRoutesInDB) throws ResourceUnavailableException {
     final boolean success = true;
     final List<StaticRouteProfile> staticRouteProfiles = new ArrayList<StaticRouteProfile>(routes.size());
-    final Map<Long, VpcGateway> gatewayMap = new HashMap<Long, VpcGateway>();
+
+    final Map<String, String> cidrGwIpMap = new HashMap<>();
+
     for (final StaticRoute route : routes) {
-      VpcGateway gateway = gatewayMap.get(route.getVpcGatewayId());
-      if (gateway == null) {
-        gateway = _vpcGatewayDao.findById(route.getVpcGatewayId());
-        gatewayMap.put(gateway.getId(), gateway);
-      }
-      staticRouteProfiles.add(new StaticRouteProfile(route, gateway));
+      cidrGwIpMap.put(route.getCidr(), route.getGwIpAddress());
+
+      staticRouteProfiles.add(new StaticRouteProfile(route));
     }
     if (!applyStaticRoutes(staticRouteProfiles)) {
       s_logger.warn("Routes are not completely applied");
@@ -2084,21 +2088,10 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   @DB
   @ActionEvent(eventType = EventTypes.EVENT_STATIC_ROUTE_CREATE, eventDescription = "creating static route",
   create = true)
-  public StaticRoute createStaticRoute(final long gatewayId, final String cidr) throws NetworkRuleConflictException {
+  public StaticRoute createStaticRoute(final long vpcId, final String cidr, final String gwIpAddress) throws NetworkRuleConflictException {
     final Account caller = CallContext.current().getCallingAccount();
 
-    // parameters validation
-    final VpcGateway gateway = _vpcGatewayDao.findById(gatewayId);
-    if (gateway == null) {
-      throw new InvalidParameterValueException("Invalid gateway id is given");
-    }
-
-    if (gateway.getState() != VpcGateway.State.Ready) {
-      throw new InvalidParameterValueException(
-          "Gateway is not in the " + VpcGateway.State.Ready + " state: " + gateway.getState());
-    }
-
-    final Vpc vpc = getActiveVpc(gateway.getVpcId());
+    final Vpc vpc = getActiveVpc(vpcId);
     if (vpc == null) {
       throw new InvalidParameterValueException("Can't add static route to VPC that is being deleted");
     }
@@ -2108,19 +2101,17 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       throw new InvalidParameterValueException("Invalid format for cidr " + cidr);
     }
 
-    // validate the cidr
-    // 1) CIDR should be outside of VPC cidr for guest networks
-    if (NetUtils.isNetworksOverlap(vpc.getCidr(), cidr)) {
-      throw new InvalidParameterValueException("CIDR should be outside of VPC cidr " + vpc.getCidr());
+    if (!NetUtils.isValidIp(gwIpAddress)) {
+      throw new InvalidParameterValueException("Invalid format for ip address " + gwIpAddress);
     }
 
-    // 2) CIDR should be outside of link-local cidr
-    if (NetUtils.isNetworksOverlap(vpc.getCidr(), NetUtils.getLinkLocalCIDR())) {
+    // CIDR should be outside of link-local cidr
+    if (NetUtils.isNetworksOverlap(cidr, NetUtils.getLinkLocalCIDR())) {
       throw new InvalidParameterValueException(
           "CIDR should be outside of link local cidr " + NetUtils.getLinkLocalCIDR());
     }
 
-    // 3) Verify against blacklisted routes
+    // Verify against blacklisted routes
     if (isCidrBlacklisted(cidr, vpc.getZoneId())) {
       throw new InvalidParameterValueException(
           "The static gateway cidr overlaps with one of the blacklisted routes of the zone the VPC belongs to");
@@ -2129,12 +2120,12 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     return Transaction.execute(new TransactionCallbackWithException<StaticRouteVO, NetworkRuleConflictException>() {
       @Override
       public StaticRouteVO doInTransaction(final TransactionStatus status) throws NetworkRuleConflictException {
-        StaticRouteVO newRoute = new StaticRouteVO(gateway.getId(), cidr, vpc.getId(), vpc.getAccountId(),
-            vpc.getDomainId());
+        StaticRouteVO newRoute = new StaticRouteVO(cidr, vpc.getId(), vpc.getAccountId(),
+            vpc.getDomainId(), gwIpAddress);
         s_logger.debug("Adding static route " + newRoute);
         newRoute = _staticRouteDao.persist(newRoute);
 
-        detectRoutesConflict(newRoute);
+        detectDuplicateCidr(newRoute);
 
         if (!_staticRouteDao.setStateToAdd(newRoute)) {
           throw new CloudRuntimeException("Unable to update the state to add for " + newRoute);
@@ -2166,7 +2157,8 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
   @Override
   public Pair<List<? extends StaticRoute>, Integer> listStaticRoutes(final ListStaticRoutesCmd cmd) {
     final Long id = cmd.getId();
-    final Long gatewayId = cmd.getGatewayId();
+    final String gwIpAddress = cmd.getGwIpAddress();
+    final String cidr = cmd.getCidr();
     final Long vpcId = cmd.getVpcId();
     Long domainId = cmd.getDomainId();
     Boolean isRecursive = cmd.isRecursive();
@@ -2193,7 +2185,8 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
 
     sb.and("id", sb.entity().getId(), SearchCriteria.Op.EQ);
     sb.and("vpcId", sb.entity().getVpcId(), SearchCriteria.Op.EQ);
-    sb.and("vpcGatewayId", sb.entity().getVpcGatewayId(), SearchCriteria.Op.EQ);
+    sb.and("gwIpAddress", sb.entity().getGwIpAddress(), SearchCriteria.Op.EQ);
+    sb.and("cidr", sb.entity().getCidr(), SearchCriteria.Op.EQ);
 
     if (tags != null && !tags.isEmpty()) {
       final SearchBuilder<ResourceTagVO> tagSearch = _resourceTagDao.createSearchBuilder();
@@ -2218,8 +2211,12 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       sc.addAnd("vpcId", Op.EQ, vpcId);
     }
 
-    if (gatewayId != null) {
-      sc.addAnd("vpcGatewayId", Op.EQ, gatewayId);
+    if (gwIpAddress != null) {
+      sc.addAnd("gwIpAddress", Op.EQ, gwIpAddress);
+    }
+
+    if (cidr != null) {
+      sc.addAnd("cidr", Op.EQ, cidr);
     }
 
     if (tags != null && !tags.isEmpty()) {
@@ -2236,21 +2233,16 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     return new Pair<List<? extends StaticRoute>, Integer>(result.first(), result.second());
   }
 
-  protected void detectRoutesConflict(final StaticRoute newRoute) throws NetworkRuleConflictException {
-    // Multiple private gateways can exist within Vpc. Check for conflicts
-    // for all static routes in Vpc
-    // and not just the gateway
+  private void detectDuplicateCidr(final StaticRoute newRoute) throws NetworkRuleConflictException {
     final List<? extends StaticRoute> routes = _staticRouteDao.listByVpcIdAndNotRevoked(newRoute.getVpcId());
     assert routes.size() >= 1 : "For static routes, we now always first persist the route and then check for "
-        + "network conflicts so we should at least have one rule at this point.";
-
+            + "network conflicts so we should at least have one rule at this point.";
     for (final StaticRoute route : routes) {
       if (route.getId() == newRoute.getId()) {
         continue; // Skips my own route.
       }
-
-      if (NetUtils.isNetworksOverlap(route.getCidr(), newRoute.getCidr())) {
-        throw new NetworkRuleConflictException("New static route cidr conflicts with existing route " + route);
+      if (newRoute.getCidr().equals(route.getCidr())) {
+        throw new NetworkRuleConflictException("New static route cidr already exists in VPC. UUID of existing static route is " + route.getUuid());
       }
     }
   }

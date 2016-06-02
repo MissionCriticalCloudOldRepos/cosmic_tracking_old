@@ -19,6 +19,8 @@ package org.apache.cloudstack.api.command.user.vpc;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.network.vpc.VpcGateway;
+import com.cloud.utils.net.NetUtils;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseListTaggedResourcesCmd;
@@ -45,8 +47,14 @@ public class ListStaticRoutesCmd extends BaseListTaggedResourcesCmd {
     @Parameter(name = ApiConstants.VPC_ID, type = CommandType.UUID, entityType = VpcResponse.class, description = "list static routes by vpc id")
     private Long vpcId;
 
-    @Parameter(name = ApiConstants.GATEWAY_ID, type = CommandType.UUID, entityType = PrivateGatewayResponse.class, description = "list static routes by gateway id")
+    @Parameter(name = ApiConstants.GATEWAY_ID, type = CommandType.UUID, entityType = PrivateGatewayResponse.class, description = "list static routes by gateway id (DEPRECATED!)")
     private Long gatewayId;
+
+    @Parameter(name = ApiConstants.NEXT_HOP, type = CommandType.STRING, entityType = VpcResponse.class, description = "list static routes by nexthop ip address")
+    private String gwIpAddress;
+
+    @Parameter(name = ApiConstants.CIDR, type = CommandType.STRING, entityType = VpcResponse.class, description = "list static routes by cidr")
+    private String cidr;
 
     public Long getId() {
         return id;
@@ -58,6 +66,14 @@ public class ListStaticRoutesCmd extends BaseListTaggedResourcesCmd {
 
     public Long getGatewayId() {
         return gatewayId;
+    }
+
+    public String getGwIpAddress() {
+        return gwIpAddress;
+    }
+
+    public String getCidr() {
+        return cidr;
     }
 
     /////////////////////////////////////////////////////
@@ -74,7 +90,17 @@ public class ListStaticRoutesCmd extends BaseListTaggedResourcesCmd {
         ListResponse<StaticRouteResponse> response = new ListResponse<StaticRouteResponse>();
         List<StaticRouteResponse> routeResponses = new ArrayList<StaticRouteResponse>();
 
+        // Compatibility with pre 5.1
+        // If gatewayId was passed, lookup its CIDR and match static routes to it
+        String GatewayCidr = "0.0.0.0/0";
+        if (gatewayId != null) {
+            VpcGateway gateway = _vpcService.getVpcPrivateGateway(gatewayId);
+            GatewayCidr = NetUtils.ipAndNetMaskToCidr(gateway.getGateway(), gateway.getNetmask());
+        }
         for (StaticRoute route : result.first()) {
+            if (! NetUtils.isIpWithtInCidrRange(route.getGwIpAddress(), GatewayCidr)) {
+                continue;
+            }
             StaticRouteResponse ruleData = _responseGenerator.createStaticRouteResponse(route);
             routeResponses.add(ruleData);
         }

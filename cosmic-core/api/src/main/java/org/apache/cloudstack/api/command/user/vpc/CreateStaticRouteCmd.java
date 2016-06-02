@@ -16,8 +16,14 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpc;
 
-import org.apache.log4j.Logger;
-
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.vpc.StaticRoute;
+import com.cloud.network.vpc.Vpc;
+import com.cloud.network.vpc.VpcGateway;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,16 +34,9 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.PrivateGatewayResponse;
 import org.apache.cloudstack.api.response.StaticRouteResponse;
+import org.apache.cloudstack.api.response.VpcResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.NetworkRuleConflictException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.vpc.StaticRoute;
-import com.cloud.network.vpc.Vpc;
-import com.cloud.network.vpc.VpcGateway;
+import org.apache.log4j.Logger;
 
 @APICommand(name = "createStaticRoute", description = "Creates a static route", responseObject = StaticRouteResponse.class, entityType = {StaticRoute.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
@@ -45,25 +44,64 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
     private static final String s_name = "createstaticrouteresponse";
     public static final Logger s_logger = Logger.getLogger(CreateStaticRouteCmd.class.getName());
 
-    @Parameter(name = ApiConstants.GATEWAY_ID,
+    @Parameter(name = ApiConstants.VPC_ID,
                type = CommandType.UUID,
-               entityType = PrivateGatewayResponse.class,
-               required = true,
-               description = "the gateway id we are creating static route for")
+               entityType = VpcResponse.class,
+               description = "The VPC id we are creating static route for.")
+    private Long vpcId;
+
+    @Parameter(name = ApiConstants.CIDR, required = true, type = CommandType.STRING, description = "The CIDR to create the static route for")
+    private String cidr;
+
+    @Parameter(name = ApiConstants.NEXT_HOP, type = CommandType.STRING, description = "Ip address of the nexthop to route the CIDR to")
+    private String gwIpAddress;
+
+    @Parameter(name = ApiConstants.GATEWAY_ID,
+            type = CommandType.UUID,
+            entityType = PrivateGatewayResponse.class,
+            description = "The private gateway id to get the ipaddress from (DEPRECATED!).")
     private Long gatewayId;
 
-    @Parameter(name = ApiConstants.CIDR, required = true, type = CommandType.STRING, description = "static route cidr")
-    private String cidr;
+    // Compatibility with < 5.2
+    private void Compatibility() {
+        if (getGatewayId() != null) {
+            VpcGateway gateway = _vpcService.getVpcPrivateGateway(getGatewayId());
+            gwIpAddress = gateway.getGateway();
+            vpcId = gateway.getVpcId();
+        }
+        CheckParameters();
+    }
+
+    private void CheckParameters() throws InvalidParameterValueException {
+        if (vpcId == null) {
+            throw new InvalidParameterValueException(
+                    "VpcId should not be empty. Either specify VpcId (recommended) or specify gatewayId (deprecated).");
+        }
+        if (gwIpAddress == null) {
+            throw new InvalidParameterValueException(
+                    "Parameter nexthop should not be empty. Either specify nexthop ip address (recommended) or specify gatewayId (deprecated).");
+        }
+    }
 
     /////////////////////////////////////////////////////
     /////////////////// Accessors ///////////////////////
     /////////////////////////////////////////////////////
-    public long getGatewayId() {
-        return gatewayId;
+    public Long getVpcId() {
+        Compatibility();
+        return vpcId;
     }
 
     public String getCidr() {
         return cidr;
+    }
+
+    public String getGwIpAddress() {
+        Compatibility();
+        return gwIpAddress;
+    }
+
+    public Long getGatewayId() {
+        return gatewayId;
     }
 
     /////////////////////////////////////////////////////
@@ -72,7 +110,7 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
     @Override
     public void create() throws ResourceAllocationException {
         try {
-            StaticRoute result = _vpcService.createStaticRoute(getGatewayId(), getCidr());
+            StaticRoute result = _vpcService.createStaticRoute(getVpcId(), getCidr(), getGwIpAddress());
             setEntityId(result.getId());
             setEntityUuid(result.getUuid());
         } catch (NetworkRuleConflictException ex) {
@@ -122,11 +160,7 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
 
     @Override
     public long getEntityOwnerId() {
-        VpcGateway gateway = _entityMgr.findById(VpcGateway.class, gatewayId);
-        if (gateway == null) {
-            throw new InvalidParameterValueException("Invalid gateway id is specified");
-        }
-        return _entityMgr.findById(Vpc.class, gateway.getVpcId()).getAccountId();
+        return _entityMgr.findById(Vpc.class, getVpcId()).getAccountId();
     }
 
     @Override
@@ -136,11 +170,7 @@ public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
 
     @Override
     public Long getSyncObjId() {
-        VpcGateway gateway = _entityMgr.findById(VpcGateway.class, gatewayId);
-        if (gateway == null) {
-            throw new InvalidParameterValueException("Invalid id is specified for the gateway");
-        }
-        return gateway.getVpcId();
+        return getVpcId();
     }
 
     @Override

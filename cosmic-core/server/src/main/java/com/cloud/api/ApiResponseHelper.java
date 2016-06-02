@@ -2930,6 +2930,7 @@ public class ApiResponseHelper implements ResponseGenerator {
       }
     }
     response.setCidr(result.getCidr());
+    response.setGwIpAddress(result.getGwIpAddress());
 
     StaticRoute.State state = result.getState();
     if (state.equals(StaticRoute.State.Revoke)) {
