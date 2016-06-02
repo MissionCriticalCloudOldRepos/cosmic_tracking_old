@@ -12,7 +12,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.DiskDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef.NicModel;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.RngDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.RngDef.RngBackendModel;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef.WatchDogAction;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef.WatchDogModel;
 
+import com.google.common.base.Strings;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,6 +31,8 @@ public class LibvirtDomainXmlParser {
   private static final Logger s_logger = Logger.getLogger(LibvirtDomainXmlParser.class);
   private final List<InterfaceDef> interfaces = new ArrayList<InterfaceDef>();
   private final List<DiskDef> diskDefs = new ArrayList<DiskDef>();
+  private final List<RngDef> rngDefs = new ArrayList<RngDef>();
+  private final List<WatchDogDef> watchDogDefs = new ArrayList<WatchDogDef>();
   private Integer vncPort;
   private String desc;
 
@@ -173,6 +181,39 @@ public class LibvirtDomainXmlParser {
         }
       }
 
+      NodeList rngs = devices.getElementsByTagName("rng");
+      for (int i = 0; i < rngs.getLength(); i++) {
+        RngDef def = null;
+        Element rng = (Element)rngs.item(i);
+        String backendModel = getAttrValue("backend", "model", rng);
+        String path = getTagValue("backend", rng);
+
+        if (Strings.isNullOrEmpty(backendModel)) {
+          def = new RngDef(path);
+        } else {
+          def = new RngDef(path, RngBackendModel.valueOf(backendModel.toUpperCase()));
+        }
+
+        rngDefs.add(def);
+      }
+
+      NodeList watchDogs = devices.getElementsByTagName("watchdog");
+      for (int i = 0; i < watchDogs.getLength(); i++) {
+        WatchDogDef def = null;
+        Element watchDog = (Element)watchDogs.item(i);
+        String action = watchDog.getAttribute("action");
+        String model = watchDog.getAttribute("model");
+
+        if (Strings.isNullOrEmpty(action)) {
+          def = new WatchDogDef(WatchDogModel.valueOf(model.toUpperCase()));
+        } else {
+          def = new WatchDogDef(WatchDogAction.valueOf(action.toUpperCase()),
+                  WatchDogModel.valueOf(model.toUpperCase()));
+        }
+
+        watchDogDefs.add(def);
+      }
+
       return true;
     } catch (final ParserConfigurationException e) {
       s_logger.debug(e.toString());
@@ -216,6 +257,14 @@ public class LibvirtDomainXmlParser {
 
   public List<DiskDef> getDisks() {
     return diskDefs;
+  }
+
+  public List<RngDef> getRngs() {
+    return rngDefs;
+  }
+
+  public List<WatchDogDef> getWatchDogs() {
+    return watchDogDefs;
   }
 
   public String getDescription() {
