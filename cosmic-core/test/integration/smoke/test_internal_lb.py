@@ -21,6 +21,7 @@ import logging
 import math
 import time
 from marvin.cloudstackTestCase import cloudstackTestCase
+from marvin.codes import FAILED
 from marvin.lib.base import (
     Account,
     Configurations,
