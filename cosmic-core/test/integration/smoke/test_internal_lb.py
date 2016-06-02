@@ -17,8 +17,10 @@
 """ Tests for configuring Internal Load Balancing Rules.
 """
 # Import Local Modules
+import logging
+import math
+import time
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import cleanup_resources
 from marvin.lib.base import (
     Account,
     Configurations,
@@ -39,14 +41,11 @@ from marvin.lib.common import (
     get_domain,
     list_network_offerings
 )
+from marvin.lib.utils import cleanup_resources
 from nose.plugins.attrib import attr
-import logging
-import time
-import math
 
 
 class Services:
-
     """Test VPC network services - Port Forwarding Rules Test Data Class.
     """
 
@@ -125,7 +124,7 @@ class Services:
                     "Dhcp": 'VpcVirtualRouter',
                     "Dns": 'VpcVirtualRouter',
                     "SourceNat": 'VpcVirtualRouter',
-                    "Lb" : ["InternalLbVm", "VpcVirtualRouter"],
+                    "Lb": ["InternalLbVm", "VpcVirtualRouter"],
                     "PortForwarding": 'VpcVirtualRouter',
                     "UserData": 'VpcVirtualRouter',
                     "StaticNat": 'VpcVirtualRouter',
@@ -146,7 +145,7 @@ class Services:
                     "Dhcp": 'VpcVirtualRouter',
                     "Dns": 'VpcVirtualRouter',
                     "SourceNat": 'VpcVirtualRouter',
-                    "Lb" : ["InternalLbVm", "VpcVirtualRouter"],
+                    "Lb": ["InternalLbVm", "VpcVirtualRouter"],
                     "PortForwarding": 'VpcVirtualRouter',
                     "UserData": 'VpcVirtualRouter',
                     "StaticNat": 'VpcVirtualRouter',
@@ -241,7 +240,6 @@ class Services:
 
 
 class TestInternalLb(cloudstackTestCase):
-
     """Test Internal LB
     """
 
@@ -259,7 +257,7 @@ class TestInternalLb(cloudstackTestCase):
 
         cls.zone = get_zone(cls.apiclient, testClient.getZoneForTests())
         cls.domain = get_domain(cls.apiclient)
-        cls.logger.debug("Creating compute offering: %s" %cls.services["compute_offering"]["name"])
+        cls.logger.debug("Creating compute offering: %s" % cls.services["compute_offering"]["name"])
         cls.compute_offering = ServiceOffering.create(
             cls.apiclient,
             cls.services["compute_offering"]
@@ -270,8 +268,11 @@ class TestInternalLb(cloudstackTestCase):
 
         cls.hypervisor = testClient.getHypervisorInfo()
 
-        cls.logger.debug("Downloading Template: %s from: %s" %(cls.services["template"][cls.hypervisor.lower()], cls.services["template"][cls.hypervisor.lower()]["url"]))
-        cls.template = Template.register(cls.apiclient, cls.services["template"][cls.hypervisor.lower()], cls.zone.id, hypervisor=cls.hypervisor.lower(), account=cls.account.name, domainid=cls.domain.id)
+        cls.logger.debug("Downloading Template: %s from: %s" % (
+            cls.services["template"][cls.hypervisor.lower()], cls.services["template"][cls.hypervisor.lower()]["url"]))
+        cls.template = Template.register(cls.apiclient, cls.services["template"][cls.hypervisor.lower()], cls.zone.id,
+                                         hypervisor=cls.hypervisor.lower(), account=cls.account.name,
+                                         domainid=cls.domain.id)
         cls.template.download(cls.apiclient)
 
         if cls.template == FAILED:
@@ -465,12 +466,14 @@ class TestInternalLb(cloudstackTestCase):
 
         ssh_client = None
         try:
-            ssh_client = virtual_machine.get_ssh_client(ipaddress=public_ip, retries=retries, port=virtual_machine.public_port)
+            ssh_client = virtual_machine.get_ssh_client(ipaddress=public_ip, retries=retries,
+                                                        port=virtual_machine.public_port)
         except Exception as e:
             self.fail("Unable to create ssh connection due to error -> %s " % e)
 
         self.assertIsNotNone(
-            ssh_client, "Failed to setup ssh connection to vm=%s on public_ip=%s" % (virtual_machine.name, virtual_machine.public_ip))
+            ssh_client, "Failed to setup ssh connection to vm=%s on public_ip=%s" % (
+                virtual_machine.name, virtual_machine.public_ip))
         return ssh_client
 
     def setup_http_daemon(self, public_ip, vm):
@@ -503,7 +506,7 @@ class TestInternalLb(cloudstackTestCase):
         try:
             for x in range(0, max_requests):
                 cmd_test_http = "/usr/bin/wget -T2 -qO- http://" + \
-                    lb_address + "/ 2>/dev/null"
+                                lb_address + "/ 2>/dev/null"
                 # self.debug( "SSH into VM public address: %s and port: %s"
                 # %(.public_ip, vm.public_port))
                 results.append(ssh_client.execute(cmd_test_http)[0])
@@ -548,9 +551,11 @@ class TestInternalLb(cloudstackTestCase):
                     # difference between response count of a host and the mean
                     # should be less than the standard deviation
                     self.assertLess(
-                        difference, stddev, "Internal LB RoundRobin test Failed because http responsest are not evenly distributed")
+                        difference, stddev,
+                        "Internal LB RoundRobin test Failed because http responsest are not evenly distributed")
                     self.logger.debug(
-                        "Response distribution count: %d difference to mean: %d within standard deviation: %d" % (value, mean, stddev))
+                        "Response distribution count: %d difference to mean: %d within standard deviation: %d" % (
+                            value, mean, stddev))
                 return True
 
     @attr(tags=["smoke", "advanced"], required_hardware="true")
@@ -609,9 +614,9 @@ class TestInternalLb(cloudstackTestCase):
 
         # Create network tiers
         network_guestnet = self.create_network_tier(
-            "guestnet_test01", vpc.id, "10.1.1.1",  network_offering_guestnet)
+            "guestnet_test01", vpc.id, "10.1.1.1", network_offering_guestnet)
         network_internal_lb = self.create_network_tier(
-            "intlb_test01", vpc.id, "10.1.2.1",  network_offering_intlb)
+            "intlb_test01", vpc.id, "10.1.2.1", network_offering_intlb)
 
         # Create 1 lb client vm in guestnet network tier
         client_vm = self.deployvm_in_network(vpc, network_guestnet.id)
@@ -640,7 +645,7 @@ class TestInternalLb(cloudstackTestCase):
             self.setup_http_daemon(nat_rule.ipaddress, vm)
 
         # Create a internal loadbalancer in the internal lb network tier
-        applb = self.create_internal_loadbalancer( private_http_port, public_lb_port, algorithm, network_internal_lb.id)
+        applb = self.create_internal_loadbalancer(private_http_port, public_lb_port, algorithm, network_internal_lb.id)
         # wait for the loadbalancer to boot and be configured
         time.sleep(10)
         # Assign the 2 VMs to the Internal Load Balancer
@@ -692,10 +697,10 @@ class TestInternalLb(cloudstackTestCase):
         word_to_verify = "uptime"
 
         url = "http://" + stats_ip + ":" + \
-            settings["stats_port"] + settings["stats_uri"]
+              settings["stats_port"] + settings["stats_uri"]
         get_contents = "/usr/bin/wget -T3 -qO- --user=" + \
-            settings["username"] + " --password=" + \
-            settings["password"] + " " + url
+                       settings["username"] + " --password=" + \
+                       settings["password"] + " " + url
         try:
             self.logger.debug(
                 "Trying to connect to the haproxy stats url %s" % url)
@@ -780,7 +785,7 @@ class TestInternalLb(cloudstackTestCase):
 
         # Create network tier with internal lb service enabled
         network_internal_lb = self.create_network_tier(
-            "intlb_test02", vpc.id, network_gw,  network_offering_intlb)
+            "intlb_test02", vpc.id, network_gw, network_offering_intlb)
 
         # Create 1 lb vm in internal lb network tier
         vm = self.deployvm_in_network(vpc, network_internal_lb.id)
