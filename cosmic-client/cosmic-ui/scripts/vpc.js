@@ -2454,8 +2454,9 @@
                                                     $.ajax({
                                                         url: createURL('createStaticRoute'),
                                                         data: {
-                                                            gatewayid: args.context.vpcGateways[0].id,
-                                                            cidr: args.data.cidr
+                                                            vpcid: args.context.vpc[0].id,
+                                                            cidr: args.data.cidr,
+                                                            nexthop: args.context.vpcGateways[0].gateway
                                                         },
                                                         success: function(data) {
                                                             args.response.success({
@@ -2507,6 +2508,7 @@
                                                     url: createURL('listStaticRoutes'),
                                                     data: {
                                                         gatewayid: args.context.vpcGateways[0].id,
+                                                        vpcid: args.context.vpc[0].id,
                                                         listAll: true
                                                     },
                                                     success: function(json) {
