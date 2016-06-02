@@ -28,11 +28,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+
+import com.google.common.collect.Maps;
 
 import com.cloud.deploy.DeployDestination;
 import com.cloud.exception.ConcurrentOperationException;
@@ -41,6 +45,7 @@ import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InsufficientServerCapacityException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.exception.StorageUnavailableException;
+import com.cloud.network.Network;
 import com.cloud.network.addr.PublicIp;
 import com.cloud.network.dao.PhysicalNetworkDao;
 import com.cloud.network.dao.PhysicalNetworkServiceProviderDao;
@@ -168,9 +173,44 @@ public class VpcRouterDeploymentDefinitionTest extends RouterDeploymentDefinitio
         assertEquals("If there is already a router found, there is no need to deploy more", 0, deployment.getNumberOfRoutersToDeploy());
     }
 
+    protected void driveTestPrepareDeployment(final boolean isRedundant, final boolean isPublicNw) {
+        // Prepare
+        when(mockVpc.isRedundant()).thenReturn(isRedundant);
+
+        final Set<Network.Provider> providers = mock(Set.class);
+        final Map<Network.Service, Set<Network.Provider>> vpcOffSvcProvidersMap = Maps.newHashMap();
+        vpcOffSvcProvidersMap.put(Network.Service.SourceNat, providers);
+
+        when(vpcMgr.getVpcOffSvcProvidersMap(VPC_OFFERING_ID)).thenReturn(vpcOffSvcProvidersMap);
+        when(providers.contains(Network.Provider.VPCVirtualRouter)).thenReturn(isPublicNw);
+
+        // Execute
+        final boolean canProceedDeployment = deployment.prepareDeployment();
+        // Assert
+        boolean shouldProceedDeployment = true;
+        if (isRedundant && !isPublicNw) {
+            shouldProceedDeployment = false;
+        }
+        assertEquals(shouldProceedDeployment, canProceedDeployment);
+        if (!shouldProceedDeployment) {
+            assertEquals("Since deployment cannot proceed we should empty the list of routers",
+                    0, deployment.routers.size());
+        }
+    }
+
     @Test
-    public void testPrepareDeployment() {
-        assertTrue("There are no preconditions for Vpc Deployment, thus it should always pass", deployment.prepareDeployment());
+    public void testPrepareDeploymentPublicNw() {
+        driveTestPrepareDeployment(true, true);
+    }
+
+    @Test
+    public void testPrepareDeploymentNonRedundant() {
+        driveTestPrepareDeployment(false, true);
+    }
+
+    @Test
+    public void testPrepareDeploymentNonRedundantNonPublicNw() {
+        driveTestPrepareDeployment(false, false);
     }
 
     @Test
@@ -250,8 +290,14 @@ public class VpcRouterDeploymentDefinitionTest extends RouterDeploymentDefinitio
         // Execute
         deployment.findSourceNatIP();
 
-        // Assert
-        assertEquals("SourceNatIp returned by the VpcManager was not correctly set", publicIp, deployment.sourceNatIp);
+        final VpcRouterDeploymentDefinition vpcDeployment = (VpcRouterDeploymentDefinition) deployment;
+        if (vpcDeployment.hasSourceNatService()) {
+            // Assert an ip address when we do have sourceNat service
+            assertEquals("SourceNatIp returned by the VpcManager was not correctly set", publicIp, deployment.sourceNatIp);
+        } else {
+            // Assert null when we have no sourceNat service
+            assertEquals("SourceNatIp returned by the VpcManager was not correctly set", null, deployment.sourceNatIp);
+        }
     }
 
     @Test

@@ -350,7 +350,6 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
     sdnProviders.add(Provider.JuniperContrailVpcRouter);
     sdnProviders.add(Provider.NuageVsp);
 
-    boolean sourceNatSvc = false;
     boolean firewallSvs = false;
     // populate the services first
     for (final String serviceName : supportedServices) {
@@ -369,15 +368,6 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       if (service == Service.NetworkACL) {
         firewallSvs = true;
       }
-
-      if (service == Service.SourceNat) {
-        sourceNatSvc = true;
-      }
-    }
-
-    if (!sourceNatSvc) {
-      s_logger.debug("Automatically adding source nat service to the list of VPC services");
-      svcProviderMap.put(Service.SourceNat, defaultProviders);
     }
 
     if (!firewallSvs) {
@@ -1345,22 +1335,7 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
       }
     }
 
-    // 2) Only Isolated networks with Source nat service enabled can be
-    // added to vpc
-    if (!(guestNtwkOff.getGuestType() == GuestType.Isolated && supportedSvcs.contains(Service.SourceNat))) {
-
-      throw new InvalidParameterValueException(
-          "Only network offerings of type " + GuestType.Isolated + " with service " + Service.SourceNat.getName()
-          + " are valid for vpc ");
-    }
-
-    // 3) No redundant router support
-    /*
-     * TODO This should have never been hardcoded like this in the first place if (guestNtwkOff.getRedundantRouter()) {
-     * throw new InvalidParameterValueException ("No redunant router support when network belnogs to VPC"); }
-     */
-
-    // 4) Conserve mode should be off
+    // 2) Conserve mode should be off
     if (guestNtwkOff.isConserveMode()) {
       throw new InvalidParameterValueException("Only networks with conserve mode Off can belong to VPC");
     }

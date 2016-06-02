@@ -83,7 +83,11 @@ public class VpcNetworkHelperImpl extends NetworkHelperImpl {
             throws ConcurrentOperationException, InsufficientCapacityException {
 
         final TreeSet<String> publicVlans = new TreeSet<String>();
-        publicVlans.add(vpcRouterDeploymentDefinition.getSourceNatIP().getVlanTag());
+        if (vpcRouterDeploymentDefinition.needsPublicNic()) {
+            publicVlans.add(vpcRouterDeploymentDefinition.getSourceNatIP().getVlanTag());
+        } else {
+            s_logger.debug("VPC " + vpcRouterDeploymentDefinition.getVpc().getName() + " does not need a public nic.");
+        }
 
         //1) allocate nic for control and source nat public ip
         final LinkedHashMap<Network, List<? extends NicProfile>> networks = configureDefaultNics(vpcRouterDeploymentDefinition);

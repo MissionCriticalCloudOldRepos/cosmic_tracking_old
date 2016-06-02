@@ -108,7 +108,7 @@ public class RouterDeploymentDefinition {
     protected PublicIp sourceNatIp;
 
     protected RouterDeploymentDefinition(final Network guestNetwork, final DeployDestination dest,
-            final Account owner, final Map<Param, Object> params) {
+                                         final Account owner, final Map<Param, Object> params) {
 
         this.guestNetwork = guestNetwork;
         this.dest = dest;
@@ -178,6 +178,14 @@ public class RouterDeploymentDefinition {
 
     public PublicIp getSourceNatIP() {
         return sourceNatIp;
+    }
+
+    public boolean needsPublicNic() {
+        return isPublicNetwork;
+    }
+
+    public boolean hasSourceNatService() {
+        return isPublicNetwork;
     }
 
     protected void generateDeploymentPlan() {

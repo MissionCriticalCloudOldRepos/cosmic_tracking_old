@@ -19,6 +19,7 @@ package org.cloud.network.router.deployment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -73,11 +74,6 @@ public class VpcRouterDeploymentDefinition extends RouterDeploymentDefinition {
     }
 
     @Override
-    public boolean isPublicNetwork() {
-        return true;
-    }
-
-    @Override
     protected void lock() {
         final Vpc vpcLock = vpcDao.acquireInLockTable(vpc.getId());
         if (vpcLock == null) {
@@ -115,12 +111,55 @@ public class VpcRouterDeploymentDefinition extends RouterDeploymentDefinition {
      */
     @Override
     protected boolean prepareDeployment() {
-        return true;
+        isPublicNetwork = needsPublicNic();
+
+        boolean canProceed = true;
+        if (isRedundant() && !isPublicNetwork) {
+            // TODO Shouldn't be this throw an exception instead of log error and empty list of routers
+            logger.error("Didn't support redundant virtual router without public network!");
+            routers = new ArrayList<DomainRouterVO>();
+            canProceed = false;
+        }
+        return canProceed;
+    }
+
+    @Override
+    public boolean needsPublicNic() {
+        // Check for SourceNat
+        if (hasService(Network.Service.SourceNat)) {
+            return true;
+        }
+        // Check for VPN
+        if (hasService(Network.Service.Vpn)) {
+            return true;
+        }
+        logger.info(String.format("No SourceNat service and no VPN service found on VPC %s, so we do not need to add a public nic", vpc.getName()));
+        return false;
+    }
+
+    @Override
+    public boolean hasSourceNatService() {
+        return hasService(Network.Service.SourceNat);
+    }
+
+    private boolean hasService(Network.Service service) {
+        final Map<Network.Service, Set<Network.Provider>> vpcOffSvcProvidersMap = vpcMgr.getVpcOffSvcProvidersMap(vpc.getVpcOfferingId());
+        try {
+            vpcOffSvcProvidersMap.get(service).contains(Network.Provider.VPCVirtualRouter);
+            logger.debug(String.format("Found %s service on VPC %s, adding a public nic", service.getName(), vpc.getName()));
+            return true;
+        } catch (final Exception e) {
+            logger.debug(String.format("No %s service found on VPC %s", service.getName(), vpc.getName()));
+        }
+        return false;
     }
 
     @Override
     protected void findSourceNatIP() throws InsufficientAddressCapacityException, ConcurrentOperationException {
-        sourceNatIp = vpcMgr.assignSourceNatIpAddressToVpc(owner, vpc);
+        sourceNatIp = null;
+        if (needsPublicNic()) {
+            sourceNatIp = vpcMgr.assignSourceNatIpAddressToVpc(owner, vpc);
+        }
     }
 
     @Override
