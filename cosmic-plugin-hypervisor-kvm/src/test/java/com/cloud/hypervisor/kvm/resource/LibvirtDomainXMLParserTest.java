@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.DiskDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.RngDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef;
 
 import junit.framework.TestCase;
 
@@ -149,6 +151,11 @@ public class LibvirtDomainXMLParserTest extends TestCase {
         "<alias name='balloon0'/>" +
         "<address type='pci' domain='0x0000' bus='0x00' slot='0x09' function='0x0'/>" +
         "</memballoon>" +
+        "<rng model='virtio'>" +
+        "<backend model='random'>/dev/random</backend>" +
+        "</rng>" +
+        "<watchdog model='i6300esb' action='reset'/>" +
+        "<watchdog model='ib700' action='poweroff'/>" +
         "</devices>" +
         "<seclabel type='none'/>" +
         "</domain>";
@@ -175,5 +182,15 @@ public class LibvirtDomainXMLParserTest extends TestCase {
       assertEquals(ifModel, ifs.get(i).getModel());
       assertEquals(ifType, ifs.get(i).getNetType());
     }
+
+    List<RngDef> rngs = parser.getRngs();
+    assertEquals("/dev/random", rngs.get(0).getPath());
+    assertEquals(RngDef.RngBackendModel.RANDOM, rngs.get(0).getRngBackendModel());
+
+    List<WatchDogDef> watchDogs = parser.getWatchDogs();
+    assertEquals(WatchDogDef.WatchDogModel.I6300ESB, watchDogs.get(0).getModel());
+    assertEquals(WatchDogDef.WatchDogAction.RESET, watchDogs.get(0).getAction());
+    assertEquals(WatchDogDef.WatchDogModel.IB700, watchDogs.get(1).getModel());
+    assertEquals(WatchDogDef.WatchDogAction.POWEROFF, watchDogs.get(1).getAction());
   }
 }
