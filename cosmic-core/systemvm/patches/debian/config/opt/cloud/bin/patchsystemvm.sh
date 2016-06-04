@@ -29,6 +29,8 @@ patch_console_proxy() {
    mkdir -p /usr/local/cloud/systemvm
    echo "All" | unzip $patchfile -d /usr/local/cloud/systemvm >$logfile 2>&1
    find /usr/local/cloud/systemvm/ -name \*.sh | xargs chmod 555
+   [ -f /etc/udev/rules.d/70-persistent-net.rules ] && sudo rm -f /etc/udev/rules.d/70-persistent-net.rules
+   [ -f /etc/udev/rules.d/75-persistent-net-generator.rules ] && sudo rm -f /etc/udev/rules.d/75-persistent-net-generator.rules
    return 0
 }
 
