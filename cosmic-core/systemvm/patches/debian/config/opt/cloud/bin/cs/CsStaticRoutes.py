@@ -25,7 +25,14 @@ import sys
 class CsStaticRoutes(CsDataBag):
 
     def process(self):
+        is_master = self.cl.is_master()
+        if self.cl.is_redundant() and not is_master:
+            logging.debug("Not processing CsStaticRoutes file ==> %s because redundant state is %s" %
+                          (self.dbag, str(is_master)))
+            return True
+
         logging.debug("Processing CsStaticRoutes file ==> %s" % self.dbag)
+
         for item in self.dbag:
             if item == "id":
                 continue
