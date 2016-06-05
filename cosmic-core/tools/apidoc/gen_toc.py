@@ -168,7 +168,6 @@ known_categories = {
     'Baremetal' : 'Baremetal',
     'CacheStores' : 'Cache Stores',
     'CacheStore' : 'Cache Store',
-    'IAM' : 'IAM',
     'StratosphereSsp' : ' Stratosphere SSP'
     }
 

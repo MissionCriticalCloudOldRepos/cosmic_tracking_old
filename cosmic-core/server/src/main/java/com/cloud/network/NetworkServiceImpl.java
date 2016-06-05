@@ -1406,15 +1406,6 @@ public class NetworkServiceImpl extends ManagerBase implements  NetworkService {
           return network;
         }
       });
-      if (domainId != null && aclType == ACLType.Domain) {
-        // send event for storing the domain wide resource access
-        final Map<String, Object> params = new HashMap<String, Object>();
-        params.put(ApiConstants.ENTITY_TYPE, Network.class);
-        params.put(ApiConstants.ENTITY_ID, network.getId());
-        params.put(ApiConstants.DOMAIN_ID, domainId);
-        params.put(ApiConstants.SUBDOMAIN_ACCESS, subdomainAccessFinal == null ? Boolean.TRUE : subdomainAccessFinal);
-        _messageBus.publish(_name, EntityManager.MESSAGE_ADD_DOMAIN_WIDE_ENTITY_EVENT, PublishScope.LOCAL, params);
-      }
       return network;
     } catch (final Exception e) {
       ExceptionUtil.rethrowRuntime(e);

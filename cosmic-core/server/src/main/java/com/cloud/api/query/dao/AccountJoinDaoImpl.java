@@ -100,9 +100,6 @@ public class AccountJoinDaoImpl extends GenericDaoBase<AccountJoinVO, Long> impl
         accountResponse.setDetails(ApiDBUtils.getAccountDetails(account.getId()));
         accountResponse.setObjectName("account");
 
-        // add all the acl groups for an account
-        accountResponse.setGroups(_acctMgr.listAclGroupsByAccount(account.getId()));
-
         return accountResponse;
     }
 
