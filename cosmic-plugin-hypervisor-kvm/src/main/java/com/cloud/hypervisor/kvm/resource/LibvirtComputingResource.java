@@ -74,10 +74,15 @@ import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InputDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.InterfaceDef.GuestNetType;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.QemuGuestAgentDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.RngDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.RngDef.RngBackendModel;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.SerialDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.TermPolicy;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.VideoDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.VirtioSerialDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef.WatchDogAction;
+import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef.WatchDogModel;
 import com.cloud.hypervisor.kvm.resource.wrapper.LibvirtRequestWrapper;
 import com.cloud.hypervisor.kvm.resource.wrapper.LibvirtUtilitiesHelper;
 import com.cloud.hypervisor.kvm.storage.KvmPhysicalDisk;
@@ -108,6 +113,7 @@ import com.cloud.utils.script.Script;
 import com.cloud.utils.ssh.SshHelper;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachine.PowerState;
+import com.google.common.base.Strings;
 
 import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
@@ -239,6 +245,11 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
   protected long diskActivityCheckFileSizeMin = 10485760; // 10MB
   protected int diskActivityCheckTimeoutSeconds = 120; // 120s
   protected long diskActivityInactiveThresholdMilliseconds = 30000; // 30s
+  protected boolean rngEnable = false;
+  protected RngBackendModel rngBackendModel = RngBackendModel.RANDOM;
+  protected String rngPath = "/dev/random";
+  protected WatchDogAction watchDogAction = WatchDogAction.NONE;
+  protected WatchDogModel watchDogModel = WatchDogModel.I6300ESB;
   protected List<String> cpuFeatures;
   protected BridgeType bridgeType;
   protected List<String> vmsKilled = new ArrayList<String>();
@@ -744,6 +755,29 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
     value = (String) params.get("kvmclock.disable");
     if (Boolean.parseBoolean(value)) {
       noKvmClock = true;
+    }
+
+    value = (String) params.get("vm.rng.enable");
+    if (Boolean.parseBoolean(value)) {
+      rngEnable = true;
+      value = (String) params.get("vm.rng.model");
+      if (!Strings.isNullOrEmpty(value)) {
+        rngBackendModel = RngBackendModel.valueOf(value.toUpperCase());
+      }
+      value = (String) params.get("vm.rng.path");
+      if (!Strings.isNullOrEmpty(value)) {
+        rngPath = value;
+      }
+    }
+
+    value = (String) params.get("vm.watchdog.model");
+    if (!Strings.isNullOrEmpty(value)) {
+      watchDogModel = WatchDogModel.valueOf(value.toUpperCase());
+    }
+
+    value = (String) params.get("vm.watchdog.action");
+    if (!Strings.isNullOrEmpty(value)) {
+      watchDogAction = WatchDogAction.valueOf(value.toUpperCase());
     }
 
     LibvirtConnection.initialize(hypervisorUri);
@@ -1935,6 +1969,14 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
 
     final QemuGuestAgentDef guestagent = new QemuGuestAgentDef();
     devices.addDevice(guestagent);
+
+    if (rngEnable) {
+      final RngDef rngDevice = new RngDef(rngPath, rngBackendModel);
+      devices.addDevice(rngDevice);
+    }
+
+    final WatchDogDef watchDog = new WatchDogDef(watchDogAction, watchDogModel);
+    devices.addDevice(watchDog);
 
     final VideoDef videoCard = new VideoDef(videoHw, videoRam);
     devices.addDevice(videoCard);

@@ -104,4 +104,27 @@ public class LibvirtVMDefTest extends TestCase {
     assertTrue((hostOsVersion.first() == 6 && hostOsVersion.second() >= 5) || (hostOsVersion.first() >= 7));
   }
 
+  public void testChannelDef() {
+    LibvirtVmDef.RngDef.RngBackendModel backendModel = LibvirtVmDef.RngDef.RngBackendModel.RANDOM;
+    String path = "/dev/random";
+
+    LibvirtVmDef.RngDef def = new LibvirtVmDef.RngDef(path, backendModel);
+    assertEquals(def.getPath(), path);
+    assertEquals(def.getRngBackendModel(), backendModel);
+    assertEquals(def.getRngModel(), LibvirtVmDef.RngDef.RngModel.VIRTIO);
+  }
+
+  public void testWatchDogDef() {
+    LibvirtVmDef.WatchDogDef def = null;
+
+    def = new LibvirtVmDef.WatchDogDef(LibvirtVmDef.WatchDogDef.WatchDogAction.RESET,
+            LibvirtVmDef.WatchDogDef.WatchDogModel.I6300ESB);
+    assertEquals(def.getAction(), LibvirtVmDef.WatchDogDef.WatchDogAction.RESET);
+    assertEquals(def.getModel(), LibvirtVmDef.WatchDogDef.WatchDogModel.I6300ESB);
+
+    def = new LibvirtVmDef.WatchDogDef(LibvirtVmDef.WatchDogDef.WatchDogAction.POWEROFF,
+            LibvirtVmDef.WatchDogDef.WatchDogModel.DIAG288);
+    assertEquals(def.getAction(), LibvirtVmDef.WatchDogDef.WatchDogAction.POWEROFF);
+    assertEquals(def.getModel(), LibvirtVmDef.WatchDogDef.WatchDogModel.DIAG288);
+  }
 }

@@ -1360,6 +1360,144 @@ public class LibvirtVmDef {
     }
   }
 
+  public static class RngDef {
+    enum RngModel {
+      VIRTIO("virtio");
+      String model;
+
+      RngModel(String model) {
+        this.model = model;
+      }
+
+      @Override
+      public String toString() {
+        return model;
+      }
+    }
+
+    enum RngBackendModel {
+      RANDOM("random"), EGD("egd");
+      String model;
+
+      RngBackendModel(String model) {
+        this.model = model;
+      }
+
+      @Override
+      public String toString() {
+        return model;
+      }
+    }
+
+    private String path = "/dev/random";
+    private RngModel rngModel = RngModel.VIRTIO;
+    private RngBackendModel rngBackendModel = RngBackendModel.RANDOM;
+
+    public RngDef(String path) {
+      this.path = path;
+    }
+
+    public RngDef(RngModel rngModel) {
+      this.rngModel = rngModel;
+    }
+
+    public RngDef(RngBackendModel rngBackendModel) {
+      this.rngBackendModel = rngBackendModel;
+    }
+
+    public RngDef(String path, RngBackendModel rngBackendModel) {
+      this.path = path;
+      this.rngBackendModel = rngBackendModel;
+    }
+
+    public RngDef(String path, RngModel rngModel) {
+      this.path = path;
+      this.rngModel = rngModel;
+    }
+
+    public String getPath() {
+      return path;
+    }
+
+    public RngBackendModel getRngBackendModel() {
+      return rngBackendModel;
+    }
+
+    public RngModel getRngModel() {
+      return rngModel;
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder rngBuilder = new StringBuilder();
+      rngBuilder.append("<rng model='" + rngModel + "'>\n");
+      rngBuilder.append("<backend model='" + rngBackendModel + "'>" + path + "</backend>");
+      rngBuilder.append("</rng>\n");
+      return rngBuilder.toString();
+    }
+  }
+
+  public static class WatchDogDef {
+    enum WatchDogModel {
+      I6300ESB("i6300esb"), IB700("ib700"), DIAG288("diag288");
+      String model;
+
+      WatchDogModel(String model) {
+        this.model = model;
+      }
+
+      @Override
+      public String toString() {
+        return model;
+      }
+    }
+
+    enum WatchDogAction {
+      RESET("reset"), SHUTDOWN("shutdown"), POWEROFF("poweroff"), PAUSE("pause"), NONE("none"), DUMP("dump");
+      String action;
+
+      WatchDogAction(String action) {
+        this.action = action;
+      }
+
+      @Override
+      public String toString() {
+        return action;
+      }
+    }
+
+    WatchDogModel model = WatchDogModel.I6300ESB;
+    WatchDogAction action = WatchDogAction.NONE;
+
+    public WatchDogDef(WatchDogAction action) {
+      this.action = action;
+    }
+
+    public WatchDogDef(WatchDogModel model) {
+      this.model = model;
+    }
+
+    public WatchDogDef(WatchDogAction action, WatchDogModel model) {
+      this.action = action;
+      this.model = model;
+    }
+
+    public WatchDogAction getAction() {
+      return action;
+    }
+
+    public WatchDogModel getModel() {
+      return model;
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder wacthDogBuilder = new StringBuilder();
+      wacthDogBuilder.append("<watchdog model='" + model + "' action='" + action + "'/>\n");
+      return wacthDogBuilder.toString();
+    }
+  }
+
   public void setHvsType(String hvs) {
     hvsType = hvs;
   }
