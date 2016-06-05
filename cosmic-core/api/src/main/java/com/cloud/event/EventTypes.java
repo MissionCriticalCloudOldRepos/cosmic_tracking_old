@@ -503,11 +503,6 @@ public class EventTypes {
     //Alert generation
     public static final String ALERT_GENERATE = "ALERT.GENERATE";
 
-    // OpenDaylight
-    public static final String EVENT_EXTERNAL_OPENDAYLIGHT_ADD_CONTROLLER = "PHYSICAL.ODLCONTROLLER.ADD";
-    public static final String EVENT_EXTERNAL_OPENDAYLIGHT_DELETE_CONTROLLER = "PHYSICAL.ODLCONTROLLER.DELETE";
-    public static final String EVENT_EXTERNAL_OPENDAYLIGHT_CONFIGURE_CONTROLLER = "PHYSICAL.ODLCONTROLLER.CONFIGURE";
-
     //Guest OS related events
     public static final String EVENT_GUEST_OS_ADD = "GUEST.OS.ADD";
     public static final String EVENT_GUEST_OS_REMOVE = "GUEST.OS.REMOVE";
@@ -862,11 +857,6 @@ public class EventTypes {
         entityEventDetails.put(EVENT_AUTOSCALEVMGROUP_DISABLE, AutoScaleVmGroup.class);
         entityEventDetails.put(EVENT_GUEST_VLAN_RANGE_DEDICATE, GuestVlan.class);
         entityEventDetails.put(EVENT_DEDICATED_GUEST_VLAN_RANGE_RELEASE, GuestVlan.class);
-
-        // OpenDaylight
-        entityEventDetails.put(EVENT_EXTERNAL_OPENDAYLIGHT_ADD_CONTROLLER, "OpenDaylightController");
-        entityEventDetails.put(EVENT_EXTERNAL_OPENDAYLIGHT_DELETE_CONTROLLER, "OpenDaylightController");
-        entityEventDetails.put(EVENT_EXTERNAL_OPENDAYLIGHT_CONFIGURE_CONTROLLER, "OpenDaylightController");
 
         //Guest OS
         entityEventDetails.put(EVENT_GUEST_OS_ADD, GuestOS.class);

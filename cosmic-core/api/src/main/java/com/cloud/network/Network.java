@@ -126,7 +126,6 @@ public interface Network extends ControlledEntity, StateObject<Network.State>, I
         public static final Provider NiciraNvp = new Provider("NiciraNvp", false);
         public static final Provider InternalLbVm = new Provider("InternalLbVm", false);
         public static final Provider CiscoVnmc = new Provider("CiscoVnmc", true);
-        public static final Provider Opendaylight = new Provider("Opendaylight", false);
         // add Nuage Vsp Providers
         public static final Provider NuageVsp = new Provider("NuageVsp", false);
         // add GloboDns provider

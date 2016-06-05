@@ -92,7 +92,6 @@ known_categories = {
     'NetworkACL': 'Network ACL',
     'Network': 'Network',
     'CiscoNexus': 'Network',
-    'OpenDaylight': 'Network',
     'createServiceInstance': 'Network',
     'addGloboDnsHost': 'Network',
     'Vpn': 'VPN',
