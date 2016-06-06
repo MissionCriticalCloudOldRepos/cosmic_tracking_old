@@ -131,13 +131,19 @@ get_boot_params() {
 	            echo $pubkey > /var/cache/cloud/authorized_keys
 	            echo $pubkey > /root/.ssh/authorized_keys
               fi
-	        done < /dev/vport0p1
-	        # In case of reboot we do not send the boot args again.
-	        # So, no need to wait for them, as the boot args are already set at startup
-	        if [ -s /var/cache/cloud/cmdline  ]
-	        then
-              log_it "Found a non empty cmdline file. Will now exit the loop and proceed with configuration."
-              break;
+            done < /dev/vport0p1
+            # In case of reboot of secstoragevm or consoleproxyvm we do not send the boot args again.
+            # So, no need to wait for them, as the boot args are already set at startup
+            # Routers and VPC do get new boot args (new linklocal address) so we should wait for it
+            # or else we'll reuse the old linklocal address and prevent the mgt server to control it.
+            if [ -s /var/cache/cloud/cmdline  ]
+            then
+              systemvm_type=$(cat /var/cache/cloud/cmdline | tr ' ' '\n' | grep type | cut -d\= -f2)
+              if [[ "${systemvm_type}" == "secstorage" || "${systemvm_type}" == "consoleproxy" ]];
+              then
+                log_it "Found a non empty cmdline file for type = ${systemvm_type}. Will now exit the loop and proceed with configuration."
+                break;
+              fi
             fi
             sleep ${progress}s
             progress=$[ progress * factor ]
