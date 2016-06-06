@@ -65,6 +65,8 @@ import org.apache.cloudstack.storage.command.AttachCommand;
 import org.apache.cloudstack.storage.command.CommandResult;
 import org.apache.cloudstack.storage.command.DettachCommand;
 import org.apache.cloudstack.storage.command.TemplateOrVolumePostUploadCommand;
+import org.apache.cloudstack.storage.datastore.db.ImageStoreDao;
+import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.SnapshotDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
@@ -261,6 +263,8 @@ public class TemplateManagerImpl extends ManagerBase implements TemplateManager,
   @Inject
   private SnapshotDataStoreDao _snapshotStoreDao;
 
+  @Inject
+  private ImageStoreDao _imgStoreDao;
   @Inject
   MessageBus _messageBus;
 
@@ -1680,6 +1684,13 @@ public class TemplateManagerImpl extends ManagerBase implements TemplateManager,
         s_logger.debug("This template is getting created from other template, setting source template Id to: " + sourceTemplateId);
       }
     }
+
+    // for region wide storage, set cross zones flag
+    List<ImageStoreVO> stores = _imgStoreDao.findRegionImageStores();
+    if (!CollectionUtils.isEmpty(stores)) {
+      privateTemplate.setCrossZones(true);
+    }
+
     privateTemplate.setSourceTemplateId(sourceTemplateId);
 
     final VMTemplateVO template = _tmpltDao.persist(privateTemplate);
