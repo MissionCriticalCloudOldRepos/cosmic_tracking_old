@@ -97,8 +97,8 @@ public class ApiXmlDocWriter {
 
     public static void main(String[] args) {
         Set<Class<?>> cmdClasses = ReflectUtil.getClassesWithAnnotation(APICommand.class, new String[] {"org.apache.cloudstack.api", "com.cloud.api",
-                "com.cloud.api.commands", "com.globo.globodns.cloudstack.api", "org.apache.cloudstack.network.opendaylight.api",
-                "org.apache.cloudstack.api.command.admin.zone", "org.apache.cloudstack.network.contrail.api.command"});
+            "com.cloud.api.commands", "com.globo.globodns.cloudstack.api", "org.apache.cloudstack.api.command.admin.zone",
+            "org.apache.cloudstack.network.contrail.api.command"});
 
         for (Class<?> cmdClass : cmdClasses) {
             if(cmdClass.getAnnotation(APICommand.class)==null){

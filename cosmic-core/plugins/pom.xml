@@ -25,7 +25,6 @@
     <module>hypervisors/baremetal</module>
     <module>network-elements/elastic-loadbalancer</module>
     <module>network-elements/nicira-nvp</module>
-    <module>network-elements/opendaylight</module>
     <module>storage-allocators/random</module>
     <module>storage/image/s3</module>
     <module>storage/image/default</module>
