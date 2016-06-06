@@ -1087,4 +1087,11 @@ public class HostDaoImpl extends GenericDaoBase<HostVO, Long> implements HostDao
         sc.addAnd("dataCenterId", SearchCriteria.Op.EQ, zoneId);
         return customSearch(sc, null);
     }
+
+    @Override
+    public List<HostVO> listByType(Host.Type type) {
+        SearchCriteria<HostVO> sc = TypeSearch.create();
+        sc.setParameters("type", type);
+        return listBy(sc);
+    }
 }
