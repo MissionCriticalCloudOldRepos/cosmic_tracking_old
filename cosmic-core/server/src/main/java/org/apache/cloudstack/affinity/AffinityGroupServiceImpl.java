@@ -184,22 +184,6 @@ public class AffinityGroupServiceImpl extends ManagerBase implements AffinityGro
                     new AffinityGroupVO(affinityGroupName, affinityGroupType, description, owner.getDomainId(), owner.getId(), aclType);
                 _affinityGroupDao.persist(group);
 
-                if (aclType == ACLType.Domain) {
-                    boolean subDomainAccess = false;
-                    subDomainAccess = processor.subDomainAccess();
-                    AffinityGroupDomainMapVO domainMap = new AffinityGroupDomainMapVO(group.getId(), owner.getDomainId(),
-                            subDomainAccess);
-                    _affinityGroupDomainMapDao.persist(domainMap);
-                    //send event for storing the domain wide resource access
-                    Map<String, Object> params = new HashMap<String, Object>();
-                    params.put(ApiConstants.ENTITY_TYPE, AffinityGroup.class);
-                    params.put(ApiConstants.ENTITY_ID, group.getId());
-                    params.put(ApiConstants.DOMAIN_ID, owner.getDomainId());
-                    params.put(ApiConstants.SUBDOMAIN_ACCESS, subDomainAccess);
-                    _messageBus.publish(_name, EntityManager.MESSAGE_ADD_DOMAIN_WIDE_ENTITY_EVENT, PublishScope.LOCAL,
-                            params);
-                }
-
                 return group;
             }
         });
