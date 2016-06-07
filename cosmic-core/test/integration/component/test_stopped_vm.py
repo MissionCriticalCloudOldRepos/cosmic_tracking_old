@@ -18,9 +18,8 @@
 """ P1 for stopped Virtual Maschine life cycle
 """
 # Import Local Modules
-from nose.plugins.attrib import attr
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import cleanup_resources
+from marvin.codes import PASS
 from marvin.lib.base import (Account,
                              VirtualMachine,
                              ServiceOffering,
@@ -36,13 +35,12 @@ from marvin.lib.common import (get_zone,
                                get_domain,
                                get_template,
                                get_builtin_template_info,
-                               update_resource_limit,
-                               find_storage_pool_type)
-from marvin.codes import PASS
+                               update_resource_limit)
+from marvin.lib.utils import cleanup_resources
+from nose.plugins.attrib import attr
 
 
 class TestDeployVM(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
 
@@ -141,11 +139,11 @@ class TestDeployVM(cloudstackTestCase):
 
     @attr(
         tags=[
-              "advanced",
-              "eip",
-              "advancedns",
-              "basic",
-              "sg"],
+            "advanced",
+            "eip",
+            "advancedns",
+            "basic",
+            "sg"],
         required_hardware="false")
     def test_02_deploy_vm_startvm_true(self):
         """Test Deploy Virtual Machine with startVM=true parameter
@@ -496,11 +494,11 @@ class TestDeployVM(cloudstackTestCase):
 
     @attr(
         tags=[
-              "advanced",
-              "eip",
-              "advancedns",
-              "basic",
-              "sg"],
+            "advanced",
+            "eip",
+            "advancedns",
+            "basic",
+            "sg"],
         required_hardware="false")
     def test_08_deploy_attached_volume(self):
         """Test Deploy Virtual Machine with startVM=false and attach volume
@@ -736,7 +734,6 @@ class TestDeployVM(cloudstackTestCase):
 
 
 class TestDeployHaEnabledVM(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
 
@@ -747,7 +744,7 @@ class TestDeployHaEnabledVM(cloudstackTestCase):
         # Get Zone, Domain and templates
         cls.hypervisor = cls.testClient.getHypervisorInfo()
         cls.skip = False
-        
+
         cls.domain = get_domain(cls.api_client)
         cls.zone = get_zone(cls.api_client, cls.testClient.getZoneForTests())
 
@@ -931,7 +928,6 @@ class TestDeployHaEnabledVM(cloudstackTestCase):
 
 
 class TestRouterStateAfterDeploy(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
 
@@ -1030,7 +1026,7 @@ class TestRouterStateAfterDeploy(cloudstackTestCase):
             VirtualMachine.STOPPED)
         self.assertEqual(response[0], PASS, response[1])
 
-        if(self.zone.networktype == "Advanced"):
+        if (self.zone.networktype == "Advanced"):
             self.debug("Checking the router state after VM deployment")
             routers = Router.list(
                 self.apiclient,
@@ -1063,10 +1059,10 @@ class TestRouterStateAfterDeploy(cloudstackTestCase):
         self.debug("Checking the router state after VM deployment")
         if (self.zone.networktype == "Basic"):
             routers = Router.list(
-                                  self.apiclient,
-                                  zoneid=self.zone.id,
-                                  listall=True
-                                 )
+                self.apiclient,
+                zoneid=self.zone.id,
+                listall=True
+            )
         else:
             routers = Router.list(
                 self.apiclient,
@@ -1089,7 +1085,7 @@ class TestRouterStateAfterDeploy(cloudstackTestCase):
         self.debug("Destroying the running VM:%s" %
                    self.virtual_machine_2.name)
         self.virtual_machine_2.delete(self.apiclient, expunge=True)
-        if(self.zone.networktype == "Advanced"):
+        if (self.zone.networktype == "Advanced"):
             routers = Router.list(
                 self.apiclient,
                 account=self.account.name,
@@ -1105,7 +1101,6 @@ class TestRouterStateAfterDeploy(cloudstackTestCase):
 
 
 class TestDeployVMBasicZone(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
 
@@ -1177,7 +1172,6 @@ class TestDeployVMBasicZone(cloudstackTestCase):
 
 
 class TestDeployVMFromTemplate(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
 
@@ -1264,11 +1258,11 @@ class TestDeployVMFromTemplate(cloudstackTestCase):
 
     @attr(
         tags=[
-              "advanced",
-              "eip",
-              "advancedns",
-              "basic",
-              "sg"],
+            "advanced",
+            "eip",
+            "advancedns",
+            "basic",
+            "sg"],
         required_hardware="true")
     def test_deploy_vm_password_enabled(self):
         """Test Deploy Virtual Machine with startVM=false & enabledpassword in
@@ -1309,7 +1303,6 @@ class TestDeployVMFromTemplate(cloudstackTestCase):
 
 
 class TestVMAccountLimit(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestVMAccountLimit, cls).getClsTestClient()
@@ -1391,7 +1384,7 @@ class TestVMAccountLimit(cloudstackTestCase):
         # Set usage_vm=1 for Account 1
         update_resource_limit(
             self.apiclient,
-            0,    # Instance
+            0,  # Instance
             account=self.account.name,
             domainid=self.account.domainid,
             max=1
@@ -1432,7 +1425,6 @@ class TestVMAccountLimit(cloudstackTestCase):
 
 
 class TestUploadAttachVolume(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestUploadAttachVolume, cls).getClsTestClient()
@@ -1554,7 +1546,6 @@ class TestUploadAttachVolume(cloudstackTestCase):
 
 
 class TestDeployOnSpecificHost(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(
@@ -1614,7 +1605,7 @@ class TestDeployOnSpecificHost(cloudstackTestCase):
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-    @attr(tags=["advanced", "advancedns", "simulator",
+    @attr(tags=["advanced", "advancedns",
                 "api", "basic", "eip", "sg"])
     def test_deployVmOnGivenHost(self):
         """Test deploy VM on specific host

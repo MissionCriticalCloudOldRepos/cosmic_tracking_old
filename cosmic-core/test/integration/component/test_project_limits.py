@@ -16,10 +16,11 @@
 # under the License.
 """ P1 tests for Resource limits
 """
-#Import Local Modules
+# Import Local Modules
+from marvin.cloudstackTestCase import cloudstackTestCase
 from nose.plugins.attrib import attr
-from marvin.cloudstackTestCase import cloudstackTestCase, unittest
-#from marvin.cloudstackAPI import *
+
+# from marvin.cloudstackAPI import *
 from marvin.lib.utils import (cleanup_resources,
                               validateList)
 from marvin.lib.base import (Account,
@@ -43,10 +44,10 @@ from marvin.lib.common import (get_domain,
                                list_configurations,
                                list_resource_limits,
                                update_resource_limit,
-                               get_builtin_template_info,
-                               find_storage_pool_type)
+                               get_builtin_template_info)
 from marvin.codes import PASS
 import time
+
 
 class Services:
     """Test Resource Limits Services
@@ -54,94 +55,93 @@ class Services:
 
     def __init__(self):
         self.services = {
-                        "domain": {
-                                   "name": "Domain",
-                        },
-                        "project": {
-                                    "name": "Project",
-                                    "displaytext": "Test project",
-                        },
-                        "account": {
-                                    "email": "administrator@clogeny.com",
-                                    "firstname": "Test",
-                                    "lastname": "User",
-                                    "username": "test",
-                                    # Random characters are appended for unique
-                                    # username
-                                    "password": "password",
-                         },
-                         "user": {
-                                    "email": "administrator@clogeny.com",
-                                    "firstname": "User",
-                                    "lastname": "User",
-                                    "username": "User",
-                                    # Random characters are appended for unique
-                                    # username
-                                    "password": "password",
-                         },
-                         "service_offering": {
-                                    "name": "Tiny Instance",
-                                    "displaytext": "Tiny Instance",
-                                    "cpunumber": 1,
-                                    "cpuspeed": 100, # in MHz
-                                    "memory": 128, # In MBs
-                        },
-                        "disk_offering": {
-                                    "displaytext": "Tiny Disk Offering",
-                                    "name": "Tiny Disk Offering",
-                                    "disksize": 1
-                        },
-                        "volume": {
-                                   "diskname": "Test Volume",
-                        },
-                        "server": {
-                                    "displayname": "TestVM",
-                                    "username": "root",
-                                    "password": "password",
-                                    "ssh_port": 22,
-                                    "hypervisor": 'XenServer',
-                                    "privateport": 22,
-                                    "publicport": 22,
-                                    "protocol": 'TCP',
-                        },
-                        "template": {
-                                    "displaytext": "Cent OS Template",
-                                    "name": "Cent OS Template",
-                                    "ostype": 'CentOS 5.3 (64-bit)',
-                                    "templatefilter": 'self',
-                        },
-                         "network_offering": {
-                                    "name": 'Network offering-VR services',
-                                    "displaytext": 'Network offering-VR services',
-                                    "guestiptype": 'Isolated',
-                                    "supportedservices": 'Dhcp,Dns,SourceNat,PortForwarding,Vpn,Firewall,Lb,UserData,StaticNat',
-                                    "traffictype": 'GUEST',
-                                    "availability": 'Optional',
-                                    "serviceProviderList": {
-                                            "Dhcp": 'VirtualRouter',
-                                            "Dns": 'VirtualRouter',
-                                            "SourceNat": 'VirtualRouter',
-                                            "PortForwarding": 'VirtualRouter',
-                                            "Vpn": 'VirtualRouter',
-                                            "Firewall": 'VirtualRouter',
-                                            "Lb": 'VirtualRouter',
-                                            "UserData": 'VirtualRouter',
-                                            "StaticNat": 'VirtualRouter',
-                                        },
-                                    },
-                         "network": {
-                                  "name": "Test Network",
-                                  "displaytext": "Test Network",
-                                },
-                         "ostype": 'CentOS 5.3 (64-bit)',
-                        # Cent OS 5.3 (64 bit)
-                        "sleep": 60,
-                        "timeout": 10,
-                    }
+            "domain": {
+                "name": "Domain",
+            },
+            "project": {
+                "name": "Project",
+                "displaytext": "Test project",
+            },
+            "account": {
+                "email": "administrator@clogeny.com",
+                "firstname": "Test",
+                "lastname": "User",
+                "username": "test",
+                # Random characters are appended for unique
+                # username
+                "password": "password",
+            },
+            "user": {
+                "email": "administrator@clogeny.com",
+                "firstname": "User",
+                "lastname": "User",
+                "username": "User",
+                # Random characters are appended for unique
+                # username
+                "password": "password",
+            },
+            "service_offering": {
+                "name": "Tiny Instance",
+                "displaytext": "Tiny Instance",
+                "cpunumber": 1,
+                "cpuspeed": 100,  # in MHz
+                "memory": 128,  # In MBs
+            },
+            "disk_offering": {
+                "displaytext": "Tiny Disk Offering",
+                "name": "Tiny Disk Offering",
+                "disksize": 1
+            },
+            "volume": {
+                "diskname": "Test Volume",
+            },
+            "server": {
+                "displayname": "TestVM",
+                "username": "root",
+                "password": "password",
+                "ssh_port": 22,
+                "hypervisor": 'XenServer',
+                "privateport": 22,
+                "publicport": 22,
+                "protocol": 'TCP',
+            },
+            "template": {
+                "displaytext": "Cent OS Template",
+                "name": "Cent OS Template",
+                "ostype": 'CentOS 5.3 (64-bit)',
+                "templatefilter": 'self',
+            },
+            "network_offering": {
+                "name": 'Network offering-VR services',
+                "displaytext": 'Network offering-VR services',
+                "guestiptype": 'Isolated',
+                "supportedservices": 'Dhcp,Dns,SourceNat,PortForwarding,Vpn,Firewall,Lb,UserData,StaticNat',
+                "traffictype": 'GUEST',
+                "availability": 'Optional',
+                "serviceProviderList": {
+                    "Dhcp": 'VirtualRouter',
+                    "Dns": 'VirtualRouter',
+                    "SourceNat": 'VirtualRouter',
+                    "PortForwarding": 'VirtualRouter',
+                    "Vpn": 'VirtualRouter',
+                    "Firewall": 'VirtualRouter',
+                    "Lb": 'VirtualRouter',
+                    "UserData": 'VirtualRouter',
+                    "StaticNat": 'VirtualRouter',
+                },
+            },
+            "network": {
+                "name": "Test Network",
+                "displaytext": "Test Network",
+            },
+            "ostype": 'CentOS 5.3 (64-bit)',
+            # Cent OS 5.3 (64 bit)
+            "sleep": 60,
+            "timeout": 10,
+        }
 
 
 class TestProjectLimits(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestProjectLimits, cls).getClsTestClient()
@@ -153,37 +153,37 @@ class TestProjectLimits(cloudstackTestCase):
 
         # Create domains, account etc.
         cls.domain = Domain.create(
-                                   cls.api_client,
-                                   cls.services["domain"]
-                                   )
+            cls.api_client,
+            cls.services["domain"]
+        )
 
         cls.admin = Account.create(
-                            cls.api_client,
-                            cls.services["account"],
-                            admin=True,
-                            domainid=cls.domain.id
-                            )
+            cls.api_client,
+            cls.services["account"],
+            admin=True,
+            domainid=cls.domain.id
+        )
         cls.user = Account.create(
-                            cls.api_client,
-                            cls.services["user"],
-                            domainid=cls.domain.id
-                            )
+            cls.api_client,
+            cls.services["user"],
+            domainid=cls.domain.id
+        )
         cls.disk_offering = DiskOffering.create(
-                                    cls.api_client,
-                                    cls.services["disk_offering"]
-                                    )
+            cls.api_client,
+            cls.services["disk_offering"]
+        )
         cls._cleanup = [
             cls.admin,
             cls.user,
             cls.domain,
             cls.disk_offering
-            ]
+        ]
         return
 
     @classmethod
     def tearDownClass(cls):
         try:
-            #Cleanup resources used
+            # Cleanup resources used
             cleanup_resources(cls.api_client, cls._cleanup)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
@@ -197,13 +197,13 @@ class TestProjectLimits(cloudstackTestCase):
 
     def tearDown(self):
         try:
-            #Clean up, terminate the created accounts, domains etc
+            # Clean up, terminate the created accounts, domains etc
             cleanup_resources(self.apiclient, self.cleanup)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns", "simulator"], required_hardware="false")
+    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns"], required_hardware="false")
     def test_01_project_limits(self):
         """ Test project limits for domain admin
         """
@@ -223,53 +223,53 @@ class TestProjectLimits(cloudstackTestCase):
 
         # Create project as a domain admin
         project = Project.create(
-                                 self.apiclient,
-                                 self.services["project"],
-                                 account=self.admin.name,
-                                 domainid=self.admin.domainid
-                                 )
+            self.apiclient,
+            self.services["project"],
+            account=self.admin.name,
+            domainid=self.admin.domainid
+        )
         # Cleanup created project at end of test
         self.cleanup.append(project)
         self.debug("Created project with domain admin with ID: %s" %
-                                                                project.id)
+                   project.id)
 
         list_projects_reponse = Project.list(
-                                             self.apiclient,
-                                             id=project.id,
-                                             listall=True
-                                             )
+            self.apiclient,
+            id=project.id,
+            listall=True
+        )
 
         self.assertEqual(
-                            isinstance(list_projects_reponse, list),
-                            True,
-                            "Check for a valid list projects response"
-                            )
+            isinstance(list_projects_reponse, list),
+            True,
+            "Check for a valid list projects response"
+        )
         list_project = list_projects_reponse[0]
 
         self.assertNotEqual(
-                    len(list_projects_reponse),
-                    0,
-                    "Check list project response returns a valid project"
-                    )
+            len(list_projects_reponse),
+            0,
+            "Check list project response returns a valid project"
+        )
 
         self.assertEqual(
-                            project.name,
-                            list_project.name,
-                            "Check project name from list response"
-                            )
+            project.name,
+            list_project.name,
+            "Check project name from list response"
+        )
         # Get the resource limits for ROOT domain
         resource_limits = list_resource_limits(self.apiclient)
 
         self.assertEqual(
-                         isinstance(resource_limits, list),
-                         True,
-                         "List resource API should return a valid list"
-                         )
+            isinstance(resource_limits, list),
+            True,
+            "List resource API should return a valid list"
+        )
         self.assertNotEqual(
-                         len(resource_limits),
-                         0,
-                         "List resource API response should not be empty"
-                         )
+            len(resource_limits),
+            0,
+            "List resource API response should not be empty"
+        )
 
         # Reduce resource limits for project
         # Resource: 0 - Instance. Number of instances a user can create.
@@ -280,97 +280,97 @@ class TestProjectLimits(cloudstackTestCase):
         #               register/create
         for resource in resource_limits:
             update_resource_limit(
-                                    self.apiclient,
-                                    resource.resourcetype,
-                                    max=1,
-                                    projectid=project.id
-                                    )
+                self.apiclient,
+                resource.resourcetype,
+                max=1,
+                projectid=project.id
+            )
             self.debug(
-            "Updating resource (ID: %s) limit for project: %s" % (
-                                                                  resource,
-                                                                  project.id
-                                                                  ))
+                "Updating resource (ID: %s) limit for project: %s" % (
+                    resource,
+                    project.id
+                ))
         resource_limits = list_resource_limits(
-                                                self.apiclient,
-                                                projectid=project.id
-                                                )
+            self.apiclient,
+            projectid=project.id
+        )
         self.assertEqual(
-                         isinstance(resource_limits, list),
-                         True,
-                         "List resource API should return a valid list"
-                         )
+            isinstance(resource_limits, list),
+            True,
+            "List resource API should return a valid list"
+        )
         self.assertNotEqual(
-                         len(resource_limits),
-                         0,
-                         "List resource API response should not be empty"
-                         )
+            len(resource_limits),
+            0,
+            "List resource API response should not be empty"
+        )
         for resource in resource_limits:
             self.assertEqual(
-                         resource.max,
-                         1,
-                         "Resource limit should be updated to 1"
-                         )
+                resource.max,
+                1,
+                "Resource limit should be updated to 1"
+            )
 
         # Get the resource limits for domain
         resource_limits = list_resource_limits(
-                                                self.apiclient,
-                                                domainid=self.domain.id
-                                                )
+            self.apiclient,
+            domainid=self.domain.id
+        )
         self.assertEqual(
-                         isinstance(resource_limits, list),
-                         True,
-                         "List resource API should return a valid list"
-                         )
+            isinstance(resource_limits, list),
+            True,
+            "List resource API should return a valid list"
+        )
         self.assertNotEqual(
-                         len(resource_limits),
-                         0,
-                         "List resource API response should not be empty"
-                         )
+            len(resource_limits),
+            0,
+            "List resource API response should not be empty"
+        )
 
         for resource in resource_limits:
             # Update domain resource limits to 2
             update_resource_limit(
-                                        self.apiclient,
-                                        resource.resourcetype,
-                                        domainid=self.domain.id,
-                                        max=1
-                                      )
+                self.apiclient,
+                resource.resourcetype,
+                domainid=self.domain.id,
+                max=1
+            )
             max_value = 2
             self.debug(
                 "Attempting to update project: %s resource limit to: %s" % (
-                                                            project.id,
-                                                            max_value
-                                                            ))
+                    project.id,
+                    max_value
+                ))
             # Update project resource limits to 3
             update_resource_limit(
-                                    self.apiclient,
-                                    resource.resourcetype,
-                                    max=max_value,
-                                    projectid=project.id
-                                  )
+                self.apiclient,
+                resource.resourcetype,
+                max=max_value,
+                projectid=project.id
+            )
 
         # Verify project can't have more resources then limit set for domain by adding volumes.
         volume = Volume.create(
-                          self.apiclient,
-                          self.services["volume"],
-                          zoneid=self.zone.id,
-                          diskofferingid=self.disk_offering.id,
-                          projectid=project.id
-                        )
+            self.apiclient,
+            self.services["volume"],
+            zoneid=self.zone.id,
+            diskofferingid=self.disk_offering.id,
+            projectid=project.id
+        )
         # Exception should be raised for second volume
         with self.assertRaises(Exception):
             Volume.create(
-                          self.apiclient,
-                          self.services["volume"],
-                          zoneid=self.zone.id,
-                          diskofferingid=self.disk_offering.id,
-                          projectid=project.id
-                        )
+                self.apiclient,
+                self.services["volume"],
+                zoneid=self.zone.id,
+                diskofferingid=self.disk_offering.id,
+                projectid=project.id
+            )
         volume.delete(self.apiclient);
 
         return
 
-    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns", "simulator"], required_hardware="false")
+    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns"], required_hardware="false")
     def test_02_project_limits_normal_user(self):
         """ Test project limits for normal user
         """
@@ -383,53 +383,53 @@ class TestProjectLimits(cloudstackTestCase):
 
         # Create project as a domain admin
         project = Project.create(
-                                 self.apiclient,
-                                 self.services["project"],
-                                 account=self.admin.name,
-                                 domainid=self.admin.domainid
-                                 )
+            self.apiclient,
+            self.services["project"],
+            account=self.admin.name,
+            domainid=self.admin.domainid
+        )
         # Cleanup created project at end of test
         self.cleanup.append(project)
         self.debug("Created project with domain admin with ID: %s" %
-                                                                project.id)
+                   project.id)
 
         list_projects_reponse = Project.list(
-                                             self.apiclient,
-                                             id=project.id,
-                                             listall=True
-                                             )
+            self.apiclient,
+            id=project.id,
+            listall=True
+        )
 
         self.assertEqual(
-                            isinstance(list_projects_reponse, list),
-                            True,
-                            "Check for a valid list projects response"
-                            )
+            isinstance(list_projects_reponse, list),
+            True,
+            "Check for a valid list projects response"
+        )
         list_project = list_projects_reponse[0]
 
         self.assertNotEqual(
-                    len(list_projects_reponse),
-                    0,
-                    "Check list project response returns a valid project"
-                    )
+            len(list_projects_reponse),
+            0,
+            "Check list project response returns a valid project"
+        )
 
         self.assertEqual(
-                            project.name,
-                            list_project.name,
-                            "Check project name from list response"
-                            )
+            project.name,
+            list_project.name,
+            "Check project name from list response"
+        )
         # Get the resource limits for ROOT domain
         resource_limits = list_resource_limits(self.apiclient)
 
         self.assertEqual(
-                         isinstance(resource_limits, list),
-                         True,
-                         "List resource API should return a valid list"
-                         )
+            isinstance(resource_limits, list),
+            True,
+            "List resource API should return a valid list"
+        )
         self.assertNotEqual(
-                         len(resource_limits),
-                         0,
-                         "List resource API response should not be empty"
-                         )
+            len(resource_limits),
+            0,
+            "List resource API response should not be empty"
+        )
 
         # Reduce resource limits for project
         # Resource: 0 - Instance. Number of instances a user can create.
@@ -440,84 +440,83 @@ class TestProjectLimits(cloudstackTestCase):
         #               register/create
         for resource in resource_limits:
             update_resource_limit(
-                                    self.apiclient,
-                                    resource.resourcetype,
-                                    max=1,
-                                    projectid=project.id
-                                    )
+                self.apiclient,
+                resource.resourcetype,
+                max=1,
+                projectid=project.id
+            )
             self.debug(
-            "Updating resource (ID: %s) limit for project: %s" % (
-                                                                  resource,
-                                                                  project.id
-                                                                  ))
+                "Updating resource (ID: %s) limit for project: %s" % (
+                    resource,
+                    project.id
+                ))
         resource_limits = list_resource_limits(
-                                                self.apiclient,
-                                                projectid=project.id
-                                                )
+            self.apiclient,
+            projectid=project.id
+        )
         self.assertEqual(
-                         isinstance(resource_limits, list),
-                         True,
-                         "List resource API should return a valid list"
-                         )
+            isinstance(resource_limits, list),
+            True,
+            "List resource API should return a valid list"
+        )
         self.assertNotEqual(
-                         len(resource_limits),
-                         0,
-                         "List resource API response should not be empty"
-                         )
+            len(resource_limits),
+            0,
+            "List resource API response should not be empty"
+        )
         for resource in resource_limits:
             self.assertEqual(
-                         resource.max,
-                         1,
-                         "Resource limit should be updated to 1"
-                         )
+                resource.max,
+                1,
+                "Resource limit should be updated to 1"
+            )
 
         self.debug("Adding %s user to project: %s" % (
-                                                self.user.name,
-                                                project.name
-                                                ))
+            self.user.name,
+            project.name
+        ))
 
         # Add user to the project
         project.addAccount(
-                           self.apiclient,
-                           self.user.name,
-                           )
+            self.apiclient,
+            self.user.name,
+        )
 
         # Get the resource limits for domain
         resource_limits = list_resource_limits(
-                                                self.apiclient,
-                                                domainid=self.domain.id
-                                                )
+            self.apiclient,
+            domainid=self.domain.id
+        )
         self.assertEqual(
-                         isinstance(resource_limits, list),
-                         True,
-                         "List resource API should return a valid list"
-                         )
+            isinstance(resource_limits, list),
+            True,
+            "List resource API should return a valid list"
+        )
         self.assertNotEqual(
-                         len(resource_limits),
-                         0,
-                         "List resource API response should not be empty"
-                         )
+            len(resource_limits),
+            0,
+            "List resource API response should not be empty"
+        )
 
         for resource in resource_limits:
-            #with self.assertRaises(Exception):
+            # with self.assertRaises(Exception):
             self.debug(
-                    "Attempting to update resource limit by user: %s" % (
-                                                        self.user.name
-                                                        ))
+                "Attempting to update resource limit by user: %s" % (
+                    self.user.name
+                ))
             # Update project resource limits to 3
             update_resource_limit(
-                                    self.apiclient,
-                                    resource.resourcetype,
-                                    account=self.user.name,
-                                    domainid=self.user.domainid,
-                                    max=3,
-                                    projectid=project.id
-                                )
+                self.apiclient,
+                resource.resourcetype,
+                account=self.user.name,
+                domainid=self.user.domainid,
+                max=3,
+                projectid=project.id
+            )
         return
 
 
 class TestResourceLimitsProject(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestResourceLimitsProject, cls).getClsTestClient()
@@ -528,59 +527,59 @@ class TestResourceLimitsProject(cloudstackTestCase):
         cls.services['mode'] = cls.zone.networktype
 
         cls.template = get_template(
-                            cls.api_client,
-                            cls.zone.id,
-                            cls.services["ostype"]
-                            )
+            cls.api_client,
+            cls.zone.id,
+            cls.services["ostype"]
+        )
         cls.services["server"]["zoneid"] = cls.zone.id
 
         # Create Domains, Account etc
         cls.domain = Domain.create(
-                                   cls.api_client,
-                                   cls.services["domain"]
-                                   )
+            cls.api_client,
+            cls.services["domain"]
+        )
 
         cls.account = Account.create(
-                            cls.api_client,
-                            cls.services["account"],
-                            domainid=cls.domain.id
-                            )
+            cls.api_client,
+            cls.services["account"],
+            domainid=cls.domain.id
+        )
 
         cls.userapiclient = cls.testClient.getUserApiClient(
-                                    UserName=cls.account.name,
-                                    DomainName=cls.account.domain)
+            UserName=cls.account.name,
+            DomainName=cls.account.domain)
 
         # Create project as a domain admin
         cls.project = Project.create(
-                                 cls.api_client,
-                                 cls.services["project"],
-                                 account=cls.account.name,
-                                 domainid=cls.account.domainid
-                                 )
+            cls.api_client,
+            cls.services["project"],
+            account=cls.account.name,
+            domainid=cls.account.domainid
+        )
         cls.services["account"] = cls.account.name
 
         # Create Service offering and disk offerings etc
         cls.service_offering = ServiceOffering.create(
-                                            cls.api_client,
-                                            cls.services["service_offering"]
-                                            )
+            cls.api_client,
+            cls.services["service_offering"]
+        )
         cls.disk_offering = DiskOffering.create(
-                                    cls.api_client,
-                                    cls.services["disk_offering"]
-                                    )
+            cls.api_client,
+            cls.services["disk_offering"]
+        )
         cls._cleanup = [
-                        cls.project,
-                        cls.service_offering,
-                        cls.disk_offering,
-                        cls.account,
-                        cls.domain
-                        ]
+            cls.project,
+            cls.service_offering,
+            cls.disk_offering,
+            cls.account,
+            cls.domain
+        ]
         return
 
     @classmethod
     def tearDownClass(cls):
         try:
-            #Cleanup resources used
+            # Cleanup resources used
             cleanup_resources(cls.api_client, cls._cleanup)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
@@ -594,13 +593,13 @@ class TestResourceLimitsProject(cloudstackTestCase):
 
     def tearDown(self):
         try:
-            #Clean up, terminate the created instance, volumes and snapshots
+            # Clean up, terminate the created instance, volumes and snapshots
             cleanup_resources(self.apiclient, self.cleanup)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns", "simulator"], required_hardware="false")
+    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns"], required_hardware="false")
     def test_03_vm_per_project(self):
         """Test VM limit per project
         """
@@ -612,57 +611,57 @@ class TestResourceLimitsProject(cloudstackTestCase):
 
         self.debug(
             "Updating instance resource limits for project: %s" %
-                                                        self.project.id)
+            self.project.id)
         # Set usage_vm=1 for Account 1
         update_resource_limit(
-                              self.apiclient,
-                              0, # Instance
-                              max=2,
-                              projectid=self.project.id
-                              )
+            self.apiclient,
+            0,  # Instance
+            max=2,
+            projectid=self.project.id
+        )
 
         self.debug("Deploying VM for project: %s" % self.project.id)
         virtual_machine_1 = VirtualMachine.create(
-                                self.apiclient,
-                                self.services["server"],
-                                templateid=self.template.id,
-                                serviceofferingid=self.service_offering.id,
-                                projectid=self.project.id
-                                )
+            self.apiclient,
+            self.services["server"],
+            templateid=self.template.id,
+            serviceofferingid=self.service_offering.id,
+            projectid=self.project.id
+        )
         self.cleanup.append(virtual_machine_1)
         # Verify VM state
         self.assertEqual(
-                            virtual_machine_1.state,
-                            'Running',
-                            "Check VM state is Running or not"
-                        )
+            virtual_machine_1.state,
+            'Running',
+            "Check VM state is Running or not"
+        )
         self.debug("Deploying VM for project: %s" % self.project.id)
         virtual_machine_2 = VirtualMachine.create(
-                                self.apiclient,
-                                self.services["server"],
-                                templateid=self.template.id,
-                                serviceofferingid=self.service_offering.id,
-                                projectid=self.project.id
-                                )
+            self.apiclient,
+            self.services["server"],
+            templateid=self.template.id,
+            serviceofferingid=self.service_offering.id,
+            projectid=self.project.id
+        )
         self.cleanup.append(virtual_machine_2)
         # Verify VM state
         self.assertEqual(
-                            virtual_machine_2.state,
-                            'Running',
-                            "Check VM state is Running or not"
-                        )
+            virtual_machine_2.state,
+            'Running',
+            "Check VM state is Running or not"
+        )
         # Exception should be raised for second instance
         with self.assertRaises(Exception):
             VirtualMachine.create(
-                                self.apiclient,
-                                self.services["server"],
-                                templateid=self.template.id,
-                                serviceofferingid=self.service_offering.id,
-                                projectid=self.project.id
-                                )
+                self.apiclient,
+                self.services["server"],
+                templateid=self.template.id,
+                serviceofferingid=self.service_offering.id,
+                projectid=self.project.id
+            )
         return
 
-    @attr(tags=["advanced", "eip", "advancedns", "simulator"], required_hardware="false")
+    @attr(tags=["advanced", "eip", "advancedns"], required_hardware="false")
     def test_04_publicip_per_project(self):
         """Test Public IP limit per project
         """
@@ -676,78 +675,78 @@ class TestResourceLimitsProject(cloudstackTestCase):
 
         self.debug(
             "Updating public IP resource limits for project: %s" %
-                                                            self.project.id)
+            self.project.id)
         # Set usage_vm=1 for Account 1
         update_resource_limit(
-                              self.apiclient,
-                              1, # Public Ip
-                              max=2,
-                              projectid=self.project.id
-                              )
+            self.apiclient,
+            1,  # Public Ip
+            max=2,
+            projectid=self.project.id
+        )
 
         self.debug("Deploying VM for Project: %s" % self.project.id)
         virtual_machine_1 = VirtualMachine.create(
-                                self.apiclient,
-                                self.services["server"],
-                                templateid=self.template.id,
-                                serviceofferingid=self.service_offering.id,
-                                projectid=self.project.id
-                                )
+            self.apiclient,
+            self.services["server"],
+            templateid=self.template.id,
+            serviceofferingid=self.service_offering.id,
+            projectid=self.project.id
+        )
         self.cleanup.append(virtual_machine_1)
         # Verify VM state
         self.assertEqual(
-                            virtual_machine_1.state,
-                            'Running',
-                            "Check VM state is Running or not"
-                        )
+            virtual_machine_1.state,
+            'Running',
+            "Check VM state is Running or not"
+        )
         networks = Network.list(
-                                self.apiclient,
-                                projectid=self.project.id,
-                                listall=True
-                                )
+            self.apiclient,
+            projectid=self.project.id,
+            listall=True
+        )
         self.assertEqual(
-                    isinstance(networks, list),
-                    True,
-                    "Check list networks response returns a valid response"
-                    )
+            isinstance(networks, list),
+            True,
+            "Check list networks response returns a valid response"
+        )
         self.assertNotEqual(
-                    len(networks),
-                    0,
-                    "Check list networks response returns a valid network"
-                    )
+            len(networks),
+            0,
+            "Check list networks response returns a valid network"
+        )
         network = networks[0]
         self.debug("Associating public IP for project: %s" %
-                                                            self.project.id)
+                   self.project.id)
         public_ip_1 = PublicIPAddress.create(
-                                           self.apiclient,
-                                           zoneid=virtual_machine_1.zoneid,
-                                           services=self.services["server"],
-                                           networkid=network.id,
-                                           projectid=self.project.id
-                                           )
+            self.apiclient,
+            zoneid=virtual_machine_1.zoneid,
+            services=self.services["server"],
+            networkid=network.id,
+            projectid=self.project.id
+        )
         self.cleanup.append(public_ip_1)
         # Verify Public IP state
         self.assertEqual(
-                            public_ip_1.ipaddress.state in [
-                                                 'Allocated',
-                                                 'Allocating'
-                                                 ],
-                            True,
-                            "Check Public IP state is allocated or not"
-                        )
+            public_ip_1.ipaddress.state in [
+                'Allocated',
+                'Allocating'
+            ],
+            True,
+            "Check Public IP state is allocated or not"
+        )
 
         # Exception should be raised for second Public IP
         with self.assertRaises(Exception):
             PublicIPAddress.create(
-                                           self.apiclient,
-                                           zoneid=virtual_machine_1.zoneid,
-                                           services=self.services["server"],
-                                           networkid=network.id,
-                                           projectid=self.project.id
-                                           )
+                self.apiclient,
+                zoneid=virtual_machine_1.zoneid,
+                services=self.services["server"],
+                networkid=network.id,
+                projectid=self.project.id
+            )
         return
 
-    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns", "simulator"], required_hardware="false")
+    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns"], required_hardware="false")
     def test_05_snapshots_per_project(self):
         """Test Snapshot limit per project
         """
@@ -760,53 +759,53 @@ class TestResourceLimitsProject(cloudstackTestCase):
 
         self.debug(
             "Updating snapshot resource limits for project: %s" %
-                                        self.project.id)
+            self.project.id)
         # Set usage_vm=1 for Account 1
         update_resource_limit(
-                              self.apiclient,
-                              3, # Snapshot
-                              max=1,
-                              projectid=self.project.id
-                              )
+            self.apiclient,
+            3,  # Snapshot
+            max=1,
+            projectid=self.project.id
+        )
 
         self.debug("Deploying VM for account: %s" % self.account.name)
         virtual_machine_1 = VirtualMachine.create(
-                                self.apiclient,
-                                self.services["server"],
-                                templateid=self.template.id,
-                                serviceofferingid=self.service_offering.id,
-                                projectid=self.project.id
-                                )
+            self.apiclient,
+            self.services["server"],
+            templateid=self.template.id,
+            serviceofferingid=self.service_offering.id,
+            projectid=self.project.id
+        )
         self.cleanup.append(virtual_machine_1)
         # Verify VM state
         self.assertEqual(
-                            virtual_machine_1.state,
-                            'Running',
-                            "Check VM state is Running or not"
-                        )
+            virtual_machine_1.state,
+            'Running',
+            "Check VM state is Running or not"
+        )
 
         # Get the Root disk of VM
         volumes = list_volumes(
-                            self.apiclient,
-                            virtualmachineid=virtual_machine_1.id,
-                            projectid=self.project.id,
-                            type='ROOT'
-                            )
+            self.apiclient,
+            virtualmachineid=virtual_machine_1.id,
+            projectid=self.project.id,
+            type='ROOT'
+        )
         self.assertEqual(
-                        isinstance(volumes, list),
-                        True,
-                        "Check for list volume response return valid data"
-                        )
+            isinstance(volumes, list),
+            True,
+            "Check for list volume response return valid data"
+        )
 
         self.debug("Creating snapshot from volume: %s" % volumes[0].id)
         # Create a snapshot from the ROOTDISK
         snapshot_1 = Snapshot.create(self.apiclient,
-                            volumes[0].id,
-                            projectid=self.project.id
-                            )
+                                     volumes[0].id,
+                                     projectid=self.project.id
+                                     )
         self.cleanup.append(snapshot_1)
 
-        #list snapshots
+        # list snapshots
         snapshots = list_snapshots(self.apiclient, projectid=self.project.id)
 
         self.debug("snapshots list: %s" % snapshots)
@@ -822,7 +821,7 @@ class TestResourceLimitsProject(cloudstackTestCase):
                             )
         return
 
-    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns", "simulator"], required_hardware="false")
+    @attr(tags=["advanced", "basic", "sg", "eip", "advancedns"], required_hardware="false")
     def test_06_volumes_per_project(self):
         """Test Volumes limit per project
         """
@@ -834,48 +833,48 @@ class TestResourceLimitsProject(cloudstackTestCase):
         #    should be generated.
 
         self.project_1 = Project.create(
-                         self.api_client,
-                         self.services["project"],
-                         account=self.account.name,
-                         domainid=self.account.domainid
-                         )
+            self.api_client,
+            self.services["project"],
+            account=self.account.name,
+            domainid=self.account.domainid
+        )
         self.cleanup.append(self.project_1)
 
         self.debug(
             "Updating volume resource limits for project: %s" %
-                                                    self.project_1.id)
+            self.project_1.id)
         # Set usage_vm=1 for Account 1
         update_resource_limit(
-                              self.apiclient,
-                              2, # Volume
-                              max=1,
-                              projectid=self.project_1.id
-                              )
+            self.apiclient,
+            2,  # Volume
+            max=1,
+            projectid=self.project_1.id
+        )
 
         self.debug("Deploying VM for project: %s" % self.project_1.id)
         virtual_machine_1 = VirtualMachine.create(
-                                self.apiclient,
-                                self.services["server"],
-                                templateid=self.template.id,
-                                serviceofferingid=self.service_offering.id,
-                                projectid=self.project_1.id
-                                )
+            self.apiclient,
+            self.services["server"],
+            templateid=self.template.id,
+            serviceofferingid=self.service_offering.id,
+            projectid=self.project_1.id
+        )
         # Verify VM state
         self.assertEqual(
-                            virtual_machine_1.state,
-                            'Running',
-                            "Check VM state is Running or not"
-                        )
+            virtual_machine_1.state,
+            'Running',
+            "Check VM state is Running or not"
+        )
 
         # Exception should be raised for second volume
         with self.assertRaises(Exception):
             Volume.create(
-                          self.apiclient,
-                          self.services["volume"],
-                          zoneid=self.zone.id,
-                          diskofferingid=self.disk_offering.id,
-                          projectid=self.project_1.id
-                        )
+                self.apiclient,
+                self.services["volume"],
+                zoneid=self.zone.id,
+                diskofferingid=self.disk_offering.id,
+                projectid=self.project_1.id
+            )
         return
 
     @attr(tags=["advanced", "basic", "sg", "eip", "advancedns"], required_hardware="true")
@@ -890,22 +889,22 @@ class TestResourceLimitsProject(cloudstackTestCase):
 
         # Reset the volume limits
         update_resource_limit(
-                              self.apiclient,
-                              2, # Volume
-                              max=5,
-                              projectid=self.project.id
-                              )
+            self.apiclient,
+            2,  # Volume
+            max=5,
+            projectid=self.project.id
+        )
         self.debug(
             "Updating template resource limits for domain: %s" %
-                                        self.account.domainid)
+            self.account.domainid)
         # Set usage_vm=1 for Account 1
         update_resource_limit(
-                              self.apiclient,
-                              4, # Template
-                              max=1,
-                              projectid=self.project.id
-                              )
-        
+            self.apiclient,
+            4,  # Template
+            max=1,
+            projectid=self.project.id
+        )
+
         # Register the First Template in the project
         self.debug("Register the First Template in the project")
         builtin_info = get_builtin_template_info(self.apiclient, self.zone.id)
@@ -915,16 +914,16 @@ class TestResourceLimitsProject(cloudstackTestCase):
 
         # Register new template
         template = Template.register(
-                                        self.userapiclient,
-                                        self.services["template"],
-                                        zoneid=self.zone.id,
-                                        projectid=self.project.id
-                                        )
+            self.userapiclient,
+            self.services["template"],
+            zoneid=self.zone.id,
+            projectid=self.project.id
+        )
         self.debug(
-                "Registered a template of format: %s with ID: %s" % (
-                                                                self.services["template"]["format"],
-                                                                template.id
-                                                                ))
+            "Registered a template of format: %s with ID: %s" % (
+                self.services["template"]["format"],
+                template.id
+            ))
         self.cleanup.append(template)
 
         # Wait for template status to be changed across
@@ -932,12 +931,12 @@ class TestResourceLimitsProject(cloudstackTestCase):
         timeout = self.services["timeout"]
         while True:
             list_template_response = Template.list(
-                                            self.apiclient,
-                                            templatefilter='all',
-                                            id=template.id,
-                                            zoneid=self.zone.id,
-                                            projectid=self.project.id,
-                                            )
+                self.apiclient,
+                templatefilter='all',
+                id=template.id,
+                zoneid=self.zone.id,
+                projectid=self.project.id,
+            )
             if list_template_response[0].isready is True:
                 break
             elif timeout == 0:
@@ -945,39 +944,39 @@ class TestResourceLimitsProject(cloudstackTestCase):
 
             time.sleep(self.services["sleep"])
             timeout = timeout - 1
-            
-        #Verify template response to check whether template added successfully
+
+        # Verify template response to check whether template added successfully
         self.assertEqual(
-                        isinstance(list_template_response, list),
-                        True,
-                        "Check for list template response return valid data"
-                        )
+            isinstance(list_template_response, list),
+            True,
+            "Check for list template response return valid data"
+        )
 
         self.assertNotEqual(
-                            len(list_template_response),
-                            0,
-                            "Check template available in List Templates"
-                        )
+            len(list_template_response),
+            0,
+            "Check template available in List Templates"
+        )
 
         template_response = list_template_response[0]
         self.assertEqual(
-                            template_response.isready,
-                            True,
-                            "Template state is not ready, it is %s" % template_response.isready
-                        )
+            template_response.isready,
+            True,
+            "Template state is not ready, it is %s" % template_response.isready
+        )
 
         # Exception should be raised for second template
         with self.assertRaises(Exception):
             Template.register(
-                                self.userapiclient,
-                                self.services["template"],
-                                zoneid=self.zone.id,
-                                projectid=self.project.id
-                            )
+                self.userapiclient,
+                self.services["template"],
+                zoneid=self.zone.id,
+                projectid=self.project.id
+            )
         return
 
-class TestMaxProjectNetworks(cloudstackTestCase):
 
+class TestMaxProjectNetworks(cloudstackTestCase):
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestMaxProjectNetworks, cls).getClsTestClient()
@@ -988,32 +987,32 @@ class TestMaxProjectNetworks(cloudstackTestCase):
         cls.domain = get_domain(cls.api_client)
         cls.services['mode'] = cls.zone.networktype
         cls.template = get_template(
-                            cls.api_client,
-                            cls.zone.id,
-                            cls.services["ostype"]
-                            )
+            cls.api_client,
+            cls.zone.id,
+            cls.services["ostype"]
+        )
         cls.service_offering = ServiceOffering.create(
-                                            cls.api_client,
-                                            cls.services["service_offering"]
-                                            )
+            cls.api_client,
+            cls.services["service_offering"]
+        )
         cls.network_offering = NetworkOffering.create(
-                                            cls.api_client,
-                                            cls.services["network_offering"],
-                                            conservemode=True
-                                            )
+            cls.api_client,
+            cls.services["network_offering"],
+            conservemode=True
+        )
         # Enable Network offering
         cls.network_offering.update(cls.api_client, state='Enabled')
 
         cls._cleanup = [
-                        cls.service_offering,
-                        cls.network_offering
-                        ]
+            cls.service_offering,
+            cls.network_offering
+        ]
         return
 
     @classmethod
     def tearDownClass(cls):
         try:
-            #Cleanup resources used
+            # Cleanup resources used
             cleanup_resources(cls.api_client, cls._cleanup)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
@@ -1023,30 +1022,30 @@ class TestMaxProjectNetworks(cloudstackTestCase):
         self.apiclient = self.testClient.getApiClient()
         self.dbclient = self.testClient.getDbConnection()
         self.account = Account.create(
-                                     self.apiclient,
-                                     self.services["account"],
-                                     admin=True,
-                                     domainid=self.domain.id
-                                     )
+            self.apiclient,
+            self.services["account"],
+            admin=True,
+            domainid=self.domain.id
+        )
         self.cleanup = []
         return
 
     def tearDown(self):
         try:
-            #Clean up, terminate the created network offerings
+            # Clean up, terminate the created network offerings
             cleanup_resources(self.apiclient, self.cleanup)
             self.account.delete(self.apiclient)
             interval = list_configurations(
-                                    self.apiclient,
-                                    name='account.cleanup.interval'
-                                    )
+                self.apiclient,
+                name='account.cleanup.interval'
+            )
             # Sleep to ensure that all resources are deleted
             time.sleep(int(interval[0].value) * 2)
         except Exception as e:
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-    @attr(tags=["advanced", "advancedns", "simulator",
+    @attr(tags=["advanced", "advancedns",
                 "api"])
     def test_maxAccountNetworks(self):
         """Test Limit number of guest account specific networks
@@ -1058,29 +1057,29 @@ class TestMaxProjectNetworks(cloudstackTestCase):
         # 3. Create network should fail
 
         self.debug("Creating project with '%s' as admin" %
-                                            self.account.name)
+                   self.account.name)
         # Create project as a domain admin
         project = Project.create(
-                                 self.apiclient,
-                                 self.services["project"],
-                                 account=self.account.name,
-                                 domainid=self.account.domainid
-                                 )
+            self.apiclient,
+            self.services["project"],
+            account=self.account.name,
+            domainid=self.account.domainid
+        )
         # Cleanup created project at end of test
         self.cleanup.append(project)
         self.debug("Created project with domain admin with ID: %s" %
-                                                                project.id)
+                   project.id)
 
         config = Configurations.list(
-                                    self.apiclient,
-                                    name='max.project.networks',
-                                    listall=True
-                                    )
+            self.apiclient,
+            name='max.project.networks',
+            listall=True
+        )
         self.assertEqual(
-                isinstance(config, list),
-                True,
-                "List configurations hsould have max.project.networks"
-                )
+            isinstance(config, list),
+            True,
+            "List configurations hsould have max.project.networks"
+        )
 
         config_value = int(config[0].value)
         self.debug("max.project.networks: %s" % config_value)
@@ -1088,26 +1087,26 @@ class TestMaxProjectNetworks(cloudstackTestCase):
         for ctr in range(config_value):
             # Creating network using the network offering created
             self.debug("Creating network with network offering: %s" %
-                                                    self.network_offering.id)
+                       self.network_offering.id)
             network = Network.create(
-                                    self.apiclient,
-                                    self.services["network"],
-                                    projectid=project.id,
-                                    networkofferingid=self.network_offering.id,
-                                    zoneid=self.zone.id
-                                    )
+                self.apiclient,
+                self.services["network"],
+                projectid=project.id,
+                networkofferingid=self.network_offering.id,
+                zoneid=self.zone.id
+            )
             self.debug("Created network with ID: %s" % network.id)
         self.debug(
             "Creating network in account already having networks : %s" %
-                                                            config_value)
+            config_value)
 
         with self.assertRaises(Exception):
             Network.create(
-                                    self.apiclient,
-                                    self.services["network"],
-                                    projectid=project.id,
-                                    networkofferingid=self.network_offering.id,
-                                    zoneid=self.zone.id
-                                    )
+                self.apiclient,
+                self.services["network"],
+                projectid=project.id,
+                networkofferingid=self.network_offering.id,
+                zoneid=self.zone.id
+            )
         self.debug('Create network failed (as expected)')
         return

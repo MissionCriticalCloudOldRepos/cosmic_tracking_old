@@ -18,18 +18,16 @@
 
 # this script will cover VMdeployment  with Userdata tests
 
-from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.base import *
-from marvin.lib.utils import *
-from marvin.lib.common import *
-from nose.plugins.attrib import attr
-from marvin.sshClient import SshClient
-import unittest
 import random
 import string
+from marvin.cloudstackTestCase import cloudstackTestCase
+from marvin.lib.base import *
+from marvin.lib.common import *
+from marvin.lib.utils import *
+from nose.plugins.attrib import attr
 
 _multiprocess_shared_ = True
-import os
+
 
 class Services:
     def __init__(self):
@@ -40,7 +38,7 @@ class Services:
                 "lastname": "User",
                 "username": "test",
                 "password": "password",
-                },
+            },
             "virtual_machine": {
                 "displayname": "TesVM1",
                 "username": "root",
@@ -50,7 +48,7 @@ class Services:
                 "privateport": 22,
                 "publicport": 22,
                 "protocol": 'TCP',
-                },
+            },
             "ostype": 'CentOS 5.3 (64-bit)',
             "service_offering": {
                 "name": "Tiny Instance",
@@ -58,11 +56,8 @@ class Services:
                 "cpunumber": 1,
                 "cpuspeed": 100,
                 "memory": 256,
-                },
-            }
-
-
-
+            },
+        }
 
 
 class TestDeployVmWithUserData(cloudstackTestCase):
@@ -95,22 +90,19 @@ class TestDeployVmWithUserData(cloudstackTestCase):
 
 
         cls.userdata = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(2500))
-        cls.user_data_2k= ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(2000))
+        cls.user_data_2k = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(2000))
         cls.user_data_2kl = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(1900))
-
 
     def setUp(self):
         self.apiClient = self.testClient.getApiClient()
         self.hypervisor = self.testClient.getHypervisorInfo()
 
-
-    @attr(tags=["simulator", "basic", "advanced"], required_hardware="true")
+    @attr(tags=["basic", "advanced"], required_hardware="true")
     def test_deployvm_userdata_post(self):
         """Test userdata as POST, size > 2k
         """
 
-
-        self.userdata=base64.b64encode(self.userdata)
+        self.userdata = base64.b64encode(self.userdata)
         self.services["virtual_machine"]["userdata"] = self.userdata
 
         deployVmResponse = VirtualMachine.create(
@@ -135,7 +127,7 @@ class TestDeployVmWithUserData(cloudstackTestCase):
         vm = vms[0]
         self.assert_(vm.id == str(deployVmResponse.id), "Vm deployed is different from the test")
         self.assert_(vm.state == "Running", "VM is not in Running state")
-        ip_addr=deployVmResponse.ipaddress
+        ip_addr = deployVmResponse.ipaddress
         if self.zone.networktype == "Basic":
             list_router_response = list_routers(
                 self.apiClient,
@@ -174,7 +166,7 @@ class TestDeployVmWithUserData(cloudstackTestCase):
             'Running',
             "Check list router response for router state"
         )
-        cmd="cat /var/www/html/userdata/"+deployVmResponse.ipaddress+"/user-data"
+        cmd = "cat /var/www/html/userdata/" + deployVmResponse.ipaddress + "/user-data"
 
         if self.hypervisor.lower() in ('vmware'):
 
@@ -189,7 +181,7 @@ class TestDeployVmWithUserData(cloudstackTestCase):
                     hypervisor=self.hypervisor
                 )
                 res = str(result)
-                self.assertEqual(res.__contains__(self.userdata),True,"Userdata Not applied Check the failures")
+                self.assertEqual(res.__contains__(self.userdata), True, "Userdata Not applied Check the failures")
 
 
             except KeyError:
@@ -207,16 +199,14 @@ class TestDeployVmWithUserData(cloudstackTestCase):
                     cmd
                 )
                 res = str(result)
-                self.assertEqual(res.__contains__(self.userdata),True,"Userdata Not applied Check the failures")
+                self.assertEqual(res.__contains__(self.userdata), True, "Userdata Not applied Check the failures")
             except KeyError:
                 self.skipTest("Marvin configuration has no host credentials to check router user data")
-
-
 
     @classmethod
     def tearDownClass(cls):
         try:
-            #Cleanup resources used
+            # Cleanup resources used
             cleanup_resources(cls.apiClient, cls.cleanup)
 
         except Exception as e:

@@ -28,11 +28,11 @@ from marvin.lib.base import (Account,
                              PASS,
                              ServiceOffering,
                              time,
-                             VirtualMachine,)
-from marvin.lib.utils import cleanup_resources, validateList
+                             VirtualMachine, )
 from marvin.lib.common import (get_zone,
                                get_domain,
                                get_template)
+from marvin.lib.utils import cleanup_resources, validateList
 from marvin.sshClient import SshClient
 from nose.plugins.attrib import attr
 
@@ -88,8 +88,7 @@ def capacity_parser(capacity):
     return cpu, mem
 
 
-class Overcommit (cloudstackTestCase):
-
+class Overcommit(cloudstackTestCase):
     @classmethod
     def setUpClass(cls):
         testClient = super(Overcommit, cls).getClsTestClient()
@@ -155,7 +154,6 @@ class Overcommit (cloudstackTestCase):
 
     @attr(
         tags=[
-            "simulator",
             "basic",
             "advanced"],
         required_hardware="false")
@@ -220,8 +218,7 @@ class Overcommit (cloudstackTestCase):
                          "check memory overcommit value at cluster level")
 
     @attr(
-        tags=["simulator",
-              "basic",
+        tags=["basic",
               "advanced"],
         required_hardware="true")
     def test_02_Overcommit_factor(self):
@@ -292,7 +289,6 @@ class Overcommit (cloudstackTestCase):
 
     @attr(
         tags=[
-            "simulator",
             "devcloud",
             "basic",
             "advanced"],
@@ -371,7 +367,6 @@ class Overcommit (cloudstackTestCase):
 
     @attr(
         tags=[
-            "simulator",
             "basic",
             "advanced"],
         required_hardware="false")

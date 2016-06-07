@@ -16,22 +16,20 @@
 // under the License.
 package com.cloud.network;
 
+import com.cloud.network.Networks.TrafficType;
 import org.apache.cloudstack.api.Identity;
 import org.apache.cloudstack.api.InternalIdentity;
 
-import com.cloud.network.Networks.TrafficType;
-
 public interface PhysicalNetworkTrafficType extends InternalIdentity, Identity {
 
-  long getPhysicalNetworkId();
+    long getPhysicalNetworkId();
 
-  TrafficType getTrafficType();
+    TrafficType getTrafficType();
 
-  String getXenNetworkLabel();
+    String getXenNetworkLabel();
 
-  String getKvmNetworkLabel();
+    String getKvmNetworkLabel();
 
-  String getSimulatorNetworkLabel();
+    String getOvm3NetworkLabel();
 
-  String getOvm3NetworkLabel();
 }

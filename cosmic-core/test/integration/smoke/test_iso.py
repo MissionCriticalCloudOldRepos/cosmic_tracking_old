@@ -17,9 +17,10 @@
 """ BVT tests for Templates ISO
 """
 # Import Local Modules
-from marvin.cloudstackTestCase import cloudstackTestCase, unittest
+import urllib
 from marvin.cloudstackAPI import listZones, updateIso, extractIso, updateIsoPermissions, copyIso, deleteIso
-from marvin.lib.utils import cleanup_resources, random_gen, validateList
+from marvin.cloudstackTestCase import cloudstackTestCase, unittest
+from marvin.codes import PASS
 from marvin.lib.base import Account, Iso
 from marvin.lib.common import (
     get_domain,
@@ -28,9 +29,9 @@ from marvin.lib.common import (
     list_os_types,
     get_hypervisor_type
 )
+from marvin.lib.utils import cleanup_resources, random_gen, validateList
 from nose.plugins.attrib import attr
-from marvin.codes import PASS
-import urllib
+
 # Import System modules
 import time
 
@@ -146,7 +147,6 @@ class TestCreateIso(cloudstackTestCase):
 
 
 class TestISO(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         testClient = super(TestISO, cls).getClsTestClient()
@@ -155,9 +155,6 @@ class TestISO(cloudstackTestCase):
         cls._cleanup = []
         cls.unsupportedHypervisor = False
         cls.hypervisor = get_hypervisor_type(cls.apiclient)
-        if cls.hypervisor.lower() in ["simulator"]:
-            cls.unsupportedHypervisor = True
-            return
 
         # Get Zone, Domain and templates
         cls.domain = get_domain(cls.apiclient)
@@ -260,10 +257,9 @@ class TestISO(cloudstackTestCase):
         )
         status = validateList(list_default_iso_response)
         self.assertEquals(
-                PASS,
-                status[0],
-                "Check if ISO exists in ListIsos")
-
+            PASS,
+            status[0],
+            "Check if ISO exists in ListIsos")
 
     @attr(
         tags=[

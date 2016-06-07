@@ -16,12 +16,10 @@
 # specific language governing permissions and limitations
 # under the License.
 
-import os
 import os.path
 import sys
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
-
 
 REGULAR_USER = 'u'
 DOMAIN_ADMIN = 'd'
@@ -31,32 +29,28 @@ user_to_func = {
     REGULAR_USER: 'populateForUser',
     DOMAIN_ADMIN: 'populateForDomainAdmin',
     ROOT_ADMIN: 'populateForRootAdmin',
-    }
-
+}
 
 user_to_cns = {
     REGULAR_USER: 'userCommandNames',
     DOMAIN_ADMIN: 'domainAdminCommandNames',
     ROOT_ADMIN: 'rootAdminCommandNames',
-    }
-
+}
 
 dirname_to_user = {
     'regular_user': REGULAR_USER,
     'domain_admin': DOMAIN_ADMIN,
     'root_admin': ROOT_ADMIN,
-    }
-
+}
 
 dirname_to_dirname = {
     'regular_user': 'user',
     'domain_admin': 'domain_admin',
     'root_admin': 'root_admin',
-    }
-
+}
 
 known_categories = {
-    'Cisco' : 'External Device',
+    'Cisco': 'External Device',
     'SystemVm': 'System VM',
     'VirtualMachine': 'Virtual Machine',
     'VM': 'Virtual Machine',
@@ -87,7 +81,7 @@ known_categories = {
     'Pod': 'Pod',
     'PublicIpRange': 'Network',
     'Zone': 'Zone',
-    'Vmware' : 'Zone',
+    'Vmware': 'Zone',
     'NetworkOffering': 'Network Offering',
     'NetworkACL': 'Network ACL',
     'Network': 'Network',
@@ -130,18 +124,17 @@ known_categories = {
     'LB': 'Load Balancer',
     'ldap': 'LDAP',
     'Swift': 'Swift',
-    'S3' : 'S3',
+    'S3': 'S3',
     'SecondaryStorage': 'Host',
     'Project': 'Project',
     'Lun': 'Storage',
     'Pool': 'Pool',
     'VPC': 'VPC',
     'PrivateGateway': 'VPC',
-    'Simulator': 'simulator',
     'StaticRoute': 'VPC',
     'Tags': 'Resource tags',
     'NiciraNvpDevice': 'Nicira NVP',
-	'NuageVsp': 'Nuage VSP',
+    'NuageVsp': 'Nuage VSP',
     'AutoScale': 'AutoScale',
     'Counter': 'AutoScale',
     'Condition': 'AutoScale',
@@ -151,8 +144,8 @@ known_categories = {
     'addIpToNic': 'Nic',
     'removeIpFromNic': 'Nic',
     'updateVmNicIp': 'Nic',
-    'listNics':'Nic',
-	'AffinityGroup': 'Affinity Group',
+    'listNics': 'Nic',
+    'AffinityGroup': 'Affinity Group',
     'addImageStore': 'Image Store',
     'listImageStore': 'Image Store',
     'deleteImageStore': 'Image Store',
@@ -160,17 +153,16 @@ known_categories = {
     'deleteSecondaryStagingStore': 'Image Store',
     'listSecondaryStagingStores': 'Image Store',
     'InternalLoadBalancer': 'Internal LB',
-	'DeploymentPlanners': 'Configuration',
-	'ObjectStore': 'Image Store',
+    'DeploymentPlanners': 'Configuration',
+    'ObjectStore': 'Image Store',
     'PortableIp': 'Portable IP',
     'dedicateHost': 'Dedicate Resources',
     'releaseDedicatedHost': 'Dedicate Resources',
-    'Baremetal' : 'Baremetal',
-    'CacheStores' : 'Cache Stores',
-    'CacheStore' : 'Cache Store',
-    'StratosphereSsp' : ' Stratosphere SSP'
-    }
-
+    'Baremetal': 'Baremetal',
+    'CacheStores': 'Cache Stores',
+    'CacheStore': 'Cache Store',
+    'StratosphereSsp': ' Stratosphere SSP'
+}
 
 categories = {}
 
@@ -209,7 +201,7 @@ for f in sys.argv:
             'dirname': dirname_to_dirname[dirname],
             'async': isAsync == 'true',
             'user': dirname_to_user[dirname],
-            })
+        })
     except ExpatError as e:
         pass
     except IndexError as e:

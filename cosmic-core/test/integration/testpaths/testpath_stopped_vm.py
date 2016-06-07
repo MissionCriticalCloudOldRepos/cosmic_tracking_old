@@ -16,32 +16,29 @@
 # under the License.
 """ Test Path for Deploy VM in stopped state
 """
-from nose.plugins.attrib import attr
+import time
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import (cleanup_resources,
-                              validateList)
+from marvin.codes import (PASS,
+                          STOPPED,
+                          RUNNING)
 from marvin.lib.base import (Account,
                              ServiceOffering,
                              VirtualMachine,
                              User,
                              Network,
                              Router,
-                             DiskOffering,
                              Volume,
                              Iso,
-                             Template,
-                             Resources)
+                             Template)
 from marvin.lib.common import (get_domain,
                                get_zone,
                                get_template,
                                createEnabledNetworkOffering,
                                wait_for_cleanup)
-from marvin.codes import (PASS,
-                          STOPPED,
-                          RUNNING,
-                          FAIL)
+from marvin.lib.utils import (cleanup_resources,
+                              validateList)
 from marvin.sshClient import SshClient
-import time
+from nose.plugins.attrib import attr
 
 
 def VerifyChangeInServiceOffering(self, virtualmachine, serviceoffering):
@@ -104,8 +101,8 @@ def VerifyRouterState(apiclient, account, domainid, desiredState,
 
     if not isRouterStateDesired:
         failureMessage = "Router state should be %s,\
-                but it is %s" %\
-            (desiredState, routers[0].state)
+                but it is %s" % \
+                         (desiredState, routers[0].state)
     return [isRouterStateDesired, failureMessage]
 
 
@@ -113,13 +110,12 @@ def CreateEnabledNetworkOffering(apiclient, networkServices):
     """Create network offering of given services and enable it"""
 
     result = createEnabledNetworkOffering(apiclient, networkServices)
-    assert result[0] == PASS,\
+    assert result[0] == PASS, \
         "Network offering creation/enabling failed due to %s" % result[2]
     return result[1]
 
 
 class TestAdvancedZoneStoppedVM(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         testClient = super(TestAdvancedZoneStoppedVM, cls).getClsTestClient()
@@ -203,7 +199,7 @@ class TestAdvancedZoneStoppedVM(cloudstackTestCase):
                 password=cls.testdata["account"]["password"]
             )
 
-            assert respose.sessionkey is not None,\
+            assert respose.sessionkey is not None, \
                 "Login to the CloudStack should be successful\
                             response shall have non Null key"
 
@@ -369,285 +365,6 @@ class TestAdvancedZoneStoppedVM(cloudstackTestCase):
                 retries=10
             )
             self.assertTrue(response[0], response[1])
-        return
-
-    @attr("simulator_only", tags=["advanced", "basic"], required_hardware="false")
-    def test_03_pt_deploy_vm_with_startvm_false(self):
-        """ Positive test for stopped VM test path - T2
-
-        # 1.  Deploy VM in the network with specifying startvm parameter
-        #     as False
-        # 2.  List VMs and verify that VM is in stopped state
-        # For Advanced zone
-        # 3.  Start the VM, now router should be in running state
-        """
-        # Create VM in account
-        virtual_machine = VirtualMachine.create(
-            self.userapiclient,
-            self.testdata["small"],
-            templateid=self.defaultTemplateId,
-            accountid=self.account.name,
-            domainid=self.account.domainid,
-            serviceofferingid=self.service_offering.id,
-            networkids=[self.networkid, ] if self.networkid else None,
-            zoneid=self.zone.id,
-            startvm=False,
-            mode=self.zone.networktype
-        )
-        self.cleanup.append(virtual_machine)
-
-        response = virtual_machine.getState(
-            self.apiclient,
-            VirtualMachine.STOPPED)
-        self.assertEqual(response[0], PASS, response[1])
-
-        if str(self.zone.networktype).lower() == "advanced":
-            virtual_machine.start(self.userapiclient)
-
-            response = VerifyRouterState(
-                self.apiclient,
-                self.account.name,
-                self.account.domainid,
-                RUNNING
-            )
-            self.assertTrue(response[0], response[1])
-        return
-
-    @attr("simulator_only", tags=["advanced", "basic"], required_hardware="false")
-    def test_04_pt_startvm_false_attach_disk(self):
-        """ Positive test for stopped VM test path - T3 and variant, T9
-
-        # 1.  Deploy VM in the network with specifying startvm parameter
-        #     as False
-        # 2.  List VMs and verify that VM is in stopped state
-        # 3.  Create a data disk and attach it to VM
-        # 4.  Now detach the disk from the VM
-        # 5.  Verify that attach and detach operations are successful
-        # 6.  Deploy another VM in the account with startVM = False
-        # 7.  Attach the same volume to this VM
-        # 8.  Detach the volume
-        # 9.  Both attach and detach operations should be successful
-        """
-
-        disk_offering = DiskOffering.create(
-            self.apiclient,
-            self.testdata["disk_offering"]
-        )
-        self.cleanup.append(disk_offering)
-
-        volume = Volume.create(
-            self.apiclient, self.testdata["volume"],
-            zoneid=self.zone.id, account=self.account.name,
-            domainid=self.account.domainid, diskofferingid=disk_offering.id
-        )
-        self.cleanup.append(volume)
-
-        # Create VM in account
-        virtual_machine = VirtualMachine.create(
-            self.userapiclient,
-            self.testdata["small"],
-            templateid=self.defaultTemplateId,
-            accountid=self.account.name,
-            domainid=self.account.domainid,
-            serviceofferingid=self.service_offering.id,
-            networkids=[self.networkid, ] if self.networkid else None,
-            zoneid=self.zone.id,
-            startvm=False,
-            mode=self.zone.networktype
-        )
-        self.cleanup.append(virtual_machine)
-
-        response = virtual_machine.getState(
-            self.apiclient,
-            VirtualMachine.STOPPED)
-        self.assertEqual(response[0], PASS, response[1])
-
-        virtual_machine.attach_volume(self.userapiclient, volume=volume)
-
-        volumes = Volume.list(
-            self.userapiclient,
-            virtualmachineid=virtual_machine.id,
-            type="DATADISK",
-            listall=True
-        )
-        self.assertEqual(
-            validateList(volumes)[0],
-            PASS,
-            "Volumes list validation failed"
-        )
-        self.assertEqual(
-            volumes[0].id,
-            volume.id,
-            "Listed Volume id not matching with attached volume id"
-        )
-
-        virtual_machine.detach_volume(
-            self.userapiclient,
-            volume)
-
-        volumes = Volume.list(
-            self.userapiclient,
-            virtualmachineid=virtual_machine.id,
-            type="DATADISK",
-            listall=True
-        )
-        self.assertEqual(
-            validateList(volumes)[0],
-            FAIL,
-            "Detached volume should not be listed"
-        )
-
-        virtual_machine_2 = VirtualMachine.create(
-            self.userapiclient,
-            self.testdata["small"],
-            templateid=self.defaultTemplateId,
-            accountid=self.account.name,
-            domainid=self.account.domainid,
-            serviceofferingid=self.service_offering.id,
-            networkids=[self.networkid, ] if self.networkid else None,
-            zoneid=self.zone.id,
-            startvm=False,
-            mode=self.zone.networktype
-        )
-        self.cleanup.append(virtual_machine_2)
-
-        response = virtual_machine_2.getState(
-            self.apiclient,
-            VirtualMachine.STOPPED)
-        self.assertEqual(response[0], PASS, response[1])
-
-        virtual_machine_2.attach_volume(self.userapiclient, volume=volume)
-
-        volumes = Volume.list(
-            self.userapiclient,
-            virtualmachineid=virtual_machine_2.id,
-            type="DATADISK",
-            listall=True
-        )
-        self.assertEqual(
-            validateList(volumes)[0],
-            PASS,
-            "Volumes list validation failed"
-        )
-        self.assertEqual(
-            volumes[0].id,
-            volume.id,
-            "Listed Volume id not matching with attached volume id"
-        )
-
-        virtual_machine_2.detach_volume(
-            self.userapiclient,
-            volume)
-
-        volumes = Volume.list(
-            self.userapiclient,
-            virtualmachineid=virtual_machine_2.id,
-            type="DATADISK",
-            listall=True
-        )
-        self.assertEqual(
-            validateList(volumes)[0],
-            FAIL,
-            "Detached volume should not be listed"
-        )
-        return
-
-    @attr("simulator_only", tags=["advanced", "basic"], required_hardware="false")
-    def test_05_pt_startvm_false_attach_disk_change_SO(self):
-        """ Positive test for stopped VM test path - T4
-
-        # 1.  Deploy VM in the network with specifying startvm parameter
-        #     as False
-        # 2.  List VMs and verify that VM is in stopped state
-        # 3.  Create a data disk and attach it to VM
-        # 4.  Change the service offering of VM from small to medium,
-              verify that the operation is successful
-        # 5.  Start the VM
-        # 6.  Now detach the disk from the VM
-        # 7.  Verify that attach and detach operations are successful
-        """
-
-        disk_offering = DiskOffering.create(
-            self.apiclient,
-            self.testdata["disk_offering"]
-        )
-        self.cleanup.append(disk_offering)
-
-        volume = Volume.create(
-            self.apiclient, self.testdata["volume"],
-            zoneid=self.zone.id, account=self.account.name,
-            domainid=self.account.domainid, diskofferingid=disk_offering.id
-        )
-        self.cleanup.append(volume)
-
-        # Create VM in account
-        virtual_machine = VirtualMachine.create(
-            self.userapiclient,
-            self.testdata["small"],
-            templateid=self.defaultTemplateId,
-            accountid=self.account.name,
-            domainid=self.account.domainid,
-            serviceofferingid=self.service_offering.id,
-            networkids=[self.networkid, ] if self.networkid else None,
-            zoneid=self.zone.id,
-            startvm=False,
-            mode=self.zone.networktype
-        )
-        self.cleanup.append(virtual_machine)
-
-        response = virtual_machine.getState(
-            self.apiclient,
-            VirtualMachine.STOPPED)
-        self.assertEqual(response[0], PASS, response[1])
-
-        virtual_machine.attach_volume(self.userapiclient, volume=volume)
-
-        volumes = Volume.list(
-            self.userapiclient,
-            virtualmachineid=virtual_machine.id,
-            type="DATADISK",
-            listall=True
-        )
-        self.assertEqual(
-            validateList(volumes)[0],
-            PASS,
-            "Volumes list validation failed"
-        )
-        self.assertEqual(
-            volumes[0].id,
-            volume.id,
-            "Listed Volume id not matching with attached volume id"
-        )
-
-        # Change service offering of VM and verify that it is changed
-        virtual_machine.change_service_offering(
-            self.userapiclient,
-            serviceOfferingId=self.service_offering_2.id
-        )
-
-        response = VerifyChangeInServiceOffering(
-            self,
-            virtual_machine,
-            self.service_offering_2
-        )
-        exceptionOccured, exceptionMessage = response[0], response[1]
-        self.assertFalse(exceptionOccured, exceptionMessage)
-
-        virtual_machine.detach_volume(
-            self.userapiclient,
-            volume)
-
-        volumes = Volume.list(
-            self.userapiclient,
-            virtualmachineid=virtual_machine.id,
-            type="DATADISK",
-            listall=True
-        )
-        self.assertEqual(
-            validateList(volumes)[0],
-            FAIL,
-            "Detached volume should not be listed"
-        )
         return
 
     @attr(tags=["advanced", "basic"], required_hardware="True")
@@ -885,121 +602,4 @@ class TestAdvancedZoneStoppedVM(cloudstackTestCase):
             str(virtual_machine.password),
             "New password should be generated for the VM"
         )
-        return
-
-    @attr("simulator_only", tags=["advanced", "basic"], required_hardware="false")
-    def test_09_pt_destroy_stopped_vm(self):
-        """ Positive test for stopped VM test path - T11
-
-        # 1.  Deploy VM in the network with specifying startvm parameter
-        #     as False
-        # 2.  Verify that VM is in Stopped state
-        # 3.  Start the VM and verify that it is in running state
-        # 3.  Stop the VM, verify that it is in Stopped state
-        # 4.  Destroy the VM and verify that it is in Destroyed state
-        """
-        # Create VM in account
-        virtual_machine = VirtualMachine.create(
-            self.userapiclient,
-            self.testdata["small"],
-            templateid=self.defaultTemplateId,
-            accountid=self.account.name,
-            domainid=self.account.domainid,
-            serviceofferingid=self.service_offering.id,
-            networkids=[self.networkid, ] if self.networkid else None,
-            zoneid=self.zone.id,
-            startvm=False,
-            mode=self.zone.networktype
-        )
-
-        response = virtual_machine.getState(
-            self.apiclient,
-            VirtualMachine.STOPPED)
-        self.assertEqual(response[0], PASS, response[1])
-
-        virtual_machine.start(self.userapiclient)
-
-        response = virtual_machine.getState(
-            self.apiclient,
-            VirtualMachine.RUNNING)
-        self.assertEqual(response[0], PASS, response[1])
-
-        virtual_machine.stop(self.userapiclient)
-
-        response = virtual_machine.getState(
-            self.apiclient,
-            VirtualMachine.STOPPED)
-        self.assertEqual(response[0], PASS, response[1])
-
-        virtual_machine.delete(self.apiclient, expunge=False)
-        response = virtual_machine.getState(
-            self.apiclient,
-            VirtualMachine.DESTROYED)
-        self.assertEqual(response[0], PASS, response[1])
-        return
-
-    @attr("simulator_only", tags=["advanced", "basic"], required_hardware="false")
-    def test_10_max_account_limit(self):
-        """ Positive test for stopped VM test path - T12
-
-        # 1.  Create an account in root domain and set the VM limit
-        #     to max 2 VMs
-        # 2.  Deploy two VMs in the account with startvm parameter
-        #     as false
-        # 3.  Deployment of both VMs should be successful
-        # 4.  Try to deploy 3rd VM with startvm False, deployment should fail
-        """
-
-        # Create an account
-        account = Account.create(
-            self.apiclient,
-            self.testdata["account"],
-            domainid=self.domain.id
-        )
-        self.cleanup.append(account)
-
-        Resources.updateLimit(
-            self.apiclient,
-            resourcetype=0,
-            max=2,
-            account=account.name,
-            domainid=account.domainid
-        )
-
-        VirtualMachine.create(
-            self.apiclient,
-            self.testdata["small"],
-            templateid=self.defaultTemplateId,
-            accountid=account.name,
-            domainid=account.domainid,
-            serviceofferingid=self.service_offering.id,
-            zoneid=self.zone.id,
-            startvm=False,
-            mode=self.zone.networktype
-        )
-
-        VirtualMachine.create(
-            self.apiclient,
-            self.testdata["small"],
-            templateid=self.defaultTemplateId,
-            accountid=account.name,
-            domainid=account.domainid,
-            serviceofferingid=self.service_offering.id,
-            zoneid=self.zone.id,
-            startvm=False,
-            mode=self.zone.networktype
-        )
-
-        with self.assertRaises(Exception):
-            VirtualMachine.create(
-                self.apiclient,
-                self.testdata["small"],
-                templateid=self.defaultTemplateId,
-                accountid=account.name,
-                domainid=account.domainid,
-                serviceofferingid=self.service_offering.id,
-                zoneid=self.zone.id,
-                startvm=False,
-                mode=self.zone.networktype
-            )
         return
