@@ -599,12 +599,6 @@ deleteNuageVspDevice=1
 listNuageVspDevices=1
 issueNuageVspResourceRequest=15
 
-#### host simulator commands
-
-configureSimulator=1
-querySimulatorMock=1
-cleanupSimulatorMock=1
-
 #### api discovery commands
 
 listApis=15
