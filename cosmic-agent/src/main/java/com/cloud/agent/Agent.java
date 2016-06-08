@@ -16,41 +16,7 @@
 // under the License.
 package com.cloud.agent;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.channels.ClosedChannelException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.naming.ConfigurationException;
-
-import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
-import org.apache.log4j.Logger;
-import org.slf4j.MDC;
-
-import com.cloud.agent.api.AgentControlAnswer;
-import com.cloud.agent.api.AgentControlCommand;
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.Command;
-import com.cloud.agent.api.CronCommand;
-import com.cloud.agent.api.MaintainAnswer;
-import com.cloud.agent.api.MaintainCommand;
-import com.cloud.agent.api.PingCommand;
-import com.cloud.agent.api.ReadyCommand;
-import com.cloud.agent.api.ShutdownCommand;
-import com.cloud.agent.api.StartupAnswer;
-import com.cloud.agent.api.StartupCommand;
+import com.cloud.agent.api.*;
 import com.cloud.agent.transport.Request;
 import com.cloud.agent.transport.Response;
 import com.cloud.exception.AgentControlChannelException;
@@ -61,26 +27,37 @@ import com.cloud.utils.concurrency.NamedThreadFactory;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.exception.NioConnectionException;
 import com.cloud.utils.exception.TaskExecutionException;
-import com.cloud.utils.nio.HandlerFactory;
-import com.cloud.utils.nio.Link;
-import com.cloud.utils.nio.NioClient;
-import com.cloud.utils.nio.NioConnection;
-import com.cloud.utils.nio.Task;
+import com.cloud.utils.nio.*;
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
+import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
+import org.apache.log4j.Logger;
+import org.slf4j.MDC;
+
+import javax.naming.ConfigurationException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.channels.ClosedChannelException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @config
- *         {@table
- *         || Param Name | Description | Values | Default ||
- *         || type | Type of server | Storage / Computing / Routing | No Default ||
- *         || workers | # of workers to process the requests | int | 1 ||
- *         || host | host to connect to | ip address | localhost ||
- *         || port | port to connect to | port number | 8250 ||
- *         || instance | Used to allow multiple agents running on the same host | String | none || * }
- *
- *         For more configuration options, see the individual types.
- *
+ * @config {@table
+ * || Param Name | Description | Values | Default ||
+ * || type | Type of server | Storage / Computing / Routing | No Default ||
+ * || workers | # of workers to process the requests | int | 1 ||
+ * || host | host to connect to | ip address | localhost ||
+ * || port | port to connect to | port number | 8250 ||
+ * || instance | Used to allow multiple agents running on the same host | String | none || * }
+ * <p>
+ * For more configuration options, see the individual types.
  **/
 public class Agent implements HandlerFactory, IAgentControl {
     private static final Logger s_logger = Logger.getLogger(Agent.class.getName());
@@ -102,7 +79,7 @@ public class Agent implements HandlerFactory, IAgentControl {
         }
     }
 
-    List<IAgentControlListener> _controlListeners = new ArrayList<IAgentControlListener>();
+    List<IAgentControlListener> _controlListeners = new ArrayList<>();
 
     IAgentShell _shell;
     NioConnection _connection;
@@ -112,7 +89,7 @@ public class Agent implements HandlerFactory, IAgentControl {
 
     Timer _timer = new Timer("Agent Timer");
 
-    List<WatchTask> _watchList = new ArrayList<WatchTask>();
+    List<WatchTask> _watchList = new ArrayList<>();
     long _sequence = 0;
     long _lastPingResponseTime = 0;
     long _pingInterval = 0;
@@ -125,24 +102,6 @@ public class Agent implements HandlerFactory, IAgentControl {
     //For time sentitive task, e.g. PingTask
     private final ThreadPoolExecutor _ugentTaskPool;
     ExecutorService _executor;
-
-    // for simulator use only
-    public Agent(final IAgentShell shell) {
-        _shell = shell;
-        _link = null;
-
-        _connection = new NioClient("Agent", _shell.getHost(), _shell.getPort(), _shell.getWorkers(), this);
-
-        Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
-
-        _ugentTaskPool =
-                new ThreadPoolExecutor(shell.getPingRetries(), 2 * shell.getPingRetries(), 10, TimeUnit.MINUTES, new SynchronousQueue<Runnable>(), new NamedThreadFactory(
-                        "UgentTask"));
-
-        _executor =
-                new ThreadPoolExecutor(_shell.getWorkers(), 5 * _shell.getWorkers(), 1, TimeUnit.DAYS, new LinkedBlockingQueue<Runnable>(), new NamedThreadFactory(
-                        "agentRequest-Handler"));
-    }
 
     public Agent(final IAgentShell shell, final int localAgentId, final ServerResource resource) throws ConfigurationException {
         _shell = shell;
@@ -306,8 +265,8 @@ public class Agent implements HandlerFactory, IAgentControl {
             _watchList.clear();
         }
     }
-    public synchronized void lockStartupTask(final Link link)
-    {
+
+    public synchronized void lockStartupTask(final Link link) {
         _startup = new StartupTask(link);
         _timer.schedule(_startup, _startupWait);
     }
@@ -336,7 +295,7 @@ public class Agent implements HandlerFactory, IAgentControl {
     }
 
     protected void setupStartupCommand(final StartupCommand startup) {
-        InetAddress addr;
+        final InetAddress addr;
         try {
             addr = InetAddress.getLocalHost();
         } catch (final UnknownHostException e) {
@@ -432,7 +391,7 @@ public class Agent implements HandlerFactory, IAgentControl {
                 cancelled = true;
             }
         }
-        final StartupAnswer startup = (StartupAnswer)answer;
+        final StartupAnswer startup = (StartupAnswer) answer;
         if (!startup.getResult()) {
             s_logger.error("Not allowed to connect to the server: " + answer.getDetails());
             System.exit(1);
@@ -445,7 +404,7 @@ public class Agent implements HandlerFactory, IAgentControl {
         s_logger.info("Proccess agent startup answer, agent id = " + startup.getHostId());
 
         setId(startup.getHostId());
-        _pingInterval = (long)startup.getPingInterval() * 1000; // change to ms.
+        _pingInterval = (long) startup.getPingInterval() * 1000; // change to ms.
 
         setLastPingResponseTime();
         scheduleWatch(link, response, _pingInterval, _pingInterval);
@@ -482,29 +441,29 @@ public class Agent implements HandlerFactory, IAgentControl {
                     }
 
                     if (cmd instanceof CronCommand) {
-                        final CronCommand watch = (CronCommand)cmd;
-                        scheduleWatch(link, request, (long)watch.getInterval() * 1000, watch.getInterval() * 1000);
+                        final CronCommand watch = (CronCommand) cmd;
+                        scheduleWatch(link, request, (long) watch.getInterval() * 1000, watch.getInterval() * 1000);
                         answer = new Answer(cmd, true, null);
                     } else if (cmd instanceof ShutdownCommand) {
-                        final ShutdownCommand shutdown = (ShutdownCommand)cmd;
+                        final ShutdownCommand shutdown = (ShutdownCommand) cmd;
                         s_logger.debug("Received shutdownCommand, due to: " + shutdown.getReason());
                         cancelTasks();
                         _reconnectAllowed = false;
                         answer = new Answer(cmd, true, null);
-                    } else if (cmd instanceof ReadyCommand && ((ReadyCommand)cmd).getDetails() != null) {
-                        s_logger.debug("Not ready to connect to mgt server: " + ((ReadyCommand)cmd).getDetails());
+                    } else if (cmd instanceof ReadyCommand && ((ReadyCommand) cmd).getDetails() != null) {
+                        s_logger.debug("Not ready to connect to mgt server: " + ((ReadyCommand) cmd).getDetails());
                         System.exit(1);
                         return;
                     } else if (cmd instanceof MaintainCommand) {
                         s_logger.debug("Received maintainCommand");
                         cancelTasks();
                         _reconnectAllowed = false;
-                        answer = new MaintainAnswer((MaintainCommand)cmd);
+                        answer = new MaintainAnswer((MaintainCommand) cmd);
                     } else if (cmd instanceof AgentControlCommand) {
                         answer = null;
                         synchronized (_controlListeners) {
                             for (final IAgentControlListener listener : _controlListeners) {
-                                answer = listener.processControlRequest(request, (AgentControlCommand)cmd);
+                                answer = listener.processControlRequest(request, (AgentControlCommand) cmd);
                                 if (answer != null) {
                                     break;
                                 }
@@ -576,7 +535,7 @@ public class Agent implements HandlerFactory, IAgentControl {
             // Notice, we are doing callback while holding a lock!
             synchronized (_controlListeners) {
                 for (final IAgentControlListener listener : _controlListeners) {
-                    listener.processControlResponse(response, (AgentControlAnswer)answer);
+                    listener.processControlResponse(response, (AgentControlAnswer) answer);
                 }
             }
         } else {
@@ -586,7 +545,7 @@ public class Agent implements HandlerFactory, IAgentControl {
 
     public void processReadyCommand(final Command cmd) {
 
-        final ReadyCommand ready = (ReadyCommand)cmd;
+        final ReadyCommand ready = (ReadyCommand) cmd;
 
         s_logger.info("Proccess agent ready command, agent id = " + ready.getHostId());
         if (ready.getHostId() != null) {
@@ -620,7 +579,7 @@ public class Agent implements HandlerFactory, IAgentControl {
             }
 
         } else if (obj instanceof Request) {
-            final Request req = (Request)obj;
+            final Request req = (Request) obj;
             final Command command = req.getCommand();
             if (command.getContextParam("logid") != null) {
                 MDC.put("logcontextid", command.getContextParam("logid"));
@@ -673,7 +632,7 @@ public class Agent implements HandlerFactory, IAgentControl {
 
     @Override
     public AgentControlAnswer sendRequest(final AgentControlCommand cmd, final int timeoutInMilliseconds) throws AgentControlChannelException {
-        final Request request = new Request(getId(), -1, new Command[] {cmd}, true, false);
+        final Request request = new Request(getId(), -1, new Command[]{cmd}, true, false);
         request.setSequence(getNextSequence());
 
         final AgentControlListener listener = new AgentControlListener(request);
@@ -697,7 +656,7 @@ public class Agent implements HandlerFactory, IAgentControl {
 
     @Override
     public void postRequest(final AgentControlCommand cmd) throws AgentControlChannelException {
-        final Request request = new Request(getId(), -1, new Command[] {cmd}, true, false);
+        final Request request = new Request(getId(), -1, new Command[]{cmd}, true, false);
         request.setSequence(getNextSequence());
         postRequest(request);
     }
@@ -828,7 +787,7 @@ public class Agent implements HandlerFactory, IAgentControl {
 
         @Override
         protected void doTask(final Task task) throws TaskExecutionException {
-            final Request req = (Request)get();
+            final Request req = (Request) get();
             if (!(req instanceof Response)) {
                 processRequest(req, task.getLink());
             }
@@ -851,12 +810,12 @@ public class Agent implements HandlerFactory, IAgentControl {
                 setLink(task.getLink());
                 sendStartup(task.getLink());
             } else if (task.getType() == Task.Type.DATA) {
-                Request request;
+                final Request request;
                 try {
                     request = Request.parse(task.getData());
                     if (request instanceof Response) {
                         //It's for pinganswer etc, should be processed immediately.
-                        processResponse((Response)request, task.getLink());
+                        processResponse((Response) request, task.getLink());
                     } else {
                         //put the requests from mgt server into another thread pool, as the request may take a longer time to finish. Don't block the NIO main thread pool
                         //processRequest(request, task.getLink());
