@@ -16,133 +16,112 @@
 // under the License.
 package com.cloud.network.dao;
 
-import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.network.PhysicalNetworkTrafficType;
+
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "physical_network_traffic_types")
 public class PhysicalNetworkTrafficTypeVO implements PhysicalNetworkTrafficType {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
 
-  @Column(name = "uuid")
-  private String uuid;
+    @Column(name = "uuid")
+    private String uuid;
 
-  @Column(name = "physical_network_id")
-  private long physicalNetworkId;
+    @Column(name = "physical_network_id")
+    private long physicalNetworkId;
 
-  @Column(name = "traffic_type")
-  @Enumerated(value = EnumType.STRING)
-  TrafficType trafficType;
+    @Column(name = "traffic_type")
+    @Enumerated(value = EnumType.STRING)
+    TrafficType trafficType;
 
-  @Column(name = "xenserver_network_label")
-  private String xenNetworkLabel;
+    @Column(name = "xenserver_network_label")
+    private String xenNetworkLabel;
 
-  @Column(name = "kvm_network_label")
-  private String kvmNetworkLabel;
+    @Column(name = "kvm_network_label")
+    private String kvmNetworkLabel;
 
-  @Column(name = "simulator_network_label")
-  private String simulatorNetworkLabel;
+    @Column(name = "ovm_network_label")
+    private String ovm3NetworkLabel;
 
-  @Column(name = "ovm_network_label")
-  private String ovm3NetworkLabel;
+    @Column(name = "vlan")
+    private String vlan;
 
-  @Column(name = "vlan")
-  private String vlan;
+    public PhysicalNetworkTrafficTypeVO() {
+    }
 
-  public PhysicalNetworkTrafficTypeVO() {
-  }
+    public PhysicalNetworkTrafficTypeVO(final long physicalNetworkId, final TrafficType trafficType, final String xenLabel, final String kvmLabel,
+                                        final String vlan, final String ovm3Label) {
+        this.physicalNetworkId = physicalNetworkId;
+        this.trafficType = trafficType;
+        xenNetworkLabel = xenLabel;
+        kvmNetworkLabel = kvmLabel;
+        ovm3NetworkLabel = ovm3Label;
+        setVlan(vlan);
+        uuid = UUID.randomUUID().toString();
+    }
 
-  public PhysicalNetworkTrafficTypeVO(long physicalNetworkId, TrafficType trafficType, String xenLabel, String kvmLabel, String simulatorLabel,
-      String vlan, String ovm3Label) {
-    this.physicalNetworkId = physicalNetworkId;
-    this.trafficType = trafficType;
-    xenNetworkLabel = xenLabel;
-    kvmNetworkLabel = kvmLabel;
-    simulatorNetworkLabel = simulatorLabel;
-    ovm3NetworkLabel = ovm3Label;
-    setVlan(vlan);
-    uuid = UUID.randomUUID().toString();
-  }
+    @Override
+    public long getId() {
+        return id;
+    }
 
-  @Override
-  public long getId() {
-    return id;
-  }
+    @Override
+    public long getPhysicalNetworkId() {
+        return physicalNetworkId;
+    }
 
-  @Override
-  public long getPhysicalNetworkId() {
-    return physicalNetworkId;
-  }
+    @Override
+    public TrafficType getTrafficType() {
+        return trafficType;
+    }
 
-  @Override
-  public TrafficType getTrafficType() {
-    return trafficType;
-  }
+    public void setXenNetworkLabel(final String xenNetworkLabel) {
+        this.xenNetworkLabel = xenNetworkLabel;
+    }
 
-  public void setXenNetworkLabel(String xenNetworkLabel) {
-    this.xenNetworkLabel = xenNetworkLabel;
-  }
+    @Override
+    public String getXenNetworkLabel() {
+        return xenNetworkLabel;
+    }
 
-  @Override
-  public String getXenNetworkLabel() {
-    return xenNetworkLabel;
-  }
+    public void setKvmNetworkLabel(final String kvmNetworkLabel) {
+        this.kvmNetworkLabel = kvmNetworkLabel;
+    }
 
-  public void setKvmNetworkLabel(String kvmNetworkLabel) {
-    this.kvmNetworkLabel = kvmNetworkLabel;
-  }
+    @Override
+    public String getKvmNetworkLabel() {
+        return kvmNetworkLabel;
+    }
 
-  @Override
-  public String getKvmNetworkLabel() {
-    return kvmNetworkLabel;
-  }
+    public void setVlan(final String vlan) {
+        this.vlan = vlan;
+    }
 
-  public void setSimulatorNetworkLabel(String simulatorNetworkLabel) {
-    this.simulatorNetworkLabel = simulatorNetworkLabel;
-  }
+    public String getVlan() {
+        return vlan;
+    }
 
-  @Override
-  public String getSimulatorNetworkLabel() {
-    return simulatorNetworkLabel;
-  }
+    @Override
+    public String getUuid() {
+        return uuid;
+    }
 
-  public void setVlan(String vlan) {
-    this.vlan = vlan;
-  }
+    public void setUuid(final String uuid) {
+        this.uuid = uuid;
+    }
 
-  public String getVlan() {
-    return vlan;
-  }
+    public void setOvm3NetworkLabel(final String ovm3NetworkLabel) {
+        this.ovm3NetworkLabel = ovm3NetworkLabel;
+    }
 
-  @Override
-  public String getUuid() {
-    return uuid;
-  }
-
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
-  }
-
-  public void setOvm3NetworkLabel(String ovm3NetworkLabel) {
-    this.ovm3NetworkLabel = ovm3NetworkLabel;
-  }
-
-  @Override
-  public String getOvm3NetworkLabel() {
-    return ovm3NetworkLabel;
-  }
+    @Override
+    public String getOvm3NetworkLabel() {
+        return ovm3NetworkLabel;
+    }
 }

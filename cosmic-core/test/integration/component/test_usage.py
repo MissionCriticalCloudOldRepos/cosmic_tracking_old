@@ -17,10 +17,8 @@
 """ P1 tests for Snapshots
 """
 # Import Local Modules
-from nose.plugins.attrib import attr
-from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from marvin.cloudstackAPI import deleteVolume
-from marvin.lib.utils import (cleanup_resources)
+from marvin.cloudstackTestCase import cloudstackTestCase, unittest
 from marvin.lib.base import (Account,
                              ServiceOffering,
                              NATRule,
@@ -37,13 +35,12 @@ from marvin.lib.base import (Account,
                              Volume)
 from marvin.lib.common import (get_zone,
                                get_domain,
-                               get_template,
-                               find_storage_pool_type)
-
+                               get_template)
+from marvin.lib.utils import (cleanup_resources)
+from nose.plugins.attrib import attr
 
 
 class Services:
-
     """Test Snapshots Services
     """
 
@@ -104,7 +101,7 @@ class Services:
                 "name": "SSH",
                 "alg": "roundrobin",
                 # Algorithm used for load balancing
-                "openfirewall":"false",
+                "openfirewall": "false",
                 "privateport": 22,
                 "publicport": 2222,
             },
@@ -125,7 +122,6 @@ class Services:
 
 
 class TestVmUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestVmUsage, cls).getClsTestClient()
@@ -202,8 +198,7 @@ class TestVmUsage(cloudstackTestCase):
             "basic",
             "sg",
             "eip",
-            "advancedns",
-            "simulator"],
+            "advancedns"],
         required_hardware="false")
     def test_01_vm_usage(self):
         """Test Create/Destroy VM and verify usage calculation
@@ -324,7 +319,6 @@ class TestVmUsage(cloudstackTestCase):
 
 
 class TestPublicIPUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestPublicIPUsage, cls).getClsTestClient()
@@ -407,8 +401,7 @@ class TestPublicIPUsage(cloudstackTestCase):
         tags=[
             "advanced",
             "eip",
-            "advancedns",
-            "simulator"],
+            "advancedns"],
         required_hardware="false")
     def test_01_public_ip_usage(self):
         """Test Assign new IP and verify usage calculation
@@ -484,7 +477,6 @@ class TestPublicIPUsage(cloudstackTestCase):
 
 
 class TestVolumeUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestVolumeUsage, cls).getClsTestClient()
@@ -569,8 +561,7 @@ class TestVolumeUsage(cloudstackTestCase):
             "basic",
             "sg",
             "eip",
-            "advancedns",
-            "simulator"],
+            "advancedns"],
         required_hardware="false")
     def test_01_volume_usage(self):
         """Test Create/delete a volume and verify correct usage is recorded
@@ -674,7 +665,6 @@ class TestVolumeUsage(cloudstackTestCase):
 
 
 class TestTemplateUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestTemplateUsage, cls).getClsTestClient()
@@ -855,7 +845,6 @@ class TestTemplateUsage(cloudstackTestCase):
 
 
 class TestISOUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestISOUsage, cls).getClsTestClient()
@@ -1001,7 +990,6 @@ class TestISOUsage(cloudstackTestCase):
 
 
 class TestLBRuleUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestLBRuleUsage, cls).getClsTestClient()
@@ -1082,8 +1070,7 @@ class TestLBRuleUsage(cloudstackTestCase):
         tags=[
             "advanced",
             "eip",
-            "advancedns",
-            "simulator"],
+            "advancedns"],
         required_hardware="false")
     def test_01_lb_usage(self):
         """Test Create/Delete a LB rule and verify correct usage is recorded
@@ -1171,7 +1158,6 @@ class TestLBRuleUsage(cloudstackTestCase):
 
 
 class TestSnapshotUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestSnapshotUsage, cls).getClsTestClient()
@@ -1237,7 +1223,7 @@ class TestSnapshotUsage(cloudstackTestCase):
 
         if self.unsupportedHypervisor:
             self.skipTest("Snapshots are not supported on %s" %
-                    self.hypervisor)
+                          self.hypervisor)
         return
 
     def tearDown(self):
@@ -1255,8 +1241,7 @@ class TestSnapshotUsage(cloudstackTestCase):
             "basic",
             "sg",
             "eip",
-            "advancedns",
-            "simulator"],
+            "advancedns"],
         required_hardware="false")
     def test_01_snapshot_usage(self):
         """Test Create/Delete a manual snap shot and verify
@@ -1352,7 +1337,6 @@ class TestSnapshotUsage(cloudstackTestCase):
 
 
 class TestNatRuleUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestNatRuleUsage, cls).getClsTestClient()
@@ -1432,8 +1416,7 @@ class TestNatRuleUsage(cloudstackTestCase):
     @attr(
         tags=[
             "advanced",
-            "advancedns",
-            "simulator"],
+            "advancedns"],
         required_hardware="false")
     def test_01_nat_usage(self):
         """Test Create/Delete a PF rule and verify correct usage is recorded
@@ -1521,7 +1504,6 @@ class TestNatRuleUsage(cloudstackTestCase):
 
 
 class TestVpnUsage(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestVpnUsage, cls).getClsTestClient()

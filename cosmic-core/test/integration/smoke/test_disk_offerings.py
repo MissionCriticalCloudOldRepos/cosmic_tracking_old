@@ -16,20 +16,18 @@
 # under the License.
 """ BVT tests for Disk offerings"""
 
-#Import Local Modules
-import marvin
-from marvin.cloudstackTestCase import *
+# Import Local Modules
 from marvin.cloudstackAPI import *
-from marvin.lib.utils import *
+from marvin.cloudstackTestCase import *
 from marvin.lib.base import *
 from marvin.lib.common import *
+from marvin.lib.utils import *
 from nose.plugins.attrib import attr
-
 
 _multiprocess_shared_ = True
 
-class TestCreateDiskOffering(cloudstackTestCase):
 
+class TestCreateDiskOffering(cloudstackTestCase):
     def setUp(self):
         self.services = self.testClient.getParsedTestDataConfig()
         self.apiclient = self.testClient.getApiClient()
@@ -39,7 +37,7 @@ class TestCreateDiskOffering(cloudstackTestCase):
 
     def tearDown(self):
         try:
-            #Clean up, terminate the created templates
+            # Clean up, terminate the created templates
             cleanup_resources(self.apiclient, self.cleanup)
 
         except Exception as e:
@@ -55,43 +53,43 @@ class TestCreateDiskOffering(cloudstackTestCase):
         # 2. The Cloud Database contains the valid information
         """
         disk_offering = DiskOffering.create(
-                                        self.apiclient,
-                                        self.services["disk_offering"]
-                                        )
+            self.apiclient,
+            self.services["disk_offering"]
+        )
         self.cleanup.append(disk_offering)
 
         self.debug("Created Disk offering with ID: %s" % disk_offering.id)
 
         list_disk_response = list_disk_offering(
-                                                self.apiclient,
-                                                id=disk_offering.id
-                                                )
+            self.apiclient,
+            id=disk_offering.id
+        )
         self.assertEqual(
-                            isinstance(list_disk_response, list),
-                            True,
-                            "Check list response returns a valid list"
-                        )
+            isinstance(list_disk_response, list),
+            True,
+            "Check list response returns a valid list"
+        )
         self.assertNotEqual(
-                            len(list_disk_response),
-                            0,
-                            "Check Disk offering is created"
-                        )
+            len(list_disk_response),
+            0,
+            "Check Disk offering is created"
+        )
         disk_response = list_disk_response[0]
 
         self.assertEqual(
-                            disk_response.displaytext,
-                            self.services["disk_offering"]["displaytext"],
-                            "Check server id in createServiceOffering"
-                        )
+            disk_response.displaytext,
+            self.services["disk_offering"]["displaytext"],
+            "Check server id in createServiceOffering"
+        )
         self.assertEqual(
-                            disk_response.name,
-                            self.services["disk_offering"]["name"],
-                            "Check name in createServiceOffering"
-                        )
+            disk_response.name,
+            self.services["disk_offering"]["name"],
+            "Check name in createServiceOffering"
+        )
         return
 
     @attr(hypervisor="kvm")
-    @attr(tags = ["advanced", "basic", "eip", "sg", "advancedns", "simulator", "smoke"])
+    @attr(tags=["advanced", "basic", "eip", "sg", "advancedns", "smoke"])
     def test_02_create_sparse_type_disk_offering(self):
         """Test to create  a sparse type disk offering"""
 
@@ -100,39 +98,38 @@ class TestCreateDiskOffering(cloudstackTestCase):
         # 2. The Cloud Database contains the valid information
 
         disk_offering = DiskOffering.create(
-                                        self.apiclient,
-                                        self.services["sparse"]
-                                        )
+            self.apiclient,
+            self.services["sparse"]
+        )
         self.cleanup.append(disk_offering)
 
         self.debug("Created Disk offering with ID: %s" % disk_offering.id)
 
         list_disk_response = list_disk_offering(
-                                                self.apiclient,
-                                                id=disk_offering.id
-                                                )
+            self.apiclient,
+            id=disk_offering.id
+        )
         self.assertEqual(
-                            isinstance(list_disk_response, list),
-                            True,
-                            "Check list response returns a valid list"
-                        )
+            isinstance(list_disk_response, list),
+            True,
+            "Check list response returns a valid list"
+        )
         self.assertNotEqual(
-                            len(list_disk_response),
-                            0,
-                            "Check Disk offering is created"
-                        )
+            len(list_disk_response),
+            0,
+            "Check Disk offering is created"
+        )
         disk_response = list_disk_response[0]
 
         self.assertEqual(
-                            disk_response.provisioningtype,
-                            self.services["sparse"]["provisioningtype"],
-                            "Check provisionig type in createServiceOffering"
-                        )
+            disk_response.provisioningtype,
+            self.services["sparse"]["provisioningtype"],
+            "Check provisionig type in createServiceOffering"
+        )
         return
 
-
     @attr(hypervisor="kvm")
-    @attr(tags = ["advanced", "basic", "eip", "sg", "advancedns", "simulator", "smoke"])
+    @attr(tags=["advanced", "basic", "eip", "sg", "advancedns", "smoke"])
     def test_04_create_fat_type_disk_offering(self):
         """Test to create  a sparse type disk offering"""
 
@@ -141,38 +138,38 @@ class TestCreateDiskOffering(cloudstackTestCase):
         # 2. The Cloud Database contains the valid information
 
         disk_offering = DiskOffering.create(
-                                        self.apiclient,
-                                        self.services["fat"]
-                                        )
+            self.apiclient,
+            self.services["fat"]
+        )
         self.cleanup.append(disk_offering)
 
         self.debug("Created Disk offering with ID: %s" % disk_offering.id)
 
         list_disk_response = list_disk_offering(
-                                                self.apiclient,
-                                                id=disk_offering.id
-                                                )
+            self.apiclient,
+            id=disk_offering.id
+        )
         self.assertEqual(
-                            isinstance(list_disk_response, list),
-                            True,
-                            "Check list response returns a valid list"
-                        )
+            isinstance(list_disk_response, list),
+            True,
+            "Check list response returns a valid list"
+        )
         self.assertNotEqual(
-                            len(list_disk_response),
-                            0,
-                            "Check Disk offering is created"
-                        )
+            len(list_disk_response),
+            0,
+            "Check Disk offering is created"
+        )
         disk_response = list_disk_response[0]
 
         self.assertEqual(
-                            disk_response.provisioningtype,
-                            self.services["fat"]["provisioningtype"],
-                            "Check provisionig type in createServiceOffering"
-                        )
+            disk_response.provisioningtype,
+            self.services["fat"]["provisioningtype"],
+            "Check provisionig type in createServiceOffering"
+        )
         return
 
-class TestDiskOfferings(cloudstackTestCase):
 
+class TestDiskOfferings(cloudstackTestCase):
     def setUp(self):
         self.apiclient = self.testClient.getApiClient()
         self.dbclient = self.testClient.getDbConnection()
@@ -181,7 +178,7 @@ class TestDiskOfferings(cloudstackTestCase):
     def tearDown(self):
 
         try:
-            #Clean up, terminate the created templates
+            # Clean up, terminate the created templates
             cleanup_resources(self.apiclient, self.cleanup)
 
         except Exception as e:
@@ -193,15 +190,15 @@ class TestDiskOfferings(cloudstackTestCase):
         testClient = super(TestDiskOfferings, cls).getClsTestClient()
         cls.apiclient = cls.testClient.getApiClient()
         cls.services = cls.testClient.getParsedTestDataConfig()
-        
+
         cls.disk_offering_1 = DiskOffering.create(
-                                                  cls.apiclient,
-                                                  cls.services["disk_offering"]
-                                                  )
+            cls.apiclient,
+            cls.services["disk_offering"]
+        )
         cls.disk_offering_2 = DiskOffering.create(
-                                                  cls.apiclient,
-                                                  cls.services["disk_offering"]
-                                                  )
+            cls.apiclient,
+            cls.services["disk_offering"]
+        )
         cls._cleanup = [cls.disk_offering_1]
         return
 
@@ -214,7 +211,7 @@ class TestDiskOfferings(cloudstackTestCase):
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-    @attr(tags=["advanced", "basic", "eip", "sg", "advancedns",  "smoke"], required_hardware="false")
+    @attr(tags=["advanced", "basic", "eip", "sg", "advancedns", "smoke"], required_hardware="false")
     def test_02_edit_disk_offering(self):
         """Test to update existing disk offering
 
@@ -227,9 +224,9 @@ class TestDiskOfferings(cloudstackTestCase):
         random_displaytext = random_gen()
         random_name = random_gen()
 
-        self.debug("Updating Disk offering with ID: %s" % 
-                                    self.disk_offering_1.id)
-        
+        self.debug("Updating Disk offering with ID: %s" %
+                   self.disk_offering_1.id)
+
         cmd = updateDiskOffering.updateDiskOfferingCmd()
         cmd.id = self.disk_offering_1.id
         cmd.displaytext = random_displaytext
@@ -238,32 +235,32 @@ class TestDiskOfferings(cloudstackTestCase):
         self.apiclient.updateDiskOffering(cmd)
 
         list_disk_response = list_disk_offering(
-                                                self.apiclient,
-                                                id=self.disk_offering_1.id
-                                                )
+            self.apiclient,
+            id=self.disk_offering_1.id
+        )
         self.assertEqual(
-                            isinstance(list_disk_response, list),
-                            True,
-                            "Check list response returns a valid list"
-                        )
+            isinstance(list_disk_response, list),
+            True,
+            "Check list response returns a valid list"
+        )
         self.assertNotEqual(
-                            len(list_disk_response),
-                            0,
-                            "Check disk offering is updated"
-                        )
+            len(list_disk_response),
+            0,
+            "Check disk offering is updated"
+        )
 
         disk_response = list_disk_response[0]
 
         self.assertEqual(
-                        disk_response.displaytext,
-                        random_displaytext,
-                        "Check service displaytext in updateServiceOffering"
-                        )
+            disk_response.displaytext,
+            random_displaytext,
+            "Check service displaytext in updateServiceOffering"
+        )
         self.assertEqual(
-                        disk_response.name,
-                        random_name,
-                        "Check service name in updateServiceOffering"
-                        )
+            disk_response.name,
+            random_name,
+            "Check service name in updateServiceOffering"
+        )
         return
 
     @attr(tags=["advanced", "basic", "eip", "sg", "advancedns", "smoke"], required_hardware="false")
@@ -276,16 +273,16 @@ class TestDiskOfferings(cloudstackTestCase):
         """
         self.disk_offering_2.delete(self.apiclient)
 
-        self.debug("Deleted Disk offering with ID: %s" % 
-                                    self.disk_offering_2.id)
+        self.debug("Deleted Disk offering with ID: %s" %
+                   self.disk_offering_2.id)
         list_disk_response = list_disk_offering(
-                                                self.apiclient,
-                                                id=self.disk_offering_2.id
-                                                )
+            self.apiclient,
+            id=self.disk_offering_2.id
+        )
 
         self.assertEqual(
-                        list_disk_response,
-                        None,
-                        "Check if disk offering exists in listDiskOfferings"
-                        )
+            list_disk_response,
+            None,
+            "Check if disk offering exists in listDiskOfferings"
+        )
         return

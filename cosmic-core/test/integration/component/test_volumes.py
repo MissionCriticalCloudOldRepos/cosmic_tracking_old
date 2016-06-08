@@ -17,12 +17,11 @@
 """ P1 tests for Volumes
 """
 # Import Local Modules
-from nose.plugins.attrib import attr
-from marvin.cloudstackTestCase import cloudstackTestCase
 from marvin.cloudstackAPI import (listHypervisorCapabilities,
                                   attachIso,
                                   deleteVolume)
-from marvin.lib.utils import cleanup_resources, validateList
+from marvin.cloudstackTestCase import cloudstackTestCase
+from marvin.codes import PASS
 from marvin.lib.base import (Account,
                              ServiceOffering,
                              VirtualMachine,
@@ -36,15 +35,15 @@ from marvin.lib.base import (Account,
 from marvin.lib.common import (get_domain,
                                get_zone,
                                get_template,
-                               get_pod,
-                               find_storage_pool_type)
-from marvin.codes import PASS
+                               get_pod)
+from marvin.lib.utils import cleanup_resources, validateList
+from nose.plugins.attrib import attr
+
 # Import System modules
 import time
 
 
 class Services:
-
     """Test Volume Services
     """
 
@@ -63,8 +62,8 @@ class Services:
                 "name": "Tiny Instance",
                 "displaytext": "Tiny Instance",
                 "cpunumber": 1,
-                "cpuspeed": 100,    # in MHz
-                                    "memory": 128,       # In MBs
+                "cpuspeed": 100,  # in MHz
+                "memory": 128,  # In MBs
             },
             "disk_offering": {
                 "displaytext": "Small",
@@ -85,13 +84,13 @@ class Services:
                 "publicport": 22,
             },
             "iso":  # ISO settings for Attach/Detach ISO tests
-            {
-                "displaytext": "Test ISO",
-                "name": "testISO",
-                "url": "http://people.apache.org/~tsp/dummy.iso",
-                # Source URL where ISO is located
-                "ostype": 'CentOS 5.3 (64-bit)',
-            },
+                {
+                    "displaytext": "Test ISO",
+                    "name": "testISO",
+                    "url": "http://people.apache.org/~tsp/dummy.iso",
+                    # Source URL where ISO is located
+                    "ostype": 'CentOS 5.3 (64-bit)',
+                },
             "custom_volume": {
                 "customdisksize": 2,
                 "diskname": "Custom disk",
@@ -102,7 +101,6 @@ class Services:
 
 
 class TestAttachVolume(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestAttachVolume, cls).getClsTestClient()
@@ -367,7 +365,6 @@ class TestAttachVolume(cloudstackTestCase):
 
 
 class TestAttachDetachVolume(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestAttachDetachVolume, cls).getClsTestClient()
@@ -600,7 +597,6 @@ class TestAttachDetachVolume(cloudstackTestCase):
 
 
 class TestAttachVolumeISO(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestAttachVolumeISO, cls).getClsTestClient()
@@ -817,7 +813,6 @@ class TestAttachVolumeISO(cloudstackTestCase):
 
 
 class TestVolumes(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestVolumes, cls).getClsTestClient()
@@ -1058,7 +1053,6 @@ class TestVolumes(cloudstackTestCase):
         tags=[
             "advanced",
             "advancedns",
-            "simulator",
             "basic",
             "eip",
             "sg"],
@@ -1128,12 +1122,11 @@ class TestVolumes(cloudstackTestCase):
             "Volume returned by list volumes %s not matching with queried\
                     volume %s in domain %s" %
             (listed_vol[0].id,
-                vol.id,
-                dom.name))
+             vol.id,
+             dom.name))
 
 
 class TestDeployVmWithCustomDisk(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(
@@ -1186,7 +1179,7 @@ class TestDeployVmWithCustomDisk(cloudstackTestCase):
         if self.unsupportedStorageType:
             self.skipTest("RBD storage type is required for data volumes for LXC")
 
-    @attr(tags=["advanced", "configuration", "advancedns", "simulator",
+    @attr(tags=["advanced", "configuration", "advancedns",
                 "api", "basic", "eip", "sg"])
     def test_deployVmWithCustomDisk(self):
         """Test custom disk sizes beyond range
@@ -1272,7 +1265,6 @@ class TestDeployVmWithCustomDisk(cloudstackTestCase):
 
 
 class TestMigrateVolume(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestMigrateVolume, cls).getClsTestClient()

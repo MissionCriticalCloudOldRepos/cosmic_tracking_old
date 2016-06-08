@@ -17,9 +17,9 @@
 """ P1 tests for Account
 """
 # Import Local Modules
+import time
+from marvin.cloudstackException import CloudstackAPIException
 from marvin.cloudstackTestCase import cloudstackTestCase
-from marvin.lib.utils import (random_gen,
-                              cleanup_resources)
 from marvin.lib.base import (Domain,
                              Account,
                              ServiceOffering,
@@ -39,13 +39,12 @@ from marvin.lib.common import (get_domain,
                                list_users,
                                get_builtin_template_info,
                                wait_for_cleanup)
+from marvin.lib.utils import (random_gen,
+                              cleanup_resources)
 from nose.plugins.attrib import attr
-from marvin.cloudstackException import CloudstackAPIException
-import time
 
 
 class Services:
-
     """Test Account Services
     """
 
@@ -118,7 +117,6 @@ class Services:
 
 
 class TestAccounts(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestAccounts, cls).getClsTestClient()
@@ -253,7 +251,6 @@ class TestAccounts(cloudstackTestCase):
 
 
 class TestRemoveUserFromAccount(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(
@@ -421,7 +418,6 @@ class TestRemoveUserFromAccount(cloudstackTestCase):
 
 
 class TestNonRootAdminsPrivileges(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(
@@ -530,7 +526,6 @@ class TestNonRootAdminsPrivileges(cloudstackTestCase):
 
 
 class TestServiceOfferingSiblings(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.api_client = super(
@@ -654,7 +649,6 @@ class TestServiceOfferingSiblings(cloudstackTestCase):
 
 
 class TestServiceOfferingHierarchy(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.api_client = super(
@@ -779,7 +773,6 @@ class TestServiceOfferingHierarchy(cloudstackTestCase):
 
 
 class TestTemplateHierarchy(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestTemplateHierarchy, cls).getClsTestClient()
@@ -932,7 +925,6 @@ class TestTemplateHierarchy(cloudstackTestCase):
 
 
 class TestAddVmToSubDomain(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestAddVmToSubDomain, cls).getClsTestClient()
@@ -1084,7 +1076,6 @@ class TestAddVmToSubDomain(cloudstackTestCase):
 
 
 class TestUserDetails(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestUserDetails, cls).getClsTestClient()
@@ -1123,7 +1114,6 @@ class TestUserDetails(cloudstackTestCase):
     @attr(tags=[
         "role",
         "accounts",
-        "simulator",
         "advanced",
         "advancedns",
         "basic",
@@ -1210,7 +1200,6 @@ class TestUserDetails(cloudstackTestCase):
     @attr(tags=[
         "role",
         "accounts",
-        "simulator",
         "advanced",
         "advancedns",
         "basic",
@@ -1297,7 +1286,6 @@ class TestUserDetails(cloudstackTestCase):
     @attr(tags=[
         "role",
         "accounts",
-        "simulator",
         "advanced",
         "advancedns",
         "basic",
@@ -1383,7 +1371,6 @@ class TestUserDetails(cloudstackTestCase):
 
 
 class TestUserLogin(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestUserLogin, cls).getClsTestClient()
@@ -1419,7 +1406,7 @@ class TestUserLogin(cloudstackTestCase):
             raise Exception("Warning: Exception during cleanup : %s" % e)
         return
 
-    @attr(tags=["login", "accounts", "simulator", "advanced",
+    @attr(tags=["login", "accounts", "advanced",
                 "advancedns", "basic", "eip", "sg"])
     def test_LoginApiUuidResponse(self):
         """Test if Login API does not return UUID's
@@ -1460,7 +1447,7 @@ class TestUserLogin(cloudstackTestCase):
         )
         return
 
-    @attr(tags=["login", "accounts", "simulator", "advanced",
+    @attr(tags=["login", "accounts", "advanced",
                 "advancedns", "basic", "eip", "sg"])
     def test_LoginApiDomain(self):
         """Test login API with domain
@@ -1532,7 +1519,6 @@ class TestUserLogin(cloudstackTestCase):
 
 
 class TestDomainForceRemove(cloudstackTestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.testClient = super(TestDomainForceRemove, cls).getClsTestClient()
@@ -1582,7 +1568,6 @@ class TestDomainForceRemove(cloudstackTestCase):
             "domains",
             "advanced",
             "advancedns",
-            "simulator",
             "dvs"],
         required_hardware="false")
     def test_forceDeleteDomain(self):
@@ -1758,8 +1743,7 @@ class TestDomainForceRemove(cloudstackTestCase):
         tags=[
             "domains",
             "advanced",
-            "advancedns",
-            "simulator"],
+            "advancedns"],
         required_hardware="false")
     def test_DeleteDomain(self):
         """ Test delete domain without force option"""
