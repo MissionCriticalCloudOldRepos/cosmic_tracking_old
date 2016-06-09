@@ -634,17 +634,6 @@ createVMSnapshot=15
 deleteVMSnapshot=15
 revertToVMSnapshot=15
 
-#### Baremetal commands
-addBaremetalHost=1
-addBaremetalPxeKickStartServer=1
-addBaremetalPxePingServer=1
-addBaremetalDhcp=1
-listBaremetalDhcp=1
-listBaremetalPxeServers=1
-addBaremetalRct=1
-deleteBaremetalRct=1
-listBaremetalRct=1
-
 #### New Load Balancer commands
 createLoadBalancer=15
 listLoadBalancers=15
