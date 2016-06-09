@@ -1513,6 +1513,54 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
     }
   }
 
+  private Integer buildBridgeToNicNumHashMap(Map<String, Integer> bridgeToNicNum, List<InterfaceDef> pluggedNics) {
+    Integer devNum = 0;
+    for (final InterfaceDef pluggedNic : pluggedNics) {
+      final String pluggedVlan = pluggedNic.getBrName();
+
+      if (pluggedVlan.equalsIgnoreCase(linkLocalBridgeName) || pluggedVlan.equalsIgnoreCase(publicBridgeName)
+              || pluggedVlan.equalsIgnoreCase(privBridgeName) || pluggedVlan.equalsIgnoreCase(guestBridgeName)) {
+        bridgeToNicNum.put(pluggedVlan, devNum);
+      }
+      devNum++;
+    }
+    return devNum;
+  }
+
+  private Integer setIpNicDevId(Map<String, Integer> bridgeToNicNum, IpAddressTO ip) {
+    if (ip.getTrafficType().equals(TrafficType.Public) && bridgeToNicNum.containsKey(publicBridgeName)) {
+      ip.setNicDevId(bridgeToNicNum.get(publicBridgeName));
+    } else if (ip.getTrafficType().equals(TrafficType.Management) && bridgeToNicNum.containsKey(privBridgeName)) {
+      ip.setNicDevId(bridgeToNicNum.get(privBridgeName));
+    } else if (ip.getTrafficType().equals(TrafficType.Guest) && bridgeToNicNum.containsKey(guestBridgeName)) {
+      ip.setNicDevId(bridgeToNicNum.get(guestBridgeName));
+    } else if (ip.getTrafficType().equals(TrafficType.Control) && bridgeToNicNum.containsKey(linkLocalBridgeName)) {
+      ip.setNicDevId(bridgeToNicNum.get(linkLocalBridgeName));
+    }
+    return ip.getNicDevId();
+  }
+
+  private String getBridgeNameFromTrafficType(TrafficType trafficType) {
+    String bridgeName;
+    switch (trafficType) {
+      case Public:
+        bridgeName = publicBridgeName;
+        break;
+      case Management:
+        bridgeName = privBridgeName;
+        break;
+      case Guest:
+        bridgeName = guestBridgeName;
+        break;
+      case Control:
+        bridgeName = linkLocalBridgeName;
+        break;
+      default:
+        bridgeName = "";
+    }
+    return bridgeName;
+  }
+
   private ExecutionResult prepareNetworkElementCommand(final SetupGuestNetworkCommand cmd) {
     Connect conn;
     final NicTO nic = cmd.getNic();
@@ -1583,40 +1631,18 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
   }
 
   protected ExecutionResult prepareNetworkElementCommand(final IpAssocVpcCommand cmd) {
-    Connect conn;
     final String routerName = cmd.getAccessDetail(NetworkElementCommand.ROUTER_NAME);
 
     try {
-      conn = LibvirtConnection.getConnectionByVmName(routerName);
+      Connect conn = LibvirtConnection.getConnectionByVmName(routerName);
       final IpAddressTO[] ips = cmd.getIpAddresses();
-      Integer devNum = 0;
       final Map<String, Integer> bridgeToNicNum = new HashMap<>();
       final List<InterfaceDef> pluggedNics = getInterfaces(conn, routerName);
 
-      for (final InterfaceDef pluggedNic : pluggedNics) {
-        final String pluggedVlan = pluggedNic.getBrName();
-        if (pluggedVlan.equalsIgnoreCase(linkLocalBridgeName)) {
-          bridgeToNicNum.put(linkLocalBridgeName, devNum);
-        } else if (pluggedVlan.equalsIgnoreCase(publicBridgeName)) {
-          bridgeToNicNum.put(publicBridgeName, devNum);
-        } else if (pluggedVlan.equalsIgnoreCase(privBridgeName)) {
-          bridgeToNicNum.put(privBridgeName, devNum);
-        } else if (pluggedVlan.equalsIgnoreCase(guestBridgeName)) {
-          bridgeToNicNum.put(guestBridgeName, devNum);
-        }
-        devNum++;
-      }
+      buildBridgeToNicNumHashMap(bridgeToNicNum, pluggedNics);
 
       for (final IpAddressTO ip : ips) {
-        if (ip.getTrafficType().equals(TrafficType.Public) && bridgeToNicNum.containsKey(publicBridgeName)) {
-          ip.setNicDevId(bridgeToNicNum.get(publicBridgeName));
-        } else if (ip.getTrafficType().equals(TrafficType.Management) && bridgeToNicNum.containsKey(privBridgeName)) {
-          ip.setNicDevId(bridgeToNicNum.get(privBridgeName));
-        } else if (ip.getTrafficType().equals(TrafficType.Guest) && bridgeToNicNum.containsKey(guestBridgeName)) {
-          ip.setNicDevId(bridgeToNicNum.get(guestBridgeName));
-        } else if (ip.getTrafficType().equals(TrafficType.Control) && bridgeToNicNum.containsKey(linkLocalBridgeName)) {
-          ip.setNicDevId(bridgeToNicNum.get(linkLocalBridgeName));
-        }
+        setIpNicDevId(bridgeToNicNum, ip);
       }
 
       return new ExecutionResult(true, null);
@@ -1629,39 +1655,27 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
   public ExecutionResult prepareNetworkElementCommand(final IpAssocCommand cmd) {
     final String routerName = cmd.getAccessDetail(NetworkElementCommand.ROUTER_NAME);
     final String routerIp = cmd.getAccessDetail(NetworkElementCommand.ROUTER_IP);
-    Connect conn;
+
     try {
-      conn = LibvirtConnection.getConnectionByVmName(routerName);
-      final List<InterfaceDef> nics = getInterfaces(conn, routerName, guestBridgeName);
-      final Map<String, Integer> broadcastUriAllocatedToVm = new HashMap<String, Integer>();
-      Integer nicPos = 0;
-      for (final InterfaceDef nic : nics) {
-        if (nic.getBrName().equalsIgnoreCase(linkLocalBridgeName)) {
-          broadcastUriAllocatedToVm.put("LinkLocal", nicPos);
-        } else {
-          if (nic.getBrName().equalsIgnoreCase(publicBridgeName) || nic.getBrName().equalsIgnoreCase(privBridgeName)) {
-            broadcastUriAllocatedToVm.put(BroadcastDomainType.Vlan.toUri(Vlan.UNTAGGED).toString(), nicPos);
-          } else {
-            final String broadcastUri = getBroadcastUriFromBridge(nic.getBrName());
-            broadcastUriAllocatedToVm.put(broadcastUri, nicPos);
-          }
-        }
-        nicPos++;
-      }
+      Connect conn = LibvirtConnection.getConnectionByVmName(routerName);
       final IpAddressTO[] ips = cmd.getIpAddresses();
-      int nicNum = 0;
+      final Map<String, Integer> bridgeToNicNum = new HashMap<>();
+      final List<InterfaceDef> pluggedNics = getInterfaces(conn, routerName);
+
+      Integer devNum = buildBridgeToNicNumHashMap(bridgeToNicNum, pluggedNics);
+
+      int nicNum;
       for (final IpAddressTO ip : ips) {
         boolean newNic = false;
-        if (!broadcastUriAllocatedToVm.containsKey(ip.getBroadcastUri())) {
+        if (!bridgeToNicNum.containsKey(getBridgeNameFromTrafficType( ip.getTrafficType() ))) {
           /* plug a vif into router */
           vifHotPlug(conn, routerName, ip.getBroadcastUri(), ip.getVifMacAddress());
-          broadcastUriAllocatedToVm.put(ip.getBroadcastUri(), nicPos++);
+          bridgeToNicNum.put(getBridgeNameFromTrafficType(ip.getTrafficType()), devNum++);
           newNic = true;
         }
-        nicNum = broadcastUriAllocatedToVm.get(ip.getBroadcastUri());
+        nicNum = setIpNicDevId(bridgeToNicNum, ip);
         networkUsage(routerIp, "addVif", "eth" + nicNum);
 
-        ip.setNicDevId(nicNum);
         ip.setNewNic(newNic);
       }
       return new ExecutionResult(true, null);
