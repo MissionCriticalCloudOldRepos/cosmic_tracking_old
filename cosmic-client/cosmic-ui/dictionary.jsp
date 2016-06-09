@@ -1003,7 +1003,6 @@ dictionary = {
 'label.public.port': '<fmt:message key="label.public.port" />',
 'label.public.zone': '<fmt:message key="label.public.zone" />',
 'label.purpose': '<fmt:message key="label.purpose" />',
-'label.Pxe.server.type': '<fmt:message key="label.Pxe.server.type" />',
 'label.quickview': '<fmt:message key="label.quickview" />',
 'label.usage.type': '<fmt:message key="label.usage.type" />',
 'label.usage.unit': '<fmt:message key="label.usage.unit" />',
