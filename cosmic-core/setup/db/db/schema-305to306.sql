@@ -52,9 +52,6 @@ INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Network','DEFAULT','NetworkM
 
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Advanced', 'DEFAULT', 'NetworkManager', 'router.check.poolsize' , '10', 'Numbers of threads using to check redundant router status.');
 
-INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Advanced', 'DEFAULT', 'management-server', 'timeout.baremetal.securitygroup.agent.echo' , '3600', 'Timeout to echo baremetal security group agent, in seconds, the provisioning process will be treated as a failure');
-INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Advanced', 'DEFAULT', 'management-server', 'interval.baremetal.securitygroup.agent.echo' , '10', 'Interval to echo baremetal security group agent, in seconds');
-INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Advanced', 'DEFAULT', 'management-server', 'enable.baremetal.securitygroup.agent.echo' , 'false', 'After starting provision process, periodcially echo security agent installed in the template. Treat provisioning as success only if echo successfully');
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Advanced', 'DEFAULT', 'management-server', 'recreate.systemvm.enabled' , 'false', 'If true, will recreate system vm root disk whenever starting system vm');
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Advanced', 'DEFAULT', 'management-server', 'vm.instancename.flag' , 'false', 'If true, will append guest VMs display Name (if set) to its internal name and set hostname and display name to the conjoined value');
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Advanced', 'DEFAULT', 'management-server', 'vmware.additional.vnc.portrange.size' , '1000', 'Start port number of additional VNC port range');

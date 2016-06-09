@@ -16,17 +16,6 @@
 // under the License.
 package com.cloud.api.query.vo;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.server.ResourceTag.ResourceObjectType;
 import com.cloud.storage.ScopeType;
@@ -35,8 +24,10 @@ import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
 import com.cloud.template.VirtualMachineTemplate;
 import com.cloud.template.VirtualMachineTemplate.State;
 import com.cloud.utils.db.GenericDao;
-
 import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "template_view")
@@ -187,7 +178,7 @@ public class TemplateJoinVO extends BaseViewVO implements ControlledViewEntity {
     private ScopeType dataStoreScope;
 
     @Column(name = "store_id")
-    private Long dataStoreId; // this can be null for baremetal templates
+    private Long dataStoreId;
 
     @Column(name = "download_state")
     @Enumerated(EnumType.STRING)
@@ -403,6 +394,10 @@ public class TemplateJoinVO extends BaseViewVO implements ControlledViewEntity {
         return publicTemplate;
     }
 
+    public void setPublicTemplate(final boolean publicTemplate) {
+        this.publicTemplate = publicTemplate;
+    }
+
     public boolean isFeatured() {
         return featured;
     }
@@ -546,5 +541,273 @@ public class TemplateJoinVO extends BaseViewVO implements ControlledViewEntity {
     @Override
     public Class<?> getEntityType() {
         return VirtualMachineTemplate.class;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
+
+    public void setUuid(final String uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setUniqueName(final String uniqueName) {
+        this.uniqueName = uniqueName;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setFormat(final Storage.ImageFormat format) {
+        this.format = format;
+    }
+
+    public void setFeatured(final boolean featured) {
+        this.featured = featured;
+    }
+
+    public void setTemplateType(final Storage.TemplateType templateType) {
+        this.templateType = templateType;
+    }
+
+    public void setUrl(final String url) {
+        this.url = url;
+    }
+
+    public void setRequiresHvm(final boolean requiresHvm) {
+        this.requiresHvm = requiresHvm;
+    }
+
+    public void setBits(final int bits) {
+        this.bits = bits;
+    }
+
+    public void setCreated(final Date created) {
+        this.created = created;
+    }
+
+    public void setCreatedOnStore(final Date createdOnStore) {
+        this.createdOnStore = createdOnStore;
+    }
+
+    public void setRemoved(final Date removed) {
+        this.removed = removed;
+    }
+
+    public void setChecksum(final String checksum) {
+        this.checksum = checksum;
+    }
+
+    public void setDisplayText(final String displayText) {
+        this.displayText = displayText;
+    }
+
+    public void setEnablePassword(final boolean enablePassword) {
+        this.enablePassword = enablePassword;
+    }
+
+    public void setDynamicallyScalable(final boolean dynamicallyScalable) {
+        this.dynamicallyScalable = dynamicallyScalable;
+    }
+
+    public void setGuestOSId(final long guestOSId) {
+        this.guestOSId = guestOSId;
+    }
+
+    public void setGuestOSUuid(final String guestOSUuid) {
+        this.guestOSUuid = guestOSUuid;
+    }
+
+    public void setGuestOSName(final String guestOSName) {
+        this.guestOSName = guestOSName;
+    }
+
+    public void setBootable(final boolean bootable) {
+        this.bootable = bootable;
+    }
+
+    public void setPrepopulate(final boolean prepopulate) {
+        this.prepopulate = prepopulate;
+    }
+
+    public void setCrossZones(final boolean crossZones) {
+        this.crossZones = crossZones;
+    }
+
+    public void setHypervisorType(final HypervisorType hypervisorType) {
+        this.hypervisorType = hypervisorType;
+    }
+
+    public void setExtractable(final boolean extractable) {
+        this.extractable = extractable;
+    }
+
+    public void setSourceTemplateId(final Long sourceTemplateId) {
+        this.sourceTemplateId = sourceTemplateId;
+    }
+
+    public void setSourceTemplateUuid(final String sourceTemplateUuid) {
+        this.sourceTemplateUuid = sourceTemplateUuid;
+    }
+
+    public void setTemplateTag(final String templateTag) {
+        this.templateTag = templateTag;
+    }
+
+    public void setSortKey(final int sortKey) {
+        this.sortKey = sortKey;
+    }
+
+    public void setEnableSshKey(final boolean enableSshKey) {
+        this.enableSshKey = enableSshKey;
+    }
+
+    public void setAccountId(final long accountId) {
+        this.accountId = accountId;
+    }
+
+    public void setAccountUuid(final String accountUuid) {
+        this.accountUuid = accountUuid;
+    }
+
+    public void setAccountName(final String accountName) {
+        this.accountName = accountName;
+    }
+
+    public void setAccountType(final short accountType) {
+        this.accountType = accountType;
+    }
+
+    public void setDomainId(final long domainId) {
+        this.domainId = domainId;
+    }
+
+    public void setDomainUuid(final String domainUuid) {
+        this.domainUuid = domainUuid;
+    }
+
+    public void setDomainName(final String domainName) {
+        this.domainName = domainName;
+    }
+
+    public void setDomainPath(final String domainPath) {
+        this.domainPath = domainPath;
+    }
+
+    public void setProjectId(final long projectId) {
+        this.projectId = projectId;
+    }
+
+    public void setProjectUuid(final String projectUuid) {
+        this.projectUuid = projectUuid;
+    }
+
+    public void setProjectName(final String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void setDataCenterId(final long dataCenterId) {
+        this.dataCenterId = dataCenterId;
+    }
+
+    public void setDataCenterUuid(final String dataCenterUuid) {
+        this.dataCenterUuid = dataCenterUuid;
+    }
+
+    public void setDataCenterName(final String dataCenterName) {
+        this.dataCenterName = dataCenterName;
+    }
+
+    public void setDataStoreScope(final ScopeType dataStoreScope) {
+        this.dataStoreScope = dataStoreScope;
+    }
+
+    public void setDataStoreId(final Long dataStoreId) {
+        this.dataStoreId = dataStoreId;
+    }
+
+    public void setDownloadState(final Status downloadState) {
+        this.downloadState = downloadState;
+    }
+
+    public void setDownloadPercent(final int downloadPercent) {
+        this.downloadPercent = downloadPercent;
+    }
+
+    public void setErrorString(final String errorString) {
+        this.errorString = errorString;
+    }
+
+    public void setSize(final long size) {
+        this.size = size;
+    }
+
+    public void setTemplateState(final State templateState) {
+        this.templateState = templateState;
+    }
+
+    public void setDestroyed(final boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+
+    public void setSharedAccountId(final Long sharedAccountId) {
+        this.sharedAccountId = sharedAccountId;
+    }
+
+    public void setDetailName(final String detailName) {
+        this.detailName = detailName;
+    }
+
+    public void setDetailValue(final String detailValue) {
+        this.detailValue = detailValue;
+    }
+
+    public void setTagId(final long tagId) {
+        this.tagId = tagId;
+    }
+
+    public void setTagUuid(final String tagUuid) {
+        this.tagUuid = tagUuid;
+    }
+
+    public void setTagKey(final String tagKey) {
+        this.tagKey = tagKey;
+    }
+
+    public void setTagValue(final String tagValue) {
+        this.tagValue = tagValue;
+    }
+
+    public void setTagDomainId(final long tagDomainId) {
+        this.tagDomainId = tagDomainId;
+    }
+
+    public void setTagAccountId(final long tagAccountId) {
+        this.tagAccountId = tagAccountId;
+    }
+
+    public void setTagResourceId(final long tagResourceId) {
+        this.tagResourceId = tagResourceId;
+    }
+
+    public void setTagResourceUuid(final String tagResourceUuid) {
+        this.tagResourceUuid = tagResourceUuid;
+    }
+
+    public void setTagResourceType(final ResourceObjectType tagResourceType) {
+        this.tagResourceType = tagResourceType;
+    }
+
+    public void setTagCustomer(final String tagCustomer) {
+        this.tagCustomer = tagCustomer;
+    }
+
+    public void setState(final ObjectInDataStoreStateMachine.State state) {
+        this.state = state;
+    }
+
+    public void setTempZonePair(final String tempZonePair) {
+        this.tempZonePair = tempZonePair;
     }
 }

@@ -66,7 +66,7 @@ public class AddClusterCmd extends BaseCmd {
     @Parameter(name = ApiConstants.HYPERVISOR,
             type = CommandType.STRING,
             required = true,
-            description = "hypervisor type of the cluster: XenServer,KVM,BareMetal,Ovm3")
+            description = "hypervisor type of the cluster: XenServer,KVM,Ovm3")
     private String hypervisor;
 
     @Parameter(name = ApiConstants.CLUSTER_TYPE, type = CommandType.STRING, required = true, description = "type of the cluster: CloudManaged, ExternalManaged")

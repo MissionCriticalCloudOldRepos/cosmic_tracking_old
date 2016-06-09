@@ -16,33 +16,21 @@
 // under the License.
 package org.apache.cloudstack.storage.datastore.db;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.cloud.storage.DataStoreRole;
 import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.fsm.StateObject;
-
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObjectInStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine;
 import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.*;
+import java.util.Date;
+
 /**
  * Join table for image_data_store and templates
- *
  */
 @Entity
 @Table(name = "template_store_ref")
@@ -54,7 +42,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
     Long id;
 
     @Column(name = "store_id")
-    private Long dataStoreId; // this can be null for baremetal templates
+    private Long dataStoreId;
 
     @Column(name = "template_id")
     private long templateId;
@@ -125,7 +113,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
     @Column(name = "ref_cnt")
     Long refCnt = 0L;
 
-    public TemplateDataStoreVO(Long hostId, long templateId) {
+    public TemplateDataStoreVO(final Long hostId, final long templateId) {
         super();
         dataStoreId = hostId;
         this.templateId = templateId;
@@ -133,8 +121,8 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         refCnt = 0L;
     }
 
-    public TemplateDataStoreVO(Long hostId, long templateId, Date lastUpdated, int downloadPercent, Status downloadState, String localDownloadPath, String errorString,
-            String jobId, String installPath, String downloadUrl) {
+    public TemplateDataStoreVO(final Long hostId, final long templateId, final Date lastUpdated, final int downloadPercent, final Status downloadState, final String localDownloadPath, final String errorString,
+                               final String jobId, final String installPath, final String downloadUrl) {
         super();
         dataStoreId = hostId;
         this.templateId = templateId;
@@ -183,7 +171,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return dataStoreId;
     }
 
-    public void setDataStoreId(long storeId) {
+    public void setDataStoreId(final long storeId) {
         dataStoreId = storeId;
     }
 
@@ -191,7 +179,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return templateId;
     }
 
-    public void setTemplateId(long templateId) {
+    public void setTemplateId(final long templateId) {
         this.templateId = templateId;
     }
 
@@ -199,11 +187,11 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return downloadPercent;
     }
 
-    public void setDownloadPercent(int downloadPercent) {
+    public void setDownloadPercent(final int downloadPercent) {
         this.downloadPercent = downloadPercent;
     }
 
-    public void setDownloadState(Status downloadState) {
+    public void setDownloadState(final Status downloadState) {
         this.downloadState = downloadState;
     }
 
@@ -215,16 +203,20 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return created;
     }
 
+    public void setCreated(final Date created) {
+        this.created = created;
+    }
+
     public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Date date) {
+    public void setLastUpdated(final Date date) {
         lastUpdated = date;
     }
 
     @Override
-    public void setInstallPath(String installPath) {
+    public void setInstallPath(final String installPath) {
         this.installPath = installPath;
     }
 
@@ -232,7 +224,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return downloadState;
     }
 
-    public void setLocalDownloadPath(String localPath) {
+    public void setLocalDownloadPath(final String localPath) {
         localDownloadPath = localPath;
     }
 
@@ -240,7 +232,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return localDownloadPath;
     }
 
-    public void setErrorString(String errorString) {
+    public void setErrorString(final String errorString) {
         this.errorString = errorString;
     }
 
@@ -248,7 +240,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return errorString;
     }
 
-    public void setJobId(String jobId) {
+    public void setJobId(final String jobId) {
         this.jobId = jobId;
     }
 
@@ -257,9 +249,9 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof TemplateDataStoreVO) {
-            TemplateDataStoreVO other = (TemplateDataStoreVO)obj;
+            final TemplateDataStoreVO other = (TemplateDataStoreVO) obj;
             return (templateId == other.getTemplateId() && dataStoreId == other.getDataStoreId());
         }
         return false;
@@ -267,12 +259,12 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
 
     @Override
     public int hashCode() {
-        Long tid = new Long(templateId);
-        Long hid = new Long(dataStoreId);
+        final Long tid = new Long(templateId);
+        final Long hid = new Long(dataStoreId);
         return tid.hashCode() + hid.hashCode();
     }
 
-    public void setSize(Long size) {
+    public void setSize(final Long size) {
         this.size = size;
     }
 
@@ -280,7 +272,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return size;
     }
 
-    public void setPhysicalSize(long physicalSize) {
+    public void setPhysicalSize(final long physicalSize) {
         this.physicalSize = physicalSize;
     }
 
@@ -288,7 +280,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return physicalSize;
     }
 
-    public void setDestroyed(boolean destroyed) {
+    public void setDestroyed(final boolean destroyed) {
         this.destroyed = destroyed;
     }
 
@@ -296,7 +288,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return destroyed;
     }
 
-    public void setDownloadUrl(String downloadUrl) {
+    public void setDownloadUrl(final String downloadUrl) {
         this.downloadUrl = downloadUrl;
     }
 
@@ -304,7 +296,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return downloadUrl;
     }
 
-    public void setCopy(boolean isCopy) {
+    public void setCopy(final boolean isCopy) {
         this.isCopy = isCopy;
     }
 
@@ -327,7 +319,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return state;
     }
 
-    public void setState(ObjectInDataStoreStateMachine.State state) {
+    public void setState(final ObjectInDataStoreStateMachine.State state) {
         this.state = state;
     }
 
@@ -361,7 +353,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return dataStoreRole;
     }
 
-    public void setDataStoreRole(DataStoreRole dataStoreRole) {
+    public void setDataStoreRole(final DataStoreRole dataStoreRole) {
         this.dataStoreRole = dataStoreRole;
     }
 
@@ -369,7 +361,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return refCnt;
     }
 
-    public void setRefCnt(Long refCnt) {
+    public void setRefCnt(final Long refCnt) {
         this.refCnt = refCnt;
     }
 
@@ -380,8 +372,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
     public void decrRefCnt() {
         if (refCnt > 0) {
             refCnt--;
-        }
-        else{
+        } else {
             s_logger.warn("We should not try to decrement a zero reference count even though our code has guarded");
         }
     }
@@ -390,7 +381,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return extractUrl;
     }
 
-    public void setExtractUrl(String extractUrl) {
+    public void setExtractUrl(final String extractUrl) {
         this.extractUrl = extractUrl;
     }
 
@@ -398,7 +389,7 @@ public class TemplateDataStoreVO implements StateObject<ObjectInDataStoreStateMa
         return extractUrlCreated;
     }
 
-    public void setExtractUrlCreated(Date extractUrlCreated) {
+    public void setExtractUrlCreated(final Date extractUrlCreated) {
         this.extractUrlCreated = extractUrlCreated;
     }
 

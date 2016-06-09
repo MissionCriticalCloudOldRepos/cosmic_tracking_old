@@ -1594,30 +1594,6 @@ CREATE VIEW `cloud`.`data_center_view` AS
         `cloud`.`data_center`
             left join
         `cloud`.`domain` ON data_center.domain_id = domain.id;               
-        
-
-CREATE TABLE `cloud`.`baremetal_dhcp_devices` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `uuid` varchar(40) UNIQUE,
-  `nsp_id` bigint unsigned DEFAULT NULL COMMENT 'Network Service Provider ID',
-  `pod_id` bigint unsigned DEFAULT NULL COMMENT 'Pod id where this dhcp server in',
-  `device_type` varchar(255) DEFAULT NULL COMMENT 'type of the external device',
-  `physical_network_id` bigint unsigned DEFAULT NULL COMMENT 'id of the physical network in to which external dhcp device is added',
-  `host_id` bigint unsigned DEFAULT NULL COMMENT 'host id coresponding to the external dhcp device',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `cloud`.`baremetal_pxe_devices` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `uuid` varchar(40) UNIQUE,
-  `nsp_id` bigint unsigned DEFAULT NULL COMMENT 'Network Service Provider ID',
-  `pod_id` bigint unsigned DEFAULT NULL COMMENT 'Pod id where this pxe server in, for pxe per zone this field is null',
-  `device_type` varchar(255) DEFAULT NULL COMMENT 'type of the pxe device',
-  `physical_network_id` bigint unsigned DEFAULT NULL COMMENT 'id of the physical network in to which external pxe device is added',
-  `host_id` bigint unsigned DEFAULT NULL COMMENT 'host id coresponding to the external pxe device',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE `cloud`.`ucs_blade` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',

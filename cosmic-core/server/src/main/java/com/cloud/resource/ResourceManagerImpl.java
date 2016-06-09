@@ -1351,7 +1351,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
 
         for (final ClusterVO cluster : clustersForZone) {
             final HypervisorType hType = cluster.getHypervisorType();
-            if (!forVirtualRouter || forVirtualRouter && hType != HypervisorType.BareMetal) {
+            if (!forVirtualRouter || forVirtualRouter) {
                 hypervisorTypes.add(hType);
             }
         }

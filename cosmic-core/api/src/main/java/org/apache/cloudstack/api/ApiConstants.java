@@ -532,8 +532,6 @@ public class ApiConstants {
     public static final String CONDITION_IDS = "conditionids";
     public static final String COUNTERPARAM_LIST = "counterparam";
     public static final String AUTOSCALE_USER_ID = "autoscaleuserid";
-    public static final String BAREMETAL_DISCOVER_NAME = "baremetaldiscovername";
-    public static final String BAREMETAL_RCT_URL = "baremetalrcturl";
     public static final String GSLB_PROVIDER = "gslbprovider";
     public static final String EXCLUSIVE_GSLB_PROVIDER = "isexclusivegslbprovider";
     public static final String GSLB_PROVIDER_PUBLIC_IP = "gslbproviderpublicip";
@@ -606,10 +604,10 @@ public class ApiConstants {
     public static final String ADMIN = "admin";
 
     public enum HostDetails {
-        all, capacity, events, stats, min;
+        all, capacity, events, stats, min
     }
 
     public enum VMDetails {
-        all, group, nics, stats, secgrp, tmpl, servoff, diskoff, iso, volume, min, affgrp;
+        all, group, nics, stats, secgrp, tmpl, servoff, diskoff, iso, volume, min, affgrp
     }
 }

@@ -836,7 +836,7 @@ INSERT IGNORE INTO `cloud`.`hypervisor_capabilities`(uuid, hypervisor_type, hype
 
 ALTER TABLE `cloud`.`external_load_balancer_devices` ADD COLUMN `is_exclusive_gslb_provider` int(1) unsigned NOT NULL DEFAULT 0 COMMENT '1 if load balancer appliance is acting exclusively as gslb service provider in the zone and can not be used for LB';
 
-DELETE FROM `cloud`.`configuration` WHERE `name` IN ("xen.update.url", "update.check.interval", "baremetal_dhcp_devices", "host.updates.enable");
+DELETE FROM `cloud`.`configuration` WHERE `name` IN ("xen.update.url", "update.check.interval", "host.updates.enable");
 
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ("Advanced", 'DEFAULT', 'VMSnapshotManager', "vmsnapshot.create.wait", "1800", "In second, timeout for create vm snapshot", NULL, NULL,NULL,0);
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ("Advanced", 'DEFAULT', 'VMSnapshotManager', "vmsnapshot.max", "10", "Maximum vm snapshots for a vm", NULL, NULL,NULL,0);
@@ -857,7 +857,7 @@ INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Hidden', 'DEFAULT', 'managem
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Hidden', 'DEFAULT', 'management-server', 'hyperv.private.network.device', null, 'Specify the virtual switch on host for private network', NULL, NULL, NULL, 0);
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ('Hidden', 'DEFAULT', 'management-server', 'hyperv.public.network.device', null, 'Specify the public virtual switch on host for public network', NULL, NULL, NULL, 0);
 
-DELETE FROM `cloud`.`configuration` WHERE `name` IN ("xen.update.url", "update.check.interval", "baremetal_dhcp_devices", "host.updates.enable");
+DELETE FROM `cloud`.`configuration` WHERE `name` IN ("xen.update.url", "update.check.interval", "host.updates.enable");
 
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ("Advanced", 'DEFAULT', 'VMSnapshotManager', "vmsnapshot.create.wait", "1800", "In second, timeout for create vm snapshot", NULL, NULL,NULL,0);
 INSERT IGNORE INTO `cloud`.`configuration` VALUES ("Advanced", 'DEFAULT', 'VMSnapshotManager', "vmsnapshot.max", "10", "Maximum vm snapshots for a vm", NULL, NULL,NULL,0);
