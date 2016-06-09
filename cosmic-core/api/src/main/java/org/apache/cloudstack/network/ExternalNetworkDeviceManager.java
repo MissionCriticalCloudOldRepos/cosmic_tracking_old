@@ -16,32 +16,30 @@
 // under the License.
 package org.apache.cloudstack.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.cloud.host.Host;
 import com.cloud.network.Network;
 import com.cloud.utils.component.Manager;
-
 import org.apache.cloudstack.api.command.admin.network.AddNetworkDeviceCmd;
 import org.apache.cloudstack.api.command.admin.network.DeleteNetworkDeviceCmd;
 import org.apache.cloudstack.api.command.admin.network.ListNetworkDeviceCmd;
 import org.apache.cloudstack.api.response.NetworkDeviceResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface ExternalNetworkDeviceManager extends Manager {
 
-    public static class NetworkDevice {
-        private String _name;
-        private String _provider;
-        private static List<NetworkDevice> supportedNetworkDevices = new ArrayList<NetworkDevice>();
+    class NetworkDevice {
+        private final String _name;
+        private final String _provider;
+        private static final List<NetworkDevice> supportedNetworkDevices = new ArrayList<>();
 
         public static final NetworkDevice ExternalDhcp = new NetworkDevice("ExternalDhcp", null);
-        public static final NetworkDevice PxeServer = new NetworkDevice("PxeServer", null);
         public static final NetworkDevice JuniperSRXFirewall = new NetworkDevice("JuniperSRXFirewall", Network.Provider.JuniperSRX.getName());
         public static final NetworkDevice NiciraNvp = new NetworkDevice("NiciraNvp", Network.Provider.NiciraNvp.getName());
         public static final NetworkDevice CiscoVnmc = new NetworkDevice("CiscoVnmc", Network.Provider.CiscoVnmc.getName());
 
-        public NetworkDevice(String deviceName, String ntwkServiceprovider) {
+        public NetworkDevice(final String deviceName, final String ntwkServiceprovider) {
             _name = deviceName;
             _provider = ntwkServiceprovider;
             supportedNetworkDevices.add(this);
@@ -55,8 +53,8 @@ public interface ExternalNetworkDeviceManager extends Manager {
             return _provider;
         }
 
-        public static NetworkDevice getNetworkDevice(String devicerName) {
-            for (NetworkDevice device : supportedNetworkDevices) {
+        public static NetworkDevice getNetworkDevice(final String devicerName) {
+            for (final NetworkDevice device : supportedNetworkDevices) {
                 if (device.getName().equalsIgnoreCase(devicerName)) {
                     return device;
                 }
@@ -65,12 +63,13 @@ public interface ExternalNetworkDeviceManager extends Manager {
         }
     }
 
-    public Host addNetworkDevice(AddNetworkDeviceCmd cmd);
+    Host addNetworkDevice(AddNetworkDeviceCmd cmd);
 
-    public NetworkDeviceResponse getApiResponse(Host device);
+    NetworkDeviceResponse getApiResponse(Host device);
 
-    public List<Host> listNetworkDevice(ListNetworkDeviceCmd cmd);
+    List<Host> listNetworkDevice(ListNetworkDeviceCmd cmd);
 
-    public boolean deleteNetworkDevice(DeleteNetworkDeviceCmd cmd);
+
+    boolean deleteNetworkDevice(DeleteNetworkDeviceCmd cmd);
 
 }

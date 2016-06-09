@@ -312,7 +312,6 @@ public class ApiConstants {
     public static final String HOST_MEM_CAPACITY = "hostmemcapacity";
     public static final String HOST_MAC = "hostmac";
     public static final String HOST_TAG = "hosttag";
-    public static final String PXE_SERVER_TYPE = "pxeservertype";
     public static final String LINMIN_USERNAME = "linminusername";
     public static final String LINMIN_PASSWORD = "linminpassword";
     public static final String LINMIN_APID = "linminapid";

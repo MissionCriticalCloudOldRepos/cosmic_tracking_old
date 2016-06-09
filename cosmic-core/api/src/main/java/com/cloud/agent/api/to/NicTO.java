@@ -23,7 +23,6 @@ public class NicTO extends NetworkTO {
     Integer networkRateMbps;
     Integer networkRateMulticastMbps;
     boolean defaultNic;
-    boolean pxeDisable;
     String nicUuid;
     List<String> nicSecIps;
 
@@ -31,7 +30,7 @@ public class NicTO extends NetworkTO {
         super();
     }
 
-    public void setDeviceId(int deviceId) {
+    public void setDeviceId(final int deviceId) {
         this.deviceId = deviceId;
     }
 
@@ -43,7 +42,7 @@ public class NicTO extends NetworkTO {
         return networkRateMbps;
     }
 
-    public void setNetworkRateMbps(Integer networkRateMbps) {
+    public void setNetworkRateMbps(final Integer networkRateMbps) {
         this.networkRateMbps = networkRateMbps;
     }
 
@@ -55,16 +54,8 @@ public class NicTO extends NetworkTO {
         return defaultNic;
     }
 
-    public void setDefaultNic(boolean defaultNic) {
+    public void setDefaultNic(final boolean defaultNic) {
         this.defaultNic = defaultNic;
-    }
-
-    public void setPxeDisable(boolean pxeDisable) {
-        this.pxeDisable = pxeDisable;
-    }
-
-    public boolean getPxeDisable() {
-        return pxeDisable;
     }
 
     @Override
@@ -73,7 +64,7 @@ public class NicTO extends NetworkTO {
     }
 
     @Override
-    public void setUuid(String uuid) {
+    public void setUuid(final String uuid) {
         this.nicUuid = uuid;
     }
 
@@ -82,7 +73,7 @@ public class NicTO extends NetworkTO {
         return new StringBuilder("[Nic:").append(type).append("-").append(ip).append("-").append(broadcastUri).append("]").toString();
     }
 
-    public void setNicSecIps(List<String> secIps) {
+    public void setNicSecIps(final List<String> secIps) {
         this.nicSecIps = secIps;
     }
 
@@ -94,7 +85,7 @@ public class NicTO extends NetworkTO {
         return super.getUuid();
     }
 
-    public void setNetworkUuid(String uuid) {
+    public void setNetworkUuid(final String uuid) {
         super.setUuid(uuid);
     }
 }

@@ -28,14 +28,14 @@ import java.util.Date;
  * Host represents one particular host server.
  */
 public interface Host extends StateObject<Status>, Identity, InternalIdentity {
-    public enum Type {
+    enum Type {
         Storage(false), Routing(false), SecondaryStorage(false), SecondaryStorageCmdExecutor(false), ConsoleProxy(true), ExternalFirewall(false), ExternalLoadBalancer(
-                false), ExternalVirtualSwitchSupervisor(false), PxeServer(false), TrafficMonitor(false),
+                false), ExternalVirtualSwitchSupervisor(false), TrafficMonitor(false),
 
         ExternalDhcp(false), SecondaryStorageVM(true), LocalSecondaryStorage(false), L2Networking(false);
         boolean _virtual;
 
-        private Type(final boolean virtual) {
+        Type(final boolean virtual) {
             _virtual = virtual;
         }
 
