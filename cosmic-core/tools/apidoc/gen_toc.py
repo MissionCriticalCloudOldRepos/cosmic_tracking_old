@@ -87,7 +87,6 @@ known_categories = {
     'Network': 'Network',
     'CiscoNexus': 'Network',
     'createServiceInstance': 'Network',
-    'addGloboDnsHost': 'Network',
     'Vpn': 'VPN',
     'Limit': 'Limit',
     'ResourceCount': 'Limit',
