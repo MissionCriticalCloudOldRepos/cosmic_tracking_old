@@ -2248,6 +2248,10 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
         // check permissions
         _accountMgr.checkAccess(caller, null, true, owner, vpc);
 
+        if (! hasSourceNatService(vpc)) {
+            throw new InvalidParameterValueException("VPC does not support SourceNat service so no public ip addresses can be assigned.");
+        }
+
         boolean isSourceNat = false;
         if (getExistingSourceNatInVpc(owner.getId(), vpcId) == null) {
             isSourceNat = true;
@@ -2274,6 +2278,13 @@ public class VpcManagerImpl extends ManagerBase implements VpcManager, VpcProvis
         s_logger.debug("Successfully assigned ip " + ipToAssoc + " to vpc " + vpc);
 
         return _ipAddressDao.findById(ipId);
+    }
+
+    private boolean hasSourceNatService(Vpc vpc) {
+        final Map<Network.Service, Set<Network.Provider>> vpcOffSvcProvidersMap = getVpcOffSvcProvidersMap(vpc.getVpcOfferingId());
+
+        return vpcOffSvcProvidersMap.containsKey(Network.Service.SourceNat) &&
+                vpcOffSvcProvidersMap.get(Network.Service.SourceNat).contains(Network.Provider.VPCVirtualRouter);
     }
 
     @Override
