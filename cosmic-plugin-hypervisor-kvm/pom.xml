@@ -48,17 +48,14 @@
     <dependency>
       <groupId>org.libvirt</groupId>
       <artifactId>libvirt</artifactId>
-      <version>${cs.libvirt-java.version}</version>
     </dependency>
     <dependency>
       <groupId>com.ceph</groupId>
       <artifactId>rados</artifactId>
-      <version>${cs.rados-java.version}</version>
     </dependency>
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna</artifactId>
-      <version>${cs.jna.version}</version>
     </dependency>
   </dependencies>
   <pluginRepositories>
