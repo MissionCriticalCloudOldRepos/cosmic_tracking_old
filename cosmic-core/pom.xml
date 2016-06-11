@@ -14,10 +14,6 @@
   <description>Cosmic is an IaaS (“Infrastructure as a Service”) cloud orchestration platform.</description>
   <url>http://www.cosmic.cloud</url>
 
-  <properties>
-    <cs.jdk.version>1.7</cs.jdk.version>
-  </properties>
-
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
