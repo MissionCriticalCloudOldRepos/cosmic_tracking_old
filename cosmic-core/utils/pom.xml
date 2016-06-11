@@ -130,12 +130,10 @@
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml</artifactId>
-      <version>${cs.opensaml.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
-      <version>3.3</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -144,12 +142,10 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-testlib</artifactId>
-      <version>${cs.guava-testlib.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>${cs.jackson.version}</version>
     </dependency>
   </dependencies>
   <build>
