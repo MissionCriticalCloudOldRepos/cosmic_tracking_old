@@ -53,17 +53,14 @@
     <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xml-apis</artifactId>
-      <version>${cs.xml-apis.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlrpc</groupId>
       <artifactId>xmlrpc-client</artifactId>
-      <version>${cs.xmlrpc.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlrpc</groupId>
       <artifactId>xmlrpc-common</artifactId>
-      <version>${cs.xmlrpc.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -72,7 +69,6 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>${cs.log4j.version}</version><!--$NO-MVN-MAN-VER$ -->
     </dependency>
   </dependencies>
 
