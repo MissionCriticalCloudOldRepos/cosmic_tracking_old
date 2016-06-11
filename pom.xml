@@ -55,7 +55,7 @@
     <cs.axis-jaxrpc.version>1.4</cs.axis-jaxrpc.version>
     <cs.axis.version>1.4</cs.axis.version>
     <cs.bcprov-jdk16.version>1.46</cs.bcprov-jdk16.version>
-    <cs.cglib-nodep.version>3.1</cs.cglib-nodep.version>
+    <cs.cglib-nodep.version>3.2.2</cs.cglib-nodep.version>
     <cs.commons-codec.version>1.10</cs.commons-codec.version>
     <cs.commons-configuration.version>1.10</cs.commons-configuration.version>
     <cs.commons-daemon.version>1.0.15</cs.commons-daemon.version>
