@@ -16,20 +16,15 @@
 // under the License.
 package org.apache.cloudstack.storage.datastore.lifecycle;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-
-import org.apache.log4j.Logger;
-
+import com.cloud.agent.api.StoragePoolInfo;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.resource.Discoverer;
+import com.cloud.resource.ResourceManager;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.ScopeType;
 import com.cloud.utils.StringUtils;
-
+import com.cloud.utils.UriUtils;
 import org.apache.cloudstack.engine.subsystem.api.storage.ClusterScope;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.HostScope;
@@ -39,15 +34,12 @@ import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreHelper;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreProviderManager;
 import org.apache.cloudstack.storage.image.store.lifecycle.ImageStoreLifeCycle;
+import org.apache.log4j.Logger;
 
-import com.cloud.agent.api.StoragePoolInfo;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.resource.Discoverer;
-import com.cloud.resource.ResourceManager;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.ScopeType;
-import com.cloud.utils.UriUtils;
+import javax.inject.Inject;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
 
 public class CloudStackImageStoreLifeCycleImpl implements ImageStoreLifeCycle {
 
@@ -67,29 +59,28 @@ public class CloudStackImageStoreLifeCycleImpl implements ImageStoreLifeCycle {
         return _discoverers;
     }
 
-    public void setDiscoverers(List<? extends Discoverer> discoverers) {
+    public void setDiscoverers(final List<? extends Discoverer> discoverers) {
         this._discoverers = discoverers;
     }
 
     public CloudStackImageStoreLifeCycleImpl() {
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public DataStore initialize(Map<String, Object> dsInfos) {
+    public DataStore initialize(final Map<String, Object> dsInfos) {
 
-        Long dcId = (Long)dsInfos.get("zoneId");
-        String url = (String)dsInfos.get("url");
-        String name = (String)dsInfos.get("name");
+        final Long dcId = (Long) dsInfos.get("zoneId");
+        final String url = (String) dsInfos.get("url");
+        String name = (String) dsInfos.get("name");
         if (name == null) {
             name = url;
         }
-        String providerName = (String)dsInfos.get("providerName");
-        DataStoreRole role = (DataStoreRole)dsInfos.get("role");
-        Map<String, String> details = (Map<String, String>)dsInfos.get("details");
+        final String providerName = (String) dsInfos.get("providerName");
+        final DataStoreRole role = (DataStoreRole) dsInfos.get("role");
+        final Map<String, String> details = (Map<String, String>) dsInfos.get("details");
 
         String logString = "";
-        if(url.contains("cifs")) {
+        if (url.contains("cifs")) {
             logString = cleanPassword(url);
         } else {
             logString = StringUtils.cleanString(url);
@@ -107,13 +98,13 @@ public class CloudStackImageStoreLifeCycleImpl implements ImageStoreLifeCycle {
                 }
             } else if (uri.getScheme().equalsIgnoreCase("cifs")) {
                 // Don't validate against a URI encoded URI.
-                URI cifsUri = new URI(url);
-                String warnMsg = UriUtils.getCifsUriParametersProblems(cifsUri);
+                final URI cifsUri = new URI(url);
+                final String warnMsg = UriUtils.getCifsUriParametersProblems(cifsUri);
                 if (warnMsg != null) {
                     throw new InvalidParameterValueException(warnMsg);
                 }
             }
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             throw new InvalidParameterValueException(url + " is not a valid uri");
         }
 
@@ -121,49 +112,46 @@ public class CloudStackImageStoreLifeCycleImpl implements ImageStoreLifeCycle {
             throw new InvalidParameterValueException("DataCenter id is null, and cloudstack default image store has to be associated with a data center");
         }
 
-        Map<String, Object> imageStoreParameters = new HashMap<String, Object>();
+        final Map<String, Object> imageStoreParameters = new HashMap<>();
         imageStoreParameters.put("name", name);
         imageStoreParameters.put("zoneId", dcId);
         imageStoreParameters.put("url", url);
         imageStoreParameters.put("protocol", uri.getScheme().toLowerCase());
-        imageStoreParameters.put("scope", ScopeType.ZONE); // default cloudstack
-                                                           // provider only
-                                                           // supports zone-wide
-                                                           // image store
+        imageStoreParameters.put("scope", ScopeType.ZONE); // default cloudstack provider only supports zone-wide image store
         imageStoreParameters.put("providerName", providerName);
         imageStoreParameters.put("role", role);
 
-        ImageStoreVO ids = imageStoreHelper.createImageStore(imageStoreParameters, details);
+        final ImageStoreVO ids = imageStoreHelper.createImageStore(imageStoreParameters, details);
         return imageStoreMgr.getImageStore(ids.getId());
     }
 
     @Override
-    public boolean attachCluster(DataStore store, ClusterScope scope) {
+    public boolean attachCluster(final DataStore store, final ClusterScope scope) {
         return false;
     }
 
     @Override
-    public boolean attachHost(DataStore store, HostScope scope, StoragePoolInfo existingInfo) {
+    public boolean attachHost(final DataStore store, final HostScope scope, final StoragePoolInfo existingInfo) {
         return false;
     }
 
     @Override
-    public boolean attachZone(DataStore dataStore, ZoneScope scope, HypervisorType hypervisorType) {
+    public boolean attachZone(final DataStore dataStore, final ZoneScope scope, final HypervisorType hypervisorType) {
         return false;
     }
 
     @Override
-    public boolean maintain(DataStore store) {
+    public boolean maintain(final DataStore store) {
         return false;
     }
 
     @Override
-    public boolean cancelMaintain(DataStore store) {
+    public boolean cancelMaintain(final DataStore store) {
         return false;
     }
 
     @Override
-    public boolean deleteDataStore(DataStore store) {
+    public boolean deleteDataStore(final DataStore store) {
         return false;
     }
 
@@ -171,22 +159,22 @@ public class CloudStackImageStoreLifeCycleImpl implements ImageStoreLifeCycle {
      * @see org.apache.cloudstack.engine.subsystem.api.storage.DataStoreLifeCycle#migrateToObjectStore(org.apache.cloudstack.engine.subsystem.api.storage.DataStore)
      */
     @Override
-    public boolean migrateToObjectStore(DataStore store) {
+    public boolean migrateToObjectStore(final DataStore store) {
         return imageStoreHelper.convertToStagingStore(store);
     }
 
-    public static String cleanPassword(String logString) {
+    public static String cleanPassword(final String logString) {
         String cleanLogString = null;
         if (logString != null) {
             cleanLogString = logString;
-            String[] temp = logString.split(",");
+            final String[] temp = logString.split(",");
             int i = 0;
             if (temp != null) {
                 while (i < temp.length) {
                     temp[i] = StringUtils.cleanString(temp[i]);
                     i++;
                 }
-                List<String> stringList = new ArrayList<String>();
+                final List<String> stringList = new ArrayList<>();
                 Collections.addAll(stringList, temp);
                 cleanLogString = StringUtils.join(stringList, ",");
             }
