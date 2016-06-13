@@ -11,11 +11,14 @@ import org.apache.log4j.Logger;
 import javax.naming.ConfigurationException;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 
 public class RabbitMQEventBus extends ManagerBase implements EventBus {
 
@@ -25,7 +28,7 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
     private static Integer port;
     private static String username;
     private static String password;
-    private static String secureProtocol = "TLSv1";
+    private static final String secureProtocol = "TLSv1";
     private static String virtualHost;
     private static String useSsl;
     // AMQP exchange name where all CloudStack events will be published
@@ -39,16 +42,7 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
     private static final boolean s_autoAck = true;
     private static DisconnectHandler disconnectHandler;
     private static BlockedConnectionHandler blockedConnectionHandler;
-    private String name;
     private ExecutorService executorService;
-
-    public synchronized static void setVirtualHost(final String virtualHost) {
-        RabbitMQEventBus.virtualHost = virtualHost;
-    }
-
-    public static void setUseSsl(final String useSsl) {
-        RabbitMQEventBus.useSsl = useSsl;
-    }
 
     public static void setServer(final String amqpHost) {
         RabbitMQEventBus.amqpHost = amqpHost;
@@ -64,18 +58,6 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
 
     public static void setPort(final Integer port) {
         RabbitMQEventBus.port = port;
-    }
-
-    public static void setSecureProtocol(final String protocol) {
-        RabbitMQEventBus.secureProtocol = protocol;
-    }
-
-    public static void setExchange(final String exchange) {
-        RabbitMQEventBus.amqpExchangeName = exchange;
-    }
-
-    public static void setRetryInterval(final Integer retryInterval) {
-        RabbitMQEventBus.retryInterval = retryInterval;
     }
 
     // publish event on to the exchange created on AMQP server
@@ -123,7 +105,7 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
             final String bindingKey = createBindingKey(topic);
 
             // store the subscriber details before creating channel
-            s_subscribers.put(queueName, new Ternary(bindingKey, null, subscriber));
+            s_subscribers.put(queueName, new Ternary<>(bindingKey, null, subscriber));
 
             // create a channel dedicated for this subscription
             final Connection connection = getConnection();
@@ -147,12 +129,10 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
             queueDetails.second(channel);
             s_subscribers.put(queueName, queueDetails);
 
-        } catch (final AlreadyClosedException closedException) {
-            s_logger.warn("Connection to AMQP service is lost. Subscription:" + queueName + " will be active after reconnection");
-        } catch (final ConnectException connectException) {
-            s_logger.warn("Connection to AMQP service is lost. Subscription:" + queueName + " will be active after reconnection");
-        } catch (final Exception e) {
-            throw new EventBusException("Failed to subscribe to event due to " + e.getMessage());
+        } catch (final AlreadyClosedException | ConnectException | NoSuchAlgorithmException | KeyManagementException | TimeoutException e) {
+            s_logger.warn("Connection to AMQP service is lost. Subscription:" + queueName + " will be active after reconnection", e);
+        } catch (final IOException e) {
+            throw new EventBusException("Failed to subscribe to event due to " + e.getMessage(), e);
         }
 
         return queueId;
@@ -185,8 +165,8 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
             final Channel channel = queueDetails.second();
             channel.basicCancel(queueName);
             s_subscribers.remove(queueName, queueDetails);
-        } catch (final Exception e) {
-            throw new EventBusException("Failed to unsubscribe from event bus due to " + e.getMessage());
+        } catch (final IOException e) {
+            throw new EventBusException("Failed to unsubscribe from event bus due to " + e.getMessage(), e);
         }
     }
 
@@ -209,26 +189,15 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
     }
 
     private String buildKey(final String eventSource, final String eventCategory, final String eventType, final String resourceType, final String resourceUuid) {
-        final StringBuilder key = new StringBuilder();
-        key.append(eventSource);
-        key.append(".");
-        key.append(eventCategory);
-        key.append(".");
-        key.append(eventType);
-        key.append(".");
-        key.append(resourceType);
-        key.append(".");
-        key.append(resourceUuid);
-
-        return key.toString();
+        return eventSource + "." + eventCategory + "." + eventType + "." + resourceType + "." + resourceUuid;
     }
 
-    private synchronized Connection getConnection() throws Exception {
+    private synchronized Connection getConnection() throws IOException, TimeoutException, NoSuchAlgorithmException, KeyManagementException {
         if (s_connection == null) {
             try {
                 return createConnection();
-            } catch (final Exception e) {
-                s_logger.error("Failed to create a connection to AMQP server due to " + e.getMessage());
+            } catch (KeyManagementException | NoSuchAlgorithmException | IOException | TimeoutException e) {
+                s_logger.warn("Failed to create a connection to AMQP server due to " + e.getMessage());
                 throw e;
             }
         } else {
@@ -236,21 +205,21 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
         }
     }
 
-    private Channel createChannel(final Connection connection) throws Exception {
+    private Channel createChannel(final Connection connection) throws IOException {
         try {
             return connection.createChannel();
-        } catch (final java.io.IOException exception) {
-            s_logger.warn("Failed to create a channel due to " + exception.getMessage());
-            throw exception;
+        } catch (final IOException e) {
+            s_logger.warn("Failed to create a channel due to " + e.getMessage(), e);
+            throw e;
         }
     }
 
-    private void createExchange(final Channel channel, final String exchangeName) throws Exception {
+    private void createExchange(final Channel channel, final String exchangeName) throws IOException {
         try {
             channel.exchangeDeclare(exchangeName, "topic", true);
-        } catch (final java.io.IOException exception) {
-            s_logger.error("Failed to create exchange" + exchangeName + " on RabbitMQ server");
-            throw exception;
+        } catch (final IOException e) {
+            s_logger.warn("Failed to create exchange" + e + " on RabbitMQ server");
+            throw e;
         }
     }
 
@@ -287,31 +256,27 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
         }
     }
 
-    private synchronized Connection createConnection() throws Exception {
-        try {
-            final ConnectionFactory factory = new ConnectionFactory();
-            factory.setUsername(username);
-            factory.setPassword(password);
-            factory.setHost(amqpHost);
-            factory.setPort(port);
+    private synchronized Connection createConnection() throws KeyManagementException, NoSuchAlgorithmException, IOException, TimeoutException {
+        final ConnectionFactory factory = new ConnectionFactory();
+        factory.setUsername(username);
+        factory.setPassword(password);
+        factory.setHost(amqpHost);
+        factory.setPort(port);
 
-            if (virtualHost != null && !virtualHost.isEmpty()) {
-                factory.setVirtualHost(virtualHost);
-            } else {
-                factory.setVirtualHost("/");
-            }
-
-            if (useSsl != null && !useSsl.isEmpty() && useSsl.equalsIgnoreCase("true")) {
-                factory.useSslProtocol(secureProtocol);
-            }
-            final Connection connection = factory.newConnection();
-            connection.addShutdownListener(disconnectHandler);
-            connection.addBlockedListener(blockedConnectionHandler);
-            s_connection = connection;
-            return s_connection;
-        } catch (final Exception e) {
-            throw e;
+        if (virtualHost != null && !virtualHost.isEmpty()) {
+            factory.setVirtualHost(virtualHost);
+        } else {
+            factory.setVirtualHost("/");
         }
+
+        if (useSsl != null && !useSsl.isEmpty() && useSsl.equalsIgnoreCase("true")) {
+            factory.useSslProtocol(secureProtocol);
+        }
+        final Connection connection = factory.newConnection();
+        connection.addShutdownListener(disconnectHandler);
+        connection.addBlockedListener(blockedConnectionHandler);
+        s_connection = connection;
+        return s_connection;
     }
 
     /**
@@ -328,12 +293,12 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
         return buildKey(eventSource, eventCategory, eventType, resourceType, resourceUuid);
     }
 
-    private void publishEventToExchange(final Channel channel, final String exchangeName, final String routingKey, final String eventDescription) throws Exception {
+    private void publishEventToExchange(final Channel channel, final String exchangeName, final String routingKey, final String eventDescription) throws IOException {
+        final byte[] messageBodyBytes = eventDescription.getBytes();
         try {
-            final byte[] messageBodyBytes = eventDescription.getBytes();
             channel.basicPublish(exchangeName, routingKey, MessageProperties.PERSISTENT_TEXT_PLAIN, messageBodyBytes);
-        } catch (final Exception e) {
-            s_logger.error("Failed to publish event " + routingKey + " on exchange " + exchangeName + "  of message broker due to " + e.getMessage());
+        } catch (final IOException e) {
+            s_logger.warn("Failed to publish event " + routingKey + " on exchange " + exchangeName + "  of message broker due to " + e.getMessage(), e);
             throw e;
         }
     }
@@ -364,11 +329,6 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
     @Override
     public String getName() {
         return _name;
-    }
-
-    @Override
-    public void setName(final String name) {
-        this.name = name;
     }
 
     @Override
@@ -430,12 +390,11 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
             for (final String subscriberId : s_subscribers.keySet()) {
                 final Ternary<String, Channel, EventSubscriber> subscriberDetails = s_subscribers.get(subscriberId);
                 final Channel channel = subscriberDetails.second();
-                final String queueName = subscriberId;
                 try {
-                    channel.queueDelete(queueName);
+                    channel.queueDelete(subscriberId);
                     channel.abort();
                 } catch (final IOException ioe) {
-                    s_logger.warn("Failed to delete queue: " + queueName + " on AMQP server due to " + ioe.getMessage());
+                    s_logger.warn("Failed to delete queue: " + subscriberId + " on AMQP server due to " + ioe.getMessage());
                 }
             }
         }
@@ -503,15 +462,15 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
                     try {
                         connection = createConnection();
                         connected = true;
-                    } catch (final IOException ie) {
-                        continue; // can't establish connection to AMQP server yet, so continue
+                    } catch (final IOException | TimeoutException | NoSuchAlgorithmException | KeyManagementException e) {
+                        s_logger.warn("Can't establish connection to AMQP server yet, so continue", e);
+                        continue;
                     }
 
                     // prepare consumer on AMQP server for each of subscriber
                     for (final String subscriberId : s_subscribers.keySet()) {
                         final Ternary<String, Channel, EventSubscriber> subscriberDetails = s_subscribers.get(subscriberId);
                         final String bindingKey = subscriberDetails.first();
-                        final EventSubscriber subscriber = subscriberDetails.third();
 
                         /** create a queue with subscriber ID as queue name and bind it to the exchange
                          *  with binding key formed from event topic
@@ -533,11 +492,10 @@ public class RabbitMQEventBus extends ManagerBase implements EventBus {
                         subscriberDetails.second(channel);
                         s_subscribers.put(subscriberId, subscriberDetails);
                     }
-                } catch (final Exception e) {
-                    s_logger.warn("Failed to recreate queues and binding for the subscribers due to " + e.getMessage());
+                } catch (final IOException e) {
+                    s_logger.warn("Failed to recreate queues and binding for the subscribers due to " + e.getMessage(), e);
                 }
             }
-            return;
         }
     }
 }
