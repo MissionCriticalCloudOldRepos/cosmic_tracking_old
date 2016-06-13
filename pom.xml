@@ -26,74 +26,77 @@
     <maven>3.0.4</maven>
   </prerequisites>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.3.5.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
   <properties>
     <maven.javadoc.skip>true</maven.javadoc.skip>
     <cs.jdk.version>1.8</cs.jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+    <cs.replace.properties>build/replace.properties</cs.replace.properties>
+    <cs.target.dir>target</cs.target.dir>
+
     <coverage.reports.dir>${cosmic.dir}/target/coverage-reports</coverage.reports.dir>
     <unit.tests.report>${coverage.reports.dir}/jacoco-ut.exec</unit.tests.report>
     <integration.tests.report>${coverage.reports.dir}/jacoco-it.exec</integration.tests.report>
 
-    <cs.log4j.version>1.2.17</cs.log4j.version>
-    <cs.log4j.extras.version>1.2.17</cs.log4j.extras.version>
-    <cs.cglib.version>3.1</cs.cglib.version>
-    <cs.dbcp.version>1.4</cs.dbcp.version>
-    <cs.pool.version>1.6</cs.pool.version>
-    <cs.codec.version>1.10</cs.codec.version>
-    <cs.configuration.version>1.10</cs.configuration.version>
-    <cs.collections.version>3.2.2</cs.collections.version>
-    <cs.logging.version>1.1.1</cs.logging.version>
-    <cs.discovery.version>0.5</cs.discovery.version>
-    <cs.ejb.version>3.0</cs.ejb.version>
-    <cs.bcprov.version>1.46</cs.bcprov.version>
-    <cs.jsch.version>0.1.51</cs.jsch.version>
-    <cs.jpa.version>2.1.0</cs.jpa.version>
-    <cs.jasypt.version>1.9.2</cs.jasypt.version>
-    <cs.trilead.version>1.0.0-build217</cs.trilead.version>
-    <cs.ehcache.version>2.6.9</cs.ehcache.version>
+    <!-- Pinned older version than Spring 4 dependency management -->
     <cs.gson.version>1.7.2</cs.gson.version>
+
+    <!-- Dependency management properties -->
+    <cs.apache-log4j-extras.version>1.2.17</cs.apache-log4j-extras.version>
+    <cs.aws-java-sdk.version>1.10.34</cs.aws-java-sdk.version>
+    <cs.axis-jaxrpc.version>1.4</cs.axis-jaxrpc.version>
+    <cs.axis.version>1.4</cs.axis.version>
+    <cs.bcprov-jdk16.version>1.46</cs.bcprov-jdk16.version>
+    <cs.cglib-nodep.version>3.2.2</cs.cglib-nodep.version>
+    <cs.commons-codec.version>1.10</cs.commons-codec.version>
+    <cs.commons-configuration.version>1.10</cs.commons-configuration.version>
+    <cs.commons-daemon.version>1.0.15</cs.commons-daemon.version>
+    <cs.commons-io.version>2.4</cs.commons-io.version>
+    <cs.commons-lang3.version>3.4</cs.commons-lang3.version>
+    <cs.commons-net.version>3.3</cs.commons-net.version>
+    <cs.commons-validator.version>1.4.0</cs.commons-validator.version>
+    <cs.ehcache-core.version>2.6.9</cs.ehcache-core.version>
+    <cs.ejb-api.version>3.0</cs.ejb-api.version>
+    <cs.esapi.version>2.1.0</cs.esapi.version>
     <cs.guava-testlib.version>18.0</cs.guava-testlib.version>
     <cs.guava.version>18.0</cs.guava.version>
-    <cs.xapi.version>6.2.0-3.1</cs.xapi.version>
-    <cs.httpclient.version>4.5</cs.httpclient.version>
-    <cs.httpcore.version>4.4</cs.httpcore.version>
-    <cs.commons-httpclient.version>3.1</cs.commons-httpclient.version>
-    <cs.mysql.version>5.1.34</cs.mysql.version>
-    <cs.xstream.version>1.4.7</cs.xstream.version>
-    <cs.xmlrpc.version>3.1.3</cs.xmlrpc.version>
-    <cs.mail.version>1.4.7</cs.mail.version>
-    <cs.axis.version>1.4</cs.axis.version>
-    <cs.axis2.version>1.5.6</cs.axis2.version>
-    <cs.rampart.version>1.5.1</cs.rampart.version>
-    <cs.axiom.version>1.2.8</cs.axiom.version>
-    <cs.neethi.version>2.0.4</cs.neethi.version>
-    <cs.servlet.version>2.5</cs.servlet.version>
-    <cs.jstl.version>1.2</cs.jstl.version>
-    <cs.selenium.server.version>1.0-20081010.060147</cs.selenium.server.version>
-    <org.springframework.version>3.2.12.RELEASE</org.springframework.version>
-    <cs.powermock.version>1.5.3</cs.powermock.version>
-    <cs.aws.sdk.version>1.10.34</cs.aws.sdk.version>
-    <cs.jackson.version>2.6.3</cs.jackson.version>
-    <cs.lang.version>2.6</cs.lang.version>
-    <cs.commons-io.version>2.4</cs.commons-io.version>
-    <cs.commons-validator.version>1.4.0</cs.commons-validator.version>
-    <cs.reflections.version>0.9.9</cs.reflections.version>
+    <cs.hamcrest-all.version>1.3</cs.hamcrest-all.version>
+    <cs.jasypt.version>1.9.2</cs.jasypt.version>
     <cs.java-ipv6.version>0.15</cs.java-ipv6.version>
-    <cs.replace.properties>build/replace.properties</cs.replace.properties>
-    <cs.libvirt-java.version>0.5.1</cs.libvirt-java.version>
-    <cs.rados-java.version>0.2.0</cs.rados-java.version>
-    <cs.target.dir>target</cs.target.dir>
-    <cs.daemon.version>1.0.15</cs.daemon.version>
+    <cs.javax.inject.version>1</cs.javax.inject.version>
+    <cs.javax.persistence.version>2.1.0</cs.javax.persistence.version>
     <cs.jna.version>4.0.0</cs.jna.version>
+    <cs.jsch.version>0.1.51</cs.jsch.version>
+    <cs.jstl.version>1.2</cs.jstl.version>
+    <cs.libvirt.version>0.5.1</cs.libvirt.version>
+    <cs.mail.version>1.4.7</cs.mail.version>
+    <cs.mockito-all.version>1.10.19</cs.mockito-all.version>
     <cs.mycila.license.version>2.7</cs.mycila.license.version>
-    <cs.findbugs.version>3.0.1</cs.findbugs.version>
-    <cs.javadoc.version>2.10.1</cs.javadoc.version>
     <cs.opensaml.version>2.6.1</cs.opensaml.version>
+    <cs.org.jacoco.agent.rt.version>0.7.6.201602180812</cs.org.jacoco.agent.rt.version>
+    <cs.org.jacoco.agent.version>0.7.6.201602180812</cs.org.jacoco.agent.version>
+    <cs.powermock-api-mockito.version>1.6.4</cs.powermock-api-mockito.version>
+    <cs.powermock-module-junit4.version>1.6.4</cs.powermock-module-junit4.version>
+    <cs.rados.version>0.2.0</cs.rados.version>
+    <cs.reflections.version>0.9.9</cs.reflections.version>
+    <cs.selenium-server.version>1.0-20081010.060147</cs.selenium-server.version>
+    <cs.trilead-ssh2.version>1.0.0-build217</cs.trilead-ssh2.version>
+    <cs.xen-api.version>6.2.0-3.1</cs.xen-api.version>
     <cs.xml-apis.version>1.4.01</cs.xml-apis.version>
-    <cs.joda-time.version>2.8.1</cs.joda-time.version>
-    <cs.hamcrest.version>1.3</cs.hamcrest.version>
+    <cs.xmlrpc-client.version>3.1.3</cs.xmlrpc-client.version>
+    <cs.xmlrpc-common.version>3.1.3</cs.xmlrpc-common.version>
+    <cs.xstream.version>1.4.7</cs.xstream.version>
+
+    <!-- MySQL is also used in the plugin section -->
+    <cs.mysql.version>5.1.34</cs.mysql.version>
   </properties>
 
   <licenses>
@@ -135,48 +138,40 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>jstl</groupId>
+        <artifactId>jstl</artifactId>
+        <version>${cs.jstl.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava-testlib</artifactId>
+        <version>${cs.guava-testlib.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.jacoco</groupId>
         <artifactId>org.jacoco.agent</artifactId>
-        <version>0.7.6.201602180812</version>
+        <version>${cs.org.jacoco.agent.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jacoco</groupId>
         <artifactId>org.jacoco.agent.rt</artifactId>
-        <version>0.7.6.201602180812</version>
+        <version>${cs.org.jacoco.agent.rt.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.4</version>
+        <version>${cs.commons-lang3.version}</version>
       </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest-all</artifactId>
-        <version>${cs.hamcrest.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-library</artifactId>
-        <version>${cs.hamcrest.version}</version>
+        <version>${cs.hamcrest-all.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
-        <version>1.9.5</version>
-        <scope>test</scope>
-        <exclusions>
-          <exclusion>
-            <artifactId>hamcrest-core</artifactId>
-            <groupId>org.hamcrest</groupId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.11</version>
+        <version>${cs.mockito-all.version}</version>
         <scope>test</scope>
         <exclusions>
           <exclusion>
@@ -188,29 +183,18 @@
       <dependency>
         <groupId>org.powermock</groupId>
         <artifactId>powermock-module-junit4</artifactId>
-        <version>${cs.powermock.version}</version>
+        <version>${cs.powermock-module-junit4.version}</version>
       </dependency>
       <dependency>
         <groupId>org.powermock</groupId>
         <artifactId>powermock-api-mockito</artifactId>
-        <version>${cs.powermock.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
-        <version>${org.springframework.version}</version>
+        <version>${cs.powermock-api-mockito.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>javax.inject</groupId>
         <artifactId>javax.inject</artifactId>
-        <version>1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.mariadb.jdbc</groupId>
-        <artifactId>mariadb-java-client</artifactId>
-        <version>1.4.3</version>
+        <version>${cs.javax.inject.version}</version>
       </dependency>
 
       <!-- go throught these dependencies and evaluate where they should be -->
@@ -221,45 +205,24 @@
         <scope>provided,test</scope>
       </dependency>
       <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${cs.log4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${org.springframework.version}</version>
-      </dependency>
-      <dependency>
         <groupId>cglib</groupId>
         <artifactId>cglib-nodep</artifactId>
-        <version>${cs.cglib.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-dbcp</groupId>
-        <artifactId>commons-dbcp</artifactId>
-        <version>${cs.dbcp.version}</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>commons-pool</artifactId>
-            <groupId>commons-pool</groupId>
-          </exclusion>
-        </exclusions>
+        <version>${cs.cglib-nodep.version}</version>
       </dependency>
       <dependency>
         <groupId>net.sf.ehcache</groupId>
         <artifactId>ehcache-core</artifactId>
-        <version>${cs.ehcache.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-pool</groupId>
-        <artifactId>commons-pool</artifactId>
-        <version>${cs.pool.version}</version>
+        <version>${cs.ehcache-core.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>${cs.codec.version}</version>
+        <version>${cs.commons-codec.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-net</groupId>
+        <artifactId>commons-net</artifactId>
+        <version>${cs.commons-net.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-validator</groupId>
@@ -269,7 +232,7 @@
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk16</artifactId>
-        <version>${cs.bcprov.version}</version>
+        <version>${cs.bcprov-jdk16.version}</version>
       </dependency>
       <dependency>
         <groupId>com.jcraft</groupId>
@@ -284,17 +247,17 @@
       <dependency>
         <groupId>com.trilead</groupId>
         <artifactId>trilead-ssh2</artifactId>
-        <version>${cs.trilead.version}</version>
+        <version>${cs.trilead-ssh2.version}</version>
       </dependency>
       <dependency>
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-java-sdk</artifactId>
-        <version>${cs.aws.sdk.version}</version>
+        <version>${cs.aws-java-sdk.version}</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
         <artifactId>apache-log4j-extras</artifactId>
-        <version>${cs.log4j.extras.version}</version>
+        <version>${cs.apache-log4j-extras.version}</version>
         <exclusions>
           <exclusion>
             <artifactId>log4j</artifactId>
@@ -305,7 +268,7 @@
       <dependency>
         <groupId>javax.ejb</groupId>
         <artifactId>ejb-api</artifactId>
-        <version>${cs.ejb.version}</version>
+        <version>${cs.ejb-api.version}</version>
       </dependency>
       <dependency>
         <groupId>com.googlecode.java-ipv6</groupId>
@@ -315,7 +278,7 @@
       <dependency>
         <groupId>commons-configuration</groupId>
         <artifactId>commons-configuration</artifactId>
-        <version>${cs.configuration.version}</version>
+        <version>${cs.commons-configuration.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
@@ -331,32 +294,12 @@
       <dependency>
         <groupId>org.owasp.esapi</groupId>
         <artifactId>esapi</artifactId>
-        <version>2.1.0</version>
+        <version>${cs.esapi.version}</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.persistence</groupId>
         <artifactId>javax.persistence</artifactId>
-        <version>${cs.jpa.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>${org.springframework.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>${cs.servlet.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore</artifactId>
-        <version>${cs.httpcore.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>${cs.httpclient.version}</version>
+        <version>${cs.javax.persistence.version}</version>
       </dependency>
       <dependency>
         <groupId>com.thoughtworks.xstream</groupId>
@@ -369,21 +312,6 @@
         <version>${cs.mail.version}</version>
       </dependency>
       <dependency>
-        <groupId>jstl</groupId>
-        <artifactId>jstl</artifactId>
-        <version>${cs.jstl.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-aop</artifactId>
-        <version>${org.springframework.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
-        <version>${org.springframework.version}</version>
-      </dependency>
-      <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
         <version>${cs.gson.version}</version>
@@ -394,16 +322,6 @@
         <version>${cs.guava.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjtools</artifactId>
-        <version>1.8.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjweaver</artifactId>
-        <version>1.8.4</version>
-      </dependency>
-      <dependency>
         <groupId>org.apache.axis</groupId>
         <artifactId>axis</artifactId>
         <version>${cs.axis.version}</version>
@@ -411,27 +329,57 @@
       <dependency>
         <groupId>commons-daemon</groupId>
         <artifactId>commons-daemon</artifactId>
-        <version>${cs.daemon.version}</version>
+        <version>${cs.commons-daemon.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.axis</groupId>
         <artifactId>axis-jaxrpc</artifactId>
-        <version>${cs.axis.version}</version>
+        <version>${cs.axis-jaxrpc.version}</version>
       </dependency>
       <dependency>
-        <groupId>wsdl4j</groupId>
-        <artifactId>wsdl4j</artifactId>
-        <version>1.6.3</version>
+        <groupId>net.java.dev.vcc.thirdparty</groupId>
+        <artifactId>xen-api</artifactId>
+        <version>${cs.xen-api.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.7</version>
+        <groupId>org.apache.xmlrpc</groupId>
+        <artifactId>xmlrpc-client</artifactId>
+        <version>${cs.xmlrpc-client.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.7.7</version>
+        <groupId>org.apache.xmlrpc</groupId>
+        <artifactId>xmlrpc-common</artifactId>
+        <version>${cs.xmlrpc-common.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openqa.selenium.server</groupId>
+        <artifactId>selenium-server</artifactId>
+        <version>${cs.selenium-server.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.libvirt</groupId>
+        <artifactId>libvirt</artifactId>
+        <version>${cs.libvirt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.ceph</groupId>
+        <artifactId>rados</artifactId>
+        <version>${cs.rados.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna</artifactId>
+        <version>${cs.jna.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opensaml</groupId>
+        <artifactId>opensaml</artifactId>
+        <version>${cs.opensaml.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>xml-apis</groupId>
+        <artifactId>xml-apis</artifactId>
+        <version>${cs.xml-apis.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
