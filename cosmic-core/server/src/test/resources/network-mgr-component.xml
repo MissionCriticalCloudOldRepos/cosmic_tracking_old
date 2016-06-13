@@ -140,13 +140,11 @@ under the License.
             <adapter name="VpcVirtualRouter" class="com.cloud.network.element.VpcVirtualRouterElement"/>
         </adapters>
 
-        <!--<manager name="ElasticLoadBalancerManager" key="com.cloud.network.lb.ElasticLoadBalancerManager" class="com.cloud.network.lb.ElasticLoadBalancerManagerImpl"/>-->
         <pluggableservice name="VirtualRouterElementService" key="com.cloud.network.element.VirtualRouterElementService" class="com.cloud.network.element.VirtualRouterElement"/>
         <!-- <pluggableservice name="NiciraNvpElementService" key="com.cloud.network.element.NiciraNvpElementService" class="com.cloud.network.element.NiciraNvpElement"/> -->
         <!--<dao name="NiciraNvpDao" class="com.cloud.network.dao.NiciraNvpDaoImpl" singleton="false"/> -->
         <!--<dao name="NiciraNvpNicMappingDao" class="com.cloud.network.dao.NiciraNvpNicMappingDaoImpl" singleton="false"/> -->
         <!--<dao name="NiciraNvpRouterMappingDao" class="com.cloud.network.dao.NiciraNvpRouterMappingDaoImpl" singleton="false"/> -->
-        <!--<dao name="ElasticLbVmMapDao" class="com.cloud.network.lb.dao.ElasticLbVmMapDaoImpl" singleton="false"/> -->
     </management-server>
 
     <configuration-server class="com.cloud.server.ConfigurationServerImpl">

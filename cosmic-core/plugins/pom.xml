@@ -24,7 +24,6 @@
         <module>host-allocators/random</module>
         <module>dedicated-resources</module>
         <module>hypervisors/baremetal</module>
-        <module>network-elements/elastic-loadbalancer</module>
         <module>network-elements/nicira-nvp</module>
         <module>storage-allocators/random</module>
         <module>storage/image/s3</module>
