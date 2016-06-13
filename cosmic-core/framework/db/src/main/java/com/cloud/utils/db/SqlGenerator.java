@@ -16,35 +16,14 @@
 // under the License.
 package com.cloud.utils.db;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.CollectionTable;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
-import javax.persistence.TableGenerator;
-
 import com.cloud.utils.Pair;
 import com.cloud.utils.Ternary;
 import com.cloud.utils.db.Attribute.Flag;
+
+import javax.persistence.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class SqlGenerator {
     Class<?> _clazz;
@@ -55,14 +34,14 @@ public class SqlGenerator {
     HashMap<String, TableGenerator> _generators;
     ArrayList<Attribute> _ecAttrs;
 
-    public SqlGenerator(Class<?> clazz) {
+    public SqlGenerator(final Class<?> clazz) {
         _clazz = clazz;
-        _tables = new ArrayList<Class<?>>();
-        _attributes = new ArrayList<Attribute>();
-        _ecAttrs = new ArrayList<Attribute>();
-        _embeddeds = new ArrayList<Field>();
-        _ids = new LinkedHashMap<String, List<Attribute>>();
-        _generators = new HashMap<String, TableGenerator>();
+        _tables = new ArrayList<>();
+        _attributes = new ArrayList<>();
+        _ecAttrs = new ArrayList<>();
+        _embeddeds = new ArrayList<>();
+        _ids = new LinkedHashMap<>();
+        _generators = new HashMap<>();
 
         buildAttributes(clazz, DbUtil.getTableName(clazz), DbUtil.getAttributeOverrides(clazz), false, false);
         assert (_tables.size() > 0) : "Did you forget to put @Entity on " + clazz.getName();
@@ -70,18 +49,18 @@ public class SqlGenerator {
         findEcAttributes();
     }
 
-    protected boolean checkMethods(Class<?> clazz, Map<String, Attribute> attrs) {
-        Method[] methods = clazz.getMethods();
-        for (Method method : methods) {
-            String name = method.getName();
+    protected boolean checkMethods(final Class<?> clazz, final Map<String, Attribute> attrs) {
+        final Method[] methods = clazz.getMethods();
+        for (final Method method : methods) {
+            final String name = method.getName();
             if (name.startsWith("get")) {
-                String fieldName = Character.toLowerCase(name.charAt(3)) + name.substring(4);
+                final String fieldName = Character.toLowerCase(name.charAt(3)) + name.substring(4);
                 assert !attrs.containsKey(fieldName) : "Mismatch in " + clazz.getSimpleName() + " for " + name;
             } else if (name.startsWith("is")) {
-                String fieldName = Character.toLowerCase(name.charAt(2)) + name.substring(3);
+                final String fieldName = Character.toLowerCase(name.charAt(2)) + name.substring(3);
                 assert !attrs.containsKey(fieldName) : "Mismatch in " + clazz.getSimpleName() + " for " + name;
             } else if (name.startsWith("set")) {
-                String fieldName = Character.toLowerCase(name.charAt(3)) + name.substring(4);
+                final String fieldName = Character.toLowerCase(name.charAt(3)) + name.substring(4);
                 assert !attrs.containsKey(fieldName) : "Mismatch in " + clazz.getSimpleName() + " for " + name;
             }
         }
@@ -89,12 +68,12 @@ public class SqlGenerator {
 
     }
 
-    protected void buildAttributes(Class<?> clazz, String tableName, AttributeOverride[] overrides, boolean embedded, boolean isId) {
+    protected void buildAttributes(final Class<?> clazz, final String tableName, final AttributeOverride[] overrides, final boolean embedded, final boolean isId) {
         if (!embedded && clazz.getAnnotation(Entity.class) == null) {
             return;
         }
 
-        Class<?> parent = clazz.getSuperclass();
+        final Class<?> parent = clazz.getSuperclass();
         if (parent != null) {
             buildAttributes(parent, DbUtil.getTableName(parent), DbUtil.getAttributeOverrides(parent), false, false);
         }
@@ -104,11 +83,11 @@ public class SqlGenerator {
             _ids.put(tableName, new ArrayList<Attribute>());
         }
 
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
+        final Field[] fields = clazz.getDeclaredFields();
+        for (final Field field : fields) {
             field.setAccessible(true);
 
-            TableGenerator tg = field.getAnnotation(TableGenerator.class);
+            final TableGenerator tg = field.getAnnotation(TableGenerator.class);
             if (tg != null) {
                 _generators.put(field.getName(), tg);
             }
@@ -119,7 +98,7 @@ public class SqlGenerator {
 
             if (field.getAnnotation(Embedded.class) != null) {
                 _embeddeds.add(field);
-                Class<?> embeddedClass = field.getType();
+                final Class<?> embeddedClass = field.getType();
                 assert (embeddedClass.getAnnotation(Embeddable.class) != null) : "Class is not annotated with Embeddable: " + embeddedClass.getName();
                 buildAttributes(embeddedClass, tableName, DbUtil.getAttributeOverrides(field), true, false);
                 continue;
@@ -127,13 +106,13 @@ public class SqlGenerator {
 
             if (field.getAnnotation(EmbeddedId.class) != null) {
                 _embeddeds.add(field);
-                Class<?> embeddedClass = field.getType();
+                final Class<?> embeddedClass = field.getType();
                 assert (embeddedClass.getAnnotation(Embeddable.class) != null) : "Class is not annotated with Embeddable: " + embeddedClass.getName();
                 buildAttributes(embeddedClass, tableName, DbUtil.getAttributeOverrides(field), true, true);
                 continue;
             }
 
-            Attribute attr = new Attribute(clazz, overrides, field, tableName, embedded, isId);
+            final Attribute attr = new Attribute(clazz, overrides, field, tableName, embedded, isId);
 
             if (attr.getColumnName().equals(GenericDao.REMOVED_COLUMN)) {
                 attr.setTrue(Attribute.Flag.DaoGenerated);
@@ -147,7 +126,7 @@ public class SqlGenerator {
             }
 
             if (attr.isId()) {
-                List<Attribute> attrs = _ids.get(tableName);
+                final List<Attribute> attrs = _ids.get(tableName);
                 attrs.add(attr);
             }
 
@@ -156,13 +135,13 @@ public class SqlGenerator {
     }
 
     protected void findEcAttributes() {
-        for (Attribute attr : _attributes) {
+        for (final Attribute attr : _attributes) {
             if (attr.field == null) {
                 continue;
             }
-            ElementCollection ec = attr.field.getAnnotation(ElementCollection.class);
+            final ElementCollection ec = attr.field.getAnnotation(ElementCollection.class);
             if (ec != null) {
-                Attribute idAttr = _ids.get(attr.table).get(0);
+                final Attribute idAttr = _ids.get(attr.table).get(0);
                 assert supportsElementCollection(attr.field) : "Doesn't support ElementCollection for " + attr.field.getName();
                 attr.attache = new EcInfo(attr, idAttr);
                 _ecAttrs.add(attr);
@@ -170,14 +149,14 @@ public class SqlGenerator {
         }
     }
 
-    protected boolean supportsElementCollection(Field field) {
-        ElementCollection otm = field.getAnnotation(ElementCollection.class);
+    protected boolean supportsElementCollection(final Field field) {
+        final ElementCollection otm = field.getAnnotation(ElementCollection.class);
         if (otm.fetch() == FetchType.LAZY) {
             assert (false) : "Doesn't support laz fetch: " + field.getName();
             return false;
         }
 
-        CollectionTable ct = field.getAnnotation(CollectionTable.class);
+        final CollectionTable ct = field.getAnnotation(CollectionTable.class);
         if (ct == null) {
             assert (false) : "No collection table sepcified for " + field.getName();
             return false;
@@ -190,13 +169,13 @@ public class SqlGenerator {
         return _generators;
     }
 
-    protected void handleDaoAttributes(Class<?> clazz) {
+    protected void handleDaoAttributes(final Class<?> clazz) {
         Attribute attr;
         Class<?> current = clazz;
         while (current != null && current.getAnnotation(Entity.class) != null) {
-            DiscriminatorColumn column = current.getAnnotation(DiscriminatorColumn.class);
+            final DiscriminatorColumn column = current.getAnnotation(DiscriminatorColumn.class);
             if (column != null) {
-                String columnName = column.name();
+                final String columnName = column.name();
                 attr = findAttribute(columnName);
                 if (attr != null) {
                     attr.setTrue(Attribute.Flag.DaoGenerated);
@@ -221,13 +200,13 @@ public class SqlGenerator {
                 }
             }
 
-            PrimaryKeyJoinColumn[] pkjcs = DbUtil.getPrimaryKeyJoinColumns(current);
+            final PrimaryKeyJoinColumn[] pkjcs = DbUtil.getPrimaryKeyJoinColumns(current);
             if (pkjcs != null) {
-                for (PrimaryKeyJoinColumn pkjc : pkjcs) {
-                    String tableName = DbUtil.getTableName(current);
+                for (final PrimaryKeyJoinColumn pkjc : pkjcs) {
+                    final String tableName = DbUtil.getTableName(current);
                     attr = findAttribute(pkjc.name());
                     if (attr == null || !tableName.equals(attr.table)) {
-                        Attribute id = new Attribute(DbUtil.getTableName(current), pkjc.name());
+                        final Attribute id = new Attribute(DbUtil.getTableName(current), pkjc.name());
                         if (pkjc.referencedColumnName().length() > 0) {
                             attr = findAttribute(pkjc.referencedColumnName());
                             assert (attr != null) : "Couldn't find referenced column name " + pkjc.referencedColumnName();
@@ -239,7 +218,7 @@ public class SqlGenerator {
                         id.setFalse(Flag.Nullable);
                         id.setFalse(Flag.Selectable);
                         _attributes.add(id);
-                        List<Attribute> attrs = _ids.get(id.table);
+                        final List<Attribute> attrs = _ids.get(id.table);
                         attrs.add(id);
                     }
                 }
@@ -276,8 +255,8 @@ public class SqlGenerator {
         return _ecAttrs;
     }
 
-    public Attribute findAttribute(String name) {
-        for (Attribute attr : _attributes) {
+    public Attribute findAttribute(final String name) {
+        for (final Attribute attr : _attributes) {
 
             if (attr.columnName.equalsIgnoreCase(name)) {
                 if (attr.columnName.equalsIgnoreCase(GenericDao.REMOVED_COLUMN) && attr.isUpdatable()) {
@@ -290,10 +269,10 @@ public class SqlGenerator {
         return null;
     }
 
-    public static StringBuilder buildUpdateSql(String tableName, List<Attribute> attrs) {
-        StringBuilder sql = new StringBuilder("UPDATE ");
+    public static StringBuilder buildUpdateSql(final String tableName, final List<Attribute> attrs) {
+        final StringBuilder sql = new StringBuilder("UPDATE ");
         sql.append(tableName).append(" SET ");
-        for (Attribute attr : attrs) {
+        for (final Attribute attr : attrs) {
             sql.append(attr.columnName).append(" = ?, ");
         }
         sql.delete(sql.length() - 2, sql.length());
@@ -303,37 +282,37 @@ public class SqlGenerator {
     }
 
     public List<Pair<StringBuilder, Attribute[]>> buildUpdateSqls() {
-        ArrayList<Pair<StringBuilder, Attribute[]>> sqls = new ArrayList<Pair<StringBuilder, Attribute[]>>(_tables.size());
-        for (Class<?> table : _tables) {
-            ArrayList<Attribute> attrs = new ArrayList<Attribute>();
-            String tableName = DbUtil.getTableName(table);
-            for (Attribute attr : _attributes) {
+        final ArrayList<Pair<StringBuilder, Attribute[]>> sqls = new ArrayList<>(_tables.size());
+        for (final Class<?> table : _tables) {
+            final ArrayList<Attribute> attrs = new ArrayList<>();
+            final String tableName = DbUtil.getTableName(table);
+            for (final Attribute attr : _attributes) {
                 if (attr.isUpdatable() && tableName.equals(attr.table)) {
                     attrs.add(attr);
                 }
             }
             if (attrs.size() != 0) {
-                Pair<StringBuilder, Attribute[]> pair =
-                    new Pair<StringBuilder, Attribute[]>(buildUpdateSql(tableName, attrs), attrs.toArray(new Attribute[attrs.size()]));
+                final Pair<StringBuilder, Attribute[]> pair =
+                        new Pair<>(buildUpdateSql(tableName, attrs), attrs.toArray(new Attribute[attrs.size()]));
                 sqls.add(pair);
             }
         }
         return sqls;
     }
 
-    public static StringBuilder buildMysqlUpdateSql(String joins, Collection<Ternary<Attribute, Boolean, Object>> setters) {
+    public static StringBuilder buildMysqlUpdateSql(final String joins, final Collection<Ternary<Attribute, Boolean, Object>> setters) {
         if (setters.size() == 0) {
             return null;
         }
 
-        StringBuilder sql = new StringBuilder("UPDATE ");
+        final StringBuilder sql = new StringBuilder("UPDATE ");
 
         sql.append(joins);
 
         sql.append(" SET ");
 
-        for (Ternary<Attribute, Boolean, Object> setter : setters) {
-            Attribute attr = setter.first();
+        for (final Ternary<Attribute, Boolean, Object> setter : setters) {
+            final Attribute attr = setter.first();
             sql.append(attr.table).append(".").append(attr.columnName).append("=");
             if (setter.second() != null) {
                 sql.append(attr.table).append(".").append(attr.columnName).append(setter.second() ? "+" : "-");
@@ -349,34 +328,34 @@ public class SqlGenerator {
     }
 
     public List<Pair<String, Attribute[]>> buildInsertSqls() {
-        LinkedHashMap<String, ArrayList<Attribute>> map = new LinkedHashMap<String, ArrayList<Attribute>>();
-        for (Class<?> table : _tables) {
-            map.put(DbUtil.getTableName(table), new ArrayList<Attribute>());
+        final LinkedHashMap<String, ArrayList<Attribute>> tableAttributeMap = new LinkedHashMap<>();
+        for (final Class<?> table : _tables) {
+            tableAttributeMap.put(DbUtil.getTableName(table), new ArrayList<Attribute>());
         }
 
-        for (Attribute attr : _attributes) {
+        for (final Attribute attr : _attributes) {
             if (attr.isInsertable()) {
-                ArrayList<Attribute> attrs = map.get(attr.table);
+                final ArrayList<Attribute> attrs = tableAttributeMap.get(attr.table);
                 assert (attrs != null) : "Null set of attributes for " + attr.table;
                 attrs.add(attr);
             }
         }
 
-        List<Pair<String, Attribute[]>> sqls = new ArrayList<Pair<String, Attribute[]>>(map.size());
-        for (Map.Entry<String, ArrayList<Attribute>> entry : map.entrySet()) {
-            ArrayList<Attribute> attrs = entry.getValue();
-            StringBuilder sql = buildInsertSql(entry.getKey(), attrs);
-            Pair<String, Attribute[]> pair = new Pair<String, Attribute[]>(sql.toString(), attrs.toArray(new Attribute[attrs.size()]));
+        final List<Pair<String, Attribute[]>> sqls = new ArrayList<>(tableAttributeMap.size());
+        for (final Map.Entry<String, ArrayList<Attribute>> entry : tableAttributeMap.entrySet()) {
+            final ArrayList<Attribute> attrs = entry.getValue();
+            final StringBuilder sql = buildInsertSql(entry.getKey(), attrs);
+            final Pair<String, Attribute[]> pair = new Pair<>(sql.toString(), attrs.toArray(new Attribute[attrs.size()]));
             sqls.add(pair);
         }
 
         return sqls;
     }
 
-    protected StringBuilder buildInsertSql(String table, ArrayList<Attribute> attrs) {
-        StringBuilder sql = new StringBuilder("INSERT INTO ");
+    protected StringBuilder buildInsertSql(final String table, final ArrayList<Attribute> attrs) {
+        final StringBuilder sql = new StringBuilder("INSERT INTO ");
         sql.append(table).append(" (");
-        for (Attribute attr : attrs) {
+        for (final Attribute attr : attrs) {
             sql.append(table).append(".").append(attr.columnName).append(", ");
         }
         if (attrs.size() > 0) {
@@ -398,24 +377,24 @@ public class SqlGenerator {
     }
 
     protected List<Pair<String, Attribute[]>> buildDeleteSqls() {
-        LinkedHashMap<String, ArrayList<Attribute>> map = new LinkedHashMap<String, ArrayList<Attribute>>();
-        for (Class<?> table : _tables) {
+        final LinkedHashMap<String, ArrayList<Attribute>> map = new LinkedHashMap<>();
+        for (final Class<?> table : _tables) {
             map.put(DbUtil.getTableName(table), new ArrayList<Attribute>());
         }
 
-        for (Attribute attr : _attributes) {
+        for (final Attribute attr : _attributes) {
             if (attr.isId()) {
-                ArrayList<Attribute> attrs = map.get(attr.table);
+                final ArrayList<Attribute> attrs = map.get(attr.table);
                 assert (attrs != null) : "Null set of attributes for " + attr.table;
                 attrs.add(attr);
             }
         }
 
-        List<Pair<String, Attribute[]>> sqls = new ArrayList<Pair<String, Attribute[]>>(map.size());
-        for (Map.Entry<String, ArrayList<Attribute>> entry : map.entrySet()) {
-            ArrayList<Attribute> attrs = entry.getValue();
-            String sql = buildDeleteSql(entry.getKey(), attrs);
-            Pair<String, Attribute[]> pair = new Pair<String, Attribute[]>(sql, attrs.toArray(new Attribute[attrs.size()]));
+        final List<Pair<String, Attribute[]>> sqls = new ArrayList<>(map.size());
+        for (final Map.Entry<String, ArrayList<Attribute>> entry : map.entrySet()) {
+            final ArrayList<Attribute> attrs = entry.getValue();
+            final String sql = buildDeleteSql(entry.getKey(), attrs);
+            final Pair<String, Attribute[]> pair = new Pair<>(sql, attrs.toArray(new Attribute[attrs.size()]));
             sqls.add(pair);
         }
 
@@ -423,10 +402,10 @@ public class SqlGenerator {
         return sqls;
     }
 
-    protected String buildDeleteSql(String table, ArrayList<Attribute> attrs) {
-        StringBuilder sql = new StringBuilder("DELETE FROM ");
+    protected String buildDeleteSql(final String table, final ArrayList<Attribute> attrs) {
+        final StringBuilder sql = new StringBuilder("DELETE FROM ");
         sql.append(table).append(" WHERE ");
-        for (Attribute attr : attrs) {
+        for (final Attribute attr : attrs) {
             sql.append(table).append(".").append(attr.columnName).append("= ? AND ");
         }
         sql.delete(sql.length() - 5, sql.length());
@@ -434,16 +413,16 @@ public class SqlGenerator {
     }
 
     public Pair<String, Attribute[]> buildRemoveSql() {
-        Attribute attribute = findAttribute(GenericDao.REMOVED_COLUMN);
+        final Attribute attribute = findAttribute(GenericDao.REMOVED_COLUMN);
         if (attribute == null) {
             return null;
         }
 
-        StringBuilder sql = new StringBuilder("UPDATE ");
+        final StringBuilder sql = new StringBuilder("UPDATE ");
         sql.append(attribute.table).append(" SET ");
         sql.append(attribute.columnName).append(" = ? WHERE ");
 
-        List<Attribute> ids = _ids.get(attribute.table);
+        final List<Attribute> ids = _ids.get(attribute.table);
 
         // if ids == null, that means the removed column was added as a JOIN
         // value to another table.  We ignore it here.
@@ -454,22 +433,22 @@ public class SqlGenerator {
             return null;
         }
 
-        for (Attribute id : ids) {
+        for (final Attribute id : ids) {
             sql.append(id.table).append(".").append(id.columnName).append(" = ? AND ");
         }
 
         sql.delete(sql.length() - 5, sql.length());
 
-        Attribute[] attrs = ids.toArray(new Attribute[ids.size() + 1]);
+        final Attribute[] attrs = ids.toArray(new Attribute[ids.size() + 1]);
         attrs[attrs.length - 1] = attribute;
 
-        return new Pair<String, Attribute[]>(sql.toString(), attrs);
+        return new Pair<>(sql.toString(), attrs);
     }
 
     public Map<String, Attribute[]> getIdAttributes() {
-        LinkedHashMap<String, Attribute[]> ids = new LinkedHashMap<String, Attribute[]>(_ids.size());
+        final LinkedHashMap<String, Attribute[]> ids = new LinkedHashMap<>(_ids.size());
 
-        for (Map.Entry<String, List<Attribute>> entry : _ids.entrySet()) {
+        for (final Map.Entry<String, List<Attribute>> entry : _ids.entrySet()) {
             ids.put(entry.getKey(), entry.getValue().toArray(new Attribute[entry.getValue().size()]));
         }
 
@@ -480,8 +459,8 @@ public class SqlGenerator {
      * @return a map of tables and maps of field names to attributes.
      */
     public Map<String, Attribute> getAllAttributes() {
-        Map<String, Attribute> attrs = new LinkedHashMap<String, Attribute>(_attributes.size());
-        for (Attribute attr : _attributes) {
+        final Map<String, Attribute> attrs = new LinkedHashMap<>(_attributes.size());
+        for (final Attribute attr : _attributes) {
             if (attr.field != null) {
                 attrs.put(attr.field.getName(), attr);
             }
@@ -491,17 +470,17 @@ public class SqlGenerator {
     }
 
     public Map<Pair<String, String>, Attribute> getAllColumns() {
-        Map<Pair<String, String>, Attribute> attrs = new LinkedHashMap<Pair<String, String>, Attribute>(_attributes.size());
-        for (Attribute attr : _attributes) {
+        final Map<Pair<String, String>, Attribute> attrs = new LinkedHashMap<>(_attributes.size());
+        for (final Attribute attr : _attributes) {
             if (attr.columnName != null) {
-                attrs.put(new Pair<String, String>(attr.table, attr.columnName), attr);
+                attrs.put(new Pair<>(attr.table, attr.columnName), attr);
             }
         }
 
         return attrs;
     }
 
-    protected static void addPrimaryKeyJoinColumns(StringBuilder sql, String fromTable, String toTable, String joinType, PrimaryKeyJoinColumn[] pkjcs) {
+    protected static void addPrimaryKeyJoinColumns(final StringBuilder sql, final String fromTable, final String toTable, final String joinType, final PrimaryKeyJoinColumn[] pkjcs) {
         if ("right".equalsIgnoreCase(joinType)) {
             sql.append(" RIGHT JOIN ").append(toTable).append(" ON ");
         } else if ("left".equalsIgnoreCase(joinType)) {
@@ -509,15 +488,15 @@ public class SqlGenerator {
         } else {
             sql.append(" INNER JOIN ").append(toTable).append(" ON ");
         }
-        for (PrimaryKeyJoinColumn pkjc : pkjcs) {
+        for (final PrimaryKeyJoinColumn pkjc : pkjcs) {
             sql.append(fromTable).append(".").append(pkjc.name());
-            String refColumn = DbUtil.getReferenceColumn(pkjc);
+            final String refColumn = DbUtil.getReferenceColumn(pkjc);
             sql.append("=").append(toTable).append(".").append(refColumn).append(" ");
         }
     }
 
     public Pair<String, Attribute> getRemovedAttribute() {
-        Attribute removed = findAttribute(GenericDao.REMOVED_COLUMN);
+        final Attribute removed = findAttribute(GenericDao.REMOVED_COLUMN);
         if (removed == null) {
             return null;
         }
@@ -526,19 +505,19 @@ public class SqlGenerator {
             return null;
         }
 
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
         sql.append(removed.table).append(".").append(removed.columnName).append(" IS NULL ");
 
-        return new Pair<String, Attribute>(sql.toString(), removed);
+        return new Pair<>(sql.toString(), removed);
     }
 
-    protected static void buildJoins(StringBuilder innerJoin, Class<?> clazz) {
-        String tableName = DbUtil.getTableName(clazz);
+    protected static void buildJoins(final StringBuilder innerJoin, final Class<?> clazz) {
+        final String tableName = DbUtil.getTableName(clazz);
 
-        SecondaryTable[] sts = DbUtil.getSecondaryTables(clazz);
-        ArrayList<String> secondaryTables = new ArrayList<String>();
-        for (SecondaryTable st : sts) {
-            JoinType jt = clazz.getAnnotation(JoinType.class);
+        final SecondaryTable[] sts = DbUtil.getSecondaryTables(clazz);
+        final ArrayList<String> secondaryTables = new ArrayList<>();
+        for (final SecondaryTable st : sts) {
+            final JoinType jt = clazz.getAnnotation(JoinType.class);
             String join = null;
             if (jt != null) {
                 join = jt.type();
@@ -547,34 +526,34 @@ public class SqlGenerator {
             secondaryTables.add(st.name());
         }
 
-        Class<?> parent = clazz.getSuperclass();
+        final Class<?> parent = clazz.getSuperclass();
         if (parent.getAnnotation(Entity.class) != null) {
-            String table = DbUtil.getTableName(parent);
-            PrimaryKeyJoinColumn[] pkjcs = DbUtil.getPrimaryKeyJoinColumns(clazz);
+            final String table = DbUtil.getTableName(parent);
+            final PrimaryKeyJoinColumn[] pkjcs = DbUtil.getPrimaryKeyJoinColumns(clazz);
             assert (pkjcs != null) : "No Join columns specified for the super class";
             addPrimaryKeyJoinColumns(innerJoin, tableName, table, null, pkjcs);
         }
     }
 
     public String buildTableReferences() {
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
         sql.append(DbUtil.getTableName(_tables.get(_tables.size() - 1)));
 
-        for (Class<?> table : _tables) {
+        for (final Class<?> table : _tables) {
             buildJoins(sql, table);
         }
 
         return sql.toString();
     }
 
-    public Pair<StringBuilder, Attribute[]> buildSelectSql(boolean enableQueryCache) {
-        StringBuilder sql = new StringBuilder("SELECT ");
+    public Pair<StringBuilder, Attribute[]> buildSelectSql(final boolean enableQueryCache) {
+        final StringBuilder sql = new StringBuilder("SELECT ");
 
         sql.append(enableQueryCache ? "SQL_CACHE " : "");
 
-        ArrayList<Attribute> attrs = new ArrayList<Attribute>();
+        final ArrayList<Attribute> attrs = new ArrayList<>();
 
-        for (Attribute attr : _attributes) {
+        for (final Attribute attr : _attributes) {
             if (attr.isSelectable()) {
                 attrs.add(attr);
                 sql.append(attr.table).append(".").append(attr.columnName).append(", ");
@@ -591,13 +570,13 @@ public class SqlGenerator {
 
         sql.append(buildDiscriminatorClause().first());
 
-        return new Pair<StringBuilder, Attribute[]>(sql, attrs.toArray(new Attribute[attrs.size()]));
+        return new Pair<>(sql, attrs.toArray(new Attribute[attrs.size()]));
     }
 
-    public Pair<StringBuilder, Attribute[]> buildSelectSql(Attribute[] attrs) {
-        StringBuilder sql = new StringBuilder("SELECT ");
+    public Pair<StringBuilder, Attribute[]> buildSelectSql(final Attribute[] attrs) {
+        final StringBuilder sql = new StringBuilder("SELECT ");
 
-        for (Attribute attr : attrs) {
+        for (final Attribute attr : attrs) {
             sql.append(attr.table).append(".").append(attr.columnName).append(", ");
         }
 
@@ -611,7 +590,7 @@ public class SqlGenerator {
 
         sql.append(buildDiscriminatorClause().first());
 
-        return new Pair<StringBuilder, Attribute[]>(sql, attrs);
+        return new Pair<>(sql, attrs);
     }
 
     /**
@@ -620,15 +599,15 @@ public class SqlGenerator {
      * @return
      */
     public Pair<StringBuilder, Map<String, Object>> buildDiscriminatorClause() {
-        StringBuilder sql = new StringBuilder();
-        Map<String, Object> values = new HashMap<String, Object>();
+        final StringBuilder sql = new StringBuilder();
+        final Map<String, Object> values = new HashMap<>();
 
-        for (Class<?> table : _tables) {
-            DiscriminatorValue dv = table.getAnnotation(DiscriminatorValue.class);
+        for (final Class<?> table : _tables) {
+            final DiscriminatorValue dv = table.getAnnotation(DiscriminatorValue.class);
             if (dv != null) {
-                Class<?> parent = table.getSuperclass();
-                String tableName = DbUtil.getTableName(parent);
-                DiscriminatorColumn dc = parent.getAnnotation(DiscriminatorColumn.class);
+                final Class<?> parent = table.getSuperclass();
+                final String tableName = DbUtil.getTableName(parent);
+                final DiscriminatorColumn dc = parent.getAnnotation(DiscriminatorColumn.class);
                 assert (dc != null) : "Parent does not have discrminator column: " + parent.getName();
                 sql.append(tableName);
                 sql.append(".");
@@ -651,7 +630,7 @@ public class SqlGenerator {
             }
         }
 
-        return new Pair<StringBuilder, Map<String, Object>>(sql, values);
+        return new Pair<>(sql, values);
     }
 
     public Field[] getEmbeddedFields() {
@@ -659,13 +638,13 @@ public class SqlGenerator {
     }
 
     public String buildCountSql() {
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
 
         return sql.append("SELECT COUNT(*) FROM ").append(buildTableReferences()).append(" WHERE ").append(buildDiscriminatorClause().first()).toString();
     }
 
     public String buildDistinctIdSql() {
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
 
         return sql.append("SELECT DISTINCT id FROM ").append(buildTableReferences()).append(" WHERE ").append(buildDiscriminatorClause().first()).toString();
     }
