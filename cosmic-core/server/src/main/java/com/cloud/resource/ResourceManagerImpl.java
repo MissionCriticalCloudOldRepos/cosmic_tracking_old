@@ -534,8 +534,6 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
     private List<HostVO> discoverHostsFull(final Long dcId, final Long podId, Long clusterId, final String clusterName, final String url, final String username, final String password,
                                            final String hypervisorType, final List<String> hostTags, final Map<String, String> params, final boolean deferAgentCreation) throws IllegalArgumentException, DiscoveryException,
             InvalidParameterValueException {
-        URI uri = null;
-
         final ResourceChecker resourceChecker = ResourceChecker.builder()
                 .dataCenterDao(_dcDao)
                 .accountManager(_accountMgr)
@@ -551,25 +549,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
         verifyClusterInfo(podId, clusterId, clusterName, hypervisorType);
         clusterId = getOrCreateCluster(zone, pod, clusterId, clusterName, hypervisorType);
 
-        try {
-            uri = new URI(UriUtils.encodeURIComponent(url));
-            if (uri.getScheme() == null) {
-                throw new InvalidParameterValueException("uri.scheme is null " + url + ", add nfs:// (or cifs://) as a prefix");
-            } else if (uri.getScheme().equalsIgnoreCase("nfs")) {
-                if (uri.getHost() == null || uri.getHost().equalsIgnoreCase("") || uri.getPath() == null || uri.getPath().equalsIgnoreCase("")) {
-                    throw new InvalidParameterValueException("Your host and/or path is wrong.  Make sure it's of the format nfs://hostname/path");
-                }
-            } else if (uri.getScheme().equalsIgnoreCase("cifs")) {
-                // Don't validate against a URI encoded URI.
-                final URI cifsUri = new URI(url);
-                final String warnMsg = UriUtils.getCifsUriParametersProblems(cifsUri);
-                if (warnMsg != null) {
-                    throw new InvalidParameterValueException(warnMsg);
-                }
-            }
-        } catch (final URISyntaxException e) {
-            throw new InvalidParameterValueException(url + " is not a valid uri");
-        }
+        final URI uri = generateUri(url);
 
         final List<HostVO> hosts = new ArrayList<>();
         s_logger.info("Trying to add a new host at " + url + " in data center " + dcId);
