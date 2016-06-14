@@ -22,7 +22,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.apache.cloudstack.engine.subsystem.api.storage.ChapInfo;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -69,7 +70,7 @@ import com.cloud.vm.dao.VMInstanceDao;
 
 @Component
 public class StorageSystemSnapshotStrategy extends SnapshotStrategyBase {
-    private static final Logger s_logger = Logger.getLogger(StorageSystemSnapshotStrategy.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(StorageSystemSnapshotStrategy.class);
 
     @Inject private AgentManager _agentMgr;
     @Inject private DataStoreManager _dataStoreMgr;

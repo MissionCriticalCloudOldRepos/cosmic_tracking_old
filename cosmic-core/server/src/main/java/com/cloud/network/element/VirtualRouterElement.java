@@ -22,7 +22,8 @@ import org.apache.cloudstack.api.command.admin.router.ListVirtualRouterElementsC
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.cloudstack.network.topology.NetworkTopology;
 import org.apache.cloudstack.network.topology.NetworkTopologyContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.cloud.network.router.deployment.RouterDeploymentDefinition;
 import org.cloud.network.router.deployment.RouterDeploymentDefinitionBuilder;
 
@@ -107,7 +108,7 @@ import com.google.gson.Gson;
 public class VirtualRouterElement extends AdapterBase implements VirtualRouterElementService, DhcpServiceProvider, UserDataServiceProvider, SourceNatServiceProvider,
 StaticNatServiceProvider, FirewallServiceProvider, LoadBalancingServiceProvider, PortForwardingServiceProvider, RemoteAccessVPNServiceProvider, IpDeployer,
 NetworkMigrationResponder, AggregatedCommandExecutor {
-  private static final Logger s_logger = Logger.getLogger(VirtualRouterElement.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(VirtualRouterElement.class);
   public static final AutoScaleCounterType AutoScaleCounterCpu = new AutoScaleCounterType("cpu");
   public static final AutoScaleCounterType AutoScaleCounterMemory = new AutoScaleCounterType("memory");
   protected static final Map<Service, Map<Capability, String>> capabilities = setCapabilities();

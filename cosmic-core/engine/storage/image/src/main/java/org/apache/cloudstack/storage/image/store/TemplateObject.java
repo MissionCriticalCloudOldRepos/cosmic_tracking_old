@@ -23,7 +23,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObjectInStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -55,7 +56,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.fsm.NoTransitionException;
 
 public class TemplateObject implements TemplateInfo {
-    private static final Logger s_logger = Logger.getLogger(TemplateObject.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(TemplateObject.class);
     private VMTemplateVO imageVO;
     private DataStore dataStore;
     private String url;

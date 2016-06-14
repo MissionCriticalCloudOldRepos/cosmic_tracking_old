@@ -29,12 +29,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 public abstract class TestCase {
 
-    public static Logger s_logger = Logger.getLogger(TestCase.class.getName());
+    public static Logger s_logger = LoggerFactory.getLogger(TestCase.class.getName());
     private Connection conn;
     private ArrayList<Document> inputFile = new ArrayList<Document>();
     private HttpClient client;

@@ -20,7 +20,8 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.dc.Pod;
 import com.cloud.dc.dao.DataCenterDao;
@@ -48,7 +49,7 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
 
 public class PodBasedNetworkGuru extends AdapterBase implements NetworkGuru {
-    private static final Logger s_logger = Logger.getLogger(PodBasedNetworkGuru.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PodBasedNetworkGuru.class);
     @Inject
     DataCenterDao _dcDao;
     @Inject

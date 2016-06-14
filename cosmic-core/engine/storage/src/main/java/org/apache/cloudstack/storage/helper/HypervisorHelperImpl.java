@@ -23,7 +23,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
 import org.apache.cloudstack.engine.subsystem.api.storage.EndPointSelector;
@@ -56,7 +57,7 @@ import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.snapshot.VMSnapshot;
 
 public class HypervisorHelperImpl implements HypervisorHelper {
-    private static final Logger s_logger = Logger.getLogger(HypervisorHelperImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(HypervisorHelperImpl.class);
     @Inject
     EndPointSelector selector;
     @Inject

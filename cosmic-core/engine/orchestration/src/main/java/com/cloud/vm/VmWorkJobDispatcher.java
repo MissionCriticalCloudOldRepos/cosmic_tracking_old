@@ -20,7 +20,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.jobs.AsyncJob;
@@ -34,7 +35,7 @@ import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.dao.VMInstanceDao;
 
 public class VmWorkJobDispatcher extends AdapterBase implements AsyncJobDispatcher {
-    private static final Logger s_logger = Logger.getLogger(VmWorkJobDispatcher.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VmWorkJobDispatcher.class);
 
     @Inject private VirtualMachineManagerImpl _vmMgr;
     @Inject

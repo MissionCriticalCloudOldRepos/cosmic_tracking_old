@@ -23,7 +23,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.ClusterScope;
@@ -72,7 +73,7 @@ import com.cloud.vm.VirtualMachineManager;
 
 @Component
 public class AncientDataMotionStrategy implements DataMotionStrategy {
-    private static final Logger s_logger = Logger.getLogger(AncientDataMotionStrategy.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AncientDataMotionStrategy.class);
     @Inject
     EndPointSelector selector;
     @Inject

@@ -25,7 +25,8 @@ import javax.annotation.PostConstruct;
 import javax.naming.ConfigurationException;
 
 import org.apache.cloudstack.framework.config.impl.ConfigurationVO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.utils.component.ComponentLifecycle;
@@ -39,7 +40,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 @Component
 public class ConfigurationDaoImpl extends GenericDaoBase<ConfigurationVO, String> implements ConfigurationDao {
-    private static final Logger s_logger = Logger.getLogger(ConfigurationDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ConfigurationDaoImpl.class);
     private Map<String, String> _configs = null;
     private boolean _premium;
 

@@ -25,7 +25,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.api.response.GuestOsMappingResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.event.EventTypes;
 import com.cloud.storage.GuestOSHypervisor;
@@ -34,7 +35,7 @@ import com.cloud.user.Account;
 @APICommand(name = "addGuestOsMapping", description = "Adds a guest OS name to hypervisor OS name mapping", responseObject = GuestOsMappingResponse.class,
 since = "4.4.0", requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddGuestOsMappingCmd extends BaseAsyncCreateCmd {
-  public static final Logger s_logger = Logger.getLogger(AddGuestOsMappingCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(AddGuestOsMappingCmd.class.getName());
 
   private static final String s_name = "addguestosmappingresponse";
 

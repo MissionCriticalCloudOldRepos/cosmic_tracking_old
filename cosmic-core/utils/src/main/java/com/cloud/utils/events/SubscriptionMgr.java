@@ -26,10 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SubscriptionMgr {
-    protected final static Logger s_logger = Logger.getLogger(SubscriptionMgr.class);
+    protected final static Logger s_logger = LoggerFactory.getLogger(SubscriptionMgr.class);
 
     private static SubscriptionMgr s_instance = new SubscriptionMgr();
 

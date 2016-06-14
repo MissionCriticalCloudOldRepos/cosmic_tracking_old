@@ -17,7 +17,8 @@
 package org.apache.cloudstack.api.command.admin.router;
 
 import java.util.List;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -43,7 +44,7 @@ import com.cloud.user.Account;
 @APICommand(name = "upgradeRouterTemplate", description = "Upgrades router to use newer template", responseObject = BaseResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpgradeRouterTemplateCmd extends org.apache.cloudstack.api.BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(UpgradeRouterTemplateCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpgradeRouterTemplateCmd.class.getName());
     private static final String s_name = "upgraderoutertemplateresponse";
 
     /////////////////////////////////////////////////////

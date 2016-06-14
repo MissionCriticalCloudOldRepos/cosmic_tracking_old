@@ -20,7 +20,8 @@ package org.apache.cloudstack.storage.volume.db;
 
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine;
@@ -36,7 +37,7 @@ import com.cloud.utils.db.UpdateBuilder;
 
 @Component
 public class TemplatePrimaryDataStoreDaoImpl extends GenericDaoBase<TemplatePrimaryDataStoreVO, Long> implements TemplatePrimaryDataStoreDao {
-    private static final Logger s_logger = Logger.getLogger(TemplatePrimaryDataStoreDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(TemplatePrimaryDataStoreDaoImpl.class);
     protected final SearchBuilder<TemplatePrimaryDataStoreVO> updateSearchBuilder;
 
     public TemplatePrimaryDataStoreDaoImpl() {

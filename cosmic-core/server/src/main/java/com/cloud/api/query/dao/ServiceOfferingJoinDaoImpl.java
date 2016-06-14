@@ -19,7 +19,8 @@ package com.cloud.api.query.dao;
 import java.util.List;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.api.response.ServiceOfferingResponse;
@@ -34,7 +35,7 @@ import com.cloud.utils.db.SearchCriteria;
 
 @Component
 public class ServiceOfferingJoinDaoImpl extends GenericDaoBase<ServiceOfferingJoinVO, Long> implements ServiceOfferingJoinDao {
-    public static final Logger s_logger = Logger.getLogger(ServiceOfferingJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ServiceOfferingJoinDaoImpl.class);
 
     private SearchBuilder<ServiceOfferingJoinVO> sofIdSearch;
 

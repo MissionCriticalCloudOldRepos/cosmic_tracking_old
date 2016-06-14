@@ -26,7 +26,8 @@ import java.util.TimerTask;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.api.ApiConstants;
@@ -67,7 +68,7 @@ import com.cloud.utils.db.TransactionLegacy;
 
 @Component
 public class SnapshotSchedulerImpl extends ManagerBase implements SnapshotScheduler {
-    private static final Logger s_logger = Logger.getLogger(SnapshotSchedulerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SnapshotSchedulerImpl.class);
 
     @Inject
     protected AsyncJobDao _asyncJobDao;

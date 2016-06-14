@@ -40,7 +40,8 @@ import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.SnapshotDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.SnapshotDataStoreVO;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -129,7 +130,7 @@ import com.cloud.vm.snapshot.dao.VMSnapshotDao;
 
 @Component
 public class SnapshotManagerImpl extends ManagerBase implements SnapshotManager, SnapshotApiService {
-  private static final Logger s_logger = Logger.getLogger(SnapshotManagerImpl.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(SnapshotManagerImpl.class);
   @Inject
   VMTemplateDao _templateDao;
   @Inject

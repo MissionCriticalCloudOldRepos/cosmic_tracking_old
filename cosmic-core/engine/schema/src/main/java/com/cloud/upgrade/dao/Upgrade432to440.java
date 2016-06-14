@@ -17,10 +17,11 @@
 
 package com.cloud.upgrade.dao;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Upgrade432to440 extends Upgrade431to440 implements DbUpgrade {
-    final static Logger s_logger = Logger.getLogger(Upgrade432to440.class);
+    final static Logger s_logger = LoggerFactory.getLogger(Upgrade432to440.class);
 
     @Override
     public String[] getUpgradableVersionRange() {

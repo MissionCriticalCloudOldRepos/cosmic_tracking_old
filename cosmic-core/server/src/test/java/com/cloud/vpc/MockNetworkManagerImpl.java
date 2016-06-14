@@ -46,7 +46,8 @@ import org.apache.cloudstack.api.command.user.network.ListNetworksCmd;
 import org.apache.cloudstack.api.command.user.network.RestartNetworkCmd;
 import org.apache.cloudstack.api.command.user.vm.ListNicsCmd;
 import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -67,7 +68,7 @@ public class MockNetworkManagerImpl extends ManagerBase implements NetworkOrches
     List<NetworkElement> _networkElements;
 
     private static final HashMap<String, String> s_providerToNetworkElementMap = new HashMap<>();
-    private static final Logger s_logger = Logger.getLogger(MockNetworkManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(MockNetworkManagerImpl.class);
 
     /* (non-Javadoc)
      * @see com.cloud.utils.component.Manager#start()

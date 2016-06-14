@@ -123,7 +123,8 @@ import org.apache.cloudstack.region.dao.RegionDao;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolDetailsDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
@@ -134,7 +135,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class ConfigurationManagerImpl extends ManagerBase implements ConfigurationManager, ConfigurationService, Configurable {
-    public static final Logger s_logger = Logger.getLogger(ConfigurationManagerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ConfigurationManagerImpl.class);
 
     @Inject
     EntityManager _entityMgr;
@@ -4850,7 +4851,7 @@ public class ConfigurationManagerImpl extends ManagerBase implements Configurati
                     }
                 });
             } catch (final CloudRuntimeException e) {
-                s_logger.error(e);
+                s_logger.error(e.toString());
                 return false;
             }
         } else {

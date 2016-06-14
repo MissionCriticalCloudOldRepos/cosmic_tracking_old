@@ -30,7 +30,8 @@ import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.engine.orchestration.service.VolumeOrchestrationService;
 import org.apache.cloudstack.engine.subsystem.api.storage.ChapInfo;
@@ -131,7 +132,7 @@ import com.cloud.vm.VmWorkTakeVolumeSnapshot;
 import com.cloud.vm.dao.UserVmDao;
 
 public class VolumeOrchestrator extends ManagerBase implements VolumeOrchestrationService, Configurable {
-    private static final Logger s_logger = Logger.getLogger(VolumeOrchestrator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VolumeOrchestrator.class);
 
     @Inject
     EntityManager _entityMgr;

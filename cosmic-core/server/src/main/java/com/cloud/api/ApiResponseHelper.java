@@ -142,7 +142,8 @@ import org.apache.cloudstack.usage.Usage;
 import org.apache.cloudstack.usage.UsageService;
 import org.apache.cloudstack.usage.UsageTypes;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -315,7 +316,7 @@ import com.cloud.vm.snapshot.VMSnapshot;
 
 public class ApiResponseHelper implements ResponseGenerator {
 
-  private static final Logger s_logger = Logger.getLogger(ApiResponseHelper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(ApiResponseHelper.class);
   private static final DecimalFormat s_percentFormat = new DecimalFormat("##.##");
 
   @Inject

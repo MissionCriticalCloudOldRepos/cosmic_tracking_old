@@ -27,7 +27,8 @@ import com.cloud.utils.xmlobject.XmlObject;
 import com.cloud.utils.xmlobject.XmlObjectParser;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -48,7 +49,7 @@ import java.util.List;
  * Created by frank on 9/2/14.
  */
 public class Force10BaremetalSwitchBackend implements BaremetalSwitchBackend {
-    private Logger logger = Logger.getLogger(Force10BaremetalSwitchBackend.class);
+    private Logger logger = LoggerFactory.getLogger(Force10BaremetalSwitchBackend.class);
     public static final String TYPE = "Force10";
 
     private static List<HttpStatus> successHttpStatusCode = new ArrayList<>();

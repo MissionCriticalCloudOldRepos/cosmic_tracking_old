@@ -29,7 +29,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Map;
@@ -45,7 +46,7 @@ import com.cloud.vm.VirtualMachine;
     "Therefore, stop the VM manually before issuing this call.", responseObject = UserVmResponse.class, responseView = ResponseView.Restricted, entityType = {VirtualMachine.class},
     requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class UpdateVMCmd extends BaseCustomIdCmd {
-  public static final Logger s_logger = Logger.getLogger(UpdateVMCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(UpdateVMCmd.class.getName());
   private static final String s_name = "updatevirtualmachineresponse";
 
   /////////////////////////////////////////////////////

@@ -32,7 +32,8 @@ import org.apache.cloudstack.api.response.NetworkResponse;
 import org.apache.cloudstack.api.response.NicResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
@@ -44,7 +45,7 @@ import com.cloud.vm.Nic;
 @APICommand(name = "listNics", description = "list the vm nics  IP to NIC", responseObject = NicResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListNicsCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListNicsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListNicsCmd.class.getName());
     private static final String s_name = "listnicsresponse";
 
     /////////////////////////////////////////////////////

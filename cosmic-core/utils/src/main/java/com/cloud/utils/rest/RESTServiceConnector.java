@@ -34,7 +34,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This abstraction encapsulates client side code for REST service communication. It encapsulates access in a REST client. There can be different implementations of that client
@@ -44,7 +45,7 @@ import org.apache.log4j.Logger;
  */
 public class RESTServiceConnector {
 
-    private static final Logger s_logger = Logger.getLogger(RESTServiceConnector.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RESTServiceConnector.class);
 
     private static final Optional<String> ABSENT = Optional.absent();
 

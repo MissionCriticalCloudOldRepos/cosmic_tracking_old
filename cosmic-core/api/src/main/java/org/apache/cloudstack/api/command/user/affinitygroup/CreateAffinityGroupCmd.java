@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.affinitygroup;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.cloudstack.affinity.AffinityGroup;
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
 import org.apache.cloudstack.api.APICommand;
@@ -37,7 +38,7 @@ import com.cloud.user.Account;
 @APICommand(name = "createAffinityGroup", responseObject = AffinityGroupResponse.class, description = "Creates an affinity/anti-affinity group", entityType = {AffinityGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateAffinityGroupCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateAffinityGroupCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateAffinityGroupCmd.class.getName());
 
     private static final String s_name = "createaffinitygroupresponse";
 

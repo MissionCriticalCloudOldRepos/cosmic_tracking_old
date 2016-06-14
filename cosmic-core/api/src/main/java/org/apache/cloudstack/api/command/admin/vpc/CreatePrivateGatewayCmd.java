@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.vpc;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -46,7 +47,7 @@ import com.cloud.user.Account;
 @APICommand(name = "createPrivateGateway", description = "Creates a private gateway", responseObject = PrivateGatewayResponse.class, entityType = {VpcGateway.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreatePrivateGatewayCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreatePrivateGatewayCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreatePrivateGatewayCmd.class.getName());
 
     private static final String s_name = "createprivategatewayresponse";
 
@@ -151,8 +152,7 @@ public class CreatePrivateGatewayCmd extends BaseAsyncCreateCmd {
                 _vpcService.createVpcPrivateGateway(getVpcId(), getPhysicalNetworkId(), getBroadcastUri(), getStartIp(), getGateway(), getNetmask(), getEntityOwnerId(),
                     getNetworkOfferingId(), getIsSourceNat(), getAclId());
         } catch (InsufficientCapacityException ex) {
-            s_logger.info(ex);
-            s_logger.trace(ex);
+            s_logger.info(ex.toString());
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         } catch (ConcurrentOperationException ex) {
             s_logger.warn("Exception: ", ex);

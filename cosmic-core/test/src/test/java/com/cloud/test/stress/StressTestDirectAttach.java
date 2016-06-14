@@ -40,7 +40,8 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.NDC;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -57,7 +58,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 public class StressTestDirectAttach {
     private static long sleepTime = 180000L; // default 0
     private static boolean cleanUp = true;
-    public static final Logger s_logger = Logger.getLogger(TestClientWithAPI.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(TestClientWithAPI.class.getName());
     private static boolean repeat = true;
     private static String[] users = null;
     private static boolean internet = false;

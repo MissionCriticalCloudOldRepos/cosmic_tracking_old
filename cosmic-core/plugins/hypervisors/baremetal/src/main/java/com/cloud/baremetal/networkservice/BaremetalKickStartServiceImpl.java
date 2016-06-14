@@ -22,7 +22,8 @@ import org.apache.cloudstack.api.AddBaremetalKickStartPxeCmd;
 import org.apache.cloudstack.api.AddBaremetalPxeCmd;
 import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URI;
@@ -80,7 +81,7 @@ import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.NicDao;
 
 public class BaremetalKickStartServiceImpl extends BareMetalPxeServiceBase implements BaremetalPxeService {
-  private static final Logger s_logger = Logger.getLogger(BaremetalKickStartServiceImpl.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(BaremetalKickStartServiceImpl.class);
   @Inject
   ResourceManager _resourceMgr;
   @Inject
@@ -319,7 +320,7 @@ public class BaremetalKickStartServiceImpl extends BareMetalPxeServiceBase imple
     try {
       uri = new URI(cmd.getUrl());
     } catch (final Exception e) {
-      s_logger.debug(e);
+      s_logger.debug(e.toString());
       throw new IllegalArgumentException(e.getMessage());
     }
     String ipAddress = uri.getHost();

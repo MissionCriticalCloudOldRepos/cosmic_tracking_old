@@ -27,7 +27,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.api.ApiConstants.HostDetails;
@@ -53,7 +54,7 @@ import com.cloud.utils.db.SearchCriteria;
 
 @Component
 public class HostJoinDaoImpl extends GenericDaoBase<HostJoinVO, Long> implements HostJoinDao {
-    public static final Logger s_logger = Logger.getLogger(HostJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(HostJoinDaoImpl.class);
 
     @Inject
     private ConfigurationDao _configDao;

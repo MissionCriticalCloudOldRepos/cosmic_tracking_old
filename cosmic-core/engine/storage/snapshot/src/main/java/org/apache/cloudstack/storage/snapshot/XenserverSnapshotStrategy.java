@@ -20,7 +20,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
@@ -60,7 +61,7 @@ import com.cloud.utils.fsm.NoTransitionException;
 
 @Component
 public class XenserverSnapshotStrategy extends SnapshotStrategyBase {
-    private static final Logger s_logger = Logger.getLogger(XenserverSnapshotStrategy.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenserverSnapshotStrategy.class);
 
     @Inject
     SnapshotService snapshotSvr;

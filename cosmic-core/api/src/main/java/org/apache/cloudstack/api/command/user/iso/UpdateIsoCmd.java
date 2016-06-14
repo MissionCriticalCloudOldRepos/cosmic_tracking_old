@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.iso;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -31,7 +32,7 @@ import com.cloud.user.Account;
 @APICommand(name = "updateIso", description = "Updates an ISO file.", responseObject = TemplateResponse.class, responseView = ResponseView.Restricted,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpdateIsoCmd extends BaseUpdateTemplateOrIsoCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdateIsoCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdateIsoCmd.class.getName());
     private static final String s_name = "updateisoresponse";
 
     /////////////////////////////////////////////////////

@@ -44,7 +44,8 @@ import org.apache.cloudstack.framework.jobs.AsyncJob;
 import org.apache.cloudstack.framework.jobs.AsyncJobExecutionContext;
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 import org.apache.cloudstack.utils.identity.ManagementServerNode;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import com.cloud.agent.AgentManager;
@@ -117,8 +118,8 @@ import com.cloud.utils.time.InaccurateClock;
  * Implementation of the Agent Manager. This class controls the connection to the agents.
  **/
 public class AgentManagerImpl extends ManagerBase implements AgentManager, HandlerFactory, Configurable {
-    protected static final Logger s_logger = Logger.getLogger(AgentManagerImpl.class);
-    protected static final Logger status_logger = Logger.getLogger(Status.class);
+    protected static final Logger s_logger = LoggerFactory.getLogger(AgentManagerImpl.class);
+    protected static final Logger status_logger = LoggerFactory.getLogger(Status.class);
 
     /**
      * _agents is a ConcurrentHashMap, but it is used from within a synchronized block. This will be reported by findbugs as JLM_JSR166_UTILCONCURRENT_MONITORENTER. Maybe a
@@ -1380,7 +1381,7 @@ public class AgentManagerImpl extends ManagerBase implements AgentManager, Handl
                 msg.append("[Resource state = ").append(state);
                 msg.append(", Agent event = ").append(e.toString());
                 msg.append(", Host id = ").append(host.getId()).append(", name = " + host.getName()).append("]");
-                status_logger.debug(msg);
+                status_logger.debug(msg.toString());
             }
 
             host.setManagementServerId(msId);

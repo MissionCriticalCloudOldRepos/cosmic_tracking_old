@@ -46,7 +46,8 @@ import javax.naming.ConfigurationException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.config.ApiServiceConfiguration;
 import org.apache.cloudstack.framework.config.ConfigDepot;
@@ -121,7 +122,7 @@ import com.cloud.utils.nio.Link;
 import com.cloud.utils.script.Script;
 
 public class ConfigurationServerImpl extends ManagerBase implements ConfigurationServer {
-    public static final Logger s_logger = Logger.getLogger(ConfigurationServerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ConfigurationServerImpl.class);
 
     @Inject
     private ConfigurationDao _configDao;

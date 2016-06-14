@@ -18,7 +18,8 @@ package org.apache.cloudstack.api.command.user.address;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -60,7 +61,7 @@ import com.cloud.user.Account;
 @APICommand(name = "associateIpAddress", description = "Acquires and associates a public IP to an account.", responseObject = IPAddressResponse.class, responseView = ResponseView.Restricted,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AssociateIPAddrCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(AssociateIPAddrCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AssociateIPAddrCmd.class.getName());
     private static final String s_name = "associateipaddressresponse";
 
     /////////////////////////////////////////////////////
@@ -305,8 +306,7 @@ public class AssociateIPAddrCmd extends BaseAsyncCreateCmd {
             s_logger.warn("Exception: ", ex);
             throw new ServerApiException(ApiErrorCode.INTERNAL_ERROR, ex.getMessage());
         } catch (InsufficientAddressCapacityException ex) {
-            s_logger.info(ex);
-            s_logger.trace(ex);
+            s_logger.info(ex.toString());
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         }
     }

@@ -34,7 +34,8 @@ import java.util.Random;
 import java.util.UUID;
 
 import com.cloud.user.User;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -91,7 +92,7 @@ import com.cloud.vm.dao.VMInstanceDao;
 
 public class ConfigurationManagerTest {
 
-    private static final Logger s_logger = Logger.getLogger(ConfigurationManagerTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ConfigurationManagerTest.class);
 
     ConfigurationManagerImpl configurationMgr = new ConfigurationManagerImpl();
 

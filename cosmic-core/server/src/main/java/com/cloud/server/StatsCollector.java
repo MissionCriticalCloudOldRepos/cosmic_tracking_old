@@ -34,7 +34,8 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import org.apache.cloudstack.utils.usage.UsageUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -139,7 +140,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
         }
     }
 
-    public static final Logger s_logger = Logger.getLogger(StatsCollector.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(StatsCollector.class.getName());
 
     private static StatsCollector s_instance = null;
 

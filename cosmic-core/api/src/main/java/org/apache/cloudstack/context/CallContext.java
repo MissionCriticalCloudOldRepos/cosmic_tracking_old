@@ -22,7 +22,8 @@ import java.util.Stack;
 import java.util.UUID;
 
 import com.cloud.projects.Project;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.NDC;
 
 import org.apache.cloudstack.managed.threadlocal.ManagedThreadLocal;
@@ -40,7 +41,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
  * entry point must set the context and remove it when the thread finishes.
  */
 public class CallContext {
-    private static final Logger s_logger = Logger.getLogger(CallContext.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CallContext.class);
     private static ManagedThreadLocal<CallContext> s_currentContext = new ManagedThreadLocal<CallContext>();
     private static ManagedThreadLocal<Stack<CallContext>> s_currentContextStack = new ManagedThreadLocal<Stack<CallContext>>() {
         @Override

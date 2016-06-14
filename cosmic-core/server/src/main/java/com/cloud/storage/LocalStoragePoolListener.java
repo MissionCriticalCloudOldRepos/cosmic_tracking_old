@@ -18,7 +18,8 @@ package com.cloud.storage;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 
@@ -39,7 +40,7 @@ import com.cloud.storage.dao.StoragePoolHostDao;
 import com.cloud.utils.db.DB;
 
 public class LocalStoragePoolListener implements Listener {
-    private final static Logger s_logger = Logger.getLogger(LocalStoragePoolListener.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(LocalStoragePoolListener.class);
     @Inject
     PrimaryDataStoreDao _storagePoolDao;
     @Inject

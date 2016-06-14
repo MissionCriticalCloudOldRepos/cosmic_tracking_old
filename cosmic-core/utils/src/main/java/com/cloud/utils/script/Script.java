@@ -38,14 +38,15 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.concurrency.NamedThreadFactory;
 import com.cloud.utils.script.OutputInterpreter.TimedOutLogger;
 
 public class Script implements Callable<String> {
-    private static final Logger s_logger = Logger.getLogger(Script.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(Script.class);
 
     private final Logger _logger;
 

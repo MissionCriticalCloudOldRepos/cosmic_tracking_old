@@ -30,7 +30,8 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import com.cloud.utils.HttpUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.affinity.AffinityGroupService;
@@ -84,7 +85,7 @@ import com.cloud.vm.UserVmService;
 import com.cloud.vm.snapshot.VMSnapshotService;
 
 public abstract class BaseCmd {
-    private static final Logger s_logger = Logger.getLogger(BaseCmd.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(BaseCmd.class.getName());
     public static final String RESPONSE_TYPE_XML = HttpUtils.RESPONSE_TYPE_XML;
     public static final String RESPONSE_TYPE_JSON = HttpUtils.RESPONSE_TYPE_JSON;
     public static final String USER_ERROR_MESSAGE = "Internal error executing command, please contact your system administrator";

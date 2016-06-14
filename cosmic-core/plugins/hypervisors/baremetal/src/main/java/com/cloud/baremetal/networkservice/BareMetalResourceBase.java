@@ -72,7 +72,8 @@ import com.cloud.vm.VirtualMachine.PowerState;
 import com.cloud.vm.dao.VMInstanceDao;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.ConfigurationException;
 import java.util.HashMap;
@@ -81,7 +82,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class BareMetalResourceBase extends ManagerBase implements ServerResource {
-    private static final Logger s_logger = Logger.getLogger(BareMetalResourceBase.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BareMetalResourceBase.class);
     protected String _uuid;
     protected String _zone;
     protected String _pod;

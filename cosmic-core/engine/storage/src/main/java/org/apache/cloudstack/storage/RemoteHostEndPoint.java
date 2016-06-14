@@ -24,7 +24,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
 import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
@@ -53,7 +54,7 @@ import com.cloud.vm.SecondaryStorageVmVO;
 import com.cloud.vm.dao.SecondaryStorageVmDao;
 
 public class RemoteHostEndPoint implements EndPoint {
-    private static final Logger s_logger = Logger.getLogger(RemoteHostEndPoint.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RemoteHostEndPoint.class);
     private long hostId;
     private String hostAddress;
     private String publicAddress;

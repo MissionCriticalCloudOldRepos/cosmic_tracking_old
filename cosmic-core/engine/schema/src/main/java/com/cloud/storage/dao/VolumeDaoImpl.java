@@ -16,7 +16,8 @@
 // under the License.
 package com.cloud.storage.dao;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
@@ -53,7 +54,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 @Component
 public class VolumeDaoImpl extends GenericDaoBase<VolumeVO, Long> implements VolumeDao {
-  private static final Logger s_logger = Logger.getLogger(VolumeDaoImpl.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(VolumeDaoImpl.class);
   protected final SearchBuilder<VolumeVO> DetachedAccountIdSearch;
   protected final SearchBuilder<VolumeVO> TemplateZoneSearch;
   protected final GenericSearchBuilder<VolumeVO, SumCount> TotalSizeByPoolSearch;

@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.address;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -39,7 +40,7 @@ import com.cloud.user.Account;
 @APICommand(name = "disassociateIpAddress", description = "Disassociates an IP address from the account.", responseObject = SuccessResponse.class,
  requestHasSensitiveInfo = false, responseHasSensitiveInfo = false, entityType = { IpAddress.class })
 public class DisassociateIPAddrCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DisassociateIPAddrCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DisassociateIPAddrCmd.class.getName());
 
     private static final String s_name = "disassociateipaddressresponse";
 

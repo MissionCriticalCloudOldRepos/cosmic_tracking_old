@@ -34,7 +34,8 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -46,7 +47,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SecurityGroupHttpClient {
-    private static final Logger logger = Logger.getLogger(SecurityGroupHttpClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityGroupHttpClient.class);
     private static final String ARG_NAME = "args";
     private static final String COMMAND = "command";
     private JAXBContext context;

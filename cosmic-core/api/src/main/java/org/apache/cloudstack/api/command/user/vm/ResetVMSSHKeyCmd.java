@@ -17,7 +17,8 @@
 
 package org.apache.cloudstack.api.command.user.vm;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -46,7 +47,7 @@ import com.cloud.vm.VirtualMachine;
     requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class ResetVMSSHKeyCmd extends BaseAsyncCmd {
 
-    public static final Logger s_logger = Logger.getLogger(ResetVMSSHKeyCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ResetVMSSHKeyCmd.class.getName());
 
     private static final String s_name = "resetSSHKeyforvirtualmachineresponse";
 

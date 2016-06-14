@@ -24,7 +24,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.StorageNetworkIpRangeResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.dc.StorageNetworkIpRange;
 import com.cloud.event.EventTypes;
@@ -41,7 +42,7 @@ since = "3.0.0",
 requestHasSensitiveInfo = false,
 responseHasSensitiveInfo = false)
 public class CreateStorageNetworkIpRangeCmd extends BaseAsyncCmd {
-  public static final Logger s_logger = Logger.getLogger(CreateStorageNetworkIpRangeCmd.class);
+  public static final Logger s_logger = LoggerFactory.getLogger(CreateStorageNetworkIpRangeCmd.class);
 
   private static final String s_name = "createstoragenetworkiprangeresponse";
 

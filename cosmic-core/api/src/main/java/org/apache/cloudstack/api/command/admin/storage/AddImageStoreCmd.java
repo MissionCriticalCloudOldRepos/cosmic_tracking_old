@@ -21,7 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -39,7 +40,7 @@ import com.cloud.user.Account;
 @APICommand(name = "addImageStore", description = "Adds backup image store.", responseObject = ImageStoreResponse.class, since = "4.2.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddImageStoreCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(AddImageStoreCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddImageStoreCmd.class.getName());
     private static final String s_name = "addimagestoreresponse";
 
     /////////////////////////////////////////////////////

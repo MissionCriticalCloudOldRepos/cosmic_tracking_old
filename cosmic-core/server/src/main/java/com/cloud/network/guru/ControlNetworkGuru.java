@@ -17,7 +17,8 @@
 package com.cloud.network.guru;
 
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -50,7 +51,7 @@ import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 
 public class ControlNetworkGuru extends PodBasedNetworkGuru implements NetworkGuru {
-  private static final Logger s_logger = Logger.getLogger(ControlNetworkGuru.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(ControlNetworkGuru.class);
   @Inject
   DataCenterDao _dcDao;
   @Inject

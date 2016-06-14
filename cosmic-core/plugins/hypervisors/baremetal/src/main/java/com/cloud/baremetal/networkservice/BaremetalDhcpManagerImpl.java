@@ -33,7 +33,8 @@ import javax.naming.ConfigurationException;
 
 import org.apache.cloudstack.api.AddBaremetalDhcpCmd;
 import org.apache.cloudstack.api.ListBaremetalDhcpCmd;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
@@ -75,7 +76,7 @@ import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.UserVmDao;
 
 public class BaremetalDhcpManagerImpl extends ManagerBase implements BaremetalDhcpManager, ResourceStateAdapter {
-    private static final org.apache.log4j.Logger s_logger = Logger.getLogger(BaremetalDhcpManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BaremetalDhcpManagerImpl.class);
     protected String _name;
     @Inject
     DataCenterDao _dcDao;
@@ -226,7 +227,7 @@ public class BaremetalDhcpManagerImpl extends ManagerBase implements BaremetalDh
         try {
             uri = new URI(cmd.getUrl());
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new IllegalArgumentException(e.getMessage());
         }
 
@@ -260,7 +261,7 @@ public class BaremetalDhcpManagerImpl extends ManagerBase implements BaremetalDh
                 throw new CloudRuntimeException("Unsupport DHCP server type: " + cmd.getDhcpType());
             }
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new CloudRuntimeException(e.getMessage());
         }
 

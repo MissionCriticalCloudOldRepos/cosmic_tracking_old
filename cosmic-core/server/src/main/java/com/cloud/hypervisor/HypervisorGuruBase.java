@@ -16,7 +16,8 @@
 // under the License.
 package com.cloud.hypervisor;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ import com.cloud.vm.dao.UserVmDetailsDao;
 import com.cloud.vm.dao.VMInstanceDao;
 
 public abstract class HypervisorGuruBase extends AdapterBase implements HypervisorGuru {
-  public static final Logger s_logger = Logger.getLogger(HypervisorGuruBase.class);
+  public static final Logger s_logger = LoggerFactory.getLogger(HypervisorGuruBase.class);
 
   @Inject
   VMTemplateDetailsDao _templateDetailsDao;

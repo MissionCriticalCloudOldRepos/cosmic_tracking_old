@@ -31,7 +31,8 @@ import javax.ejb.Local;
 import javax.inject.Inject;
 import javax.persistence.TableGenerator;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.agent.api.VgpuTypesInfo;
@@ -71,9 +72,9 @@ import com.cloud.utils.exception.CloudRuntimeException;
 @DB
 @TableGenerator(name = "host_req_sq", table = "op_host", pkColumnName = "id", valueColumnName = "sequence", allocationSize = 1)
 public class HostDaoImpl extends GenericDaoBase<HostVO, Long> implements HostDao { //FIXME: , ExternalIdDao {
-    private static final Logger s_logger = Logger.getLogger(HostDaoImpl.class);
-    private static final Logger status_logger = Logger.getLogger(Status.class);
-    private static final Logger state_logger = Logger.getLogger(ResourceState.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(HostDaoImpl.class);
+    private static final Logger status_logger = LoggerFactory.getLogger(Status.class);
+    private static final Logger state_logger = LoggerFactory.getLogger(ResourceState.class);
 
     protected SearchBuilder<HostVO> TypePodDcStatusSearch;
 

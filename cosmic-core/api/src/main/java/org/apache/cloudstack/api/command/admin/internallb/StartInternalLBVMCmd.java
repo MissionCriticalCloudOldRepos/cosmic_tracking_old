@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.internallb;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -42,7 +43,7 @@ import com.cloud.vm.VirtualMachine;
 @APICommand(name = "startInternalLoadBalancerVM", responseObject = DomainRouterResponse.class, description = "Starts an existing internal lb vm.", entityType = {VirtualMachine.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class StartInternalLBVMCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(StartInternalLBVMCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(StartInternalLBVMCmd.class.getName());
     private static final String s_name = "startinternallbvmresponse";
 
     /////////////////////////////////////////////////////

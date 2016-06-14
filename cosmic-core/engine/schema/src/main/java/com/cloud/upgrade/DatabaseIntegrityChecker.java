@@ -23,7 +23,8 @@ import java.sql.SQLException;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.maint.Version;
@@ -37,7 +38,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 @Component
 public class DatabaseIntegrityChecker extends AdapterBase implements SystemIntegrityChecker {
-    private static final Logger s_logger = Logger.getLogger(DatabaseIntegrityChecker.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(DatabaseIntegrityChecker.class);
 
     @Inject
     VersionDao _dao;

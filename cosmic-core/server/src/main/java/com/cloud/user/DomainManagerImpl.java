@@ -23,7 +23,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.api.command.admin.domain.ListDomainChildrenCmd;
@@ -76,7 +77,7 @@ import com.cloud.vm.ReservationContextImpl;
 
 @Component
 public class DomainManagerImpl extends ManagerBase implements DomainManager, DomainService {
-    public static final Logger s_logger = Logger.getLogger(DomainManagerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(DomainManagerImpl.class);
 
     @Inject
     private DomainDao _domainDao;

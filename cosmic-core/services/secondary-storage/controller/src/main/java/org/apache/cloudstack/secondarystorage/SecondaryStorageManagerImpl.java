@@ -44,7 +44,8 @@ import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.utils.identity.ManagementServerNode;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
@@ -164,7 +165,7 @@ import com.cloud.vm.dao.VMInstanceDao;
 //
 public class SecondaryStorageManagerImpl extends ManagerBase implements SecondaryStorageVmManager, VirtualMachineGuru, SystemVmLoadScanHandler<Long>,
         ResourceStateAdapter {
-    private static final Logger s_logger = Logger.getLogger(SecondaryStorageManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SecondaryStorageManagerImpl.class);
 
     private static final int DEFAULT_CAPACITY_SCAN_INTERVAL = 30000; // 30
     // seconds

@@ -27,7 +27,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
@@ -62,7 +63,7 @@ import com.cloud.vm.dao.UserVmDetailsDao;
 
 @Component
 public class UserVmJoinDaoImpl extends GenericDaoBase<UserVmJoinVO, Long> implements UserVmJoinDao {
-    public static final Logger s_logger = Logger.getLogger(UserVmJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(UserVmJoinDaoImpl.class);
 
     @Inject
     private ConfigurationDao  _configDao;

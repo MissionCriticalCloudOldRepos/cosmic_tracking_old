@@ -27,7 +27,8 @@ import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.KeyedObjectPoolFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.commons.pool.impl.StackKeyedObjectPoolFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.Closeable;
@@ -52,10 +53,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * thread. Use appropriately.
  */
 public class TransactionLegacy implements Closeable {
-    private static final Logger s_logger = Logger.getLogger(Transaction.class.getName() + "." + "Transaction");
-    private static final Logger s_stmtLogger = Logger.getLogger(Transaction.class.getName() + "." + "Statement");
-    private static final Logger s_lockLogger = Logger.getLogger(Transaction.class.getName() + "." + "Lock");
-    private static final Logger s_connLogger = Logger.getLogger(Transaction.class.getName() + "." + "Connection");
+    private static final Logger s_logger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Transaction");
+    private static final Logger s_stmtLogger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Statement");
+    private static final Logger s_lockLogger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Lock");
+    private static final Logger s_connLogger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Connection");
 
     private static final String DB_CONNECTION_SCHEME = "jdbc:mariadb";
 

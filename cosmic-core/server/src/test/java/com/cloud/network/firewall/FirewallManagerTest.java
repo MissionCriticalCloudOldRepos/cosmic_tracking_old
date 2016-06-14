@@ -35,7 +35,8 @@ import com.cloud.user.AccountManager;
 import com.cloud.user.DomainManager;
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -65,12 +66,12 @@ import com.cloud.utils.component.ComponentContext;
 //@ContextConfiguration(locations = "classpath:/testContext.xml")
 //@ComponentSetup(managerName="management-server", setupXml="network-mgr-component.xml")
 public class FirewallManagerTest {
-    private static final Logger s_logger = Logger.getLogger(FirewallManagerTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(FirewallManagerTest.class);
 
 //    @Before
 //    public void setUp() {
-//        Logger daoLogger = Logger.getLogger(GenericDaoBase.class);
-//        Logger cloudLogger = Logger.getLogger("com.cloud");
+//        Logger daoLogger = LoggerFactory.getLogger(GenericDaoBase.class);
+//        Logger cloudLogger = LoggerFactory.getLogger("com.cloud");
 //
 //        componentlogger.setLevel(Level.WARN);
 //        daoLogger.setLevel(Level.ERROR);

@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.agent.api.Command;
@@ -56,7 +57,7 @@ import com.cloud.vm.VirtualMachineProfile;
 @Component
 public class AdvancedNetworkVisitor extends BasicNetworkVisitor {
 
-    private static final Logger s_logger = Logger.getLogger(AdvancedNetworkVisitor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AdvancedNetworkVisitor.class);
 
     @Override
     public boolean visit(final UserdataPwdRules userdata) throws ResourceUnavailableException {

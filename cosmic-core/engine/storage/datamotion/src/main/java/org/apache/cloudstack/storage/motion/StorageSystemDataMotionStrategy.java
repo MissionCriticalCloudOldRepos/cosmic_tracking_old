@@ -24,7 +24,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.ChapInfo;
@@ -77,7 +78,7 @@ import com.cloud.vm.VirtualMachineManager;
 
 @Component
 public class StorageSystemDataMotionStrategy implements DataMotionStrategy {
-    private static final Logger s_logger = Logger.getLogger(StorageSystemDataMotionStrategy.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(StorageSystemDataMotionStrategy.class);
 
     @Inject private AgentManager _agentMgr;
     @Inject private ConfigurationDao _configDao;

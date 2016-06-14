@@ -34,7 +34,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckRouterAnswer;
@@ -64,7 +65,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
  **/
 public class VirtualRoutingResource {
 
-    private static final Logger s_logger = Logger.getLogger(VirtualRoutingResource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VirtualRoutingResource.class);
     private VirtualRouterDeployer _vrDeployer;
     private Map<String, Queue<NetworkElementCommand>> _vrAggregateCommandsSet;
     protected Map<String, Lock> _vrLockMap = new HashMap<String, Lock>();

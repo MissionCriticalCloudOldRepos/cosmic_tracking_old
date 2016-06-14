@@ -29,7 +29,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -125,7 +126,7 @@ import com.cloud.vm.UserVmManager;
 import com.cloud.vm.UserVmService;
 
 public class AutoScaleManagerImpl<Type> extends ManagerBase implements AutoScaleManager, AutoScaleService {
-    private static final Logger s_logger = Logger.getLogger(AutoScaleManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AutoScaleManagerImpl.class);
     private ScheduledExecutorService _executor = Executors.newScheduledThreadPool(1);
 
     @Inject
@@ -1347,7 +1348,7 @@ public class AutoScaleManagerImpl<Type> extends ManagerBase implements AutoScale
                 return -1;
             }
         } catch (InsufficientCapacityException ex) {
-            s_logger.info(ex);
+            s_logger.info(ex.toString());
             s_logger.trace(ex.getMessage(), ex);
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         } catch (ResourceUnavailableException ex) {
@@ -1386,7 +1387,7 @@ public class AutoScaleManagerImpl<Type> extends ManagerBase implements AutoScale
                     message.append(", Please check the affinity groups provided, there may not be sufficient capacity to follow them");
                 }
             }
-            s_logger.info(ex);
+            s_logger.info(ex.toString());
             s_logger.info(message.toString(), ex);
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, message.toString());
         }

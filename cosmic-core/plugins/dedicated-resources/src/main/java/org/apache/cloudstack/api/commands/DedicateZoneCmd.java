@@ -21,7 +21,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -42,7 +43,7 @@ import com.cloud.user.Account;
 @APICommand(name = "dedicateZone", description = "Dedicates a zones.", responseObject = DedicateZoneResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DedicateZoneCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DedicateZoneCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DedicateZoneCmd.class.getName());
 
     private static final String s_name = "dedicatezoneresponse";
     @Inject

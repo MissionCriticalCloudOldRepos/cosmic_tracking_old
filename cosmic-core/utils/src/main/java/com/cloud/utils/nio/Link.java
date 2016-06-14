@@ -45,7 +45,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
 import org.apache.cloudstack.utils.security.SSLUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.db.DbProperties;
@@ -53,7 +54,7 @@ import com.cloud.utils.db.DbProperties;
 /**
  */
 public class Link {
-    private static final Logger s_logger = Logger.getLogger(Link.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(Link.class);
 
     private final InetSocketAddress _addr;
     private final NioConnection _connection;

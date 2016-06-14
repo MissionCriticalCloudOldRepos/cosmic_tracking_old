@@ -19,14 +19,15 @@
 
 package com.cloud.utils.cisco.n1kv.vsm;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class VsmPolicyMapResponse extends VsmResponse {
-    private static final Logger s_logger = Logger.getLogger(VsmPolicyMapResponse.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VsmPolicyMapResponse.class);
     private static final String s_policyMapDetails = "__XML__OPT_Cmd_show_policy-map___readonly__";
 
     private PolicyMap _policyMap = new PolicyMap();

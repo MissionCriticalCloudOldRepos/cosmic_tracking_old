@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.cloudstack.acl.RoleType;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -36,7 +37,7 @@ import com.cloud.utils.Pair;
 @APICommand(name = "listSnapshotPolicies", description = "Lists snapshot policies.", responseObject = SnapshotPolicyResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListSnapshotPoliciesCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListSnapshotPoliciesCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListSnapshotPoliciesCmd.class.getName());
 
     private static final String s_name = "listsnapshotpoliciesresponse";
 

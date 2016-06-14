@@ -28,7 +28,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.api.command.admin.usage.AddTrafficMonitorCmd;
@@ -97,7 +98,7 @@ public class NetworkUsageManagerImpl extends ManagerBase implements NetworkUsage
         TrafficSentinel;
     }
 
-    private static final org.apache.log4j.Logger s_logger = Logger.getLogger(NetworkUsageManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetworkUsageManagerImpl.class);
     @Inject
     HostDao _hostDao;
     @Inject
@@ -150,7 +151,7 @@ public class NetworkUsageManagerImpl extends ManagerBase implements NetworkUsage
         try {
             uri = new URI(cmd.getUrl());
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new InvalidParameterValueException(e.getMessage());
         }
 

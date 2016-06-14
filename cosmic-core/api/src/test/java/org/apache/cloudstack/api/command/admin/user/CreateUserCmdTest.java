@@ -22,7 +22,8 @@ package org.apache.cloudstack.api.command.admin.user;
 import org.apache.cloudstack.api.ApiErrorCode;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,7 +39,7 @@ import com.cloud.user.AccountService;
 import com.cloud.user.User;
 
 public class CreateUserCmdTest {
-    public static final Logger s_logger = Logger.getLogger(CreateUserCmdTest.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateUserCmdTest.class.getName());
 
     @Mock
     private AccountService accountService;

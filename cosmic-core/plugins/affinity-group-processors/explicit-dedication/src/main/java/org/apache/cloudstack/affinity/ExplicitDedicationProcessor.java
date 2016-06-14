@@ -24,7 +24,8 @@ import javax.inject.Inject;
 
 import org.apache.cloudstack.affinity.dao.AffinityGroupDao;
 import org.apache.cloudstack.affinity.dao.AffinityGroupVMMapDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.dc.ClusterVO;
 import com.cloud.dc.DataCenter;
@@ -56,7 +57,7 @@ import com.cloud.vm.dao.VMInstanceDao;
 
 public class ExplicitDedicationProcessor extends AffinityProcessorBase implements AffinityGroupProcessor {
 
-    private static final Logger s_logger = Logger.getLogger(ExplicitDedicationProcessor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ExplicitDedicationProcessor.class);
     @Inject
     protected UserVmDao _vmDao;
     @Inject

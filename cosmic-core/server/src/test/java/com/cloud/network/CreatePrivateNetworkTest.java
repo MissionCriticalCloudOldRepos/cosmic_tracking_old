@@ -30,7 +30,8 @@ import java.util.UUID;
 
 import junit.framework.Assert;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -67,7 +68,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 //@Ignore("Requires database to be set up")
 public class CreatePrivateNetworkTest {
 
-    private static final Logger s_logger = Logger.getLogger(CreatePrivateNetworkTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CreatePrivateNetworkTest.class);
 
     NetworkServiceImpl networkService = new NetworkServiceImpl();
 

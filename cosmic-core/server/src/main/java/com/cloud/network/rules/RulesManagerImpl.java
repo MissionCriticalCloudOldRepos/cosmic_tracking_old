@@ -27,7 +27,8 @@ import javax.inject.Inject;
 import org.apache.cloudstack.api.command.user.firewall.ListPortForwardingRulesCmd;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.configuration.ConfigurationManager;
 import com.cloud.domain.dao.DomainDao;
@@ -97,7 +98,7 @@ import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.dao.VMInstanceDao;
 
 public class RulesManagerImpl extends ManagerBase implements RulesManager, RulesService {
-    private static final Logger s_logger = Logger.getLogger(RulesManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RulesManagerImpl.class);
 
     @Inject
     IpAddressManager _ipAddrMgr;

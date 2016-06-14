@@ -20,7 +20,8 @@ import org.apache.cloudstack.engine.orchestration.service.VolumeOrchestrationSer
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.cloudstack.managed.context.ManagedContext;
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.NDC;
 
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ import com.cloud.vm.dao.VMInstanceDao;
  **/
 public class HighAvailabilityManagerImpl extends ManagerBase implements HighAvailabilityManager, ClusterManagerListener {
 
-  protected static final Logger s_logger = Logger.getLogger(HighAvailabilityManagerImpl.class);
+  protected static final Logger s_logger = LoggerFactory.getLogger(HighAvailabilityManagerImpl.class);
   WorkerThread[] _workers;
   boolean _stopped;
   long _timeToSleep;

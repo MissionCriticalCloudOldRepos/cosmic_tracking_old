@@ -19,10 +19,11 @@
 
 package com.cloud.utils.concurrency;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SynchronizationEvent {
-    protected final static Logger s_logger = Logger.getLogger(SynchronizationEvent.class);
+    protected final static Logger s_logger = LoggerFactory.getLogger(SynchronizationEvent.class);
 
     private boolean signalled;
 

@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
@@ -54,7 +55,7 @@ import com.cloud.vm.VirtualMachine;
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = true)
 public class UpdateVMAffinityGroupCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdateVMAffinityGroupCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdateVMAffinityGroupCmd.class.getName());
     private static final String s_name = "updatevirtualmachineresponse";
 
     /////////////////////////////////////////////////////

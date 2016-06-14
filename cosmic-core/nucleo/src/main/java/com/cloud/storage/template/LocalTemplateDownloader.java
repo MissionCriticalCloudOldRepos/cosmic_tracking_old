@@ -32,10 +32,11 @@ import java.nio.channels.FileChannel;
 import com.cloud.storage.StorageLayer;
 import com.cloud.utils.exception.CloudRuntimeException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LocalTemplateDownloader extends TemplateDownloaderBase implements TemplateDownloader {
-  public static final Logger s_logger = Logger.getLogger(LocalTemplateDownloader.class);
+  public static final Logger s_logger = LoggerFactory.getLogger(LocalTemplateDownloader.class);
 
   public LocalTemplateDownloader(StorageLayer storageLayer, String downloadUrl, String toDir,
       long maxTemplateSizeInBytes, DownloadCompleteCallback callback) {

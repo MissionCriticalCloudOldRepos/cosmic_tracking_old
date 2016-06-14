@@ -18,7 +18,8 @@ package org.apache.cloudstack.api.command.admin.template;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -34,7 +35,7 @@ import com.cloud.template.VirtualMachineTemplate;
         + "A template created from this command is automatically designated as a private template visible to the account that created it.", responseView = ResponseView.Full,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateTemplateCmdByAdmin extends CreateTemplateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateTemplateCmdByAdmin.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateTemplateCmdByAdmin.class.getName());
 
     @Override
     public void execute() {

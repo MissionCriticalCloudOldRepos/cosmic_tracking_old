@@ -19,7 +19,8 @@ package com.cloud.upgrade.dao;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProvider;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -44,7 +45,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
 public class Upgrade410to420 implements DbUpgrade {
-  final static Logger s_logger = Logger.getLogger(Upgrade410to420.class);
+  final static Logger s_logger = LoggerFactory.getLogger(Upgrade410to420.class);
 
   @Override
   public String[] getUpgradableVersionRange() {
@@ -622,7 +623,7 @@ public class Upgrade410to420 implements DbUpgrade {
         }
       }
     } catch (final SQLException e) {
-      s_logger.error(new CloudRuntimeException("Failed to read vmware_network_label : " + e));
+      s_logger.error(new CloudRuntimeException("Failed to read vmware_network_label : " + e).toString());
     }
     return newGuestLabel;
   }

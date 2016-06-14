@@ -19,7 +19,8 @@
 
 package com.cloud.utils.cisco.n1kv.vsm;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,7 +36,7 @@ import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.Session;
 
 public class NetconfHelper {
-  private static final Logger s_logger = Logger.getLogger(NetconfHelper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(NetconfHelper.class);
 
   private static final String SSH_NETCONF_TERMINATOR = "]]>]]>";
 

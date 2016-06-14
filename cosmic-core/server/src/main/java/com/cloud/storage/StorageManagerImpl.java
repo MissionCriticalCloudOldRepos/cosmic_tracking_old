@@ -67,7 +67,8 @@ import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreVO;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreEntity;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -189,7 +190,7 @@ import com.cloud.vm.dao.VMInstanceDao;
 
 @Component
 public class StorageManagerImpl extends ManagerBase implements StorageManager, ClusterManagerListener, Configurable {
-  private static final Logger s_logger = Logger.getLogger(StorageManagerImpl.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(StorageManagerImpl.class);
 
   protected String _name;
   @Inject

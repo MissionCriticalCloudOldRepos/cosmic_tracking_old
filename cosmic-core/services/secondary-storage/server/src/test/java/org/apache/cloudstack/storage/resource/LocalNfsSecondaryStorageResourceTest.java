@@ -31,7 +31,8 @@ import javax.naming.ConfigurationException;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -55,7 +56,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 public class LocalNfsSecondaryStorageResourceTest extends TestCase {
     private static Map<String, Object> testParams;
 
-    private static final Logger s_logger = Logger.getLogger(LocalNfsSecondaryStorageResourceTest.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(LocalNfsSecondaryStorageResourceTest.class.getName());
 
     LocalNfsSecondaryStorageResource resource;
 

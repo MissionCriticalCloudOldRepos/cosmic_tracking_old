@@ -25,7 +25,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -54,7 +55,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 @Component
 public class PrimaryDataStoreHelper {
-    private static final Logger s_logger = Logger.getLogger(PrimaryDataStoreHelper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PrimaryDataStoreHelper.class);
     @Inject
     private PrimaryDataStoreDao dataStoreDao;
     @Inject

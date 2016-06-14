@@ -19,7 +19,8 @@ package org.apache.cloudstack.api.command.admin.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -38,7 +39,7 @@ import com.cloud.utils.Pair;
 @APICommand(name = "listConfigurations", description = "Lists all configurations.", responseObject = ConfigurationResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListCfgsByCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListCfgsByCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListCfgsByCmd.class.getName());
 
     private static final String s_name = "listconfigurationsresponse";
 

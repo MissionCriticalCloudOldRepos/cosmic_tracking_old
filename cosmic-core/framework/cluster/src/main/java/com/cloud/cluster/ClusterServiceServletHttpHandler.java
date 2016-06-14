@@ -29,10 +29,11 @@ import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpRequestHandler;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClusterServiceServletHttpHandler implements HttpRequestHandler {
-    private static final Logger s_logger = Logger.getLogger(ClusterServiceServletHttpHandler.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ClusterServiceServletHttpHandler.class);
 
     private final ClusterManager manager;
 

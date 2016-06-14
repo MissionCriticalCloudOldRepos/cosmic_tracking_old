@@ -63,7 +63,8 @@ import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.agent.api.Answer;
@@ -105,7 +106,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 @Component
 public class VolumeServiceImpl implements VolumeService {
-    private static final Logger s_logger = Logger.getLogger(VolumeServiceImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VolumeServiceImpl.class);
     @Inject
     VolumeDao volDao;
     @Inject

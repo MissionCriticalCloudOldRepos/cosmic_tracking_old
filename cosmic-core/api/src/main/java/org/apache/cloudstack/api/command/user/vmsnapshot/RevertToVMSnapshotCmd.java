@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vmsnapshot;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -43,7 +44,7 @@ import com.cloud.vm.snapshot.VMSnapshot;
 @APICommand(name = "revertToVMSnapshot", description = "Revert VM from a vmsnapshot.", responseObject = UserVmResponse.class, since = "4.2.0", responseView = ResponseView.Restricted,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class RevertToVMSnapshotCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(RevertToVMSnapshotCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(RevertToVMSnapshotCmd.class.getName());
     private static final String s_name = "reverttovmsnapshotresponse";
 
     @ACL(accessType = AccessType.OperateEntry, pointerToEntity = "getVmId()")

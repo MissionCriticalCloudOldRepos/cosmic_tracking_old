@@ -64,7 +64,8 @@ import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreEntity;
 import org.apache.cloudstack.utils.identity.ManagementServerNode;
 import org.apache.cloudstack.utils.imagestore.ImageStoreUtil;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -169,7 +170,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiService, VmWorkJobHandler {
-  private final static Logger s_logger = Logger.getLogger(VolumeApiServiceImpl.class);
+  private final static Logger s_logger = LoggerFactory.getLogger(VolumeApiServiceImpl.class);
   public static final String VM_WORK_JOB_HANDLER = VolumeApiServiceImpl.class.getSimpleName();
 
   @Inject
@@ -777,7 +778,7 @@ public class VolumeApiServiceImpl extends ManagerBase implements VolumeApiServic
             message.append(" due to error: ");
             message.append(ex.getMessage());
             if (s_logger.isDebugEnabled()) {
-              s_logger.debug(message, ex);
+              s_logger.debug(message.toString());
             }
             throw new CloudRuntimeException(message.toString());
           }

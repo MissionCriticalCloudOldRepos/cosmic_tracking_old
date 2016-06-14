@@ -20,7 +20,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
@@ -36,7 +37,7 @@ import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
 
 public class XenServerInvestigator extends AdapterBase implements Investigator {
-    private final static Logger s_logger = Logger.getLogger(XenServerInvestigator.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(XenServerInvestigator.class);
     @Inject
     HostDao _hostDao;
     @Inject

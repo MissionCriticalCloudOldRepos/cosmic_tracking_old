@@ -18,7 +18,8 @@ package org.apache.cloudstack.storage.datastore;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
@@ -58,7 +59,7 @@ import com.cloud.utils.fsm.StateMachine2;
 
 @Component
 public class ObjectInDataStoreManagerImpl implements ObjectInDataStoreManager {
-    private static final Logger s_logger = Logger.getLogger(ObjectInDataStoreManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ObjectInDataStoreManagerImpl.class);
     @Inject
     TemplateDataFactory imageFactory;
     @Inject

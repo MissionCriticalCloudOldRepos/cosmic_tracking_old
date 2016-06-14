@@ -30,7 +30,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.SnapshotResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.event.EventTypes;
 import com.cloud.storage.Snapshot;
@@ -39,7 +40,7 @@ import com.cloud.user.Account;
 @APICommand(name = "revertSnapshot", description = "revert a volume snapshot.", responseObject = SnapshotResponse.class, entityType = {Snapshot.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class RevertSnapshotCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(RevertSnapshotCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(RevertSnapshotCmd.class.getName());
     private static final String s_name = "revertsnapshotresponse";
 
     /////////////////////////////////////////////////////

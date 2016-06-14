@@ -26,7 +26,8 @@ import org.apache.cloudstack.api.response.ClusterResponse;
 import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.StoragePoolResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.UnknownHostException;
 import java.util.Map;
@@ -40,7 +41,7 @@ import com.cloud.user.Account;
 @APICommand(name = "createStoragePool", description = "Creates a storage pool.", responseObject = StoragePoolResponse.class,
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateStoragePoolCmd extends BaseCmd {
-  public static final Logger s_logger = Logger.getLogger(CreateStoragePoolCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(CreateStoragePoolCmd.class.getName());
 
   private static final String s_name = "createstoragepoolresponse";
 

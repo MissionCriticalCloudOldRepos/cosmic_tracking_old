@@ -25,7 +25,8 @@ import java.util.Map;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.trilead.ssh2.SCPClient;
 
@@ -40,7 +41,7 @@ import com.cloud.utils.script.Script;
 import com.cloud.utils.ssh.SSHCmdHelper;
 
 public class BaremetalKickStartPxeResource extends BaremetalPxeResourceBase {
-    private static final Logger s_logger = Logger.getLogger(BaremetalKickStartPxeResource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BaremetalKickStartPxeResource.class);
     private static final String Name = "BaremetalKickStartPxeResource";
     String _tftpDir;
 

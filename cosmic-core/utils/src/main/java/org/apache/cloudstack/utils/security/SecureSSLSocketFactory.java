@@ -19,7 +19,8 @@
 
 package org.apache.cloudstack.utils.security;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
@@ -36,7 +37,7 @@ import java.security.SecureRandom;
 
 public class SecureSSLSocketFactory extends SSLSocketFactory {
 
-    public static final Logger s_logger = Logger.getLogger(SecureSSLSocketFactory.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(SecureSSLSocketFactory.class);
     private SSLContext _sslContext;
 
     public SecureSSLSocketFactory() throws NoSuchAlgorithmException {

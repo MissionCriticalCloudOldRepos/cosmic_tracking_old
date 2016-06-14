@@ -26,7 +26,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.event.EventTypes;
 import com.cloud.exception.ConcurrentOperationException;
@@ -38,7 +39,7 @@ import com.cloud.user.Account;
 @APICommand(name = "restartVPC", description = "Restarts a VPC", responseObject = VpcResponse.class, entityType = {Vpc.class},
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class RestartVPCCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(RestartVPCCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(RestartVPCCmd.class.getName());
     private static final String s_name = "restartvpcresponse";
 
     /////////////////////////////////////////////////////
@@ -111,8 +112,7 @@ public class RestartVPCCmd extends BaseAsyncCmd {
             s_logger.warn("Exception: ", ex);
             throw new ServerApiException(ApiErrorCode.INTERNAL_ERROR, ex.getMessage());
         } catch (final InsufficientCapacityException ex) {
-            s_logger.info(ex);
-            s_logger.trace(ex);
+            s_logger.info(ex.toString());
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         }
     }

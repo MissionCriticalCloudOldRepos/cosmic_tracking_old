@@ -21,7 +21,8 @@ package org.apache.cloudstack.api.command.admin.storage;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -38,7 +39,7 @@ import com.cloud.user.Account;
 @APICommand(name = "createSecondaryStagingStore", description = "create secondary staging store.", responseObject = ImageStoreResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateSecondaryStagingStoreCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(AddImageStoreCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddImageStoreCmd.class.getName());
     private static final String s_name = "createsecondarystagingstoreresponse";
 
     /////////////////////////////////////////////////////

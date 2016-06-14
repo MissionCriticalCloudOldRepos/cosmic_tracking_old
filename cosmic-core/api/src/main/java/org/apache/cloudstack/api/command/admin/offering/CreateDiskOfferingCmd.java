@@ -24,7 +24,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DiskOfferingResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.offering.DiskOffering;
 import com.cloud.offering.ServiceOffering;
@@ -34,7 +35,7 @@ import com.cloud.user.Account;
 @APICommand(name = "createDiskOffering", description = "Creates a disk offering.", responseObject = DiskOfferingResponse.class,
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateDiskOfferingCmd extends BaseCmd {
-  public static final Logger s_logger = Logger.getLogger(CreateDiskOfferingCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(CreateDiskOfferingCmd.class.getName());
 
   private static final String s_name = "creatediskofferingresponse";
 

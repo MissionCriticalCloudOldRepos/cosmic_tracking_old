@@ -23,7 +23,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.Command;
 import com.cloud.configuration.Config;
@@ -48,7 +49,7 @@ import com.cloud.vm.VirtualMachine.State;
 import com.cloud.vm.dao.SecondaryStorageVmDao;
 
 public class PremiumSecondaryStorageManagerImpl extends SecondaryStorageManagerImpl {
-    private static final Logger s_logger = Logger.getLogger(PremiumSecondaryStorageManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PremiumSecondaryStorageManagerImpl.class);
 
     private int _capacityPerSSVM = SecondaryStorageVmManager.DEFAULT_SS_VM_CAPACITY;
     private int _standbyCapacity = SecondaryStorageVmManager.DEFAULT_STANDBY_CAPACITY;

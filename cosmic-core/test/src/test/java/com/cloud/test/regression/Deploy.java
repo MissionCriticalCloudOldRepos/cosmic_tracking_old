@@ -22,13 +22,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Deploy extends TestCase {
-    public static final Logger s_logger = Logger.getLogger(Deploy.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(Deploy.class.getName());
 
     public Deploy() {
         this.setClient();

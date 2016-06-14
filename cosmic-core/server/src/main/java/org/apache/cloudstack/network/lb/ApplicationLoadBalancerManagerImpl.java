@@ -23,7 +23,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
@@ -79,7 +80,7 @@ import com.cloud.utils.net.NetUtils;
 
 @Component
 public class ApplicationLoadBalancerManagerImpl extends ManagerBase implements ApplicationLoadBalancerService {
-    private static final Logger s_logger = Logger.getLogger(ApplicationLoadBalancerManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ApplicationLoadBalancerManagerImpl.class);
 
     @Inject
     NetworkModel _networkModel;

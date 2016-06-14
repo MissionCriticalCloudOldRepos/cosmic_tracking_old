@@ -24,7 +24,8 @@ import com.cloud.utils.Ternary;
 import org.apache.cloudstack.api.*;
 import org.apache.cloudstack.api.ApiConstants.HostDetails;
 import org.apache.cloudstack.api.response.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -34,7 +35,7 @@ import java.util.Map;
 @APICommand(name = "listHosts", description = "Lists hosts.", responseObject = HostResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListHostsCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListHostsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListHostsCmd.class.getName());
 
     private static final String s_name = "listhostsresponse";
 

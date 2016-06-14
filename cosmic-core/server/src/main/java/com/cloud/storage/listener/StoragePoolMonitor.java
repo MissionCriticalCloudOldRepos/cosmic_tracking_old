@@ -29,14 +29,15 @@ import com.cloud.storage.StorageManagerImpl;
 import com.cloud.storage.StoragePoolStatus;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public class StoragePoolMonitor implements Listener {
 
-    private static final Logger s_logger = Logger.getLogger(StoragePoolMonitor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(StoragePoolMonitor.class);
     private final StorageManagerImpl _storageManager;
     private final PrimaryDataStoreDao _poolDao;
     @Inject

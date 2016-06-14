@@ -38,7 +38,8 @@ import javax.mail.URLName;
 import javax.mail.internet.InternetAddress;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.sun.mail.smtp.SMTPMessage;
@@ -93,7 +94,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 @Component
 public class ProjectManagerImpl extends ManagerBase implements ProjectManager {
-    public static final Logger s_logger = Logger.getLogger(ProjectManagerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ProjectManagerImpl.class);
     private EmailInvite _emailInvite;
 
     @Inject

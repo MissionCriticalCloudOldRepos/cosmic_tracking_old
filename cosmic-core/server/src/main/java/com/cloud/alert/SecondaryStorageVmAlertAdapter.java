@@ -21,7 +21,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.dc.DataCenterVO;
@@ -37,7 +38,7 @@ import com.cloud.vm.dao.SecondaryStorageVmDao;
 @Component
 public class SecondaryStorageVmAlertAdapter extends AdapterBase implements AlertAdapter {
 
-    private static final Logger s_logger = Logger.getLogger(SecondaryStorageVmAlertAdapter.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SecondaryStorageVmAlertAdapter.class);
 
     @Inject
     private AlertManager _alertMgr;

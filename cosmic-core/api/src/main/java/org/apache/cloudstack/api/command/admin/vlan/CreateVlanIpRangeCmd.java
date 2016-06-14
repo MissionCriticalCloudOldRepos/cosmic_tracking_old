@@ -17,7 +17,8 @@
 package org.apache.cloudstack.api.command.admin.vlan;
 
 import com.cloud.utils.net.NetUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -43,7 +44,7 @@ import com.cloud.user.Account;
 @APICommand(name = "createVlanIpRange", description = "Creates a VLAN IP range.", responseObject = VlanIpRangeResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateVlanIpRangeCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateVlanIpRangeCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateVlanIpRangeCmd.class.getName());
 
     private static final String s_name = "createvlaniprangeresponse";
 
@@ -228,7 +229,7 @@ public class CreateVlanIpRangeCmd extends BaseCmd {
             s_logger.warn("Exception: ", ex);
             throw new ServerApiException(ApiErrorCode.INTERNAL_ERROR, ex.getMessage());
         } catch (InsufficientCapacityException ex) {
-            s_logger.info(ex);
+            s_logger.info(ex.toString());
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         }
     }

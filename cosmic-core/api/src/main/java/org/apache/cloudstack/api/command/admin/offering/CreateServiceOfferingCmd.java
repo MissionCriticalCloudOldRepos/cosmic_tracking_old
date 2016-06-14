@@ -24,7 +24,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ServiceOfferingResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ import com.cloud.user.Account;
 @APICommand(name = "createServiceOffering", description = "Creates a service offering.", responseObject = ServiceOfferingResponse.class,
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateServiceOfferingCmd extends BaseCmd {
-  public static final Logger s_logger = Logger.getLogger(CreateServiceOfferingCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(CreateServiceOfferingCmd.class.getName());
   private static final String s_name = "createserviceofferingresponse";
 
   /////////////////////////////////////////////////////

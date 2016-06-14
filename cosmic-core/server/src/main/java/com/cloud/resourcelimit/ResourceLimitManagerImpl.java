@@ -29,7 +29,8 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
@@ -108,7 +109,7 @@ import com.cloud.vm.dao.VMInstanceDao;
 
 @Component
 public class ResourceLimitManagerImpl extends ManagerBase implements ResourceLimitService {
-    public static final Logger s_logger = Logger.getLogger(ResourceLimitManagerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ResourceLimitManagerImpl.class);
 
     @Inject
     private DomainDao _domainDao;

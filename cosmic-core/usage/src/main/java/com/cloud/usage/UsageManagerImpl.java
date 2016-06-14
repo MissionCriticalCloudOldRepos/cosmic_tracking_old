@@ -34,7 +34,8 @@ import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
 import org.apache.cloudstack.utils.usage.UsageUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
@@ -89,7 +90,7 @@ import com.cloud.utils.db.TransactionLegacy;
 
 @Component
 public class UsageManagerImpl extends ManagerBase implements UsageManager, Runnable {
-    public static final Logger s_logger = Logger.getLogger(UsageManagerImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UsageManagerImpl.class.getName());
 
     protected static final String DAILY = "DAILY";
     protected static final String WEEKLY = "WEEKLY";

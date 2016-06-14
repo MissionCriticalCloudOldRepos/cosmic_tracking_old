@@ -27,10 +27,11 @@ import com.cloud.storage.StorageLayer;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.trilead.ssh2.SCPClient;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScpTemplateDownloader extends TemplateDownloaderBase implements TemplateDownloader {
-    private static final Logger s_logger = Logger.getLogger(ScpTemplateDownloader.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ScpTemplateDownloader.class);
 
     public ScpTemplateDownloader(StorageLayer storageLayer, String downloadUrl, String toDir, long maxTemplateSizeInBytes, DownloadCompleteCallback callback) {
         super(storageLayer, downloadUrl, toDir, maxTemplateSizeInBytes, callback);

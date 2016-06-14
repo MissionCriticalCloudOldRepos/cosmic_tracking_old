@@ -17,7 +17,8 @@
 package com.cloud.certificate.dao;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.certificate.CertificateVO;
@@ -28,7 +29,7 @@ import com.cloud.utils.db.GenericDaoBase;
 @DB
 public class CertificateDaoImpl extends GenericDaoBase<CertificateVO, Long> implements CertificateDao {
 
-    private static final Logger s_logger = Logger.getLogger(CertificateDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CertificateDaoImpl.class);
 
     public CertificateDaoImpl() {
 

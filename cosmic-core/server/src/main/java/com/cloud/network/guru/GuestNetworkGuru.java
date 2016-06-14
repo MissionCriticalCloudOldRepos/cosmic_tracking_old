@@ -80,10 +80,11 @@ import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationSe
 import org.apache.cloudstack.framework.config.ConfigKey;
 import org.apache.cloudstack.framework.config.Configurable;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class GuestNetworkGuru extends AdapterBase implements NetworkGuru, Configurable {
-    private static final Logger s_logger = Logger.getLogger(GuestNetworkGuru.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(GuestNetworkGuru.class);
 
     @Inject
     protected VpcDao _vpcDao;

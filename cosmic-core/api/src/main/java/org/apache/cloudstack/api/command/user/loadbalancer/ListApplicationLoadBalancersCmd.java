@@ -29,7 +29,8 @@ import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.NetworkResponse;
 import org.apache.cloudstack.network.lb.ApplicationLoadBalancerRule;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.network.rules.LoadBalancerContainer.Scheme;
@@ -38,7 +39,7 @@ import com.cloud.utils.Pair;
 @APICommand(name = "listLoadBalancers", description = "Lists load balancers", responseObject = ApplicationLoadBalancerResponse.class, since = "4.2.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListApplicationLoadBalancersCmd extends BaseListTaggedResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListApplicationLoadBalancersCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListApplicationLoadBalancersCmd.class.getName());
 
     private static final String s_name = "listloadbalancersresponse";
 

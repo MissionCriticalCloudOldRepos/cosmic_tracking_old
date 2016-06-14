@@ -19,14 +19,15 @@ package com.cloud.api.dispatch;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.ApiErrorCode;
 import org.apache.cloudstack.api.ServerApiException;
 
 public class ParamUnpackWorker implements DispatchWorker {
 
-    private static final Logger s_logger = Logger.getLogger(ParamUnpackWorker.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ParamUnpackWorker.class);
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override

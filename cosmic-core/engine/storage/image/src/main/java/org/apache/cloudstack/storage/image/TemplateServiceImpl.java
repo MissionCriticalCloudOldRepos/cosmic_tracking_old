@@ -27,7 +27,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
 import org.apache.cloudstack.engine.subsystem.api.storage.CreateCmdResult;
@@ -98,7 +99,7 @@ import com.cloud.utils.fsm.StateMachine2;
 
 @Component
 public class TemplateServiceImpl implements TemplateService {
-    private static final Logger s_logger = Logger.getLogger(TemplateServiceImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(TemplateServiceImpl.class);
     @Inject
     ObjectInDataStoreManager _objectInDataStoreMgr;
     @Inject

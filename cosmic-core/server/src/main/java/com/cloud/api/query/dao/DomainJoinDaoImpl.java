@@ -22,7 +22,8 @@ import java.util.List;
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ResourceLimitAndCountResponse;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.api.ApiDBUtils;
@@ -35,7 +36,7 @@ import com.cloud.utils.db.SearchCriteria;
 
 @Component
 public class DomainJoinDaoImpl extends GenericDaoBase<DomainJoinVO, Long> implements DomainJoinDao {
-    public static final Logger s_logger = Logger.getLogger(DomainJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(DomainJoinDaoImpl.class);
 
     private SearchBuilder<DomainJoinVO> domainIdSearch;
 

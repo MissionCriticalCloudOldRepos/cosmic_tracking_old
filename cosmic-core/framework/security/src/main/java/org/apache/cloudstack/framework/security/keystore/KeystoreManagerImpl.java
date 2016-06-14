@@ -31,7 +31,8 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.utils.Ternary;
@@ -41,7 +42,7 @@ import com.cloud.utils.security.CertificateHelper;
 
 @Component
 public class KeystoreManagerImpl extends ManagerBase implements KeystoreManager {
-    private static final Logger s_logger = Logger.getLogger(KeystoreManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(KeystoreManagerImpl.class);
 
     @Inject
     private KeystoreDao _ksDao;

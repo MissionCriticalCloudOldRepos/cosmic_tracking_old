@@ -22,7 +22,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.AgentManager;
 import com.cloud.alert.AlertManager;
@@ -40,7 +41,7 @@ import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
 
 public class KVMFencer extends AdapterBase implements FenceBuilder {
-    private static final Logger s_logger = Logger.getLogger(KVMFencer.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(KVMFencer.class);
 
     @Inject
     HostDao _hostDao;

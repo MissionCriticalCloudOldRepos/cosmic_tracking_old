@@ -22,7 +22,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
@@ -59,7 +60,7 @@ import com.cloud.utils.fsm.NoTransitionException;
 
 @Component
 public class SnapshotServiceImpl implements SnapshotService {
-    private static final Logger s_logger = Logger.getLogger(SnapshotServiceImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SnapshotServiceImpl.class);
     @Inject
     protected SnapshotDao _snapshotDao;
     @Inject

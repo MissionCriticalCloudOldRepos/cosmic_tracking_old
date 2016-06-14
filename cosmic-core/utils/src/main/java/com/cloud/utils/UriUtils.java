@@ -51,14 +51,15 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.utils.crypt.DBEncryptionUtil;
 import com.cloud.utils.exception.CloudRuntimeException;
 
 public class UriUtils {
 
-    public static final Logger s_logger = Logger.getLogger(UriUtils.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UriUtils.class.getName());
 
     public static String formNfsUri(String host, String path) {
         try {

@@ -32,7 +32,8 @@ import javax.inject.Inject;
 import org.apache.cloudstack.api.AddBaremetalPxeCmd;
 import org.apache.cloudstack.api.AddBaremetalPxePingServerCmd;
 import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.baremetal.IpmISetBootDevCommand;
@@ -68,7 +69,7 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
 
 public class BareMetalPingServiceImpl extends BareMetalPxeServiceBase implements BaremetalPxeService {
-    private static final Logger s_logger = Logger.getLogger(BareMetalPingServiceImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BareMetalPingServiceImpl.class);
     @Inject
     ResourceManager _resourceMgr;
     @Inject
@@ -219,7 +220,7 @@ public class BareMetalPingServiceImpl extends BareMetalPxeServiceBase implements
         try {
             uri = new URI(cmd.getUrl());
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new IllegalArgumentException(e.getMessage());
         }
         String ipAddress = uri.getHost();
@@ -244,7 +245,7 @@ public class BareMetalPingServiceImpl extends BareMetalPxeServiceBase implements
         try {
             resource.configure("PING PXE resource", params);
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new CloudRuntimeException(e.getMessage());
         }
 

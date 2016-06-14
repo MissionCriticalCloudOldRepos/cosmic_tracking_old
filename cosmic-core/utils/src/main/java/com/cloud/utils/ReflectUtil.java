@@ -35,7 +35,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.ClasspathHelper;
@@ -48,8 +49,8 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 public class ReflectUtil {
 
-    private static final Logger s_logger = Logger.getLogger(ReflectUtil.class);
-    private static final Logger logger = Logger.getLogger(Reflections.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ReflectUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(Reflections.class);
 
     public static Pair<Class<?>, Field> getAnyField(Class<?> clazz, String fieldName) {
         try {

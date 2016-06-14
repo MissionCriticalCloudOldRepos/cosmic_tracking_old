@@ -22,13 +22,14 @@ package com.cloud.utils.ssh;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.trilead.ssh2.ChannelCondition;
 import com.trilead.ssh2.Session;
 
 public class SSHCmdHelper {
-    private static final Logger s_logger = Logger.getLogger(SSHCmdHelper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SSHCmdHelper.class);
     private static final int DEFAULT_CONNECT_TIMEOUT = 180000;
     private static final int DEFAULT_KEX_TIMEOUT = 60000;
 

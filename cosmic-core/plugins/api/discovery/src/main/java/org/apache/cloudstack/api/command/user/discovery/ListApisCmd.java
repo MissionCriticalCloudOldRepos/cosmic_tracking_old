@@ -18,7 +18,8 @@ package org.apache.cloudstack.api.command.user.discovery;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -41,7 +42,7 @@ import com.cloud.user.User;
             responseHasSensitiveInfo = false)
 public class ListApisCmd extends BaseCmd {
 
-    public static final Logger s_logger = Logger.getLogger(ListApisCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListApisCmd.class.getName());
     private static final String s_name = "listapisresponse";
 
     @Inject

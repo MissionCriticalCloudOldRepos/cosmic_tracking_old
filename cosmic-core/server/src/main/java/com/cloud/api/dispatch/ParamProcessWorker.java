@@ -34,7 +34,8 @@ import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.ControlledEntity;
 import org.apache.cloudstack.acl.InfrastructureEntity;
@@ -66,7 +67,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
 
 public class ParamProcessWorker implements DispatchWorker {
 
-    private static final Logger s_logger = Logger.getLogger(ParamProcessWorker.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(ParamProcessWorker.class.getName());
     public final DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
     public final DateFormat newInputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

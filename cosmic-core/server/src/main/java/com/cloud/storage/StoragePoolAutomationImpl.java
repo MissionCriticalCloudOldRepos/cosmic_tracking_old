@@ -29,7 +29,8 @@ import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProviderManager;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cloud.agent.AgentManager;
@@ -64,7 +65,7 @@ import com.cloud.vm.dao.VMInstanceDao;
 
 @Component
 public class StoragePoolAutomationImpl implements StoragePoolAutomation {
-    private static final Logger s_logger = Logger.getLogger(StoragePoolAutomationImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(StoragePoolAutomationImpl.class);
     @Inject
     protected VirtualMachineManager vmMgr;
     @Inject

@@ -19,7 +19,8 @@ package com.cloud.storage.upload;
 import java.util.Date;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.storage.UploadAnswer;
 
@@ -29,7 +30,7 @@ public abstract class UploadState {
         UPLOAD_ANSWER, ABANDON_UPLOAD, TIMEOUT_CHECK, DISCONNECT
     };
 
-    protected static final Logger s_logger = Logger.getLogger(UploadListener.class.getName());
+    protected static final Logger s_logger = LoggerFactory.getLogger(UploadListener.class.getName());
 
     private UploadListener ul;
 

@@ -19,12 +19,13 @@
 package org.apache.cloudstack.utils.imagestore;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.utils.script.Script;
 
 public class ImageStoreUtil {
-  public static final Logger s_logger = Logger.getLogger(ImageStoreUtil.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(ImageStoreUtil.class.getName());
 
   public static String generatePostUploadUrl(String ssvmUrlDomain, String ipAddress, String uuid) {
     String hostname = ipAddress;

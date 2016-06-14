@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.snapshot;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -38,7 +39,7 @@ import com.cloud.user.Account;
 @APICommand(name = "deleteSnapshot", description = "Deletes a snapshot of a disk volume.", responseObject = SuccessResponse.class, entityType = {Snapshot.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteSnapshotCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteSnapshotCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteSnapshotCmd.class.getName());
     private static final String s_name = "deletesnapshotresponse";
 
     /////////////////////////////////////////////////////

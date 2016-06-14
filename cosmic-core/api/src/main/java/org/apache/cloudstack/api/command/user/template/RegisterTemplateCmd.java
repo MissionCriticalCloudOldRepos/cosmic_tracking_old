@@ -31,7 +31,8 @@ import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -44,7 +45,7 @@ import com.cloud.template.VirtualMachineTemplate;
 @APICommand(name = "registerTemplate", description = "Registers an existing template into the CloudStack cloud. ", responseObject = TemplateResponse.class, responseView = ResponseView.Restricted,
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class RegisterTemplateCmd extends BaseCmd {
-  public static final Logger s_logger = Logger.getLogger(RegisterTemplateCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(RegisterTemplateCmd.class.getName());
 
   private static final String s_name = "registertemplateresponse";
 
@@ -272,7 +273,7 @@ public class RegisterTemplateCmd extends BaseCmd {
         throw new ServerApiException(ApiErrorCode.INTERNAL_ERROR, "Failed to register template");
       }
     } catch (final URISyntaxException ex1) {
-      s_logger.info(ex1);
+      s_logger.info(ex1.toString());
       throw new ServerApiException(ApiErrorCode.PARAM_ERROR, ex1.getMessage());
     }
   }

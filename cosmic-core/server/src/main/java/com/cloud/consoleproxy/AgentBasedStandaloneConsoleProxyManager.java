@@ -19,7 +19,8 @@ package com.cloud.consoleproxy;
 import java.util.List;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.host.Host;
 import com.cloud.host.HostVO;
@@ -27,7 +28,7 @@ import com.cloud.info.ConsoleProxyInfo;
 import com.cloud.vm.UserVmVO;
 
 public class AgentBasedStandaloneConsoleProxyManager extends AgentBasedConsoleProxyManager {
-    private static final Logger s_logger = Logger.getLogger(AgentBasedStandaloneConsoleProxyManager.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AgentBasedStandaloneConsoleProxyManager.class);
 
     @Override
     public ConsoleProxyInfo assignProxy(long dataCenterId, long userVmId) {

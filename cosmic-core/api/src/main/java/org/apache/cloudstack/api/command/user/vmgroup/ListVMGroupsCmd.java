@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vmgroup;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -30,7 +31,7 @@ import com.cloud.vm.InstanceGroup;
 @APICommand(name = "listInstanceGroups", description = "Lists vm groups", responseObject = InstanceGroupResponse.class, entityType = {InstanceGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListVMGroupsCmd extends BaseListProjectAndAccountResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListVMGroupsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListVMGroupsCmd.class.getName());
 
     private static final String s_name = "listinstancegroupsresponse";
 

@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.account;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -35,7 +36,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = true)
 public class LockAccountCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(LockAccountCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(LockAccountCmd.class.getName());
 
     private static final String s_name = "lockaccountresponse";
 

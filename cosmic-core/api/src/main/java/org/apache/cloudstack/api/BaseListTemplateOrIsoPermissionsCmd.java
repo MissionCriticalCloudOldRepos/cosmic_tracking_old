@@ -18,7 +18,8 @@ package org.apache.cloudstack.api;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.response.TemplatePermissionsResponse;
@@ -60,7 +61,7 @@ public abstract class BaseListTemplateOrIsoPermissionsCmd extends BaseCmd {
     }
 
     protected Logger getLogger() {
-        return Logger.getLogger(BaseListTemplateOrIsoPermissionsCmd.class);
+        return LoggerFactory.getLogger(BaseListTemplateOrIsoPermissionsCmd.class);
     }
 
     @Override

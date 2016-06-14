@@ -23,7 +23,8 @@ import javax.inject.Inject;
 
 import com.cloud.projects.Project;
 import com.cloud.utils.db.EntityManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.acl.ControlledEntity;
 import org.apache.cloudstack.acl.InfrastructureEntity;
@@ -46,7 +47,7 @@ import com.cloud.user.Account;
 import com.cloud.user.AccountManager;
 
 public class ApiDispatcher {
-    private static final Logger s_logger = Logger.getLogger(ApiDispatcher.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(ApiDispatcher.class.getName());
 
     Long _createSnapshotQueueSizeLimit;
 

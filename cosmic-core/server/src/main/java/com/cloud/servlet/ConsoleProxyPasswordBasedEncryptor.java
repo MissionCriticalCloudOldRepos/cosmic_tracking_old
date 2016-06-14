@@ -28,14 +28,15 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 // To maintain independency of console proxy project, we duplicate this class from console proxy project
 public class ConsoleProxyPasswordBasedEncryptor {
-    private static final Logger s_logger = Logger.getLogger(ConsoleProxyPasswordBasedEncryptor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ConsoleProxyPasswordBasedEncryptor.class);
 
     private Gson gson;
 

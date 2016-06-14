@@ -41,14 +41,15 @@ import org.apache.http.protocol.ResponseConnControl;
 import org.apache.http.protocol.ResponseContent;
 import org.apache.http.protocol.ResponseDate;
 import org.apache.http.protocol.ResponseServer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 
 import com.cloud.utils.concurrency.NamedThreadFactory;
 
 public class ClusterServiceServletContainer {
-    private static final Logger s_logger = Logger.getLogger(ClusterServiceServletContainer.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ClusterServiceServletContainer.class);
 
     private ListenerThread listenerThread;
 

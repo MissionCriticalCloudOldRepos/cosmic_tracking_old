@@ -27,7 +27,8 @@ import javax.ejb.Local;
 import javax.inject.Inject;
 
 import com.cloud.utils.fsm.StateMachine2;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +56,7 @@ public class SnapshotStateListener implements StateListener<State, Event, Snapsh
     @Inject
     private ConfigurationDao configDao;
 
-    private static final Logger s_logger = Logger.getLogger(SnapshotStateListener.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SnapshotStateListener.class);
 
     public SnapshotStateListener() {
 

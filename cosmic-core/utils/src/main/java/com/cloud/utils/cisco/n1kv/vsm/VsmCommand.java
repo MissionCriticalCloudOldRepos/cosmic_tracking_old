@@ -19,7 +19,8 @@
 
 package com.cloud.utils.cisco.n1kv.vsm;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -38,7 +39,7 @@ import com.cloud.utils.Pair;
 
 public class VsmCommand {
 
-  private static final Logger s_logger = Logger.getLogger(VsmCommand.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(VsmCommand.class);
   private static final String s_namespace = "urn:ietf:params:xml:ns:netconf:base:1.0";
   private static final String s_ciscons = "http://www.cisco.com/nxos:1.0:ppm";
   private static final String s_configuremode = "__XML__MODE__exec_configure";

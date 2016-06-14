@@ -20,7 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
 
@@ -32,7 +33,7 @@ import com.cloud.vm.DiskProfile;
 import com.cloud.vm.VirtualMachineProfile;
 
 public class RandomStoragePoolAllocator extends AbstractStoragePoolAllocator {
-    private static final Logger s_logger = Logger.getLogger(RandomStoragePoolAllocator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RandomStoragePoolAllocator.class);
 
     @Override
     public List<StoragePool> select(DiskProfile dskCh, VirtualMachineProfile vmProfile, DeploymentPlan plan, ExcludeList avoid, int returnUpTo) {

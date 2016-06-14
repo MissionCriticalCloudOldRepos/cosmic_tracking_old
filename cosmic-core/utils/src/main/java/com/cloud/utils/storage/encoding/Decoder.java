@@ -26,10 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Decoder {
-    private static final Logger s_logger = Logger.getLogger(Decoder.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(Decoder.class);
 
     private static Map<String, String> getParameters(URI uri) {
         String parameters = uri.getQuery();
