@@ -24,7 +24,6 @@
     <module>components-api</module>
     <module>schema</module>
     <module>network</module>
-    <module>service</module>
   </modules>
   <profiles>
     <profile>
