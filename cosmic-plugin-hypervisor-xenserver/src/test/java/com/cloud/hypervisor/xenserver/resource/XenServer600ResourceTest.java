@@ -15,14 +15,14 @@
  */
 package com.cloud.hypervisor.xenserver.resource;
 
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.script.Script;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.script.Script;
 @RunWith(PowerMockRunner.class)
 public class XenServer600ResourceTest extends CitrixResourceBaseTest{
 

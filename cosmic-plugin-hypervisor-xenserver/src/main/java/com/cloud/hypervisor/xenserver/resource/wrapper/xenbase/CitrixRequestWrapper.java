@@ -22,8 +22,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 import java.util.Hashtable;
 import java.util.Set;
 
-import org.reflections.Reflections;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.hypervisor.xenserver.resource.CitrixResourceBase;
@@ -35,6 +33,8 @@ import com.cloud.hypervisor.xenserver.resource.XenServer620SP1Resource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.RequestWrapper;
 import com.cloud.resource.ServerResource;
+
+import org.reflections.Reflections;
 
 public class CitrixRequestWrapper extends RequestWrapper {
 

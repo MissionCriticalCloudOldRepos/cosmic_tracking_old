@@ -15,14 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 package com.cloud.hypervisor.xenserver.resource;
+
 import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Local;
-
-import org.apache.cloudstack.hypervisor.xenserver.XenserverConfigs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.StartupRoutingCommand;
 import com.cloud.resource.ServerResource;
@@ -30,6 +27,10 @@ import com.xensource.xenapi.Connection;
 import com.xensource.xenapi.Host;
 import com.xensource.xenapi.HostPatch;
 import com.xensource.xenapi.PoolPatch;
+
+import org.apache.cloudstack.hypervisor.xenserver.XenserverConfigs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Local(value = ServerResource.class)
 public class XenServer620Resource extends XenServer610Resource {

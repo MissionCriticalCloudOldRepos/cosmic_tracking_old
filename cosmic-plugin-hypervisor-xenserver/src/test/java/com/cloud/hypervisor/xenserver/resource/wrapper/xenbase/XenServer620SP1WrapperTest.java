@@ -26,13 +26,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 
-import org.apache.xmlrpc.XmlRpcException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.GetGPUStatsCommand;
 import com.cloud.agent.api.VgpuTypesInfo;
@@ -40,6 +33,13 @@ import com.cloud.hypervisor.xenserver.resource.XenServer620SP1Resource;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.xensource.xenapi.Connection;
 import com.xensource.xenapi.Types.XenAPIException;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 public class XenServer620SP1WrapperTest {

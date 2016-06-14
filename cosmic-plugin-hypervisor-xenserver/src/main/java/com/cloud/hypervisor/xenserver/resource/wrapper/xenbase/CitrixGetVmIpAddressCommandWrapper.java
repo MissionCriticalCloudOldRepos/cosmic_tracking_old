@@ -20,20 +20,21 @@
 package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.util.Map;
+
+import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.GetVmIpAddressCommand;
+import com.cloud.hypervisor.xenserver.resource.CitrixResourceBase;
+import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.net.NetUtils;
 import com.xensource.xenapi.Connection;
+import com.xensource.xenapi.Types;
 import com.xensource.xenapi.VM;
 import com.xensource.xenapi.VMGuestMetrics;
-import com.xensource.xenapi.Types;
+
+import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.agent.api.Answer;
-import com.cloud.hypervisor.xenserver.resource.CitrixResourceBase;
-import com.cloud.resource.CommandWrapper;
-import org.apache.xmlrpc.XmlRpcException;
 
 @ResourceWrapper(handles =  GetVmIpAddressCommand.class)
 public final class CitrixGetVmIpAddressCommandWrapper extends CommandWrapper<GetVmIpAddressCommand, Answer, CitrixResourceBase> {

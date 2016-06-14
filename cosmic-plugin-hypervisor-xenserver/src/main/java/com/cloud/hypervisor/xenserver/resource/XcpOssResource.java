@@ -19,12 +19,12 @@ package com.cloud.hypervisor.xenserver.resource;
 
 import javax.ejb.Local;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 import com.cloud.resource.ServerResource;
 import com.xensource.xenapi.Connection;
 import com.xensource.xenapi.Types.XenAPIException;
 import com.xensource.xenapi.VM;
+
+import org.apache.xmlrpc.XmlRpcException;
 
 @Local(value = ServerResource.class)
 public class XcpOssResource extends CitrixResourceBase {

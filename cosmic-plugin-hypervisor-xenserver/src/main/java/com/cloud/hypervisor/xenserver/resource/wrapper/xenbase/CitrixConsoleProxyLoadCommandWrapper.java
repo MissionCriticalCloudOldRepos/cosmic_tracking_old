@@ -26,14 +26,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.proxy.ConsoleProxyLoadAnswer;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ServerResource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class CitrixConsoleProxyLoadCommandWrapper<T extends Command, A extends Answer, R extends ServerResource> extends CommandWrapper<Command, Answer, ServerResource> {
 
