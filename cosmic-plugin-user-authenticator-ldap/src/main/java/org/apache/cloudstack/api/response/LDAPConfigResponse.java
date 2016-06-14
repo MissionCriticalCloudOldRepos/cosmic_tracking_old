@@ -16,11 +16,11 @@
 // under the License.
 package org.apache.cloudstack.api.response;
 
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.BaseResponse;
-
 import com.cloud.serializer.Param;
 import com.google.gson.annotations.SerializedName;
+
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.BaseResponse;
 
 /**
  * @deprecated as of 4.3 along with the api {@link org.apache.cloudstack.api.command.LDAPConfigCmd}

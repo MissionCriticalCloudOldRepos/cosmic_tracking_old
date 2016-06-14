@@ -20,6 +20,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.cloud.user.Account;
+import com.cloud.utils.Pair;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.response.LDAPConfigResponse;
@@ -28,9 +31,6 @@ import org.apache.cloudstack.ldap.LdapConfigurationVO;
 import org.apache.cloudstack.ldap.LdapManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.user.Account;
-import com.cloud.utils.Pair;
 
 /**
  * @deprecated as of 4.3 use the new api {@link LdapDeleteConfigurationCmd}

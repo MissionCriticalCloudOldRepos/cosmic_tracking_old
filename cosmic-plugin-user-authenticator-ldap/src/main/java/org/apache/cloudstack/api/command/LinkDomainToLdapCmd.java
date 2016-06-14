@@ -18,11 +18,15 @@
  */
 package org.apache.cloudstack.api.command;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 
 import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.user.Account;
 import com.cloud.user.User;
 import com.cloud.user.UserAccount;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -36,10 +40,6 @@ import org.apache.cloudstack.ldap.LdapUser;
 import org.apache.cloudstack.ldap.NoLdapUserMatchingQueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.user.Account;
-
-import java.util.UUID;
 
 @APICommand(name = "linkDomainToLdap", description = "link an existing cloudstack domain to group or OU in ldap", responseObject = LinkDomainToLdapResponse.class, since = "4.6.0",
     requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

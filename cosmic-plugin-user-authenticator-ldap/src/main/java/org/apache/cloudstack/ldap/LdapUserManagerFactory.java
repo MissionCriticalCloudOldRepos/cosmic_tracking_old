@@ -18,15 +18,15 @@
  */
 package org.apache.cloudstack.ldap;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LdapUserManagerFactory implements ApplicationContextAware {
 

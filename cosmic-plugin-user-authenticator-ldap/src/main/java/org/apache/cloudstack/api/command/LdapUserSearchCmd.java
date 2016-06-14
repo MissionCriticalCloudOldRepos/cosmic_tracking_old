@@ -21,8 +21,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseListCmd;
@@ -32,8 +31,8 @@ import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.ldap.LdapManager;
 import org.apache.cloudstack.ldap.LdapUser;
 import org.apache.cloudstack.ldap.NoLdapUserMatchingQueryException;
-
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "searchLdap", responseObject = LdapUserResponse.class, description = "Searches LDAP based on the username attribute", since = "4.2.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
