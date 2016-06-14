@@ -24,16 +24,16 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.bouncycastle.util.encoders.Base64;
-
 import com.cloud.user.UserAccount;
 import com.cloud.user.dao.UserAccountDao;
 import com.cloud.utils.Pair;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.commons.lang.StringUtils;
+import org.bouncycastle.util.encoders.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SHA256SaltedUserAuthenticator extends AdapterBase implements UserAuthenticator {
     public static final Logger s_logger = LoggerFactory.getLogger(SHA256SaltedUserAuthenticator.class);

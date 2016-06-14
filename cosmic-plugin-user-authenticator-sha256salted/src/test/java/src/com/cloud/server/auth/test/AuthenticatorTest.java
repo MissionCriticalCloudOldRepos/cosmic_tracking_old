@@ -29,6 +29,10 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
+import com.cloud.server.auth.SHA256SaltedUserAuthenticator;
+import com.cloud.user.UserAccount;
+import com.cloud.user.dao.UserAccountDao;
+
 import org.bouncycastle.util.encoders.Base64;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,10 +40,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.cloud.server.auth.SHA256SaltedUserAuthenticator;
-import com.cloud.user.UserAccount;
-import com.cloud.user.dao.UserAccountDao;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AuthenticatorTest {
