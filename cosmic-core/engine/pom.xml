@@ -26,12 +26,4 @@
     <module>network</module>
     <module>service</module>
   </modules>
-  <profiles>
-    <profile>
-      <id>integration-test</id>
-      <modules>
-        <module>storage/integration-test</module>
-      </modules>
-    </profile>
-  </profiles>
 </project>
