@@ -10,14 +10,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.cloud.utils.script.Script;
 
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.libvirt.StoragePool;
 import org.libvirt.StoragePoolInfo.StoragePoolState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KvmHaMonitor extends KvmHaBase implements Runnable {
-  private final Logger logger = Logger.getLogger(KvmHaMonitor.class);
+  private final Logger logger = LoggerFactory.getLogger(KvmHaMonitor.class);
   private final Map<String, NfsStoragePool> storagePool = new ConcurrentHashMap<String, NfsStoragePool>();
 
   private final String hostPrivateIp;

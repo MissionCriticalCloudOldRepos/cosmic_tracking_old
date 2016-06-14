@@ -24,11 +24,12 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
-import org.apache.log4j.Logger;
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KvmStoragePoolManager {
-  private static final Logger s_logger = Logger.getLogger(KvmStoragePoolManager.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(KvmStoragePoolManager.class);
 
   private class StoragePoolInformation {
     String name;

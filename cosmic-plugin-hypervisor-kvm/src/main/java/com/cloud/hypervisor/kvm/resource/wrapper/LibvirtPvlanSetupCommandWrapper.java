@@ -14,15 +14,16 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = PvlanSetupCommand.class)
 public final class LibvirtPvlanSetupCommandWrapper
     extends CommandWrapper<PvlanSetupCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtPvlanSetupCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtPvlanSetupCommandWrapper.class);
 
   @Override
   public Answer execute(final PvlanSetupCommand command, final LibvirtComputingResource libvirtComputingResource) {

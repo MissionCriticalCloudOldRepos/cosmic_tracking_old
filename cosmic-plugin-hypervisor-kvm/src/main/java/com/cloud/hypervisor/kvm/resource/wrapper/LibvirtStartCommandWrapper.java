@@ -23,15 +23,16 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.vm.VirtualMachine;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.DomainInfo.DomainState;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = StartCommand.class)
 public final class LibvirtStartCommandWrapper extends CommandWrapper<StartCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtStartCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtStartCommandWrapper.class);
 
   @Override
   public Answer execute(final StartCommand command, final LibvirtComputingResource libvirtComputingResource) {

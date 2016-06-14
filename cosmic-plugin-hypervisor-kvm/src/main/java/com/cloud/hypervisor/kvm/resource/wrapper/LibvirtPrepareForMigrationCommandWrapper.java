@@ -19,15 +19,16 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.storage.Volume;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = PrepareForMigrationCommand.class)
 public final class LibvirtPrepareForMigrationCommandWrapper
     extends CommandWrapper<PrepareForMigrationCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtPrepareForMigrationCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtPrepareForMigrationCommandWrapper.class);
 
   @Override
   public Answer execute(final PrepareForMigrationCommand command,

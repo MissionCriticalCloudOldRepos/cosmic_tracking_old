@@ -15,12 +15,13 @@ import com.cloud.storage.Storage.StoragePoolType;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.DiskProfile;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = CreateCommand.class)
 public final class LibvirtCreateCommandWrapper extends CommandWrapper<CreateCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtCreateCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtCreateCommandWrapper.class);
 
   @Override
   public Answer execute(final CreateCommand command, final LibvirtComputingResource libvirtComputingResource) {

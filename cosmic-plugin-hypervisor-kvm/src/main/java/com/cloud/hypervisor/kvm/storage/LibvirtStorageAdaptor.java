@@ -38,17 +38,18 @@ import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
 import org.apache.cloudstack.utils.qemu.QemuImgException;
 import org.apache.cloudstack.utils.qemu.QemuImgFile;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.libvirt.Secret;
 import org.libvirt.StoragePool;
 import org.libvirt.StoragePoolInfo.StoragePoolState;
 import org.libvirt.StorageVol;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LibvirtStorageAdaptor implements StorageAdaptor {
 
-  private final Logger logger = Logger.getLogger(LibvirtStorageAdaptor.class);
+  private final Logger logger = LoggerFactory.getLogger(LibvirtStorageAdaptor.class);
 
   private final StorageLayer storageLayer;
   private final String mountPoint = "/mnt";
@@ -527,7 +528,7 @@ public class LibvirtStorageAdaptor implements StorageAdaptor {
           sp = createNetfsStoragePool(PoolType.NETFS, conn, name, host, path);
         } catch (final LibvirtException e) {
           logger.error("Failed to create netfs mount: " + host + ":" + path, e);
-          logger.error(e.getStackTrace());
+          logger.error(e.getStackTrace().toString());
           throw new CloudRuntimeException(e.toString());
         }
       } else if (type == StoragePoolType.Gluster) {
@@ -535,7 +536,7 @@ public class LibvirtStorageAdaptor implements StorageAdaptor {
           sp = createNetfsStoragePool(PoolType.GLUSTERFS, conn, name, host, path);
         } catch (final LibvirtException e) {
           logger.error("Failed to create glusterfs mount: " + host + ":" + path, e);
-          logger.error(e.getStackTrace());
+          logger.error(e.getStackTrace().toString());
           throw new CloudRuntimeException(e.toString());
         }
       } else if (type == StoragePoolType.SharedMountPoint || type == StoragePoolType.Filesystem) {

@@ -17,16 +17,17 @@ import com.cloud.hypervisor.kvm.resource.VifDriver;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.Domain;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = PlugNicCommand.class)
 public final class LibvirtPlugNicCommandWrapper
     extends CommandWrapper<PlugNicCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtPlugNicCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtPlugNicCommandWrapper.class);
 
   @Override
   public Answer execute(final PlugNicCommand command, final LibvirtComputingResource libvirtComputingResource) {

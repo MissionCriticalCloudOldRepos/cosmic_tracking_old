@@ -20,17 +20,18 @@ import com.cloud.hypervisor.kvm.resource.VifDriver;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.Domain;
 import org.libvirt.DomainInfo.DomainState;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = MigrateCommand.class)
 public final class LibvirtMigrateCommandWrapper
     extends CommandWrapper<MigrateCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtMigrateCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtMigrateCommandWrapper.class);
 
   @Override
   public Answer execute(final MigrateCommand command, final LibvirtComputingResource libvirtComputingResource) {

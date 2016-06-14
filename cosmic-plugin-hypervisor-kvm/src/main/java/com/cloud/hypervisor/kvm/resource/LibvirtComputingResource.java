@@ -123,7 +123,6 @@ import org.apache.cloudstack.utils.linux.MemStat;
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.Domain;
 import org.libvirt.DomainBlockStats;
@@ -132,6 +131,8 @@ import org.libvirt.DomainInfo.DomainState;
 import org.libvirt.DomainInterfaceStats;
 import org.libvirt.LibvirtException;
 import org.libvirt.NodeInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * LibvirtComputingResource execute requests on the computing/routing host using the libvirt API
@@ -159,7 +160,7 @@ public class LibvirtComputingResource extends ServerResourceBase implements Serv
   protected static final String DEFAULT_OVS_VIF_DRIVER_CLASS = "com.cloud.hypervisor.kvm.resource.OvsVifDriver";
   protected static final String DEFAULT_BRIDGE_VIF_DRIVER_CLASS = "com.cloud.hypervisor.kvm.resource.BridgeVifDriver";
 
-  private static final Logger LOGGER = Logger.getLogger(LibvirtComputingResource.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(LibvirtComputingResource.class);
 
   protected static final HashMap<DomainState, PowerState> s_powerStatesTable;
 

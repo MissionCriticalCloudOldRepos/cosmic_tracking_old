@@ -9,13 +9,14 @@ import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = CheckSshCommand.class)
 public final class LibvirtCheckSshCommandWrapper
     extends CommandWrapper<CheckSshCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtCheckSshCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtCheckSshCommandWrapper.class);
 
   @Override
   public Answer execute(final CheckSshCommand command, final LibvirtComputingResource libvirtComputingResource) {

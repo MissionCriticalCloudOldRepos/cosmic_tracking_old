@@ -11,14 +11,15 @@ import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = RebootCommand.class)
 public final class LibvirtRebootCommandWrapper extends CommandWrapper<RebootCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtRebootCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtRebootCommandWrapper.class);
 
   @Override
   public Answer execute(final RebootCommand command, final LibvirtComputingResource libvirtComputingResource) {

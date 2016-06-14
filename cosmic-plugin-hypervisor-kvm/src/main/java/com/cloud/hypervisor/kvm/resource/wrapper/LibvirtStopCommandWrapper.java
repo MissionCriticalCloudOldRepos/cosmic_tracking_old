@@ -16,16 +16,17 @@ import com.cloud.hypervisor.kvm.resource.VifDriver;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.Domain;
 import org.libvirt.DomainInfo.DomainState;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = StopCommand.class)
 public final class LibvirtStopCommandWrapper extends CommandWrapper<StopCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtStopCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtStopCommandWrapper.class);
 
   @Override
   public Answer execute(final StopCommand command, final LibvirtComputingResource libvirtComputingResource) {

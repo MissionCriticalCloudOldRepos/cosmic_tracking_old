@@ -22,13 +22,15 @@ import com.cloud.storage.template.TemplateLocation;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = CreatePrivateTemplateFromSnapshotCommand.class)
 public final class LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper
     extends CommandWrapper<CreatePrivateTemplateFromSnapshotCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory
+      .getLogger(LibvirtCreatePrivateTemplateFromSnapshotCommandWrapper.class);
 
   @Override
   public Answer execute(final CreatePrivateTemplateFromSnapshotCommand command,

@@ -23,13 +23,14 @@ import org.apache.cloudstack.storage.command.RevertSnapshotCommand;
 import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
 import org.apache.cloudstack.storage.to.SnapshotObjectTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = RevertSnapshotCommand.class)
 public final class LibvirtRevertSnapshotCommandWrapper
     extends CommandWrapper<RevertSnapshotCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtRevertSnapshotCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtRevertSnapshotCommandWrapper.class);
 
   @Override
   public Answer execute(final RevertSnapshotCommand command, final LibvirtComputingResource libvirtComputingResource) {

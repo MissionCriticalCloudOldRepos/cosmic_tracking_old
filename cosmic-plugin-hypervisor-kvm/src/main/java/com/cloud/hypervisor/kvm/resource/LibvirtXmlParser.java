@@ -7,14 +7,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class LibvirtXmlParser extends DefaultHandler {
 
-  private final Logger logger = Logger.getLogger(LibvirtXmlParser.class);
+  private final Logger logger = LoggerFactory.getLogger(LibvirtXmlParser.class);
 
   protected static final SAXParserFactory saxParserFactory;
 

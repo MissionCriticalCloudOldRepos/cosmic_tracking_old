@@ -11,13 +11,14 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = PingTestCommand.class)
 public final class LibvirtPingTestCommandWrapper
     extends CommandWrapper<PingTestCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtPingTestCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtPingTestCommandWrapper.class);
 
   @Override
   public Answer execute(final PingTestCommand command, final LibvirtComputingResource libvirtComputingResource) {

@@ -10,15 +10,16 @@ import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = NetworkRulesSystemVmCommand.class)
 public final class LibvirtNetworkRulesSystemVmCommandWrapper
     extends CommandWrapper<NetworkRulesSystemVmCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtNetworkRulesSystemVmCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtNetworkRulesSystemVmCommandWrapper.class);
 
   @Override
   public Answer execute(final NetworkRulesSystemVmCommand command,

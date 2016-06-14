@@ -14,11 +14,12 @@ import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
 
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @StorageAdaptorInfo(storagePoolType = StoragePoolType.Iscsi)
 public class IscsiAdmStorageAdaptor implements StorageAdaptor {
-  private static final Logger s_logger = Logger.getLogger(IscsiAdmStorageAdaptor.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(IscsiAdmStorageAdaptor.class);
 
   private static final Map<String, KvmStoragePool> MapStorageUuidToStoragePool = new HashMap<String, KvmStoragePool>();
 

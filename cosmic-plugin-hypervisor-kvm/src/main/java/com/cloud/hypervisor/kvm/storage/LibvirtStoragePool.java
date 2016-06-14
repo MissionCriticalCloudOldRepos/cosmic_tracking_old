@@ -9,12 +9,13 @@ import com.cloud.storage.Storage.StoragePoolType;
 import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
-import org.apache.log4j.Logger;
 import org.libvirt.StoragePool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LibvirtStoragePool implements KvmStoragePool {
 
-  private final Logger logger = Logger.getLogger(LibvirtStoragePool.class);
+  private final Logger logger = LoggerFactory.getLogger(LibvirtStoragePool.class);
 
   protected String uuid;
   protected long capacity;

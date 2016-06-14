@@ -25,18 +25,19 @@ import com.cloud.storage.Storage.StoragePoolType;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.Domain;
 import org.libvirt.DomainInfo.DomainState;
 import org.libvirt.DomainSnapshot;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = BackupSnapshotCommand.class)
 public final class LibvirtBackupSnapshotCommandWrapper
     extends CommandWrapper<BackupSnapshotCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtBackupSnapshotCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtBackupSnapshotCommandWrapper.class);
 
   @Override
   public Answer execute(final BackupSnapshotCommand command, final LibvirtComputingResource libvirtComputingResource) {

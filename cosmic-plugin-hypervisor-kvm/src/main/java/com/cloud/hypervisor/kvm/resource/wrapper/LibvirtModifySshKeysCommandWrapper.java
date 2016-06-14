@@ -17,13 +17,14 @@ import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.StringUtils;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = ModifySshKeysCommand.class)
 public final class LibvirtModifySshKeysCommandWrapper
     extends CommandWrapper<ModifySshKeysCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtModifySshKeysCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtModifySshKeysCommandWrapper.class);
 
   @Override
   public Answer execute(final ModifySshKeysCommand command, final LibvirtComputingResource libvirtComputingResource) {

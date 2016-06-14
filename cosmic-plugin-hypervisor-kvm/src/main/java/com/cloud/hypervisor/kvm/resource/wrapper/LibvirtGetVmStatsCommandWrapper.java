@@ -15,15 +15,16 @@ import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = GetVmStatsCommand.class)
 public final class LibvirtGetVmStatsCommandWrapper
     extends CommandWrapper<GetVmStatsCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtGetVmStatsCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtGetVmStatsCommandWrapper.class);
 
   @Override
   public Answer execute(final GetVmStatsCommand command, final LibvirtComputingResource libvirtComputingResource) {

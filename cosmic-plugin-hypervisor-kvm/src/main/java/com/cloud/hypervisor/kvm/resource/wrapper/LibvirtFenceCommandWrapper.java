@@ -16,12 +16,13 @@ import com.cloud.hypervisor.kvm.resource.LibvirtComputingResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = FenceCommand.class)
 public final class LibvirtFenceCommandWrapper extends CommandWrapper<FenceCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtFenceCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtFenceCommandWrapper.class);
 
   @Override
   public Answer execute(final FenceCommand command, final LibvirtComputingResource libvirtComputingResource) {
