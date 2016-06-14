@@ -25,12 +25,12 @@ import java.util.Properties;
 
 import javax.ejb.Local;
 
+import com.cloud.agent.dao.StorageComponent;
+import com.cloud.utils.PropertiesUtil;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.agent.dao.StorageComponent;
-import com.cloud.utils.PropertiesUtil;
 
 /**
  * Uses Properties to implement storage.

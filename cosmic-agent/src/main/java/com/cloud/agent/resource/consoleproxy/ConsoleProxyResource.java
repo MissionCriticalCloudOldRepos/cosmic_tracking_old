@@ -32,13 +32,6 @@ import java.util.Properties;
 
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
 import com.cloud.agent.Agent.ExitStatus;
 import com.cloud.agent.api.AgentControlAnswer;
 import com.cloud.agent.api.Answer;
@@ -65,6 +58,11 @@ import com.cloud.resource.ServerResourceBase;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.net.NetUtils;
 import com.cloud.utils.script.Script;
+import com.google.gson.Gson;
+
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
