@@ -35,8 +35,9 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -46,7 +47,7 @@ public class OvmObject {
 
   private volatile Connection client;
   private static List<?> emptyParams = new ArrayList<Object>();
-  private static final Logger LOGGER = Logger.getLogger(OvmObject.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(OvmObject.class);
   private boolean success = false;
 
   public OvmObject() {

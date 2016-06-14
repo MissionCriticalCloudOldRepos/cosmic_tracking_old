@@ -31,11 +31,12 @@ import com.cloud.hypervisor.ovm3.objects.Connection;
 import com.cloud.hypervisor.ovm3.objects.Xen;
 import com.cloud.utils.ExecutionResult;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Local(value = VirtualRouterDeployer.class)
 public class Ovm3VirtualRoutingResource implements VirtualRouterDeployer {
-  private final Logger logger = Logger.getLogger(Ovm3VirtualRoutingResource.class);
+  private final Logger logger = LoggerFactory.getLogger(Ovm3VirtualRoutingResource.class);
   private final String domRCloudPath = "/opt/cloud/bin/";
   private final int vrTimeout = 600;
   private Connection connection;

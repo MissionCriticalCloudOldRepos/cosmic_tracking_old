@@ -20,10 +20,11 @@ package com.cloud.hypervisor.ovm3.objects;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CloudstackPlugin extends OvmObject {
-  private static final Logger LOGGER = Logger.getLogger(CloudstackPlugin.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(CloudstackPlugin.class);
   private boolean checkstoragestarted = false;
 
   public CloudstackPlugin(Connection connection) {

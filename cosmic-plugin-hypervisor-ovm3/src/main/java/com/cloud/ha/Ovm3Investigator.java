@@ -32,10 +32,11 @@ import com.cloud.hypervisor.Hypervisor;
 import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3Investigator extends AdapterBase implements Investigator {
-  private static final Logger LOGGER = Logger.getLogger(Ovm3Investigator.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Ovm3Investigator.class);
   @Inject
   HostDao hostDao;
   @Inject

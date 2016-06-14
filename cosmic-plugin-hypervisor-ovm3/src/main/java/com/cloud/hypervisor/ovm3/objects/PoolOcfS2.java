@@ -20,12 +20,13 @@ package com.cloud.hypervisor.ovm3.objects;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 public class PoolOcfS2 extends OvmObject {
 
-  private final Logger logger = Logger.getLogger(PoolOcfS2.class);
+  private final Logger logger = LoggerFactory.getLogger(PoolOcfS2.class);
   private Map<String, String> poolFileSystem = new HashMap<String, String>();
   private String poolFsTarget;
   private String poolFsType;

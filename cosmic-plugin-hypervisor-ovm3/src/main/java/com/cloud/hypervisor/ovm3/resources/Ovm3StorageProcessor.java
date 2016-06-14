@@ -67,11 +67,12 @@ import org.apache.cloudstack.storage.command.SnapshotAndCopyCommand;
 import org.apache.cloudstack.storage.to.SnapshotObjectTO;
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3StorageProcessor implements StorageProcessor {
 
-  private final Logger logger = Logger.getLogger(Ovm3StorageProcessor.class);
+  private final Logger logger = LoggerFactory.getLogger(Ovm3StorageProcessor.class);
   private final Connection connection;
   private final OvmObject ovmObject = new OvmObject();
   private final Ovm3StoragePool pool;

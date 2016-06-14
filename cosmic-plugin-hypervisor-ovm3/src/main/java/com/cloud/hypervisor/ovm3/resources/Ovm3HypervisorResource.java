@@ -102,11 +102,12 @@ import org.apache.cloudstack.storage.command.CreateObjectCommand;
 import org.apache.cloudstack.storage.command.DeleteCommand;
 import org.apache.cloudstack.storage.command.DettachCommand;
 import org.apache.cloudstack.storage.command.StorageSubSystemCommand;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Local(value = HypervisorResource.class)
 public class Ovm3HypervisorResource extends ServerResourceBase implements HypervisorResource {
-  private static final Logger LOGGER = Logger.getLogger(Ovm3HypervisorResource.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Ovm3HypervisorResource.class);
   @Inject
   private VirtualRoutingResource vrResource;
   private StorageSubsystemCommandHandler storageHandler;

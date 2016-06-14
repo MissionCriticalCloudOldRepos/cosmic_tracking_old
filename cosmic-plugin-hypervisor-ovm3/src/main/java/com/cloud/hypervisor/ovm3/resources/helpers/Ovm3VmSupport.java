@@ -56,12 +56,13 @@ import com.cloud.vm.VirtualMachine.State;
 
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3VmSupport {
 
-  private final Logger logger = Logger.getLogger(Ovm3VmSupport.class);
+  private final Logger logger = LoggerFactory.getLogger(Ovm3VmSupport.class);
   private final OvmObject ovmObject = new OvmObject();
   private ResourceManager resourceMgr;
   private final Connection connection;

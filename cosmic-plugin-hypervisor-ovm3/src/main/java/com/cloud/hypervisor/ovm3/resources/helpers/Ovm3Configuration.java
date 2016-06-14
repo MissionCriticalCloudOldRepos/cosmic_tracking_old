@@ -29,11 +29,12 @@ import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.net.NetUtils;
 
 import org.apache.commons.lang.BooleanUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /* holds config data for the Ovm3 Hypervisor */
 public class Ovm3Configuration {
-  private static final Logger LOGGER = Logger.getLogger(Ovm3Configuration.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Ovm3Configuration.class);
   private String agentIp;
   private Long agentZoneId;
   private Long agentPodId;

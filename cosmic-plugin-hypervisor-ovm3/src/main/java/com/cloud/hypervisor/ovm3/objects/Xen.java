@@ -24,10 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Xen extends OvmObject {
-  private static final Logger LOGGER = Logger.getLogger(Xen.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Xen.class);
   private static final String VNCLISTEN = "vnclisten";
   private static final String MEMORY = "memory";
   private static final String MAXVCPUS = "maxvcpus";
@@ -348,7 +349,7 @@ public class Xen extends OvmObject {
         }
         vmParams.put("vif", newVifs);
       } catch (final Exception e) {
-        LOGGER.debug(e);
+        LOGGER.debug(e.toString());
       }
       return true;
     }
