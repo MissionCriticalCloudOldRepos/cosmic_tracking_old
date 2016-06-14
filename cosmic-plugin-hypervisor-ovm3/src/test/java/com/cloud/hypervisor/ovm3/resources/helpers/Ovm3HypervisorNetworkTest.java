@@ -17,6 +17,11 @@
 
 package com.cloud.hypervisor.ovm3.resources.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.ConfigurationException;
+
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckNetworkCommand;
 import com.cloud.agent.api.PingTestCommand;
@@ -29,11 +34,6 @@ import com.cloud.hypervisor.ovm3.resources.Ovm3HypervisorResource;
 import com.cloud.hypervisor.ovm3.resources.Ovm3HypervisorResourceTest;
 import com.cloud.hypervisor.ovm3.support.Ovm3SupportTest;
 import com.cloud.network.PhysicalNetworkSetupInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.naming.ConfigurationException;
 
 import org.junit.Test;
 

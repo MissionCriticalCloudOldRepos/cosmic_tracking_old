@@ -17,12 +17,12 @@
 
 package com.cloud.hypervisor.ovm3.resources.helpers;
 
-import com.cloud.hypervisor.ovm3.objects.XmlTestResultTest;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.naming.ConfigurationException;
+
+import com.cloud.hypervisor.ovm3.objects.XmlTestResultTest;
 
 import org.junit.Test;
 

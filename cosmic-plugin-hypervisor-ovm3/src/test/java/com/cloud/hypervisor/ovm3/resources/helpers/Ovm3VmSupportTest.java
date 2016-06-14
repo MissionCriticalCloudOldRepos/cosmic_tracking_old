@@ -17,6 +17,13 @@
 
 package com.cloud.hypervisor.ovm3.resources.helpers;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.ConfigurationException;
+
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.GetVmStatsCommand;
 import com.cloud.agent.api.MigrateCommand;
@@ -34,13 +41,6 @@ import com.cloud.hypervisor.ovm3.resources.Ovm3HypervisorResourceTest;
 import com.cloud.hypervisor.ovm3.support.Ovm3SupportTest;
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.vm.VirtualMachine;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.naming.ConfigurationException;
 
 import org.junit.Test;
 

@@ -20,9 +20,9 @@ package com.cloud.hypervisor.ovm3.objects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.cloud.hypervisor.ovm3.objects.CloudstackPlugin.ReturnCode;
-
 import java.util.Map;
+
+import com.cloud.hypervisor.ovm3.objects.CloudstackPlugin.ReturnCode;
 
 import org.junit.Test;
 
