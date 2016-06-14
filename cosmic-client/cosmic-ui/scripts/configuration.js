@@ -2857,11 +2857,6 @@
                                         }
                                     },
 
-                                    "service.Lb.elasticLbCheckbox": {
-                                        label: "label.elastic.LB",
-                                        isHidden: true,
-                                        isBoolean: true
-                                    },
                                     "service.Lb.lbIsolationDropdown": {
                                         label: 'label.LB.isolation',
                                         docID: 'helpNetworkOfferingLBIsolation',
@@ -2895,12 +2890,6 @@
                                                 data: items
                                             });
                                         }
-                                    },
-
-                                    "service.StaticNat.elasticIpCheckbox": {
-                                        label: "label.elastic.IP",
-                                        isHidden: true,
-                                        isBoolean: true
                                     },
 
                                     "service.StaticNat.associatePublicIP": {
