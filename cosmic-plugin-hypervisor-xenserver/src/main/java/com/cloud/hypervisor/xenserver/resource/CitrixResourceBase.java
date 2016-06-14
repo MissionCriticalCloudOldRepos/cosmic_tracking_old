@@ -19,7 +19,8 @@ package com.cloud.hypervisor.xenserver.resource;
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.xmlrpc.XmlRpcException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -188,7 +189,7 @@ public abstract class CitrixResourceBase implements ServerResource, HypervisorRe
   private static final long mem_128m = 134217728L;
 
   static final Random Rand = new Random(System.currentTimeMillis());
-  private static final Logger s_logger = Logger.getLogger(CitrixResourceBase.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(CitrixResourceBase.class);
   protected static final HashMap<VmPowerState, PowerState> s_powerStatesTable;
 
   static {
@@ -1538,7 +1539,7 @@ public abstract class CitrixResourceBase implements ServerResource, HypervisorRe
             final String vdifile = "/var/run/sr-mount/" + srUUID + "/" + vdiUUID + ".vhd";
             callHostPluginAsync(conn, "vmopspremium", "remove_corrupt_vdi", 10, "vdifile", vdifile);
           } catch (final Exception e2) {
-            s_logger.warn(e2);
+            s_logger.warn(e2.toString());
           }
         }
       }

@@ -57,10 +57,11 @@ import com.cloud.vm.UserVmVO;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.UserVmDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class XenServerGuru extends HypervisorGuruBase implements HypervisorGuru, Configurable {
-    private final Logger LOGGER = Logger.getLogger(XenServerGuru.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(XenServerGuru.class);
     @Inject
     GuestOSDao _guestOsDao;
     @Inject

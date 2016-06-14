@@ -22,7 +22,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.cloud.agent.api.StartupCommand;
@@ -61,7 +62,7 @@ import com.xensource.xenapi.VM;
  *
  */
 public class XenServerResourceNewBase extends XenServer620SP1Resource {
-    private static final Logger s_logger = Logger.getLogger(XenServerResourceNewBase.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServerResourceNewBase.class);
     protected VmEventListener _listener = null;
 
     @Override

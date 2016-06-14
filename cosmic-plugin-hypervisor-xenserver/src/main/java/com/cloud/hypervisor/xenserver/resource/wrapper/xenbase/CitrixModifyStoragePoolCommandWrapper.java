@@ -22,7 +22,8 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.ModifyStoragePoolAnswer;
@@ -40,7 +41,7 @@ import com.xensource.xenapi.Types.XenAPIException;
 @ResourceWrapper(handles =  ModifyStoragePoolCommand.class)
 public final class CitrixModifyStoragePoolCommandWrapper extends CommandWrapper<ModifyStoragePoolCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixModifyStoragePoolCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixModifyStoragePoolCommandWrapper.class);
 
     @Override
     public Answer execute(final ModifyStoragePoolCommand command, final CitrixResourceBase citrixResourceBase) {

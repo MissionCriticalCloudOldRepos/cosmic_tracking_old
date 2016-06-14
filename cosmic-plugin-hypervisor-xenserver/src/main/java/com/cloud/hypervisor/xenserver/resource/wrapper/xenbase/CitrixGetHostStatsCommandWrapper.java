@@ -19,7 +19,8 @@
 
 package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.GetHostStatsAnswer;
@@ -33,7 +34,7 @@ import com.xensource.xenapi.Connection;
 @ResourceWrapper(handles =  GetHostStatsCommand.class)
 public final class CitrixGetHostStatsCommandWrapper extends CommandWrapper<GetHostStatsCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixGetHostStatsCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixGetHostStatsCommandWrapper.class);
 
     @Override
     public Answer execute(final GetHostStatsCommand command, final CitrixResourceBase citrixResourceBase) {

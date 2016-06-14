@@ -25,7 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.MigrateWithStorageAnswer;
@@ -54,7 +55,7 @@ import com.xensource.xenapi.VM;
 @ResourceWrapper(handles =  MigrateWithStorageCommand.class)
 public final class XenServer610MigrateWithStorageCommandWrapper extends CommandWrapper<MigrateWithStorageCommand, Answer, XenServer610Resource> {
 
-    private static final Logger s_logger = Logger.getLogger(XenServer610MigrateWithStorageCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServer610MigrateWithStorageCommandWrapper.class);
 
     @Override
     public Answer execute(final MigrateWithStorageCommand command, final XenServer610Resource xenServer610Resource) {

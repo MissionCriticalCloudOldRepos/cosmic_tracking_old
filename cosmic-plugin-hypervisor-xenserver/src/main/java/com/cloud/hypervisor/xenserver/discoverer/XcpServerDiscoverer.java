@@ -83,7 +83,8 @@ import com.xensource.xenapi.Types.UuidInvalid;
 import com.xensource.xenapi.Types.XenAPIException;
 
 import org.apache.cloudstack.hypervisor.xenserver.XenserverConfigs;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.xmlrpc.XmlRpcException;
 
 import javax.inject.Inject;
@@ -102,7 +103,7 @@ import java.util.Set;
 
 
 public class XcpServerDiscoverer extends DiscovererBase implements Discoverer, Listener, ResourceStateAdapter {
-    private static final Logger s_logger = Logger.getLogger(XcpServerDiscoverer.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XcpServerDiscoverer.class);
     protected String _publicNic;
     protected String _privateNic;
     protected String _storageNic1;

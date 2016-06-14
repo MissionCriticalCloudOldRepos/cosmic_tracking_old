@@ -24,7 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.cloud.agent.api.Answer;
@@ -41,7 +42,7 @@ import com.xensource.xenapi.VM;
 @ResourceWrapper(handles =  GetVmStatsCommand.class)
 public final class CitrixGetVmStatsCommandWrapper extends CommandWrapper<GetVmStatsCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixGetVmStatsCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixGetVmStatsCommandWrapper.class);
 
     @Override
     public Answer execute(final GetVmStatsCommand command, final CitrixResourceBase citrixResourceBase) {

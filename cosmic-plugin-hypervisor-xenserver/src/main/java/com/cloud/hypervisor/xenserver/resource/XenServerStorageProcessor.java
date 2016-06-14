@@ -51,7 +51,8 @@ import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
 import org.apache.cloudstack.storage.to.SnapshotObjectTO;
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.cloud.agent.api.Answer;
@@ -88,7 +89,7 @@ import com.xensource.xenapi.VDI;
 import com.xensource.xenapi.VM;
 
 public class XenServerStorageProcessor implements StorageProcessor {
-    private static final Logger s_logger = Logger.getLogger(XenServerStorageProcessor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServerStorageProcessor.class);
     protected CitrixResourceBase hypervisorResource;
     protected String BaseMountPointOnHost = "/var/run/cloud_mount";
 

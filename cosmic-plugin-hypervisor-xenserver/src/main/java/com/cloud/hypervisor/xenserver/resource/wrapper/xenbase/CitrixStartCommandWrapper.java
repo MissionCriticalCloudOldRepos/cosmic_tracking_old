@@ -44,12 +44,13 @@ import com.xensource.xenapi.Types.VmPowerState;
 import com.xensource.xenapi.VDI;
 import com.xensource.xenapi.VM;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles =  StartCommand.class)
 public final class CitrixStartCommandWrapper extends CommandWrapper<StartCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixStartCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixStartCommandWrapper.class);
 
     @Override
     public Answer execute(final StartCommand command, final CitrixResourceBase citrixResourceBase) {

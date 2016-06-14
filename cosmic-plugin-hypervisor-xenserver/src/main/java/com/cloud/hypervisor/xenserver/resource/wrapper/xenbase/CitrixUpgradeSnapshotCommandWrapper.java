@@ -21,7 +21,8 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.net.URI;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.UpgradeSnapshotCommand;
@@ -33,7 +34,7 @@ import com.xensource.xenapi.Connection;
 @ResourceWrapper(handles =  UpgradeSnapshotCommand.class)
 public final class CitrixUpgradeSnapshotCommandWrapper extends CommandWrapper<UpgradeSnapshotCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixUpgradeSnapshotCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixUpgradeSnapshotCommandWrapper.class);
 
     @Override
     public Answer execute(final UpgradeSnapshotCommand command, final CitrixResourceBase citrixResourceBase) {

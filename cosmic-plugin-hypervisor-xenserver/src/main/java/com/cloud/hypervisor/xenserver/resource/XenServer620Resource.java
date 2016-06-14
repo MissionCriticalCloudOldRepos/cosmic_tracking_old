@@ -21,7 +21,8 @@ import java.util.Set;
 import javax.ejb.Local;
 
 import org.apache.cloudstack.hypervisor.xenserver.XenserverConfigs;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.agent.api.StartupRoutingCommand;
 import com.cloud.resource.ServerResource;
@@ -33,7 +34,7 @@ import com.xensource.xenapi.PoolPatch;
 @Local(value = ServerResource.class)
 public class XenServer620Resource extends XenServer610Resource {
 
-    private static final Logger s_logger = Logger.getLogger(XenServer620Resource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServer620Resource.class);
 
     protected boolean hostHasHotFix(final Connection conn, final String hotFixUuid) {
         try {

@@ -21,7 +21,8 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xen56;
 
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.cloud.agent.api.Answer;
@@ -37,7 +38,7 @@ import com.xensource.xenapi.VM;
 @ResourceWrapper(handles =  FenceCommand.class)
 public final class XenServer56FenceCommandWrapper extends CommandWrapper<FenceCommand, Answer, XenServer56Resource> {
 
-    private static final Logger s_logger = Logger.getLogger(XenServer56FenceCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServer56FenceCommandWrapper.class);
 
     @Override
     public Answer execute(final FenceCommand command, final XenServer56Resource xenServer56) {
