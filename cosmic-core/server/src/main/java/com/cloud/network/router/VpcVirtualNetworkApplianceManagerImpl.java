@@ -64,7 +64,6 @@ import com.cloud.network.vpc.PrivateIpVO;
 import com.cloud.network.vpc.StaticRoute;
 import com.cloud.network.vpc.StaticRouteProfile;
 import com.cloud.network.vpc.Vpc;
-import com.cloud.network.vpc.VpcGateway;
 import com.cloud.network.vpc.VpcGatewayVO;
 import com.cloud.network.vpc.VpcManager;
 import com.cloud.network.vpc.VpcVO;

@@ -27,10 +27,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class XmlObject {
     private final Logger logger = LoggerFactory.getLogger(XmlObject.class.getName());

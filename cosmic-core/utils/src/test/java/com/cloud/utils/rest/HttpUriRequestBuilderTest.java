@@ -26,11 +26,11 @@ import static org.hamcrest.Matchers.nullValue;
 
 import java.util.HashMap;
 
+import com.google.common.base.Optional;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
-
-import com.google.common.base.Optional;
 
 public class HttpUriRequestBuilderTest {
 

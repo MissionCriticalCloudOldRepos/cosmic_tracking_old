@@ -21,8 +21,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.dc.DedicatedResourceVO;
+import com.cloud.dc.DedicatedResources;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
 import org.apache.cloudstack.api.APICommand;
@@ -36,10 +37,8 @@ import org.apache.cloudstack.api.response.DedicateClusterResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.dedicated.DedicatedService;
-
-import com.cloud.dc.DedicatedResourceVO;
-import com.cloud.dc.DedicatedResources;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listDedicatedClusters", description = "Lists dedicated clusters.", responseObject = DedicateClusterResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

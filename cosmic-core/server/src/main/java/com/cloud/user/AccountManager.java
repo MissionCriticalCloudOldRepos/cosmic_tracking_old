@@ -16,14 +16,9 @@
 // under the License.
 package com.cloud.user;
 
+import java.net.InetAddress;
 import java.util.List;
 import java.util.Map;
-import java.net.InetAddress;
-
-import org.apache.cloudstack.acl.ControlledEntity;
-import org.apache.cloudstack.api.command.admin.account.UpdateAccountCmd;
-import org.apache.cloudstack.api.command.admin.user.DeleteUserCmd;
-import org.apache.cloudstack.api.command.admin.user.UpdateUserCmd;
 
 import com.cloud.api.query.vo.ControlledViewEntity;
 import com.cloud.exception.ConcurrentOperationException;
@@ -33,6 +28,11 @@ import com.cloud.utils.Pair;
 import com.cloud.utils.Ternary;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.apache.cloudstack.acl.ControlledEntity;
+import org.apache.cloudstack.api.command.admin.account.UpdateAccountCmd;
+import org.apache.cloudstack.api.command.admin.user.DeleteUserCmd;
+import org.apache.cloudstack.api.command.admin.user.UpdateUserCmd;
 
 /**
  * AccountManager includes logic that deals with accounts, domains, and users.

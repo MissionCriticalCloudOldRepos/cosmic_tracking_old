@@ -23,12 +23,12 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SwiftUtil {
     private static Logger logger = LoggerFactory.getLogger(SwiftUtil.class);

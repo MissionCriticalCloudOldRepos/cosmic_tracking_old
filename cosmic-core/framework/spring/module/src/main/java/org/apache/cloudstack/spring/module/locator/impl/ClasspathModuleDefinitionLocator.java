@@ -23,14 +23,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-
 import org.apache.cloudstack.spring.module.locator.ModuleDefinitionLocator;
 import org.apache.cloudstack.spring.module.model.ModuleDefinition;
 import org.apache.cloudstack.spring.module.model.impl.DefaultModuleDefinition;
 import org.apache.cloudstack.spring.module.util.ModuleLocationUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 public class ClasspathModuleDefinitionLocator implements ModuleDefinitionLocator {
 

@@ -19,10 +19,10 @@
 
 package org.apache.cloudstack.storage.to;
 
-import org.apache.cloudstack.storage.image.datastore.ImageStoreInfo;
-
 import com.cloud.agent.api.to.DataStoreTO;
 import com.cloud.storage.DataStoreRole;
+
+import org.apache.cloudstack.storage.image.datastore.ImageStoreInfo;
 
 public class ImageStoreTO implements DataStoreTO {
     private String type;

@@ -34,9 +34,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckRouterAnswer;
 import com.cloud.agent.api.CheckRouterCommand;
@@ -54,6 +51,9 @@ import com.cloud.agent.resource.virtualnetwork.facade.AbstractConfigItemFacade;
 import com.cloud.utils.ExecutionResult;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VirtualNetworkResource controls and configures virtual networking

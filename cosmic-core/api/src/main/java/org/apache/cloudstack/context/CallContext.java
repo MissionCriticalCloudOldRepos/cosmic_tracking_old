@@ -21,19 +21,18 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 
-import com.cloud.projects.Project;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.log4j.NDC;
-
-import org.apache.cloudstack.managed.threadlocal.ManagedThreadLocal;
-
 import com.cloud.exception.CloudAuthenticationException;
+import com.cloud.projects.Project;
 import com.cloud.user.Account;
 import com.cloud.user.User;
 import com.cloud.utils.UuidUtils;
 import com.cloud.utils.db.EntityManager;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.managed.threadlocal.ManagedThreadLocal;
+import org.apache.log4j.NDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CallContext records information about the environment the call is made.  This

@@ -18,13 +18,13 @@ package org.apache.cloudstack.api.command.user.config;
 
 import java.util.Map;
 
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.response.CapabilitiesResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.user.Account;
 
 @APICommand(name = "listCapabilities", description = "Lists capabilities", responseObject = CapabilitiesResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

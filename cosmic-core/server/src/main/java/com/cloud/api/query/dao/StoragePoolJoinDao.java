@@ -18,11 +18,11 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.response.StoragePoolResponse;
-
 import com.cloud.api.query.vo.StoragePoolJoinVO;
 import com.cloud.storage.StoragePool;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.response.StoragePoolResponse;
 
 public interface StoragePoolJoinDao extends GenericDao<StoragePoolJoinVO, Long> {
 

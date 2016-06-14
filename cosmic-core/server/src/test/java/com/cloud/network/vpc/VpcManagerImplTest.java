@@ -20,31 +20,30 @@ package com.cloud.network.vpc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.NetworkModel;
-import com.cloud.network.element.NetworkElement;
-
-import com.cloud.network.Network;
-import com.cloud.network.Network.Capability;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.Network;
+import com.cloud.network.Network.Capability;
+import com.cloud.network.Network.Provider;
+import com.cloud.network.Network.Service;
+import com.cloud.network.NetworkModel;
+import com.cloud.network.element.NetworkElement;
+import com.cloud.network.vpc.dao.VpcOfferingServiceMapDao;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import com.cloud.network.Network.Provider;
-import com.cloud.network.Network.Service;
-import com.cloud.network.vpc.dao.VpcOfferingServiceMapDao;
 import org.powermock.reflect.Whitebox;
-
-import static org.mockito.Mockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 public class VpcManagerImplTest {
 

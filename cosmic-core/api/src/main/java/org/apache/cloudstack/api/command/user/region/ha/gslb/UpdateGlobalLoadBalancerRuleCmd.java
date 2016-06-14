@@ -19,8 +19,10 @@ package org.apache.cloudstack.api.command.user.region.ha.gslb;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.region.ha.GlobalLoadBalancerRule;
+import com.cloud.region.ha.GlobalLoadBalancingRulesService;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -29,11 +31,8 @@ import org.apache.cloudstack.api.BaseAsyncCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.GlobalLoadBalancerResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.region.ha.GlobalLoadBalancerRule;
-import com.cloud.region.ha.GlobalLoadBalancingRulesService;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateGlobalLoadBalancerRule", description = "update global load balancer rules.", responseObject = GlobalLoadBalancerResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

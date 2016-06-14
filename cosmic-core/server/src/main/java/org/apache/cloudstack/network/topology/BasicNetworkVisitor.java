@@ -22,12 +22,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.routing.IpAliasTO;
 import com.cloud.agent.manager.Commands;
@@ -71,6 +65,12 @@ import com.cloud.vm.NicVO;
 import com.cloud.vm.UserVmVO;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.NicIpAliasVO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 @Component
 public class BasicNetworkVisitor extends NetworkTopologyVisitor {

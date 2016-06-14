@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.cloud.utils.component.ComponentContext;
+
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreLifeCycle;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProvider;
 import org.apache.cloudstack.engine.subsystem.api.storage.HypervisorHostListener;
@@ -29,8 +31,6 @@ import org.apache.cloudstack.engine.subsystem.api.storage.PrimaryDataStoreDriver
 import org.apache.cloudstack.engine.subsystem.api.storage.PrimaryDataStoreProvider;
 import org.apache.cloudstack.storage.datastore.driver.CloudStackPrimaryDataStoreDriverImpl;
 import org.apache.cloudstack.storage.datastore.lifecycle.CloudStackPrimaryDataStoreLifeCycleImpl;
-
-import com.cloud.utils.component.ComponentContext;
 
 public class CloudStackPrimaryDataStoreProviderImpl implements PrimaryDataStoreProvider {
 

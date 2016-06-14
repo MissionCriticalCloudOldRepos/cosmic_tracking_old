@@ -19,14 +19,14 @@ package org.apache.cloudstack.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.host.Host;
+import com.cloud.network.Network;
+import com.cloud.utils.component.Manager;
+
 import org.apache.cloudstack.api.command.admin.network.AddNetworkDeviceCmd;
 import org.apache.cloudstack.api.command.admin.network.DeleteNetworkDeviceCmd;
 import org.apache.cloudstack.api.command.admin.network.ListNetworkDeviceCmd;
 import org.apache.cloudstack.api.response.NetworkDeviceResponse;
-
-import com.cloud.host.Host;
-import com.cloud.network.Network;
-import com.cloud.utils.component.Manager;
 
 public interface ExternalNetworkDeviceManager extends Manager {
 

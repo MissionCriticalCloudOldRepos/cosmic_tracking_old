@@ -19,12 +19,12 @@ package org.apache.cloudstack.api.command.admin.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.network.Networks;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseListCmd;
 import org.apache.cloudstack.api.response.IsolationMethodResponse;
 import org.apache.cloudstack.api.response.ListResponse;
-
-import com.cloud.network.Networks;
 
 @APICommand(name = "listNetworkIsolationMethods",
             description = "Lists supported methods of network isolation",

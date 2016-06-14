@@ -18,9 +18,6 @@ package com.cloud.network.security.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.security.SecurityGroupVMMapVO;
 import com.cloud.utils.Pair;
 import com.cloud.utils.db.Filter;
@@ -30,6 +27,8 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.vm.VirtualMachine.State;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityGroupVMMapDaoImpl extends GenericDaoBase<SecurityGroupVMMapVO, Long> implements SecurityGroupVMMapDao {

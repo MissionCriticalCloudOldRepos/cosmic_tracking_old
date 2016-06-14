@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
+import com.cloud.utils.PropertiesUtil;
+
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
@@ -39,8 +41,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.Mockito;
-
-import com.cloud.utils.PropertiesUtil;
 
 @RunWith(Parameterized.class)
 public class UsageSanityCheckerIT{

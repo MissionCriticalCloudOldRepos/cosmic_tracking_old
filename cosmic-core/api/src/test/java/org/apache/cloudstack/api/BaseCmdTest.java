@@ -18,13 +18,13 @@ package org.apache.cloudstack.api;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.NetworkRuleConflictException;
 import com.cloud.exception.ResourceAllocationException;
 import com.cloud.exception.ResourceUnavailableException;
+
+import org.junit.Test;
 
 public class BaseCmdTest {
 

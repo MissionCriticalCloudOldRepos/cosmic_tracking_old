@@ -16,8 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.user;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.user.Account;
+import com.cloud.user.User;
+import com.cloud.user.UserAccount;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -26,10 +27,8 @@ import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.UserResponse;
-
-import com.cloud.user.Account;
-import com.cloud.user.User;
-import com.cloud.user.UserAccount;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "lockUser", description = "Locks a user account", responseObject = UserResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)

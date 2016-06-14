@@ -32,15 +32,15 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.IAgentControl;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.StartupCommand;
 import com.cloud.utils.net.NetUtils;
 import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ServerResourceBase implements ServerResource {
     private static final Logger s_logger = LoggerFactory.getLogger(ServerResourceBase.class);

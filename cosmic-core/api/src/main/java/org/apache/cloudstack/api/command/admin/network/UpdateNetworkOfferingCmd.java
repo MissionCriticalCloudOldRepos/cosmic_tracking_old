@@ -16,8 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.network;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.offering.NetworkOffering;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -26,9 +26,8 @@ import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.NetworkOfferingResponse;
-
-import com.cloud.offering.NetworkOffering;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateNetworkOffering", description = "Updates a network offering.", responseObject = NetworkOfferingResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

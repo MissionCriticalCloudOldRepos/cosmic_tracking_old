@@ -16,10 +16,10 @@
 // under the License.
 package com.cloud.network.vpn;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.junit.After;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RemoteAccessVpnTest {
     private final static Logger s_logger = LoggerFactory.getLogger(RemoteAccessVpnTest.class);

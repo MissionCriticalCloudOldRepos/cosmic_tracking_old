@@ -16,6 +16,14 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.template;
 
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.template.VirtualMachineTemplate;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -33,14 +41,6 @@ import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.template.VirtualMachineTemplate;
 
 @APICommand(name = "registerTemplate", description = "Registers an existing template into the CloudStack cloud. ", responseObject = TemplateResponse.class, responseView = ResponseView.Restricted,
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

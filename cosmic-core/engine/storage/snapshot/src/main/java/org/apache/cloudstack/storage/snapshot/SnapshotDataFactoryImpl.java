@@ -23,7 +23,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.SnapshotVO;
+import com.cloud.storage.dao.SnapshotDao;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -33,11 +36,7 @@ import org.apache.cloudstack.engine.subsystem.api.storage.SnapshotInfo;
 import org.apache.cloudstack.engine.subsystem.api.storage.VolumeDataFactory;
 import org.apache.cloudstack.storage.datastore.db.SnapshotDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.SnapshotDataStoreVO;
-
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.SnapshotVO;
-import com.cloud.storage.dao.SnapshotDao;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SnapshotDataFactoryImpl implements SnapshotDataFactory {

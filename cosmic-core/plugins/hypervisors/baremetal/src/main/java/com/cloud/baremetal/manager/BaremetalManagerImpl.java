@@ -25,26 +25,25 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import com.cloud.utils.db.QueryBuilder;
-import com.cloud.utils.db.SearchCriteria;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.fsm.StateMachine2;
-import com.cloud.vm.VMInstanceVO;
-import com.cloud.vm.dao.VMInstanceDao;
-import org.apache.cloudstack.api.BaremetalProvisionDoneNotificationCmd;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.api.AddBaremetalHostCmd;
-
 import com.cloud.host.HostVO;
 import com.cloud.host.dao.HostDao;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.utils.component.ManagerBase;
+import com.cloud.utils.db.QueryBuilder;
+import com.cloud.utils.db.SearchCriteria;
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.fsm.StateListener;
+import com.cloud.utils.fsm.StateMachine2;
+import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachine.Event;
 import com.cloud.vm.VirtualMachine.State;
+import com.cloud.vm.dao.VMInstanceDao;
+
+import org.apache.cloudstack.api.AddBaremetalHostCmd;
+import org.apache.cloudstack.api.BaremetalProvisionDoneNotificationCmd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaremetalManagerImpl extends ManagerBase implements BaremetalManager, StateListener<State, VirtualMachine.Event, VirtualMachine> {
     private static final Logger s_logger = LoggerFactory.getLogger(BaremetalManagerImpl.class);

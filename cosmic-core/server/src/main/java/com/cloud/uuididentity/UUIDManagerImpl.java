@@ -21,8 +21,6 @@ import java.util.UUID;
 import javax.ejb.Local;
 import javax.inject.Inject;
 
-import org.apache.cloudstack.context.CallContext;
-
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.exception.PermissionDeniedException;
 import com.cloud.user.Account;
@@ -30,6 +28,8 @@ import com.cloud.user.AccountManager;
 import com.cloud.utils.db.EntityManager;
 import com.cloud.utils.db.UUIDManager;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.context.CallContext;
 
 @Local(value = {UUIDManager.class})
 public class UUIDManagerImpl implements UUIDManager {

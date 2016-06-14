@@ -24,12 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.framework.jobs.impl.AsyncJobJoinMapVO;
-import org.apache.cloudstack.jobs.JobInfo;
-
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
@@ -38,6 +32,11 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.UpdateBuilder;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.framework.jobs.impl.AsyncJobJoinMapVO;
+import org.apache.cloudstack.jobs.JobInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AsyncJobJoinMapDaoImpl extends GenericDaoBase<AsyncJobJoinMapVO, Long> implements AsyncJobJoinMapDao {
     public static final Logger s_logger = LoggerFactory.getLogger(AsyncJobJoinMapDaoImpl.class);

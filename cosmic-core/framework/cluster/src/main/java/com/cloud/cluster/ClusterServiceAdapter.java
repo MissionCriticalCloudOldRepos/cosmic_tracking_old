@@ -18,9 +18,9 @@ package com.cloud.cluster;
 
 import java.rmi.RemoteException;
 
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import com.cloud.utils.component.Adapter;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
 
 public interface ClusterServiceAdapter extends Adapter {
     final ConfigKey<Integer> ClusterMessageTimeOut = new ConfigKey<Integer>(Integer.class, "cluster.message.timeout.seconds", "Advance", "300",

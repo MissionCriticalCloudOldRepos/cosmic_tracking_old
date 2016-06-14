@@ -17,11 +17,11 @@
 
 package com.cloud.network.rules;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.Network;
 import com.cloud.network.router.VirtualRouter;
+
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
 
 public abstract class RuleApplier {
 

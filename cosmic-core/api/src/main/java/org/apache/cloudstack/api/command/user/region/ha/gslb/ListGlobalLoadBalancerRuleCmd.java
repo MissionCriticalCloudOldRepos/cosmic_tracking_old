@@ -22,8 +22,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.region.ha.GlobalLoadBalancerRule;
+import com.cloud.region.ha.GlobalLoadBalancingRulesService;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -32,9 +32,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.GlobalLoadBalancerResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.RegionResponse;
-
-import com.cloud.region.ha.GlobalLoadBalancerRule;
-import com.cloud.region.ha.GlobalLoadBalancingRulesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listGlobalLoadBalancerRules", description = "Lists load balancer rules.", responseObject = GlobalLoadBalancerResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

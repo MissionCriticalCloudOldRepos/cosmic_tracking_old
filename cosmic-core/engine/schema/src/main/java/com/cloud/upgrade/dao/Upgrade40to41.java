@@ -25,12 +25,12 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.utils.db.DbProperties;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Upgrade40to41 implements DbUpgrade {
     final static Logger s_logger = LoggerFactory.getLogger(Upgrade40to41.class);

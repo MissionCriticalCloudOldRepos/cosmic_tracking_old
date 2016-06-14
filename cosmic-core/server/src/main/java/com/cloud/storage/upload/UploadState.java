@@ -18,11 +18,11 @@ package com.cloud.storage.upload;
 
 import java.util.Date;
 
+import com.cloud.agent.api.storage.UploadAnswer;
+
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.agent.api.storage.UploadAnswer;
 
 public abstract class UploadState {
 

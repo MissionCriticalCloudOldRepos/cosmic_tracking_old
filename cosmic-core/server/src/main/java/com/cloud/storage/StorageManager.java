@@ -19,11 +19,6 @@ package com.cloud.storage;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
-import org.apache.cloudstack.engine.subsystem.api.storage.HypervisorHostListener;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.StoragePoolInfo;
@@ -38,6 +33,11 @@ import com.cloud.service.ServiceOfferingVO;
 import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.utils.Pair;
 import com.cloud.vm.VMInstanceVO;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
+import org.apache.cloudstack.engine.subsystem.api.storage.HypervisorHostListener;
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
 
 public interface StorageManager extends StorageService {
     static final ConfigKey<Integer> StorageCleanupInterval = new ConfigKey<Integer>(Integer.class, "storage.cleanup.interval", "Advanced", "86400",

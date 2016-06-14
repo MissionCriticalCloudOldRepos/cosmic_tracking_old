@@ -16,8 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.host;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.exception.DiscoveryException;
+import com.cloud.storage.ImageStore;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,10 +28,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ImageStoreResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.exception.DiscoveryException;
-import com.cloud.storage.ImageStore;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "addSecondaryStorage", description = "Adds secondary storage.", responseObject = ImageStoreResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

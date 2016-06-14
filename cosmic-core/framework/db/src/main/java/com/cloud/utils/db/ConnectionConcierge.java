@@ -30,14 +30,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.management.StandardMBean;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
 import com.cloud.utils.concurrency.NamedThreadFactory;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.mgmt.JmxUtil;
+
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ConnectionConcierge keeps stand alone database connections alive.  This is

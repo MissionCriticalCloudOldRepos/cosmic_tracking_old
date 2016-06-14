@@ -16,8 +16,17 @@
 // under the License.
 package com.cloud.storage.listener;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import com.cloud.agent.Listener;
-import com.cloud.agent.api.*;
+import com.cloud.agent.api.AgentControlAnswer;
+import com.cloud.agent.api.AgentControlCommand;
+import com.cloud.agent.api.Answer;
+import com.cloud.agent.api.Command;
+import com.cloud.agent.api.StartupCommand;
+import com.cloud.agent.api.StartupRoutingCommand;
 import com.cloud.exception.ConnectionException;
 import com.cloud.host.Host;
 import com.cloud.host.Status;
@@ -27,13 +36,11 @@ import com.cloud.storage.ScopeType;
 import com.cloud.storage.Storage.StoragePoolType;
 import com.cloud.storage.StorageManagerImpl;
 import com.cloud.storage.StoragePoolStatus;
+
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import java.util.List;
 
 public class StoragePoolMonitor implements Listener {
 

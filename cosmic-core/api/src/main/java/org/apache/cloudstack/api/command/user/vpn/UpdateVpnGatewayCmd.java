@@ -16,6 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpn;
 
+import com.cloud.event.EventTypes;
+import com.cloud.network.Site2SiteVpnGateway;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -24,10 +28,6 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.Site2SiteVpnGatewayResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.event.EventTypes;
-import com.cloud.network.Site2SiteVpnGateway;
-import com.cloud.user.Account;
 
 @APICommand(name = "updateVpnGateway", description = "Updates site to site vpn local gateway", responseObject = Site2SiteVpnGatewayResponse.class, since = "4.4",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

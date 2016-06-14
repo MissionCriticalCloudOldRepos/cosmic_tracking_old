@@ -16,8 +16,6 @@
 // under the License.
 package com.cloud.dc;
 
-import com.cloud.utils.db.GenericDao;
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,6 +27,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.cloud.utils.db.GenericDao;
 
 @Entity
 @Table(name = "vlan")

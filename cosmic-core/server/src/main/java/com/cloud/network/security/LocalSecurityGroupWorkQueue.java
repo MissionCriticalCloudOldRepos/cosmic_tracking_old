@@ -25,10 +25,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.cloud.network.security.SecurityGroupWork.Step;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.network.security.SecurityGroupWork.Step;
 
 /**
  * Security Group Work Queue that is not shared with other management servers

@@ -23,9 +23,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.utils.db.Encrypt;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = "account_details")

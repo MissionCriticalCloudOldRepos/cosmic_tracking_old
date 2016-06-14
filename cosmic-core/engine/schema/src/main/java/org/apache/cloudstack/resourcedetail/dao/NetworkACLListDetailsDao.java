@@ -16,10 +16,10 @@
 // under the License.
 package org.apache.cloudstack.resourcedetail.dao;
 
+import com.cloud.utils.db.GenericDao;
+
 import org.apache.cloudstack.resourcedetail.NetworkACLListDetailVO;
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDao;
-
-import com.cloud.utils.db.GenericDao;
 
 public interface NetworkACLListDetailsDao extends GenericDao<NetworkACLListDetailVO, Long>, ResourceDetailsDao<NetworkACLListDetailVO> {
 

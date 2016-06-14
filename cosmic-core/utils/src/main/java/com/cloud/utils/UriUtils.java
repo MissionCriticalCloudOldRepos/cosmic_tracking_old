@@ -36,6 +36,9 @@ import java.util.StringTokenizer;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.cloud.utils.crypt.DBEncryptionUtil;
+import com.cloud.utils.exception.CloudRuntimeException;
+
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -49,13 +52,9 @@ import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
-
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.crypt.DBEncryptionUtil;
-import com.cloud.utils.exception.CloudRuntimeException;
 
 public class UriUtils {
 

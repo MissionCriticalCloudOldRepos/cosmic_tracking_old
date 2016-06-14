@@ -20,9 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckOnHostAnswer;
@@ -35,6 +32,9 @@ import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class XenServerInvestigator extends AdapterBase implements Investigator {
     private final static Logger s_logger = LoggerFactory.getLogger(XenServerInvestigator.class);

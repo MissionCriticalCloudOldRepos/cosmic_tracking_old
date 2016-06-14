@@ -19,15 +19,14 @@ package org.apache.cloudstack.api.response;
 import java.util.Date;
 import java.util.Map;
 
+import com.cloud.serializer.Param;
+import com.cloud.storage.StoragePool;
+import com.cloud.storage.StoragePoolStatus;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
-
-import com.cloud.serializer.Param;
-import com.cloud.storage.StoragePool;
-import com.cloud.storage.StoragePoolStatus;
 
 @EntityReference(value = StoragePool.class)
 public class StoragePoolResponse extends BaseResponse {

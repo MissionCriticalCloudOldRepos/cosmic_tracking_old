@@ -16,12 +16,13 @@
 // under the License.
 package org.apache.cloudstack.api.response;
 
-import junit.framework.TestCase;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import junit.framework.TestCase;
 
 public final class HostResponseTest extends TestCase {
 

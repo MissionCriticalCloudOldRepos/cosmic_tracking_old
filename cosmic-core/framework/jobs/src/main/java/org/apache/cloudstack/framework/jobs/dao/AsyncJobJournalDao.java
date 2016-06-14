@@ -18,9 +18,9 @@ package org.apache.cloudstack.framework.jobs.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.framework.jobs.impl.AsyncJobJournalVO;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.framework.jobs.impl.AsyncJobJournalVO;
 
 public interface AsyncJobJournalDao extends GenericDao<AsyncJobJournalVO, Long> {
     List<AsyncJobJournalVO> getJobJournal(long jobId);

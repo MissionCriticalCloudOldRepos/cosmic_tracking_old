@@ -16,14 +16,6 @@
 // under the License.
 package org.apache.cloudstack.storage.template;
 
-import org.apache.cloudstack.storage.command.DownloadCommand;
-import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
-import org.apache.cloudstack.storage.command.DownloadProgressCommand;
-import org.apache.cloudstack.storage.command.DownloadProgressCommand.RequestType;
-import org.apache.cloudstack.storage.resource.SecondaryStorageResource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -82,6 +74,14 @@ import com.cloud.utils.net.Proxy;
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
 import com.cloud.utils.storage.QCOW2Utils;
+
+import org.apache.cloudstack.storage.command.DownloadCommand;
+import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
+import org.apache.cloudstack.storage.command.DownloadProgressCommand;
+import org.apache.cloudstack.storage.command.DownloadProgressCommand.RequestType;
+import org.apache.cloudstack.storage.resource.SecondaryStorageResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DownloadManagerImpl extends ManagerBase implements DownloadManager {
   private String _name;

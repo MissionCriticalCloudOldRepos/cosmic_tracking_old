@@ -22,15 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.cloud.usage.UsageVmDiskVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UsageVmDiskDaoImpl extends GenericDaoBase<UsageVmDiskVO, Long> implements UsageVmDiskDao {

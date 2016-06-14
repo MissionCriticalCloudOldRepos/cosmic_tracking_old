@@ -16,9 +16,9 @@
 // under the License.
 package org.apache.cloudstack.engine.cloud.entity.api.db.dao;
 
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
 
 /*
  * Data Access Object for vm_instance table

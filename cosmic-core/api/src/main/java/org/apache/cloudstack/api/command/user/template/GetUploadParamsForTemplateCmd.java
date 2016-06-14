@@ -18,6 +18,12 @@
  */
 package org.apache.cloudstack.api.command.user.template;
 
+import java.net.MalformedURLException;
+import java.util.Collection;
+import java.util.Map;
+
+import com.cloud.exception.ResourceAllocationException;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.AbstractGetUploadParamsCmd;
 import org.apache.cloudstack.api.ApiConstants;
@@ -29,12 +35,6 @@ import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.Map;
-
-import com.cloud.exception.ResourceAllocationException;
 
 @APICommand(name = "getUploadParamsForTemplate", description = "upload an existing template into the CloudStack cloud. ", responseObject = GetUploadParamsResponse.class, since =
 "4.6.0", requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

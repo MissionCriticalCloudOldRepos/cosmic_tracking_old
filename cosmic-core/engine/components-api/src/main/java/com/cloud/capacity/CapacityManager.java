@@ -16,12 +16,12 @@
 // under the License.
 package com.cloud.capacity;
 
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-
 import com.cloud.host.Host;
 import com.cloud.storage.VMTemplateVO;
 import com.cloud.vm.VirtualMachine;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
 
 /**
  * Capacity Manager manages the different capacities

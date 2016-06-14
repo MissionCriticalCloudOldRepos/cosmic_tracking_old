@@ -22,8 +22,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.StoragePoolAllocator;
-
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.deploy.DeploymentPlan;
@@ -31,6 +29,8 @@ import com.cloud.deploy.DeploymentPlanner.ExcludeList;
 import com.cloud.storage.StoragePool;
 import com.cloud.vm.DiskProfile;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.StoragePoolAllocator;
 
 public class UseLocalForRootAllocator extends LocalStoragePoolAllocator implements StoragePoolAllocator {
 

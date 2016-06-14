@@ -21,15 +21,6 @@ package com.cloud.api.commands;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.BaseAsyncCmd;
-import org.apache.cloudstack.api.Parameter;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
-import org.apache.cloudstack.context.CallContext;
-
 import com.cloud.api.response.NiciraNvpDeviceResponse;
 import com.cloud.event.EventTypes;
 import com.cloud.exception.ConcurrentOperationException;
@@ -40,6 +31,15 @@ import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.NiciraNvpDeviceVO;
 import com.cloud.network.element.NiciraNvpElementService;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseAsyncCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
+import org.apache.cloudstack.context.CallContext;
 
 @APICommand(name = "addNiciraNvpDevice", responseObject = NiciraNvpDeviceResponse.class, description = "Adds a Nicira NVP device",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

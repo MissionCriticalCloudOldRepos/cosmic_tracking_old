@@ -21,10 +21,10 @@ package com.cloud.utils.net;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.common.testing.EqualsTester;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.google.common.testing.EqualsTester;
 
 public class IpTest {
 

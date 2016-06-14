@@ -22,13 +22,10 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
-import com.cloud.alert.AlertManager;
 import com.cloud.agent.api.FenceAnswer;
 import com.cloud.agent.api.FenceCommand;
+import com.cloud.alert.AlertManager;
 import com.cloud.exception.AgentUnavailableException;
 import com.cloud.exception.OperationTimedoutException;
 import com.cloud.host.Host;
@@ -39,6 +36,9 @@ import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KVMFencer extends AdapterBase implements FenceBuilder {
     private static final Logger s_logger = LoggerFactory.getLogger(KVMFencer.class);

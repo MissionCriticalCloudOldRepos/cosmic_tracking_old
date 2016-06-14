@@ -20,12 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.cloud.utils.Pair;
+import com.cloud.vm.VirtualMachineProfile;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.Pair;
-import com.cloud.vm.VirtualMachineProfile;
 
 public class UserConcentratedPodPlanner extends FirstFitPlanner implements DeploymentClusterPlanner {
 

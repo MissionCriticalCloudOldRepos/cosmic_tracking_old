@@ -22,11 +22,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.framework.jobs.dao.SyncQueueDao;
-import org.apache.cloudstack.framework.jobs.dao.SyncQueueItemDao;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.db.DB;
@@ -35,6 +30,11 @@ import com.cloud.utils.db.TransactionCallback;
 import com.cloud.utils.db.TransactionCallbackNoReturn;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.framework.jobs.dao.SyncQueueDao;
+import org.apache.cloudstack.framework.jobs.dao.SyncQueueItemDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SyncQueueManagerImpl extends ManagerBase implements SyncQueueManager {
     public static final Logger s_logger = LoggerFactory.getLogger(SyncQueueManagerImpl.class.getName());

@@ -19,15 +19,17 @@
 
 package com.cloud.storage.template;
 
+import java.io.File;
+import java.util.Map;
+
+import javax.naming.ConfigurationException;
+
 import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.StorageLayer;
 import com.cloud.utils.component.AdapterBase;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.naming.ConfigurationException;
-import java.io.File;
-import java.util.Map;
 
 public class TARProcessor extends AdapterBase implements Processor {
     private static final Logger s_logger = LoggerFactory.getLogger(TARProcessor.class);

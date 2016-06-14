@@ -23,9 +23,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.projects.ProjectAccount.Role;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = "project_account_view")

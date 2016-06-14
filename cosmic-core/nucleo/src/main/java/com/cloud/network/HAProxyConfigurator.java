@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.routing.LoadBalancerConfigCommand;
 import com.cloud.agent.api.to.LoadBalancerTO;
 import com.cloud.agent.api.to.LoadBalancerTO.DestinationTO;
@@ -38,6 +35,9 @@ import com.cloud.agent.api.to.PortForwardingRuleTO;
 import com.cloud.network.rules.LbStickinessMethod.StickinessMethodType;
 import com.cloud.utils.Pair;
 import com.cloud.utils.net.NetUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HAProxyConfigurator implements LoadBalancerConfigurator {
 

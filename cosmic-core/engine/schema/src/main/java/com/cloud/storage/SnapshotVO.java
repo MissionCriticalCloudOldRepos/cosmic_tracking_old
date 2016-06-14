@@ -28,10 +28,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.google.gson.annotations.Expose;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.utils.db.GenericDao;
+import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name = "snapshots")

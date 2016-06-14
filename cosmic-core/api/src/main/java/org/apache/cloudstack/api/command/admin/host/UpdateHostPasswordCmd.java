@@ -16,6 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.host;
 
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseCmd;
@@ -25,8 +27,6 @@ import org.apache.cloudstack.api.response.HostResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.user.Account;
 
 @APICommand(name = "updateHostPassword", description = "Update password of a host/pool on management server.", responseObject = SuccessResponse.class,
 requestHasSensitiveInfo = true, responseHasSensitiveInfo = false)

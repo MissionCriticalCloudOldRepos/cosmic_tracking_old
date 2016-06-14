@@ -16,17 +16,16 @@
 // under the License.
 package org.apache.cloudstack.api.response;
 
+import java.util.List;
+
 import com.cloud.network.router.VirtualRouter;
+import com.cloud.serializer.Param;
 import com.cloud.uservm.UserVm;
 import com.cloud.vm.VirtualMachine;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
-
-import com.cloud.serializer.Param;
-
-import java.util.List;
 
 @EntityReference(value = {VirtualMachine.class, UserVm.class, VirtualRouter.class})
 @SuppressWarnings("unused")

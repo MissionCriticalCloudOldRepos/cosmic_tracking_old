@@ -18,9 +18,6 @@ package com.cloud.network.guru;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.dc.Pod;
 import com.cloud.dc.StorageNetworkIpAddressVO;
 import com.cloud.deploy.DeployDestination;
@@ -43,6 +40,9 @@ import com.cloud.vm.Nic.ReservationStrategy;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StorageNetworkGuru extends PodBasedNetworkGuru implements NetworkGuru {
     private static final Logger s_logger = LoggerFactory.getLogger(StorageNetworkGuru.class);

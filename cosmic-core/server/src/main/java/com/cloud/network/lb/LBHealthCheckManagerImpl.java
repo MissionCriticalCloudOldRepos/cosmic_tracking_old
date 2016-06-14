@@ -26,13 +26,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
 import com.cloud.configuration.Config;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.rules.LoadBalancerContainer.Scheme;
@@ -40,6 +33,12 @@ import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.component.Manager;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.concurrency.NamedThreadFactory;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class LBHealthCheckManagerImpl extends ManagerBase implements LBHealthCheckManager, Manager {

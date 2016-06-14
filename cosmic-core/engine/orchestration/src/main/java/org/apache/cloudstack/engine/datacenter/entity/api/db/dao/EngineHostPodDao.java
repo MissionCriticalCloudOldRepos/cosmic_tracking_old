@@ -19,11 +19,11 @@ package org.apache.cloudstack.engine.datacenter.entity.api.db.dao;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
-
 import com.cloud.utils.db.GenericDao;
 import com.cloud.utils.fsm.StateDao;
+
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
 
 public interface EngineHostPodDao extends GenericDao<EngineHostPodVO, Long>,
         StateDao<DataCenterResourceEntity.State, DataCenterResourceEntity.State.Event, DataCenterResourceEntity> {

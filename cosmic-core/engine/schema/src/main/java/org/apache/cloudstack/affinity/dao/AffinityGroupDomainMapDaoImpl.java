@@ -20,12 +20,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.cloudstack.affinity.AffinityGroupDomainMapVO;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
+
+import org.apache.cloudstack.affinity.AffinityGroupDomainMapVO;
 
 public class AffinityGroupDomainMapDaoImpl extends GenericDaoBase<AffinityGroupDomainMapVO, Long> implements AffinityGroupDomainMapDao {
 

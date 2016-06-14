@@ -23,16 +23,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.api.command.admin.cluster.AddClusterCmd;
-import org.apache.cloudstack.api.command.admin.cluster.DeleteClusterCmd;
-import org.apache.cloudstack.api.command.admin.host.AddHostCmd;
-import org.apache.cloudstack.api.command.admin.host.AddSecondaryStorageCmd;
-import org.apache.cloudstack.api.command.admin.host.CancelMaintenanceCmd;
-import org.apache.cloudstack.api.command.admin.host.PrepareForMaintenanceCmd;
-import org.apache.cloudstack.api.command.admin.host.ReconnectHostCmd;
-import org.apache.cloudstack.api.command.admin.host.UpdateHostCmd;
-import org.apache.cloudstack.api.command.admin.host.UpdateHostPasswordCmd;
-
 import com.cloud.agent.api.StartupCommand;
 import com.cloud.agent.api.StartupRoutingCommand;
 import com.cloud.agent.api.VgpuTypesInfo;
@@ -55,6 +45,16 @@ import com.cloud.org.Cluster;
 import com.cloud.resource.ResourceState.Event;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.fsm.NoTransitionException;
+
+import org.apache.cloudstack.api.command.admin.cluster.AddClusterCmd;
+import org.apache.cloudstack.api.command.admin.cluster.DeleteClusterCmd;
+import org.apache.cloudstack.api.command.admin.host.AddHostCmd;
+import org.apache.cloudstack.api.command.admin.host.AddSecondaryStorageCmd;
+import org.apache.cloudstack.api.command.admin.host.CancelMaintenanceCmd;
+import org.apache.cloudstack.api.command.admin.host.PrepareForMaintenanceCmd;
+import org.apache.cloudstack.api.command.admin.host.ReconnectHostCmd;
+import org.apache.cloudstack.api.command.admin.host.UpdateHostCmd;
+import org.apache.cloudstack.api.command.admin.host.UpdateHostPasswordCmd;
 
 public class MockResourceManagerImpl extends ManagerBase implements ResourceManager {
 

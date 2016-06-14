@@ -19,18 +19,18 @@ package com.cloud.usage;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import com.cloud.utils.PropertiesUtil;
+import com.cloud.utils.component.ComponentContext;
+
 import org.apache.commons.daemon.Daemon;
 import org.apache.commons.daemon.DaemonContext;
 import org.apache.commons.daemon.DaemonInitException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.Log4jConfigurer;
-
-import com.cloud.utils.PropertiesUtil;
-import com.cloud.utils.component.ComponentContext;
 
 public class UsageServer implements Daemon {
     private static final Logger s_logger = LoggerFactory.getLogger(UsageServer.class.getName());

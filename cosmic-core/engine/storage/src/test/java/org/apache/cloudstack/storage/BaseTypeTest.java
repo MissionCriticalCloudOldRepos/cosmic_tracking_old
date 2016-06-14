@@ -16,10 +16,10 @@
 // under the License.
 package org.apache.cloudstack.storage;
 
+import com.google.common.testing.EqualsTester;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.google.common.testing.EqualsTester;
 
 public class BaseTypeTest {
     @Test

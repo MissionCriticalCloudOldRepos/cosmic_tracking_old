@@ -24,7 +24,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
+import com.cloud.storage.ScopeType;
+import com.cloud.utils.component.ComponentContext;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreDriver;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreLifeCycle;
@@ -37,9 +38,7 @@ import org.apache.cloudstack.storage.image.ImageStoreDriver;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreHelper;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreProviderManager;
 import org.apache.cloudstack.storage.image.store.lifecycle.ImageStoreLifeCycle;
-
-import com.cloud.storage.ScopeType;
-import com.cloud.utils.component.ComponentContext;
+import org.springframework.stereotype.Component;
 
 @Component
 public class S3ImageStoreProviderImpl implements ImageStoreProvider {

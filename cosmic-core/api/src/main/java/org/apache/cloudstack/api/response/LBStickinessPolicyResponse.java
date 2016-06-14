@@ -20,15 +20,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cloud.network.rules.StickinessPolicy;
+import com.cloud.serializer.Param;
+import com.cloud.utils.Pair;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseResponse;
-
-import com.cloud.network.rules.StickinessPolicy;
-import com.cloud.serializer.Param;
-import com.cloud.utils.Pair;
 
 public class LBStickinessPolicyResponse extends BaseResponse {
     @SerializedName("id")

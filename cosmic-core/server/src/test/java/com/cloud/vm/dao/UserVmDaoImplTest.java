@@ -18,14 +18,14 @@ package com.cloud.vm.dao;
 
 import javax.inject.Inject;
 
-import junit.framework.TestCase;
+import com.cloud.hypervisor.Hypervisor;
+import com.cloud.vm.UserVmVO;
+import com.cloud.vm.VirtualMachine;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 
-import com.cloud.hypervisor.Hypervisor;
-import com.cloud.vm.UserVmVO;
-import com.cloud.vm.VirtualMachine;
+import junit.framework.TestCase;
 
 public class UserVmDaoImplTest extends TestCase {
     @Inject

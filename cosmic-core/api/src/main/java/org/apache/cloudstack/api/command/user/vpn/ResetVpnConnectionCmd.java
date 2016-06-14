@@ -16,8 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpn;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.Site2SiteVpnConnection;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,11 +30,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.Site2SiteVpnConnectionResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.Site2SiteVpnConnection;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "resetVpnConnection", description = "Reset site to site vpn connection", responseObject = Site2SiteVpnConnectionResponse.class, entityType = {Site2SiteVpnConnection.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

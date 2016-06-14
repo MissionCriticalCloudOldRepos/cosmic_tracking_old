@@ -22,11 +22,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
-
 import com.cloud.utils.Pair;
 import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
+
+import org.junit.Test;
 
 
 public class GroupByTest {

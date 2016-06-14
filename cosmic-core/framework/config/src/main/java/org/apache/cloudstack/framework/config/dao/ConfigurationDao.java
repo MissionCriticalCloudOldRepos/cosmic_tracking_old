@@ -18,9 +18,9 @@ package org.apache.cloudstack.framework.config.dao;
 
 import java.util.Map;
 
-import org.apache.cloudstack.framework.config.impl.ConfigurationVO;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.framework.config.impl.ConfigurationVO;
 
 public interface ConfigurationDao extends GenericDao<ConfigurationVO, String> {
 

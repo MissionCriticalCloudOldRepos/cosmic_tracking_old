@@ -21,14 +21,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.cloudstack.acl.ControlledEntity;
-import org.apache.cloudstack.affinity.AffinityGroupDomainMapVO;
-import org.apache.cloudstack.affinity.AffinityGroupVO;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.JoinBuilder.JoinType;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.apache.cloudstack.acl.ControlledEntity;
+import org.apache.cloudstack.affinity.AffinityGroupDomainMapVO;
+import org.apache.cloudstack.affinity.AffinityGroupVO;
 
 public class AffinityGroupDaoImpl extends GenericDaoBase<AffinityGroupVO, Long> implements AffinityGroupDao {
     private SearchBuilder<AffinityGroupVO> AccountIdSearch;

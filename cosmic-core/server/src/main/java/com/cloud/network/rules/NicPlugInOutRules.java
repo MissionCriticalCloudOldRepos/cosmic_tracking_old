@@ -23,10 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.NetworkUsageCommand;
 import com.cloud.agent.manager.Commands;
@@ -51,6 +47,10 @@ import com.cloud.vm.NicProfile;
 import com.cloud.vm.NicVO;
 import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.dao.NicDao;
+
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NicPlugInOutRules extends RuleApplier {
 

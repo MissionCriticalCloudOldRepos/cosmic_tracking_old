@@ -29,10 +29,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.cloudstack.jobs.JobInfo;
-
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.jobs.JobInfo;
 
 @Entity
 @Table(name = "async_job_join_map")

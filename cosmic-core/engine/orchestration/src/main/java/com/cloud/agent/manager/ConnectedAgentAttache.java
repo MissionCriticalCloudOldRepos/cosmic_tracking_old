@@ -18,13 +18,13 @@ package com.cloud.agent.manager;
 
 import java.nio.channels.ClosedChannelException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.transport.Request;
 import com.cloud.exception.AgentUnavailableException;
 import com.cloud.host.Status;
 import com.cloud.utils.nio.Link;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ConnectedAgentAttache implements an direct connection to this management server.

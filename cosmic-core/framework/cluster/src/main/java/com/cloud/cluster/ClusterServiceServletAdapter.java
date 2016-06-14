@@ -23,15 +23,15 @@ import java.util.Properties;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.cloudstack.framework.config.ConfigDepot;
-
 import com.cloud.cluster.dao.ManagementServerHostDao;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.utils.component.ComponentLifecycle;
 import com.cloud.utils.db.DbProperties;
+
+import org.apache.cloudstack.framework.config.ConfigDepot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClusterServiceServletAdapter extends AdapterBase implements ClusterServiceAdapter {
 

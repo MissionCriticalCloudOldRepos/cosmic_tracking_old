@@ -18,14 +18,13 @@ package org.apache.cloudstack.api.response;
 
 import java.util.List;
 
+import com.cloud.network.rules.HealthCheckPolicy;
+import com.cloud.serializer.Param;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
-
-import com.cloud.network.rules.HealthCheckPolicy;
-import com.cloud.serializer.Param;
 
 @EntityReference(value = HealthCheckPolicy.class)
 public class LBHealthCheckResponse extends BaseResponse {

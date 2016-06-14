@@ -17,8 +17,9 @@
 
 package org.apache.cloudstack.api.command.user.autoscale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.network.as.Condition;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -31,10 +32,8 @@ import org.apache.cloudstack.api.response.ConditionResponse;
 import org.apache.cloudstack.api.response.CounterResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.network.as.Condition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createCondition", description = "Creates a condition", responseObject = ConditionResponse.class, entityType = {Condition.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

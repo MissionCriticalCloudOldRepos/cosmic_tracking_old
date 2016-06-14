@@ -19,10 +19,6 @@ package com.cloud.vpc.dao;
 import java.lang.reflect.Field;
 import java.util.List;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.network.Network;
 import com.cloud.network.Network.GuestType;
 import com.cloud.network.Networks.TrafficType;
@@ -33,6 +29,9 @@ import com.cloud.offerings.NetworkOfferingVO;
 import com.cloud.offerings.dao.NetworkOfferingDao;
 import com.cloud.offerings.dao.NetworkOfferingDaoImpl;
 import com.cloud.utils.db.DB;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @DB()
 public class MockNetworkOfferingDaoImpl extends NetworkOfferingDaoImpl implements NetworkOfferingDao {

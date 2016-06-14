@@ -16,12 +16,10 @@
 // under the License.
 package com.cloud.storage.dao;
 
-
-import org.springframework.stereotype.Component;
+import com.cloud.storage.VMTemplateDetailVO;
 
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
-
-import com.cloud.storage.VMTemplateDetailVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VMTemplateDetailsDaoImpl extends ResourceDetailsDaoBase<VMTemplateDetailVO> implements VMTemplateDetailsDao {

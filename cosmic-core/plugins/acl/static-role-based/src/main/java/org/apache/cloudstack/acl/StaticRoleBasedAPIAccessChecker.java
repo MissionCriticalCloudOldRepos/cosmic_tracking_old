@@ -25,11 +25,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.api.APICommand;
-
 import com.cloud.exception.PermissionDeniedException;
 import com.cloud.user.Account;
 import com.cloud.user.AccountService;
@@ -37,6 +32,10 @@ import com.cloud.user.User;
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.utils.component.PluggableService;
+
+import org.apache.cloudstack.api.APICommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // This is the default API access checker that grab's the user's account
 // based on the account type, access is granted

@@ -16,14 +16,12 @@
 // under the License.
 package org.apache.cloudstack.framework.config;
 
-import org.junit.Assert;
-import org.junit.Test;
-
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.google.common.testing.EqualsTester;
 
 import org.apache.cloudstack.framework.config.ConfigKey.Scope;
-
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ConfigKeyTest {
     @Test

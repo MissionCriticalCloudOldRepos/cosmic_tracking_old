@@ -21,8 +21,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.VirtualRouterProvider;
+import com.cloud.network.element.VirtualRouterElementService;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -33,13 +37,8 @@ import org.apache.cloudstack.api.command.user.network.ListNetworkOfferingsCmd;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ProviderResponse;
 import org.apache.cloudstack.api.response.VirtualRouterProviderResponse;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.VirtualRouterProvider;
-import com.cloud.network.element.VirtualRouterElementService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listVirtualRouterElements", description = "Lists all available virtual router elements.", responseObject = VirtualRouterProviderResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

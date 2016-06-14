@@ -16,9 +16,6 @@
 // under the License.
 package com.cloud.storage.listener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
 import com.cloud.agent.api.AgentControlCommand;
@@ -27,6 +24,9 @@ import com.cloud.agent.api.Command;
 import com.cloud.agent.api.StartupCommand;
 import com.cloud.host.Host;
 import com.cloud.host.Status;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StorageSyncListener implements Listener {
     private static final Logger s_logger = LoggerFactory.getLogger(StorageSyncListener.class);

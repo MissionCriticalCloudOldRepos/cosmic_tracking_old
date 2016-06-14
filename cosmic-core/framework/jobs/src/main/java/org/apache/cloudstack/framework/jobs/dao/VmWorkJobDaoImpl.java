@@ -24,13 +24,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.framework.jobs.impl.VmWorkJobVO;
-import org.apache.cloudstack.framework.jobs.impl.VmWorkJobVO.Step;
-import org.apache.cloudstack.jobs.JobInfo;
-
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.Filter;
 import com.cloud.utils.db.GenericDaoBase;
@@ -42,6 +35,12 @@ import com.cloud.utils.db.TransactionCallbackNoReturn;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.vm.VirtualMachine;
+
+import org.apache.cloudstack.framework.jobs.impl.VmWorkJobVO;
+import org.apache.cloudstack.framework.jobs.impl.VmWorkJobVO.Step;
+import org.apache.cloudstack.jobs.JobInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VmWorkJobDaoImpl extends GenericDaoBase<VmWorkJobVO, Long> implements VmWorkJobDao {
     private static final Logger s_logger = LoggerFactory.getLogger(VmWorkJobDaoImpl.class);

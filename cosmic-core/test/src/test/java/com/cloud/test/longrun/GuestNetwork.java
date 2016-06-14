@@ -19,12 +19,12 @@ package com.cloud.test.longrun;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.log4j.NDC;
-
 import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.Session;
+
+import org.apache.log4j.NDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GuestNetwork implements Runnable {
     public static final Logger s_logger = LoggerFactory.getLogger(GuestNetwork.class.getClass());

@@ -25,11 +25,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.Identity;
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.user.Account.State;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.Identity;
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = "account_view")

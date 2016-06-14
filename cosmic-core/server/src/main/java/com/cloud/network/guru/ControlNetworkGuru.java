@@ -16,10 +16,6 @@
 // under the License.
 package com.cloud.network.guru;
 
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -49,6 +45,10 @@ import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ControlNetworkGuru extends PodBasedNetworkGuru implements NetworkGuru {
   private static final Logger s_logger = LoggerFactory.getLogger(ControlNetworkGuru.class);

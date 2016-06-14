@@ -16,6 +16,8 @@
 // under the License.
 package com.cloud.agent.manager;
 
+import com.cloud.resource.ServerResource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +25,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.cloud.resource.ServerResource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DirectAgentAttacheTest {

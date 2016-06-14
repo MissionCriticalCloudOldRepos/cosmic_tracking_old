@@ -24,7 +24,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
+import com.cloud.storage.StorageManager;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProvider;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProviderManager;
@@ -35,9 +36,7 @@ import org.apache.cloudstack.storage.datastore.PrimaryDataStoreImpl;
 import org.apache.cloudstack.storage.datastore.PrimaryDataStoreProviderManager;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-
-import com.cloud.storage.StorageManager;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PrimaryDataStoreProviderManagerImpl implements PrimaryDataStoreProviderManager {

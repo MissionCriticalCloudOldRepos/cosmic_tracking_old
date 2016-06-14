@@ -21,12 +21,12 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.Site2SiteVpnConnection;
 import com.cloud.network.element.Site2SiteVpnServiceProvider;
 import com.cloud.utils.component.ManagerBase;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class MockSite2SiteVpnServiceProvider extends ManagerBase implements Site2SiteVpnServiceProvider {

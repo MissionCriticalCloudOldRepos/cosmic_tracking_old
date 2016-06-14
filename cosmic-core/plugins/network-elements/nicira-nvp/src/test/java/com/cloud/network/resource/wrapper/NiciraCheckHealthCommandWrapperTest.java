@@ -24,15 +24,15 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckHealthCommand;
 import com.cloud.network.nicira.ControlClusterStatus;
 import com.cloud.network.nicira.NiciraNvpApi;
 import com.cloud.network.nicira.NiciraNvpApiException;
 import com.cloud.network.resource.NiciraNvpResource;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class NiciraCheckHealthCommandWrapperTest {
 

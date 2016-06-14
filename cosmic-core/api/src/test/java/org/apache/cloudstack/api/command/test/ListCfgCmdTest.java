@@ -19,23 +19,20 @@ package org.apache.cloudstack.api.command.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
+import com.cloud.server.ManagementService;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.ResponseGenerator;
 import org.apache.cloudstack.api.command.admin.config.ListCfgsByCmd;
 import org.apache.cloudstack.api.response.ConfigurationResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.config.Configuration;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
-import com.cloud.server.ManagementService;
-import com.cloud.utils.Pair;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 public class ListCfgCmdTest extends TestCase {
 

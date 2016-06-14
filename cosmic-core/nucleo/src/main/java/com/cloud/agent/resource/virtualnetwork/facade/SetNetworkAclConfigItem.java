@@ -22,9 +22,6 @@ package com.cloud.agent.resource.virtualnetwork.facade;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.routing.NetworkElementCommand;
 import com.cloud.agent.api.routing.SetNetworkACLCommand;
 import com.cloud.agent.api.to.NicTO;
@@ -39,6 +36,9 @@ import com.cloud.agent.resource.virtualnetwork.model.ProtocolAclRule;
 import com.cloud.agent.resource.virtualnetwork.model.TcpAclRule;
 import com.cloud.agent.resource.virtualnetwork.model.UdpAclRule;
 import com.cloud.utils.net.NetUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SetNetworkAclConfigItem extends AbstractConfigItemFacade {
 

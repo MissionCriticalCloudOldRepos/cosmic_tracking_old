@@ -22,10 +22,9 @@ import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 
+import org.apache.cloudstack.spring.module.factory.CloudStackSpringContext;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
-
-import org.apache.cloudstack.spring.module.factory.CloudStackSpringContext;
 
 public abstract class ModuleBasedFilter implements Filter {
 

@@ -19,19 +19,6 @@ package com.cloud.usage;
 
 import java.io.IOException;
 
-import org.mockito.Mockito;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.core.type.filter.TypeFilter;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDaoImpl;
-import org.apache.cloudstack.test.utils.SpringUtils;
-
 import com.cloud.alert.AlertManager;
 import com.cloud.event.dao.UsageEventDao;
 import com.cloud.usage.UsageManagerTestConfiguration.Library;
@@ -61,6 +48,18 @@ import com.cloud.usage.parser.VmDiskUsageParser;
 import com.cloud.usage.parser.VolumeUsageParser;
 import com.cloud.user.dao.AccountDaoImpl;
 import com.cloud.user.dao.UserStatisticsDaoImpl;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDaoImpl;
+import org.apache.cloudstack.test.utils.SpringUtils;
+import org.mockito.Mockito;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.core.type.filter.TypeFilter;
 
 @Configuration
 @ComponentScan(basePackageClasses = {AccountDaoImpl.class, UsageDaoImpl.class, UsageJobDaoImpl.class, UsageVMInstanceDaoImpl.class, UsageIPAddressDaoImpl.class,

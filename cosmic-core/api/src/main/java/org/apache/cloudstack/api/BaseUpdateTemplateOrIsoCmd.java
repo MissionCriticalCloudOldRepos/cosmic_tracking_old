@@ -16,14 +16,14 @@
 // under the License.
 package org.apache.cloudstack.api;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.apache.cloudstack.api.command.user.iso.UpdateIsoCmd;
 import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.Map;
 
 public abstract class BaseUpdateTemplateOrIsoCmd extends BaseCmd {
   public static final Logger s_logger = LoggerFactory.getLogger(UpdateIsoCmd.class.getName());

@@ -18,15 +18,15 @@ package com.cloud.network.vpn;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.command.user.vpn.ListRemoteAccessVpnsCmd;
-import org.apache.cloudstack.api.command.user.vpn.ListVpnUsersCmd;
-
 import com.cloud.exception.NetworkRuleConflictException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.RemoteAccessVpn;
 import com.cloud.network.VpnUser;
 import com.cloud.user.Account;
 import com.cloud.utils.Pair;
+
+import org.apache.cloudstack.api.command.user.vpn.ListRemoteAccessVpnsCmd;
+import org.apache.cloudstack.api.command.user.vpn.ListVpnUsersCmd;
 
 public interface RemoteAccessVpnService {
     static final String RemoteAccessVpnClientIpRangeCK = "remote.access.vpn.client.iprange";

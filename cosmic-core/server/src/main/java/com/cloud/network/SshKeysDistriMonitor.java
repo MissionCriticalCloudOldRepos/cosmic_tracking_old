@@ -16,11 +16,6 @@
 // under the License.
 package com.cloud.network;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
@@ -37,6 +32,10 @@ import com.cloud.host.Host;
 import com.cloud.host.Status;
 import com.cloud.host.dao.HostDao;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SshKeysDistriMonitor implements Listener {
     private static final Logger s_logger = LoggerFactory.getLogger(SshKeysDistriMonitor.class);

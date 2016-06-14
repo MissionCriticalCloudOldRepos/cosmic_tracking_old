@@ -16,12 +16,11 @@
 // under the License.
 package com.cloud.network.as.dao;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.as.AutoScalePolicyVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class AutoScalePolicyDaoImpl extends GenericDaoBase<AutoScalePolicyVO, Long> implements AutoScalePolicyDao {

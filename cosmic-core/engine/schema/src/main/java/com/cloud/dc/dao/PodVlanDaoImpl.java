@@ -21,14 +21,14 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.PodVlanVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.springframework.stereotype.Component;
 
 /**
  * PodVlanDaoImpl maintains the one-to-many relationship between

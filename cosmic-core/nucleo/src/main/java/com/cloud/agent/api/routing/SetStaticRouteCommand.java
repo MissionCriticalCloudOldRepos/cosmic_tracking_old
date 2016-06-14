@@ -19,11 +19,12 @@
 
 package com.cloud.agent.api.routing;
 
-import com.cloud.network.vpc.StaticRoute;
-import com.cloud.network.vpc.StaticRouteProfile;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.cloud.network.vpc.StaticRoute;
+import com.cloud.network.vpc.StaticRouteProfile;
 
 public class SetStaticRouteCommand extends NetworkElementCommand {
     StaticRouteProfile[] staticRoutes;

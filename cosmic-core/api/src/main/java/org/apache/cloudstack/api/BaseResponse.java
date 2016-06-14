@@ -16,9 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api;
 
-import com.google.gson.annotations.SerializedName;
-
 import com.cloud.serializer.Param;
+import com.google.gson.annotations.SerializedName;
 
 public abstract class BaseResponse implements ResponseObject {
     private transient String responseName;

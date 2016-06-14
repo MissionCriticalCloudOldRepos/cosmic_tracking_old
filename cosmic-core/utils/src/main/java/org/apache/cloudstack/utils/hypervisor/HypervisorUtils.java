@@ -19,15 +19,16 @@
 
 package org.apache.cloudstack.utils.hypervisor;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.TimeUnit;
+
+import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HypervisorUtils {
     public static final Logger s_logger = LoggerFactory.getLogger(HypervisorUtils.class);

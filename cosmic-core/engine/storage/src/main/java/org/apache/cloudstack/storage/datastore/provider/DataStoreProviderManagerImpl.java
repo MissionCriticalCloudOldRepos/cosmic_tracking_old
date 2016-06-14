@@ -30,9 +30,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.utils.component.ManagerBase;
+import com.cloud.utils.component.Registry;
 
 import org.apache.cloudstack.api.response.StorageProviderResponse;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProvider;
@@ -42,10 +42,9 @@ import org.apache.cloudstack.engine.subsystem.api.storage.PrimaryDataStoreDriver
 import org.apache.cloudstack.storage.datastore.PrimaryDataStoreProviderManager;
 import org.apache.cloudstack.storage.image.ImageStoreDriver;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreProviderManager;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.utils.component.ManagerBase;
-import com.cloud.utils.component.Registry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DataStoreProviderManagerImpl extends ManagerBase implements DataStoreProviderManager, Registry<DataStoreProvider> {

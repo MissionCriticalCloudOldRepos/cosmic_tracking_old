@@ -20,11 +20,11 @@ package org.apache.cloudstack.engine.subsystem.api.storage;
 
 import java.util.Map;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.disktype.DiskFormat;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.storage.Storage.StoragePoolType;
 import com.cloud.storage.StoragePool;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.disktype.DiskFormat;
 
 public interface PrimaryDataStoreInfo extends StoragePool {
     static final String MANAGED = "managed";

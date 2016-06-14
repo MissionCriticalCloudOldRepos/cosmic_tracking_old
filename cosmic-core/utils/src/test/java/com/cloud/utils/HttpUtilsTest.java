@@ -19,18 +19,19 @@
 
 package com.cloud.utils;
 
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpSession;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
+
+import org.junit.Test;
+import org.springframework.mock.web.MockHttpSession;
 
 public class HttpUtilsTest {
 

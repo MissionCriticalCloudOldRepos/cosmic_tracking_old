@@ -19,8 +19,8 @@ package org.apache.cloudstack.api.command.user.vpn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.network.VpnUser;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,9 +28,8 @@ import org.apache.cloudstack.api.BaseListProjectAndAccountResourcesCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.VpnUsersResponse;
-
-import com.cloud.network.VpnUser;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listVpnUsers", description = "Lists vpn users", responseObject = VpnUsersResponse.class, entityType = {VpnUser.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

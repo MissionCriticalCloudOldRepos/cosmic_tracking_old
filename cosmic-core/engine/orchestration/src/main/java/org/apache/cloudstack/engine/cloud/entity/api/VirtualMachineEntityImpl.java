@@ -23,9 +23,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
-
 import com.cloud.deploy.DeploymentPlan;
 import com.cloud.deploy.DeploymentPlanner;
 import com.cloud.deploy.DeploymentPlanner.ExcludeList;
@@ -35,6 +32,9 @@ import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.OperationTimedoutException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VirtualMachineEntityImpl implements VirtualMachineEntity {

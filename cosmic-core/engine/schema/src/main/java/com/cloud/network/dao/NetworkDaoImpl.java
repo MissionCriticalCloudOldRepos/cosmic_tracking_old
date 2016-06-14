@@ -24,9 +24,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.TableGenerator;
 
-import org.apache.cloudstack.acl.ControlledEntity.ACLType;
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.Network;
 import com.cloud.network.Network.Event;
 import com.cloud.network.Network.GuestType;
@@ -53,6 +50,9 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.SequenceFetcher;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.net.NetUtils;
+
+import org.apache.cloudstack.acl.ControlledEntity.ACLType;
+import org.springframework.stereotype.Component;
 
 @Component
 @DB()

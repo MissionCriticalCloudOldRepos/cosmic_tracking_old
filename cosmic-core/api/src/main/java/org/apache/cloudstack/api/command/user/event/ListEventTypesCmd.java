@@ -18,15 +18,14 @@ package org.apache.cloudstack.api.command.user.event;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.response.EventTypeResponse;
 import org.apache.cloudstack.api.response.ListResponse;
-
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listEventTypes", description = "List Event Types", responseObject = EventTypeResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

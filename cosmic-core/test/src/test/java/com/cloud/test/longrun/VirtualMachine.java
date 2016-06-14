@@ -21,13 +21,13 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import com.cloud.test.stress.TestClientWithAPI;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.test.stress.TestClientWithAPI;
 
 public class VirtualMachine {
     public static final Logger s_logger = LoggerFactory.getLogger(VirtualMachine.class.getClass());

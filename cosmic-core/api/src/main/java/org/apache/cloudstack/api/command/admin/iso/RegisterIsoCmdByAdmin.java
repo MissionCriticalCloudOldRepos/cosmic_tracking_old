@@ -18,8 +18,8 @@ package org.apache.cloudstack.api.command.admin.iso;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.template.VirtualMachineTemplate;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -28,9 +28,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.command.user.iso.RegisterIsoCmd;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
-
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.template.VirtualMachineTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "registerIso", responseObject = TemplateResponse.class, description = "Registers an existing ISO into the CloudStack Cloud.", responseView = ResponseView.Full,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

@@ -21,10 +21,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.engine.cloud.entity.api.SnapshotEntity;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.storage.Snapshot;
+
+import org.apache.cloudstack.engine.cloud.entity.api.SnapshotEntity;
 
 public class SnapshotEntityImpl implements SnapshotEntity {
 

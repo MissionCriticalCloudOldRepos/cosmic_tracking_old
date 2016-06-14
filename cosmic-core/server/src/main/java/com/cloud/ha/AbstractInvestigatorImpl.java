@@ -23,9 +23,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.PingTestCommand;
@@ -39,6 +36,9 @@ import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.utils.db.QueryBuilder;
 import com.cloud.utils.db.SearchCriteria.Op;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractInvestigatorImpl extends AdapterBase implements Investigator {
     private static final Logger s_logger = LoggerFactory.getLogger(AbstractInvestigatorImpl.class);

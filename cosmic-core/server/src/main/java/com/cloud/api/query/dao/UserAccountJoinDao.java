@@ -18,12 +18,12 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.response.UserResponse;
-
 import com.cloud.api.query.vo.UserAccountJoinVO;
 import com.cloud.user.User;
 import com.cloud.user.UserAccount;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.response.UserResponse;
 
 public interface UserAccountJoinDao extends GenericDao<UserAccountJoinVO, Long> {
 

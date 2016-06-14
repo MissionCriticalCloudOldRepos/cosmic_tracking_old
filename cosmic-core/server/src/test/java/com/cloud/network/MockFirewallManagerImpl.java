@@ -21,8 +21,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.api.command.user.firewall.IListFirewallRulesCmd;
-
 import com.cloud.exception.NetworkRuleConflictException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.dao.IPAddressVO;
@@ -36,6 +34,8 @@ import com.cloud.network.rules.FirewallRuleVO;
 import com.cloud.user.Account;
 import com.cloud.utils.Pair;
 import com.cloud.utils.component.ManagerBase;
+
+import org.apache.cloudstack.api.command.user.firewall.IListFirewallRulesCmd;
 
 public class MockFirewallManagerImpl extends ManagerBase implements FirewallManager, FirewallService {
 

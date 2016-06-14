@@ -19,11 +19,11 @@ package com.cloud.test.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConsoleProxy implements Runnable {
     public static String proxyIp;

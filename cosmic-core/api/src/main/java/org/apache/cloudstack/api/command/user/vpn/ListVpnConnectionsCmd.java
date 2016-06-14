@@ -19,8 +19,8 @@ package org.apache.cloudstack.api.command.user.vpn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.network.Site2SiteVpnConnection;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -30,9 +30,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.Site2SiteVpnConnectionResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
-
-import com.cloud.network.Site2SiteVpnConnection;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listVpnConnections", description = "Lists site to site vpn connection gateways", responseObject = Site2SiteVpnConnectionResponse.class, entityType = {Site2SiteVpnConnection.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

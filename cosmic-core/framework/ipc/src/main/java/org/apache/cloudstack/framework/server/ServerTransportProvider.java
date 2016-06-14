@@ -18,14 +18,13 @@
  */
 package org.apache.cloudstack.framework.server;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.security.SecureRandom;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.utils.concurrency.NamedThreadFactory;
 
 import org.apache.cloudstack.framework.serializer.MessageSerializer;
 import org.apache.cloudstack.framework.transport.TransportAddress;
@@ -35,8 +34,8 @@ import org.apache.cloudstack.framework.transport.TransportEndpointSite;
 import org.apache.cloudstack.framework.transport.TransportPdu;
 import org.apache.cloudstack.framework.transport.TransportProvider;
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
-import com.cloud.utils.concurrency.NamedThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServerTransportProvider implements TransportProvider {
     private static final Logger s_logger = LoggerFactory.getLogger(ServerTransportProvider.class);

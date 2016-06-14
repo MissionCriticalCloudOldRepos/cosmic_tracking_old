@@ -16,6 +16,20 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.template;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.PermissionDeniedException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.projects.Project;
+import com.cloud.storage.Snapshot;
+import com.cloud.storage.Volume;
+import com.cloud.template.VirtualMachineTemplate;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.acl.SecurityChecker;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -34,20 +48,6 @@ import org.apache.cloudstack.api.response.VolumeResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.PermissionDeniedException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.projects.Project;
-import com.cloud.storage.Snapshot;
-import com.cloud.storage.Volume;
-import com.cloud.template.VirtualMachineTemplate;
-import com.cloud.user.Account;
 
 @APICommand(name = "createTemplate", responseObject = TemplateResponse.class, description = "Creates a template of a virtual machine. " + "The virtual machine must be in a STOPPED state. "
     + "A template created from this command is automatically designated as a private template visible to the account that created it.", responseView = ResponseView.Restricted,

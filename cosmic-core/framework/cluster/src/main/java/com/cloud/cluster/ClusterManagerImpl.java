@@ -40,14 +40,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.framework.config.ConfigDepot;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.config.Configurable;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.cloudstack.utils.identity.ManagementServerNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.cluster.dao.ManagementServerHostDao;
 import com.cloud.cluster.dao.ManagementServerHostPeerDao;
 import com.cloud.utils.DateUtil;
@@ -67,6 +59,14 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.exception.ExceptionUtil;
 import com.cloud.utils.mgmt.JmxUtil;
 import com.cloud.utils.net.NetUtils;
+
+import org.apache.cloudstack.framework.config.ConfigDepot;
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.config.Configurable;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.cloudstack.utils.identity.ManagementServerNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClusterManagerImpl extends ManagerBase implements ClusterManager, Configurable {
     private static final Logger s_logger = LoggerFactory.getLogger(ClusterManagerImpl.class);

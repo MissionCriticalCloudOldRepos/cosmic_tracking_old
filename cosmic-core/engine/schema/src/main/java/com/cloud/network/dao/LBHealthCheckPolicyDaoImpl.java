@@ -18,12 +18,11 @@ package com.cloud.network.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.LBHealthCheckPolicyVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class LBHealthCheckPolicyDaoImpl extends GenericDaoBase<LBHealthCheckPolicyVO, Long> implements LBHealthCheckPolicyDao {

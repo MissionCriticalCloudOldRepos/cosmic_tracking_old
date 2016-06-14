@@ -25,8 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.utils.component.ManagerBase;
 
 import org.apache.cloudstack.framework.jobs.AsyncJob;
 import org.apache.cloudstack.framework.jobs.AsyncJobManager;
@@ -34,8 +33,8 @@ import org.apache.cloudstack.framework.messagebus.MessageBus;
 import org.apache.cloudstack.framework.messagebus.MessageDispatcher;
 import org.apache.cloudstack.framework.messagebus.MessageHandler;
 import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
-
-import com.cloud.utils.component.ManagerBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AsyncJobMonitor extends ManagerBase {
     public static final Logger s_logger = LoggerFactory.getLogger(AsyncJobMonitor.class);

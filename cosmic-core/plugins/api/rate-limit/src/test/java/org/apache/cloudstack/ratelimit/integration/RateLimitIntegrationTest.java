@@ -24,13 +24,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.junit.Before;
-import org.junit.Test;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.api.response.ApiLimitResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test fixture to do integration rate limit test.

@@ -16,21 +16,31 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.host;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.host.Host;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.utils.Pair;
 import com.cloud.utils.Ternary;
-import org.apache.cloudstack.api.*;
+
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiCommandJobType;
+import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.ApiConstants.HostDetails;
-import org.apache.cloudstack.api.response.*;
+import org.apache.cloudstack.api.BaseListCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.response.ClusterResponse;
+import org.apache.cloudstack.api.response.HostResponse;
+import org.apache.cloudstack.api.response.ListResponse;
+import org.apache.cloudstack.api.response.PodResponse;
+import org.apache.cloudstack.api.response.UserVmResponse;
+import org.apache.cloudstack.api.response.ZoneResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
 
 @APICommand(name = "listHosts", description = "Lists hosts.", responseObject = HostResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

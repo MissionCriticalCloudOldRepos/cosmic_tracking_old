@@ -18,12 +18,11 @@ package com.cloud.network.as.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.as.AutoScalePolicyConditionMapVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class AutoScalePolicyConditionMapDaoImpl extends GenericDaoBase<AutoScalePolicyConditionMapVO, Long> implements AutoScalePolicyConditionMapDao {

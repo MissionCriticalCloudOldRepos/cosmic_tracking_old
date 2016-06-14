@@ -22,9 +22,13 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import com.cloud.domain.Domain;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.user.Account;
+import com.cloud.user.UserAccount;
+import com.cloud.utils.component.Manager;
+import com.cloud.utils.component.ManagerBase;
 
 import org.apache.cloudstack.api.command.admin.account.DeleteAccountCmd;
 import org.apache.cloudstack.api.command.admin.account.DisableAccountCmd;
@@ -37,14 +41,9 @@ import org.apache.cloudstack.api.command.admin.user.DisableUserCmd;
 import org.apache.cloudstack.api.command.admin.user.EnableUserCmd;
 import org.apache.cloudstack.api.command.admin.user.UpdateUserCmd;
 import org.apache.cloudstack.api.command.user.region.ListRegionsCmd;
-
-import com.cloud.domain.Domain;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.user.Account;
-import com.cloud.user.UserAccount;
-import com.cloud.utils.component.Manager;
-import com.cloud.utils.component.ManagerBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RegionServiceImpl extends ManagerBase implements RegionService, Manager {

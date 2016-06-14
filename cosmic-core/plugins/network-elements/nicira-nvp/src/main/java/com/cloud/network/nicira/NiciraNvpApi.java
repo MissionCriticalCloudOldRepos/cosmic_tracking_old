@@ -26,14 +26,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.CloseableHttpClient;
-
 import com.cloud.utils.rest.CloudstackRESTException;
 import com.cloud.utils.rest.RESTServiceConnector;
 import com.google.common.base.Optional;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 @SuppressWarnings("rawtypes")
 public class NiciraNvpApi {

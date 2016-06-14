@@ -18,13 +18,6 @@ package com.cloud.acl;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.acl.ControlledEntity;
-import org.apache.cloudstack.acl.ControlledEntity.ACLType;
-import org.apache.cloudstack.affinity.AffinityGroup;
-import org.apache.cloudstack.affinity.AffinityGroupService;
-import org.apache.cloudstack.affinity.dao.AffinityGroupDomainMapDao;
-import org.springframework.stereotype.Component;
-
 import com.cloud.domain.DomainVO;
 import com.cloud.exception.PermissionDeniedException;
 import com.cloud.projects.ProjectVO;
@@ -33,6 +26,13 @@ import com.cloud.projects.dao.ProjectDao;
 import com.cloud.user.Account;
 import com.cloud.user.AccountManager;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.acl.ControlledEntity;
+import org.apache.cloudstack.acl.ControlledEntity.ACLType;
+import org.apache.cloudstack.affinity.AffinityGroup;
+import org.apache.cloudstack.affinity.AffinityGroupService;
+import org.apache.cloudstack.affinity.dao.AffinityGroupDomainMapDao;
+import org.springframework.stereotype.Component;
 
 @Component
 public class AffinityGroupAccessChecker extends DomainChecker {

@@ -22,13 +22,13 @@ package org.apache.cloudstack.api.agent.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import com.cloud.agent.api.BackupSnapshotAnswer;
 import com.cloud.agent.api.BackupSnapshotCommand;
 import com.cloud.storage.StoragePool;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 public class BackupSnapshotAnswerTest {
     private BackupSnapshotCommand bsc;

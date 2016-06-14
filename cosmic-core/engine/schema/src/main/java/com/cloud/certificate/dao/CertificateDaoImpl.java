@@ -16,14 +16,13 @@
 // under the License.
 package com.cloud.certificate.dao;
 
+import com.cloud.certificate.CertificateVO;
+import com.cloud.utils.db.DB;
+import com.cloud.utils.db.GenericDaoBase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import com.cloud.certificate.CertificateVO;
-import com.cloud.utils.db.DB;
-import com.cloud.utils.db.GenericDaoBase;
 
 @Component
 @DB

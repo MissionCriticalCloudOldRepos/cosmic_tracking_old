@@ -21,10 +21,9 @@ package org.apache.cloudstack.managed.threadlocal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.cloudstack.managed.context.ManagedContextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.managed.context.ManagedContextUtils;
 
 public class ManagedThreadLocal<T> extends ThreadLocal<T> {
 

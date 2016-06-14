@@ -18,11 +18,11 @@
  */
 package org.apache.cloudstack.storage.helper;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.Scope;
-
 import com.cloud.agent.api.VMSnapshotTO;
 import com.cloud.agent.api.to.DataTO;
 import com.cloud.vm.VirtualMachine;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.Scope;
 
 public interface HypervisorHelper {
     DataTO introduceObject(DataTO object, Scope scope, Long storeId);

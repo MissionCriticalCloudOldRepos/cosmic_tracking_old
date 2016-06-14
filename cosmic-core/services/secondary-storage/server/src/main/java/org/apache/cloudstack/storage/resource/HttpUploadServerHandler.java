@@ -27,13 +27,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.cloud.exception.InvalidParameterValueException;
+
 import org.apache.cloudstack.storage.template.UploadEntity;
 import org.apache.cloudstack.utils.imagestore.ImageStoreUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.exception.InvalidParameterValueException;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;

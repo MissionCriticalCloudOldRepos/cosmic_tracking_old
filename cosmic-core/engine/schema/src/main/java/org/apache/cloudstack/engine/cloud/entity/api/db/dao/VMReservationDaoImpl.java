@@ -23,16 +23,15 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMReservationVO;
-import org.apache.cloudstack.engine.cloud.entity.api.db.VolumeReservationVO;
-
 import com.cloud.utils.db.DB;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMReservationVO;
+import org.apache.cloudstack.engine.cloud.entity.api.db.VolumeReservationVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VMReservationDaoImpl extends GenericDaoBase<VMReservationVO, Long> implements VMReservationDao {

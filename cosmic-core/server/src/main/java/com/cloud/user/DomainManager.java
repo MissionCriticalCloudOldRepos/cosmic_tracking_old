@@ -19,10 +19,10 @@ package com.cloud.user;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.cloudstack.api.command.admin.domain.UpdateDomainCmd;
-
 import com.cloud.domain.Domain;
 import com.cloud.domain.DomainVO;
+
+import org.apache.cloudstack.api.command.admin.domain.UpdateDomainCmd;
 
 public interface DomainManager extends DomainService {
     Set<Long> getDomainChildrenIds(String parentDomainPath);

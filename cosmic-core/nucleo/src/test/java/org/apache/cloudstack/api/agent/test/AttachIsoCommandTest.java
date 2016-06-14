@@ -23,9 +23,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import com.cloud.agent.api.AttachIsoCommand;
+
+import org.junit.Test;
 
 public class AttachIsoCommandTest {
     AttachIsoCommand aic = new AttachIsoCommand("vmname", "isopath", false);

@@ -16,8 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.network.vpc.Vpc;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
@@ -31,10 +32,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.VpcResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.network.vpc.Vpc;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateVPC", description = "Updates a VPC", responseObject = VpcResponse.class, responseView = ResponseView.Restricted, entityType = {Vpc.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

@@ -35,11 +35,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.cloudstack.framework.jobs.AsyncJob;
-import org.apache.cloudstack.jobs.JobInfo;
-
 import com.cloud.utils.UuidUtils;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.framework.jobs.AsyncJob;
+import org.apache.cloudstack.jobs.JobInfo;
 
 @Entity
 @Table(name = "async_job")

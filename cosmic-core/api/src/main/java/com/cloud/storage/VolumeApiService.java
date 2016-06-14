@@ -18,6 +18,12 @@
  */
 package com.cloud.storage;
 
+import java.net.MalformedURLException;
+
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.command.user.volume.AttachVolumeCmd;
 import org.apache.cloudstack.api.command.user.volume.CreateVolumeCmd;
 import org.apache.cloudstack.api.command.user.volume.DetachVolumeCmd;
@@ -26,13 +32,7 @@ import org.apache.cloudstack.api.command.user.volume.GetUploadParamsForVolumeCmd
 import org.apache.cloudstack.api.command.user.volume.MigrateVolumeCmd;
 import org.apache.cloudstack.api.command.user.volume.ResizeVolumeCmd;
 import org.apache.cloudstack.api.command.user.volume.UploadVolumeCmd;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.user.Account;
 import org.apache.cloudstack.api.response.GetUploadParamsResponse;
-
-import java.net.MalformedURLException;
 
 public interface VolumeApiService {
     /**

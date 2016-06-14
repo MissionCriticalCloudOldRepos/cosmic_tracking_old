@@ -23,31 +23,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.api.ResourceDetail;
-import org.apache.cloudstack.resourcedetail.ResourceDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.AutoScaleVmGroupDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.AutoScaleVmProfileDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.DiskOfferingDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.FirewallRuleDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.NetworkACLItemDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.NetworkACLListDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.RemoteAccessVpnDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.Site2SiteCustomerGatewayDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.Site2SiteVpnConnectionDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.Site2SiteVpnGatewayDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.SnapshotPolicyDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.UserDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.UserIpAddressDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.VpcDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.VpcGatewayDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.LBStickinessPolicyDetailsDao;
-import org.apache.cloudstack.resourcedetail.dao.LBHealthCheckPolicyDetailsDao;
-import org.apache.cloudstack.storage.datastore.db.StoragePoolDetailsDao;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.dao.DataCenterDetailsDao;
 import com.cloud.event.ActionEvent;
 import com.cloud.event.EventTypes;
@@ -66,6 +41,30 @@ import com.cloud.utils.db.TransactionCallback;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.vm.dao.NicDetailsDao;
 import com.cloud.vm.dao.UserVmDetailsDao;
+
+import org.apache.cloudstack.api.ResourceDetail;
+import org.apache.cloudstack.resourcedetail.ResourceDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.AutoScaleVmGroupDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.AutoScaleVmProfileDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.DiskOfferingDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.FirewallRuleDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.LBHealthCheckPolicyDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.LBStickinessPolicyDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.NetworkACLItemDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.NetworkACLListDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.RemoteAccessVpnDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.Site2SiteCustomerGatewayDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.Site2SiteVpnConnectionDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.Site2SiteVpnGatewayDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.SnapshotPolicyDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.UserDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.UserIpAddressDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.VpcDetailsDao;
+import org.apache.cloudstack.resourcedetail.dao.VpcGatewayDetailsDao;
+import org.apache.cloudstack.storage.datastore.db.StoragePoolDetailsDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ResourceMetaDataManagerImpl extends ManagerBase implements ResourceMetaDataService, ResourceMetaDataManager {

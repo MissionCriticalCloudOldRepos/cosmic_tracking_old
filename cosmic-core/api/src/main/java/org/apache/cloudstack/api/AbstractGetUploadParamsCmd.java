@@ -18,15 +18,15 @@
  */
 package org.apache.cloudstack.api;
 
+import java.net.URL;
+import java.util.UUID;
+
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.GetUploadParamsResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URL;
-import java.util.UUID;
 
 public abstract class AbstractGetUploadParamsCmd extends BaseCmd {
 

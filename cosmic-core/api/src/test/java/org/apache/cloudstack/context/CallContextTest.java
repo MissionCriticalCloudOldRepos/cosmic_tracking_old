@@ -21,6 +21,10 @@ package org.apache.cloudstack.context;
 
 import java.util.UUID;
 
+import com.cloud.user.Account;
+import com.cloud.user.User;
+import com.cloud.utils.db.EntityManager;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,10 +33,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.cloud.user.Account;
-import com.cloud.user.User;
-import com.cloud.utils.db.EntityManager;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CallContextTest {

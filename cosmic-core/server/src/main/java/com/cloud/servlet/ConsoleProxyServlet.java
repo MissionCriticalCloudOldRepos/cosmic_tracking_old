@@ -35,20 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.apache.cloudstack.framework.security.keys.KeysManager;
-
 import com.cloud.exception.PermissionDeniedException;
 import com.cloud.host.HostVO;
-import com.cloud.hypervisor.Hypervisor;
 import com.cloud.server.ManagementServer;
 import com.cloud.storage.GuestOSVO;
 import com.cloud.user.Account;
@@ -64,6 +52,15 @@ import com.cloud.vm.UserVmDetailVO;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.dao.UserVmDetailsDao;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.apache.cloudstack.framework.security.keys.KeysManager;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * Thumbnail access : /console?cmd=thumbnail&vm=xxx&w=xxx&h=xxx

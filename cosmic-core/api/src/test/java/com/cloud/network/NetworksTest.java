@@ -18,14 +18,14 @@ package com.cloud.network;
 
 import java.net.URISyntaxException;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.cloud.dc.Vlan;
 import com.cloud.network.Networks.BroadcastDomainType;
 import com.cloud.network.Networks.IsolationType;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author dhoogland

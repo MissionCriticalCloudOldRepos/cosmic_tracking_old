@@ -24,9 +24,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Random;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.xml.DOMConfigurator;
+
+import junit.framework.TestCase;
 
 public class Log4jEnabledTestCase extends TestCase {
     @Override

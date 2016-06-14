@@ -23,9 +23,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.Command;
 import com.cloud.configuration.Config;
 import com.cloud.host.HostVO;
@@ -47,6 +44,9 @@ import com.cloud.vm.SecondaryStorageVmVO;
 import com.cloud.vm.SystemVmLoadScanner.AfterScanAction;
 import com.cloud.vm.VirtualMachine.State;
 import com.cloud.vm.dao.SecondaryStorageVmDao;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PremiumSecondaryStorageManagerImpl extends SecondaryStorageManagerImpl {
     private static final Logger s_logger = LoggerFactory.getLogger(PremiumSecondaryStorageManagerImpl.class);

@@ -19,8 +19,8 @@ package org.apache.cloudstack.api.command.admin.vlan;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.dc.Vlan;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -34,9 +34,8 @@ import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.VlanIpRangeResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.dc.Vlan;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listVlanIpRanges", description = "Lists all VLAN IP ranges.", responseObject = VlanIpRangeResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

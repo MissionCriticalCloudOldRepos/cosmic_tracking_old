@@ -23,13 +23,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.backoff.BackoffAlgorithm;
 import com.cloud.utils.component.AdapterBase;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * An implementation of BackoffAlgorithm that waits for some seconds.

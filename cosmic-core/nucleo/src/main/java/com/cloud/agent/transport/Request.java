@@ -32,9 +32,15 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
+import com.cloud.agent.api.Answer;
+import com.cloud.agent.api.Command;
+import com.cloud.agent.api.SecStorageFirewallCfgCommand.PortConfig;
+import com.cloud.exception.UnsupportedVersionException;
+import com.cloud.serializer.GsonHelper;
+import com.cloud.utils.NumbersUtil;
+import com.cloud.utils.Pair;
+import com.cloud.utils.StringUtils;
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -46,15 +52,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.stream.JsonReader;
 
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.Command;
-import com.cloud.agent.api.SecStorageFirewallCfgCommand.PortConfig;
-import com.cloud.exception.UnsupportedVersionException;
-import com.cloud.serializer.GsonHelper;
-import com.cloud.utils.NumbersUtil;
-import com.cloud.utils.Pair;
-import com.cloud.utils.StringUtils;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  * Request is a simple wrapper around command and answer to add sequencing,

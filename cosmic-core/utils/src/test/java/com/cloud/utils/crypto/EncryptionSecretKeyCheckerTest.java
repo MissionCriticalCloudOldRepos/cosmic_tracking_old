@@ -23,12 +23,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.cloud.utils.crypt.EncryptionSecretKeyChecker;
 import com.cloud.utils.db.DbProperties;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class EncryptionSecretKeyCheckerTest {
 

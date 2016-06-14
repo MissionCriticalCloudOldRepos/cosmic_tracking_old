@@ -21,11 +21,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostVO;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.utils.fsm.NoTransitionException;
+
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostVO;
 
 public class HostEntityImpl implements HostEntity {
 

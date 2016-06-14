@@ -17,8 +17,8 @@
 
 package org.apache.cloudstack.api.command.admin.zone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -31,9 +31,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.AccountResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "markDefaultZoneForAccount", description = "Marks a default zone for this account", responseObject = AccountResponse.class, since = "4.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)

@@ -29,10 +29,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.persistence.TableGenerator;
 
+import com.cloud.utils.concurrency.NamedThreadFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.concurrency.NamedThreadFactory;
 
 /**
  * Since Mysql does not have sequence support, we have

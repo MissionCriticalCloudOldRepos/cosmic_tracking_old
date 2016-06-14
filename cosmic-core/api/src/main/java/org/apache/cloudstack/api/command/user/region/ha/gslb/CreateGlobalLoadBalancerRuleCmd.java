@@ -19,6 +19,12 @@ package org.apache.cloudstack.api.command.user.region.ha.gslb;
 
 import javax.inject.Inject;
 
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.region.ha.GlobalLoadBalancerRule;
+import com.cloud.region.ha.GlobalLoadBalancingRulesService;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -32,12 +38,6 @@ import org.apache.cloudstack.api.response.RegionResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.region.ha.GlobalLoadBalancerRule;
-import com.cloud.region.ha.GlobalLoadBalancingRulesService;
 
 @APICommand(name = "createGlobalLoadBalancerRule", description = "Creates a global load balancer rule", responseObject = GlobalLoadBalancerResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

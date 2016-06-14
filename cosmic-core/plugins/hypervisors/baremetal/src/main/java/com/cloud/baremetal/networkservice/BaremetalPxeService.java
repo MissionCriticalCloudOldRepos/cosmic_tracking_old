@@ -24,17 +24,17 @@ package com.cloud.baremetal.networkservice;
 
 import java.util.List;
 
-import com.cloud.network.Network;
-import org.apache.cloudstack.api.AddBaremetalPxeCmd;
-import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
-
 import com.cloud.baremetal.database.BaremetalPxeVO;
 import com.cloud.deploy.DeployDestination;
+import com.cloud.network.Network;
 import com.cloud.uservm.UserVm;
 import com.cloud.utils.component.Adapter;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.api.AddBaremetalPxeCmd;
+import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
 
 public interface BaremetalPxeService extends Adapter {
 

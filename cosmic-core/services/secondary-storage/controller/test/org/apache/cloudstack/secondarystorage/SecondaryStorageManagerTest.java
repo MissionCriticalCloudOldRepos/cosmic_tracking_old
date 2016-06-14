@@ -17,7 +17,22 @@
 
 package org.apache.cloudstack.secondarystorage;
 
+import static org.mockito.AdditionalMatchers.not;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.Collections;
+
+import com.cloud.dc.DataCenter.NetworkType;
+import com.cloud.dc.DataCenterVO;
+import com.cloud.dc.dao.DataCenterDao;
+import com.cloud.network.Networks.TrafficType;
+import com.cloud.network.dao.NetworkDao;
+import com.cloud.network.dao.NetworkVO;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,21 +41,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import com.cloud.dc.DataCenterVO;
-import com.cloud.dc.DataCenter.NetworkType;
-import com.cloud.dc.dao.DataCenterDao;
-import com.cloud.network.Networks.TrafficType;
-import com.cloud.network.dao.NetworkDao;
-import com.cloud.network.dao.NetworkVO;
-import com.cloud.utils.exception.CloudRuntimeException;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.when;
-import static org.mockito.AdditionalMatchers.not;
-import static org.mockito.Mockito.eq;
 
 public class SecondaryStorageManagerTest {
     @Mock

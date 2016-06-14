@@ -20,14 +20,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.cloud.utils.component.ComponentContext;
+import com.cloud.utils.exception.CloudRuntimeException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.cloud.utils.component.ComponentContext;
-import com.cloud.utils.exception.CloudRuntimeException;
 
 /**
  * A test fixture to test APIs or bugs found for Transaction class. This test fixture will do one time setup before

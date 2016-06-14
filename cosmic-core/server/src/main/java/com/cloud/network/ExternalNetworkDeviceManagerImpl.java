@@ -25,18 +25,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.command.admin.network.AddNetworkDeviceCmd;
-import org.apache.cloudstack.api.command.admin.network.DeleteNetworkDeviceCmd;
-import org.apache.cloudstack.api.command.admin.network.ListNetworkDeviceCmd;
-import org.apache.cloudstack.api.response.NetworkDeviceResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.network.ExternalNetworkDeviceManager;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.dc.dao.VlanDao;
@@ -63,6 +51,17 @@ import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.NicDao;
+
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.command.admin.network.AddNetworkDeviceCmd;
+import org.apache.cloudstack.api.command.admin.network.DeleteNetworkDeviceCmd;
+import org.apache.cloudstack.api.command.admin.network.ListNetworkDeviceCmd;
+import org.apache.cloudstack.api.response.NetworkDeviceResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.network.ExternalNetworkDeviceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ExternalNetworkDeviceManagerImpl extends ManagerBase implements ExternalNetworkDeviceManager {

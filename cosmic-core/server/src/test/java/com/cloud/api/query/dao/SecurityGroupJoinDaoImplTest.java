@@ -25,15 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.cloudstack.api.response.SecurityGroupResponse;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import com.cloud.api.query.vo.ResourceTagJoinVO;
 import com.cloud.api.query.vo.SecurityGroupJoinVO;
 import com.cloud.network.security.SecurityGroupVMMapVO;
@@ -42,6 +33,15 @@ import com.cloud.server.ResourceTag.ResourceObjectType;
 import com.cloud.user.Account;
 import com.cloud.vm.UserVmVO;
 import com.cloud.vm.dao.UserVmDao;
+
+import org.apache.cloudstack.api.response.SecurityGroupResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import junit.framework.TestCase;
 

@@ -21,12 +21,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.StartupCommandProcessor;
 import com.cloud.agent.api.StartupCommand;
@@ -35,6 +29,11 @@ import com.cloud.agent.manager.authn.AgentAuthorizer;
 import com.cloud.exception.ConnectionException;
 import com.cloud.host.dao.HostDao;
 import com.cloud.utils.component.AdapterBase;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class BasicAgentAuthManager extends AdapterBase implements AgentAuthorizer, StartupCommandProcessor {

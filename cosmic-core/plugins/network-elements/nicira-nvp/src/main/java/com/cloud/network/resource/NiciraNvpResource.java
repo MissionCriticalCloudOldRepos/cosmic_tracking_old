@@ -26,9 +26,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.IAgentControl;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -47,9 +44,12 @@ import com.cloud.network.nicira.NiciraNvpApiException;
 import com.cloud.network.nicira.SourceNatRule;
 import com.cloud.network.utils.CommandRetryUtility;
 import com.cloud.resource.ServerResource;
+import com.cloud.utils.nicira.nvp.plugin.NiciraNvpApiVersion;
 import com.cloud.utils.rest.CloudstackRESTException;
 import com.cloud.utils.rest.HttpClientHelper;
-import com.cloud.utils.nicira.nvp.plugin.NiciraNvpApiVersion;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NiciraNvpResource implements ServerResource {
 

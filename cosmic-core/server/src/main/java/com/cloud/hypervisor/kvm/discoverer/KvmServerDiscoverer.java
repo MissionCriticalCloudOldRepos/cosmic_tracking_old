@@ -16,11 +16,10 @@
 // under the License.
 package com.cloud.hypervisor.kvm.discoverer;
 
+import com.cloud.hypervisor.Hypervisor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.hypervisor.Hypervisor;
 
 public class KvmServerDiscoverer extends LibvirtServerDiscoverer {
     private static final Logger s_logger = LoggerFactory.getLogger(KvmServerDiscoverer.class);

@@ -23,6 +23,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cloud.utils.rest.BasicRestClient;
+import com.cloud.utils.rest.CloudstackRESTException;
+import com.cloud.utils.rest.HttpConstants;
+import com.cloud.utils.rest.HttpMethods;
+import com.cloud.utils.rest.HttpStatusCodeHelper;
+import com.cloud.utils.rest.HttpUriRequestBuilder;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -32,13 +39,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.rest.BasicRestClient;
-import com.cloud.utils.rest.CloudstackRESTException;
-import com.cloud.utils.rest.HttpConstants;
-import com.cloud.utils.rest.HttpMethods;
-import com.cloud.utils.rest.HttpStatusCodeHelper;
-import com.cloud.utils.rest.HttpUriRequestBuilder;
 
 public class NiciraRestClient extends BasicRestClient {
 

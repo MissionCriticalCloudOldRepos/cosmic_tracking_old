@@ -24,14 +24,14 @@ import java.io.IOException;
 
 import javax.naming.ConfigurationException;
 
-import junit.framework.Assert;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 public class ProcessUtilTest {
 

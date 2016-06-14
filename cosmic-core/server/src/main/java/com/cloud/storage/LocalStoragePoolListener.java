@@ -18,11 +18,6 @@ package com.cloud.storage;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
-
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
 import com.cloud.agent.api.AgentControlCommand;
@@ -38,6 +33,10 @@ import com.cloud.host.Host;
 import com.cloud.host.Status;
 import com.cloud.storage.dao.StoragePoolHostDao;
 import com.cloud.utils.db.DB;
+
+import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LocalStoragePoolListener implements Listener {
     private final static Logger s_logger = LoggerFactory.getLogger(LocalStoragePoolListener.class);

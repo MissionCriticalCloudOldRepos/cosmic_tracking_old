@@ -22,14 +22,14 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.cloud.test.stress.TestClientWithAPI;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.test.stress.TestClientWithAPI;
 
 public class User {
     public static final Logger s_logger = LoggerFactory.getLogger(User.class.getClass());

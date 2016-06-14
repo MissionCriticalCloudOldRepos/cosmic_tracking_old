@@ -30,6 +30,9 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.sql.DataSource;
 
+import com.cloud.utils.db.DbUtil;
+import com.cloud.utils.db.TransactionLegacy;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,9 +43,6 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.cloud.utils.db.DbUtil;
-import com.cloud.utils.db.TransactionLegacy;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DbUtilTest {

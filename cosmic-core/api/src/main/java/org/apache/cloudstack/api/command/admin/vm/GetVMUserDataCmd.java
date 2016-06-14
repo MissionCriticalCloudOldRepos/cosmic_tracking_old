@@ -18,6 +18,9 @@
 
 package org.apache.cloudstack.api.command.admin.vm;
 
+import com.cloud.user.Account;
+import com.cloud.uservm.UserVm;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseCmd;
@@ -26,9 +29,6 @@ import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VMUserDataResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.user.Account;
-import com.cloud.uservm.UserVm;
 
 @APICommand(name = "getVirtualMachineUserData", description = "Returns user data associated with the VM", responseObject = VMUserDataResponse.class, since = "4.4",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

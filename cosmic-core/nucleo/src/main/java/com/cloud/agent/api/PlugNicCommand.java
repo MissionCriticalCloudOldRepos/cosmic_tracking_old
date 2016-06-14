@@ -19,10 +19,10 @@
 
 package com.cloud.agent.api;
 
+import java.util.Map;
+
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.vm.VirtualMachine;
-
-import java.util.Map;
 
 public class PlugNicCommand extends Command {
 

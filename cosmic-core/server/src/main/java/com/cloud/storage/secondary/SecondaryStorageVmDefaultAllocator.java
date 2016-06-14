@@ -20,11 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.SecondaryStorageVmVO;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class SecondaryStorageVmDefaultAllocator extends AdapterBase implements SecondaryStorageVmAllocator {

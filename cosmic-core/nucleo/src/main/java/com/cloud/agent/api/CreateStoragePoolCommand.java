@@ -19,9 +19,9 @@
 
 package com.cloud.agent.api;
 
-import com.cloud.storage.StoragePool;
-
 import java.util.Map;
+
+import com.cloud.storage.StoragePool;
 
 public class CreateStoragePoolCommand extends ModifyStoragePoolCommand {
     public static final String DATASTORE_NAME = "datastoreName";

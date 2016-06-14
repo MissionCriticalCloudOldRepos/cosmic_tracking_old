@@ -26,8 +26,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.AccountVlanMapVO;
 import com.cloud.dc.DomainVlanMapVO;
 import com.cloud.dc.PodVlanMapVO;
@@ -43,6 +41,8 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class VlanDaoImpl extends GenericDaoBase<VlanVO, Long> implements VlanDao {

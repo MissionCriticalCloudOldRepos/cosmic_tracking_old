@@ -22,10 +22,10 @@ package org.apache.cloudstack.api.agent.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import com.cloud.agent.api.BumpUpPriorityCommand;
 import com.cloud.agent.api.routing.NetworkElementCommand;
+
+import org.junit.Test;
 
 public class BumpUpPriorityCommandTest {
 

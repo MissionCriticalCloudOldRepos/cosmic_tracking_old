@@ -18,11 +18,11 @@ package org.apache.cloudstack.engine.datacenter.entity.api.db.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineDataCenterVO;
-
 import com.cloud.utils.db.GenericDao;
 import com.cloud.utils.fsm.StateDao;
+
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineDataCenterVO;
 
 public interface EngineDataCenterDao extends GenericDao<EngineDataCenterVO, Long>,
         StateDao<DataCenterResourceEntity.State, DataCenterResourceEntity.State.Event, DataCenterResourceEntity> {

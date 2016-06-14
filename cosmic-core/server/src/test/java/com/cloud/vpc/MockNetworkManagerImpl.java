@@ -16,17 +16,41 @@
 // under the License.
 package com.cloud.vpc;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.naming.ConfigurationException;
+
 import com.cloud.deploy.DataCenterDeployment;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.deploy.DeploymentPlan;
-import com.cloud.exception.*;
-import com.cloud.network.*;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientAddressCapacityException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.InsufficientVirtualNetworkCapacityException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.GuestVlan;
+import com.cloud.network.IpAddress;
+import com.cloud.network.Network;
 import com.cloud.network.Network.Provider;
 import com.cloud.network.Network.Service;
+import com.cloud.network.NetworkProfile;
+import com.cloud.network.NetworkService;
 import com.cloud.network.Networks.TrafficType;
+import com.cloud.network.PhysicalNetwork;
+import com.cloud.network.PhysicalNetworkServiceProvider;
+import com.cloud.network.PhysicalNetworkTrafficType;
 import com.cloud.network.dao.NetworkServiceMapDao;
 import com.cloud.network.dao.NetworkVO;
-import com.cloud.network.element.*;
+import com.cloud.network.element.DhcpServiceProvider;
+import com.cloud.network.element.LoadBalancingServiceProvider;
+import com.cloud.network.element.NetworkElement;
+import com.cloud.network.element.StaticNatServiceProvider;
+import com.cloud.network.element.UserDataServiceProvider;
 import com.cloud.network.guru.NetworkGuru;
 import com.cloud.network.rules.LoadBalancerContainer.Scheme;
 import com.cloud.offering.NetworkOffering;
@@ -35,8 +59,15 @@ import com.cloud.user.Account;
 import com.cloud.user.User;
 import com.cloud.utils.Pair;
 import com.cloud.utils.component.ManagerBase;
-import com.cloud.vm.*;
+import com.cloud.vm.Nic;
+import com.cloud.vm.NicProfile;
+import com.cloud.vm.NicSecondaryIp;
+import com.cloud.vm.NicVO;
+import com.cloud.vm.ReservationContext;
+import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachine.Type;
+import com.cloud.vm.VirtualMachineProfile;
+
 import org.apache.cloudstack.acl.ControlledEntity.ACLType;
 import org.apache.cloudstack.api.command.admin.network.DedicateGuestVlanRangeCmd;
 import org.apache.cloudstack.api.command.admin.network.ListDedicatedGuestVlanRangesCmd;
@@ -49,13 +80,6 @@ import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationSe
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import javax.inject.Inject;
-import javax.naming.ConfigurationException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class MockNetworkManagerImpl extends ManagerBase implements NetworkOrchestrationService, NetworkService {

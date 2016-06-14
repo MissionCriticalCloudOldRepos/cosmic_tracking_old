@@ -21,10 +21,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.cloud.consoleproxy.ConsoleProxyAlertEventArgs;
 import com.cloud.consoleproxy.ConsoleProxyManager;
 import com.cloud.dc.DataCenterVO;
@@ -34,6 +30,10 @@ import com.cloud.utils.events.SubscriptionMgr;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.ConsoleProxyVO;
 import com.cloud.vm.dao.ConsoleProxyDao;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleProxyAlertAdapter extends AdapterBase implements AlertAdapter {

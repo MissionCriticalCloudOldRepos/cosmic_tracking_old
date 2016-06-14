@@ -18,10 +18,6 @@ package com.cloud.network.guru;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.Vlan.VlanType;
 import com.cloud.dc.dao.DataCenterDao;
@@ -57,6 +53,10 @@ import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PublicNetworkGuru extends AdapterBase implements NetworkGuru {
     private static final Logger s_logger = LoggerFactory.getLogger(PublicNetworkGuru.class);

@@ -16,13 +16,12 @@
 // under the License.
 package com.cloud.storage.dao;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.storage.GuestOSVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class GuestOSDaoImpl extends GenericDaoBase<GuestOSVO, Long> implements GuestOSDao {

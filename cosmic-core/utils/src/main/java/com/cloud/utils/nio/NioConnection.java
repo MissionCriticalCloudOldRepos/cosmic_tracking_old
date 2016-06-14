@@ -47,12 +47,12 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
+import com.cloud.utils.concurrency.NamedThreadFactory;
+import com.cloud.utils.exception.NioConnectionException;
+
 import org.apache.cloudstack.utils.security.SSLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.concurrency.NamedThreadFactory;
-import com.cloud.utils.exception.NioConnectionException;
 
 /**
  * NioConnection abstracts the NIO socket operations.  The Java implementation

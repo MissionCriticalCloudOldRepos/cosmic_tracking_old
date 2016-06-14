@@ -23,19 +23,8 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import com.cloud.dc.ClusterVO;
-import com.cloud.dc.dao.ClusterDao;
-import org.apache.cloudstack.affinity.dao.AffinityGroupVMMapDao;
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMReservationVO;
-import org.apache.cloudstack.engine.cloud.entity.api.db.dao.VMEntityDao;
-import org.apache.cloudstack.engine.cloud.entity.api.db.dao.VMReservationDao;
-import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
-import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.DataCenter;
+import com.cloud.dc.dao.ClusterDao;
 import com.cloud.deploy.DataCenterDeployment;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.deploy.DeploymentPlan;
@@ -66,6 +55,17 @@ import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.VirtualMachineProfileImpl;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import org.apache.cloudstack.affinity.dao.AffinityGroupVMMapDao;
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMReservationVO;
+import org.apache.cloudstack.engine.cloud.entity.api.db.dao.VMEntityDao;
+import org.apache.cloudstack.engine.cloud.entity.api.db.dao.VMReservationDao;
+import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
+import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VMEntityManagerImpl implements VMEntityManager {

@@ -29,14 +29,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.api.AddBaremetalKickStartPxeCmd;
-import org.apache.cloudstack.api.AddBaremetalPxeCmd;
-import org.apache.cloudstack.api.AddBaremetalPxePingServerCmd;
-import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.StartupCommand;
@@ -70,6 +62,14 @@ import com.cloud.vm.UserVmVO;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.UserVmDao;
+
+import org.apache.cloudstack.api.AddBaremetalKickStartPxeCmd;
+import org.apache.cloudstack.api.AddBaremetalPxeCmd;
+import org.apache.cloudstack.api.AddBaremetalPxePingServerCmd;
+import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaremetalPxeManagerImpl extends ManagerBase implements BaremetalPxeManager, ResourceStateAdapter {
     private static final Logger s_logger = LoggerFactory.getLogger(BaremetalPxeManagerImpl.class);

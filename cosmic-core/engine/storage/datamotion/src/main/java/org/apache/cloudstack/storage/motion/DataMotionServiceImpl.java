@@ -24,7 +24,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
+import com.cloud.agent.api.to.VirtualMachineTO;
+import com.cloud.host.Host;
+import com.cloud.utils.StringUtils;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataMotionService;
@@ -34,11 +37,7 @@ import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.StorageStrategyFactory;
 import org.apache.cloudstack.engine.subsystem.api.storage.VolumeInfo;
 import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
-
-import com.cloud.agent.api.to.VirtualMachineTO;
-import com.cloud.host.Host;
-import com.cloud.utils.StringUtils;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DataMotionServiceImpl implements DataMotionService {

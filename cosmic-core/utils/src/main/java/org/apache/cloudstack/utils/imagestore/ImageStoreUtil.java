@@ -18,11 +18,11 @@
  */
 package org.apache.cloudstack.utils.imagestore;
 
+import com.cloud.utils.script.Script;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.script.Script;
 
 public class ImageStoreUtil {
   public static final Logger s_logger = LoggerFactory.getLogger(ImageStoreUtil.class.getName());

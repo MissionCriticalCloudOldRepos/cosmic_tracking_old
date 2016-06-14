@@ -18,12 +18,12 @@ package com.cloud.network;
 
 import java.util.Date;
 
+import com.cloud.utils.net.Ip;
+
 import org.apache.cloudstack.acl.ControlledEntity;
 import org.apache.cloudstack.api.Displayable;
 import org.apache.cloudstack.api.Identity;
 import org.apache.cloudstack.api.InternalIdentity;
-
-import com.cloud.utils.net.Ip;
 
 /**
  *

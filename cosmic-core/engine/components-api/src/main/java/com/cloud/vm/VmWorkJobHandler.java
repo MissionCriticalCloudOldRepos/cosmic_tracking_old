@@ -16,9 +16,9 @@
 // under the License.
 package com.cloud.vm;
 
-import org.apache.cloudstack.jobs.JobInfo;
-
 import com.cloud.utils.Pair;
+
+import org.apache.cloudstack.jobs.JobInfo;
 
 public interface VmWorkJobHandler {
     Pair<JobInfo.Status, String> handleVmWorkJob(VmWork work) throws Exception;

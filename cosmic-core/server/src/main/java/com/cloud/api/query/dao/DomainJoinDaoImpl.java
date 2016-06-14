@@ -18,14 +18,6 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.response.DomainResponse;
-import org.apache.cloudstack.api.response.ResourceLimitAndCountResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.cloud.api.ApiDBUtils;
 import com.cloud.api.query.vo.DomainJoinVO;
 import com.cloud.configuration.Resource.ResourceType;
@@ -33,6 +25,13 @@ import com.cloud.domain.Domain;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.response.DomainResponse;
+import org.apache.cloudstack.api.response.ResourceLimitAndCountResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DomainJoinDaoImpl extends GenericDaoBase<DomainJoinVO, Long> implements DomainJoinDao {

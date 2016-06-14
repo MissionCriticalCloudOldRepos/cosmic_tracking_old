@@ -25,9 +25,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = "op_host_transfer")

@@ -16,14 +16,14 @@
 // under the License.
 package com.cloud.utils.db;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 public class Merovingian2Test extends TestCase {
     static final Logger s_logger = LoggerFactory.getLogger(Merovingian2Test.class);

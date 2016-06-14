@@ -21,9 +21,9 @@ package com.cloud.utils;
 
 import java.io.File;
 
+import org.apache.log4j.xml.DOMConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.log4j.xml.DOMConfigurator;
 
 public class LogUtils {
     public static final Logger s_logger = LoggerFactory.getLogger(LogUtils.class);

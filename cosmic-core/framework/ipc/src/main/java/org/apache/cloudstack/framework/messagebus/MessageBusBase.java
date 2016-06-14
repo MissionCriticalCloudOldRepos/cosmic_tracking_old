@@ -26,13 +26,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.framework.serializer.MessageSerializer;
-
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.framework.serializer.MessageSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageBusBase implements MessageBus {
 

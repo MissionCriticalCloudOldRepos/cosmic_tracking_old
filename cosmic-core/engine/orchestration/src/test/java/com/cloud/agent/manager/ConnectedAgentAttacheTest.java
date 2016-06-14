@@ -20,9 +20,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import org.junit.Test;
-
 import com.cloud.utils.nio.Link;
+
+import org.junit.Test;
 
 public class ConnectedAgentAttacheTest {
 

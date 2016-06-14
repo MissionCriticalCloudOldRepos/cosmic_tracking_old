@@ -19,6 +19,24 @@
 
 package com.cloud.utils.storage.S3;
 
+import static java.lang.String.format;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+
+import static com.amazonaws.Protocol.HTTP;
+import static com.amazonaws.Protocol.HTTPS;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.auth.AWSCredentials;
@@ -34,24 +52,9 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.s3.transfer.Download;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.amazonaws.Protocol.HTTP;
-import static com.amazonaws.Protocol.HTTPS;
-import static java.lang.String.format;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.unmodifiableList;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 
 public final class S3Utils {

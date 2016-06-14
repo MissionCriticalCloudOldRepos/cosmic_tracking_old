@@ -23,12 +23,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cloud.offering.DiskOffering.Type;
 import com.cloud.storage.Storage;
+import com.cloud.utils.db.GenericDao;
+
 import org.apache.cloudstack.api.Identity;
 import org.apache.cloudstack.api.InternalIdentity;
-
-import com.cloud.offering.DiskOffering.Type;
-import com.cloud.utils.db.GenericDao;
 
 @Entity
 @Table(name = "disk_offering_view")

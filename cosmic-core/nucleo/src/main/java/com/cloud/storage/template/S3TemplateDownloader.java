@@ -19,6 +19,15 @@
 
 package com.cloud.storage.template;
 
+import static java.util.Arrays.asList;
+
+import static com.cloud.utils.StringUtils.join;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+
 import com.amazonaws.event.ProgressEvent;
 import com.amazonaws.event.ProgressEventType;
 import com.amazonaws.event.ProgressListener;
@@ -30,6 +39,7 @@ import com.cloud.agent.api.to.S3TO;
 import com.cloud.utils.net.HTTPUtils;
 import com.cloud.utils.net.Proxy;
 import com.cloud.utils.storage.S3.S3Utils;
+
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
 import org.apache.commons.httpclient.Header;
@@ -40,14 +50,6 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-
-import static com.cloud.utils.StringUtils.join;
-import static java.util.Arrays.asList;
 
 /**
  * Download a template file using HTTP(S)

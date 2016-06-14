@@ -27,8 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.managed.context.ManagedContext;
-
 import com.cloud.agent.api.SecurityGroupRulesCmd;
 import com.cloud.agent.manager.Commands;
 import com.cloud.configuration.Config;
@@ -42,6 +40,8 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.mgmt.JmxUtil;
 import com.cloud.vm.NicVO;
 import com.cloud.vm.VirtualMachine.State;
+
+import org.apache.cloudstack.managed.context.ManagedContext;
 
 /**
  * Same as the base class -- except it uses the abstracted security group work queue

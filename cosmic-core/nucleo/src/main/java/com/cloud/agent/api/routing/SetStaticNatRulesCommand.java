@@ -19,9 +19,9 @@
 
 package com.cloud.agent.api.routing;
 
-import com.cloud.agent.api.to.StaticNatRuleTO;
-
 import java.util.List;
+
+import com.cloud.agent.api.to.StaticNatRuleTO;
 
 public class SetStaticNatRulesCommand extends NetworkElementCommand {
 

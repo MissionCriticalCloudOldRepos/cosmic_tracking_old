@@ -25,14 +25,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.jasypt.properties.EncryptableProperties;
-
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.crypt.EncryptionSecretKeyChecker;
+
+import org.apache.commons.io.IOUtils;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.properties.EncryptableProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DbProperties {
 

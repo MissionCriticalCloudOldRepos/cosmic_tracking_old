@@ -24,16 +24,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.cloud.server.ManagementService;
-import com.cloud.utils.fsm.StateMachine2;
-import com.cloud.vm.dao.UserVmDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.events.EventBus;
-
 import com.cloud.configuration.Config;
 import com.cloud.event.EventCategory;
 import com.cloud.event.EventTypes;
@@ -41,12 +31,21 @@ import com.cloud.event.UsageEventUtils;
 import com.cloud.event.dao.UsageEventDao;
 import com.cloud.network.dao.NetworkDao;
 import com.cloud.network.dao.NetworkVO;
+import com.cloud.server.ManagementService;
 import com.cloud.service.dao.ServiceOfferingDao;
 import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.fsm.StateListener;
+import com.cloud.utils.fsm.StateMachine2;
 import com.cloud.vm.VirtualMachine.Event;
 import com.cloud.vm.VirtualMachine.State;
 import com.cloud.vm.dao.NicDao;
+import com.cloud.vm.dao.UserVmDao;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 public class UserVmStateListener implements StateListener<State, VirtualMachine.Event, VirtualMachine> {
 

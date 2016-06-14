@@ -18,12 +18,12 @@ package com.cloud.cluster;
 
 import static org.junit.Assert.assertTrue;
 
+import com.cloud.utils.component.ComponentLifecycle;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.cloud.utils.component.ComponentLifecycle;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClusterServiceServletAdapterTest {

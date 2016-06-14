@@ -21,8 +21,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.exception.DiscoveryException;
+import com.cloud.storage.ImageStore;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -31,10 +32,8 @@ import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ImageStoreResponse;
-
-import com.cloud.exception.DiscoveryException;
-import com.cloud.storage.ImageStore;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateCloudToUseObjectStore", description = "Migrate current NFS secondary storages to use object store.", responseObject = ImageStoreResponse.class, since = "4.3.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

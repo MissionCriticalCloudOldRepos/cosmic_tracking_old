@@ -16,11 +16,19 @@
 // under the License.
 package com.cloud.network.dao;
 
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.network.PhysicalNetworkTrafficType;
-
-import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "physical_network_traffic_types")

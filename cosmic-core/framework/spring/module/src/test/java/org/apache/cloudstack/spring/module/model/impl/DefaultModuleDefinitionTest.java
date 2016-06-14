@@ -26,12 +26,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.cloudstack.spring.module.util.ModuleLocationUtils;
 import org.junit.Test;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-
-import org.apache.cloudstack.spring.module.util.ModuleLocationUtils;
 
 public class DefaultModuleDefinitionTest {
 

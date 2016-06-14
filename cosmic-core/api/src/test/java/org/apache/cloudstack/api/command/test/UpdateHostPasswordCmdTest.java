@@ -18,7 +18,10 @@ package org.apache.cloudstack.api.command.test;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import junit.framework.TestCase;
+
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.resource.ResourceService;
+import com.cloud.server.ManagementService;
 
 import org.apache.cloudstack.api.ResponseGenerator;
 import org.apache.cloudstack.api.ServerApiException;
@@ -28,9 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.resource.ResourceService;
-import com.cloud.server.ManagementService;
+import junit.framework.TestCase;
 
 public class UpdateHostPasswordCmdTest extends TestCase {
 

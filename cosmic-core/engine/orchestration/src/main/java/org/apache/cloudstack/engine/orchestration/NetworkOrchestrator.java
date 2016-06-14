@@ -16,24 +16,6 @@
 // under the License.
 package org.apache.cloudstack.engine.orchestration;
 
-
-import org.apache.cloudstack.acl.ControlledEntity.ACLType;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMNetworkMapVO;
-import org.apache.cloudstack.engine.cloud.entity.api.db.dao.VMNetworkMapDao;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.config.ConfigDepot;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.config.ConfigKey.Scope;
-import org.apache.cloudstack.framework.config.Configurable;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.messagebus.MessageBus;
-import org.apache.cloudstack.framework.messagebus.PublishScope;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.cloudstack.region.PortableIpDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -208,6 +190,23 @@ import com.cloud.vm.dao.NicSecondaryIpDao;
 import com.cloud.vm.dao.NicSecondaryIpVO;
 import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import org.apache.cloudstack.acl.ControlledEntity.ACLType;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMNetworkMapVO;
+import org.apache.cloudstack.engine.cloud.entity.api.db.dao.VMNetworkMapDao;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.config.ConfigDepot;
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.config.ConfigKey.Scope;
+import org.apache.cloudstack.framework.config.Configurable;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.messagebus.MessageBus;
+import org.apache.cloudstack.framework.messagebus.PublishScope;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.cloudstack.region.PortableIpDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * NetworkManagerImpl implements NetworkManager.

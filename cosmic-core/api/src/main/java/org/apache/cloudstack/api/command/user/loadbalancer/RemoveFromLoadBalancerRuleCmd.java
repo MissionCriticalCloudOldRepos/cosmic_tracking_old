@@ -16,16 +16,19 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.loadbalancer;
 
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.rules.LoadBalancer;
+import com.cloud.user.Account;
+import com.cloud.utils.StringUtils;
 import com.cloud.vm.VirtualMachine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -37,12 +40,8 @@ import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.rules.LoadBalancer;
-import com.cloud.user.Account;
-import com.cloud.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "removeFromLoadBalancerRule",
             description = "Removes a virtual machine or a list of virtual machines from a load balancer rule.",

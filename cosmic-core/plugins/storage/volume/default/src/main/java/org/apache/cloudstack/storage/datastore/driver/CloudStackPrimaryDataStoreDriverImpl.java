@@ -24,8 +24,32 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.agent.api.Answer;
+import com.cloud.agent.api.storage.ResizeVolumeAnswer;
+import com.cloud.agent.api.storage.ResizeVolumeCommand;
+import com.cloud.agent.api.to.DataObjectType;
+import com.cloud.agent.api.to.DataStoreTO;
+import com.cloud.agent.api.to.DataTO;
+import com.cloud.agent.api.to.StorageFilerTO;
+import com.cloud.configuration.Config;
+import com.cloud.exception.StorageUnavailableException;
+import com.cloud.host.Host;
+import com.cloud.host.dao.HostDao;
+import com.cloud.storage.CreateSnapshotPayload;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.ResizeVolumePayload;
+import com.cloud.storage.Storage;
+import com.cloud.storage.StorageManager;
+import com.cloud.storage.StoragePool;
+import com.cloud.storage.Volume;
+import com.cloud.storage.dao.DiskOfferingDao;
+import com.cloud.storage.dao.SnapshotDao;
+import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.storage.dao.VolumeDao;
+import com.cloud.storage.snapshot.SnapshotManager;
+import com.cloud.template.TemplateManager;
+import com.cloud.utils.NumbersUtil;
+import com.cloud.vm.dao.VMInstanceDao;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.ChapInfo;
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
@@ -53,33 +77,8 @@ import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
 import org.apache.cloudstack.storage.to.SnapshotObjectTO;
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
 import org.apache.cloudstack.storage.volume.VolumeObject;
-
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.storage.ResizeVolumeAnswer;
-import com.cloud.agent.api.storage.ResizeVolumeCommand;
-import com.cloud.agent.api.to.DataObjectType;
-import com.cloud.agent.api.to.DataStoreTO;
-import com.cloud.agent.api.to.DataTO;
-import com.cloud.agent.api.to.StorageFilerTO;
-import com.cloud.configuration.Config;
-import com.cloud.exception.StorageUnavailableException;
-import com.cloud.host.Host;
-import com.cloud.host.dao.HostDao;
-import com.cloud.storage.CreateSnapshotPayload;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.ResizeVolumePayload;
-import com.cloud.storage.Storage;
-import com.cloud.storage.StorageManager;
-import com.cloud.storage.StoragePool;
-import com.cloud.storage.Volume;
-import com.cloud.storage.dao.DiskOfferingDao;
-import com.cloud.storage.dao.SnapshotDao;
-import com.cloud.storage.dao.VMTemplateDao;
-import com.cloud.storage.dao.VolumeDao;
-import com.cloud.storage.snapshot.SnapshotManager;
-import com.cloud.template.TemplateManager;
-import com.cloud.utils.NumbersUtil;
-import com.cloud.vm.dao.VMInstanceDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CloudStackPrimaryDataStoreDriverImpl implements PrimaryDataStoreDriver {
     @Override

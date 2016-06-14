@@ -20,11 +20,11 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.consoleproxy.util.TileInfo;
 import com.cloud.consoleproxy.util.TileTracker;
 import com.cloud.consoleproxy.vnc.FrameBufferCanvas;
+
+import org.apache.log4j.Logger;
 
 /**
  *

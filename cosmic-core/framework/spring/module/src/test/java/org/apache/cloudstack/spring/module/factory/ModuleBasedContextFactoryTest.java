@@ -27,14 +27,13 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.Collection;
 
+import org.apache.cloudstack.spring.module.locator.impl.ClasspathModuleDefinitionLocator;
+import org.apache.cloudstack.spring.module.model.ModuleDefinition;
+import org.apache.cloudstack.spring.module.model.ModuleDefinitionSet;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
-
-import org.apache.cloudstack.spring.module.locator.impl.ClasspathModuleDefinitionLocator;
-import org.apache.cloudstack.spring.module.model.ModuleDefinition;
-import org.apache.cloudstack.spring.module.model.ModuleDefinitionSet;
 
 public class ModuleBasedContextFactoryTest {
 

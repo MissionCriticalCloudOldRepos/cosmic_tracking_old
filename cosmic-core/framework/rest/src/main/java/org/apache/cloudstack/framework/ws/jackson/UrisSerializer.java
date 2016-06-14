@@ -24,12 +24,12 @@ import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.apache.cxf.jaxrs.impl.tl.ThreadLocalUriInfo;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
+import org.apache.cxf.jaxrs.impl.tl.ThreadLocalUriInfo;
 
 /**
  * Serializer for a list of ids.

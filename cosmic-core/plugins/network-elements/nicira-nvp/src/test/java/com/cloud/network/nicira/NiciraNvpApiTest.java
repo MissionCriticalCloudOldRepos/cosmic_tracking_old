@@ -33,6 +33,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import com.cloud.utils.rest.HttpClientHelper;
+import com.cloud.utils.rest.HttpUriRequestMethodMatcher;
+import com.cloud.utils.rest.HttpUriRequestPathMatcher;
+import com.cloud.utils.rest.HttpUriRequestQueryMatcher;
+
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
@@ -45,11 +50,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicStatusLine;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-
-import com.cloud.utils.rest.HttpClientHelper;
-import com.cloud.utils.rest.HttpUriRequestMethodMatcher;
-import com.cloud.utils.rest.HttpUriRequestPathMatcher;
-import com.cloud.utils.rest.HttpUriRequestQueryMatcher;
 
 public class NiciraNvpApiTest {
     private static final StatusLine HTTP_200_REPSONSE = new BasicStatusLine(new ProtocolVersion("HTTPS", 1, 1), HttpStatus.SC_OK, "OK");

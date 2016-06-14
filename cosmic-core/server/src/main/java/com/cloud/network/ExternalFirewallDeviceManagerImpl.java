@@ -25,14 +25,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.response.ExternalFirewallResponse;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.network.ExternalNetworkDeviceManager.NetworkDevice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.StartupCommand;
@@ -117,6 +109,14 @@ import com.cloud.vm.Nic.ReservationStrategy;
 import com.cloud.vm.NicVO;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.NicDao;
+
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.response.ExternalFirewallResponse;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.network.ExternalNetworkDeviceManager.NetworkDevice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ExternalFirewallDeviceManagerImpl extends AdapterBase implements ExternalFirewallDeviceManager, ResourceStateAdapter {
 

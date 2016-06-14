@@ -24,15 +24,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import com.cloud.dc.DataCenter.NetworkType;
 
 import org.apache.cloudstack.engine.datacenter.entity.api.ClusterEntity;
 import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
@@ -48,8 +40,15 @@ import org.apache.cloudstack.engine.datacenter.entity.api.db.dao.EngineDataCente
 import org.apache.cloudstack.engine.datacenter.entity.api.db.dao.EngineHostDao;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.dao.EngineHostPodDao;
 import org.apache.cloudstack.engine.service.api.ProvisioningService;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.cloud.dc.DataCenter.NetworkType;
+import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/resource/provisioningContext.xml")

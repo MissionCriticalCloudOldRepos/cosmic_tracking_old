@@ -16,6 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.user;
 
+import com.cloud.user.Account;
+import com.cloud.user.User;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -28,9 +31,6 @@ import org.apache.cloudstack.context.CallContext;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.user.Account;
-import com.cloud.user.User;
 
 @APICommand(name = "createUser", description = "Creates a user for an account that already exists", responseObject = UserResponse.class,
         requestHasSensitiveInfo = true, responseHasSensitiveInfo = true)

@@ -29,10 +29,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Formatter;
 
+import com.cloud.utils.NumbersUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.NumbersUtil;
 
 /**
  * copied from the public domain utility from John Burkard.

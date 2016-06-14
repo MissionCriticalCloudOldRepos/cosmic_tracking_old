@@ -16,10 +16,10 @@
 // under the License.
 package com.cloud.vm.dao;
 
-import org.apache.cloudstack.resourcedetail.ResourceDetailsDao;
-
 import com.cloud.utils.db.GenericDao;
 import com.cloud.vm.NicDetailVO;
+
+import org.apache.cloudstack.resourcedetail.ResourceDetailsDao;
 
 public interface NicDetailsDao extends GenericDao<NicDetailVO, Long>, ResourceDetailsDao<NicDetailVO> {
 }

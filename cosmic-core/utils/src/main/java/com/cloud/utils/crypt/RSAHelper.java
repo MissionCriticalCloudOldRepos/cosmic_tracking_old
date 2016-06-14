@@ -34,9 +34,9 @@ import java.security.spec.RSAPublicKeySpec;
 import javax.crypto.Cipher;
 
 import org.apache.commons.codec.binary.Base64;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class RSAHelper {
     final static Logger s_logger = LoggerFactory.getLogger(RSAHelper.class);

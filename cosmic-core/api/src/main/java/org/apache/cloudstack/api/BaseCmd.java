@@ -29,20 +29,6 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import com.cloud.utils.HttpUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.acl.RoleType;
-import org.apache.cloudstack.affinity.AffinityGroupService;
-import org.apache.cloudstack.alert.AlertService;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.network.element.InternalLoadBalancerElementService;
-import org.apache.cloudstack.network.lb.ApplicationLoadBalancerService;
-import org.apache.cloudstack.network.lb.InternalLoadBalancerVMService;
-import org.apache.cloudstack.query.QueryService;
-import org.apache.cloudstack.usage.UsageService;
-
 import com.cloud.configuration.ConfigurationService;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
@@ -78,11 +64,24 @@ import com.cloud.user.Account;
 import com.cloud.user.AccountService;
 import com.cloud.user.DomainService;
 import com.cloud.user.ResourceLimitService;
+import com.cloud.utils.HttpUtils;
 import com.cloud.utils.ReflectUtil;
 import com.cloud.utils.db.EntityManager;
 import com.cloud.utils.db.UUIDManager;
 import com.cloud.vm.UserVmService;
 import com.cloud.vm.snapshot.VMSnapshotService;
+
+import org.apache.cloudstack.acl.RoleType;
+import org.apache.cloudstack.affinity.AffinityGroupService;
+import org.apache.cloudstack.alert.AlertService;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.network.element.InternalLoadBalancerElementService;
+import org.apache.cloudstack.network.lb.ApplicationLoadBalancerService;
+import org.apache.cloudstack.network.lb.InternalLoadBalancerVMService;
+import org.apache.cloudstack.query.QueryService;
+import org.apache.cloudstack.usage.UsageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseCmd {
     private static final Logger s_logger = LoggerFactory.getLogger(BaseCmd.class.getName());

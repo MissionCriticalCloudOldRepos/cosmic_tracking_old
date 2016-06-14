@@ -18,9 +18,9 @@ package org.apache.cloudstack.engine.cloud.entity.api.db.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMRootDiskTagVO;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMRootDiskTagVO;
 
 public interface VMRootDiskTagDao extends GenericDao<VMRootDiskTagVO, Long> {
 

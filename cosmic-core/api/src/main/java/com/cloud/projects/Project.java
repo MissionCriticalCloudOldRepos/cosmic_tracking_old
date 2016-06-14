@@ -18,10 +18,10 @@ package com.cloud.projects;
 
 import java.util.Date;
 
+import com.cloud.domain.PartOf;
+
 import org.apache.cloudstack.api.Identity;
 import org.apache.cloudstack.api.InternalIdentity;
-
-import com.cloud.domain.PartOf;
 
 public interface Project extends PartOf, Identity, InternalIdentity {
     public enum State {

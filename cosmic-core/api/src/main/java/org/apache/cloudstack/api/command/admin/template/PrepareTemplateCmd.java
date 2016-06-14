@@ -18,8 +18,8 @@ package org.apache.cloudstack.api.command.admin.template;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.template.VirtualMachineTemplate;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -32,9 +32,8 @@ import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.StoragePoolResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.template.VirtualMachineTemplate;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "prepareTemplate", responseObject = TemplateResponse.class, description = "load template into primary storage", entityType = {VirtualMachineTemplate.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

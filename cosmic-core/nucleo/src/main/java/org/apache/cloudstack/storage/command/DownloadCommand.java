@@ -19,16 +19,16 @@
 
 package org.apache.cloudstack.storage.command;
 
-import org.apache.cloudstack.api.InternalIdentity;
-import org.apache.cloudstack.storage.to.TemplateObjectTO;
-import org.apache.cloudstack.storage.to.VolumeObjectTO;
-
 import com.cloud.agent.api.storage.AbstractDownloadCommand;
 import com.cloud.agent.api.storage.PasswordAuth;
-import com.cloud.utils.net.Proxy;
 import com.cloud.agent.api.to.DataStoreTO;
 import com.cloud.agent.api.to.NfsTO;
 import com.cloud.storage.Storage.ImageFormat;
+import com.cloud.utils.net.Proxy;
+
+import org.apache.cloudstack.api.InternalIdentity;
+import org.apache.cloudstack.storage.to.TemplateObjectTO;
+import org.apache.cloudstack.storage.to.VolumeObjectTO;
 
 public class DownloadCommand extends AbstractDownloadCommand implements InternalIdentity {
 

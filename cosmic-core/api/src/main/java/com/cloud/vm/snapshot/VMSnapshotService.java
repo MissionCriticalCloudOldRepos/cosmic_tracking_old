@@ -19,8 +19,6 @@ package com.cloud.vm.snapshot;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.command.user.vmsnapshot.ListVMSnapshotCmd;
-
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InsufficientServerCapacityException;
@@ -28,6 +26,8 @@ import com.cloud.exception.ResourceAllocationException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.uservm.UserVm;
 import com.cloud.vm.VirtualMachine;
+
+import org.apache.cloudstack.api.command.user.vmsnapshot.ListVMSnapshotCmd;
 
 public interface VMSnapshotService {
 

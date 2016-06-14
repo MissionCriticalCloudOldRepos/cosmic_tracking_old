@@ -21,11 +21,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
 import com.cloud.utils.Ternary;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 public class UpdateBuilder implements MethodInterceptor {
     protected Map<String, Ternary<Attribute, Boolean, Object>> _changes;

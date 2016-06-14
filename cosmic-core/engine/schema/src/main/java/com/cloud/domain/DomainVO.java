@@ -26,10 +26,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cloud.utils.db.GenericDao;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.db.GenericDao;
 
 @Entity
 @Table(name = "domain")

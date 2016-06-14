@@ -44,12 +44,12 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
+import com.cloud.utils.PropertiesUtil;
+import com.cloud.utils.db.DbProperties;
+
 import org.apache.cloudstack.utils.security.SSLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.PropertiesUtil;
-import com.cloud.utils.db.DbProperties;
 
 /**
  */

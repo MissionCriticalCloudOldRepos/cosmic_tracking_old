@@ -24,12 +24,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import com.cloud.agent.api.CheckNetworkCommand;
+import com.cloud.network.PhysicalNetworkSetupInfo;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.cloud.agent.api.CheckNetworkCommand;
-import com.cloud.network.PhysicalNetworkSetupInfo;
 
 public class CheckNetworkCommandTest {
     CheckNetworkCommand cnc;

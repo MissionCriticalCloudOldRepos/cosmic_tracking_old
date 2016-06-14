@@ -30,13 +30,13 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.cloud.utils.exception.CloudRuntimeException;
+
 import org.apache.commons.codec.binary.Base64;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.cloud.utils.exception.CloudRuntimeException;
 
 public class UtilsForTest {
 

@@ -20,13 +20,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.cloud.entity.api.db.VolumeReservationVO;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.apache.cloudstack.engine.cloud.entity.api.db.VolumeReservationVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VolumeReservationDaoImpl extends GenericDaoBase<VolumeReservationVO, Long> implements VolumeReservationDao {

@@ -16,17 +16,16 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.user;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.user.UserAccount;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.UserResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.user.UserAccount;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "getUser", description = "Find user account by API key", responseObject = UserResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)

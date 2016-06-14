@@ -18,11 +18,11 @@ package org.apache.cloudstack.affinity.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.affinity.AffinityGroupVMMapVO;
-
 import com.cloud.utils.Pair;
 import com.cloud.utils.db.Filter;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.affinity.AffinityGroupVMMapVO;
 
 public interface AffinityGroupVMMapDao extends GenericDao<AffinityGroupVMMapVO, Long> {
 

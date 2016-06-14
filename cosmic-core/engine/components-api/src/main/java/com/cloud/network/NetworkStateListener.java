@@ -24,15 +24,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.cloud.utils.fsm.StateMachine2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.events.EventBus;
-import org.apache.cloudstack.framework.events.EventBusException;
-
 import com.cloud.event.EventCategory;
 import com.cloud.event.dao.UsageEventDao;
 import com.cloud.network.Network.Event;
@@ -40,6 +31,14 @@ import com.cloud.network.Network.State;
 import com.cloud.network.dao.NetworkDao;
 import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.fsm.StateListener;
+import com.cloud.utils.fsm.StateMachine2;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.apache.cloudstack.framework.events.EventBusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 public class NetworkStateListener implements StateListener<State, Event, Network> {
 

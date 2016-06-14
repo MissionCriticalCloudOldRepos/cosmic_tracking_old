@@ -19,14 +19,13 @@
 
 package com.cloud.network.dao;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.NiciraNvpNicMappingVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class NiciraNvpNicMappingDaoImpl extends GenericDaoBase<NiciraNvpNicMappingVO, Long> implements NiciraNvpNicMappingDao {

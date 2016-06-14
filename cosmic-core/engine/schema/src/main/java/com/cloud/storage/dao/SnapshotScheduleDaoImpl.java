@@ -19,14 +19,13 @@ package com.cloud.storage.dao;
 import java.util.Date;
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.storage.Snapshot;
 import com.cloud.storage.SnapshotScheduleVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class SnapshotScheduleDaoImpl extends GenericDaoBase<SnapshotScheduleVO, Long> implements SnapshotScheduleDao {

@@ -16,6 +16,10 @@
 // under the License.
 package com.cloud.hypervisor;
 
+import java.util.Map;
+
+import javax.inject.Inject;
+
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.to.DataObjectType;
 import com.cloud.agent.api.to.VirtualMachineTO;
@@ -29,11 +33,9 @@ import com.cloud.storage.dao.GuestOSDao;
 import com.cloud.storage.dao.GuestOSHypervisorDao;
 import com.cloud.utils.Pair;
 import com.cloud.vm.VirtualMachineProfile;
+
 import org.apache.cloudstack.storage.command.CopyCommand;
 import org.apache.cloudstack.storage.command.StorageSubSystemCommand;
-
-import javax.inject.Inject;
-import java.util.Map;
 
 public class KVMGuru extends HypervisorGuruBase implements HypervisorGuru {
     @Inject

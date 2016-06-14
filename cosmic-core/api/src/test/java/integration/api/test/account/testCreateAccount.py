@@ -16,10 +16,10 @@
 # under the License.
 
 import factory
-import marvin
 from marvin import cloudstackTestCase
-from marvin.lib.base import *
 from marvin.lib import utils
+from marvin.lib.base import *
+
 
 class AccountFactory(factory.Factory):
     FACTORY_FOR = createAccount.createAccountCmd
@@ -44,7 +44,6 @@ class TestCreateAccount(cloudstackTestCase):
         creates an account for a user as admin
         """
         Account.create(self.apiClient, services=None)
-        from marvin.cloudstackAPI.createAccount import createAccountCmd
         self.assertEqual(True, False)
 
     def test_createAccountAsUser(self):

@@ -35,6 +35,11 @@ import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cloud.utils.rest.CloudstackRESTException;
+import com.cloud.utils.rest.HttpMethods;
+import com.cloud.utils.rest.HttpRequestMatcher;
+import com.cloud.utils.rest.HttpUriRequestBuilder;
+
 import org.apache.http.HttpHost;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
@@ -49,11 +54,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.cloud.utils.rest.CloudstackRESTException;
-import com.cloud.utils.rest.HttpMethods;
-import com.cloud.utils.rest.HttpRequestMatcher;
-import com.cloud.utils.rest.HttpUriRequestBuilder;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(NiciraRestClient.class)

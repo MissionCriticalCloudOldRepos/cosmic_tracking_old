@@ -27,23 +27,14 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.net.URLDecoder;
 
-import org.apache.cloudstack.api.command.user.loadbalancer.DeleteSslCertCmd;
-import com.cloud.user.User;
-import org.apache.cloudstack.api.command.user.loadbalancer.UploadSslCertCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import com.cloud.domain.dao.DomainDao;
 import com.cloud.domain.DomainVO;
+import com.cloud.domain.dao.DomainDao;
 import com.cloud.network.dao.LoadBalancerCertMapDao;
 import com.cloud.network.dao.LoadBalancerCertMapVO;
 import com.cloud.network.dao.LoadBalancerVO;
@@ -52,11 +43,20 @@ import com.cloud.network.dao.SslCertVO;
 import com.cloud.user.Account;
 import com.cloud.user.AccountManager;
 import com.cloud.user.AccountVO;
+import com.cloud.user.User;
 import com.cloud.user.UserVO;
 import com.cloud.user.dao.AccountDao;
 import com.cloud.utils.db.EntityManager;
 import com.cloud.utils.db.TransactionLegacy;
-import java.nio.charset.Charset;
+
+import org.apache.cloudstack.api.command.user.loadbalancer.DeleteSslCertCmd;
+import org.apache.cloudstack.api.command.user.loadbalancer.UploadSslCertCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 public class CertServiceTest {
 

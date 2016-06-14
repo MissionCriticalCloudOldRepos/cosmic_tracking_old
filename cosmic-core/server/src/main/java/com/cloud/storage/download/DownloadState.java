@@ -18,11 +18,11 @@ package com.cloud.storage.download;
 
 import java.util.Date;
 
+import com.cloud.agent.api.storage.DownloadAnswer;
+
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.agent.api.storage.DownloadAnswer;
 
 public abstract class DownloadState {
     public static enum DownloadEvent {

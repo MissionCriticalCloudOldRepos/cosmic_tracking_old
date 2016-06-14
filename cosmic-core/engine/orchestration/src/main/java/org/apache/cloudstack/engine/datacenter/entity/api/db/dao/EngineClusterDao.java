@@ -19,12 +19,12 @@ package org.apache.cloudstack.engine.datacenter.entity.api.db.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineClusterVO;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.utils.db.GenericDao;
 import com.cloud.utils.fsm.StateDao;
+
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineClusterVO;
 
 public interface EngineClusterDao extends GenericDao<EngineClusterVO, Long>,
         StateDao<DataCenterResourceEntity.State, DataCenterResourceEntity.State.Event, DataCenterResourceEntity> {

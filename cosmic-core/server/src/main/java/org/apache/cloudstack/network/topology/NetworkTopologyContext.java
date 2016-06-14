@@ -19,11 +19,11 @@ package org.apache.cloudstack.network.topology;
 
 import java.util.Hashtable;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class NetworkTopologyContext {
 

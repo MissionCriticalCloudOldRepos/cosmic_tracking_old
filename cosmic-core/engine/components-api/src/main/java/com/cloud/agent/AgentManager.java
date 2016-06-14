@@ -16,8 +16,6 @@
 // under the License.
 package com.cloud.agent;
 
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.StartupCommand;
@@ -30,6 +28,8 @@ import com.cloud.host.HostVO;
 import com.cloud.host.Status;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ServerResource;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
 
 /**
  * AgentManager manages hosts. It directly coordinates between the DAOs and the connections it manages.

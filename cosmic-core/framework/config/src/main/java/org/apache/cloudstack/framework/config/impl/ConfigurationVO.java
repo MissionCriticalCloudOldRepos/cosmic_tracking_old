@@ -25,10 +25,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.cloud.utils.crypt.DBEncryptionUtil;
+
 import org.apache.cloudstack.config.Configuration;
 import org.apache.cloudstack.framework.config.ConfigKey;
-
-import com.cloud.utils.crypt.DBEncryptionUtil;
 
 @Entity
 @Table(name = "configuration")

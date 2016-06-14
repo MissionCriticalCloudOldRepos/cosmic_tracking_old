@@ -17,20 +17,26 @@
 
 package org.apache.cloudstack.api.command.admin.cluster;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.cloud.exception.DiscoveryException;
 import com.cloud.exception.ResourceInUseException;
 import com.cloud.org.Cluster;
 import com.cloud.user.Account;
-import org.apache.cloudstack.api.*;
+
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ClusterResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @APICommand(name = "addCluster", description = "Adds a new cluster", responseObject = ClusterResponse.class,
         requestHasSensitiveInfo = true, responseHasSensitiveInfo = false)

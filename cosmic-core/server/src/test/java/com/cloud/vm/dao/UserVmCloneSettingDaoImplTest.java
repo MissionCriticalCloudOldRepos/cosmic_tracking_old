@@ -21,14 +21,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import junit.framework.TestCase;
+import com.cloud.vm.UserVmCloneSettingVO;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.cloud.vm.UserVmCloneSettingVO;
+import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/CloneSettingDaoTestContext.xml")

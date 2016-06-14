@@ -19,11 +19,13 @@
 
 package org.apache.cloudstack.api.command.admin.user;
 
+import com.cloud.user.Account;
+import com.cloud.user.AccountService;
+import com.cloud.user.User;
+
 import org.apache.cloudstack.api.ApiErrorCode;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.context.CallContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,11 +34,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.cloud.user.Account;
-import com.cloud.user.AccountService;
-import com.cloud.user.User;
 
 public class CreateUserCmdTest {
     public static final Logger s_logger = LoggerFactory.getLogger(CreateUserCmdTest.class.getName());

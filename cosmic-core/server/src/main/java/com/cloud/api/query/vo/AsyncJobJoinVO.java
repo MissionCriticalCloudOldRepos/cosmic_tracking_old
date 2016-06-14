@@ -25,10 +25,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cloud.utils.db.GenericDao;
+
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.framework.jobs.AsyncJob;
-
-import com.cloud.utils.db.GenericDao;
 
 @Entity
 @Table(name="async_job_view")

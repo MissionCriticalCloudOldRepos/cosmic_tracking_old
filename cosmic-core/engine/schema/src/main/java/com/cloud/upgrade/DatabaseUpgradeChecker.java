@@ -16,9 +16,25 @@
 // under the License.
 package com.cloud.upgrade;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
+
+import javax.ejb.Local;
+import javax.inject.Inject;
+
 import com.cloud.maint.Version;
 import com.cloud.upgrade.dao.DbUpgrade;
-
 import com.cloud.upgrade.dao.Upgrade40to41;
 import com.cloud.upgrade.dao.Upgrade410to420;
 import com.cloud.upgrade.dao.Upgrade420to421;
@@ -51,24 +67,9 @@ import com.cloud.utils.db.GlobalLock;
 import com.cloud.utils.db.ScriptRunner;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.ejb.Local;
-import javax.inject.Inject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
 
 @Local(value = {SystemIntegrityChecker.class})
 public class DatabaseUpgradeChecker implements SystemIntegrityChecker {

@@ -17,8 +17,10 @@
 
 package org.apache.cloudstack.api.command.user.autoscale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceInUseException;
+import com.cloud.network.as.Condition;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -31,11 +33,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ConditionResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceInUseException;
-import com.cloud.network.as.Condition;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteCondition", description = "Removes a condition", responseObject = SuccessResponse.class, entityType = {Condition.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

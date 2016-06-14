@@ -25,13 +25,13 @@ import java.util.TreeMap;
 
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.configuration.Config;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.Pair;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserDispersingPlanner extends FirstFitPlanner implements DeploymentClusterPlanner {
 

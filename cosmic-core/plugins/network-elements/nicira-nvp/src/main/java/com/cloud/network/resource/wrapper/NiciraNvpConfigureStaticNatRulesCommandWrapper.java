@@ -23,9 +23,6 @@ import static com.cloud.network.resource.NiciraNvpResource.NUM_RETRIES;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.ConfigureStaticNatRulesOnLogicalRouterAnswer;
 import com.cloud.agent.api.ConfigureStaticNatRulesOnLogicalRouterCommand;
@@ -37,6 +34,9 @@ import com.cloud.network.resource.NiciraNvpResource;
 import com.cloud.network.utils.CommandRetryUtility;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = ConfigureStaticNatRulesOnLogicalRouterCommand.class)
 public final class NiciraNvpConfigureStaticNatRulesCommandWrapper extends CommandWrapper<ConfigureStaticNatRulesOnLogicalRouterCommand, Answer, NiciraNvpResource> {

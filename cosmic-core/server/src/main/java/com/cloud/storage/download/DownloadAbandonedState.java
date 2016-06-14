@@ -16,10 +16,10 @@
 // under the License.
 package com.cloud.storage.download;
 
-import org.apache.cloudstack.storage.command.DownloadProgressCommand.RequestType;
-
 import com.cloud.agent.api.storage.DownloadAnswer;
 import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
+
+import org.apache.cloudstack.storage.command.DownloadProgressCommand.RequestType;
 
 public class DownloadAbandonedState extends DownloadInactiveState {
 

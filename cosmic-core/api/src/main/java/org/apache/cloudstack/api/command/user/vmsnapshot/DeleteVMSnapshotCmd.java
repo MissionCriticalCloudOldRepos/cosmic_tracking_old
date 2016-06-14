@@ -17,8 +17,9 @@
 
 package org.apache.cloudstack.api.command.user.vmsnapshot;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.user.Account;
+import com.cloud.vm.snapshot.VMSnapshot;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -31,10 +32,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.VMSnapshotResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.user.Account;
-import com.cloud.vm.snapshot.VMSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteVMSnapshot", description = "Deletes a vmsnapshot.", responseObject = SuccessResponse.class, since = "4.2.0", entityType = {VMSnapshot.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

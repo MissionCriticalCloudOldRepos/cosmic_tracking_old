@@ -24,13 +24,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 
+import com.cloud.agent.api.LogLevel.Log4jLevel;
+import com.cloud.utils.net.NetUtils;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.agent.api.LogLevel.Log4jLevel;
-import com.cloud.utils.net.NetUtils;
 
 public class SecurityGroupRulesCmd extends Command {
     private static Logger s_logger = LoggerFactory.getLogger(SecurityGroupRulesCmd.class);

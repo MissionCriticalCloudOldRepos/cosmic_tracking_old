@@ -16,13 +16,11 @@
 // under the License.
 package org.apache.cloudstack.engine.cloud.entity.api.db;
 
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.utils.db.Encrypt;
-import com.cloud.utils.db.GenericDao;
-import com.cloud.utils.db.StateMachine;
-import com.cloud.utils.fsm.FiniteStateObject;
-import com.cloud.vm.VirtualMachine;
-import com.cloud.vm.VirtualMachine.State;
+import java.security.SecureRandom;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -38,11 +36,14 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.utils.db.Encrypt;
+import com.cloud.utils.db.GenericDao;
+import com.cloud.utils.db.StateMachine;
+import com.cloud.utils.fsm.FiniteStateObject;
+import com.cloud.vm.VirtualMachine;
+import com.cloud.vm.VirtualMachine.State;
 
 @Entity
 @Table(name = "vm_instance")

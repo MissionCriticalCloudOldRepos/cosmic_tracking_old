@@ -16,6 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.usage;
 
+import com.cloud.event.EventTypes;
+import com.cloud.network.PhysicalNetworkTrafficType;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -26,10 +30,6 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.TrafficTypeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.event.EventTypes;
-import com.cloud.network.PhysicalNetworkTrafficType;
-import com.cloud.user.Account;
 
 @APICommand(name = "updateTrafficType", description = "Updates traffic type of a physical network", responseObject = TrafficTypeResponse.class, since = "3.0.0",
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

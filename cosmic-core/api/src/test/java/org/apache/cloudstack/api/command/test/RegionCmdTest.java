@@ -16,9 +16,12 @@
 // under the License.
 package org.apache.cloudstack.api.command.test;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
+import org.apache.cloudstack.api.ResponseGenerator;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.command.admin.region.AddRegionCmd;
+import org.apache.cloudstack.api.response.RegionResponse;
+import org.apache.cloudstack.region.Region;
+import org.apache.cloudstack.region.RegionService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,12 +29,8 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
-import org.apache.cloudstack.api.ResponseGenerator;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.command.admin.region.AddRegionCmd;
-import org.apache.cloudstack.api.response.RegionResponse;
-import org.apache.cloudstack.region.Region;
-import org.apache.cloudstack.region.RegionService;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 public class RegionCmdTest extends TestCase {
 

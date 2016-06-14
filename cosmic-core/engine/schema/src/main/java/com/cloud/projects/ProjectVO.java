@@ -28,11 +28,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.Identity;
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.Identity;
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = "projects")

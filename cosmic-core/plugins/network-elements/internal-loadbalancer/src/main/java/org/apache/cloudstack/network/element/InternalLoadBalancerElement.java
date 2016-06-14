@@ -26,15 +26,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.api.command.admin.internallb.ConfigureInternalLoadBalancerElementCmd;
-import org.apache.cloudstack.api.command.admin.internallb.CreateInternalLoadBalancerElementCmd;
-import org.apache.cloudstack.api.command.admin.internallb.ListInternalLoadBalancerElementsCmd;
-import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
-import org.apache.cloudstack.network.lb.InternalLoadBalancerVMManager;
-
 import com.cloud.agent.api.to.LoadBalancerTO;
 import com.cloud.configuration.ConfigurationManager;
 import com.cloud.dc.DataCenter;
@@ -83,6 +74,14 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.DomainRouterDao;
+
+import org.apache.cloudstack.api.command.admin.internallb.ConfigureInternalLoadBalancerElementCmd;
+import org.apache.cloudstack.api.command.admin.internallb.CreateInternalLoadBalancerElementCmd;
+import org.apache.cloudstack.api.command.admin.internallb.ListInternalLoadBalancerElementsCmd;
+import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
+import org.apache.cloudstack.network.lb.InternalLoadBalancerVMManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InternalLoadBalancerElement extends AdapterBase implements LoadBalancingServiceProvider, InternalLoadBalancerElementService, IpDeployer {
     private static final Logger s_logger = LoggerFactory.getLogger(InternalLoadBalancerElement.class);

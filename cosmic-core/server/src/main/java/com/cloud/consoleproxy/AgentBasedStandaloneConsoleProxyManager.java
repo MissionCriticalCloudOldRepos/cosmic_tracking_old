@@ -18,14 +18,13 @@ package com.cloud.consoleproxy;
 
 import java.util.List;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.host.Host;
 import com.cloud.host.HostVO;
 import com.cloud.info.ConsoleProxyInfo;
 import com.cloud.vm.UserVmVO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AgentBasedStandaloneConsoleProxyManager extends AgentBasedConsoleProxyManager {
     private static final Logger s_logger = LoggerFactory.getLogger(AgentBasedStandaloneConsoleProxyManager.class);

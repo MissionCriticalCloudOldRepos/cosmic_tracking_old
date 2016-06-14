@@ -25,10 +25,6 @@ import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 import javax.persistence.TableGenerator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.DataCenterDetailVO;
 import com.cloud.dc.DataCenterIpAddressVO;
 import com.cloud.dc.DataCenterLinkLocalIpAddressVO;
@@ -47,6 +43,10 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SequenceFetcher;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.net.NetUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * @config

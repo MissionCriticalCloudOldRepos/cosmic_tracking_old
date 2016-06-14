@@ -21,16 +21,14 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.cloud.serializer.GsonHelper;
+import com.cloud.utils.Pair;
 import com.google.gson.Gson;
 
 import org.apache.cloudstack.framework.jobs.impl.JobSerializerHelper;
 import org.apache.cloudstack.jobs.JobInfo;
-
-import com.cloud.serializer.GsonHelper;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VmWorkJobHandlerProxy can not be used as standalone due to run-time

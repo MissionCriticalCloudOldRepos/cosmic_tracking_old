@@ -18,9 +18,9 @@ package org.apache.cloudstack.framework.jobs.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.framework.jobs.impl.SyncQueueItemVO;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.framework.jobs.impl.SyncQueueItemVO;
 
 public interface SyncQueueItemDao extends GenericDao<SyncQueueItemVO, Long> {
     public SyncQueueItemVO getNextQueueItem(long queueId);

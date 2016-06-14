@@ -19,9 +19,9 @@
 
 package com.cloud.agent.api;
 
-import com.cloud.agent.api.routing.NetworkElementCommand;
-
 import java.util.List;
+
+import com.cloud.agent.api.routing.NetworkElementCommand;
 
 public class CheckS2SVpnConnectionsCommand extends NetworkElementCommand {
     List<String> vpnIps;

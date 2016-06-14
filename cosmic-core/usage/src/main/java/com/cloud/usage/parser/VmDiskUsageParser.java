@@ -25,18 +25,17 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.usage.UsageTypes;
-
 import com.cloud.usage.UsageVO;
 import com.cloud.usage.UsageVmDiskVO;
 import com.cloud.usage.dao.UsageDao;
 import com.cloud.usage.dao.UsageVmDiskDao;
 import com.cloud.user.AccountVO;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.apache.cloudstack.usage.UsageTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VmDiskUsageParser {

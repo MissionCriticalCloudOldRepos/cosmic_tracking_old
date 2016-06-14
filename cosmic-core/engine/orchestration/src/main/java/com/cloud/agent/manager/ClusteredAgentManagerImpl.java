@@ -42,16 +42,6 @@ import javax.naming.ConfigurationException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
-import org.apache.cloudstack.framework.config.ConfigDepot;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
-import org.apache.cloudstack.utils.identity.ManagementServerNode;
-import org.apache.cloudstack.utils.security.SSLUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CancelCommand;
 import com.cloud.agent.api.ChangeAgentAnswer;
@@ -93,6 +83,16 @@ import com.cloud.utils.exception.TaskExecutionException;
 import com.cloud.utils.nio.Link;
 import com.cloud.utils.nio.Task;
 import com.google.gson.Gson;
+
+import org.apache.cloudstack.framework.config.ConfigDepot;
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
+import org.apache.cloudstack.utils.identity.ManagementServerNode;
+import org.apache.cloudstack.utils.security.SSLUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClusteredAgentManagerImpl extends AgentManagerImpl implements ClusterManagerListener, ClusteredAgentRebalanceService {
     final static Logger s_logger = LoggerFactory.getLogger(ClusteredAgentManagerImpl.class);

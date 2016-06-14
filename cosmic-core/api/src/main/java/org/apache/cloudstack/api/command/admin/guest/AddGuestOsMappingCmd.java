@@ -16,6 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.guest;
 
+import com.cloud.event.EventTypes;
+import com.cloud.storage.GuestOSHypervisor;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,10 +31,6 @@ import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.api.response.GuestOsMappingResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.event.EventTypes;
-import com.cloud.storage.GuestOSHypervisor;
-import com.cloud.user.Account;
 
 @APICommand(name = "addGuestOsMapping", description = "Adds a guest OS name to hypervisor OS name mapping", responseObject = GuestOsMappingResponse.class,
 since = "4.4.0", requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

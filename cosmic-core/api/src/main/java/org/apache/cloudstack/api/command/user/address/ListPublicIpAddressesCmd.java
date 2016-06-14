@@ -19,8 +19,8 @@ package org.apache.cloudstack.api.command.user.address;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.network.IpAddress;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -36,9 +36,8 @@ import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
 import org.apache.cloudstack.api.response.VlanIpRangeResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.network.IpAddress;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listPublicIpAddresses", description = "Lists all public IP addresses", responseObject = IPAddressResponse.class, responseView = ResponseView.Restricted,
  requestHasSensitiveInfo = false, responseHasSensitiveInfo = false, entityType = { IpAddress.class })

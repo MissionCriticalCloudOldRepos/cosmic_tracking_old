@@ -17,11 +17,6 @@
 
 package com.cloud.upgrade.dao;
 
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
@@ -43,6 +38,11 @@ import com.cloud.utils.Pair;
 import com.cloud.utils.crypt.DBEncryptionUtil;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
+
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Upgrade410to420 implements DbUpgrade {
   final static Logger s_logger = LoggerFactory.getLogger(Upgrade410to420.class);

@@ -25,29 +25,28 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import com.cloud.utils.ReflectUtil;
-import com.cloud.utils.db.EntityManager;
-import org.apache.cloudstack.api.Identity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.events.EventBus;
-import org.apache.cloudstack.framework.events.EventBusException;
-
 import com.cloud.configuration.Config;
 import com.cloud.event.dao.EventDao;
+import com.cloud.projects.Project;
+import com.cloud.projects.dao.ProjectDao;
 import com.cloud.server.ManagementService;
 import com.cloud.user.Account;
 import com.cloud.user.AccountVO;
 import com.cloud.user.User;
 import com.cloud.user.dao.AccountDao;
 import com.cloud.user.dao.UserDao;
-import com.cloud.projects.dao.ProjectDao;
-import com.cloud.projects.Project;
+import com.cloud.utils.ReflectUtil;
 import com.cloud.utils.component.ComponentContext;
+import com.cloud.utils.db.EntityManager;
+
+import org.apache.cloudstack.api.Identity;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.apache.cloudstack.framework.events.EventBusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 public class ActionEventUtils {
     private static final Logger s_logger = LoggerFactory.getLogger(ActionEventUtils.class);

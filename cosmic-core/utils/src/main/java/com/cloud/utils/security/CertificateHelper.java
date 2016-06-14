@@ -40,10 +40,10 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import org.apache.commons.codec.binary.Base64;
-
 import com.cloud.utils.Ternary;
+import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.openssl.PEMReader;
 
 public class CertificateHelper {

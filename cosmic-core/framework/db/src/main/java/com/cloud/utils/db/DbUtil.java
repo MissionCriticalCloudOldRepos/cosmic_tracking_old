@@ -16,6 +16,8 @@
 // under the License.
 package com.cloud.utils.db;
 
+import static com.cloud.utils.AutoCloseableUtil.closeAutoCloseable;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -43,8 +45,6 @@ import javax.persistence.Transient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.cloud.utils.AutoCloseableUtil.closeAutoCloseable;
 
 public class DbUtil {
     protected final static Logger s_logger = LoggerFactory.getLogger(DbUtil.class);

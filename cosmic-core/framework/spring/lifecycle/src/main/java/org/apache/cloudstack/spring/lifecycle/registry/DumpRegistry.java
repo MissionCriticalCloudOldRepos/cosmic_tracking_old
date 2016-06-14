@@ -22,12 +22,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.utils.component.ComponentLifecycleBase;
 import com.cloud.utils.component.Named;
 import com.cloud.utils.component.Registry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DumpRegistry extends ComponentLifecycleBase {
 

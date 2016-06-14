@@ -22,19 +22,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import junit.framework.TestCase;
-
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.network.lb.InternalLoadBalancerVMService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InvalidParameterValueException;
@@ -56,6 +43,19 @@ import com.cloud.vm.DomainRouterVO;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.dao.DomainRouterDao;
+
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.network.lb.InternalLoadBalancerVMService;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import junit.framework.TestCase;
 
 /**
  * Set of unittests for InternalLoadBalancerVMService

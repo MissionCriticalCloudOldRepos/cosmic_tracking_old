@@ -19,8 +19,9 @@ package org.apache.cloudstack.api.command.user.vpc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.network.vpc.PrivateGateway;
+import com.cloud.network.vpc.VpcGateway;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -29,10 +30,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.PrivateGatewayResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
-
-import com.cloud.network.vpc.PrivateGateway;
-import com.cloud.network.vpc.VpcGateway;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listPrivateGateways", description = "List private gateways", responseObject = PrivateGatewayResponse.class, entityType = {VpcGateway.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

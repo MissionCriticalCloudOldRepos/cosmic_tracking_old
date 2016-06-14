@@ -27,12 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Test;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import com.cloud.agent.api.routing.DeleteIpAliasCommand;
 import com.cloud.agent.api.routing.DnsMasqConfigCommand;
 import com.cloud.agent.api.routing.IpAliasTO;
@@ -57,6 +51,11 @@ import com.cloud.agent.resource.virtualnetwork.model.IpAssociation;
 import com.cloud.agent.resource.virtualnetwork.model.LoadBalancerRule;
 import com.cloud.agent.resource.virtualnetwork.model.LoadBalancerRules;
 import com.cloud.network.lb.LoadBalancingRule.LbDestination;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.junit.Test;
 
 public class ConfigHelperTest {
 

@@ -31,11 +31,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.api.AddBaremetalDhcpCmd;
-import org.apache.cloudstack.api.ListBaremetalDhcpCmd;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.StartupCommand;
@@ -74,6 +69,11 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.UserVmDao;
+
+import org.apache.cloudstack.api.AddBaremetalDhcpCmd;
+import org.apache.cloudstack.api.ListBaremetalDhcpCmd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaremetalDhcpManagerImpl extends ManagerBase implements BaremetalDhcpManager, ResourceStateAdapter {
     private static final Logger s_logger = LoggerFactory.getLogger(BaremetalDhcpManagerImpl.class);

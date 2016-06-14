@@ -18,15 +18,14 @@ package com.cloud.api;
 
 import java.lang.reflect.Type;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.cloud.utils.encoding.URLEncoder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import com.cloud.utils.encoding.URLEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EncodedStringTypeAdapter implements JsonSerializer<String> {
     public static final Logger s_logger = LoggerFactory.getLogger(EncodedStringTypeAdapter.class.getName());

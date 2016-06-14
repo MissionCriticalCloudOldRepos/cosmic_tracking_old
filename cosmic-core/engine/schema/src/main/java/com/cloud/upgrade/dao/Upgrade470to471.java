@@ -17,13 +17,14 @@
 
 package com.cloud.upgrade.dao;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.script.Script;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.sql.Connection;
+
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Upgrade470to471 implements DbUpgrade {
     final static Logger s_logger = LoggerFactory.getLogger(Upgrade470to471.class);

@@ -16,13 +16,10 @@
 // under the License.
 package com.cloud.network.router;
 
-
 import java.net.URI;
 
 import javax.ejb.Local;
 import javax.inject.Inject;
-
-import org.cloud.network.router.deployment.RouterDeploymentDefinition;
 
 import com.cloud.network.IpAddressManager;
 import com.cloud.network.Network;
@@ -41,6 +38,8 @@ import com.cloud.vm.Nic;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import org.cloud.network.router.deployment.RouterDeploymentDefinition;
 
 
 @Local(value = {NicProfileHelper.class})

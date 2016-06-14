@@ -18,8 +18,9 @@ package org.apache.cloudstack.api.command.admin.template;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.StorageUnavailableException;
+import com.cloud.template.VirtualMachineTemplate;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -28,10 +29,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.command.user.template.CopyTemplateCmd;
 import org.apache.cloudstack.api.response.TemplateResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.StorageUnavailableException;
-import com.cloud.template.VirtualMachineTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "copyTemplate", description = "Copies a template from one zone to another.", responseObject = TemplateResponse.class, responseView = ResponseView.Full,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

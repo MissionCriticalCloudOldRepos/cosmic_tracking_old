@@ -16,21 +16,11 @@
 // under the License.
 package com.cloud.user;
 
+import java.net.InetAddress;
 import java.util.List;
 import java.util.Map;
-import java.net.InetAddress;
 
 import javax.naming.ConfigurationException;
-
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.acl.ControlledEntity;
-import org.apache.cloudstack.acl.RoleType;
-import org.apache.cloudstack.acl.SecurityChecker.AccessType;
-import org.apache.cloudstack.api.command.admin.account.UpdateAccountCmd;
-import org.apache.cloudstack.api.command.admin.user.DeleteUserCmd;
-import org.apache.cloudstack.api.command.admin.user.RegisterCmd;
-import org.apache.cloudstack.api.command.admin.user.UpdateUserCmd;
 
 import com.cloud.api.query.vo.ControlledViewEntity;
 import com.cloud.domain.Domain;
@@ -46,6 +36,15 @@ import com.cloud.utils.component.Manager;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.apache.cloudstack.acl.ControlledEntity;
+import org.apache.cloudstack.acl.RoleType;
+import org.apache.cloudstack.acl.SecurityChecker.AccessType;
+import org.apache.cloudstack.api.command.admin.account.UpdateAccountCmd;
+import org.apache.cloudstack.api.command.admin.user.DeleteUserCmd;
+import org.apache.cloudstack.api.command.admin.user.RegisterCmd;
+import org.apache.cloudstack.api.command.admin.user.UpdateUserCmd;
+import org.springframework.stereotype.Component;
 
 @Component
 public class MockAccountManagerImpl extends ManagerBase implements Manager, AccountManager {

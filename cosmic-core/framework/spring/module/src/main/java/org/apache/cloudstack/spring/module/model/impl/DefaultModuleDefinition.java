@@ -27,13 +27,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import org.apache.cloudstack.spring.module.model.ModuleDefinition;
+import org.apache.cloudstack.spring.module.util.ModuleLocationUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.StringUtils;
-
-import org.apache.cloudstack.spring.module.model.ModuleDefinition;
-import org.apache.cloudstack.spring.module.util.ModuleLocationUtils;
 
 public class DefaultModuleDefinition implements ModuleDefinition {
 

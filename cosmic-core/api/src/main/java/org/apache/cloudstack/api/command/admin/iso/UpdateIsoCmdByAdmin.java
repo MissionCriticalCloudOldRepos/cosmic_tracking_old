@@ -16,8 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.iso;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.template.VirtualMachineTemplate;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -25,8 +24,8 @@ import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.command.user.iso.UpdateIsoCmd;
 import org.apache.cloudstack.api.response.TemplateResponse;
-
-import com.cloud.template.VirtualMachineTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateIso", description = "Updates an ISO file.", responseObject = TemplateResponse.class, responseView = ResponseView.Full,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

@@ -19,6 +19,8 @@ package org.apache.cloudstack.api.command.user.volume;
 
 import java.util.List;
 
+import com.cloud.server.ResourceTag;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,8 +29,6 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ResourceDetailResponse;
 import org.apache.cloudstack.api.response.ResourceTagResponse;
-
-import com.cloud.server.ResourceTag;
 
 @APICommand(name = "listResourceDetails", description = "List resource detail(s)", responseObject = ResourceTagResponse.class, since = "4.2",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

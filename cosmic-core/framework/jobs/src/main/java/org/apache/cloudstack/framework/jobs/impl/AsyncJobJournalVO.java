@@ -27,10 +27,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.framework.jobs.AsyncJob;
-
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.framework.jobs.AsyncJob;
 
 @Entity
 @Table(name = "async_job_journal")

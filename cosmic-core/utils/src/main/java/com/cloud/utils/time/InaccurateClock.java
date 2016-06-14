@@ -25,11 +25,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.management.StandardMBean;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.utils.concurrency.NamedThreadFactory;
 import com.cloud.utils.mgmt.JmxUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  */

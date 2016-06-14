@@ -18,10 +18,9 @@ package com.cloud.usage.parser;
 
 import java.util.Date;
 
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 
 public abstract class UsageParser extends ManagedContextRunnable {
     public static final Logger s_logger = LoggerFactory.getLogger(UsageParser.class.getName());

@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.dc.dao.VlanDao;
 import com.cloud.deploy.DataCenterDeployment;
 import com.cloud.deploy.DeployDestination;
@@ -44,6 +41,9 @@ import com.cloud.user.Account;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.DomainRouterVO;
 import com.cloud.vm.VirtualMachineProfile.Param;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VpcRouterDeploymentDefinition extends RouterDeploymentDefinition {
     private static final Logger logger = LoggerFactory.getLogger(VpcRouterDeploymentDefinition.class);

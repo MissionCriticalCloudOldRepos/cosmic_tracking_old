@@ -16,11 +16,9 @@
 // under the License.
 package org.apache.cloudstack.resourcedetail.dao;
 
-
-import org.springframework.stereotype.Component;
-
 import org.apache.cloudstack.resourcedetail.NetworkACLItemDetailVO;
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
+import org.springframework.stereotype.Component;
 
 @Component
 public class NetworkACLItemDetailsDaoImpl extends ResourceDetailsDaoBase<NetworkACLItemDetailVO> implements NetworkACLItemDetailsDao {

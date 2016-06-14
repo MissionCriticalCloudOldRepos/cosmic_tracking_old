@@ -16,13 +16,13 @@
 // under the License.
 package com.cloud.test.regression;
 
+import com.cloud.test.regression.ApiCommand.ResponseType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.cloud.test.regression.ApiCommand.ResponseType;
 
 public class HA extends TestCase {
 

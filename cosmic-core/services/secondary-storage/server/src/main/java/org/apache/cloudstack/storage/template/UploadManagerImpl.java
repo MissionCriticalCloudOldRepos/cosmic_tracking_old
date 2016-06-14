@@ -30,11 +30,6 @@ import java.util.concurrent.Executors;
 import javax.naming.ConfigurationException;
 
 import com.cloud.agent.api.Answer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.storage.resource.SecondaryStorageResource;
-
 import com.cloud.agent.api.storage.CreateEntityDownloadURLAnswer;
 import com.cloud.agent.api.storage.CreateEntityDownloadURLCommand;
 import com.cloud.agent.api.storage.DeleteEntityDownloadURLCommand;
@@ -53,6 +48,10 @@ import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
+
+import org.apache.cloudstack.storage.resource.SecondaryStorageResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UploadManagerImpl extends ManagerBase implements UploadManager {
 

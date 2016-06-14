@@ -18,17 +18,16 @@ package com.cloud.storage.dao;
 
 import java.util.List;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.cloud.storage.Upload.Mode;
 import com.cloud.storage.Upload.Status;
 import com.cloud.storage.UploadVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UploadDaoImpl extends GenericDaoBase<UploadVO, Long> implements UploadDao {

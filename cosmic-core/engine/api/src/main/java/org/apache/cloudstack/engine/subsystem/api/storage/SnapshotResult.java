@@ -16,9 +16,9 @@
 // under the License.
 package org.apache.cloudstack.engine.subsystem.api.storage;
 
-import org.apache.cloudstack.storage.command.CommandResult;
-
 import com.cloud.agent.api.Answer;
+
+import org.apache.cloudstack.storage.command.CommandResult;
 
 public class SnapshotResult extends CommandResult {
     private SnapshotInfo snashot;

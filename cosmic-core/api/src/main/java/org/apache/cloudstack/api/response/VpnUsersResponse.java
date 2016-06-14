@@ -16,14 +16,13 @@
 // under the License.
 package org.apache.cloudstack.api.response;
 
+import com.cloud.network.VpnUser;
+import com.cloud.serializer.Param;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
-
-import com.cloud.network.VpnUser;
-import com.cloud.serializer.Param;
 
 @EntityReference(value = VpnUser.class)
 @SuppressWarnings("unused")

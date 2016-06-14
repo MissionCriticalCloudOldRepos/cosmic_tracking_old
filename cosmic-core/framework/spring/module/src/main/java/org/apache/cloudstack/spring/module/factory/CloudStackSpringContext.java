@@ -24,16 +24,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cloudstack.spring.module.locator.ModuleDefinitionLocator;
+import org.apache.cloudstack.spring.module.locator.impl.ClasspathModuleDefinitionLocator;
+import org.apache.cloudstack.spring.module.model.ModuleDefinition;
+import org.apache.cloudstack.spring.module.model.ModuleDefinitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
-
-import org.apache.cloudstack.spring.module.locator.ModuleDefinitionLocator;
-import org.apache.cloudstack.spring.module.locator.impl.ClasspathModuleDefinitionLocator;
-import org.apache.cloudstack.spring.module.model.ModuleDefinition;
-import org.apache.cloudstack.spring.module.model.ModuleDefinitionSet;
 
 public class CloudStackSpringContext {
 

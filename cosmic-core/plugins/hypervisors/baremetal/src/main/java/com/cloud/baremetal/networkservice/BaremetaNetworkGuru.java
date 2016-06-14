@@ -20,11 +20,6 @@ package com.cloud.baremetal.networkservice;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.Pod;
 import com.cloud.dc.PodVlanMapVO;
@@ -56,6 +51,11 @@ import com.cloud.utils.db.TransactionStatus;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaremetaNetworkGuru extends DirectPodBasedNetworkGuru {
     private static final Logger s_logger = LoggerFactory.getLogger(BaremetaNetworkGuru.class);

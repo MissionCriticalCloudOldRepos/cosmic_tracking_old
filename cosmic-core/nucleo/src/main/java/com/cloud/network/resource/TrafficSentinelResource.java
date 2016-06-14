@@ -34,9 +34,6 @@ import java.util.StringTokenizer;
 
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.IAgentControl;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -54,6 +51,9 @@ import com.cloud.agent.api.StartupTrafficMonitorCommand;
 import com.cloud.host.Host;
 import com.cloud.resource.ServerResource;
 import com.cloud.utils.exception.ExecutionException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TrafficSentinelResource implements ServerResource {
 

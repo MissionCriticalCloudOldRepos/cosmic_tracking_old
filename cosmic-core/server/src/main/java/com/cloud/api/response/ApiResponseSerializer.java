@@ -16,6 +16,16 @@
 // under the License.
 package com.cloud.api.response;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.cloud.api.ApiDBUtils;
 import com.cloud.api.ApiResponseGsonHelper;
 import com.cloud.api.ApiServer;
@@ -41,16 +51,6 @@ import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ApiResponseSerializer {
     private static final Logger s_logger = LoggerFactory.getLogger(ApiResponseSerializer.class.getName());

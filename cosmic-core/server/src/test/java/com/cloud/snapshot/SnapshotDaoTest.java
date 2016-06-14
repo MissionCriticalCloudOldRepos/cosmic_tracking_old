@@ -20,8 +20,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import com.cloud.storage.Snapshot;
+import com.cloud.storage.SnapshotVO;
+import com.cloud.storage.dao.SnapshotDaoImpl;
+import com.cloud.utils.component.ComponentContext;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,10 +31,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.cloud.storage.Snapshot;
-import com.cloud.storage.SnapshotVO;
-import com.cloud.storage.dao.SnapshotDaoImpl;
-import com.cloud.utils.component.ComponentContext;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/SnapshotDaoTestContext.xml")

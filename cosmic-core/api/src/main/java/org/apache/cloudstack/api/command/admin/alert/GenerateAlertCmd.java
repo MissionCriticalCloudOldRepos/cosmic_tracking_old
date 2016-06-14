@@ -16,6 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.alert;
 
+import com.cloud.event.EventTypes;
+
 import org.apache.cloudstack.alert.AlertService;
 import org.apache.cloudstack.alert.AlertService.AlertType;
 import org.apache.cloudstack.api.APICommand;
@@ -29,8 +31,6 @@ import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.event.EventTypes;
 
 @APICommand(name = "generateAlert", description = "Generates an alert", responseObject = SuccessResponse.class, since = "4.3",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

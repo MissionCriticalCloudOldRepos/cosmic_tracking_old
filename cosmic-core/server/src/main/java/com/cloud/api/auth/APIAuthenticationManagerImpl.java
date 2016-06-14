@@ -21,17 +21,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.utils.component.ComponentContext;
+import com.cloud.utils.component.ManagerBase;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.auth.APIAuthenticationManager;
 import org.apache.cloudstack.api.auth.APIAuthenticator;
 import org.apache.cloudstack.api.auth.PluggableAPIAuthenticator;
-
-import com.cloud.utils.component.ComponentContext;
-import com.cloud.utils.component.ManagerBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unchecked")
 public class APIAuthenticationManagerImpl extends ManagerBase implements APIAuthenticationManager {

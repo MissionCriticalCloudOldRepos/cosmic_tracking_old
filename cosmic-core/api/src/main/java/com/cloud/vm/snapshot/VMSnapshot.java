@@ -19,12 +19,12 @@ package com.cloud.vm.snapshot;
 
 import java.util.Date;
 
+import com.cloud.utils.fsm.StateMachine2;
+import com.cloud.utils.fsm.StateObject;
+
 import org.apache.cloudstack.acl.ControlledEntity;
 import org.apache.cloudstack.api.Identity;
 import org.apache.cloudstack.api.InternalIdentity;
-
-import com.cloud.utils.fsm.StateMachine2;
-import com.cloud.utils.fsm.StateObject;
 
 public interface VMSnapshot extends ControlledEntity, Identity, InternalIdentity, StateObject<VMSnapshot.State> {
 

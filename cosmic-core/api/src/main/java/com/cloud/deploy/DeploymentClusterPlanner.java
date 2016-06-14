@@ -18,10 +18,10 @@ package com.cloud.deploy;
 
 import java.util.List;
 
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import com.cloud.exception.InsufficientServerCapacityException;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
 
 /**
  */

@@ -19,10 +19,10 @@ package org.apache.cloudstack.api.command.user.snapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.cloudstack.acl.RoleType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.storage.snapshot.SnapshotPolicy;
+import com.cloud.utils.Pair;
 
+import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseListCmd;
@@ -30,9 +30,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.SnapshotPolicyResponse;
 import org.apache.cloudstack.api.response.VolumeResponse;
-
-import com.cloud.storage.snapshot.SnapshotPolicy;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listSnapshotPolicies", description = "Lists snapshot policies.", responseObject = SnapshotPolicyResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

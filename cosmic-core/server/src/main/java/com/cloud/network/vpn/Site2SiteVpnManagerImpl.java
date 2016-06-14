@@ -23,24 +23,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.command.user.vpn.CreateVpnConnectionCmd;
-import org.apache.cloudstack.api.command.user.vpn.CreateVpnCustomerGatewayCmd;
-import org.apache.cloudstack.api.command.user.vpn.CreateVpnGatewayCmd;
-import org.apache.cloudstack.api.command.user.vpn.DeleteVpnConnectionCmd;
-import org.apache.cloudstack.api.command.user.vpn.DeleteVpnCustomerGatewayCmd;
-import org.apache.cloudstack.api.command.user.vpn.DeleteVpnGatewayCmd;
-import org.apache.cloudstack.api.command.user.vpn.ListVpnConnectionsCmd;
-import org.apache.cloudstack.api.command.user.vpn.ListVpnCustomerGatewaysCmd;
-import org.apache.cloudstack.api.command.user.vpn.ListVpnGatewaysCmd;
-import org.apache.cloudstack.api.command.user.vpn.ResetVpnConnectionCmd;
-import org.apache.cloudstack.api.command.user.vpn.UpdateVpnCustomerGatewayCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.configuration.Config;
 import com.cloud.event.ActionEvent;
 import com.cloud.event.EventTypes;
@@ -79,6 +61,23 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.NetUtils;
 import com.cloud.vm.DomainRouterVO;
+
+import org.apache.cloudstack.api.command.user.vpn.CreateVpnConnectionCmd;
+import org.apache.cloudstack.api.command.user.vpn.CreateVpnCustomerGatewayCmd;
+import org.apache.cloudstack.api.command.user.vpn.CreateVpnGatewayCmd;
+import org.apache.cloudstack.api.command.user.vpn.DeleteVpnConnectionCmd;
+import org.apache.cloudstack.api.command.user.vpn.DeleteVpnCustomerGatewayCmd;
+import org.apache.cloudstack.api.command.user.vpn.DeleteVpnGatewayCmd;
+import org.apache.cloudstack.api.command.user.vpn.ListVpnConnectionsCmd;
+import org.apache.cloudstack.api.command.user.vpn.ListVpnCustomerGatewaysCmd;
+import org.apache.cloudstack.api.command.user.vpn.ListVpnGatewaysCmd;
+import org.apache.cloudstack.api.command.user.vpn.ResetVpnConnectionCmd;
+import org.apache.cloudstack.api.command.user.vpn.UpdateVpnCustomerGatewayCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Site2SiteVpnManagerImpl extends ManagerBase implements Site2SiteVpnManager {

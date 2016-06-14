@@ -28,11 +28,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.google.gson.Gson;
 
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.utils.exception.CloudRuntimeException;
 
 /**
  * Base class for API Test

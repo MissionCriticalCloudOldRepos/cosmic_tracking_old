@@ -18,9 +18,6 @@ package com.cloud.ha;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.CheckVirtualMachineAnswer;
 import com.cloud.agent.api.CheckVirtualMachineCommand;
@@ -31,6 +28,9 @@ import com.cloud.host.Status;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachine.PowerState;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CheckOnAgentInvestigator extends AdapterBase implements Investigator {
     private final static Logger s_logger = LoggerFactory.getLogger(CheckOnAgentInvestigator.class);

@@ -25,9 +25,20 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.cloud.agent.api.Answer;
+import com.cloud.agent.api.storage.DownloadAnswer;
+import com.cloud.agent.api.to.DataObjectType;
+import com.cloud.agent.api.to.DataTO;
+import com.cloud.alert.AlertManager;
 import com.cloud.storage.Upload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.storage.VMTemplateStorageResourceAssoc;
+import com.cloud.storage.VMTemplateVO;
+import com.cloud.storage.VolumeVO;
+import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.storage.dao.VMTemplateZoneDao;
+import com.cloud.storage.dao.VolumeDao;
+import com.cloud.storage.download.DownloadMonitor;
+import com.cloud.utils.net.Proxy;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
 import org.apache.cloudstack.engine.subsystem.api.storage.CreateCmdResult;
@@ -45,20 +56,8 @@ import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreVO;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
-
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.storage.DownloadAnswer;
-import com.cloud.agent.api.to.DataObjectType;
-import com.cloud.agent.api.to.DataTO;
-import com.cloud.alert.AlertManager;
-import com.cloud.storage.VMTemplateStorageResourceAssoc;
-import com.cloud.storage.VMTemplateVO;
-import com.cloud.storage.VolumeVO;
-import com.cloud.storage.dao.VMTemplateDao;
-import com.cloud.storage.dao.VMTemplateZoneDao;
-import com.cloud.storage.dao.VolumeDao;
-import com.cloud.storage.download.DownloadMonitor;
-import com.cloud.utils.net.Proxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseImageStoreDriverImpl implements ImageStoreDriver {
     private static final Logger s_logger = LoggerFactory.getLogger(BaseImageStoreDriverImpl.class);

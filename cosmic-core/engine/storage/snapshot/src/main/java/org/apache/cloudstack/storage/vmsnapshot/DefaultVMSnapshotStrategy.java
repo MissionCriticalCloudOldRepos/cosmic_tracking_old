@@ -24,15 +24,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.engine.subsystem.api.storage.StrategyPriority;
-import org.apache.cloudstack.engine.subsystem.api.storage.VMSnapshotOptions;
-import org.apache.cloudstack.engine.subsystem.api.storage.VMSnapshotStrategy;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.storage.to.VolumeObjectTO;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CreateVMSnapshotAnswer;
@@ -70,6 +61,14 @@ import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.snapshot.VMSnapshot;
 import com.cloud.vm.snapshot.VMSnapshotVO;
 import com.cloud.vm.snapshot.dao.VMSnapshotDao;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.StrategyPriority;
+import org.apache.cloudstack.engine.subsystem.api.storage.VMSnapshotOptions;
+import org.apache.cloudstack.engine.subsystem.api.storage.VMSnapshotStrategy;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.storage.to.VolumeObjectTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultVMSnapshotStrategy extends ManagerBase implements VMSnapshotStrategy {
     private static final Logger s_logger = LoggerFactory.getLogger(DefaultVMSnapshotStrategy.class);

@@ -23,13 +23,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.cloud.utils.Pair;
 import com.trilead.ssh2.ChannelCondition;
 import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.Session;
-import com.cloud.utils.Pair;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SshHelper {
     private static final int DEFAULT_CONNECT_TIMEOUT = 180000;

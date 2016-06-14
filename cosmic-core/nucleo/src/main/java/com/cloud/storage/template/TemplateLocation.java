@@ -27,15 +27,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
-
 import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.StorageLayer;
 import com.cloud.storage.template.Processor.FormatInfo;
 import com.cloud.utils.NumbersUtil;
+
+import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TemplateLocation {
     private static final Logger s_logger = LoggerFactory.getLogger(TemplateLocation.class);

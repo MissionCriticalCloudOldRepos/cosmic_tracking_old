@@ -22,9 +22,9 @@ package org.apache.cloudstack.api.agent.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import com.cloud.agent.api.CancelCommand;
+
+import org.junit.Test;
 
 public class CancelCommandTest {
     CancelCommand cc = new CancelCommand(123456789L, "goodreason");

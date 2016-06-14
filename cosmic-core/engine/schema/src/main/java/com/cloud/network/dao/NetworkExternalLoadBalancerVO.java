@@ -26,9 +26,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 /**
  * NetworkExternalLoadBalancerVO contains mapping of a network and the external load balancer device id assigned to the network

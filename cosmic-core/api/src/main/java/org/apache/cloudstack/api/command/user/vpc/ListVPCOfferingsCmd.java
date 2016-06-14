@@ -19,6 +19,9 @@ package org.apache.cloudstack.api.command.user.vpc;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.network.vpc.VpcOffering;
+import com.cloud.utils.Pair;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseListCmd;
@@ -27,9 +30,6 @@ import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.VpcOfferingResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.network.vpc.VpcOffering;
-import com.cloud.utils.Pair;
 
 @APICommand(name = "listVPCOfferings", description = "Lists VPC offerings", responseObject = VpcOfferingResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

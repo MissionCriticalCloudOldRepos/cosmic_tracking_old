@@ -21,17 +21,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Date;
 
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.security.keys.KeysManager;
-import org.apache.cloudstack.framework.security.keystore.KeystoreManager;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.AgentControlAnswer;
 import com.cloud.agent.api.Answer;
@@ -55,6 +44,15 @@ import com.cloud.servlet.ConsoleProxyServlet;
 import com.cloud.utils.Ternary;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.dao.VMInstanceDao;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.security.keys.KeysManager;
+import org.apache.cloudstack.framework.security.keystore.KeystoreManager;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class to manage interactions with agent-based console access

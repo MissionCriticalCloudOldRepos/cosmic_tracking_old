@@ -22,9 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.host.DetailVO;
 import com.cloud.utils.crypt.DBEncryptionUtil;
 import com.cloud.utils.db.GenericDaoBase;
@@ -32,6 +29,8 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class HostDetailsDaoImpl extends GenericDaoBase<DetailVO, Long> implements HostDetailsDao {

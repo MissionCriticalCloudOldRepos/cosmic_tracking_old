@@ -16,8 +16,16 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.vpc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.vpc.PrivateGateway;
+import com.cloud.network.vpc.Vpc;
+import com.cloud.network.vpc.VpcGateway;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -32,17 +40,8 @@ import org.apache.cloudstack.api.response.NetworkOfferingResponse;
 import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
 import org.apache.cloudstack.api.response.PrivateGatewayResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.vpc.PrivateGateway;
-import com.cloud.network.vpc.Vpc;
-import com.cloud.network.vpc.VpcGateway;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createPrivateGateway", description = "Creates a private gateway", responseObject = PrivateGatewayResponse.class, entityType = {VpcGateway.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

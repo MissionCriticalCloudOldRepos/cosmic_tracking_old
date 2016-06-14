@@ -22,9 +22,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.stereotype.Component;
-
 import com.cloud.host.HostVO;
 import com.cloud.host.dao.HostDao;
 import com.cloud.network.Network;
@@ -47,6 +44,9 @@ import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.UpdateBuilder;
 import com.cloud.vm.DomainRouterVO;
 import com.cloud.vm.VirtualMachine.State;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.stereotype.Component;
 
 @Component
 @DB

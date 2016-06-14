@@ -18,14 +18,13 @@ package org.apache.cloudstack.api;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.template.VirtualMachineTemplate;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.response.TemplatePermissionsResponse;
-
-import com.cloud.template.VirtualMachineTemplate;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseListTemplateOrIsoPermissionsCmd extends BaseCmd {
     public Logger logger = getLogger();

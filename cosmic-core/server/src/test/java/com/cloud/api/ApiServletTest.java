@@ -16,9 +16,19 @@
 // under the License.
 package com.cloud.api;
 
-import org.apache.cloudstack.api.auth.APIAuthenticationManager;
-import org.apache.cloudstack.api.auth.APIAuthenticationType;
-import org.apache.cloudstack.api.auth.APIAuthenticator;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.net.URLEncoder;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cloud.server.ManagementServer;
 import com.cloud.user.Account;
@@ -26,6 +36,9 @@ import com.cloud.user.AccountService;
 import com.cloud.user.User;
 
 import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.auth.APIAuthenticationManager;
+import org.apache.cloudstack.api.auth.APIAuthenticationType;
+import org.apache.cloudstack.api.auth.APIAuthenticator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,20 +47,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.net.URLEncoder;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.HashMap;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApiServletTest {

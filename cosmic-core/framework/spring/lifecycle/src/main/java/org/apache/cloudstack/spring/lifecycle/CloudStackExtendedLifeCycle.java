@@ -29,14 +29,14 @@ import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.utils.component.ComponentLifecycle;
 import com.cloud.utils.component.SystemIntegrityChecker;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.mgmt.JmxUtil;
 import com.cloud.utils.mgmt.ManagementBean;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CloudStackExtendedLifeCycle extends AbstractBeanCollector {
 

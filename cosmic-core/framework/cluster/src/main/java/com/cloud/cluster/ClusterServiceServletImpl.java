@@ -19,6 +19,8 @@ package com.cloud.cluster;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+import com.cloud.utils.Profiler;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -27,8 +29,6 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloud.utils.Profiler;
 
 public class ClusterServiceServletImpl implements ClusterService {
     private static final long serialVersionUID = 4574025200012566153L;

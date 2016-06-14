@@ -19,10 +19,9 @@
 
 package com.cloud.api.response;
 
+import com.cloud.serializer.Param;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
-
-import com.cloud.serializer.Param;
 
 public class EmptyFieldExclusionStrategy implements ExclusionStrategy {
 

@@ -25,13 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import com.cloud.host.Host;
+import com.cloud.storage.Snapshot;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.SnapshotStrategy.SnapshotOperation;
 import org.apache.cloudstack.storage.helper.StorageStrategyFactoryImpl;
-
-import com.cloud.host.Host;
-import com.cloud.storage.Snapshot;
+import org.junit.Test;
 
 public class StrategyPriorityTest {
 

@@ -21,10 +21,10 @@ package org.apache.cloudstack.api.agent.test;
 
 import static org.junit.Assert.assertFalse;
 
-import org.junit.Test;
-
 import com.cloud.agent.api.AgentControlAnswer;
 import com.cloud.agent.api.AgentControlCommand;
+
+import org.junit.Test;
 
 public class AgentControlAnswerTest {
     AgentControlCommand acc = new AgentControlCommand();

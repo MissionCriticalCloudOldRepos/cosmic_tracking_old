@@ -16,17 +16,6 @@
 // under the License.
 package com.cloud.network.element;
 
-import org.apache.cloudstack.api.command.admin.router.ConfigureVirtualRouterElementCmd;
-import org.apache.cloudstack.api.command.admin.router.CreateVirtualRouterElementCmd;
-import org.apache.cloudstack.api.command.admin.router.ListVirtualRouterElementsCmd;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.network.topology.NetworkTopology;
-import org.apache.cloudstack.network.topology.NetworkTopologyContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.cloud.network.router.deployment.RouterDeploymentDefinition;
-import org.cloud.network.router.deployment.RouterDeploymentDefinitionBuilder;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +93,17 @@ import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.UserVmDao;
 import com.google.gson.Gson;
+
+import org.apache.cloudstack.api.command.admin.router.ConfigureVirtualRouterElementCmd;
+import org.apache.cloudstack.api.command.admin.router.CreateVirtualRouterElementCmd;
+import org.apache.cloudstack.api.command.admin.router.ListVirtualRouterElementsCmd;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.network.topology.NetworkTopology;
+import org.apache.cloudstack.network.topology.NetworkTopologyContext;
+import org.cloud.network.router.deployment.RouterDeploymentDefinition;
+import org.cloud.network.router.deployment.RouterDeploymentDefinitionBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VirtualRouterElement extends AdapterBase implements VirtualRouterElementService, DhcpServiceProvider, UserDataServiceProvider, SourceNatServiceProvider,
 StaticNatServiceProvider, FirewallServiceProvider, LoadBalancingServiceProvider, PortForwardingServiceProvider, RemoteAccessVPNServiceProvider, IpDeployer,

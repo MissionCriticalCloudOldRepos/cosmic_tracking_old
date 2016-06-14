@@ -24,12 +24,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.command.user.firewall.ListPortForwardingRulesCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.configuration.ConfigurationManager;
 import com.cloud.domain.dao.DomainDao;
 import com.cloud.event.ActionEvent;
@@ -96,6 +90,12 @@ import com.cloud.vm.dao.NicSecondaryIpDao;
 import com.cloud.vm.dao.NicSecondaryIpVO;
 import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import org.apache.cloudstack.api.command.user.firewall.ListPortForwardingRulesCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RulesManagerImpl extends ManagerBase implements RulesManager, RulesService {
     private static final Logger s_logger = LoggerFactory.getLogger(RulesManagerImpl.class);

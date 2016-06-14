@@ -16,8 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.volume;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.storage.Volume;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -28,8 +27,8 @@ import org.apache.cloudstack.api.command.user.volume.ListVolumesCmd;
 import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.StoragePoolResponse;
 import org.apache.cloudstack.api.response.VolumeResponse;
-
-import com.cloud.storage.Volume;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @APICommand(name = "listVolumes", description = "Lists all volumes.", responseObject = VolumeResponse.class, responseView = ResponseView.Full, entityType = {Volume.class},

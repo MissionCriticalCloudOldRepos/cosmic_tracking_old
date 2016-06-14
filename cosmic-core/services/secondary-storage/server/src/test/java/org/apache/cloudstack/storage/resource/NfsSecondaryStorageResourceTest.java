@@ -28,16 +28,16 @@ import java.util.Properties;
 
 import javax.naming.ConfigurationException;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import com.cloud.utils.PropertiesUtil;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.cloud.utils.PropertiesUtil;
-import com.cloud.utils.exception.CloudRuntimeException;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 public class NfsSecondaryStorageResourceTest extends TestCase {
     private static Map<String, Object> testParams;

@@ -23,11 +23,11 @@ import java.text.MessageFormat;
 import java.util.Hashtable;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class RequestWrapper {
 

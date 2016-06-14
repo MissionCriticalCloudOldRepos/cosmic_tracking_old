@@ -16,10 +16,8 @@
 // under the License.
 package com.cloud.network.dao;
 
-
-import org.springframework.stereotype.Component;
-
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
+import org.springframework.stereotype.Component;
 
 @Component
 public class NetworkDetailsDaoImpl extends ResourceDetailsDaoBase<NetworkDetailVO> implements NetworkDetailsDao {

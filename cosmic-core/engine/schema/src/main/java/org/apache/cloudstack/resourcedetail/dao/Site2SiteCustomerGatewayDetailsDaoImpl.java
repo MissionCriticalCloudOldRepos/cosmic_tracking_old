@@ -16,11 +16,9 @@
 // under the License.
 package org.apache.cloudstack.resourcedetail.dao;
 
-
-import org.springframework.stereotype.Component;
-
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
 import org.apache.cloudstack.resourcedetail.Site2SiteCustomerGatewayDetailVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Site2SiteCustomerGatewayDetailsDaoImpl extends ResourceDetailsDaoBase<Site2SiteCustomerGatewayDetailVO> implements Site2SiteCustomerGatewayDetailsDao {

@@ -29,9 +29,6 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.host.HostVO;
 import com.cloud.host.Status.Event;
@@ -47,6 +44,9 @@ import com.cloud.storage.resource.DummySecondaryStorageResource;
 import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.net.NfsUtils;
 import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SecondaryStorageDiscoverer is used to discover secondary

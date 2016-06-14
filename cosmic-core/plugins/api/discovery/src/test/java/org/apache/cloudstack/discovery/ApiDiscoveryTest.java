@@ -32,18 +32,17 @@ import java.util.Set;
 
 import javax.naming.ConfigurationException;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import com.cloud.user.User;
+import com.cloud.user.UserVO;
+import com.cloud.utils.component.PluggableService;
 
 import org.apache.cloudstack.acl.APIChecker;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.command.user.discovery.ListApisCmd;
 import org.apache.cloudstack.api.response.ApiDiscoveryResponse;
 import org.apache.cloudstack.api.response.ListResponse;
-
-import com.cloud.user.User;
-import com.cloud.user.UserVO;
-import com.cloud.utils.component.PluggableService;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class ApiDiscoveryTest {
     private static APIChecker s_apiChecker = mock(APIChecker.class);

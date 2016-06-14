@@ -18,19 +18,17 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.response.InstanceGroupResponse;
-
 import com.cloud.api.ApiResponseHelper;
 import com.cloud.api.query.vo.InstanceGroupJoinVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.vm.InstanceGroup;
+
+import org.apache.cloudstack.api.response.InstanceGroupResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class InstanceGroupJoinDaoImpl extends GenericDaoBase<InstanceGroupJoinVO, Long> implements InstanceGroupJoinDao {

@@ -20,11 +20,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.cloud.utils.Predicate;
+
 import org.apache.cloudstack.framework.jobs.AsyncJob;
 import org.apache.cloudstack.framework.jobs.AsyncJobExecutionContext;
 import org.apache.cloudstack.framework.jobs.Outcome;
-
-import com.cloud.utils.Predicate;
 
 public class OutcomeImpl<T> implements Outcome<T> {
     protected AsyncJob _job;

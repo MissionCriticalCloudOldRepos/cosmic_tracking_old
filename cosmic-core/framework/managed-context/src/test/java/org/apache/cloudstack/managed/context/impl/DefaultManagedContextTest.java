@@ -27,11 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import org.apache.cloudstack.managed.context.ManagedContextListener;
 import org.apache.cloudstack.managed.threadlocal.ManagedThreadLocal;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DefaultManagedContextTest {
 

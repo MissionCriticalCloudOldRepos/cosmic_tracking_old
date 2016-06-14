@@ -17,8 +17,6 @@
 
 package com.cloud.network.rules;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-
 import com.cloud.agent.api.PvlanSetupCommand;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.Network;
@@ -26,6 +24,8 @@ import com.cloud.network.NetworkModel;
 import com.cloud.network.dao.NetworkDao;
 import com.cloud.network.router.VirtualRouter;
 import com.cloud.vm.NicProfile;
+
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
 
 public class DhcpPvlanRules extends RuleApplier {
 

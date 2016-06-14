@@ -19,8 +19,8 @@ package org.apache.cloudstack.api.command.admin.resource;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.cloud.capacity.Capacity;
+import com.cloud.exception.InvalidParameterValueException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -31,9 +31,8 @@ import org.apache.cloudstack.api.response.ClusterResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.capacity.Capacity;
-import com.cloud.exception.InvalidParameterValueException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listCapacity", description = "Lists all the system wide capacities.", responseObject = CapacityResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

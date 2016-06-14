@@ -19,16 +19,16 @@ package com.cloud.api;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 import org.apache.cloudstack.api.ResponseObject;
 import org.apache.cloudstack.api.response.ExceptionResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
 public class ResponseObjectTypeAdapter implements JsonSerializer<ResponseObject> {
     public static final Logger s_logger = LoggerFactory.getLogger(ResponseObjectTypeAdapter.class.getName());

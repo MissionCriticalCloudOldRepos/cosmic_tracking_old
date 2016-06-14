@@ -19,9 +19,15 @@
 
 package com.cloud.storage.template;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.cloud.exception.InternalErrorException;
 import com.cloud.storage.Storage;
 import com.cloud.storage.StorageLayer;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,11 +35,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VhdProcessorTest {

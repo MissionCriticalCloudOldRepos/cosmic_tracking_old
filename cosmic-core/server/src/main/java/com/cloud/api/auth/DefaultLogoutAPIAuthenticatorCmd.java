@@ -16,8 +16,17 @@
 // under the License.
 package com.cloud.api.auth;
 
+import java.net.InetAddress;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.cloud.api.response.ApiResponseSerializer;
 import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
 import org.apache.cloudstack.api.BaseCmd;
@@ -28,13 +37,6 @@ import org.apache.cloudstack.api.auth.PluggableAPIAuthenticator;
 import org.apache.cloudstack.api.response.LogoutCmdResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
-import java.net.InetAddress;
 
 @APICommand(name = "logout", description = "Logs out the user", responseObject = LogoutCmdResponse.class, entityType = {})
 public class DefaultLogoutAPIAuthenticatorCmd extends BaseCmd implements APIAuthenticator {

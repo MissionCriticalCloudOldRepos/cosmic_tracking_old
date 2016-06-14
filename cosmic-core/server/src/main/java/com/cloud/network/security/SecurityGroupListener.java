@@ -22,9 +22,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
@@ -43,6 +40,9 @@ import com.cloud.host.Host;
 import com.cloud.host.Status;
 import com.cloud.network.security.SecurityGroupWork.Step;
 import com.cloud.network.security.dao.SecurityGroupWorkDao;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Listens for answers to ingress rules modification commands

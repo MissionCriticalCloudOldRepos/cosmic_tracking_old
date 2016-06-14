@@ -27,9 +27,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cloud.agent.api.to.VirtualMachineTO;
 import com.cloud.host.dao.HostDao;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
@@ -40,6 +37,9 @@ import com.cloud.storage.dao.GuestOSDao;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BareMetalGuru extends HypervisorGuruBase implements HypervisorGuru {
     private static final Logger s_logger = LoggerFactory.getLogger(BareMetalGuru.class);

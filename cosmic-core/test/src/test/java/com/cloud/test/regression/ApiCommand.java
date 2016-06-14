@@ -36,6 +36,8 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.cloud.test.utils.UtilsForTest;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -45,8 +47,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.cloud.test.utils.UtilsForTest;
 
 public class ApiCommand {
     public static final Logger s_logger = LoggerFactory.getLogger(ApiCommand.class.getName());
