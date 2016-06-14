@@ -3,33 +3,11 @@
   <artifactId>cloud-plugin-hypervisor-kvm</artifactId>
   <name>Cosmic Plugin - Hypervisor KVM</name>
   <version>5.1.0.0-SNAPSHOT</version>
-
   <parent>
     <groupId>cloud.cosmic</groupId>
     <artifactId>cosmic</artifactId>
     <version>5.1.0.0-SNAPSHOT</version>
   </parent>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.libvirt</groupId>
-        <artifactId>libvirt</artifactId>
-        <version>0.5.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.ceph</groupId>
-        <artifactId>rados</artifactId>
-        <version>0.2.0</version>
-      </dependency>
-      <dependency>
-        <groupId>net.java.dev.jna</groupId>
-        <artifactId>jna</artifactId>
-        <version>4.0.0</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>cloud.cosmic</groupId>
@@ -80,7 +58,6 @@
       <artifactId>jna</artifactId>
     </dependency>
   </dependencies>
-
   <pluginRepositories>
     <pluginRepository>
       <id>checkstyle-maven-repo</id>
