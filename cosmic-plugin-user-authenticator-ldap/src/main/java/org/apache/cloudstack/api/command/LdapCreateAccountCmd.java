@@ -35,7 +35,8 @@ import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.ldap.LdapManager;
 import org.apache.cloudstack.ldap.LdapUser;
 import org.apache.cloudstack.ldap.NoLdapUserMatchingQueryException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.bouncycastle.util.encoders.Base64;
 
 import com.cloud.domain.DomainVO;
@@ -46,7 +47,7 @@ import com.cloud.user.UserAccount;
 
 @APICommand(name = "ldapCreateAccount", description = "Creates an account from an LDAP user", responseObject = AccountResponse.class, since = "4.2.0", requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class LdapCreateAccountCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(LdapCreateAccountCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(LdapCreateAccountCmd.class.getName());
     private static final String s_name = "createaccountresponse";
 
     @Inject

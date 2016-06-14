@@ -21,7 +21,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseListCmd;
@@ -42,7 +43,7 @@ import com.cloud.user.Account;
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class LdapListUsersCmd extends BaseListCmd {
 
-    public static final Logger s_logger = Logger.getLogger(LdapListUsersCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(LdapListUsersCmd.class.getName());
     private static final String s_name = "ldapuserresponse";
     @Inject
     private LdapManager _ldapManager;

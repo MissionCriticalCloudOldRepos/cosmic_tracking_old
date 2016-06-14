@@ -22,7 +22,8 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.cloud.server.auth.UserAuthenticator;
 import com.cloud.user.Account;
@@ -34,7 +35,7 @@ import com.cloud.utils.Pair;
 import com.cloud.utils.component.AdapterBase;
 
 public class LdapAuthenticator extends AdapterBase implements UserAuthenticator {
-    private static final Logger s_logger = Logger.getLogger(LdapAuthenticator.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(LdapAuthenticator.class.getName());
 
     @Inject
     private LdapManager _ldapManager;
