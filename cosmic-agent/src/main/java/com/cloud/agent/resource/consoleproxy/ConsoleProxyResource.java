@@ -32,7 +32,8 @@ import java.util.Properties;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
@@ -82,7 +83,7 @@ import com.cloud.utils.script.Script;
  *
  */
 public class ConsoleProxyResource extends ServerResourceBase implements ServerResource {
-    static final Logger s_logger = Logger.getLogger(ConsoleProxyResource.class);
+    static final Logger s_logger = LoggerFactory.getLogger(ConsoleProxyResource.class);
 
     private final Properties _properties = new Properties();
     private Thread _consoleProxyMain = null;

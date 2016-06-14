@@ -31,7 +31,8 @@ import com.cloud.utils.nio.*;
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
 import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import javax.naming.ConfigurationException;
@@ -60,7 +61,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * For more configuration options, see the individual types.
  **/
 public class Agent implements HandlerFactory, IAgentControl {
-    private static final Logger s_logger = Logger.getLogger(Agent.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(Agent.class.getName());
 
     public enum ExitStatus {
         Normal(0), // Normal status = 0.
