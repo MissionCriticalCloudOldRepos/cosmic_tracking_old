@@ -6,7 +6,8 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.rabbitmq.client.*;
 import org.apache.cloudstack.framework.events.*;
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.ConfigurationException;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeoutException;
 
 public class RabbitMQEventBus extends ManagerBase implements EventBus {
 
-    private static final Logger s_logger = Logger.getLogger(RabbitMQEventBus.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RabbitMQEventBus.class);
     // details of AMQP server
     private static String amqpHost;
     private static Integer port;
