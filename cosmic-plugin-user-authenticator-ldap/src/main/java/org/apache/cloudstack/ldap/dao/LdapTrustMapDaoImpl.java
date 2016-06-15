@@ -18,13 +18,12 @@
  */
 package org.apache.cloudstack.ldap.dao;
 
-
+import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
 import org.apache.cloudstack.ldap.LdapTrustMapVO;
 import org.springframework.stereotype.Component;
-
-import com.cloud.utils.db.GenericDaoBase;
 
 @Component
 public class LdapTrustMapDaoImpl extends GenericDaoBase<LdapTrustMapVO, Long> implements LdapTrustMapDao  {

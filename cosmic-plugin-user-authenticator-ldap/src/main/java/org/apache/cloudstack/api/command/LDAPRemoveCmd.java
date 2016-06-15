@@ -20,16 +20,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.cloud.user.Account;
+import com.cloud.utils.Pair;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.response.LDAPConfigResponse;
 import org.apache.cloudstack.api.response.LDAPRemoveResponse;
 import org.apache.cloudstack.ldap.LdapConfigurationVO;
 import org.apache.cloudstack.ldap.LdapManager;
-import org.apache.log4j.Logger;
-
-import com.cloud.user.Account;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @deprecated as of 4.3 use the new api {@link LdapDeleteConfigurationCmd}
@@ -38,7 +39,7 @@ import com.cloud.utils.Pair;
 @APICommand(name = "ldapRemove", description = "Remove the LDAP context for this site.", responseObject = LDAPConfigResponse.class, since = "3.0.1",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class LDAPRemoveCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(LDAPRemoveCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(LDAPRemoveCmd.class.getName());
 
     @Inject
     private LdapManager _ldapManager;

@@ -21,11 +21,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.naming.directory.SearchControls;
 
+import com.cloud.utils.Pair;
+
 import org.apache.cloudstack.framework.config.ConfigKey;
 import org.apache.cloudstack.framework.config.Configurable;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
-import com.cloud.utils.Pair;
 import org.apache.cloudstack.ldap.dao.LdapConfigurationDao;
 
 public class LdapConfiguration implements Configurable{

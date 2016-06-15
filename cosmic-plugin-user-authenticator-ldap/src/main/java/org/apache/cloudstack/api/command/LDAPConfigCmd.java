@@ -21,8 +21,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.user.Account;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -36,14 +41,9 @@ import org.apache.cloudstack.framework.config.impl.ConfigurationVO;
 import org.apache.cloudstack.ldap.LdapConfiguration;
 import org.apache.cloudstack.ldap.LdapConfigurationVO;
 import org.apache.cloudstack.ldap.LdapManager;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.user.Account;
-import com.cloud.utils.Pair;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @deprecated as of 4.3 use the new api {@link LdapAddConfigurationCmd}
@@ -53,7 +53,7 @@ import com.cloud.utils.Pair;
         requestHasSensitiveInfo = true, responseHasSensitiveInfo = false)
 
 public class LDAPConfigCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(LDAPConfigCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(LDAPConfigCmd.class.getName());
 
     private static final String s_name = "ldapconfigresponse";
 
