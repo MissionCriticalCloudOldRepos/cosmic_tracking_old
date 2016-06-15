@@ -16,12 +16,13 @@ import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
 import com.google.common.base.Strings;
 
-import org.apache.log4j.Logger;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BridgeVifDriver extends VifDriverBase {
 
-  private final Logger logger = Logger.getLogger(BridgeVifDriver.class);
+  private final Logger logger = LoggerFactory.getLogger(BridgeVifDriver.class);
 
   private int timeout;
 

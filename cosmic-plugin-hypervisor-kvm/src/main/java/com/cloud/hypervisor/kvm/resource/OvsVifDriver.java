@@ -13,12 +13,13 @@ import com.cloud.utils.net.NetUtils;
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OvsVifDriver extends VifDriverBase {
 
-  private final Logger logger = Logger.getLogger(OvsVifDriver.class);
+  private final Logger logger = LoggerFactory.getLogger(OvsVifDriver.class);
 
   private int timeout;
 

@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CpuStat {
 
-  private final Logger logger = Logger.getLogger(CpuStat.class);
+  private final Logger logger = LoggerFactory.getLogger(CpuStat.class);
 
   private Integer cores;
   private UptimeStats lastStats;

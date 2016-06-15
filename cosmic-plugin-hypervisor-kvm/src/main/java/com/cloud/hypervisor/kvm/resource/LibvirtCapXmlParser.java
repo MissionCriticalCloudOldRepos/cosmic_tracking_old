@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class LibvirtCapXmlParser extends LibvirtXmlParser {
 
-  private final Logger logger = Logger.getLogger(LibvirtCapXmlParser.class);
+  private final Logger logger = LoggerFactory.getLogger(LibvirtCapXmlParser.class);
 
   private boolean host;
   private boolean guest;

@@ -7,11 +7,12 @@ import java.util.concurrent.Callable;
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KvmHaChecker extends KvmHaBase implements Callable<Boolean> {
 
-  private static final Logger logger = Logger.getLogger(KvmHaChecker.class);
+  private static final Logger logger = LoggerFactory.getLogger(KvmHaChecker.class);
   private final List<NfsStoragePool> pools;
   private final String hostIp;
   private final long heartbeatTimeoutSeconds = 360;

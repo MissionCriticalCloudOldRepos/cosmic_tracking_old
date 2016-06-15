@@ -19,16 +19,17 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.libvirt.StoragePool;
 import org.libvirt.StoragePoolInfo;
 import org.libvirt.StorageVol;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ManagedNfsStorageAdaptor implements StorageAdaptor {
 
-  private final Logger logger = Logger.getLogger(ManagedNfsStorageAdaptor.class);
+  private final Logger logger = LoggerFactory.getLogger(ManagedNfsStorageAdaptor.class);
 
   private final String mountPoint = "/mnt";
   private final StorageLayer storageLayer;

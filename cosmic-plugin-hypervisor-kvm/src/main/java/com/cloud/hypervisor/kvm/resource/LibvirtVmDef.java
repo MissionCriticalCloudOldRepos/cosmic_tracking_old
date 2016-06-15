@@ -8,10 +8,11 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LibvirtVmDef {
-  private static final Logger s_logger = Logger.getLogger(LibvirtVmDef.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtVmDef.class);
 
   private String hvsType;
   private static long s_libvirtVersion;

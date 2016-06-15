@@ -10,13 +10,14 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.cloud.utils.exception.CloudRuntimeException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ResourceWrapper(handles = DestroyCommand.class)
 public final class LibvirtDestroyCommandWrapper
     extends CommandWrapper<DestroyCommand, Answer, LibvirtComputingResource> {
 
-  private static final Logger s_logger = Logger.getLogger(LibvirtDestroyCommandWrapper.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtDestroyCommandWrapper.class);
 
   @Override
   public Answer execute(final DestroyCommand command, final LibvirtComputingResource libvirtComputingResource) {

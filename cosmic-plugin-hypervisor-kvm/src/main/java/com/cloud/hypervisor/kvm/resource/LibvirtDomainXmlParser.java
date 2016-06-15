@@ -17,9 +17,10 @@ import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.RngDef.RngBackendModel;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef.WatchDogAction;
 import com.cloud.hypervisor.kvm.resource.LibvirtVmDef.WatchDogDef.WatchDogModel;
-
 import com.google.common.base.Strings;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,7 +29,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class LibvirtDomainXmlParser {
-  private static final Logger s_logger = Logger.getLogger(LibvirtDomainXmlParser.class);
+  private static final Logger s_logger = LoggerFactory.getLogger(LibvirtDomainXmlParser.class);
   private final List<InterfaceDef> interfaces = new ArrayList<InterfaceDef>();
   private final List<DiskDef> diskDefs = new ArrayList<DiskDef>();
   private final List<RngDef> rngDefs = new ArrayList<RngDef>();

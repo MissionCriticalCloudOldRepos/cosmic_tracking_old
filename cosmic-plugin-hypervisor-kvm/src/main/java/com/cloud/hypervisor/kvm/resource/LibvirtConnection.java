@@ -3,15 +3,15 @@ package com.cloud.hypervisor.kvm.resource;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cloud.hypervisor.Hypervisor;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 
-import org.apache.log4j.Logger;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LibvirtConnection {
-  private static final Logger LOGGER = Logger.getLogger(LibvirtConnection.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(LibvirtConnection.class);
 
   private static Map<String, Connect> connections = new HashMap<String, Connect>();
 

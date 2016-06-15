@@ -15,11 +15,12 @@ import com.cloud.hypervisor.Hypervisor;
 import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KvmInvestigator extends AdapterBase implements Investigator {
 
-  private final Logger logger = Logger.getLogger(KvmInvestigator.class);
+  private final Logger logger = LoggerFactory.getLogger(KvmInvestigator.class);
 
   @Inject
   HostDao hostDao;

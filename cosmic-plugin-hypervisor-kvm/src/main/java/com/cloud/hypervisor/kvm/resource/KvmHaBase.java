@@ -6,15 +6,16 @@ import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.OutputInterpreter.AllLinesParser;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
 import org.libvirt.LibvirtException;
 import org.libvirt.StoragePool;
 import org.libvirt.StoragePoolInfo;
 import org.libvirt.StoragePoolInfo.StoragePoolState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KvmHaBase {
 
-  private static final Logger logger = Logger.getLogger(KvmHaBase.class);
+  private static final Logger logger = LoggerFactory.getLogger(KvmHaBase.class);
 
   private final long timeout = 60000; /* 1 minutes */
   protected static String heartBeatPath;

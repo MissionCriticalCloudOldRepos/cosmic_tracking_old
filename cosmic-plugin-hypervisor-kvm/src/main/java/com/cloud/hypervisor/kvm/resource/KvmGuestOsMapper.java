@@ -3,10 +3,11 @@ package com.cloud.hypervisor.kvm.resource;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KvmGuestOsMapper {
-  private static final Logger logger = Logger.getLogger(KvmGuestOsMapper.class);
+  private static final Logger logger = LoggerFactory.getLogger(KvmGuestOsMapper.class);
   private static Map<String, String> mapper = new HashMap<String, String>();
 
   static {
