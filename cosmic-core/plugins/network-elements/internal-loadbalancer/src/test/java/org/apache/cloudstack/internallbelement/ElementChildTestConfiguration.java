@@ -18,21 +18,6 @@ package org.apache.cloudstack.internallbelement;
 
 import java.io.IOException;
 
-import org.mockito.Mockito;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.core.type.filter.TypeFilter;
-
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
-import org.apache.cloudstack.network.lb.InternalLoadBalancerVMManager;
-import org.apache.cloudstack.test.utils.SpringUtils;
-
 import com.cloud.configuration.ConfigurationManager;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.network.IpAddressManager;
@@ -44,6 +29,20 @@ import com.cloud.user.AccountManager;
 import com.cloud.utils.db.EntityManager;
 import com.cloud.utils.net.NetUtils;
 import com.cloud.vm.dao.DomainRouterDao;
+
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
+import org.apache.cloudstack.network.lb.InternalLoadBalancerVMManager;
+import org.apache.cloudstack.test.utils.SpringUtils;
+import org.mockito.Mockito;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.core.type.filter.TypeFilter;
 
 @Configuration
 @ComponentScan(basePackageClasses = {NetUtils.class},

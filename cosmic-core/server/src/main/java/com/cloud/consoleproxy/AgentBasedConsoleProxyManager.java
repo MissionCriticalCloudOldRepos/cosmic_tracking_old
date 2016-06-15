@@ -21,12 +21,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.security.keys.KeysManager;
-import org.apache.cloudstack.framework.security.keystore.KeystoreManager;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.GetVncPortAnswer;
 import com.cloud.agent.api.GetVncPortCommand;
@@ -45,8 +39,14 @@ import com.cloud.vm.dao.ConsoleProxyDao;
 import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.dao.VMInstanceDao;
 
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.security.keys.KeysManager;
+import org.apache.cloudstack.framework.security.keystore.KeystoreManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AgentBasedConsoleProxyManager extends ManagerBase implements ConsoleProxyManager {
-    private static final Logger s_logger = Logger.getLogger(AgentBasedConsoleProxyManager.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AgentBasedConsoleProxyManager.class);
 
     @Inject
     protected HostDao _hostDao;

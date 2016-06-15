@@ -23,18 +23,19 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.messagebus.MessageBus;
-import org.apache.cloudstack.framework.messagebus.PublishScope;
-
 import com.cloud.agent.api.HostVmStateReportEntry;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.dao.VMInstanceDao;
 
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.messagebus.MessageBus;
+import org.apache.cloudstack.framework.messagebus.PublishScope;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class VirtualMachinePowerStateSyncImpl implements VirtualMachinePowerStateSync {
-    private static final Logger s_logger = Logger.getLogger(VirtualMachinePowerStateSyncImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VirtualMachinePowerStateSyncImpl.class);
 
     @Inject MessageBus _messageBus;
     @Inject VMInstanceDao _instanceDao;

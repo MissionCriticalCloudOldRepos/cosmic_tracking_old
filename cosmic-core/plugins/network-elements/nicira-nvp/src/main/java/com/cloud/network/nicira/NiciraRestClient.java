@@ -23,15 +23,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.rest.BasicRestClient;
 import com.cloud.utils.rest.CloudstackRESTException;
 import com.cloud.utils.rest.HttpConstants;
@@ -39,9 +30,19 @@ import com.cloud.utils.rest.HttpMethods;
 import com.cloud.utils.rest.HttpStatusCodeHelper;
 import com.cloud.utils.rest.HttpUriRequestBuilder;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NiciraRestClient extends BasicRestClient {
 
-    private static final Logger s_logger = Logger.getLogger(NiciraRestClient.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NiciraRestClient.class);
 
     private static final String CONTENT_TYPE = HttpConstants.CONTENT_TYPE;
     private static final String TEXT_HTML_CONTENT_TYPE = HttpConstants.TEXT_HTML_CONTENT_TYPE;

@@ -16,6 +16,14 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.storage;
 
+import java.net.UnknownHostException;
+import java.util.Map;
+
+import com.cloud.exception.ResourceInUseException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.storage.StoragePool;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -26,21 +34,14 @@ import org.apache.cloudstack.api.response.ClusterResponse;
 import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.StoragePoolResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-import org.apache.log4j.Logger;
-
-import java.net.UnknownHostException;
-import java.util.Map;
-
-import com.cloud.exception.ResourceInUseException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.storage.StoragePool;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("rawtypes")
 @APICommand(name = "createStoragePool", description = "Creates a storage pool.", responseObject = StoragePoolResponse.class,
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateStoragePoolCmd extends BaseCmd {
-  public static final Logger s_logger = Logger.getLogger(CreateStoragePoolCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(CreateStoragePoolCmd.class.getName());
 
   private static final String s_name = "createstoragepoolresponse";
 

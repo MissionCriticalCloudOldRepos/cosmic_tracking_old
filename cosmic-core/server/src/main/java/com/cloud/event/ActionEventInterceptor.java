@@ -20,12 +20,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.utils.component.ComponentMethodInterceptor;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.utils.component.ComponentMethodInterceptor;
 
 public class ActionEventInterceptor implements ComponentMethodInterceptor, MethodInterceptor {
 

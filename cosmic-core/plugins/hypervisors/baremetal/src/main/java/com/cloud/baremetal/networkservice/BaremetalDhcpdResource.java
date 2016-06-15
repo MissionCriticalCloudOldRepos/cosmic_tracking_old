@@ -27,10 +27,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
-import com.trilead.ssh2.SCPClient;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.HostVmStateReportEntry;
@@ -39,9 +35,13 @@ import com.cloud.agent.api.PingRoutingCommand;
 import com.cloud.agent.api.routing.DhcpEntryCommand;
 import com.cloud.utils.script.Script;
 import com.cloud.utils.ssh.SSHCmdHelper;
+import com.trilead.ssh2.SCPClient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaremetalDhcpdResource extends BaremetalDhcpResourceBase {
-    private static final Logger s_logger = Logger.getLogger(BaremetalDhcpdResource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BaremetalDhcpdResource.class);
 
     @Override
     public boolean configure(String name, Map<String, Object> params) throws ConfigurationException {

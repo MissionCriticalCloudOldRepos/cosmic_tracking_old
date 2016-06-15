@@ -18,10 +18,10 @@ package org.apache.cloudstack.framework.config;
 
 import java.sql.Date;
 
+import com.cloud.utils.exception.CloudRuntimeException;
+
 import org.apache.cloudstack.framework.config.impl.ConfigDepotImpl;
 import org.apache.cloudstack.framework.config.impl.ConfigurationVO;
-
-import com.cloud.utils.exception.CloudRuntimeException;
 
 /**
  * ConfigKey supplants the original Config.java.  It is just a class

@@ -29,9 +29,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.persistence.TableGenerator;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.concurrency.NamedThreadFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Since Mysql does not have sequence support, we have
@@ -42,7 +43,7 @@ import com.cloud.utils.concurrency.NamedThreadFactory;
  *
  */
 public class SequenceFetcher {
-    private final static Logger s_logger = Logger.getLogger(SequenceFetcher.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(SequenceFetcher.class);
     ExecutorService _executors;
     private final static Random random = new Random();
 

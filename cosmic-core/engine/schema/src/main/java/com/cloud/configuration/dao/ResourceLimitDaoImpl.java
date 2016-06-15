@@ -19,9 +19,6 @@ package com.cloud.configuration.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.configuration.Resource;
 import com.cloud.configuration.Resource.ResourceOwnerType;
 import com.cloud.configuration.Resource.ResourceType;
@@ -30,6 +27,8 @@ import com.cloud.configuration.ResourceLimitVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class ResourceLimitDaoImpl extends GenericDaoBase<ResourceLimitVO, Long> implements ResourceLimitDao {

@@ -20,7 +20,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.network.lb.CertService;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -32,14 +33,13 @@ import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.SslCertResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.network.lb.CertService;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listSslCerts", description = "Lists SSL certificates", responseObject = SslCertResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListSslCertsCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteSslCertCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteSslCertCmd.class.getName());
 
     private static final String s_name = "listsslcertsresponse";
 

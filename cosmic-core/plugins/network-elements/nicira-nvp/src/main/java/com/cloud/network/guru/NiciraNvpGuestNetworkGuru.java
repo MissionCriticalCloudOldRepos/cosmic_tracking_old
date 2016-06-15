@@ -68,12 +68,13 @@ import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NiciraNvpGuestNetworkGuru extends GuestNetworkGuru {
     private static final int MAX_NAME_LENGTH = 40;
 
-    private static final Logger s_logger = Logger.getLogger(NiciraNvpGuestNetworkGuru.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NiciraNvpGuestNetworkGuru.class);
 
     @Inject
     protected NetworkModel networkModel;

@@ -23,18 +23,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.usage.UsageVMInstanceVO;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class UsageVMInstanceDaoImpl extends GenericDaoBase<UsageVMInstanceVO, Long> implements UsageVMInstanceDao {
-    public static final Logger s_logger = Logger.getLogger(UsageVMInstanceDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UsageVMInstanceDaoImpl.class.getName());
 
     protected static final String UPDATE_USAGE_INSTANCE_SQL = "UPDATE usage_vm_instance SET end_date = ? "
         + "WHERE account_id = ? and vm_instance_id = ? and usage_type = ? and end_date IS NULL";
@@ -62,7 +62,7 @@ public class UsageVMInstanceDaoImpl extends GenericDaoBase<UsageVMInstanceVO, Lo
             pstmt.executeUpdate();
             txn.commit();
         } catch (Exception e) {
-            s_logger.warn(e);
+            s_logger.warn(e.toString());
         } finally {
             txn.close();
         }

@@ -16,21 +16,6 @@
 // under the License.
 package com.cloud.network.security;
 
-import org.apache.cloudstack.acl.SecurityChecker.AccessType;
-import org.apache.cloudstack.api.command.user.securitygroup.AuthorizeSecurityGroupEgressCmd;
-import org.apache.cloudstack.api.command.user.securitygroup.AuthorizeSecurityGroupIngressCmd;
-import org.apache.cloudstack.api.command.user.securitygroup.CreateSecurityGroupCmd;
-import org.apache.cloudstack.api.command.user.securitygroup.DeleteSecurityGroupCmd;
-import org.apache.cloudstack.api.command.user.securitygroup.RevokeSecurityGroupEgressCmd;
-import org.apache.cloudstack.api.command.user.securitygroup.RevokeSecurityGroupIngressCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.cloudstack.utils.identity.ManagementServerNode;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -120,8 +105,24 @@ import com.cloud.vm.dao.NicSecondaryIpDao;
 import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.dao.VMInstanceDao;
 
+import org.apache.cloudstack.acl.SecurityChecker.AccessType;
+import org.apache.cloudstack.api.command.user.securitygroup.AuthorizeSecurityGroupEgressCmd;
+import org.apache.cloudstack.api.command.user.securitygroup.AuthorizeSecurityGroupIngressCmd;
+import org.apache.cloudstack.api.command.user.securitygroup.CreateSecurityGroupCmd;
+import org.apache.cloudstack.api.command.user.securitygroup.DeleteSecurityGroupCmd;
+import org.apache.cloudstack.api.command.user.securitygroup.RevokeSecurityGroupEgressCmd;
+import org.apache.cloudstack.api.command.user.securitygroup.RevokeSecurityGroupIngressCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.cloudstack.utils.identity.ManagementServerNode;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SecurityGroupManagerImpl extends ManagerBase implements SecurityGroupManager, SecurityGroupService, StateListener<State, VirtualMachine.Event, VirtualMachine> {
-  public static final Logger s_logger = Logger.getLogger(SecurityGroupManagerImpl.class);
+  public static final Logger s_logger = LoggerFactory.getLogger(SecurityGroupManagerImpl.class);
 
   @Inject
   SecurityGroupDao _securityGroupDao;

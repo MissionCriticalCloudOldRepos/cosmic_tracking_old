@@ -21,7 +21,7 @@ package com.cloud.utils.script;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 public class Script2 extends Script {
     HashMap<String, ParamType> _params = new HashMap<String, ParamType>();

@@ -20,11 +20,11 @@ package org.apache.cloudstack.engine.subsystem.api.storage;
 
 import java.util.Map;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.SnapshotStrategy.SnapshotOperation;
-
 import com.cloud.host.Host;
 import com.cloud.storage.Snapshot;
 import com.cloud.vm.snapshot.VMSnapshot;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.SnapshotStrategy.SnapshotOperation;
 
 public interface StorageStrategyFactory {
 

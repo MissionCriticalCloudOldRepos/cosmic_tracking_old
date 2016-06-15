@@ -23,9 +23,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.xml.DOMConfigurator;
-
 import com.cloud.consoleproxy.util.Logger;
+
+import org.apache.log4j.xml.DOMConfigurator;
 
 //
 //

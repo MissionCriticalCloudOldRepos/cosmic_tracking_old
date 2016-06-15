@@ -22,6 +22,10 @@ package com.cloud.utils.ssh;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.trilead.ssh2.ChannelCondition;
+import com.trilead.ssh2.Connection;
+import com.trilead.ssh2.Session;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +33,6 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.trilead.ssh2.ChannelCondition;
-import com.trilead.ssh2.Connection;
-import com.trilead.ssh2.Session;
 
 @PrepareForTest({ Thread.class, SshHelper.class })
 @RunWith(PowerMockRunner.class)

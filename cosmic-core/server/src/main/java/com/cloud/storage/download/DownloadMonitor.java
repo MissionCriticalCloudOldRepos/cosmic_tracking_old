@@ -16,11 +16,11 @@
 // under the License.
 package com.cloud.storage.download;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
-import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
-
 import com.cloud.agent.api.storage.DownloadAnswer;
 import com.cloud.utils.component.Manager;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
+import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
 
 /**
  * Monitor download progress of all templates across all servers

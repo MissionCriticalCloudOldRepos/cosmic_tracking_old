@@ -19,10 +19,6 @@ package com.cloud.network.vpc.dao;
 import java.util.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.vpc.PrivateIpVO;
 import com.cloud.utils.db.DB;
 import com.cloud.utils.db.GenericDaoBase;
@@ -33,10 +29,14 @@ import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 @DB()
 public class PrivateIpDaoImpl extends GenericDaoBase<PrivateIpVO, Long> implements PrivateIpDao {
-    private static final Logger s_logger = Logger.getLogger(PrivateIpDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PrivateIpDaoImpl.class);
 
     private final SearchBuilder<PrivateIpVO> AllFieldsSearch;
     private final GenericSearchBuilder<PrivateIpVO, Integer> CountAllocatedByNetworkId;

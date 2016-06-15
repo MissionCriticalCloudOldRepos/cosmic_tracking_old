@@ -18,7 +18,8 @@ package org.apache.cloudstack.api.command.admin.user;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.user.Account;
+import com.cloud.user.User;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -30,14 +31,13 @@ import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.UserResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.region.RegionService;
-
-import com.cloud.user.Account;
-import com.cloud.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteUser", description = "Deletes a user for an account", responseObject = SuccessResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteUserCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteUserCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteUserCmd.class.getName());
 
     private static final String s_name = "deleteuserresponse";
 

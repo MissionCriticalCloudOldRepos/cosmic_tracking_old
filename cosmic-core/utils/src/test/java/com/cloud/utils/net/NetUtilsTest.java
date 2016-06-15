@@ -35,16 +35,17 @@ import java.math.BigInteger;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
-import org.junit.Test;
-
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.NetUtils.SupersetOrSubset;
 import com.googlecode.ipv6.IPv6Address;
 
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NetUtilsTest {
 
-    private static final Logger s_logger = Logger.getLogger(NetUtilsTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetUtilsTest.class);
 
     @Test
     public void testGetRandomIpFromCidrWithSize24() throws Exception {

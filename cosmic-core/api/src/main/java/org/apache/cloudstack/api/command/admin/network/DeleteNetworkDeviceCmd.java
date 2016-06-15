@@ -18,7 +18,12 @@ package org.apache.cloudstack.api.command.admin.network;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -29,18 +34,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.HostResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.network.ExternalNetworkDeviceManager;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteNetworkDevice", description = "Deletes network device.", responseObject = SuccessResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteNetworkDeviceCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteNetworkDeviceCmd.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteNetworkDeviceCmd.class);
     private static final String s_name = "deletenetworkdeviceresponse";
 
     @Inject

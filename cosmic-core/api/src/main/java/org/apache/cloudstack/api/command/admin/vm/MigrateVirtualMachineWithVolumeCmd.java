@@ -21,18 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.BaseAsyncCmd;
-import org.apache.cloudstack.api.Parameter;
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.response.HostResponse;
-import org.apache.cloudstack.api.response.UserVmResponse;
-
 import com.cloud.event.EventTypes;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InvalidParameterValueException;
@@ -44,13 +32,25 @@ import com.cloud.user.Account;
 import com.cloud.uservm.UserVm;
 import com.cloud.vm.VirtualMachine;
 
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseAsyncCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.response.HostResponse;
+import org.apache.cloudstack.api.response.UserVmResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @APICommand(name = "migrateVirtualMachineWithVolume",
             description = "Attempts Migration of a VM with its volumes to a different host",
         responseObject = UserVmResponse.class, entityType = {VirtualMachine.class},
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = true)
 public class MigrateVirtualMachineWithVolumeCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(MigrateVMCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(MigrateVMCmd.class.getName());
 
     private static final String s_name = "migratevirtualmachinewithvolumeresponse";
 

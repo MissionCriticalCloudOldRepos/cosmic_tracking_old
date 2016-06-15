@@ -18,12 +18,12 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.response.DomainRouterResponse;
-
 import com.cloud.api.query.vo.DomainRouterJoinVO;
 import com.cloud.network.router.VirtualRouter;
 import com.cloud.user.Account;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.response.DomainRouterResponse;
 
 public interface DomainRouterJoinDao extends GenericDao<DomainRouterJoinVO, Long> {
 

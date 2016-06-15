@@ -29,9 +29,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Formatter;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.NumbersUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * copied from the public domain utility from John Burkard.
@@ -39,7 +40,7 @@ import com.cloud.utils.NumbersUtil;
  * @version 2.1.3
  **/
 public class MacAddress {
-    private static final Logger s_logger = Logger.getLogger(MacAddress.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(MacAddress.class);
     private long _addr = 0;
 
     protected MacAddress() {

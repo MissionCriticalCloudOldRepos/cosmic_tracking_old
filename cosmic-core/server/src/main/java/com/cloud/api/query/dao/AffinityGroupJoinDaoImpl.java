@@ -21,20 +21,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.affinity.AffinityGroup;
-import org.apache.cloudstack.affinity.AffinityGroupResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.api.ApiResponseHelper;
 import com.cloud.api.query.vo.AffinityGroupJoinVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.apache.cloudstack.affinity.AffinityGroup;
+import org.apache.cloudstack.affinity.AffinityGroupResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AffinityGroupJoinDaoImpl extends GenericDaoBase<AffinityGroupJoinVO, Long> implements AffinityGroupJoinDao {
-    public static final Logger s_logger = Logger.getLogger(AffinityGroupJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(AffinityGroupJoinDaoImpl.class);
 
     @Inject
     private ConfigurationDao _configDao;

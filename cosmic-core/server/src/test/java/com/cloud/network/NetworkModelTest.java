@@ -25,11 +25,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.cloud.dc.VlanVO;
 import com.cloud.dc.dao.VlanDao;
 import com.cloud.network.dao.IPAddressDao;
@@ -39,6 +34,11 @@ import com.cloud.utils.db.Filter;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.net.Ip;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import junit.framework.Assert;
 
 public class NetworkModelTest {
     @Before

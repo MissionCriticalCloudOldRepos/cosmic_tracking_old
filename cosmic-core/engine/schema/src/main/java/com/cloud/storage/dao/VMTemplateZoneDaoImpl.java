@@ -18,19 +18,19 @@ package com.cloud.storage.dao;
 
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.storage.VMTemplateZoneVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class VMTemplateZoneDaoImpl extends GenericDaoBase<VMTemplateZoneVO, Long> implements VMTemplateZoneDao {
-    public static final Logger s_logger = Logger.getLogger(VMTemplateZoneDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(VMTemplateZoneDaoImpl.class.getName());
 
     protected final SearchBuilder<VMTemplateZoneVO> ZoneSearch;
     protected final SearchBuilder<VMTemplateZoneVO> TemplateSearch;

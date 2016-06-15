@@ -18,6 +18,12 @@
  */
 package org.apache.cloudstack.api.command.user.template;
 
+import java.net.MalformedURLException;
+import java.util.Collection;
+import java.util.Map;
+
+import com.cloud.exception.ResourceAllocationException;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.AbstractGetUploadParamsCmd;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,18 +33,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.GetUploadParamsResponse;
 import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
-import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.Map;
-
-import com.cloud.exception.ResourceAllocationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "getUploadParamsForTemplate", description = "upload an existing template into the CloudStack cloud. ", responseObject = GetUploadParamsResponse.class, since =
 "4.6.0", requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class GetUploadParamsForTemplateCmd extends AbstractGetUploadParamsCmd {
-  public static final Logger s_logger = Logger.getLogger(GetUploadParamsForTemplateCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(GetUploadParamsForTemplateCmd.class.getName());
 
   private static final String s_name = "postuploadtemplateresponse";
 

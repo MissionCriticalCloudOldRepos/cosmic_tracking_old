@@ -25,16 +25,17 @@ import java.util.TreeMap;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.configuration.Config;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.Pair;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UserDispersingPlanner extends FirstFitPlanner implements DeploymentClusterPlanner {
 
-    private static final Logger s_logger = Logger.getLogger(UserDispersingPlanner.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(UserDispersingPlanner.class);
 
     /**
      * This method should reorder the given list of Cluster Ids by applying any necessary heuristic

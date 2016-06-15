@@ -19,10 +19,6 @@ package com.cloud.projects.dao;
 import java.sql.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.projects.ProjectInvitation.State;
 import com.cloud.projects.ProjectInvitationVO;
 import com.cloud.utils.DateUtil;
@@ -30,9 +26,13 @@ import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class ProjectInvitationDaoImpl extends GenericDaoBase<ProjectInvitationVO, Long> implements ProjectInvitationDao {
-    private static final Logger s_logger = Logger.getLogger(ProjectInvitationDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ProjectInvitationDaoImpl.class);
     protected final SearchBuilder<ProjectInvitationVO> AllFieldsSearch;
     protected final SearchBuilder<ProjectInvitationVO> InactiveSearch;
 

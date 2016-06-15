@@ -18,10 +18,10 @@ package org.apache.cloudstack.acl;
 
 import java.util.List;
 
-import org.apache.cloudstack.acl.SecurityChecker.AccessType;
-
 import com.cloud.user.Account;
 import com.cloud.utils.component.Adapter;
+
+import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 
 /**
  * QueryChecker returns granted access at domain, account or resource level.

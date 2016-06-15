@@ -22,8 +22,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.Network;
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.offering.NetworkOffering;
@@ -38,6 +36,8 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @DB()

@@ -25,8 +25,22 @@ import java.util.Timer;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import com.cloud.agent.AgentManager;
+import com.cloud.agent.api.storage.DownloadAnswer;
+import com.cloud.configuration.Config;
+import com.cloud.storage.RegisterVolumePayload;
+import com.cloud.storage.Storage.ImageFormat;
+import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
+import com.cloud.storage.Volume;
+import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.storage.dao.VolumeDao;
+import com.cloud.storage.template.TemplateConstants;
+import com.cloud.storage.upload.UploadListener;
+import com.cloud.template.VirtualMachineTemplate;
+import com.cloud.utils.component.ComponentContext;
+import com.cloud.utils.component.ManagerBase;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.net.Proxy;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -45,27 +59,13 @@ import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
 import org.apache.cloudstack.storage.to.VolumeObjectTO;
-
-import com.cloud.agent.AgentManager;
-import com.cloud.agent.api.storage.DownloadAnswer;
-import com.cloud.utils.net.Proxy;
-import com.cloud.configuration.Config;
-import com.cloud.storage.RegisterVolumePayload;
-import com.cloud.storage.Storage.ImageFormat;
-import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
-import com.cloud.storage.Volume;
-import com.cloud.storage.dao.VMTemplateDao;
-import com.cloud.storage.dao.VolumeDao;
-import com.cloud.storage.template.TemplateConstants;
-import com.cloud.storage.upload.UploadListener;
-import com.cloud.template.VirtualMachineTemplate;
-import com.cloud.utils.component.ComponentContext;
-import com.cloud.utils.component.ManagerBase;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DownloadMonitorImpl extends ManagerBase implements DownloadMonitor {
-    static final Logger s_logger = Logger.getLogger(DownloadMonitorImpl.class);
+    static final Logger s_logger = LoggerFactory.getLogger(DownloadMonitorImpl.class);
 
     @Inject
     private TemplateDataStoreDao _vmTemplateStoreDao;

@@ -16,6 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.volume;
 
+import com.cloud.event.EventTypes;
+import com.cloud.storage.Volume;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -25,10 +29,6 @@ import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.StoragePoolResponse;
 import org.apache.cloudstack.api.response.VolumeResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.storage.Volume;
-import com.cloud.user.Account;
 
 @APICommand(name = "migrateVolume", description = "Migrate volume", responseObject = VolumeResponse.class, since = "3.0.0", responseView = ResponseView.Restricted, entityType = {Volume.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)

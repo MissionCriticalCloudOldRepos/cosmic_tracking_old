@@ -18,12 +18,11 @@ package com.cloud.network.as.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.as.AutoScaleVmGroupVmMapVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class AutoScaleVmGroupVmMapDaoImpl extends GenericDaoBase<AutoScaleVmGroupVmMapVO, Long> implements AutoScaleVmGroupVmMapDao {

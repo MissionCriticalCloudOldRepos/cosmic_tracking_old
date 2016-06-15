@@ -19,19 +19,20 @@ package com.cloud.cluster;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+import com.cloud.utils.Profiler;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
-import org.apache.log4j.Logger;
-
-import com.cloud.utils.Profiler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClusterServiceServletImpl implements ClusterService {
     private static final long serialVersionUID = 4574025200012566153L;
-    private static final Logger s_logger = Logger.getLogger(ClusterServiceServletImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ClusterServiceServletImpl.class);
 
     private String _serviceUrl;
 

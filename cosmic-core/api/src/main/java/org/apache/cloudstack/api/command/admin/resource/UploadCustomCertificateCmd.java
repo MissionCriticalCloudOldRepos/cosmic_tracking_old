@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.resource;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -25,16 +26,15 @@ import org.apache.cloudstack.api.BaseAsyncCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.CustomCertificateResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "uploadCustomCertificate",
             responseObject = CustomCertificateResponse.class,
             description = "Uploads a custom certificate for the console proxy VMs to use for SSL. Can be used to upload a single certificate signed by a known CA. Can also be used, through multiple calls, to upload a chain of certificates from CA to the custom certificate itself.",
             requestHasSensitiveInfo = true, responseHasSensitiveInfo = false)
 public class UploadCustomCertificateCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(UploadCustomCertificateCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UploadCustomCertificateCmd.class.getName());
 
     private static final String s_name = "uploadcustomcertificateresponse";
 

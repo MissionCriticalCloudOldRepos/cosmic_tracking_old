@@ -19,9 +19,6 @@ package com.cloud.vpc.dao;
 import java.lang.reflect.Field;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-
 import com.cloud.network.Network;
 import com.cloud.network.Network.GuestType;
 import com.cloud.network.Networks.TrafficType;
@@ -33,9 +30,12 @@ import com.cloud.offerings.dao.NetworkOfferingDao;
 import com.cloud.offerings.dao.NetworkOfferingDaoImpl;
 import com.cloud.utils.db.DB;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @DB()
 public class MockNetworkOfferingDaoImpl extends NetworkOfferingDaoImpl implements NetworkOfferingDao {
-    private static final Logger s_logger = Logger.getLogger(MockNetworkOfferingDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(MockNetworkOfferingDaoImpl.class);
 
     /* (non-Javadoc)
      * @see com.cloud.offerings.dao.NetworkOfferingDao#findByUniqueName(java.lang.String)
@@ -142,10 +142,10 @@ public class MockNetworkOfferingDaoImpl extends NetworkOfferingDaoImpl implement
             f.setAccessible(true);
             f.setLong(voToReturn, id);
         } catch (NoSuchFieldException ex) {
-            s_logger.warn(ex);
+            s_logger.warn(ex.toString());
             return null;
         } catch (IllegalAccessException ex) {
-            s_logger.warn(ex);
+            s_logger.warn(ex.toString());
             return null;
         }
 

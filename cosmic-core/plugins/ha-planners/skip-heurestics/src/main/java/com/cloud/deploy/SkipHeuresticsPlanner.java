@@ -16,16 +16,18 @@
 // under the License.
 package com.cloud.deploy;
 
-import com.cloud.vm.VirtualMachineProfile;
-import org.apache.log4j.Logger;
-
-
-import javax.naming.ConfigurationException;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.ConfigurationException;
+
+import com.cloud.vm.VirtualMachineProfile;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SkipHeuresticsPlanner extends FirstFitPlanner implements HAPlanner {
-    private static final Logger s_logger = Logger.getLogger(SkipHeuresticsPlanner.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SkipHeuresticsPlanner.class);
 
 
     /**

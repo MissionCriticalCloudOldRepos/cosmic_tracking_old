@@ -20,16 +20,24 @@ import com.cloud.event.EventTypes;
 import com.cloud.exception.ResourceAllocationException;
 import com.cloud.network.PhysicalNetworkTrafficType;
 import com.cloud.user.Account;
-import org.apache.cloudstack.api.*;
+
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiCommandJobType;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseAsyncCreateCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
 import org.apache.cloudstack.api.response.TrafficTypeResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "addTrafficType", description = "Adds traffic type to a physical network", responseObject = TrafficTypeResponse.class, since = "3.0.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddTrafficTypeCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(AddTrafficTypeCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddTrafficTypeCmd.class.getName());
 
     private static final String s_name = "addtraffictyperesponse";
 

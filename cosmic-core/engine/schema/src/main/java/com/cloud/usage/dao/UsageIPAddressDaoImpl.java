@@ -24,19 +24,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
 import com.cloud.exception.CloudException;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.usage.UsageIPAddressVO;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class UsageIPAddressDaoImpl extends GenericDaoBase<UsageIPAddressVO, Long> implements UsageIPAddressDao {
-    public static final Logger s_logger = Logger.getLogger(UsageIPAddressDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UsageIPAddressDaoImpl.class.getName());
 
     protected static final String UPDATE_RELEASED = "UPDATE usage_ip_address SET released = ? WHERE account_id = ? AND public_ip_address = ? and released IS NULL";
     protected static final String GET_USAGE_RECORDS_BY_ACCOUNT =

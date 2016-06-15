@@ -23,10 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.user.VmDiskStatisticsVO;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDaoBase;
@@ -34,9 +30,13 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class VmDiskStatisticsDaoImpl extends GenericDaoBase<VmDiskStatisticsVO, Long> implements VmDiskStatisticsDao {
-    private static final Logger s_logger = Logger.getLogger(VmDiskStatisticsDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VmDiskStatisticsDaoImpl.class);
     private static final String ACTIVE_AND_RECENTLY_DELETED_SEARCH =
         "SELECT bcf.id, bcf.data_center_id, bcf.account_id, bcf.vm_id, bcf.volume_id, bcf.agg_io_read, bcf.agg_io_write, bcf.agg_bytes_read, bcf.agg_bytes_write "
             + "FROM vm_disk_statistics bcf, account a " + "WHERE bcf.account_id = a.id AND (a.removed IS NULL OR a.removed >= ?) " + "ORDER BY bcf.id";

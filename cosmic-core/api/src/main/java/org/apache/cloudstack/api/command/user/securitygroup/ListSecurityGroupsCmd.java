@@ -16,7 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.securitygroup;
 
-import org.apache.log4j.Logger;
+import com.cloud.network.security.SecurityGroup;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -26,13 +26,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.SecurityGroupResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
-
-import com.cloud.network.security.SecurityGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listSecurityGroups", description = "Lists security groups", responseObject = SecurityGroupResponse.class, entityType = {SecurityGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListSecurityGroupsCmd extends BaseListTaggedResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListSecurityGroupsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListSecurityGroupsCmd.class.getName());
 
     private static final String s_name = "listsecuritygroupsresponse";
 

@@ -21,11 +21,6 @@ package org.apache.cloudstack.engine.orchestration.service;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
-import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
-import org.apache.cloudstack.engine.subsystem.api.storage.VolumeInfo;
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import com.cloud.agent.api.to.VirtualMachineTO;
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.Pod;
@@ -47,6 +42,11 @@ import com.cloud.utils.fsm.NoTransitionException;
 import com.cloud.vm.DiskProfile;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
+import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
+import org.apache.cloudstack.engine.subsystem.api.storage.VolumeInfo;
+import org.apache.cloudstack.framework.config.ConfigKey;
 
 /**
  * VolumeOrchestrationService is a PURE orchestration service on CloudStack

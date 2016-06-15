@@ -18,14 +18,13 @@ package org.apache.cloudstack.api.response;
 
 import java.util.List;
 
+import com.cloud.serializer.Param;
+import com.cloud.template.VirtualMachineTemplate;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
-
-import com.cloud.serializer.Param;
-import com.cloud.template.VirtualMachineTemplate;
 
 @EntityReference(value = VirtualMachineTemplate.class)
 @SuppressWarnings("unused")

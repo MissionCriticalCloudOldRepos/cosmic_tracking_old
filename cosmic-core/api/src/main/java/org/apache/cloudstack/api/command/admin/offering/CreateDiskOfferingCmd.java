@@ -16,6 +16,11 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.offering;
 
+import com.cloud.offering.DiskOffering;
+import com.cloud.offering.ServiceOffering;
+import com.cloud.storage.Storage.ProvisioningType;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -24,17 +29,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DiskOfferingResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
-import org.apache.log4j.Logger;
-
-import com.cloud.offering.DiskOffering;
-import com.cloud.offering.ServiceOffering;
-import com.cloud.storage.Storage.ProvisioningType;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createDiskOffering", description = "Creates a disk offering.", responseObject = DiskOfferingResponse.class,
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateDiskOfferingCmd extends BaseCmd {
-  public static final Logger s_logger = Logger.getLogger(CreateDiskOfferingCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(CreateDiskOfferingCmd.class.getName());
 
   private static final String s_name = "creatediskofferingresponse";
 

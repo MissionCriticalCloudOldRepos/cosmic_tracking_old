@@ -26,10 +26,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.agent.manager.allocator.PodAllocator;
 import com.cloud.capacity.Capacity;
 import com.cloud.capacity.CapacityVO;
@@ -57,8 +53,12 @@ import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.dao.VMInstanceDao;
 
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UserConcentratedAllocator extends AdapterBase implements PodAllocator {
-    private final static Logger s_logger = Logger.getLogger(UserConcentratedAllocator.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(UserConcentratedAllocator.class);
 
     @Inject
     UserVmDao _vmDao;

@@ -23,16 +23,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.acl.SecurityChecker.AccessType;
-import org.apache.cloudstack.api.command.user.loadbalancer.ListApplicationLoadBalancersCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.lb.ApplicationLoadBalancerRuleVO;
-import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
-
 import com.cloud.event.ActionEvent;
 import com.cloud.event.EventTypes;
 import com.cloud.event.UsageEventUtils;
@@ -77,9 +67,19 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.Ip;
 import com.cloud.utils.net.NetUtils;
 
+import org.apache.cloudstack.acl.SecurityChecker.AccessType;
+import org.apache.cloudstack.api.command.user.loadbalancer.ListApplicationLoadBalancersCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.lb.ApplicationLoadBalancerRuleVO;
+import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class ApplicationLoadBalancerManagerImpl extends ManagerBase implements ApplicationLoadBalancerService {
-    private static final Logger s_logger = Logger.getLogger(ApplicationLoadBalancerManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ApplicationLoadBalancerManagerImpl.class);
 
     @Inject
     NetworkModel _networkModel;

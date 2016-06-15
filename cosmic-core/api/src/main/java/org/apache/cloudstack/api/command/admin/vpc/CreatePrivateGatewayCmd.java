@@ -16,7 +16,16 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.vpc;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.vpc.PrivateGateway;
+import com.cloud.network.vpc.Vpc;
+import com.cloud.network.vpc.VpcGateway;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -31,22 +40,13 @@ import org.apache.cloudstack.api.response.NetworkOfferingResponse;
 import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
 import org.apache.cloudstack.api.response.PrivateGatewayResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.vpc.PrivateGateway;
-import com.cloud.network.vpc.Vpc;
-import com.cloud.network.vpc.VpcGateway;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createPrivateGateway", description = "Creates a private gateway", responseObject = PrivateGatewayResponse.class, entityType = {VpcGateway.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreatePrivateGatewayCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreatePrivateGatewayCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreatePrivateGatewayCmd.class.getName());
 
     private static final String s_name = "createprivategatewayresponse";
 
@@ -151,8 +151,7 @@ public class CreatePrivateGatewayCmd extends BaseAsyncCreateCmd {
                 _vpcService.createVpcPrivateGateway(getVpcId(), getPhysicalNetworkId(), getBroadcastUri(), getStartIp(), getGateway(), getNetmask(), getEntityOwnerId(),
                     getNetworkOfferingId(), getIsSourceNat(), getAclId());
         } catch (InsufficientCapacityException ex) {
-            s_logger.info(ex);
-            s_logger.trace(ex);
+            s_logger.info(ex.toString());
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         } catch (ConcurrentOperationException ex) {
             s_logger.warn("Exception: ", ex);

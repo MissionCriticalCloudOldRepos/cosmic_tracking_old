@@ -19,8 +19,6 @@
 
 package com.cloud.network.resource.wrapper;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckHealthAnswer;
 import com.cloud.agent.api.CheckHealthCommand;
@@ -31,11 +29,14 @@ import com.cloud.network.resource.NiciraNvpResource;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles = CheckHealthCommand.class)
 public class NiciraCheckHealthCommandWrapper extends CommandWrapper<CheckHealthCommand, Answer, NiciraNvpResource> {
 
     private static final String CONTROL_CLUSTER_STATUS_IS_STABLE = "stable";
-    private static final Logger s_logger = Logger.getLogger(NiciraCheckHealthCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NiciraCheckHealthCommandWrapper.class);
 
     @Override
     public Answer execute(final CheckHealthCommand command, final NiciraNvpResource serverResource) {

@@ -18,12 +18,6 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.response.DiskOfferingResponse;
-
 import com.cloud.api.query.vo.DiskOfferingJoinVO;
 import com.cloud.offering.DiskOffering;
 import com.cloud.offering.ServiceOffering;
@@ -32,9 +26,14 @@ import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.apache.cloudstack.api.response.DiskOfferingResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class DiskOfferingJoinDaoImpl extends GenericDaoBase<DiskOfferingJoinVO, Long> implements DiskOfferingJoinDao {
-    public static final Logger s_logger = Logger.getLogger(DiskOfferingJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(DiskOfferingJoinDaoImpl.class);
 
     private final SearchBuilder<DiskOfferingJoinVO> dofIdSearch;
     private final Attribute _typeAttr;

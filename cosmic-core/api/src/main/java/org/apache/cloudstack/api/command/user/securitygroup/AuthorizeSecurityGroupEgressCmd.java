@@ -22,7 +22,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.security.SecurityGroup;
+import com.cloud.network.security.SecurityRule;
+import com.cloud.utils.StringUtils;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -38,19 +42,15 @@ import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.SecurityGroupResponse;
 import org.apache.cloudstack.api.response.SecurityGroupRuleResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.security.SecurityGroup;
-import com.cloud.network.security.SecurityRule;
-import com.cloud.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "authorizeSecurityGroupEgress", responseObject = SecurityGroupRuleResponse.class, description = "Authorizes a particular egress rule for this security group", since = "3.0.0", entityType = {SecurityGroup.class},
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = false)
 @SuppressWarnings("rawtypes")
 public class AuthorizeSecurityGroupEgressCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(AuthorizeSecurityGroupIngressCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AuthorizeSecurityGroupIngressCmd.class.getName());
 
     private static final String s_name = "authorizesecuritygroupegressresponse";
 

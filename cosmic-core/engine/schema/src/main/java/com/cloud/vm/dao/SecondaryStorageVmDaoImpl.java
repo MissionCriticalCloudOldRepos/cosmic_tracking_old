@@ -22,10 +22,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.utils.db.Attribute;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
@@ -36,9 +32,13 @@ import com.cloud.vm.SecondaryStorageVm;
 import com.cloud.vm.SecondaryStorageVmVO;
 import com.cloud.vm.VirtualMachine.State;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class SecondaryStorageVmDaoImpl extends GenericDaoBase<SecondaryStorageVmVO, Long> implements SecondaryStorageVmDao {
-    private static final Logger s_logger = Logger.getLogger(SecondaryStorageVmDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SecondaryStorageVmDaoImpl.class);
 
     protected SearchBuilder<SecondaryStorageVmVO> DataCenterStatusSearch;
     protected SearchBuilder<SecondaryStorageVmVO> StateSearch;

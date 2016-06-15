@@ -22,9 +22,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.agent.manager.allocator.HostAllocator;
 import com.cloud.deploy.DeploymentPlan;
 import com.cloud.deploy.DeploymentPlanner.ExcludeList;
@@ -38,9 +35,13 @@ import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class RandomAllocator extends AdapterBase implements HostAllocator {
-    private static final Logger s_logger = Logger.getLogger(RandomAllocator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RandomAllocator.class);
     @Inject
     private HostDao _hostDao;
     @Inject

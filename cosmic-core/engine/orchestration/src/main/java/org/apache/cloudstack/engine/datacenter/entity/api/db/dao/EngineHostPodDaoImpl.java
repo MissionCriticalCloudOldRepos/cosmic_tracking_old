@@ -24,15 +24,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
-
 import com.cloud.org.Grouping;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.GenericSearchBuilder;
@@ -42,9 +33,17 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.UpdateBuilder;
 
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component(value = "EngineHostPodDao")
 public class EngineHostPodDaoImpl extends GenericDaoBase<EngineHostPodVO, Long> implements EngineHostPodDao {
-    private static final Logger s_logger = Logger.getLogger(EngineHostPodDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(EngineHostPodDaoImpl.class);
 
     protected SearchBuilder<EngineHostPodVO> DataCenterAndNameSearch;
     protected SearchBuilder<EngineHostPodVO> DataCenterIdSearch;

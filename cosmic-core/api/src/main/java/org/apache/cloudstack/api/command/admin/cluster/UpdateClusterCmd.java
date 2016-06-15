@@ -16,7 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.cluster;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.org.Cluster;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -25,15 +27,13 @@ import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ClusterResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.org.Cluster;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateCluster", description = "Updates an existing cluster", responseObject = ClusterResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpdateClusterCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(AddClusterCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddClusterCmd.class.getName());
 
     private static final String s_name = "updateclusterresponse";
 

@@ -18,20 +18,20 @@ package com.cloud.hypervisor.dao;
 
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.hypervisor.HypervisorCapabilitiesVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class HypervisorCapabilitiesDaoImpl extends GenericDaoBase<HypervisorCapabilitiesVO, Long> implements HypervisorCapabilitiesDao {
 
-    private static final Logger s_logger = Logger.getLogger(HypervisorCapabilitiesDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(HypervisorCapabilitiesDaoImpl.class);
 
     protected final SearchBuilder<HypervisorCapabilitiesVO> HypervisorTypeSearch;
     protected final SearchBuilder<HypervisorCapabilitiesVO> HypervisorTypeAndVersionSearch;

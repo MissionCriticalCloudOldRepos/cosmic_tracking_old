@@ -50,10 +50,11 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.messagebus.MessageBus;
 import org.apache.cloudstack.framework.messagebus.PublishScope;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NetworkACLManagerImpl extends ManagerBase implements NetworkACLManager {
-    private static final Logger s_logger = Logger.getLogger(NetworkACLManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetworkACLManagerImpl.class);
 
     @Inject
     AccountManager _accountMgr;

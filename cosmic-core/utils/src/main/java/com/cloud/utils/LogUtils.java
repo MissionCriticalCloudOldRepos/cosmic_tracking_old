@@ -21,11 +21,12 @@ package com.cloud.utils;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LogUtils {
-    public static final Logger s_logger = Logger.getLogger(LogUtils.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(LogUtils.class);
 
     public static void initLog4j(String log4jConfigFileName) {
         assert (log4jConfigFileName != null);

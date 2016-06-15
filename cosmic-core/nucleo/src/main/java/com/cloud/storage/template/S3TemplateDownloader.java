@@ -19,6 +19,15 @@
 
 package com.cloud.storage.template;
 
+import static java.util.Arrays.asList;
+
+import static com.cloud.utils.StringUtils.join;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+
 import com.amazonaws.event.ProgressEvent;
 import com.amazonaws.event.ProgressEventType;
 import com.amazonaws.event.ProgressListener;
@@ -30,6 +39,7 @@ import com.cloud.agent.api.to.S3TO;
 import com.cloud.utils.net.HTTPUtils;
 import com.cloud.utils.net.Proxy;
 import com.cloud.utils.storage.S3.S3Utils;
+
 import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 import org.apache.cloudstack.storage.command.DownloadCommand.ResourceType;
 import org.apache.commons.httpclient.Header;
@@ -38,15 +48,8 @@ import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-
-import static com.cloud.utils.StringUtils.join;
-import static java.util.Arrays.asList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Download a template file using HTTP(S)
@@ -56,7 +59,7 @@ import static java.util.Arrays.asList;
  * Execution of the instance is started when runInContext() is called.
  */
 public class S3TemplateDownloader extends ManagedContextRunnable implements TemplateDownloader {
-    private static final Logger LOGGER = Logger.getLogger(S3TemplateDownloader.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(S3TemplateDownloader.class.getName());
 
     private final String downloadUrl;
     private final String s3Key;

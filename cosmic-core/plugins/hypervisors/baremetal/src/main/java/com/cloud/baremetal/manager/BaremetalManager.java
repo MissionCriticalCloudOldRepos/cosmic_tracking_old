@@ -20,6 +20,7 @@ package com.cloud.baremetal.manager;
 
 import com.cloud.utils.component.Manager;
 import com.cloud.utils.component.PluggableService;
+
 import org.apache.cloudstack.api.BaremetalProvisionDoneNotificationCmd;
 
 public interface BaremetalManager extends Manager, PluggableService {

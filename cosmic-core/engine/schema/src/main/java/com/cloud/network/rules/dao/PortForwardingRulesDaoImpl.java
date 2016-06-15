@@ -20,8 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.dao.FirewallRulesCidrsDao;
 import com.cloud.network.rules.FirewallRule.Purpose;
 import com.cloud.network.rules.FirewallRule.State;
@@ -30,6 +28,8 @@ import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class PortForwardingRulesDaoImpl extends GenericDaoBase<PortForwardingRuleVO, Long> implements PortForwardingRulesDao {

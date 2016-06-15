@@ -18,8 +18,6 @@ package com.cloud.network.guru;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.configuration.ConfigurationManager;
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
@@ -53,8 +51,11 @@ import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PrivateNetworkGuru extends AdapterBase implements NetworkGuru {
-    private static final Logger s_logger = Logger.getLogger(PrivateNetworkGuru.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PrivateNetworkGuru.class);
     @Inject
     protected ConfigurationManager _configMgr;
     @Inject

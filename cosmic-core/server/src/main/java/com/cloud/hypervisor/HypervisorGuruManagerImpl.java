@@ -23,18 +23,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.agent.api.Command;
 import com.cloud.host.dao.HostDao;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.utils.Pair;
 import com.cloud.utils.component.ManagerBase;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class HypervisorGuruManagerImpl extends ManagerBase implements HypervisorGuruManager {
-    public static final Logger s_logger = Logger.getLogger(HypervisorGuruManagerImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(HypervisorGuruManagerImpl.class.getName());
 
     @Inject
     HostDao _hostDao;

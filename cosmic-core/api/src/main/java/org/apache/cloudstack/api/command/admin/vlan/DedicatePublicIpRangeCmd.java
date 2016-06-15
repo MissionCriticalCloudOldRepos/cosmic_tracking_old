@@ -16,7 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.vlan;
 
-import org.apache.log4j.Logger;
+import com.cloud.dc.Vlan;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,16 +30,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.VlanIpRangeResponse;
-
-import com.cloud.dc.Vlan;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "dedicatePublicIpRange", description = "Dedicates a Public IP range to an account", responseObject = VlanIpRangeResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DedicatePublicIpRangeCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(DedicatePublicIpRangeCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DedicatePublicIpRangeCmd.class.getName());
 
     private static final String s_name = "dedicatepubliciprangeresponse";
 

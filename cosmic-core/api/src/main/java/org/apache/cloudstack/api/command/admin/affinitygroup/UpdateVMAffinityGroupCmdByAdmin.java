@@ -19,7 +19,10 @@ package org.apache.cloudstack.api.command.admin.affinitygroup;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.uservm.UserVm;
+import com.cloud.vm.VirtualMachine;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants.VMDetails;
@@ -29,11 +32,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.command.user.affinitygroup.UpdateVMAffinityGroupCmd;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.uservm.UserVm;
-import com.cloud.vm.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @APICommand(name = "updateVMAffinityGroup", description = "Updates the affinity/anti-affinity group associations of a virtual machine. The VM has to be stopped and restarted for the "
@@ -42,7 +42,7 @@ import com.cloud.vm.VirtualMachine;
         requestHasSensitiveInfo = false,
         responseHasSensitiveInfo = true)
 public class UpdateVMAffinityGroupCmdByAdmin extends UpdateVMAffinityGroupCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdateVMAffinityGroupCmdByAdmin.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdateVMAffinityGroupCmdByAdmin.class.getName());
 
 
     @Override

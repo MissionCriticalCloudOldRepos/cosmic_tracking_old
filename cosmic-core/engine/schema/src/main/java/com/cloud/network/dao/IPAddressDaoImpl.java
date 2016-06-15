@@ -24,10 +24,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.cloudstack.resourcedetail.dao.UserIpAddressDetailsDao;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.Vlan.VlanType;
 import com.cloud.dc.VlanVO;
 import com.cloud.dc.dao.VlanDao;
@@ -45,10 +41,15 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.net.Ip;
 
+import org.apache.cloudstack.resourcedetail.dao.UserIpAddressDetailsDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 @DB
 public class IPAddressDaoImpl extends GenericDaoBase<IPAddressVO, Long> implements IPAddressDao {
-    private static final Logger s_logger = Logger.getLogger(IPAddressDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(IPAddressDaoImpl.class);
 
     protected SearchBuilder<IPAddressVO> AllFieldsSearch;
     protected SearchBuilder<IPAddressVO> VlanDbIdSearchUnallocated;

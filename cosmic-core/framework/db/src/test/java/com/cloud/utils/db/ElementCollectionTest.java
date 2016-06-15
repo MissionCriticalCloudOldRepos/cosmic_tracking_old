@@ -27,12 +27,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import junit.framework.TestCase;
 
-import org.apache.log4j.Logger;
-
 public class ElementCollectionTest extends TestCase {
-    static final Logger s_logger = Logger.getLogger(ElementCollectionTest.class);
+    static final Logger s_logger = LoggerFactory.getLogger(ElementCollectionTest.class);
     ArrayList<String> ar = null;
     List<String> lst = null;
     Collection<String> coll = null;

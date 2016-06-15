@@ -18,9 +18,6 @@ package com.cloud.network;
 
 import java.util.List;
 
-import com.cloud.utils.db.DB;
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.Vlan.VlanType;
 import com.cloud.exception.ConcurrentOperationException;
@@ -34,8 +31,11 @@ import com.cloud.network.dao.IPAddressVO;
 import com.cloud.network.rules.FirewallRule;
 import com.cloud.network.rules.StaticNat;
 import com.cloud.user.Account;
+import com.cloud.utils.db.DB;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
 
 public interface IpAddressManager {
     static final String UseSystemPublicIpsCK = "use.system.public.ips";

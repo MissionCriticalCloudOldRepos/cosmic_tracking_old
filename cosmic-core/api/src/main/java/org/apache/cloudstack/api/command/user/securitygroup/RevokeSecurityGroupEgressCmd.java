@@ -16,7 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.securitygroup;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.network.security.SecurityGroup;
+import com.cloud.network.security.SecurityRule;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -27,18 +30,15 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.SecurityGroupRuleResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.network.security.SecurityGroup;
-import com.cloud.network.security.SecurityRule;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @APICommand(name = "revokeSecurityGroupEgress", responseObject = SuccessResponse.class, description = "Deletes a particular egress rule from this security group", since = "3.0.0", entityType = {SecurityGroup.class},
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = false)
 public class RevokeSecurityGroupEgressCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(RevokeSecurityGroupEgressCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(RevokeSecurityGroupEgressCmd.class.getName());
 
     private static final String s_name = "revokesecuritygroupegressresponse";
 

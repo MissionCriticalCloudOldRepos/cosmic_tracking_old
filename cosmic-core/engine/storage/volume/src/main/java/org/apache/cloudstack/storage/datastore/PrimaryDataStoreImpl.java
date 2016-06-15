@@ -24,6 +24,24 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.cloud.agent.api.to.DataObjectType;
+import com.cloud.agent.api.to.DataStoreTO;
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.ScopeType;
+import com.cloud.storage.Storage.StoragePoolType;
+import com.cloud.storage.StoragePoolHostVO;
+import com.cloud.storage.StoragePoolStatus;
+import com.cloud.storage.VMTemplateStoragePoolVO;
+import com.cloud.storage.VolumeVO;
+import com.cloud.storage.dao.StoragePoolHostDao;
+import com.cloud.storage.dao.VMTemplatePoolDao;
+import com.cloud.storage.dao.VolumeDao;
+import com.cloud.utils.component.ComponentContext;
+import com.cloud.utils.db.GlobalLock;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.storage.encoding.EncodingType;
+
 import org.apache.cloudstack.engine.subsystem.api.storage.ClusterScope;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreDriver;
@@ -45,28 +63,11 @@ import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
 import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
 import org.apache.cloudstack.storage.volume.VolumeObject;
-import org.apache.log4j.Logger;
-
-import com.cloud.agent.api.to.DataObjectType;
-import com.cloud.agent.api.to.DataStoreTO;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.ScopeType;
-import com.cloud.storage.Storage.StoragePoolType;
-import com.cloud.storage.StoragePoolHostVO;
-import com.cloud.storage.StoragePoolStatus;
-import com.cloud.storage.VMTemplateStoragePoolVO;
-import com.cloud.storage.VolumeVO;
-import com.cloud.storage.dao.StoragePoolHostDao;
-import com.cloud.storage.dao.VMTemplatePoolDao;
-import com.cloud.storage.dao.VolumeDao;
-import com.cloud.utils.component.ComponentContext;
-import com.cloud.utils.db.GlobalLock;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.storage.encoding.EncodingType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PrimaryDataStoreImpl implements PrimaryDataStore {
-    private static final Logger s_logger = Logger.getLogger(PrimaryDataStoreImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PrimaryDataStoreImpl.class);
 
     protected PrimaryDataStoreDriver driver;
     protected StoragePoolVO pdsv;

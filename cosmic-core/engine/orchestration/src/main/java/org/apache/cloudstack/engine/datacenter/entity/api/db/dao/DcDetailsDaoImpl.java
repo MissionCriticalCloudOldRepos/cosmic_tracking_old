@@ -20,15 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.datacenter.entity.api.db.DcDetailVO;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.apache.cloudstack.engine.datacenter.entity.api.db.DcDetailVO;
+import org.springframework.stereotype.Component;
 
 @Component(value = "EngineDcDetailsDao")
 public class DcDetailsDaoImpl extends GenericDaoBase<DcDetailVO, Long> implements DcDetailsDao {

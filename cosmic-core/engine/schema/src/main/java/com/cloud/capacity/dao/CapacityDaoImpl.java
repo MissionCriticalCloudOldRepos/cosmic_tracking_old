@@ -27,12 +27,6 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
-import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-
 import com.cloud.capacity.Capacity;
 import com.cloud.capacity.CapacityVO;
 import com.cloud.dc.ClusterDetailsDao;
@@ -48,9 +42,15 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
+import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class CapacityDaoImpl extends GenericDaoBase<CapacityVO, Long> implements CapacityDao {
-    private static final Logger s_logger = Logger.getLogger(CapacityDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CapacityDaoImpl.class);
 
     private static final String ADD_ALLOCATED_SQL = "UPDATE `cloud`.`op_host_capacity` SET used_capacity = used_capacity + ? WHERE host_id = ? AND capacity_type = ?";
     private static final String SUBTRACT_ALLOCATED_SQL =

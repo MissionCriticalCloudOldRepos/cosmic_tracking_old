@@ -16,15 +16,6 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.vm;
 
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.command.user.vm.DeployVMCmd;
-import org.apache.cloudstack.api.response.UserVmResponse;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InsufficientServerCapacityException;
@@ -32,11 +23,21 @@ import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.uservm.UserVm;
 import com.cloud.vm.VirtualMachine;
 
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.command.user.vm.DeployVMCmd;
+import org.apache.cloudstack.api.response.UserVmResponse;
+import org.apache.cloudstack.context.CallContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @APICommand(name = "deployVirtualMachine", description = "Creates and automatically starts a virtual machine based on a service offering, disk offering, and template.", responseObject = UserVmResponse.class, responseView = ResponseView.Full, entityType = {VirtualMachine.class},
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class DeployVMCmdByAdmin extends DeployVMCmd {
-  public static final Logger s_logger = Logger.getLogger(DeployVMCmdByAdmin.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(DeployVMCmdByAdmin.class.getName());
 
 
   @Override
@@ -60,7 +61,7 @@ public class DeployVMCmdByAdmin extends DeployVMCmd {
             message.append(", Please check the affinity groups provided, there may not be sufficient capacity to follow them");
           }
         }
-        s_logger.info(ex);
+        s_logger.info(ex.toString());
         s_logger.info(message.toString(), ex);
         throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, message.toString());
       }

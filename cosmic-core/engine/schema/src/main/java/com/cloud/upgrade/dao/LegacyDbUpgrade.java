@@ -16,11 +16,12 @@
 // under the License.
 package com.cloud.upgrade.dao;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class LegacyDbUpgrade implements DbUpgrade{
 
-    final static Logger s_logger = Logger.getLogger(LegacyDbUpgrade.class);
+    final static Logger s_logger = LoggerFactory.getLogger(LegacyDbUpgrade.class);
 
     public LegacyDbUpgrade() {
         super();

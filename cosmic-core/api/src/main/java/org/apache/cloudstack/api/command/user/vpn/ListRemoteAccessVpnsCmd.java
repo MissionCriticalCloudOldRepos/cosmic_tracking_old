@@ -19,7 +19,8 @@ package org.apache.cloudstack.api.command.user.vpn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.network.RemoteAccessVpn;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -30,14 +31,13 @@ import org.apache.cloudstack.api.response.IPAddressResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.NetworkResponse;
 import org.apache.cloudstack.api.response.RemoteAccessVpnResponse;
-
-import com.cloud.network.RemoteAccessVpn;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listRemoteAccessVpns", description = "Lists remote access vpns", responseObject = RemoteAccessVpnResponse.class, entityType = {RemoteAccessVpn.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListRemoteAccessVpnsCmd extends BaseListProjectAndAccountResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListRemoteAccessVpnsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListRemoteAccessVpnsCmd.class.getName());
 
     private static final String s_name = "listremoteaccessvpnsresponse";
 

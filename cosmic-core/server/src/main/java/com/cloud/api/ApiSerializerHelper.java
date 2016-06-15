@@ -16,14 +16,14 @@
 // under the License.
 package com.cloud.api;
 
-import org.apache.log4j.Logger;
-
 import com.google.gson.Gson;
 
 import org.apache.cloudstack.api.ResponseObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ApiSerializerHelper {
-    public static final Logger s_logger = Logger.getLogger(ApiSerializerHelper.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ApiSerializerHelper.class.getName());
     private static String token = "/";
 
     public static String toSerializedString(Object result) {

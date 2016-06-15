@@ -23,20 +23,19 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import com.cloud.utils.db.EntityManager;
 
 import org.apache.cloudstack.framework.config.ConfigDepot;
 import org.apache.cloudstack.framework.config.ConfigKey;
 import org.apache.cloudstack.framework.config.Configurable;
 import org.apache.cloudstack.framework.config.ScopedConfigStorage;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import com.cloud.utils.db.EntityManager;
+import junit.framework.TestCase;
 
 public class ConfigDepotAdminTest extends TestCase {
     private final static ConfigKey<Integer> DynamicIntCK = new ConfigKey<Integer>(Integer.class, "dynIntKey", "Advance", "10", "Test Key", true);

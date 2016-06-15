@@ -37,12 +37,6 @@ import java.util.Set;
 
 import javax.naming.ConfigurationException;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.ConfigurePublicIpsOnLogicalRouterAnswer;
 import com.cloud.agent.api.ConfigurePublicIpsOnLogicalRouterCommand;
@@ -72,6 +66,11 @@ import com.cloud.resource.ResourceManager;
 import com.cloud.user.Account;
 import com.cloud.utils.net.Ip;
 import com.cloud.vm.ReservationContext;
+
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatcher;
 
 public class NiciraNvpElementTest {
 

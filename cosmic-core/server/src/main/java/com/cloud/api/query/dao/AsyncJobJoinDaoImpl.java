@@ -19,14 +19,6 @@ package com.cloud.api.query.dao;
 import java.util.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.ResponseObject;
-import org.apache.cloudstack.api.response.AsyncJobResponse;
-import org.apache.cloudstack.framework.jobs.AsyncJob;
-
 import com.cloud.api.ApiSerializerHelper;
 import com.cloud.api.SerializationContext;
 import com.cloud.api.query.vo.AsyncJobJoinVO;
@@ -34,9 +26,16 @@ import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.apache.cloudstack.api.ResponseObject;
+import org.apache.cloudstack.api.response.AsyncJobResponse;
+import org.apache.cloudstack.framework.jobs.AsyncJob;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class AsyncJobJoinDaoImpl extends GenericDaoBase<AsyncJobJoinVO, Long> implements AsyncJobJoinDao {
-    public static final Logger s_logger = Logger.getLogger(AsyncJobJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(AsyncJobJoinDaoImpl.class);
 
     private final SearchBuilder<AsyncJobJoinVO> jobIdSearch;
 

@@ -16,6 +16,13 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpc;
 
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.vpc.Vpc;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
 import org.apache.cloudstack.api.APICommand;
@@ -26,19 +33,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
-import org.apache.log4j.Logger;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.vpc.Vpc;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "restartVPC", description = "Restarts a VPC", responseObject = VpcResponse.class, entityType = {Vpc.class},
 requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class RestartVPCCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(RestartVPCCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(RestartVPCCmd.class.getName());
     private static final String s_name = "restartvpcresponse";
 
     /////////////////////////////////////////////////////
@@ -111,8 +112,7 @@ public class RestartVPCCmd extends BaseAsyncCmd {
             s_logger.warn("Exception: ", ex);
             throw new ServerApiException(ApiErrorCode.INTERNAL_ERROR, ex.getMessage());
         } catch (final InsufficientCapacityException ex) {
-            s_logger.info(ex);
-            s_logger.trace(ex);
+            s_logger.info(ex.toString());
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         }
     }

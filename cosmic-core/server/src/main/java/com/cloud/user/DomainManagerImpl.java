@@ -23,18 +23,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.command.admin.domain.ListDomainChildrenCmd;
-import org.apache.cloudstack.api.command.admin.domain.ListDomainsCmd;
-import org.apache.cloudstack.api.command.admin.domain.UpdateDomainCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.messagebus.MessageBus;
-import org.apache.cloudstack.framework.messagebus.PublishScope;
-import org.apache.cloudstack.region.RegionManager;
-
 import com.cloud.configuration.Resource.ResourceOwnerType;
 import com.cloud.configuration.ResourceLimit;
 import com.cloud.configuration.dao.ResourceCountDao;
@@ -74,9 +62,21 @@ import com.cloud.utils.net.NetUtils;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.ReservationContextImpl;
 
+import org.apache.cloudstack.api.command.admin.domain.ListDomainChildrenCmd;
+import org.apache.cloudstack.api.command.admin.domain.ListDomainsCmd;
+import org.apache.cloudstack.api.command.admin.domain.UpdateDomainCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.messagebus.MessageBus;
+import org.apache.cloudstack.framework.messagebus.PublishScope;
+import org.apache.cloudstack.region.RegionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class DomainManagerImpl extends ManagerBase implements DomainManager, DomainService {
-    public static final Logger s_logger = Logger.getLogger(DomainManagerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(DomainManagerImpl.class);
 
     @Inject
     private DomainDao _domainDao;

@@ -27,15 +27,16 @@ import java.util.Map;
 import javax.naming.ConfigurationException;
 
 import com.cloud.exception.InternalErrorException;
-import org.apache.log4j.Logger;
-
 import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.StorageLayer;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.component.AdapterBase;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class QCOW2Processor extends AdapterBase implements Processor {
-    private static final Logger s_logger = Logger.getLogger(QCOW2Processor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(QCOW2Processor.class);
     private static final int VIRTUALSIZE_HEADER_LOCATION = 24;
 
     private StorageLayer _storage;

@@ -19,11 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-
 import com.cloud.deploy.DeploymentPlan;
 import com.cloud.deploy.DeploymentPlanner.ExcludeList;
 import com.cloud.storage.ScopeType;
@@ -31,8 +26,12 @@ import com.cloud.storage.StoragePool;
 import com.cloud.vm.DiskProfile;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RandomStoragePoolAllocator extends AbstractStoragePoolAllocator {
-    private static final Logger s_logger = Logger.getLogger(RandomStoragePoolAllocator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RandomStoragePoolAllocator.class);
 
     @Override
     public List<StoragePool> select(DiskProfile dskCh, VirtualMachineProfile vmProfile, DeploymentPlan plan, ExcludeList avoid, int returnUpTo) {

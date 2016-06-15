@@ -21,9 +21,6 @@ package org.apache.cloudstack.framework.sampleserver;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import org.apache.cloudstack.framework.messagebus.MessageBus;
 import org.apache.cloudstack.framework.messagebus.MessageDispatcher;
 import org.apache.cloudstack.framework.messagebus.MessageHandler;
@@ -31,10 +28,13 @@ import org.apache.cloudstack.framework.rpc.RpcProvider;
 import org.apache.cloudstack.framework.rpc.RpcServerCall;
 import org.apache.cloudstack.framework.rpc.RpcServiceDispatcher;
 import org.apache.cloudstack.framework.rpc.RpcServiceHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SampleManagerComponent2 {
-    private static final Logger s_logger = Logger.getLogger(SampleManagerComponent2.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SampleManagerComponent2.class);
 
     @Inject
     private MessageBus _eventBus;

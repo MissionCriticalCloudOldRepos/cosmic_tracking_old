@@ -16,10 +16,12 @@
 // under the License.
 package org.apache.cloudstack.api;
 
-import com.cloud.exception.CloudAuthenticationException;
-import javax.servlet.http.HttpSession;
-import java.util.Map;
 import java.net.InetAddress;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import com.cloud.exception.CloudAuthenticationException;
 
 public interface ApiServerService {
     public boolean verifyRequest(Map<String, Object[]> requestParameters, Long userId) throws ServerApiException;

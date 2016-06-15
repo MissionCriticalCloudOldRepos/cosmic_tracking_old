@@ -21,18 +21,18 @@ package com.cloud.network;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.cloud.agent.api.routing.LoadBalancerConfigCommand;
 import com.cloud.agent.api.to.LoadBalancerTO;
 import com.cloud.network.lb.LoadBalancingRule.LbDestination;
 
-import java.util.List;
-import java.util.ArrayList;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * @author dhoogland

@@ -47,18 +47,19 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
-import org.apache.cloudstack.utils.security.SSLUtils;
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.concurrency.NamedThreadFactory;
 import com.cloud.utils.exception.NioConnectionException;
+
+import org.apache.cloudstack.utils.security.SSLUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * NioConnection abstracts the NIO socket operations.  The Java implementation
  * provides that.
  */
 public abstract class NioConnection implements Callable<Boolean> {
-    private static final Logger s_logger = Logger.getLogger(NioConnection.class);;
+    private static final Logger s_logger = LoggerFactory.getLogger(NioConnection.class);;
 
     protected Selector _selector;
     protected ExecutorService _threadExecutor;

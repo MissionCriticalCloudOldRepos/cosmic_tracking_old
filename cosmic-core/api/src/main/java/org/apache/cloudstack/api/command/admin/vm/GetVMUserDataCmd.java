@@ -18,21 +18,22 @@
 
 package org.apache.cloudstack.api.command.admin.vm;
 
+import com.cloud.user.Account;
+import com.cloud.uservm.UserVm;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VMUserDataResponse;
-import org.apache.log4j.Logger;
-
-import com.cloud.user.Account;
-import com.cloud.uservm.UserVm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "getVirtualMachineUserData", description = "Returns user data associated with the VM", responseObject = VMUserDataResponse.class, since = "4.4",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class GetVMUserDataCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(GetVMUserDataCmd.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(GetVMUserDataCmd.class);
     private static final String s_name = "getvirtualmachineuserdataresponse";
 
     /////////////////////////////////////////////////////

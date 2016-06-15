@@ -16,9 +16,12 @@
 // under the License.
 package org.apache.cloudstack.api.command.test;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.projects.Project;
+import com.cloud.projects.ProjectService;
+import com.cloud.user.Account;
 
+import org.apache.cloudstack.api.command.user.project.ActivateProjectCmd;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,12 +29,8 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
-import org.apache.cloudstack.api.command.user.project.ActivateProjectCmd;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.projects.Project;
-import com.cloud.projects.ProjectService;
-import com.cloud.user.Account;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 public class ActivateProjectCmdTest extends TestCase {
 

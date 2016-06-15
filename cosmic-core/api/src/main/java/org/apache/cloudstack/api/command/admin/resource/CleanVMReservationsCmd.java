@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.resource;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -24,14 +25,13 @@ import org.apache.cloudstack.api.BaseAsyncCmd;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "cleanVMReservations", description = "Cleanups VM reservations in the database.", responseObject = SuccessResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CleanVMReservationsCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(CleanVMReservationsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CleanVMReservationsCmd.class.getName());
 
     private static final String s_name = "cleanvmreservationresponse";
 

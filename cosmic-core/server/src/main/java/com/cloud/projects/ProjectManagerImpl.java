@@ -38,18 +38,6 @@ import javax.mail.URLName;
 import javax.mail.internet.InternetAddress;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import com.sun.mail.smtp.SMTPMessage;
-import com.sun.mail.smtp.SMTPSSLTransport;
-import com.sun.mail.smtp.SMTPTransport;
-
-import org.apache.cloudstack.acl.SecurityChecker.AccessType;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
 import com.cloud.api.ApiDBUtils;
 import com.cloud.api.query.dao.ProjectAccountJoinDao;
 import com.cloud.api.query.dao.ProjectInvitationJoinDao;
@@ -90,10 +78,21 @@ import com.cloud.utils.db.TransactionCallbackNoReturn;
 import com.cloud.utils.db.TransactionCallbackWithExceptionNoReturn;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.exception.CloudRuntimeException;
+import com.sun.mail.smtp.SMTPMessage;
+import com.sun.mail.smtp.SMTPSSLTransport;
+import com.sun.mail.smtp.SMTPTransport;
+
+import org.apache.cloudstack.acl.SecurityChecker.AccessType;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ProjectManagerImpl extends ManagerBase implements ProjectManager {
-    public static final Logger s_logger = Logger.getLogger(ProjectManagerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ProjectManagerImpl.class);
     private EmailInvite _emailInvite;
 
     @Inject

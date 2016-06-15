@@ -23,7 +23,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.VolumeVO;
+import com.cloud.storage.dao.VolumeDao;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -32,10 +34,7 @@ import org.apache.cloudstack.engine.subsystem.api.storage.VolumeDataFactory;
 import org.apache.cloudstack.engine.subsystem.api.storage.VolumeInfo;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
-
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.VolumeVO;
-import com.cloud.storage.dao.VolumeDao;
+import org.springframework.stereotype.Component;
 
 @Component
 public class VolumeDataFactoryImpl implements VolumeDataFactory {

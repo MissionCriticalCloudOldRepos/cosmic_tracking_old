@@ -20,8 +20,9 @@ package org.apache.cloudstack.storage.datastore;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.fsm.NoTransitionException;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
 import org.apache.cloudstack.engine.subsystem.api.storage.CreateCmdResult;
@@ -35,14 +36,13 @@ import org.apache.cloudstack.framework.async.AsyncCallbackDispatcher;
 import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
 import org.apache.cloudstack.framework.async.AsyncRpcContext;
 import org.apache.cloudstack.storage.command.CommandResult;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.fsm.NoTransitionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DataObjectManagerImpl implements DataObjectManager {
-    private static final Logger s_logger = Logger.getLogger(DataObjectManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(DataObjectManagerImpl.class);
     @Inject
     ObjectInDataStoreManager objectInDataStoreMgr;
     @Inject

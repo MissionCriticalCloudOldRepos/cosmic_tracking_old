@@ -18,10 +18,12 @@ package org.apache.cloudstack.query;
 
 import java.util.List;
 
+import com.cloud.exception.PermissionDeniedException;
+
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
 import org.apache.cloudstack.api.command.admin.domain.ListDomainsCmd;
-import org.apache.cloudstack.api.command.admin.host.ListHostsCmd;
 import org.apache.cloudstack.api.command.admin.host.ListHostTagsCmd;
+import org.apache.cloudstack.api.command.admin.host.ListHostsCmd;
 import org.apache.cloudstack.api.command.admin.internallb.ListInternalLBVMsCmd;
 import org.apache.cloudstack.api.command.admin.router.ListRoutersCmd;
 import org.apache.cloudstack.api.command.admin.storage.ListImageStoresCmd;
@@ -73,8 +75,6 @@ import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VolumeResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.framework.config.ConfigKey;
-
-import com.cloud.exception.PermissionDeniedException;
 
 /**
  * Service used for list api query.

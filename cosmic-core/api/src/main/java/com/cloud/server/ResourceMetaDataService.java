@@ -20,9 +20,9 @@ package com.cloud.server;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.api.ResourceDetail;
-
 import com.cloud.server.ResourceTag.ResourceObjectType;
+
+import org.apache.cloudstack.api.ResourceDetail;
 
 public interface ResourceMetaDataService {
 

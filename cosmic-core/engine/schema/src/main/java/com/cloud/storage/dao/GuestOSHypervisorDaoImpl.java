@@ -18,14 +18,13 @@ package com.cloud.storage.dao;
 
 import java.util.Date;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.storage.GuestOSHypervisorVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class GuestOSHypervisorDaoImpl extends GenericDaoBase<GuestOSHypervisorVO, Long> implements GuestOSHypervisorDao {

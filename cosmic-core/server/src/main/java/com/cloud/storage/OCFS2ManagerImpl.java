@@ -24,12 +24,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
-import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.PrepareOCFS2NodesCommand;
@@ -39,7 +33,6 @@ import com.cloud.dc.dao.ClusterDao;
 import com.cloud.host.Host;
 import com.cloud.host.HostVO;
 import com.cloud.host.dao.HostDao;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ResourceListener;
 import com.cloud.resource.ResourceManager;
 import com.cloud.resource.ServerResource;
@@ -51,9 +44,14 @@ import com.cloud.utils.db.QueryBuilder;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class OCFS2ManagerImpl extends ManagerBase implements OCFS2Manager, ResourceListener {
-    private static final Logger s_logger = Logger.getLogger(OCFS2ManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(OCFS2ManagerImpl.class);
 
     @Inject
     ClusterDetailsDao _clusterDetailsDao;

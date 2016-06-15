@@ -22,7 +22,12 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.agent.api.StoragePoolInfo;
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.resource.Discoverer;
+import com.cloud.resource.ResourceManager;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.ScopeType;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.engine.subsystem.api.storage.ClusterScope;
@@ -34,17 +39,12 @@ import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreHelper;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreProviderManager;
 import org.apache.cloudstack.storage.image.store.lifecycle.ImageStoreLifeCycle;
-
-import com.cloud.agent.api.StoragePoolInfo;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.resource.Discoverer;
-import com.cloud.resource.ResourceManager;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.ScopeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class S3ImageStoreLifeCycleImpl implements ImageStoreLifeCycle {
 
-    private static final Logger s_logger = Logger.getLogger(S3ImageStoreLifeCycleImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(S3ImageStoreLifeCycleImpl.class);
     @Inject
     protected ResourceManager _resourceMgr;
     @Inject

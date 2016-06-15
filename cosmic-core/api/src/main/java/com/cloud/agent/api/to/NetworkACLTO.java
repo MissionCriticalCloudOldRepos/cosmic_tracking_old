@@ -20,11 +20,11 @@ package com.cloud.agent.api.to;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.network.vpc.NetworkACLItem;
 import com.cloud.network.vpc.NetworkACLItem.TrafficType;
 import com.cloud.utils.net.NetUtils;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 public class NetworkACLTO implements InternalIdentity {
     long id;

@@ -28,10 +28,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.db.TransactionLegacy;
+import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class must not be used concurrently because its state changes often during
@@ -39,7 +40,7 @@ import com.cloud.utils.db.TransactionLegacy;
  */
 public class UsageSanityChecker {
 
-    protected static final Logger s_logger = Logger.getLogger(UsageSanityChecker.class);
+    protected static final Logger s_logger = LoggerFactory.getLogger(UsageSanityChecker.class);
     protected static final int DEFAULT_AGGREGATION_RANGE = 1440;
     protected StringBuilder errors;
     protected List<CheckCase> checkCases;

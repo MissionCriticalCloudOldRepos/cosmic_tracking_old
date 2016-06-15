@@ -23,14 +23,15 @@ import java.text.MessageFormat;
 import java.util.Hashtable;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class RequestWrapper {
 
-    private static final Logger s_logger = Logger.getLogger(RequestWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RequestWrapper.class);
 
     @SuppressWarnings("rawtypes")
     protected Hashtable<Class<? extends ServerResource>, Hashtable<Class<? extends Command>, CommandWrapper>> resources = new Hashtable<Class<? extends ServerResource>, Hashtable<Class<? extends Command>, CommandWrapper>>();

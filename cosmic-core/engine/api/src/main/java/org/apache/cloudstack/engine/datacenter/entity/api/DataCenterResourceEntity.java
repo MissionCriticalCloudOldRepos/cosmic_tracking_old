@@ -22,10 +22,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 
-import org.apache.cloudstack.engine.entity.api.CloudStackEntity;
-
 import com.cloud.utils.fsm.StateMachine2;
 import com.cloud.utils.fsm.StateObject;
+
+import org.apache.cloudstack.engine.entity.api.CloudStackEntity;
 
 /**
  * This interface specifies the states and operations all physical

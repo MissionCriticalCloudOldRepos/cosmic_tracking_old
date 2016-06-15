@@ -19,11 +19,11 @@ package org.apache.cloudstack.framework.jobs;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.cloudstack.framework.jobs.impl.AsyncJobVO;
-import org.apache.cloudstack.jobs.JobInfo;
-
 import com.cloud.utils.Predicate;
 import com.cloud.utils.component.Manager;
+
+import org.apache.cloudstack.framework.jobs.impl.AsyncJobVO;
+import org.apache.cloudstack.jobs.JobInfo;
 
 public interface AsyncJobManager extends Manager {
 

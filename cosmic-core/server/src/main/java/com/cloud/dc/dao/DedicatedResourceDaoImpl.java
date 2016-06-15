@@ -18,9 +18,6 @@ package com.cloud.dc.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.DedicatedResourceVO;
 import com.cloud.utils.Pair;
 import com.cloud.utils.db.DB;
@@ -31,6 +28,8 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @DB

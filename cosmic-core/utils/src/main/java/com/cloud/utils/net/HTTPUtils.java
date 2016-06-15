@@ -19,6 +19,8 @@
 
 package com.cloud.utils.net;
 
+import java.io.IOException;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpMethodRetryHandler;
@@ -27,13 +29,12 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NoHttpResponseException;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.log4j.Logger;
-
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class HTTPUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(HTTPUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HTTPUtils.class);
 
     // The connection manager.
     private static final MultiThreadedHttpConnectionManager s_httpClientManager = new MultiThreadedHttpConnectionManager();

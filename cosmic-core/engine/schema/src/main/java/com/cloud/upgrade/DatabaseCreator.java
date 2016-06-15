@@ -23,21 +23,21 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.sql.Statement;
-import java.sql.SQLException;
-import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.component.SystemIntegrityChecker;
 import com.cloud.utils.db.ScriptRunner;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 // Creates the CloudStack Database by using the 4.0 schema and apply
 // upgrade steps to it.

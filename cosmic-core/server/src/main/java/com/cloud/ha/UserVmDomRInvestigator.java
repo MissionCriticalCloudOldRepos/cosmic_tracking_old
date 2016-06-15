@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.PingTestCommand;
@@ -38,8 +36,11 @@ import com.cloud.vm.UserVmVO;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.dao.UserVmDao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UserVmDomRInvestigator extends AbstractInvestigatorImpl {
-    private static final Logger s_logger = Logger.getLogger(UserVmDomRInvestigator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(UserVmDomRInvestigator.class);
 
     @Inject
     private final UserVmDao _userVmDao = null;

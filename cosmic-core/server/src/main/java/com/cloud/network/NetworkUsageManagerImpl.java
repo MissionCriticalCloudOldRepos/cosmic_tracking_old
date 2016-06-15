@@ -28,14 +28,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.command.admin.usage.AddTrafficMonitorCmd;
-import org.apache.cloudstack.api.command.admin.usage.DeleteTrafficMonitorCmd;
-import org.apache.cloudstack.api.command.admin.usage.ListTrafficMonitorsCmd;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
@@ -91,13 +83,21 @@ import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.MacAddress;
 
+import org.apache.cloudstack.api.command.admin.usage.AddTrafficMonitorCmd;
+import org.apache.cloudstack.api.command.admin.usage.DeleteTrafficMonitorCmd;
+import org.apache.cloudstack.api.command.admin.usage.ListTrafficMonitorsCmd;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class NetworkUsageManagerImpl extends ManagerBase implements NetworkUsageService, NetworkUsageManager, ResourceStateAdapter {
     public enum NetworkUsageResourceName {
         TrafficSentinel;
     }
 
-    private static final org.apache.log4j.Logger s_logger = Logger.getLogger(NetworkUsageManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetworkUsageManagerImpl.class);
     @Inject
     HostDao _hostDao;
     @Inject
@@ -150,7 +150,7 @@ public class NetworkUsageManagerImpl extends ManagerBase implements NetworkUsage
         try {
             uri = new URI(cmd.getUrl());
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new InvalidParameterValueException(e.getMessage());
         }
 

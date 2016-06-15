@@ -22,27 +22,27 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cloud.event.EventTypes;
-import com.cloud.event.UsageEventUtils;
-import com.cloud.utils.fsm.StateMachine2;
-import com.cloud.vm.VMInstanceVO;
-import com.cloud.vm.VirtualMachine;
-import com.cloud.vm.dao.VMInstanceDao;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.events.EventBus;
-import org.apache.cloudstack.framework.events.EventBusException;
-
 import com.cloud.configuration.Config;
 import com.cloud.event.EventCategory;
+import com.cloud.event.EventTypes;
+import com.cloud.event.UsageEventUtils;
 import com.cloud.server.ManagementService;
 import com.cloud.storage.Volume;
 import com.cloud.storage.Volume.Event;
 import com.cloud.storage.Volume.State;
 import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.fsm.StateListener;
+import com.cloud.utils.fsm.StateMachine2;
+import com.cloud.vm.VMInstanceVO;
+import com.cloud.vm.VirtualMachine;
+import com.cloud.vm.dao.VMInstanceDao;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.apache.cloudstack.framework.events.EventBusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 public class VolumeStateListener implements StateListener<State, Event, Volume> {
 
@@ -50,7 +50,7 @@ public class VolumeStateListener implements StateListener<State, Event, Volume> 
     protected ConfigurationDao _configDao;
     protected VMInstanceDao _vmInstanceDao;
 
-    private static final Logger s_logger = Logger.getLogger(VolumeStateListener.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VolumeStateListener.class);
 
     public VolumeStateListener(ConfigurationDao configDao, VMInstanceDao vmInstanceDao) {
         this._configDao = configDao;

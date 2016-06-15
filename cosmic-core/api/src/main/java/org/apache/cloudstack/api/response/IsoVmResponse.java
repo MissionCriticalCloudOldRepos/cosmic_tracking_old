@@ -16,13 +16,12 @@
 // under the License.
 package org.apache.cloudstack.api.response;
 
+import com.cloud.serializer.Param;
+import com.cloud.template.VirtualMachineTemplate;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
-
-import com.cloud.serializer.Param;
-import com.cloud.template.VirtualMachineTemplate;
 
 @EntityReference(value=VirtualMachineTemplate.class)
 @SuppressWarnings("unused")

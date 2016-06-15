@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.UnknownHostException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.consoleproxy.vnc.FrameBufferCanvas;
 import com.cloud.consoleproxy.vnc.RfbConstants;
 import com.cloud.consoleproxy.vnc.VncClient;
+
+import org.apache.log4j.Logger;
 
 /**
  *

@@ -27,11 +27,12 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BasicRestClient implements RestClient {
 
-    private static final Logger s_logger = Logger.getLogger(BasicRestClient.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BasicRestClient.class);
 
     private static final String HTTPS = HttpConstants.HTTPS;
     private static final int HTTPS_PORT = HttpConstants.HTTPS_PORT;

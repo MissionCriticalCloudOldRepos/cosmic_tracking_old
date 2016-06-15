@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.apache.cloudstack.api.response.UserResponse;
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.vm.VirtualMachine;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
@@ -41,18 +41,18 @@ import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.ServiceOfferingResponse;
 import org.apache.cloudstack.api.response.StoragePoolResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
+import org.apache.cloudstack.api.response.UserResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.vm.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @APICommand(name = "listVirtualMachines", description = "List the virtual machines owned by the account.", responseObject = UserVmResponse.class, responseView = ResponseView.Restricted, entityType = {VirtualMachine.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class ListVMsCmd extends BaseListTaggedResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListVMsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListVMsCmd.class.getName());
 
     private static final String s_name = "listvirtualmachinesresponse";
 

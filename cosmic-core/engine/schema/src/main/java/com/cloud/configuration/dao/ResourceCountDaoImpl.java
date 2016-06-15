@@ -23,8 +23,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.configuration.Resource;
 import com.cloud.configuration.Resource.ResourceOwnerType;
 import com.cloud.configuration.Resource.ResourceType;
@@ -38,6 +36,8 @@ import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class ResourceCountDaoImpl extends GenericDaoBase<ResourceCountVO, Long> implements ResourceCountDao {

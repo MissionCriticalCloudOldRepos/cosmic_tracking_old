@@ -24,8 +24,13 @@ import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
+import com.cloud.agent.api.to.DataStoreTO;
+import com.cloud.capacity.dao.CapacityDao;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.Upload;
-import org.apache.log4j.Logger;
+import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.utils.component.ComponentContext;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreDriver;
@@ -42,16 +47,11 @@ import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
 import org.apache.cloudstack.storage.image.ImageStoreDriver;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreEntity;
 import org.apache.cloudstack.storage.to.ImageStoreTO;
-
-import com.cloud.agent.api.to.DataStoreTO;
-import com.cloud.capacity.dao.CapacityDao;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.Storage.ImageFormat;
-import com.cloud.storage.dao.VMTemplateDao;
-import com.cloud.utils.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImageStoreImpl implements ImageStoreEntity {
-    private static final Logger s_logger = Logger.getLogger(ImageStoreImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ImageStoreImpl.class);
     @Inject
     VMTemplateDao imageDao;
     @Inject

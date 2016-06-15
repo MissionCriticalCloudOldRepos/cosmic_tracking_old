@@ -21,7 +21,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.dc.DedicatedResources;
+import com.cloud.event.EventTypes;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -34,15 +36,13 @@ import org.apache.cloudstack.api.response.DedicateClusterResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.dedicated.DedicatedService;
-
-import com.cloud.dc.DedicatedResources;
-import com.cloud.event.EventTypes;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "dedicateCluster", description = "Dedicate an existing cluster", responseObject = DedicateClusterResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DedicateClusterCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DedicateClusterCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DedicateClusterCmd.class.getName());
 
     private static final String s_name = "dedicateclusterresponse";
     @Inject

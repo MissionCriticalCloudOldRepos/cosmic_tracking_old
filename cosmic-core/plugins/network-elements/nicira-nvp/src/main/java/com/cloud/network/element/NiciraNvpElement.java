@@ -31,12 +31,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.network.ExternalNetworkDeviceManager.NetworkDevice;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.ConfigurePortForwardingRulesOnLogicalRouterAnswer;
 import com.cloud.agent.api.ConfigurePortForwardingRulesOnLogicalRouterCommand;
@@ -106,7 +100,6 @@ import com.cloud.network.dao.PhysicalNetworkDao;
 import com.cloud.network.dao.PhysicalNetworkServiceProviderDao;
 import com.cloud.network.dao.PhysicalNetworkServiceProviderVO;
 import com.cloud.network.dao.PhysicalNetworkVO;
-import com.cloud.network.nicira.LogicalSwitchPort;
 import com.cloud.network.resource.NiciraNvpResource;
 import com.cloud.network.rules.PortForwardingRule;
 import com.cloud.network.rules.StaticNat;
@@ -130,6 +123,12 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.NicDao;
 
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.network.ExternalNetworkDeviceManager.NetworkDevice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class NiciraNvpElement extends AdapterBase implements ConnectivityProvider, SourceNatServiceProvider, PortForwardingServiceProvider, StaticNatServiceProvider,
 NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
@@ -137,7 +136,7 @@ NiciraNvpElementService, ResourceStateAdapter, IpDeployer {
     private static final int MAX_PORT = 65535;
     private static final int MIN_PORT = 0;
 
-    private static final Logger s_logger = Logger.getLogger(NiciraNvpElement.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NiciraNvpElement.class);
 
     private static final Map<Service, Map<Capability, String>> capabilities = setCapabilities();
 

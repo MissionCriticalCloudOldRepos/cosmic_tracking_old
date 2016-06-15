@@ -16,7 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.iso;
 
-import org.apache.log4j.Logger;
+import com.cloud.uservm.UserVm;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -26,13 +26,13 @@ import org.apache.cloudstack.api.command.user.iso.AttachIsoCmd;
 import org.apache.cloudstack.api.command.user.vm.DeployVMCmd;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.uservm.UserVm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "attachIso", description = "Attaches an ISO to a virtual machine.", responseObject = UserVmResponse.class, responseView = ResponseView.Full,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class AttachIsoCmdByAdmin extends AttachIsoCmd {
-    public static final Logger s_logger = Logger.getLogger(AttachIsoCmdByAdmin.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AttachIsoCmdByAdmin.class.getName());
 
     @Override
     public void execute(){

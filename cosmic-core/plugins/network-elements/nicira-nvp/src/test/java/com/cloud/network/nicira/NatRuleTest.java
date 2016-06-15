@@ -21,11 +21,11 @@ package com.cloud.network.nicira;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.junit.Test;
 
 public class NatRuleTest {
 

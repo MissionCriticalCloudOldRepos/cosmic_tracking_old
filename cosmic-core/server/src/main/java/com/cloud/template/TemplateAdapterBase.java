@@ -22,21 +22,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.command.user.template.GetUploadParamsForTemplateCmd;
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.command.user.iso.DeleteIsoCmd;
-import org.apache.cloudstack.api.command.user.iso.RegisterIsoCmd;
-import org.apache.cloudstack.api.command.user.template.DeleteTemplateCmd;
-import org.apache.cloudstack.api.command.user.template.ExtractTemplateCmd;
-import org.apache.cloudstack.api.command.user.template.RegisterTemplateCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.storage.datastore.db.ImageStoreDao;
-import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
-import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreDao;
-
 import com.cloud.api.ApiDBUtils;
 import com.cloud.configuration.Config;
 import com.cloud.configuration.Resource.ResourceType;
@@ -73,8 +58,23 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.UserVmVO;
 import com.cloud.vm.dao.UserVmDao;
 
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.command.user.iso.DeleteIsoCmd;
+import org.apache.cloudstack.api.command.user.iso.RegisterIsoCmd;
+import org.apache.cloudstack.api.command.user.template.DeleteTemplateCmd;
+import org.apache.cloudstack.api.command.user.template.ExtractTemplateCmd;
+import org.apache.cloudstack.api.command.user.template.GetUploadParamsForTemplateCmd;
+import org.apache.cloudstack.api.command.user.template.RegisterTemplateCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.storage.datastore.db.ImageStoreDao;
+import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
+import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class TemplateAdapterBase extends AdapterBase implements TemplateAdapter {
-    private final static Logger s_logger = Logger.getLogger(TemplateAdapterBase.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(TemplateAdapterBase.class);
     protected @Inject
     DomainDao _domainDao;
     protected @Inject

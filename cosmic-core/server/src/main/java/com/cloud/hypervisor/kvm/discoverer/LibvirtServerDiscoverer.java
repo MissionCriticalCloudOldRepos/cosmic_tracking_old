@@ -16,6 +16,16 @@
 // under the License.
 package com.cloud.hypervisor.kvm.discoverer;
 
+import java.net.InetAddress;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.inject.Inject;
+import javax.naming.ConfigurationException;
+
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
@@ -43,19 +53,12 @@ import com.cloud.resource.ResourceStateAdapter;
 import com.cloud.resource.ServerResource;
 import com.cloud.resource.UnableDeleteHostException;
 import com.cloud.utils.ssh.SSHCmdHelper;
-import org.apache.log4j.Logger;
 
-import javax.inject.Inject;
-import javax.naming.ConfigurationException;
-import java.net.InetAddress;
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class LibvirtServerDiscoverer extends DiscovererBase implements Discoverer, Listener, ResourceStateAdapter {
-    private static final Logger s_logger = Logger.getLogger(LibvirtServerDiscoverer.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(LibvirtServerDiscoverer.class);
     private String _hostIp;
     private final int _waitTime = 5; /* wait for 5 minutes */
     private String _kvmPrivateNic;

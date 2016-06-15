@@ -19,9 +19,9 @@ package com.cloud.test.ui;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
-
 import com.thoughtworks.selenium.SeleniumException;
+
+import org.junit.Test;
 
 public class AddAndDeleteATemplate extends AbstractSeleniumTestCase {
 

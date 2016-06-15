@@ -21,8 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.agent.api.to.VirtualMachineTO;
 import com.cloud.deploy.DeployDestination;
@@ -42,6 +40,8 @@ import com.cloud.storage.StoragePool;
 import com.cloud.template.VirtualMachineTemplate;
 import com.cloud.utils.component.Manager;
 import com.cloud.utils.fsm.NoTransitionException;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
 
 /**
  * Manages allocating resources to vms.

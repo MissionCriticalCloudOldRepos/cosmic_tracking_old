@@ -34,8 +34,6 @@ import java.util.StringTokenizer;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.IAgentControl;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -54,6 +52,9 @@ import com.cloud.host.Host;
 import com.cloud.resource.ServerResource;
 import com.cloud.utils.exception.ExecutionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TrafficSentinelResource implements ServerResource {
 
     private String _name;
@@ -64,7 +65,7 @@ public class TrafficSentinelResource implements ServerResource {
     private String _inclZones;
     private String _exclZones;
 
-    private static final Logger s_logger = Logger.getLogger(TrafficSentinelResource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(TrafficSentinelResource.class);
 
     @Override
     public boolean configure(String name, Map<String, Object> params) throws ConfigurationException {
@@ -237,7 +238,7 @@ public class TrafficSentinelResource implements ServerResource {
                 throw new ExecutionException(e.getMessage());
             }
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new ExecutionException(e.getMessage());
         }
         return answer;

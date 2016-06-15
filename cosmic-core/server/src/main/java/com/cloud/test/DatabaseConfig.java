@@ -39,21 +39,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import com.cloud.host.Status;
 import com.cloud.service.ServiceOfferingVO;
 import com.cloud.service.dao.ServiceOfferingDaoImpl;
 import com.cloud.storage.DiskOfferingVO;
-import com.cloud.storage.dao.DiskOfferingDaoImpl;
 import com.cloud.storage.Storage.ProvisioningType;
+import com.cloud.storage.dao.DiskOfferingDaoImpl;
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.db.DB;
@@ -63,8 +54,18 @@ import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.net.NfsUtils;
 
+import org.apache.log4j.xml.DOMConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 public class DatabaseConfig {
-    private static final Logger s_logger = Logger.getLogger(DatabaseConfig.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(DatabaseConfig.class.getName());
 
     private String _configFileName = null;
     private String _currentObjectName = null;

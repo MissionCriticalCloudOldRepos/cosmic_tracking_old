@@ -28,11 +28,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.ExternalNetworkResourceUsageAnswer;
 import com.cloud.agent.api.ExternalNetworkResourceUsageCommand;
@@ -87,6 +82,12 @@ import com.cloud.vm.DomainRouterVO;
 import com.cloud.vm.NicVO;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.NicDao;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ExternalDeviceUsageManagerImpl extends ManagerBase implements ExternalDeviceUsageManager {
@@ -151,7 +152,7 @@ public class ExternalDeviceUsageManagerImpl extends ManagerBase implements Exter
 
     ScheduledExecutorService _executor;
     private int _externalNetworkStatsInterval;
-    private static final org.apache.log4j.Logger s_logger = Logger.getLogger(ExternalDeviceUsageManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ExternalDeviceUsageManagerImpl.class);
 
     @Override
     public boolean configure(String name, Map<String, Object> params) throws ConfigurationException {

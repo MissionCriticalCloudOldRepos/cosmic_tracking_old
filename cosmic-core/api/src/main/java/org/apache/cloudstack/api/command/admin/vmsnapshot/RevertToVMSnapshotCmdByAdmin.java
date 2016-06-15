@@ -16,7 +16,11 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.vmsnapshot;
 
-import java.util.logging.Logger;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.uservm.UserVm;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -25,18 +29,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.command.user.vmsnapshot.RevertToVMSnapshotCmd;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.uservm.UserVm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "revertToVMSnapshot", description = "Revert VM from a vmsnapshot.", responseObject = UserVmResponse.class, since = "4.2.0", responseView = ResponseView.Full,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class RevertToVMSnapshotCmdByAdmin extends RevertToVMSnapshotCmd {
-    public static final Logger s_logger = Logger
-            .getLogger(RevertToVMSnapshotCmdByAdmin.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(RevertToVMSnapshotCmdByAdmin.class.getName());
 
 
     @Override

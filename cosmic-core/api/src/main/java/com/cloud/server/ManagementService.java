@@ -20,6 +20,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.cloud.alert.Alert;
+import com.cloud.capacity.Capacity;
+import com.cloud.dc.Pod;
+import com.cloud.dc.Vlan;
+import com.cloud.domain.Domain;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.ManagementServerException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.exception.VirtualMachineMigrationException;
+import com.cloud.host.Host;
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.hypervisor.HypervisorCapabilities;
+import com.cloud.network.IpAddress;
+import com.cloud.org.Cluster;
+import com.cloud.storage.GuestOS;
+import com.cloud.storage.GuestOSHypervisor;
+import com.cloud.storage.GuestOsCategory;
+import com.cloud.storage.StoragePool;
+import com.cloud.user.SSHKeyPair;
+import com.cloud.utils.Pair;
+import com.cloud.utils.Ternary;
+import com.cloud.vm.InstanceGroup;
+import com.cloud.vm.VirtualMachine;
+import com.cloud.vm.VirtualMachine.Type;
+
 import org.apache.cloudstack.api.command.admin.cluster.ListClustersCmd;
 import org.apache.cloudstack.api.command.admin.config.ListCfgsByCmd;
 import org.apache.cloudstack.api.command.admin.domain.UpdateDomainCmd;
@@ -58,31 +83,6 @@ import org.apache.cloudstack.api.command.user.ssh.RegisterSSHKeyPairCmd;
 import org.apache.cloudstack.api.command.user.vm.GetVMPasswordCmd;
 import org.apache.cloudstack.api.command.user.vmgroup.UpdateVMGroupCmd;
 import org.apache.cloudstack.config.Configuration;
-
-import com.cloud.alert.Alert;
-import com.cloud.capacity.Capacity;
-import com.cloud.dc.Pod;
-import com.cloud.dc.Vlan;
-import com.cloud.domain.Domain;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.ManagementServerException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.exception.VirtualMachineMigrationException;
-import com.cloud.host.Host;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.hypervisor.HypervisorCapabilities;
-import com.cloud.network.IpAddress;
-import com.cloud.org.Cluster;
-import com.cloud.storage.GuestOS;
-import com.cloud.storage.GuestOSHypervisor;
-import com.cloud.storage.GuestOsCategory;
-import com.cloud.storage.StoragePool;
-import com.cloud.user.SSHKeyPair;
-import com.cloud.utils.Pair;
-import com.cloud.utils.Ternary;
-import com.cloud.vm.InstanceGroup;
-import com.cloud.vm.VirtualMachine;
-import com.cloud.vm.VirtualMachine.Type;
 
 /**
  * Hopefully this is temporary.

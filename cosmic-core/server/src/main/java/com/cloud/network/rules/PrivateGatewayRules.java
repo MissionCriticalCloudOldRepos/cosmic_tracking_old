@@ -33,11 +33,12 @@ import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineManager;
 
 import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PrivateGatewayRules extends RuleApplier {
 
-    private static final Logger s_logger = Logger.getLogger(PrivateGatewayRules.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PrivateGatewayRules.class);
 
     private final PrivateGateway _privateGateway;
 

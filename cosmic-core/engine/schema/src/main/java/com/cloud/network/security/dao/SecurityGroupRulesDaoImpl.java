@@ -18,14 +18,13 @@ package com.cloud.network.security.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.security.SecurityGroupRulesVO;
 import com.cloud.utils.db.Filter;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityGroupRulesDaoImpl extends GenericDaoBase<SecurityGroupRulesVO, Long> implements SecurityGroupRulesDao {

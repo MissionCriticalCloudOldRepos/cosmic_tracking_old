@@ -23,21 +23,6 @@
 
 package com.cloud.baremetal.networkservice;
 
-import com.cloud.agent.api.SecurityGroupRuleAnswer;
-import com.cloud.agent.api.SecurityGroupRulesCmd;
-import com.cloud.agent.api.SecurityGroupRulesCmd.IpPortAndProto;
-import com.cloud.baremetal.networkservice.schema.SecurityGroupRule;
-import com.cloud.baremetal.networkservice.schema.SecurityGroupVmRuleSet;
-import com.cloud.utils.Pair;
-import com.cloud.utils.exception.CloudRuntimeException;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.log4j.Logger;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -45,8 +30,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
+import com.cloud.agent.api.SecurityGroupRuleAnswer;
+import com.cloud.agent.api.SecurityGroupRulesCmd;
+import com.cloud.agent.api.SecurityGroupRulesCmd.IpPortAndProto;
+import com.cloud.baremetal.networkservice.schema.SecurityGroupRule;
+import com.cloud.baremetal.networkservice.schema.SecurityGroupVmRuleSet;
+import com.cloud.utils.Pair;
+import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SecurityGroupHttpClient {
-    private static final Logger logger = Logger.getLogger(SecurityGroupHttpClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityGroupHttpClient.class);
     private static final String ARG_NAME = "args";
     private static final String COMMAND = "command";
     private JAXBContext context;

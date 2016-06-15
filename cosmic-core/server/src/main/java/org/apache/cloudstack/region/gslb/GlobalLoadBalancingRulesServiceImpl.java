@@ -25,20 +25,6 @@ import java.util.Map;
 import javax.ejb.Local;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.acl.SecurityChecker;
-import org.apache.cloudstack.api.command.user.region.ha.gslb.AssignToGlobalLoadBalancerRuleCmd;
-import org.apache.cloudstack.api.command.user.region.ha.gslb.CreateGlobalLoadBalancerRuleCmd;
-import org.apache.cloudstack.api.command.user.region.ha.gslb.DeleteGlobalLoadBalancerRuleCmd;
-import org.apache.cloudstack.api.command.user.region.ha.gslb.ListGlobalLoadBalancerRuleCmd;
-import org.apache.cloudstack.api.command.user.region.ha.gslb.RemoveFromGlobalLoadBalancerRuleCmd;
-import org.apache.cloudstack.api.command.user.region.ha.gslb.UpdateGlobalLoadBalancerRuleCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.region.Region;
-import org.apache.cloudstack.region.dao.RegionDao;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.routing.GlobalLoadBalancerConfigCommand;
 import com.cloud.agent.api.routing.SiteLoadBalancerConfig;
@@ -69,10 +55,24 @@ import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.NetUtils;
 
+import org.apache.cloudstack.acl.SecurityChecker;
+import org.apache.cloudstack.api.command.user.region.ha.gslb.AssignToGlobalLoadBalancerRuleCmd;
+import org.apache.cloudstack.api.command.user.region.ha.gslb.CreateGlobalLoadBalancerRuleCmd;
+import org.apache.cloudstack.api.command.user.region.ha.gslb.DeleteGlobalLoadBalancerRuleCmd;
+import org.apache.cloudstack.api.command.user.region.ha.gslb.ListGlobalLoadBalancerRuleCmd;
+import org.apache.cloudstack.api.command.user.region.ha.gslb.RemoveFromGlobalLoadBalancerRuleCmd;
+import org.apache.cloudstack.api.command.user.region.ha.gslb.UpdateGlobalLoadBalancerRuleCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.region.Region;
+import org.apache.cloudstack.region.dao.RegionDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Local(value = {GlobalLoadBalancingRulesService.class})
 public class GlobalLoadBalancingRulesServiceImpl implements GlobalLoadBalancingRulesService {
 
-    private static final Logger s_logger = Logger.getLogger(GlobalLoadBalancingRulesServiceImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(GlobalLoadBalancingRulesServiceImpl.class);
 
     @Inject
     AccountManager _accountMgr;

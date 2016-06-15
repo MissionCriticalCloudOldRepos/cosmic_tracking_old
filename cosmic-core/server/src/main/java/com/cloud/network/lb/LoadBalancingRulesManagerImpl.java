@@ -29,23 +29,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.command.user.loadbalancer.CreateLBHealthCheckPolicyCmd;
-import org.apache.cloudstack.api.command.user.loadbalancer.CreateLBStickinessPolicyCmd;
-import org.apache.cloudstack.api.command.user.loadbalancer.ListLBHealthCheckPoliciesCmd;
-import org.apache.cloudstack.api.command.user.loadbalancer.ListLBStickinessPoliciesCmd;
-import org.apache.cloudstack.api.command.user.loadbalancer.ListLoadBalancerRuleInstancesCmd;
-import org.apache.cloudstack.api.command.user.loadbalancer.ListLoadBalancerRulesCmd;
-import org.apache.cloudstack.api.command.user.loadbalancer.UpdateLoadBalancerRuleCmd;
-import org.apache.cloudstack.api.response.ServiceResponse;
-import org.apache.cloudstack.config.ApiServiceConfiguration;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.lb.ApplicationLoadBalancerRuleVO;
-import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.to.LoadBalancerTO;
 import com.cloud.configuration.ConfigurationManager;
 import com.cloud.dc.DataCenter;
@@ -167,8 +150,26 @@ import com.cloud.vm.dao.UserVmDao;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.command.user.loadbalancer.CreateLBHealthCheckPolicyCmd;
+import org.apache.cloudstack.api.command.user.loadbalancer.CreateLBStickinessPolicyCmd;
+import org.apache.cloudstack.api.command.user.loadbalancer.ListLBHealthCheckPoliciesCmd;
+import org.apache.cloudstack.api.command.user.loadbalancer.ListLBStickinessPoliciesCmd;
+import org.apache.cloudstack.api.command.user.loadbalancer.ListLoadBalancerRuleInstancesCmd;
+import org.apache.cloudstack.api.command.user.loadbalancer.ListLoadBalancerRulesCmd;
+import org.apache.cloudstack.api.command.user.loadbalancer.UpdateLoadBalancerRuleCmd;
+import org.apache.cloudstack.api.response.ServiceResponse;
+import org.apache.cloudstack.config.ApiServiceConfiguration;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.lb.ApplicationLoadBalancerRuleVO;
+import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LoadBalancingRulesManagerImpl<Type> extends ManagerBase implements LoadBalancingRulesManager, LoadBalancingRulesService {
-    private static final Logger s_logger = Logger.getLogger(LoadBalancingRulesManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(LoadBalancingRulesManagerImpl.class);
 
     @Inject
     NetworkOrchestrationService _networkMgr;

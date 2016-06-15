@@ -26,8 +26,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.IAgentControl;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -46,13 +44,16 @@ import com.cloud.network.nicira.NiciraNvpApiException;
 import com.cloud.network.nicira.SourceNatRule;
 import com.cloud.network.utils.CommandRetryUtility;
 import com.cloud.resource.ServerResource;
+import com.cloud.utils.nicira.nvp.plugin.NiciraNvpApiVersion;
 import com.cloud.utils.rest.CloudstackRESTException;
 import com.cloud.utils.rest.HttpClientHelper;
-import com.cloud.utils.nicira.nvp.plugin.NiciraNvpApiVersion;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NiciraNvpResource implements ServerResource {
 
-    private static final Logger s_logger = Logger.getLogger(NiciraNvpResource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NiciraNvpResource.class);
 
     public static final int NAME_MAX_LEN = 40;
     public static final int NUM_RETRIES = 2;

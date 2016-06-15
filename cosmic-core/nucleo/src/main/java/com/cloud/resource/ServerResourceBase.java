@@ -32,8 +32,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.IAgentControl;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -41,8 +39,11 @@ import com.cloud.agent.api.StartupCommand;
 import com.cloud.utils.net.NetUtils;
 import com.cloud.utils.script.Script;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class ServerResourceBase implements ServerResource {
-    private static final Logger s_logger = Logger.getLogger(ServerResourceBase.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ServerResourceBase.class);
     protected String _name;
     private ArrayList<String> _warnings = new ArrayList<String>();
     private ArrayList<String> _errors = new ArrayList<String>();

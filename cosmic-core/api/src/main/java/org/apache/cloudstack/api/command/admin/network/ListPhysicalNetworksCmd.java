@@ -19,7 +19,9 @@ package org.apache.cloudstack.api.command.admin.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.network.PhysicalNetwork;
+import com.cloud.user.Account;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -30,15 +32,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.network.PhysicalNetwork;
-import com.cloud.user.Account;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listPhysicalNetworks", description = "Lists physical networks", responseObject = PhysicalNetworkResponse.class, since = "3.0.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListPhysicalNetworksCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListPhysicalNetworksCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListPhysicalNetworksCmd.class.getName());
 
     private static final String s_name = "listphysicalnetworksresponse";
 

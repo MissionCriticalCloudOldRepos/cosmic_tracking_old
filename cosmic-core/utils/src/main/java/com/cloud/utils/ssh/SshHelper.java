@@ -23,12 +23,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
-
+import com.cloud.utils.Pair;
 import com.trilead.ssh2.ChannelCondition;
 import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.Session;
-import com.cloud.utils.Pair;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SshHelper {
     private static final int DEFAULT_CONNECT_TIMEOUT = 180000;
@@ -40,7 +41,7 @@ public class SshHelper {
      */
     private static final long WAITING_OPEN_SSH_SESSION = 1000;
 
-    private static final Logger s_logger = Logger.getLogger(SshHelper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SshHelper.class);
 
     public static Pair<Boolean, String> sshExecute(String host, int port, String user, File pemKeyFile, String password, String command) throws Exception {
 

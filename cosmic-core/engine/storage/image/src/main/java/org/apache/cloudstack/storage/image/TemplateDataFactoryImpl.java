@@ -23,6 +23,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.VMTemplateStoragePoolVO;
+import com.cloud.storage.VMTemplateVO;
+import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.storage.dao.VMTemplatePoolDao;
+
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
@@ -31,18 +37,13 @@ import org.apache.cloudstack.engine.subsystem.api.storage.TemplateInfo;
 import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreVO;
 import org.apache.cloudstack.storage.image.store.TemplateObject;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.VMTemplateStoragePoolVO;
-import com.cloud.storage.VMTemplateVO;
-import com.cloud.storage.dao.VMTemplateDao;
-import com.cloud.storage.dao.VMTemplatePoolDao;
 
 @Component
 public class TemplateDataFactoryImpl implements TemplateDataFactory {
-    private static final Logger s_logger = Logger.getLogger(TemplateDataFactoryImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(TemplateDataFactoryImpl.class);
     @Inject
     VMTemplateDao imageDataDao;
     @Inject

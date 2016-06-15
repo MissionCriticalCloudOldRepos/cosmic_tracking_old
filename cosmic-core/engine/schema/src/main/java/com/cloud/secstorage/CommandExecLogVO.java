@@ -27,9 +27,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.utils.DateUtil;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = "cmd_exec_log")

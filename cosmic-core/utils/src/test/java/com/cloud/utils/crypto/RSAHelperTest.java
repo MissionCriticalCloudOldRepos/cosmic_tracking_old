@@ -22,9 +22,9 @@ package com.cloud.utils.crypto;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Test;
-
 import com.cloud.utils.crypt.RSAHelper;
+
+import org.junit.Test;
 
 public class RSAHelperTest {
     @Test

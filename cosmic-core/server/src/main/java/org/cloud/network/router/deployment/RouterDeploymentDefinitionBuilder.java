@@ -22,10 +22,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import com.cloud.dc.dao.HostPodDao;
 import com.cloud.dc.dao.VlanDao;
 import com.cloud.deploy.DeployDestination;
@@ -53,6 +49,10 @@ import com.cloud.vm.VirtualMachineProfile.Param;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.VMInstanceDao;
+
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class RouterDeploymentDefinitionBuilder {
 

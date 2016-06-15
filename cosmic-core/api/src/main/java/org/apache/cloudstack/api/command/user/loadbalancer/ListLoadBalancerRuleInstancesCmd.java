@@ -19,9 +19,9 @@ package org.apache.cloudstack.api.command.user.loadbalancer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.uservm.UserVm;
+import com.cloud.utils.Pair;
 import com.cloud.vm.VirtualMachine;
-import org.apache.cloudstack.api.response.LoadBalancerRuleVmMapResponse;
-import org.apache.log4j.Logger;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -30,16 +30,16 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.ListResponse;
+import org.apache.cloudstack.api.response.LoadBalancerRuleVmMapResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
-
-import com.cloud.uservm.UserVm;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listLoadBalancerRuleInstances", description = "List all virtual machine instances that are assigned to a load balancer rule.", responseObject = LoadBalancerRuleVmMapResponse.class, responseView = ResponseView.Restricted,
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = true)
 public class ListLoadBalancerRuleInstancesCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListLoadBalancerRuleInstancesCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListLoadBalancerRuleInstancesCmd.class.getName());
 
     private static final String s_name = "listloadbalancerruleinstancesresponse";
 

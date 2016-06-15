@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.log4j.Logger;
-
 import com.cloud.configuration.ConfigurationManagerImpl;
 import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.dc.HostPodVO;
@@ -72,8 +69,12 @@ import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.VMInstanceDao;
 
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RouterDeploymentDefinition {
-    private static final Logger logger = Logger.getLogger(RouterDeploymentDefinition.class);
+    private static final Logger logger = LoggerFactory.getLogger(RouterDeploymentDefinition.class);
 
     protected static final int LIMIT_NUMBER_OF_ROUTERS = 5;
     protected static final int MAX_NUMBER_OF_ROUTERS = 2;

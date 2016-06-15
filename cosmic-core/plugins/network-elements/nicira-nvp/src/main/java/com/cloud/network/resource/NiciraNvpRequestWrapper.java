@@ -22,13 +22,13 @@ package com.cloud.network.resource;
 import java.util.Hashtable;
 import java.util.Set;
 
-import org.reflections.Reflections;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.RequestWrapper;
 import com.cloud.resource.ServerResource;
+
+import org.reflections.Reflections;
 
 public class NiciraNvpRequestWrapper extends RequestWrapper {
 

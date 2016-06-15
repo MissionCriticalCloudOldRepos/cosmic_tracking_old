@@ -16,7 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpn;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.network.Site2SiteCustomerGateway;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -28,15 +30,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.Site2SiteCustomerGatewayResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.network.Site2SiteCustomerGateway;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteVpnCustomerGateway", description = "Delete site to site vpn customer gateway", responseObject = SuccessResponse.class, entityType = {Site2SiteCustomerGateway.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteVpnCustomerGatewayCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteVpnCustomerGatewayCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteVpnCustomerGatewayCmd.class.getName());
 
     private static final String s_name = "deletevpncustomergatewayresponse";
 

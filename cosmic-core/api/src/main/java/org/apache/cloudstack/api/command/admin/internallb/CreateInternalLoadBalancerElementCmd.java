@@ -20,7 +20,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.network.VirtualRouterProvider;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -32,11 +35,8 @@ import org.apache.cloudstack.api.response.InternalLoadBalancerElementResponse;
 import org.apache.cloudstack.api.response.ProviderResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.network.element.InternalLoadBalancerElementService;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.network.VirtualRouterProvider;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createInternalLoadBalancerElement",
             responseObject = InternalLoadBalancerElementResponse.class,
@@ -45,7 +45,7 @@ import com.cloud.user.Account;
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = false)
 public class CreateInternalLoadBalancerElementCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateInternalLoadBalancerElementCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateInternalLoadBalancerElementCmd.class.getName());
     private static final String s_name = "createinternalloadbalancerelementresponse";
 
     @Inject

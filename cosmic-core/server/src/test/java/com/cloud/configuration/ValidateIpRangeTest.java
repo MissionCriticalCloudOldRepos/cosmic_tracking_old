@@ -21,16 +21,16 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.dc.VlanVO;
+import com.cloud.network.Network;
+import com.cloud.network.NetworkModel;
+import com.cloud.utils.Pair;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import com.cloud.dc.VlanVO;
-import com.cloud.network.Network;
-import com.cloud.network.NetworkModel;
-import com.cloud.utils.Pair;
 
 public class ValidateIpRangeTest {
     @Mock

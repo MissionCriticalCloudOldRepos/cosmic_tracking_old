@@ -19,14 +19,14 @@ package com.cloud.api.query.dao;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.apache.cloudstack.api.ApiConstants.VMDetails;
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.response.UserVmResponse;
-
 import com.cloud.api.query.vo.UserVmJoinVO;
 import com.cloud.user.Account;
 import com.cloud.uservm.UserVm;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.ApiConstants.VMDetails;
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.response.UserVmResponse;
 
 public interface UserVmJoinDao extends GenericDao<UserVmJoinVO, Long> {
 

@@ -16,13 +16,12 @@
 // under the License.
 package org.apache.cloudstack.engine.provisioning.test;
 
-import org.mockito.Mockito;
-import org.springframework.context.annotation.Bean;
-
 import org.apache.cloudstack.engine.datacenter.entity.api.db.dao.EngineClusterDao;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.dao.EngineDataCenterDao;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.dao.EngineHostDao;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.dao.EngineHostPodDao;
+import org.mockito.Mockito;
+import org.springframework.context.annotation.Bean;
 
 public class ChildTestConfiguration {
 

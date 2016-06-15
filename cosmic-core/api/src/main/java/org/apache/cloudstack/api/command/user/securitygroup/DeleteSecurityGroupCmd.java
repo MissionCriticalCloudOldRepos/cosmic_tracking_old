@@ -16,7 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.securitygroup;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceInUseException;
+import com.cloud.network.security.SecurityGroup;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -31,15 +33,13 @@ import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.SecurityGroupResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceInUseException;
-import com.cloud.network.security.SecurityGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteSecurityGroup", description = "Deletes security group", responseObject = SuccessResponse.class, entityType = {SecurityGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteSecurityGroupCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteSecurityGroupCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteSecurityGroupCmd.class.getName());
     private static final String s_name = "deletesecuritygroupresponse";
 
     /////////////////////////////////////////////////////

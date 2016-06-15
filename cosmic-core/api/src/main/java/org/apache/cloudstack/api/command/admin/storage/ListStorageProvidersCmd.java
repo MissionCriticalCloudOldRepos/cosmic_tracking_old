@@ -20,7 +20,11 @@ package org.apache.cloudstack.api.command.admin.storage;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -30,17 +34,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.StorageProviderResponse;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.NetworkRuleConflictException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listStorageProviders", description = "Lists storage providers.", responseObject = StorageProviderResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListStorageProvidersCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListStorageProvidersCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListStorageProvidersCmd.class.getName());
     private static final String s_name = "liststorageprovidersresponse";
 
     @Parameter(name = ApiConstants.TYPE, type = CommandType.STRING, description = "the type of storage provider: either primary or image", required = true)

@@ -16,6 +16,14 @@
 // under the License.
 package com.cloud.usage.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
 import com.cloud.usage.UsageVO;
 import com.cloud.user.AccountVO;
 import com.cloud.user.UserStatisticsVO;
@@ -32,20 +40,13 @@ import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.exception.CloudRuntimeException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 @Component
 public class UsageDaoImpl extends GenericDaoBase<UsageVO, Long> implements UsageDao {
-    public static final Logger s_logger = Logger.getLogger(UsageDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UsageDaoImpl.class.getName());
     private static final String DELETE_ALL = "DELETE FROM cloud_usage";
     private static final String DELETE_ALL_BY_ACCOUNTID = "DELETE FROM cloud_usage WHERE account_id = ?";
     private static final String DELETE_ALL_BY_INTERVAL = "DELETE FROM cloud_usage WHERE end_date < DATE_SUB(CURRENT_DATE(), INTERVAL ? DAY)";

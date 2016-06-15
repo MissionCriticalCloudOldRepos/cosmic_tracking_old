@@ -25,14 +25,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.events.Event;
-import org.apache.cloudstack.framework.events.EventBus;
-import org.apache.cloudstack.framework.events.EventBusException;
-
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.event.dao.UsageEventDao;
@@ -40,12 +32,20 @@ import com.cloud.user.Account;
 import com.cloud.user.dao.AccountDao;
 import com.cloud.utils.component.ComponentContext;
 
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.events.Event;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.apache.cloudstack.framework.events.EventBusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
 public class UsageEventUtils {
 
     private static UsageEventDao s_usageEventDao;
     private static AccountDao s_accountDao;
     private static DataCenterDao s_dcDao;
-    private static final Logger s_logger = Logger.getLogger(UsageEventUtils.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(UsageEventUtils.class);
     protected static EventBus s_eventBus = null;
     protected static ConfigurationDao s_configDao;
 

@@ -23,12 +23,12 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
 import com.cloud.alert.AlertManager;
 import com.cloud.usage.dao.UsageJobDao;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 
 public class HighAvailabilityManagerExtImpl extends HighAvailabilityManagerImpl {
 

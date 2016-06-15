@@ -21,8 +21,6 @@ package com.cloud.network.resource.wrapper;
 
 import static com.cloud.network.resource.NiciraNvpResource.NUM_RETRIES;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CreateLogicalSwitchPortAnswer;
 import com.cloud.agent.api.CreateLogicalSwitchPortCommand;
@@ -36,10 +34,13 @@ import com.cloud.network.utils.CommandRetryUtility;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  CreateLogicalSwitchPortCommand.class)
 public final class NiciraNvpCreateLogicalSwitchPortCommandWrapper extends CommandWrapper<CreateLogicalSwitchPortCommand, Answer, NiciraNvpResource> {
 
-    private static final Logger s_logger = Logger.getLogger(NiciraNvpCreateLogicalSwitchPortCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NiciraNvpCreateLogicalSwitchPortCommandWrapper.class);
 
     @Override
     public Answer execute(final CreateLogicalSwitchPortCommand command, final NiciraNvpResource niciraNvpResource) {

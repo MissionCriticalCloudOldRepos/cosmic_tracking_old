@@ -16,7 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.domain;
 
-import org.apache.log4j.Logger;
+import com.cloud.domain.Domain;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -25,13 +25,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ListResponse;
-
-import com.cloud.domain.Domain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listDomains", description = "Lists domains and provides detailed information for listed domains", responseObject = DomainResponse.class, responseView = ResponseView.Restricted, entityType = {Domain.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListDomainsCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListDomainsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListDomainsCmd.class.getName());
 
     private static final String s_name = "listdomainsresponse";
 

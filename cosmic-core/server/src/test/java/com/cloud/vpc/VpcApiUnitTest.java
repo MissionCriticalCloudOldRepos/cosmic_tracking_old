@@ -21,13 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.network.Network.Service;
 import com.cloud.network.vpc.Vpc;
@@ -35,6 +28,13 @@ import com.cloud.network.vpc.VpcManagerImpl;
 import com.cloud.network.vpc.VpcVO;
 import com.cloud.user.AccountVO;
 import com.cloud.utils.component.ComponentContext;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = "classpath:/VpcTestContext.xml")

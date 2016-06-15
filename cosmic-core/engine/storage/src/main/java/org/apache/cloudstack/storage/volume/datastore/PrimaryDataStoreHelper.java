@@ -25,8 +25,22 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import com.cloud.agent.api.StoragePoolInfo;
+import com.cloud.capacity.Capacity;
+import com.cloud.capacity.CapacityVO;
+import com.cloud.capacity.dao.CapacityDao;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.ScopeType;
+import com.cloud.storage.Storage.StoragePoolType;
+import com.cloud.storage.StorageManager;
+import com.cloud.storage.StoragePoolHostVO;
+import com.cloud.storage.StoragePoolStatus;
+import com.cloud.storage.dao.StoragePoolHostDao;
+import com.cloud.utils.crypt.DBEncryptionUtil;
+import com.cloud.utils.db.TransactionLegacy;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
@@ -34,27 +48,13 @@ import org.apache.cloudstack.engine.subsystem.api.storage.HostScope;
 import org.apache.cloudstack.engine.subsystem.api.storage.PrimaryDataStoreParameters;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-
-import com.cloud.agent.api.StoragePoolInfo;
-import com.cloud.capacity.Capacity;
-import com.cloud.capacity.CapacityVO;
-import com.cloud.capacity.dao.CapacityDao;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.ScopeType;
-import com.cloud.storage.StorageManager;
-import com.cloud.storage.StoragePoolHostVO;
-import com.cloud.storage.StoragePoolStatus;
-import com.cloud.storage.Storage.StoragePoolType;
-import com.cloud.storage.dao.StoragePoolHostDao;
-import com.cloud.utils.crypt.DBEncryptionUtil;
-import com.cloud.utils.db.TransactionLegacy;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PrimaryDataStoreHelper {
-    private static final Logger s_logger = Logger.getLogger(PrimaryDataStoreHelper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PrimaryDataStoreHelper.class);
     @Inject
     private PrimaryDataStoreDao dataStoreDao;
     @Inject

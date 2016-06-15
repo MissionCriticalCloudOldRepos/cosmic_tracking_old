@@ -26,9 +26,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.host.Host;
 import com.cloud.host.HostVO;
 import com.cloud.host.Status;
@@ -37,9 +34,13 @@ import com.cloud.utils.component.AdapterBase;
 import com.cloud.utils.db.QueryBuilder;
 import com.cloud.utils.db.SearchCriteria.Op;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class ClusterBasedAgentLoadBalancerPlanner extends AdapterBase implements AgentLoadBalancerPlanner {
-    private static final Logger s_logger = Logger.getLogger(AgentLoadBalancerPlanner.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AgentLoadBalancerPlanner.class);
 
     @Inject
     HostDao _hostDao = null;

@@ -18,7 +18,10 @@ package org.apache.cloudstack.api.command.admin.account;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -34,16 +37,13 @@ import org.apache.cloudstack.api.response.AccountResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.region.RegionService;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "disableAccount", description = "Disables an account", responseObject = AccountResponse.class, entityType = {Account.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class DisableAccountCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DisableAccountCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DisableAccountCmd.class.getName());
     private static final String s_name = "disableaccountresponse";
 
     /////////////////////////////////////////////////////

@@ -42,10 +42,6 @@ import java.util.UUID;
 
 import javax.naming.ConfigurationException;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-
 import com.cloud.agent.api.ConfigurePortForwardingRulesOnLogicalRouterAnswer;
 import com.cloud.agent.api.ConfigurePortForwardingRulesOnLogicalRouterCommand;
 import com.cloud.agent.api.ConfigurePublicIpsOnLogicalRouterAnswer;
@@ -85,6 +81,10 @@ import com.cloud.network.nicira.NiciraNvpApi;
 import com.cloud.network.nicira.NiciraNvpApiException;
 import com.cloud.network.nicira.SourceNatRule;
 import com.cloud.network.utils.CommandRetryUtility;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatcher;
 
 public class NiciraNvpResourceTest {
     NiciraNvpApi nvpApi = mock(NiciraNvpApi.class);

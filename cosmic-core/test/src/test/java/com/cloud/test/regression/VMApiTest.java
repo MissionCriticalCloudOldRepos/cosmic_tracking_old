@@ -18,15 +18,16 @@ package com.cloud.test.regression;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import com.cloud.test.regression.ApiCommand.ResponseType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.cloud.test.regression.ApiCommand.ResponseType;
-
 public class VMApiTest extends TestCase {
-    public static final Logger s_logger = Logger.getLogger(VMApiTest.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(VMApiTest.class.getName());
 
     public VMApiTest() {
         this.setClient();

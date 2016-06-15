@@ -19,6 +19,8 @@
 
 package com.cloud.utils;
 
+import com.cloud.utils.testcase.Log4jEnabledTestCase;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +28,6 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.cloud.utils.testcase.Log4jEnabledTestCase;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Profiler.class})

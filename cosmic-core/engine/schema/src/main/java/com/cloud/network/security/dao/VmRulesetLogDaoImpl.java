@@ -25,19 +25,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.security.VmRulesetLogVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class VmRulesetLogDaoImpl extends GenericDaoBase<VmRulesetLogVO, Long> implements VmRulesetLogDao {
-    protected static final Logger s_logger = Logger.getLogger(VmRulesetLogDaoImpl.class);
+    protected static final Logger s_logger = LoggerFactory.getLogger(VmRulesetLogDaoImpl.class);
     private SearchBuilder<VmRulesetLogVO> VmIdSearch;
     private String InsertOrUpdateSQl = "INSERT INTO op_vm_ruleset_log (instance_id, created, logsequence) "
         + " VALUES(?, now(), 1) ON DUPLICATE KEY UPDATE logsequence=logsequence+1";

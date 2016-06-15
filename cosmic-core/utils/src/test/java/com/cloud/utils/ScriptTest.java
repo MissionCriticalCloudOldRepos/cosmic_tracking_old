@@ -22,17 +22,17 @@ package com.cloud.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import com.cloud.utils.script.OutputInterpreter;
+import com.cloud.utils.script.Script;
+
 import org.apache.commons.lang.SystemUtils;
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-
-import com.cloud.utils.script.OutputInterpreter;
-import com.cloud.utils.script.Script;
+import org.slf4j.Logger;
 
 public class ScriptTest {
     @Test

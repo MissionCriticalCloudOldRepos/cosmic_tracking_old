@@ -16,13 +16,6 @@
 // under the License.
 package com.cloud.ha;
 
-import org.apache.cloudstack.engine.orchestration.service.VolumeOrchestrationService;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContext;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.log4j.Logger;
-import org.apache.log4j.NDC;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,6 +70,14 @@ import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.VMInstanceDao;
 
+import org.apache.cloudstack.engine.orchestration.service.VolumeOrchestrationService;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContext;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.log4j.NDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * HighAvailabilityManagerImpl coordinates the HA process. VMs are registered with the HA Manager for HA. The request is stored
  * within a database backed work queue. HAManager has a number of workers that pick up these work items to perform HA on the
@@ -101,7 +102,7 @@ import com.cloud.vm.dao.VMInstanceDao;
  **/
 public class HighAvailabilityManagerImpl extends ManagerBase implements HighAvailabilityManager, ClusterManagerListener {
 
-  protected static final Logger s_logger = Logger.getLogger(HighAvailabilityManagerImpl.class);
+  protected static final Logger s_logger = LoggerFactory.getLogger(HighAvailabilityManagerImpl.class);
   WorkerThread[] _workers;
   boolean _stopped;
   long _timeToSleep;

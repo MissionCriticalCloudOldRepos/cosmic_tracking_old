@@ -20,24 +20,25 @@ package org.apache.cloudstack.messagebus;
 
 import javax.inject.Inject;
 
-import junit.framework.TestCase;
-
 import org.apache.cloudstack.framework.messagebus.MessageBus;
 import org.apache.cloudstack.framework.messagebus.MessageDetector;
 import org.apache.cloudstack.framework.messagebus.MessageSubscriber;
 import org.apache.cloudstack.framework.messagebus.PublishScope;
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/MessageBusTestContext.xml")
 public class TestMessageBus extends TestCase {
-    private static final Logger s_logger = Logger.getLogger(TestMessageBus.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(TestMessageBus.class);
 
     @Inject
     MessageBus _messageBus;

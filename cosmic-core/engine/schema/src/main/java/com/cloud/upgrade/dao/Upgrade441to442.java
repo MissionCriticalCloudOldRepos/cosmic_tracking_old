@@ -20,13 +20,14 @@ package com.cloud.upgrade.dao;
 import java.io.File;
 import java.sql.Connection;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Upgrade441to442 implements DbUpgrade {
-    final static Logger s_logger = Logger.getLogger(Upgrade441to442.class);
+    final static Logger s_logger = LoggerFactory.getLogger(Upgrade441to442.class);
 
     @Override
     public String[] getUpgradableVersionRange() {

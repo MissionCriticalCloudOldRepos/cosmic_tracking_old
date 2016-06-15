@@ -17,6 +17,7 @@
 package com.cloud.api.query.vo;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,6 +26,7 @@ import javax.persistence.Table;
 import com.cloud.domain.Domain;
 import com.cloud.domain.DomainVO;
 import com.cloud.utils.db.GenericDao;
+
 import org.apache.cloudstack.api.Identity;
 import org.apache.cloudstack.api.InternalIdentity;
 

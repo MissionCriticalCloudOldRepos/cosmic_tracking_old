@@ -26,18 +26,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
+import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.network.dao.NetworkDao;
@@ -46,9 +37,19 @@ import com.cloud.utils.db.GlobalLock;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.ConsoleProxyVO;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.util.ReflectionTestUtils;
+
 public class ConsoleProxyManagerTest {
 
-    private static final Logger s_logger = Logger.getLogger(ConsoleProxyManagerTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ConsoleProxyManagerTest.class);
 
     @Mock
     GlobalLock globalLock;

@@ -23,14 +23,15 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SwiftUtil {
-    private static Logger logger = Logger.getLogger(SwiftUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(SwiftUtil.class);
     private static final long SWIFT_MAX_SIZE = 5L * 1024L * 1024L * 1024L;
 
     public interface SwiftClientCfg {

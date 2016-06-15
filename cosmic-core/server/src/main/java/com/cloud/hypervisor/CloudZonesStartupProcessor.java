@@ -22,12 +22,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.ResourceDetail;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.StartupCommandProcessor;
 import com.cloud.agent.api.StartupCommand;
@@ -53,13 +47,19 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.MacAddress;
 import com.cloud.utils.net.NetUtils;
 
+import org.apache.cloudstack.api.ResourceDetail;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 /**
  * Creates a host record and supporting records such as pod and ip address
  *
  */
 @Component
 public class CloudZonesStartupProcessor extends AdapterBase implements StartupCommandProcessor {
-    private static final Logger s_logger = Logger.getLogger(CloudZonesStartupProcessor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CloudZonesStartupProcessor.class);
     @Inject
     ClusterDao _clusterDao = null;
     @Inject

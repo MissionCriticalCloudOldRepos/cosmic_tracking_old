@@ -18,7 +18,6 @@ package com.cloud.network.dao;
 
 import java.util.List;
 
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;

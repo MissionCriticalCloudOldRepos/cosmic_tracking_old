@@ -22,6 +22,9 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.cloud.utils.concurrency.NamedThreadFactory;
+
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 import org.apache.http.ConnectionClosedException;
 import org.apache.http.HttpException;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
@@ -41,14 +44,11 @@ import org.apache.http.protocol.ResponseConnControl;
 import org.apache.http.protocol.ResponseContent;
 import org.apache.http.protocol.ResponseDate;
 import org.apache.http.protocol.ResponseServer;
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
-import com.cloud.utils.concurrency.NamedThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClusterServiceServletContainer {
-    private static final Logger s_logger = Logger.getLogger(ClusterServiceServletContainer.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ClusterServiceServletContainer.class);
 
     private ListenerThread listenerThread;
 

@@ -24,6 +24,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.cloud.host.Host;
+import com.cloud.storage.Snapshot;
+import com.cloud.vm.snapshot.VMSnapshot;
+
 import org.apache.cloudstack.engine.subsystem.api.storage.DataMotionStrategy;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -33,10 +37,6 @@ import org.apache.cloudstack.engine.subsystem.api.storage.StorageStrategyFactory
 import org.apache.cloudstack.engine.subsystem.api.storage.StrategyPriority;
 import org.apache.cloudstack.engine.subsystem.api.storage.VMSnapshotStrategy;
 import org.apache.cloudstack.engine.subsystem.api.storage.VolumeInfo;
-
-import com.cloud.host.Host;
-import com.cloud.storage.Snapshot;
-import com.cloud.vm.snapshot.VMSnapshot;
 
 public class StorageStrategyFactoryImpl implements StorageStrategyFactory {
 

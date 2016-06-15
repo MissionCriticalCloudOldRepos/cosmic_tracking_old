@@ -19,21 +19,22 @@ package org.apache.cloudstack.api.command.user.vpc;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.network.vpc.VpcOffering;
+import com.cloud.utils.Pair;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseListCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.VpcOfferingResponse;
-import org.apache.log4j.Logger;
-
-import com.cloud.network.vpc.VpcOffering;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listVPCOfferings", description = "Lists VPC offerings", responseObject = VpcOfferingResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListVPCOfferingsCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListVPCOfferingsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListVPCOfferingsCmd.class.getName());
     private static final String s_name = "listvpcofferingsresponse";
 
     /////////////////////////////////////////////////////

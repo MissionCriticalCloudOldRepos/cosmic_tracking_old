@@ -27,14 +27,6 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import com.cloud.storage.Storage;
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
-import org.apache.cloudstack.engine.subsystem.api.storage.StoragePoolAllocator;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
-
 import com.cloud.capacity.Capacity;
 import com.cloud.capacity.dao.CapacityDao;
 import com.cloud.dc.ClusterVO;
@@ -42,6 +34,7 @@ import com.cloud.dc.dao.ClusterDao;
 import com.cloud.deploy.DeploymentPlan;
 import com.cloud.deploy.DeploymentPlanner.ExcludeList;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.storage.Storage;
 import com.cloud.storage.StorageManager;
 import com.cloud.storage.StoragePool;
 import com.cloud.storage.Volume;
@@ -53,8 +46,15 @@ import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.DiskProfile;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
+import org.apache.cloudstack.engine.subsystem.api.storage.StoragePoolAllocator;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class AbstractStoragePoolAllocator extends AdapterBase implements StoragePoolAllocator {
-    private static final Logger s_logger = Logger.getLogger(AbstractStoragePoolAllocator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AbstractStoragePoolAllocator.class);
     @Inject
     StorageManager storageMgr;
     protected @Inject

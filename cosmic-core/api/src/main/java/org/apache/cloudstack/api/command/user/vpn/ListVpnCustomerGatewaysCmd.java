@@ -19,7 +19,8 @@ package org.apache.cloudstack.api.command.user.vpn;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.network.Site2SiteCustomerGateway;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,14 +28,13 @@ import org.apache.cloudstack.api.BaseListProjectAndAccountResourcesCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.Site2SiteCustomerGatewayResponse;
-
-import com.cloud.network.Site2SiteCustomerGateway;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listVpnCustomerGateways", description = "Lists site to site vpn customer gateways", responseObject = Site2SiteCustomerGatewayResponse.class, entityType = {Site2SiteCustomerGateway.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListVpnCustomerGatewaysCmd extends BaseListProjectAndAccountResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListVpnCustomerGatewaysCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListVpnCustomerGatewaysCmd.class.getName());
 
     private static final String s_name = "listvpncustomergatewaysresponse";
 

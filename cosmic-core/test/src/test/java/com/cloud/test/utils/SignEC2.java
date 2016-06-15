@@ -28,7 +28,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SignEC2 {
     public static String url;
@@ -37,7 +38,7 @@ public class SignEC2 {
     public static String port;
     public static String command;
     public static String accessPoint;
-    public static final Logger s_logger = Logger.getLogger(SignRequest.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(SignRequest.class.getName());
 
     public static void main(String[] args) {
         // Parameters

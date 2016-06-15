@@ -20,21 +20,21 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.utils.Pair;
+import com.cloud.utils.component.AdapterBase;
+import com.cloud.vm.dao.VMInstanceDao;
 
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.jobs.AsyncJob;
 import org.apache.cloudstack.framework.jobs.AsyncJobDispatcher;
 import org.apache.cloudstack.framework.jobs.AsyncJobManager;
 import org.apache.cloudstack.jobs.JobInfo;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.utils.Pair;
-import com.cloud.utils.component.AdapterBase;
-import com.cloud.vm.dao.VMInstanceDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VmWorkJobDispatcher extends AdapterBase implements AsyncJobDispatcher {
-    private static final Logger s_logger = Logger.getLogger(VmWorkJobDispatcher.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VmWorkJobDispatcher.class);
 
     @Inject private VirtualMachineManagerImpl _vmMgr;
     @Inject

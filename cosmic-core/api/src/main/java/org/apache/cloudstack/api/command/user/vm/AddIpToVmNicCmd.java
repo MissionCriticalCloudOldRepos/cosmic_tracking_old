@@ -16,18 +16,6 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vm;
 
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiCommandJobType;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.BaseAsyncCreateCmd;
-import org.apache.cloudstack.api.Parameter;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.response.NicResponse;
-import org.apache.cloudstack.api.response.NicSecondaryIpResponse;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.event.EventTypes;
@@ -43,10 +31,23 @@ import com.cloud.vm.Nic;
 import com.cloud.vm.NicSecondaryIp;
 import com.cloud.vm.VirtualMachine;
 
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiCommandJobType;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseAsyncCreateCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.response.NicResponse;
+import org.apache.cloudstack.api.response.NicSecondaryIpResponse;
+import org.apache.cloudstack.context.CallContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @APICommand(name = "addIpToNic", description = "Assigns secondary IP to NIC", responseObject = NicSecondaryIpResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddIpToVmNicCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(AddIpToVmNicCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddIpToVmNicCmd.class.getName());
     private static final String s_name = "addiptovmnicresponse";
 
     /////////////////////////////////////////////////////

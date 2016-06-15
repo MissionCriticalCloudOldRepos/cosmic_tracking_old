@@ -24,7 +24,12 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.agent.api.to.DataStoreTO;
+import com.cloud.agent.api.to.S3TO;
+import com.cloud.configuration.Config;
+import com.cloud.storage.Storage.ImageFormat;
+import com.cloud.utils.NumbersUtil;
+import com.cloud.utils.storage.S3.S3Utils;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
@@ -33,16 +38,11 @@ import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.cloudstack.storage.datastore.db.ImageStoreDetailsDao;
 import org.apache.cloudstack.storage.image.BaseImageStoreDriverImpl;
 import org.apache.cloudstack.storage.image.store.ImageStoreImpl;
-
-import com.cloud.agent.api.to.DataStoreTO;
-import com.cloud.agent.api.to.S3TO;
-import com.cloud.configuration.Config;
-import com.cloud.storage.Storage.ImageFormat;
-import com.cloud.utils.NumbersUtil;
-import com.cloud.utils.storage.S3.S3Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class S3ImageStoreDriverImpl extends BaseImageStoreDriverImpl {
-    private static final Logger s_logger = Logger.getLogger(S3ImageStoreDriverImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(S3ImageStoreDriverImpl.class);
 
     @Inject
     ImageStoreDetailsDao _imageStoreDetailsDao;

@@ -19,14 +19,13 @@ package org.apache.cloudstack.api.response;
 import java.util.List;
 import java.util.Map;
 
+import com.cloud.serializer.Param;
+import com.cloud.user.Account;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
-
-import com.cloud.serializer.Param;
-import com.cloud.user.Account;
 
 @SuppressWarnings("unused")
 @EntityReference(value = Account.class)

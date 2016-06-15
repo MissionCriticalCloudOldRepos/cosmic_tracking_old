@@ -24,10 +24,11 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ComponentLifecycleBase implements ComponentLifecycle {
-    private static final Logger s_logger = Logger.getLogger(ComponentLifecycleBase.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ComponentLifecycleBase.class);
 
     protected String _name;
     protected int _runLevel;

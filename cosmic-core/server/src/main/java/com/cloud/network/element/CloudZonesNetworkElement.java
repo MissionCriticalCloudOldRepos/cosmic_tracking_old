@@ -22,8 +22,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -60,8 +58,11 @@ import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.UserVmDao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CloudZonesNetworkElement extends AdapterBase implements NetworkElement, UserDataServiceProvider {
-    private static final Logger s_logger = Logger.getLogger(CloudZonesNetworkElement.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CloudZonesNetworkElement.class);
 
     private static final Map<Service, Map<Capability, String>> capabilities = setCapabilities();
 

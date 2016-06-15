@@ -22,16 +22,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.command.user.network.CreateNetworkACLCmd;
-import org.apache.cloudstack.api.command.user.network.ListNetworkACLListsCmd;
-import org.apache.cloudstack.api.command.user.network.ListNetworkACLsCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.event.ActionEvent;
 import com.cloud.event.EventTypes;
 import com.cloud.exception.InvalidParameterValueException;
@@ -62,9 +52,20 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.NetUtils;
 
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.command.user.network.CreateNetworkACLCmd;
+import org.apache.cloudstack.api.command.user.network.ListNetworkACLListsCmd;
+import org.apache.cloudstack.api.command.user.network.ListNetworkACLsCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class NetworkACLServiceImpl extends ManagerBase implements NetworkACLService {
-    private static final Logger s_logger = Logger.getLogger(NetworkACLServiceImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetworkACLServiceImpl.class);
 
     @Inject
     AccountManager _accountMgr;

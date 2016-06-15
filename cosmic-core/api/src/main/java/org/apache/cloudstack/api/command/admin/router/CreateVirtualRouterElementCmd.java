@@ -20,7 +20,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.network.VirtualRouterProvider;
+import com.cloud.network.VirtualRouterProvider.Type;
+import com.cloud.network.element.VirtualRouterElementService;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -31,19 +37,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ProviderResponse;
 import org.apache.cloudstack.api.response.VirtualRouterProviderResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.network.VirtualRouterProvider;
-import com.cloud.network.VirtualRouterProvider.Type;
-import com.cloud.network.element.VirtualRouterElementService;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createVirtualRouterElement", responseObject = VirtualRouterProviderResponse.class, description = "Create a virtual router element.",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateVirtualRouterElementCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateVirtualRouterElementCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateVirtualRouterElementCmd.class.getName());
     private static final String s_name = "createvirtualrouterelementresponse";
 
     @Inject

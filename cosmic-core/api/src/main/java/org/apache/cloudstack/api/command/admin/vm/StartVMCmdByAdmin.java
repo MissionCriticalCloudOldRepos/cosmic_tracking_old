@@ -16,16 +16,6 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.vm;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.command.user.vm.StartVMCmd;
-import org.apache.cloudstack.api.response.UserVmResponse;
-import org.apache.cloudstack.context.CallContext;
-
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.InsufficientServerCapacityException;
@@ -36,10 +26,20 @@ import com.cloud.uservm.UserVm;
 import com.cloud.utils.exception.ExecutionException;
 import com.cloud.vm.VirtualMachine;
 
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.command.user.vm.StartVMCmd;
+import org.apache.cloudstack.api.response.UserVmResponse;
+import org.apache.cloudstack.context.CallContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @APICommand(name = "startVirtualMachine", responseObject = UserVmResponse.class, description = "Starts a virtual machine.", responseView = ResponseView.Full, entityType = {VirtualMachine.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class StartVMCmdByAdmin extends StartVMCmd {
-    public static final Logger s_logger = Logger.getLogger(StartVMCmdByAdmin.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(StartVMCmdByAdmin.class.getName());
 
 
     @Override
@@ -73,7 +73,7 @@ public class StartVMCmdByAdmin extends StartVMCmd {
                     message.append(", Please check the affinity groups provided, there may not be sufficient capacity to follow them");
                 }
             }
-            s_logger.info(ex);
+            s_logger.info(ex.toString());
             s_logger.info(message.toString(), ex);
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, message.toString());
         }

@@ -18,14 +18,13 @@ package com.cloud.user.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.user.UserVO;
 import com.cloud.utils.db.DB;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @DB

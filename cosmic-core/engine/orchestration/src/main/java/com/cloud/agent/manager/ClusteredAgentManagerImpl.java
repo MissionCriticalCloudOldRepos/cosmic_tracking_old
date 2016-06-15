@@ -42,15 +42,6 @@ import javax.naming.ConfigurationException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
-import org.apache.cloudstack.framework.config.ConfigDepot;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
-import org.apache.cloudstack.utils.identity.ManagementServerNode;
-import org.apache.cloudstack.utils.security.SSLUtils;
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CancelCommand;
 import com.cloud.agent.api.ChangeAgentAnswer;
@@ -93,8 +84,18 @@ import com.cloud.utils.nio.Link;
 import com.cloud.utils.nio.Task;
 import com.google.gson.Gson;
 
+import org.apache.cloudstack.framework.config.ConfigDepot;
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
+import org.apache.cloudstack.utils.identity.ManagementServerNode;
+import org.apache.cloudstack.utils.security.SSLUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ClusteredAgentManagerImpl extends AgentManagerImpl implements ClusterManagerListener, ClusteredAgentRebalanceService {
-    final static Logger s_logger = Logger.getLogger(ClusteredAgentManagerImpl.class);
+    final static Logger s_logger = LoggerFactory.getLogger(ClusteredAgentManagerImpl.class);
     private static final ScheduledExecutorService s_transferExecutor = Executors.newScheduledThreadPool(2, new NamedThreadFactory("Cluster-AgentRebalancingExecutor"));
     private final long rebalanceTimeOut = 300000; // 5 mins - after this time remove the agent from the transfer list
 

@@ -19,19 +19,6 @@ package com.cloud.vpc;
 
 import java.io.IOException;
 
-import org.mockito.Mockito;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.core.type.filter.TypeFilter;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDaoImpl;
-import org.apache.cloudstack.test.utils.SpringUtils;
-
 import com.cloud.alert.AlertManager;
 import com.cloud.cluster.agentlb.dao.HostTransferMapDaoImpl;
 import com.cloud.configuration.dao.ResourceCountDaoImpl;
@@ -106,6 +93,18 @@ import com.cloud.vpc.dao.MockNetworkServiceMapDaoImpl;
 import com.cloud.vpc.dao.MockVpcDaoImpl;
 import com.cloud.vpc.dao.MockVpcOfferingDaoImpl;
 import com.cloud.vpc.dao.MockVpcOfferingServiceMapDaoImpl;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDaoImpl;
+import org.apache.cloudstack.test.utils.SpringUtils;
+import org.mockito.Mockito;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.core.type.filter.TypeFilter;
 
 @Configuration
 @ComponentScan(basePackageClasses = {VpcManagerImpl.class, NetworkElement.class, VpcOfferingDao.class, ConfigurationDaoImpl.class, IPAddressDaoImpl.class,

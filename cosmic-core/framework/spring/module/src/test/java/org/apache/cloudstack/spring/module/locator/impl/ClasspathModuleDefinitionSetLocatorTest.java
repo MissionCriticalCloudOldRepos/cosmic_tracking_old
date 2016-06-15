@@ -23,9 +23,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.junit.Test;
-
 import org.apache.cloudstack.spring.module.model.ModuleDefinition;
+import org.junit.Test;
 
 public class ClasspathModuleDefinitionSetLocatorTest {
 

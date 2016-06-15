@@ -23,18 +23,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.acl.APIChecker;
-import org.apache.cloudstack.api.command.admin.ratelimit.ResetApiLimitCmd;
-import org.apache.cloudstack.api.command.user.ratelimit.GetApiLimitCmd;
-import org.apache.cloudstack.api.response.ApiLimitResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.configuration.Config;
 import com.cloud.exception.PermissionDeniedException;
 import com.cloud.exception.RequestLimitException;
@@ -43,9 +31,21 @@ import com.cloud.user.AccountService;
 import com.cloud.user.User;
 import com.cloud.utils.component.AdapterBase;
 
+import org.apache.cloudstack.acl.APIChecker;
+import org.apache.cloudstack.api.command.admin.ratelimit.ResetApiLimitCmd;
+import org.apache.cloudstack.api.command.user.ratelimit.GetApiLimitCmd;
+import org.apache.cloudstack.api.response.ApiLimitResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+
 @Component
 public class ApiRateLimitServiceImpl extends AdapterBase implements APIChecker, ApiRateLimitService {
-    private static final Logger s_logger = Logger.getLogger(ApiRateLimitServiceImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ApiRateLimitServiceImpl.class);
 
     /**
      * True if api rate limiting is enabled

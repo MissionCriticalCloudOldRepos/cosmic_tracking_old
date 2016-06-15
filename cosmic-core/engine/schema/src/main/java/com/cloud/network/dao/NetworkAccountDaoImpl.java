@@ -16,12 +16,12 @@
 // under the License.
 package com.cloud.network.dao;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class NetworkAccountDaoImpl extends GenericDaoBase<NetworkAccountVO, Long> implements NetworkAccountDao {

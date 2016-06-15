@@ -16,7 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.guest;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.storage.GuestOS;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -28,15 +30,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.GuestOSCategoryResponse;
 import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.storage.GuestOS;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "addGuestOs", description = "Add a new guest OS type", responseObject = GuestOSResponse.class,
         since = "4.4.0", requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddGuestOsCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(AddGuestOsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddGuestOsCmd.class.getName());
 
     private static final String s_name = "addguestosresponse";
 

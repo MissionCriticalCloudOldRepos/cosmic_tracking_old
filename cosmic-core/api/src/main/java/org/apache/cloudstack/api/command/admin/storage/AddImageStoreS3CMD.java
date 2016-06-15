@@ -19,6 +19,7 @@
 package org.apache.cloudstack.api.command.admin.storage;
 
 import static com.cloud.user.Account.ACCOUNT_ID_SYSTEM;
+
 import static org.apache.cloudstack.api.ApiConstants.S3_ACCESS_KEY;
 import static org.apache.cloudstack.api.ApiConstants.S3_BUCKET_NAME;
 import static org.apache.cloudstack.api.ApiConstants.S3_CONNECTION_TIMEOUT;
@@ -26,8 +27,8 @@ import static org.apache.cloudstack.api.ApiConstants.S3_CONNECTION_TTL;
 import static org.apache.cloudstack.api.ApiConstants.S3_END_POINT;
 import static org.apache.cloudstack.api.ApiConstants.S3_HTTPS_FLAG;
 import static org.apache.cloudstack.api.ApiConstants.S3_MAX_ERROR_RETRY;
-import static org.apache.cloudstack.api.ApiConstants.S3_SIGNER;
 import static org.apache.cloudstack.api.ApiConstants.S3_SECRET_KEY;
+import static org.apache.cloudstack.api.ApiConstants.S3_SIGNER;
 import static org.apache.cloudstack.api.ApiConstants.S3_SOCKET_TIMEOUT;
 import static org.apache.cloudstack.api.ApiConstants.S3_USE_TCP_KEEPALIVE;
 import static org.apache.cloudstack.api.BaseCmd.CommandType.BOOLEAN;
@@ -37,8 +38,14 @@ import static org.apache.cloudstack.api.BaseCmd.CommandType.STRING;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.DiscoveryException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.storage.ImageStore;
 import com.cloud.utils.storage.S3.ClientOptions;
-import org.apache.log4j.Logger;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -47,19 +54,13 @@ import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ImageStoreResponse;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.DiscoveryException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.NetworkRuleConflictException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.storage.ImageStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "addImageStoreS3", description = "Adds S3 Image Store", responseObject = ImageStoreResponse.class, since = "4.7.0",
         requestHasSensitiveInfo = true, responseHasSensitiveInfo = false)
 public final class AddImageStoreS3CMD extends BaseCmd implements ClientOptions {
-    public static final Logger s_logger = Logger.getLogger(AddImageStoreS3CMD.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddImageStoreS3CMD.class.getName());
 
     private static final String s_name = "addImageStoreS3Response";
 

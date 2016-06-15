@@ -25,9 +25,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 /**
  * Records the intent to update a VM's ingress ruleset

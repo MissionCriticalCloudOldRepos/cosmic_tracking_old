@@ -18,9 +18,9 @@ package org.apache.cloudstack.affinity.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.affinity.AffinityGroupDomainMapVO;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.affinity.AffinityGroupDomainMapVO;
 
 public interface AffinityGroupDomainMapDao extends GenericDao<AffinityGroupDomainMapVO, Long> {
 

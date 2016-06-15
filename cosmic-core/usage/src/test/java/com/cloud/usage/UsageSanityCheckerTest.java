@@ -23,10 +23,10 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import junit.framework.TestCase;
 
 public class UsageSanityCheckerTest extends TestCase {
 

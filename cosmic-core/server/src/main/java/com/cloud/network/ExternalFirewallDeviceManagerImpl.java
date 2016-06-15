@@ -25,13 +25,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.response.ExternalFirewallResponse;
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.network.ExternalNetworkDeviceManager.NetworkDevice;
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.StartupCommand;
@@ -117,6 +110,14 @@ import com.cloud.vm.NicVO;
 import com.cloud.vm.dao.DomainRouterDao;
 import com.cloud.vm.dao.NicDao;
 
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.response.ExternalFirewallResponse;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.network.ExternalNetworkDeviceManager.NetworkDevice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class ExternalFirewallDeviceManagerImpl extends AdapterBase implements ExternalFirewallDeviceManager, ResourceStateAdapter {
 
     @Inject
@@ -174,7 +175,7 @@ public abstract class ExternalFirewallDeviceManagerImpl extends AdapterBase impl
     @Inject
     FirewallRulesDao _fwRulesDao;
 
-    private static final org.apache.log4j.Logger s_logger = Logger.getLogger(ExternalFirewallDeviceManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ExternalFirewallDeviceManagerImpl.class);
     private long _defaultFwCapacity;
 
     @Override
@@ -219,7 +220,7 @@ public abstract class ExternalFirewallDeviceManagerImpl extends AdapterBase impl
         try {
             uri = new URI(url);
         } catch (Exception e) {
-            s_logger.debug(e);
+            s_logger.debug(e.toString());
             throw new InvalidParameterValueException(e.getMessage());
         }
 

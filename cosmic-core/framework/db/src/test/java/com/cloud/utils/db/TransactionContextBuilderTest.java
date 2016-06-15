@@ -20,12 +20,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.cloud.utils.component.ComponentContext;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.cloud.utils.component.ComponentContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/com/cloud/utils/db/transactioncontextBuilderTest.xml")

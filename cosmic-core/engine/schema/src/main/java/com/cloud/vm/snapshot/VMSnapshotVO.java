@@ -33,9 +33,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.cloudstack.engine.subsystem.api.storage.VMSnapshotOptions;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.engine.subsystem.api.storage.VMSnapshotOptions;
 
 @Entity
 @Table(name = "vm_snapshots")

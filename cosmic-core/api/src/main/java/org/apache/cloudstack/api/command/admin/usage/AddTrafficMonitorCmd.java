@@ -16,7 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.usage;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.host.Host;
+import com.cloud.user.Account;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -26,16 +29,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.TrafficMonitorResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.host.Host;
-import com.cloud.user.Account;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "addTrafficMonitor", description = "Adds Traffic Monitor Host for Direct Network Usage", responseObject = TrafficMonitorResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddTrafficMonitorCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(AddTrafficMonitorCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddTrafficMonitorCmd.class.getName());
     private static final String s_name = "addtrafficmonitorresponse";
 
     /////////////////////////////////////////////////////

@@ -21,14 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.response.ImageStoreDetailResponse;
-import org.apache.cloudstack.api.response.ImageStoreResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.api.query.vo.ImageStoreJoinVO;
 import com.cloud.storage.ImageStore;
 import com.cloud.utils.StringUtils;
@@ -36,9 +28,17 @@ import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.response.ImageStoreDetailResponse;
+import org.apache.cloudstack.api.response.ImageStoreResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class ImageStoreJoinDaoImpl extends GenericDaoBase<ImageStoreJoinVO, Long> implements ImageStoreJoinDao {
-    public static final Logger s_logger = Logger.getLogger(ImageStoreJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ImageStoreJoinDaoImpl.class);
 
     @Inject
     private ConfigurationDao _configDao;

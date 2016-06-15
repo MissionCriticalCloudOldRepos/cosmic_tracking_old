@@ -23,11 +23,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.notNullValue;
 
-import org.junit.Test;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+
+import org.junit.Test;
 
 public class RoutingConfigAdapterTest {
     private final Gson gson = new GsonBuilder()

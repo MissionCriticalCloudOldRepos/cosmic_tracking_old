@@ -23,18 +23,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
-import org.apache.cloudstack.engine.subsystem.api.storage.EndPointSelector;
-import org.apache.cloudstack.engine.subsystem.api.storage.Scope;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.storage.command.ForgetObjectCmd;
-import org.apache.cloudstack.storage.command.IntroduceObjectAnswer;
-import org.apache.cloudstack.storage.command.IntroduceObjectCmd;
-import org.apache.cloudstack.storage.to.VolumeObjectTO;
-import org.apache.cloudstack.storage.vmsnapshot.VMSnapshotHelper;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CreateVMSnapshotAnswer;
@@ -55,8 +43,20 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.snapshot.VMSnapshot;
 
+import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
+import org.apache.cloudstack.engine.subsystem.api.storage.EndPointSelector;
+import org.apache.cloudstack.engine.subsystem.api.storage.Scope;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.storage.command.ForgetObjectCmd;
+import org.apache.cloudstack.storage.command.IntroduceObjectAnswer;
+import org.apache.cloudstack.storage.command.IntroduceObjectCmd;
+import org.apache.cloudstack.storage.to.VolumeObjectTO;
+import org.apache.cloudstack.storage.vmsnapshot.VMSnapshotHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class HypervisorHelperImpl implements HypervisorHelper {
-    private static final Logger s_logger = Logger.getLogger(HypervisorHelperImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(HypervisorHelperImpl.class);
     @Inject
     EndPointSelector selector;
     @Inject

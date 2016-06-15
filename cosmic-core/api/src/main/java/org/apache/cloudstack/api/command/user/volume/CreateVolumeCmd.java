@@ -16,7 +16,11 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.volume;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.storage.Snapshot;
+import com.cloud.storage.Volume;
+import com.cloud.vm.VirtualMachine;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -36,18 +40,14 @@ import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VolumeResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.storage.Snapshot;
-import com.cloud.storage.Volume;
-import com.cloud.vm.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createVolume", responseObject = VolumeResponse.class, description = "Creates a disk volume from a disk offering. This disk volume must still be attached to a virtual machine to make use of it.", responseView = ResponseView.Restricted, entityType = {
         Volume.class, VirtualMachine.class},
             requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateVolumeCmd extends BaseAsyncCreateCustomIdCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateVolumeCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateVolumeCmd.class.getName());
     private static final String s_name = "createvolumeresponse";
 
     /////////////////////////////////////////////////////

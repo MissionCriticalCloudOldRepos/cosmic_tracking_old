@@ -16,7 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vpn;
 
-import org.apache.log4j.Logger;
+import com.cloud.domain.Domain;
+import com.cloud.event.EventTypes;
+import com.cloud.network.VpnUser;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,16 +31,13 @@ import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.VpnUsersResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.domain.Domain;
-import com.cloud.event.EventTypes;
-import com.cloud.network.VpnUser;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "addVpnUser", description = "Adds vpn users", responseObject = VpnUsersResponse.class, entityType = {VpnUser.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddVpnUserCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(AddVpnUserCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddVpnUserCmd.class.getName());
 
     private static final String s_name = "addvpnuserresponse";
 

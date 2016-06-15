@@ -19,10 +19,6 @@ package com.cloud.ha.dao;
 import java.util.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.ha.HaWorkVO;
 import com.cloud.ha.HighAvailabilityManager.Step;
 import com.cloud.ha.HighAvailabilityManager.WorkType;
@@ -34,9 +30,13 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class HighAvailabilityDaoImpl extends GenericDaoBase<HaWorkVO, Long> implements HighAvailabilityDao {
-    private static final Logger s_logger = Logger.getLogger(HighAvailabilityDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(HighAvailabilityDaoImpl.class);
 
     private final SearchBuilder<HaWorkVO> TBASearch;
     private final SearchBuilder<HaWorkVO> PreviousInstanceSearch;

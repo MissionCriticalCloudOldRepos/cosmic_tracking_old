@@ -19,10 +19,12 @@
 
 package com.cloud.utils;
 
-import static com.cloud.utils.ReflectUtil.flattenProperties;
-import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.Boolean.TRUE;
 import static java.util.Collections.emptyList;
+
+import static com.cloud.utils.ReflectUtil.flattenProperties;
+import static com.google.common.collect.Lists.newArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Field;

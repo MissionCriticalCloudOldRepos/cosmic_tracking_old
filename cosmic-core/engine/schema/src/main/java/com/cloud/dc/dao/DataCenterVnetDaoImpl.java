@@ -25,8 +25,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.DataCenterVnetVO;
 import com.cloud.network.dao.AccountGuestVlanMapDao;
 import com.cloud.network.dao.AccountGuestVlanMapVO;
@@ -40,6 +38,8 @@ import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.springframework.stereotype.Component;
 
 /**
  * DataCenterVnetDaoImpl maintains the one-to-many relationship between

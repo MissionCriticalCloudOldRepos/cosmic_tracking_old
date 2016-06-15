@@ -16,29 +16,6 @@
 // under the License.
 package com.cloud.api.doc;
 
-import com.cloud.alert.AlertManager;
-import com.cloud.serializer.Param;
-import com.cloud.utils.IteratorUtil;
-import com.cloud.utils.ReflectUtil;
-import com.google.gson.annotations.SerializedName;
-import com.thoughtworks.xstream.XStream;
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.BaseAsyncCmd;
-import org.apache.cloudstack.api.BaseAsyncCreateCmd;
-import org.apache.cloudstack.api.BaseCmd;
-import org.apache.cloudstack.api.BaseResponse;
-import org.apache.cloudstack.api.Parameter;
-import org.apache.cloudstack.api.response.AsyncJobResponse;
-import org.apache.cloudstack.api.response.HostResponse;
-import org.apache.cloudstack.api.response.IPAddressResponse;
-import org.apache.cloudstack.api.response.SecurityGroupResponse;
-import org.apache.cloudstack.api.response.SnapshotResponse;
-import org.apache.cloudstack.api.response.StoragePoolResponse;
-import org.apache.cloudstack.api.response.TemplateResponse;
-import org.apache.cloudstack.api.response.UserVmResponse;
-import org.apache.cloudstack.api.response.VolumeResponse;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -64,8 +41,33 @@ import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.cloud.alert.AlertManager;
+import com.cloud.serializer.Param;
+import com.cloud.utils.IteratorUtil;
+import com.cloud.utils.ReflectUtil;
+import com.google.gson.annotations.SerializedName;
+import com.thoughtworks.xstream.XStream;
+
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.BaseAsyncCmd;
+import org.apache.cloudstack.api.BaseAsyncCreateCmd;
+import org.apache.cloudstack.api.BaseCmd;
+import org.apache.cloudstack.api.BaseResponse;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.response.AsyncJobResponse;
+import org.apache.cloudstack.api.response.HostResponse;
+import org.apache.cloudstack.api.response.IPAddressResponse;
+import org.apache.cloudstack.api.response.SecurityGroupResponse;
+import org.apache.cloudstack.api.response.SnapshotResponse;
+import org.apache.cloudstack.api.response.StoragePoolResponse;
+import org.apache.cloudstack.api.response.TemplateResponse;
+import org.apache.cloudstack.api.response.UserVmResponse;
+import org.apache.cloudstack.api.response.VolumeResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ApiXmlDocWriter {
-    public static final Logger s_logger = Logger.getLogger(ApiXmlDocWriter.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ApiXmlDocWriter.class.getName());
 
     private static final short DOMAIN_ADMIN_COMMAND = 4;
     private static final short USER_COMMAND = 8;

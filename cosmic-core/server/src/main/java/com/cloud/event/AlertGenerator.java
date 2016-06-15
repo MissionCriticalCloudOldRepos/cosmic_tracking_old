@@ -25,14 +25,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.events.EventBus;
-import org.apache.cloudstack.framework.events.EventBusException;
-
 import com.cloud.configuration.Config;
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.HostPodVO;
@@ -41,10 +33,18 @@ import com.cloud.dc.dao.HostPodDao;
 import com.cloud.server.ManagementService;
 import com.cloud.utils.component.ComponentContext;
 
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.apache.cloudstack.framework.events.EventBusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.stereotype.Component;
+
 @Component
 public class AlertGenerator {
 
-    private static final Logger s_logger = Logger.getLogger(AlertGenerator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AlertGenerator.class);
     private static DataCenterDao s_dcDao;
     private static HostPodDao s_podDao;
     protected static EventBus s_eventBus = null;

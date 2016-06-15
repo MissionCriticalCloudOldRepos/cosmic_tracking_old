@@ -22,22 +22,22 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMReservationVO;
-
 import com.cloud.network.dao.NetworkDao;
 import com.cloud.network.dao.NetworkVO;
 import com.cloud.utils.db.DB;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMReservationVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class VMEntityDaoImpl extends GenericDaoBase<VMEntityVO, Long> implements VMEntityDao {
 
-    public static final Logger s_logger = Logger.getLogger(VMEntityDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(VMEntityDaoImpl.class);
 
     @Inject
     protected VMReservationDao _vmReservationDao;

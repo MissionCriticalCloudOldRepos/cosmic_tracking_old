@@ -27,15 +27,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineClusterVO;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.org.Grouping;
 import com.cloud.utils.db.GenericDaoBase;
@@ -49,9 +40,18 @@ import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.UpdateBuilder;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineClusterVO;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component(value = "EngineClusterDao")
 public class EngineClusterDaoImpl extends GenericDaoBase<EngineClusterVO, Long> implements EngineClusterDao {
-    private static final Logger s_logger = Logger.getLogger(EngineClusterDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(EngineClusterDaoImpl.class);
 
     protected final SearchBuilder<EngineClusterVO> PodSearch;
     protected final SearchBuilder<EngineClusterVO> HyTypeWithoutGuidSearch;

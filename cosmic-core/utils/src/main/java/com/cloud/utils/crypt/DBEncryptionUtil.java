@@ -21,16 +21,17 @@ package com.cloud.utils.crypt;
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
-
 import com.cloud.utils.db.DbProperties;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DBEncryptionUtil {
 
-    public static final Logger s_logger = Logger.getLogger(DBEncryptionUtil.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(DBEncryptionUtil.class);
     private static StandardPBEStringEncryptor s_encryptor = null;
 
     public static String encrypt(String plain) {

@@ -27,6 +27,9 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import com.cloud.utils.Pair;
+import com.cloud.utils.exception.CloudRuntimeException;
+
 import org.apache.cloudstack.framework.config.ConfigDepot;
 import org.apache.cloudstack.framework.config.ConfigDepotAdmin;
 import org.apache.cloudstack.framework.config.ConfigKey;
@@ -34,10 +37,8 @@ import org.apache.cloudstack.framework.config.Configurable;
 import org.apache.cloudstack.framework.config.ScopedConfigStorage;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.log4j.Logger;
-
-import com.cloud.utils.Pair;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ConfigDepotImpl implements the ConfigDepot and ConfigDepotAdmin interface.
@@ -67,7 +68,7 @@ import com.cloud.utils.exception.CloudRuntimeException;
  *     validation class to validate the value the admin input for the key.
  */
 public class ConfigDepotImpl implements ConfigDepot, ConfigDepotAdmin {
-    private final static Logger s_logger = Logger.getLogger(ConfigDepotImpl.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(ConfigDepotImpl.class);
     @Inject
     ConfigurationDao _configDao;
     List<Configurable> _configurables;

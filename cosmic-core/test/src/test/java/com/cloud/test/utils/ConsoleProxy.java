@@ -19,17 +19,18 @@ package com.cloud.test.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.script.OutputInterpreter;
 import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConsoleProxy implements Runnable {
     public static String proxyIp;
     private String command;
     private int connectionsMade;
     private long responseTime;
-    public static final Logger s_logger = Logger.getLogger(ConsoleProxy.class.getClass());
+    public static final Logger s_logger = LoggerFactory.getLogger(ConsoleProxy.class.getClass());
 
     public ConsoleProxy(String port, String sid, String host) {
         this.command = "https://" + proxyIp + ".realhostip.com:8000/getscreen?w=100&h=75&host=" + host + "&port=" + port + "&sid=" + sid;

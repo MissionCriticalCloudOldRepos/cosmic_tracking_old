@@ -18,7 +18,6 @@ package com.cloud.vpc.dao;
 
 import java.util.List;
 
-
 import com.cloud.network.Network.Provider;
 import com.cloud.network.Network.Service;
 import com.cloud.network.dao.NetworkServiceMapDao;

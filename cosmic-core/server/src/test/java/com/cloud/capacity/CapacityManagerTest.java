@@ -23,15 +23,15 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.cloud.capacity.dao.CapacityDao;
 import com.cloud.dc.ClusterDetailsDao;
 import com.cloud.dc.ClusterDetailsVO;
 import com.cloud.service.ServiceOfferingVO;
 import com.cloud.service.dao.ServiceOfferingDao;
 import com.cloud.vm.VirtualMachine;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class CapacityManagerTest {
     CapacityDao CDao = mock(CapacityDao.class);

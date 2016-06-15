@@ -16,7 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vmgroup;
 
-import org.apache.log4j.Logger;
+import com.cloud.vm.InstanceGroup;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -24,13 +24,13 @@ import org.apache.cloudstack.api.BaseListProjectAndAccountResourcesCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.InstanceGroupResponse;
 import org.apache.cloudstack.api.response.ListResponse;
-
-import com.cloud.vm.InstanceGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listInstanceGroups", description = "Lists vm groups", responseObject = InstanceGroupResponse.class, entityType = {InstanceGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListVMGroupsCmd extends BaseListProjectAndAccountResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListVMGroupsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListVMGroupsCmd.class.getName());
 
     private static final String s_name = "listinstancegroupsresponse";
 

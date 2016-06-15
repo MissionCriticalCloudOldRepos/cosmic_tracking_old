@@ -40,11 +40,12 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContexts;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HttpClientHelper {
 
-    static final Logger s_logger = Logger.getLogger(HttpClientHelper.class);
+    static final Logger s_logger = LoggerFactory.getLogger(HttpClientHelper.class);
 
     private static final int MAX_ALLOCATED_CONNECTIONS = 50;
     private static final int MAX_ALLOCATED_CONNECTIONS_PER_ROUTE = 25;

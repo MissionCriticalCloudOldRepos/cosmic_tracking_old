@@ -16,11 +16,9 @@
 // under the License.
 package org.apache.cloudstack.resourcedetail.dao;
 
-
-import org.springframework.stereotype.Component;
-
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
 import org.apache.cloudstack.resourcedetail.SnapshotPolicyDetailVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SnapshotPolicyDetailsDaoImpl extends ResourceDetailsDaoBase<SnapshotPolicyDetailVO> implements SnapshotPolicyDetailsDao {

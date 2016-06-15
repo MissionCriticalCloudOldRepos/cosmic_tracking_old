@@ -25,16 +25,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.cloud.test.stress.TestClientWithAPI;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.log4j.Logger;
-
-import com.cloud.test.stress.TestClientWithAPI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PerformanceWithAPI {
 
-    public static final Logger s_logger = Logger.getLogger(PerformanceWithAPI.class.getClass());
+    public static final Logger s_logger = LoggerFactory.getLogger(PerformanceWithAPI.class.getClass());
     private static final int Retry = 10;
     private static final int ApiPort = 8096;
     private static int s_numVM = 2;

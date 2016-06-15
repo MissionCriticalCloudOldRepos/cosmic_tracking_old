@@ -20,8 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.vpc.StaticRoute;
 import com.cloud.network.vpc.StaticRouteVO;
 import com.cloud.server.ResourceTag.ResourceObjectType;
@@ -34,6 +32,8 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @DB()

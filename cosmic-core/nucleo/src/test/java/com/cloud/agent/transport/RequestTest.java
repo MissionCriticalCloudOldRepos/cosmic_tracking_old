@@ -21,16 +21,6 @@ package com.cloud.agent.transport;
 
 import java.nio.ByteBuffer;
 
-import junit.framework.TestCase;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.mockito.Mockito;
-
-import org.apache.cloudstack.storage.command.DownloadCommand;
-import org.apache.cloudstack.storage.to.TemplateObjectTO;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.GetHostStatsCommand;
@@ -47,6 +37,15 @@ import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.Storage.TemplateType;
 import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
 import com.cloud.template.VirtualMachineTemplate;
+
+import org.apache.cloudstack.storage.command.DownloadCommand;
+import org.apache.cloudstack.storage.to.TemplateObjectTO;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.mockito.Mockito;
+
+import junit.framework.TestCase;
 
 /**
  *

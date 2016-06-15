@@ -24,18 +24,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.BaseListCmd;
-import org.apache.cloudstack.api.Parameter;
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.response.ListResponse;
-import org.apache.cloudstack.api.response.NetworkResponse;
-
 import com.cloud.api.response.NiciraNvpDeviceResponse;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
@@ -46,11 +34,23 @@ import com.cloud.network.Network;
 import com.cloud.network.element.NiciraNvpElementService;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseListCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.response.ListResponse;
+import org.apache.cloudstack.api.response.NetworkResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @APICommand(name = "listNiciraNvpDeviceNetworks", responseObject = NetworkResponse.class, description = "lists network that are using a nicira nvp device",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListNiciraNvpDeviceNetworksCmd extends BaseListCmd {
 
-    public static final Logger s_logger = Logger.getLogger(ListNiciraNvpDeviceNetworksCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListNiciraNvpDeviceNetworksCmd.class.getName());
     private static final String s_name = "listniciranvpdevicenetworks";
     @Inject
     protected NiciraNvpElementService niciraNvpElementService;

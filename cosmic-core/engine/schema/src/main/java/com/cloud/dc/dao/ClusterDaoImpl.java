@@ -26,8 +26,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.ClusterVO;
 import com.cloud.dc.HostPodVO;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
@@ -41,6 +39,8 @@ import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class ClusterDaoImpl extends GenericDaoBase<ClusterVO, Long> implements ClusterDao {

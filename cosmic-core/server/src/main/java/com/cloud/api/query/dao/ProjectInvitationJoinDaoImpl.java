@@ -18,21 +18,20 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.response.ProjectInvitationResponse;
-
 import com.cloud.api.query.vo.ProjectInvitationJoinVO;
 import com.cloud.projects.ProjectInvitation;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.apache.cloudstack.api.response.ProjectInvitationResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class ProjectInvitationJoinDaoImpl extends GenericDaoBase<ProjectInvitationJoinVO, Long> implements ProjectInvitationJoinDao {
-    public static final Logger s_logger = Logger.getLogger(ProjectInvitationJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ProjectInvitationJoinDaoImpl.class);
 
     private SearchBuilder<ProjectInvitationJoinVO> piIdSearch;
 

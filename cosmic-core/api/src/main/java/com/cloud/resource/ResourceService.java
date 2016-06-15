@@ -18,6 +18,14 @@ package com.cloud.resource;
 
 import java.util.List;
 
+import com.cloud.exception.DiscoveryException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceInUseException;
+import com.cloud.host.Host;
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.org.Cluster;
+import com.cloud.utils.fsm.NoTransitionException;
+
 import org.apache.cloudstack.api.command.admin.cluster.AddClusterCmd;
 import org.apache.cloudstack.api.command.admin.cluster.DeleteClusterCmd;
 import org.apache.cloudstack.api.command.admin.host.AddHostCmd;
@@ -27,14 +35,6 @@ import org.apache.cloudstack.api.command.admin.host.PrepareForMaintenanceCmd;
 import org.apache.cloudstack.api.command.admin.host.ReconnectHostCmd;
 import org.apache.cloudstack.api.command.admin.host.UpdateHostCmd;
 import org.apache.cloudstack.api.command.admin.host.UpdateHostPasswordCmd;
-
-import com.cloud.exception.DiscoveryException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceInUseException;
-import com.cloud.host.Host;
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.org.Cluster;
-import com.cloud.utils.fsm.NoTransitionException;
 
 public interface ResourceService {
     /**

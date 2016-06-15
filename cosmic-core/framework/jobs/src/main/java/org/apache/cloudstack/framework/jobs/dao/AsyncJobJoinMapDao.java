@@ -19,10 +19,10 @@ package org.apache.cloudstack.framework.jobs.dao;
 import java.util.Date;
 import java.util.List;
 
+import com.cloud.utils.db.GenericDao;
+
 import org.apache.cloudstack.framework.jobs.impl.AsyncJobJoinMapVO;
 import org.apache.cloudstack.jobs.JobInfo;
-
-import com.cloud.utils.db.GenericDao;
 
 public interface AsyncJobJoinMapDao extends GenericDao<AsyncJobJoinMapVO, Long> {
 

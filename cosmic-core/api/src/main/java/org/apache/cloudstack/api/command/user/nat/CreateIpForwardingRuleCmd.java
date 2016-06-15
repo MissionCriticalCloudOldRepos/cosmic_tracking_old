@@ -18,7 +18,14 @@ package org.apache.cloudstack.api.command.user.nat;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.IpAddress;
+import com.cloud.network.rules.FirewallRule;
+import com.cloud.network.rules.StaticNatRule;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -32,20 +39,13 @@ import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.IPAddressResponse;
 import org.apache.cloudstack.api.response.IpForwardingRuleResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.NetworkRuleConflictException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.IpAddress;
-import com.cloud.network.rules.FirewallRule;
-import com.cloud.network.rules.StaticNatRule;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createIpForwardingRule", description = "Creates an IP forwarding rule", responseObject = FirewallRuleResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateIpForwardingRuleCmd extends BaseAsyncCreateCmd implements StaticNatRule {
-    public static final Logger s_logger = Logger.getLogger(CreateIpForwardingRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateIpForwardingRuleCmd.class.getName());
 
     private static final String s_name = "createipforwardingruleresponse";
 

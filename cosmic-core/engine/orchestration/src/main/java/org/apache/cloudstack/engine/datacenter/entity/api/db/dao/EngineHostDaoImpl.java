@@ -25,13 +25,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.persistence.TableGenerator;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostVO;
-
 import com.cloud.host.Host;
 import com.cloud.host.HostTagVO;
 import com.cloud.host.Status;
@@ -50,11 +43,18 @@ import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.UpdateBuilder;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component(value = "EngineHostDao")
 @DB
 @TableGenerator(name = "host_req_sq", table = "op_host", pkColumnName = "id", valueColumnName = "sequence", allocationSize = 1)
 public class EngineHostDaoImpl extends GenericDaoBase<EngineHostVO, Long> implements EngineHostDao {
-    private static final Logger s_logger = Logger.getLogger(EngineHostDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(EngineHostDaoImpl.class);
 
     private final SearchBuilder<EngineHostVO> TypePodDcStatusSearch;
 

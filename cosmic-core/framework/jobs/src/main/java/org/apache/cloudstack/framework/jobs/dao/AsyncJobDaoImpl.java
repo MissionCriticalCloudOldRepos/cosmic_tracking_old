@@ -21,11 +21,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.framework.jobs.impl.AsyncJobVO;
-import org.apache.cloudstack.jobs.JobInfo;
-
 import com.cloud.utils.db.DB;
 import com.cloud.utils.db.Filter;
 import com.cloud.utils.db.GenericDaoBase;
@@ -34,8 +29,13 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.apache.cloudstack.framework.jobs.impl.AsyncJobVO;
+import org.apache.cloudstack.jobs.JobInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AsyncJobDaoImpl extends GenericDaoBase<AsyncJobVO, Long> implements AsyncJobDao {
-    private static final Logger s_logger = Logger.getLogger(AsyncJobDaoImpl.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(AsyncJobDaoImpl.class.getName());
 
     private final SearchBuilder<AsyncJobVO> pendingAsyncJobSearch;
     private final SearchBuilder<AsyncJobVO> pendingAsyncJobsSearch;

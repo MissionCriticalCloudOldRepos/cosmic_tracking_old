@@ -25,10 +25,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageDispatcher implements MessageSubscriber {
-    private static final Logger s_logger = Logger.getLogger(MessageDispatcher.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(MessageDispatcher.class);
 
     private static Map<Class<?>, List<Method>> s_handlerCache = new HashMap<Class<?>, List<Method>>();
 

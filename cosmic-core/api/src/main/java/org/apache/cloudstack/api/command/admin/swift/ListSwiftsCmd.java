@@ -16,7 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.swift;
 
-import org.apache.log4j.Logger;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -25,13 +25,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.command.admin.storage.ListImageStoresCmd;
 import org.apache.cloudstack.api.response.ImageStoreResponse;
 import org.apache.cloudstack.api.response.ListResponse;
-
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listSwifts", description = "List Swift.", responseObject = ImageStoreResponse.class, since = "3.0.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListSwiftsCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListSwiftsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListSwiftsCmd.class.getName());
     private static final String s_name = "listswiftsresponse";
 
     /////////////////////////////////////////////////////

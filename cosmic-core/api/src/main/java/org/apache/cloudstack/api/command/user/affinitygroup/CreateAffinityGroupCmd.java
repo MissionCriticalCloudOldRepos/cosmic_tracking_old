@@ -16,7 +16,10 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.affinitygroup;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.affinity.AffinityGroup;
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
 import org.apache.cloudstack.api.APICommand;
@@ -29,15 +32,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createAffinityGroup", responseObject = AffinityGroupResponse.class, description = "Creates an affinity/anti-affinity group", entityType = {AffinityGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateAffinityGroupCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateAffinityGroupCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateAffinityGroupCmd.class.getName());
 
     private static final String s_name = "createaffinitygroupresponse";
 

@@ -20,10 +20,6 @@ package com.cloud.network.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-import org.apache.log4j.Logger;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.dc.Vlan;
@@ -57,9 +53,14 @@ import com.cloud.vm.dao.NicIpAliasDao;
 import com.cloud.vm.dao.NicIpAliasVO;
 import com.cloud.vm.dao.UserVmDao;
 
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DhcpSubNetRules extends RuleApplier {
 
-    private static final Logger s_logger = Logger.getLogger(DhcpSubNetRules.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(DhcpSubNetRules.class);
 
     private final NicProfile _nic;
     private final VirtualMachineProfile _profile;

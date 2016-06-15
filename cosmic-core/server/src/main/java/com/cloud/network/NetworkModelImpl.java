@@ -17,12 +17,6 @@
 
 package com.cloud.network;
 
-import org.apache.cloudstack.acl.ControlledEntity.ACLType;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
-
 import java.math.BigInteger;
 import java.security.InvalidParameterException;
 import java.security.MessageDigest;
@@ -123,8 +117,15 @@ import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.NicSecondaryIpDao;
 import com.cloud.vm.dao.VMInstanceDao;
 
+import org.apache.cloudstack.acl.ControlledEntity.ACLType;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.lb.dao.ApplicationLoadBalancerRuleDao;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NetworkModelImpl extends ManagerBase implements NetworkModel {
-  static final Logger s_logger = Logger.getLogger(NetworkModelImpl.class);
+  static final Logger s_logger = LoggerFactory.getLogger(NetworkModelImpl.class);
   @Inject
   EntityManager _entityMgr;
   @Inject

@@ -23,12 +23,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.Identity;
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.user.UserAccount;
 import com.cloud.utils.db.Encrypt;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.Identity;
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = "user_view")

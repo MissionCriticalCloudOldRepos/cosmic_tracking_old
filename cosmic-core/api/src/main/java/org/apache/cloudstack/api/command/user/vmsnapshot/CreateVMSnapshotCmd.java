@@ -17,7 +17,10 @@
 
 package org.apache.cloudstack.api.command.user.vmsnapshot;
 
-import java.util.logging.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.uservm.UserVm;
+import com.cloud.vm.snapshot.VMSnapshot;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -30,17 +33,14 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VMSnapshotResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.uservm.UserVm;
-import com.cloud.vm.snapshot.VMSnapshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createVMSnapshot", description = "Creates snapshot for a vm.", responseObject = VMSnapshotResponse.class, since = "4.2.0", entityType = {VMSnapshot.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateVMSnapshotCmd extends BaseAsyncCreateCmd {
 
-    public static final Logger s_logger = Logger.getLogger(CreateVMSnapshotCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateVMSnapshotCmd.class.getName());
     private static final String s_name = "createvmsnapshotresponse";
 
     @ACL(accessType = AccessType.OperateEntry)

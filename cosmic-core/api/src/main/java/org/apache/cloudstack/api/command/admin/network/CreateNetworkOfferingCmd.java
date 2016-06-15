@@ -23,7 +23,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.Network.Capability;
+import com.cloud.network.Network.Service;
+import com.cloud.offering.NetworkOffering;
+import com.cloud.offering.NetworkOffering.Availability;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -33,18 +38,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.NetworkOfferingResponse;
 import org.apache.cloudstack.api.response.ServiceOfferingResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.Network.Capability;
-import com.cloud.network.Network.Service;
-import com.cloud.offering.NetworkOffering;
-import com.cloud.offering.NetworkOffering.Availability;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createNetworkOffering", description = "Creates a network offering.", responseObject = NetworkOfferingResponse.class, since = "3.0.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateNetworkOfferingCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateNetworkOfferingCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateNetworkOfferingCmd.class.getName());
     private static final String s_name = "createnetworkofferingresponse";
 
     /////////////////////////////////////////////////////

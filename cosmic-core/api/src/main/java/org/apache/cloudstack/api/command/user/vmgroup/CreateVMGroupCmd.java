@@ -16,7 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vmgroup;
 
-import org.apache.log4j.Logger;
+import com.cloud.vm.InstanceGroup;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,13 +28,13 @@ import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.InstanceGroupResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.vm.InstanceGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createInstanceGroup", description = "Creates a vm group", responseObject = InstanceGroupResponse.class, entityType = {InstanceGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateVMGroupCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateVMGroupCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateVMGroupCmd.class.getName());
 
     private static final String s_name = "createinstancegroupresponse";
 

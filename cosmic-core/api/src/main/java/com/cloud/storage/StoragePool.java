@@ -18,11 +18,11 @@ package com.cloud.storage;
 
 import java.util.Date;
 
-import org.apache.cloudstack.api.Identity;
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.hypervisor.Hypervisor;
 import com.cloud.storage.Storage.StoragePoolType;
+
+import org.apache.cloudstack.api.Identity;
+import org.apache.cloudstack.api.InternalIdentity;
 
 public interface StoragePool extends Identity, InternalIdentity {
 

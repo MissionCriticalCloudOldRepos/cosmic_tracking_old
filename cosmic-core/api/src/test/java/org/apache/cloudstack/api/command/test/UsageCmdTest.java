@@ -20,19 +20,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
+import com.cloud.utils.Pair;
 
+import org.apache.cloudstack.api.command.admin.usage.GetUsageRecordsCmd;
+import org.apache.cloudstack.usage.Usage;
+import org.apache.cloudstack.usage.UsageService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
-import org.apache.cloudstack.api.command.admin.usage.GetUsageRecordsCmd;
-import org.apache.cloudstack.usage.Usage;
-import org.apache.cloudstack.usage.UsageService;
-
-import com.cloud.utils.Pair;
+import junit.framework.TestCase;
 
 public class UsageCmdTest extends TestCase {
 

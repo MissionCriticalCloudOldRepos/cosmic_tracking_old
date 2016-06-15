@@ -16,14 +16,8 @@
 // under the License.
 package org.apache.cloudstack.storage.datastore.db;
 
-import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.storage.ScopeType;
-import com.cloud.storage.Storage.StoragePoolType;
-import com.cloud.storage.StoragePool;
-import com.cloud.storage.StoragePoolStatus;
-import com.cloud.utils.UriUtils;
-import com.cloud.utils.db.Encrypt;
-import com.cloud.utils.db.GenericDao;
+import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,8 +28,15 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.Date;
-import java.util.UUID;
+
+import com.cloud.hypervisor.Hypervisor.HypervisorType;
+import com.cloud.storage.ScopeType;
+import com.cloud.storage.Storage.StoragePoolType;
+import com.cloud.storage.StoragePool;
+import com.cloud.storage.StoragePoolStatus;
+import com.cloud.utils.UriUtils;
+import com.cloud.utils.db.Encrypt;
+import com.cloud.utils.db.GenericDao;
 
 @Entity
 @Table(name = "storage_pool")

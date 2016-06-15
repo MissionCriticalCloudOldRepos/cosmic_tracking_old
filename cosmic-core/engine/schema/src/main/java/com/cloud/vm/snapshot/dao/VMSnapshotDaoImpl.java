@@ -20,10 +20,6 @@ package com.cloud.vm.snapshot.dao;
 import java.util.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
@@ -34,9 +30,13 @@ import com.cloud.vm.snapshot.VMSnapshot.Event;
 import com.cloud.vm.snapshot.VMSnapshot.State;
 import com.cloud.vm.snapshot.VMSnapshotVO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class VMSnapshotDaoImpl extends GenericDaoBase<VMSnapshotVO, Long> implements VMSnapshotDao {
-    private static final Logger s_logger = Logger.getLogger(VMSnapshotDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VMSnapshotDaoImpl.class);
     private final SearchBuilder<VMSnapshotVO> SnapshotSearch;
     private final SearchBuilder<VMSnapshotVO> ExpungingSnapshotSearch;
     private final SearchBuilder<VMSnapshotVO> SnapshotStatusSearch;

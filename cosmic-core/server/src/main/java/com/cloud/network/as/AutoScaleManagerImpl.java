@@ -29,35 +29,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.apache.cloudstack.acl.ControlledEntity;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.ApiErrorCode;
-import org.apache.cloudstack.api.BaseCmd.HTTPMethod;
-import org.apache.cloudstack.api.BaseListAccountResourcesCmd;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.command.admin.autoscale.CreateCounterCmd;
-import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScalePolicyCmd;
-import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScaleVmGroupCmd;
-import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScaleVmProfileCmd;
-import org.apache.cloudstack.api.command.user.autoscale.CreateConditionCmd;
-import org.apache.cloudstack.api.command.user.autoscale.ListAutoScalePoliciesCmd;
-import org.apache.cloudstack.api.command.user.autoscale.ListAutoScaleVmGroupsCmd;
-import org.apache.cloudstack.api.command.user.autoscale.ListAutoScaleVmProfilesCmd;
-import org.apache.cloudstack.api.command.user.autoscale.ListConditionsCmd;
-import org.apache.cloudstack.api.command.user.autoscale.ListCountersCmd;
-import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScalePolicyCmd;
-import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScaleVmGroupCmd;
-import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScaleVmProfileCmd;
-import org.apache.cloudstack.api.command.user.vm.DeployVMCmd;
-import org.apache.cloudstack.config.ApiServiceConfiguration;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.api.ApiDBUtils;
 import com.cloud.api.dispatch.DispatchChainFactory;
 import com.cloud.api.dispatch.DispatchTask;
@@ -116,16 +87,44 @@ import com.cloud.utils.db.GenericDao;
 import com.cloud.utils.db.JoinBuilder;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
-import com.cloud.utils.db.TransactionCallback;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.Transaction;
+import com.cloud.utils.db.TransactionCallback;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.net.NetUtils;
 import com.cloud.vm.UserVmManager;
 import com.cloud.vm.UserVmService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.cloudstack.acl.ControlledEntity;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
+import org.apache.cloudstack.api.BaseCmd.HTTPMethod;
+import org.apache.cloudstack.api.BaseListAccountResourcesCmd;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.command.admin.autoscale.CreateCounterCmd;
+import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScalePolicyCmd;
+import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScaleVmGroupCmd;
+import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScaleVmProfileCmd;
+import org.apache.cloudstack.api.command.user.autoscale.CreateConditionCmd;
+import org.apache.cloudstack.api.command.user.autoscale.ListAutoScalePoliciesCmd;
+import org.apache.cloudstack.api.command.user.autoscale.ListAutoScaleVmGroupsCmd;
+import org.apache.cloudstack.api.command.user.autoscale.ListAutoScaleVmProfilesCmd;
+import org.apache.cloudstack.api.command.user.autoscale.ListConditionsCmd;
+import org.apache.cloudstack.api.command.user.autoscale.ListCountersCmd;
+import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScalePolicyCmd;
+import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScaleVmGroupCmd;
+import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScaleVmProfileCmd;
+import org.apache.cloudstack.api.command.user.vm.DeployVMCmd;
+import org.apache.cloudstack.config.ApiServiceConfiguration;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AutoScaleManagerImpl<Type> extends ManagerBase implements AutoScaleManager, AutoScaleService {
-    private static final Logger s_logger = Logger.getLogger(AutoScaleManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AutoScaleManagerImpl.class);
     private ScheduledExecutorService _executor = Executors.newScheduledThreadPool(1);
 
     @Inject
@@ -1347,7 +1346,7 @@ public class AutoScaleManagerImpl<Type> extends ManagerBase implements AutoScale
                 return -1;
             }
         } catch (InsufficientCapacityException ex) {
-            s_logger.info(ex);
+            s_logger.info(ex.toString());
             s_logger.trace(ex.getMessage(), ex);
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         } catch (ResourceUnavailableException ex) {
@@ -1386,7 +1385,7 @@ public class AutoScaleManagerImpl<Type> extends ManagerBase implements AutoScale
                     message.append(", Please check the affinity groups provided, there may not be sufficient capacity to follow them");
                 }
             }
-            s_logger.info(ex);
+            s_logger.info(ex.toString());
             s_logger.info(message.toString(), ex);
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, message.toString());
         }

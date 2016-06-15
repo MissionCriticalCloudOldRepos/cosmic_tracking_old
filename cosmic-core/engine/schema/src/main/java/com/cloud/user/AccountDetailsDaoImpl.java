@@ -20,17 +20,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.config.ConfigKey.Scope;
-import org.apache.cloudstack.framework.config.ScopedConfigStorage;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.QueryBuilder;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.config.ConfigKey.Scope;
+import org.apache.cloudstack.framework.config.ScopedConfigStorage;
 
 public class AccountDetailsDaoImpl extends GenericDaoBase<AccountDetailVO, Long> implements AccountDetailsDao, ScopedConfigStorage {
     protected final SearchBuilder<AccountDetailVO> accountSearch;

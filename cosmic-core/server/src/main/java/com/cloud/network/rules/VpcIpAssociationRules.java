@@ -22,9 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-import org.apache.log4j.Logger;
-
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.IpAddress;
 import com.cloud.network.Network;
@@ -35,9 +32,13 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.Nic;
 import com.cloud.vm.dao.NicDao;
 
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class VpcIpAssociationRules extends RuleApplier {
 
-    private static final Logger s_logger = Logger.getLogger(VpcIpAssociationRules.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VpcIpAssociationRules.class);
 
     private final List<? extends PublicIpAddress> _ipAddresses;
 

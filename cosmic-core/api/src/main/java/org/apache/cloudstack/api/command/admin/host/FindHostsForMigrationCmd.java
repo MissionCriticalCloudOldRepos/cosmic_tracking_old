@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.host.Host;
+import com.cloud.utils.Pair;
+import com.cloud.utils.Ternary;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -29,15 +31,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.HostForMigrationResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
-
-import com.cloud.host.Host;
-import com.cloud.utils.Pair;
-import com.cloud.utils.Ternary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "findHostsForMigration", description = "Find hosts suitable for migrating a virtual machine.", responseObject = HostForMigrationResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class FindHostsForMigrationCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(FindHostsForMigrationCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(FindHostsForMigrationCmd.class.getName());
 
     private static final String s_name = "findhostsformigrationresponse";
 

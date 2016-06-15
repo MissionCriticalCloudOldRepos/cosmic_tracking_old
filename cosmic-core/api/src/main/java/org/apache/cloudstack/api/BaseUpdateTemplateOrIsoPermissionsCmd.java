@@ -18,13 +18,13 @@ package org.apache.cloudstack.api;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
 
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseUpdateTemplateOrIsoPermissionsCmd extends BaseCmd {
     public Logger _logger = getLogger();
@@ -35,7 +35,7 @@ public abstract class BaseUpdateTemplateOrIsoPermissionsCmd extends BaseCmd {
     // ///////////////////////////////////////////////////
 
     protected Logger getLogger() {
-        return Logger.getLogger(BaseUpdateTemplateOrIsoPermissionsCmd.class);
+        return LoggerFactory.getLogger(BaseUpdateTemplateOrIsoPermissionsCmd.class);
     }
 
     protected String getResponseName() {

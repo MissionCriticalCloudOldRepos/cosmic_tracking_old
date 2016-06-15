@@ -18,9 +18,9 @@ package org.apache.cloudstack.affinity;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.command.user.affinitygroup.CreateAffinityGroupCmd;
-
 import com.cloud.uservm.UserVm;
+
+import org.apache.cloudstack.api.command.user.affinitygroup.CreateAffinityGroupCmd;
 
 public interface AffinityGroupService {
 

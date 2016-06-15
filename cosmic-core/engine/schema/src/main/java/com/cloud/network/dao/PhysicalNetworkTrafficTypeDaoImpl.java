@@ -16,14 +16,19 @@
 // under the License.
 package com.cloud.network.dao;
 
+import java.util.List;
+
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.utils.Pair;
-import com.cloud.utils.db.*;
+import com.cloud.utils.db.DB;
+import com.cloud.utils.db.GenericDaoBase;
+import com.cloud.utils.db.GenericSearchBuilder;
+import com.cloud.utils.db.SearchBuilder;
+import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 @DB()

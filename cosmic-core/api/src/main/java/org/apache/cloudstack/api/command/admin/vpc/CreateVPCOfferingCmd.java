@@ -23,7 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.network.vpc.VpcOffering;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -33,16 +36,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ServiceOfferingResponse;
 import org.apache.cloudstack.api.response.VpcOfferingResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.network.vpc.VpcOffering;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createVPCOffering", description = "Creates VPC offering", responseObject = VpcOfferingResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateVPCOfferingCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateVPCOfferingCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateVPCOfferingCmd.class.getName());
     private static final String s_name = "createvpcofferingresponse";
 
     /////////////////////////////////////////////////////

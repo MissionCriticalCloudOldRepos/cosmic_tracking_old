@@ -18,8 +18,6 @@ package org.apache.cloudstack.engine.cloud.entity.api;
 
 import java.util.Map;
 
-import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
-
 import com.cloud.deploy.DeploymentPlan;
 import com.cloud.deploy.DeploymentPlanner;
 import com.cloud.deploy.DeploymentPlanner.ExcludeList;
@@ -29,6 +27,8 @@ import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.OperationTimedoutException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.engine.cloud.entity.api.db.VMEntityVO;
 
 public interface VMEntityManager {
 

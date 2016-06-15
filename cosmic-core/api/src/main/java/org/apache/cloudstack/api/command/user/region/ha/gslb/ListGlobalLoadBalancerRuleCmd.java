@@ -22,7 +22,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.region.ha.GlobalLoadBalancerRule;
+import com.cloud.region.ha.GlobalLoadBalancingRulesService;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -31,14 +32,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.GlobalLoadBalancerResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.RegionResponse;
-
-import com.cloud.region.ha.GlobalLoadBalancerRule;
-import com.cloud.region.ha.GlobalLoadBalancingRulesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listGlobalLoadBalancerRules", description = "Lists load balancer rules.", responseObject = GlobalLoadBalancerResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListGlobalLoadBalancerRuleCmd extends BaseListTaggedResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListGlobalLoadBalancerRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListGlobalLoadBalancerRuleCmd.class.getName());
 
     private static final String s_name = "listgloballoadbalancerrulesresponse";
 

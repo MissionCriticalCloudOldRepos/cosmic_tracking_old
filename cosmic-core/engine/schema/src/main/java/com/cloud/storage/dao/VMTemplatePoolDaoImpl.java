@@ -22,14 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.engine.subsystem.api.storage.DataObjectInStore;
-import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine.Event;
-import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine.State;
-
 import com.cloud.storage.VMTemplateStoragePoolVO;
 import com.cloud.storage.VMTemplateStorageResourceAssoc;
 import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
@@ -40,9 +32,16 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.db.UpdateBuilder;
 
+import org.apache.cloudstack.engine.subsystem.api.storage.DataObjectInStore;
+import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine.Event;
+import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class VMTemplatePoolDaoImpl extends GenericDaoBase<VMTemplateStoragePoolVO, Long> implements VMTemplatePoolDao {
-    public static final Logger s_logger = Logger.getLogger(VMTemplatePoolDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(VMTemplatePoolDaoImpl.class.getName());
 
     protected final SearchBuilder<VMTemplateStoragePoolVO> PoolSearch;
     protected final SearchBuilder<VMTemplateStoragePoolVO> TemplateSearch;

@@ -18,17 +18,18 @@ package com.cloud.storage.download;
 
 import java.util.Date;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.storage.DownloadAnswer;
+
+import org.apache.log4j.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class DownloadState {
     public static enum DownloadEvent {
         DOWNLOAD_ANSWER, ABANDON_DOWNLOAD, TIMEOUT_CHECK, DISCONNECT
     };
 
-    protected static final Logger s_logger = Logger.getLogger(DownloadListener.class.getName());
+    protected static final Logger s_logger = LoggerFactory.getLogger(DownloadListener.class.getName());
 
     private DownloadListener dl;
 

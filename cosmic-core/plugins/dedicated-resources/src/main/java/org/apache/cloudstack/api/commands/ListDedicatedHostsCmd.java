@@ -21,7 +21,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.dc.DedicatedResourceVO;
+import com.cloud.dc.DedicatedResources;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
 import org.apache.cloudstack.api.APICommand;
@@ -35,15 +37,13 @@ import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.HostResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.dedicated.DedicatedService;
-
-import com.cloud.dc.DedicatedResourceVO;
-import com.cloud.dc.DedicatedResources;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listDedicatedHosts", description = "Lists dedicated hosts.", responseObject = DedicateHostResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListDedicatedHostsCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListDedicatedHostsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListDedicatedHostsCmd.class.getName());
 
     private static final String s_name = "listdedicatedhostsresponse";
     @Inject

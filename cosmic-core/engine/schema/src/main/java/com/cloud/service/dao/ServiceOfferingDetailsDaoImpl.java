@@ -16,12 +16,10 @@
 // under the License.
 package com.cloud.service.dao;
 
-
-import org.springframework.stereotype.Component;
+import com.cloud.service.ServiceOfferingDetailsVO;
 
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
-
-import com.cloud.service.ServiceOfferingDetailsVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ServiceOfferingDetailsDaoImpl extends ResourceDetailsDaoBase<ServiceOfferingDetailsVO> implements ServiceOfferingDetailsDao {

@@ -17,8 +17,6 @@
 
 package com.cloud.network.rules;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.Network;
 import com.cloud.network.router.VirtualRouter;
@@ -28,6 +26,8 @@ import com.cloud.vm.UserVmVO;
 import com.cloud.vm.VirtualMachineProfile;
 import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.UserVmDao;
+
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
 
 public class UserdataToRouterRules extends RuleApplier {
 

@@ -16,8 +16,6 @@
 // under the License.
 package com.cloud.network.router;
 
-import org.apache.cloudstack.framework.config.ConfigKey;
-
 import java.util.List;
 
 import com.cloud.exception.AgentUnavailableException;
@@ -30,6 +28,8 @@ import com.cloud.user.Account;
 import com.cloud.user.User;
 import com.cloud.utils.component.Manager;
 import com.cloud.vm.DomainRouterVO;
+
+import org.apache.cloudstack.framework.config.ConfigKey;
 
 /**
  * NetworkManager manages the network for the different end users.

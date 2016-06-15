@@ -16,13 +16,13 @@
 // under the License.
 package com.cloud.api.query.dao;
 
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.response.DomainResponse;
-import org.apache.cloudstack.api.response.ResourceLimitAndCountResponse;
-
 import com.cloud.api.query.vo.DomainJoinVO;
 import com.cloud.domain.Domain;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.response.DomainResponse;
+import org.apache.cloudstack.api.response.ResourceLimitAndCountResponse;
 
 public interface DomainJoinDao extends GenericDao<DomainJoinVO, Long> {
 

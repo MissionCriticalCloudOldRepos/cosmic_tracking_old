@@ -18,7 +18,7 @@ package org.apache.cloudstack.api.command.user.snapshot;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,13 +28,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.SnapshotPolicyResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteSnapshotPolicies", description = "Deletes snapshot policies for the account.", responseObject = SuccessResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteSnapshotPoliciesCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteSnapshotPoliciesCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteSnapshotPoliciesCmd.class.getName());
 
     private static final String s_name = "deletesnapshotpoliciesresponse";
 

@@ -27,12 +27,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.cloud.exception.InvalidParameterValueException;
+
 import org.apache.cloudstack.storage.template.UploadEntity;
 import org.apache.cloudstack.utils.imagestore.ImageStoreUtil;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
-import com.cloud.exception.InvalidParameterValueException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -63,7 +64,7 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import io.netty.util.CharsetUtil;
 
 public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObject> {
-    private static final Logger logger = Logger.getLogger(HttpUploadServerHandler.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(HttpUploadServerHandler.class.getName());
 
     private static final HttpDataFactory factory = new DefaultHttpDataFactory(true);
 

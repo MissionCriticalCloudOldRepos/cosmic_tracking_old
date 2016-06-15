@@ -23,10 +23,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cloud.vm.VirtualMachine;
+
 import org.apache.cloudstack.acl.ControlledEntity;
 import org.apache.cloudstack.affinity.AffinityGroup;
-
-import com.cloud.vm.VirtualMachine;
 
 @Entity
 @Table(name = "affinity_group_view")

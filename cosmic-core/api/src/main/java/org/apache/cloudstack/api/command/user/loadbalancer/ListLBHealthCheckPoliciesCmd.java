@@ -19,6 +19,10 @@ package org.apache.cloudstack.api.command.user.loadbalancer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.rules.HealthCheckPolicy;
+import com.cloud.network.rules.LoadBalancer;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,17 +31,13 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.LBHealthCheckResponse;
 import org.apache.cloudstack.api.response.ListResponse;
-import org.apache.log4j.Logger;
-
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.rules.HealthCheckPolicy;
-import com.cloud.network.rules.LoadBalancer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listLBHealthCheckPolicies", description = "Lists load balancer health check policies.", responseObject = LBHealthCheckResponse.class, since = "4.2.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListLBHealthCheckPoliciesCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListLBHealthCheckPoliciesCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListLBHealthCheckPoliciesCmd.class.getName());
 
     private static final String s_name = "listlbhealthcheckpoliciesresponse";
 

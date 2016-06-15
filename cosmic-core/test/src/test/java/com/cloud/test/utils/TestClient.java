@@ -22,21 +22,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.log4j.Logger;
-import org.apache.log4j.NDC;
-
 import com.trilead.ssh2.ChannelCondition;
 import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.SCPClient;
 import com.trilead.ssh2.Session;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.log4j.NDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TestClient {
     private static long sleepTime = 180000L; // default 0
     private static boolean cleanUp = true;
-    public static final Logger s_logger = Logger.getLogger(TestClient.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(TestClient.class.getName());
     private static boolean repeat = true;
     private static int numOfUsers = 0;
     private static String[] users = null;

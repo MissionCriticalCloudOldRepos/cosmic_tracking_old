@@ -25,10 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.framework.jobs.impl.SyncQueueItemVO;
-
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.DB;
 import com.cloud.utils.db.Filter;
@@ -40,9 +36,13 @@ import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.apache.cloudstack.framework.jobs.impl.SyncQueueItemVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @DB
 public class SyncQueueItemDaoImpl extends GenericDaoBase<SyncQueueItemVO, Long> implements SyncQueueItemDao {
-    private static final Logger s_logger = Logger.getLogger(SyncQueueItemDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SyncQueueItemDaoImpl.class);
     final GenericSearchBuilder<SyncQueueItemVO, Long> queueIdSearch;
     final GenericSearchBuilder<SyncQueueItemVO, Integer> queueActiveItemSearch;
 

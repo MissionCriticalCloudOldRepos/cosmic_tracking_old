@@ -18,9 +18,9 @@
  */
 package org.apache.cloudstack.spring.lifecycle;
 
-import org.springframework.context.SmartLifecycle;
-
 import com.cloud.utils.LogUtils;
+
+import org.springframework.context.SmartLifecycle;
 
 public class CloudStackLog4jSetup implements SmartLifecycle {
 

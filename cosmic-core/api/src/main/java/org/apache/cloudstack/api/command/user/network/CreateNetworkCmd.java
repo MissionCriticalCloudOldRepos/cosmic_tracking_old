@@ -16,8 +16,14 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.network;
 
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.network.Network;
+import com.cloud.network.Network.GuestType;
+import com.cloud.offering.NetworkOffering;
 import com.cloud.utils.net.NetUtils;
-import org.apache.log4j.Logger;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -36,19 +42,13 @@ import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.network.Network;
-import com.cloud.network.Network.GuestType;
-import com.cloud.offering.NetworkOffering;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createNetwork", description = "Creates a network", responseObject = NetworkResponse.class, responseView = ResponseView.Restricted, entityType = {Network.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateNetworkCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateNetworkCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateNetworkCmd.class.getName());
 
     private static final String s_name = "createnetworkresponse";
 

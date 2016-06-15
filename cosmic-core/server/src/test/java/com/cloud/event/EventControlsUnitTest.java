@@ -25,26 +25,26 @@ import static org.mockito.Mockito.when;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
+import com.cloud.event.dao.EventDao;
+import com.cloud.server.ManagementServerImpl;
+import com.cloud.user.Account;
+import com.cloud.user.AccountManager;
 
-import org.apache.log4j.Logger;
+import org.apache.cloudstack.acl.ControlledEntity;
+import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.cloudstack.acl.ControlledEntity;
-import org.apache.cloudstack.acl.SecurityChecker.AccessType;
-
-import com.cloud.event.dao.EventDao;
-import com.cloud.server.ManagementServerImpl;
-import com.cloud.user.Account;
-import com.cloud.user.AccountManager;
+import junit.framework.TestCase;
 
 public class EventControlsUnitTest extends TestCase {
-    private static final Logger s_logger = Logger.getLogger(EventControlsUnitTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(EventControlsUnitTest.class);
 
     @Spy
     ManagementServerImpl _mgmtServer = new ManagementServerImpl();

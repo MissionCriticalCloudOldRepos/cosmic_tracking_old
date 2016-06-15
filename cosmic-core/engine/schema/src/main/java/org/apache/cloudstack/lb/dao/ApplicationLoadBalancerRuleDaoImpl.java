@@ -19,11 +19,6 @@ package org.apache.cloudstack.lb.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.lb.ApplicationLoadBalancerRuleVO;
-
 import com.cloud.network.rules.FirewallRule;
 import com.cloud.network.rules.FirewallRule.State;
 import com.cloud.network.rules.LoadBalancerContainer.Scheme;
@@ -34,6 +29,9 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.net.Ip;
+
+import org.apache.cloudstack.lb.ApplicationLoadBalancerRuleVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ApplicationLoadBalancerRuleDaoImpl extends GenericDaoBase<ApplicationLoadBalancerRuleVO, Long> implements ApplicationLoadBalancerRuleDao {

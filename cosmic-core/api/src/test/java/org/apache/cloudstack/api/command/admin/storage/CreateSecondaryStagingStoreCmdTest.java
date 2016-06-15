@@ -19,10 +19,9 @@ package org.apache.cloudstack.api.command.admin.storage;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.cloudstack.api.ApiCmdTestUtil;
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.apache.cloudstack.api.ApiCmdTestUtil;
 
 public class CreateSecondaryStagingStoreCmdTest {
 

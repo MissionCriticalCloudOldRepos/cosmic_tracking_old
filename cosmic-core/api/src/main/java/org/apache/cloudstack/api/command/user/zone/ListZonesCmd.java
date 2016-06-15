@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -31,13 +31,13 @@ import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listZones", description = "Lists zones", responseObject = ZoneResponse.class, responseView = ResponseView.Restricted,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListZonesCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListZonesCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListZonesCmd.class.getName());
 
     private static final String s_name = "listzonesresponse";
 

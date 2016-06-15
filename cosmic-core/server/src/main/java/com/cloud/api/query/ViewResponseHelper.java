@@ -22,7 +22,33 @@ import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.api.ApiDBUtils;
+import com.cloud.api.query.vo.AccountJoinVO;
+import com.cloud.api.query.vo.AffinityGroupJoinVO;
+import com.cloud.api.query.vo.AsyncJobJoinVO;
+import com.cloud.api.query.vo.DataCenterJoinVO;
+import com.cloud.api.query.vo.DiskOfferingJoinVO;
+import com.cloud.api.query.vo.DomainJoinVO;
+import com.cloud.api.query.vo.DomainRouterJoinVO;
+import com.cloud.api.query.vo.EventJoinVO;
+import com.cloud.api.query.vo.HostJoinVO;
+import com.cloud.api.query.vo.HostTagVO;
+import com.cloud.api.query.vo.ImageStoreJoinVO;
+import com.cloud.api.query.vo.InstanceGroupJoinVO;
+import com.cloud.api.query.vo.ProjectAccountJoinVO;
+import com.cloud.api.query.vo.ProjectInvitationJoinVO;
+import com.cloud.api.query.vo.ProjectJoinVO;
+import com.cloud.api.query.vo.ResourceTagJoinVO;
+import com.cloud.api.query.vo.SecurityGroupJoinVO;
+import com.cloud.api.query.vo.ServiceOfferingJoinVO;
+import com.cloud.api.query.vo.StoragePoolJoinVO;
+import com.cloud.api.query.vo.StorageTagVO;
+import com.cloud.api.query.vo.TemplateJoinVO;
+import com.cloud.api.query.vo.UserAccountJoinVO;
+import com.cloud.api.query.vo.UserVmJoinVO;
+import com.cloud.api.query.vo.VolumeJoinVO;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
 import org.apache.cloudstack.api.ApiConstants.HostDetails;
 import org.apache.cloudstack.api.ApiConstants.VMDetails;
@@ -52,33 +78,8 @@ import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VolumeResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.api.ApiDBUtils;
-import com.cloud.api.query.vo.AccountJoinVO;
-import com.cloud.api.query.vo.AffinityGroupJoinVO;
-import com.cloud.api.query.vo.AsyncJobJoinVO;
-import com.cloud.api.query.vo.DataCenterJoinVO;
-import com.cloud.api.query.vo.DiskOfferingJoinVO;
-import com.cloud.api.query.vo.DomainJoinVO;
-import com.cloud.api.query.vo.DomainRouterJoinVO;
-import com.cloud.api.query.vo.EventJoinVO;
-import com.cloud.api.query.vo.HostJoinVO;
-import com.cloud.api.query.vo.HostTagVO;
-import com.cloud.api.query.vo.ImageStoreJoinVO;
-import com.cloud.api.query.vo.InstanceGroupJoinVO;
-import com.cloud.api.query.vo.ProjectAccountJoinVO;
-import com.cloud.api.query.vo.ProjectInvitationJoinVO;
-import com.cloud.api.query.vo.ProjectJoinVO;
-import com.cloud.api.query.vo.ResourceTagJoinVO;
-import com.cloud.api.query.vo.SecurityGroupJoinVO;
-import com.cloud.api.query.vo.ServiceOfferingJoinVO;
-import com.cloud.api.query.vo.StoragePoolJoinVO;
-import com.cloud.api.query.vo.StorageTagVO;
-import com.cloud.api.query.vo.TemplateJoinVO;
-import com.cloud.api.query.vo.UserAccountJoinVO;
-import com.cloud.api.query.vo.UserVmJoinVO;
-import com.cloud.api.query.vo.VolumeJoinVO;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to generate response from DB view VO objects.
@@ -86,7 +87,7 @@ import com.cloud.user.Account;
  */
 public class ViewResponseHelper {
 
-    public static final Logger s_logger = Logger.getLogger(ViewResponseHelper.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ViewResponseHelper.class);
 
     public static List<UserResponse> createUserResponse(UserAccountJoinVO... users) {
         return createUserResponse(null, users);

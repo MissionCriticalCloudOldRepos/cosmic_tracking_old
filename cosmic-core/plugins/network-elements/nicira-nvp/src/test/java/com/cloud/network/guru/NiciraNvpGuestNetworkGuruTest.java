@@ -34,11 +34,6 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.CreateLogicalSwitchAnswer;
@@ -71,6 +66,10 @@ import com.cloud.offering.NetworkOffering;
 import com.cloud.offerings.dao.NetworkOfferingServiceMapDao;
 import com.cloud.user.Account;
 import com.cloud.vm.ReservationContext;
+
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.junit.Before;
+import org.junit.Test;
 
 public class NiciraNvpGuestNetworkGuruTest {
     private static final long NETWORK_ID = 42L;

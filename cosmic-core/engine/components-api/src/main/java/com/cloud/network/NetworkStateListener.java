@@ -24,14 +24,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.cloud.utils.fsm.StateMachine2;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.cloudstack.framework.events.EventBus;
-import org.apache.cloudstack.framework.events.EventBusException;
-
 import com.cloud.event.EventCategory;
 import com.cloud.event.dao.UsageEventDao;
 import com.cloud.network.Network.Event;
@@ -39,6 +31,14 @@ import com.cloud.network.Network.State;
 import com.cloud.network.dao.NetworkDao;
 import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.fsm.StateListener;
+import com.cloud.utils.fsm.StateMachine2;
+
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.apache.cloudstack.framework.events.EventBusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 public class NetworkStateListener implements StateListener<State, Event, Network> {
 
@@ -51,7 +51,7 @@ public class NetworkStateListener implements StateListener<State, Event, Network
 
     protected static EventBus s_eventBus = null;
 
-    private static final Logger s_logger = Logger.getLogger(NetworkStateListener.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetworkStateListener.class);
 
     public NetworkStateListener(UsageEventDao usageEventDao, NetworkDao networkDao, ConfigurationDao configDao) {
         _usageEventDao = usageEventDao;

@@ -27,12 +27,13 @@ import java.util.Map;
 import javax.naming.ConfigurationException;
 
 import com.cloud.exception.InternalErrorException;
-import org.apache.log4j.Logger;
-
 import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.StorageLayer;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.component.AdapterBase;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VhdProcessor processes the downloaded template for VHD.  It
@@ -42,7 +43,7 @@ import com.cloud.utils.component.AdapterBase;
  */
 public class VhdProcessor extends AdapterBase implements Processor {
 
-    private static final Logger s_logger = Logger.getLogger(VhdProcessor.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VhdProcessor.class);
     StorageLayer _storage;
     private int vhdFooterSize = 512;
     private int vhdFooterCreatorAppOffset = 28;

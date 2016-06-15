@@ -21,19 +21,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.response.StorageTagResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.api.query.vo.StorageTagVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.apache.cloudstack.api.response.StorageTagResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class StorageTagDaoImpl extends GenericDaoBase<StorageTagVO, Long> implements StorageTagDao {
-    public static final Logger s_logger = Logger.getLogger(StorageTagDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(StorageTagDaoImpl.class);
 
     @Inject
     private ConfigurationDao _configDao;

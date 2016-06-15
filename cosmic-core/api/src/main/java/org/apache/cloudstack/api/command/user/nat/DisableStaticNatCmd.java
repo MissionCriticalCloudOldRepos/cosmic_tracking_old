@@ -16,7 +16,12 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.nat;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InsufficientAddressCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.IpAddress;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,18 +32,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.command.user.firewall.DeletePortForwardingRuleCmd;
 import org.apache.cloudstack.api.response.IPAddressResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InsufficientAddressCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.NetworkRuleConflictException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.IpAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "disableStaticNat", description = "Disables static rule for given IP address", responseObject = SuccessResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DisableStaticNatCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DeletePortForwardingRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeletePortForwardingRuleCmd.class.getName());
     private static final String s_name = "disablestaticnatresponse";
 
     /////////////////////////////////////////////////////

@@ -27,10 +27,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import com.cloud.agent.api.CheckNetworkAnswer;
 import com.cloud.agent.api.CheckNetworkCommand;
 import com.cloud.agent.api.storage.ResizeVolumeCommand;
@@ -39,6 +35,10 @@ import com.cloud.hypervisor.Hypervisor;
 import com.cloud.storage.Storage;
 import com.cloud.storage.StoragePool;
 import com.cloud.storage.StoragePoolStatus;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 public class CheckNetworkAnswerTest {
     CheckNetworkCommand cnc;

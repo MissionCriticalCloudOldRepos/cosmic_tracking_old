@@ -19,7 +19,12 @@ package org.apache.cloudstack.api.command.admin.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.dc.StorageNetworkIpRange;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -31,18 +36,13 @@ import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.PodResponse;
 import org.apache.cloudstack.api.response.StorageNetworkIpRangeResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.dc.StorageNetworkIpRange;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listStorageNetworkIpRange", description = "List a storage network IP range.", responseObject = StorageNetworkIpRangeResponse.class, since = "3.0.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListStorageNetworkIpRangeCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListStorageNetworkIpRangeCmd.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ListStorageNetworkIpRangeCmd.class);
 
     String _name = "liststoragenetworkiprangeresponse";
 

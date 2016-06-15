@@ -19,7 +19,9 @@ package org.apache.cloudstack.api.command.user.nat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.network.rules.FirewallRule;
+import com.cloud.network.rules.StaticNatRule;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -30,15 +32,13 @@ import org.apache.cloudstack.api.response.IPAddressResponse;
 import org.apache.cloudstack.api.response.IpForwardingRuleResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
-
-import com.cloud.network.rules.FirewallRule;
-import com.cloud.network.rules.StaticNatRule;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listIpForwardingRules", description = "List the IP forwarding rules", responseObject = FirewallRuleResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListIpForwardingRulesCmd extends BaseListProjectAndAccountResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListIpForwardingRulesCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListIpForwardingRulesCmd.class.getName());
 
     private static final String s_name = "listipforwardingrulesresponse";
 

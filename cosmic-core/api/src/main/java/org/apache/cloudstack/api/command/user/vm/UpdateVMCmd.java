@@ -16,6 +16,15 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vm;
 
+import java.util.Collection;
+import java.util.Map;
+
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.user.Account;
+import com.cloud.uservm.UserVm;
+import com.cloud.vm.VirtualMachine;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -29,23 +38,15 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.GuestOSResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
-import java.util.Collection;
-import java.util.Map;
-
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.user.Account;
-import com.cloud.uservm.UserVm;
-import com.cloud.vm.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateVirtualMachine", description="Updates properties of a virtual machine. The VM has to be stopped and restarted for the " +
     "new properties to take effect. UpdateVirtualMachine does not first check whether the VM is stopped. " +
     "Therefore, stop the VM manually before issuing this call.", responseObject = UserVmResponse.class, responseView = ResponseView.Restricted, entityType = {VirtualMachine.class},
     requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class UpdateVMCmd extends BaseCustomIdCmd {
-  public static final Logger s_logger = Logger.getLogger(UpdateVMCmd.class.getName());
+  public static final Logger s_logger = LoggerFactory.getLogger(UpdateVMCmd.class.getName());
   private static final String s_name = "updatevirtualmachineresponse";
 
   /////////////////////////////////////////////////////

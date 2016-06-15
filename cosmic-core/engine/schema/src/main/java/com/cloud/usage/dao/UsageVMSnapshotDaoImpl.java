@@ -24,18 +24,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.usage.UsageVMSnapshotVO;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class UsageVMSnapshotDaoImpl extends GenericDaoBase<UsageVMSnapshotVO, Long> implements UsageVMSnapshotDao {
-    public static final Logger s_logger = Logger.getLogger(UsageVMSnapshotDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UsageVMSnapshotDaoImpl.class.getName());
     protected static final String GET_USAGE_RECORDS_BY_ACCOUNT = "SELECT id, zone_id, account_id, domain_id, vm_id, disk_offering_id, size, created, processed "
         + " FROM usage_vmsnapshot" + " WHERE account_id = ? " + " AND ( (created BETWEEN ? AND ?) OR "
         + "      (created < ? AND processed is NULL) ) ORDER BY created asc";

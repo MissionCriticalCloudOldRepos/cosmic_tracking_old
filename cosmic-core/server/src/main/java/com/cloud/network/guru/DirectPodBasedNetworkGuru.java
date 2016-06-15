@@ -20,9 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-import org.apache.log4j.Logger;
-
 import com.cloud.configuration.ZoneConfig;
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
@@ -61,8 +58,12 @@ import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DirectPodBasedNetworkGuru extends DirectNetworkGuru {
-    private static final Logger s_logger = Logger.getLogger(DirectPodBasedNetworkGuru.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(DirectPodBasedNetworkGuru.class);
 
     @Inject
     DataCenterDao _dcDao;

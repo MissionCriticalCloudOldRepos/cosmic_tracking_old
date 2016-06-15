@@ -21,8 +21,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.Network;
 import com.cloud.network.vpc.Vpc;
 import com.cloud.network.vpc.VpcServiceMapVO;
@@ -37,6 +35,8 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @DB()

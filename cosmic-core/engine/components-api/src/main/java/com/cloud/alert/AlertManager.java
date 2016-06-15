@@ -16,10 +16,10 @@
 // under the License.
 package com.cloud.alert;
 
+import com.cloud.utils.component.Manager;
+
 import org.apache.cloudstack.alert.AlertService;
 import org.apache.cloudstack.framework.config.ConfigKey;
-
-import com.cloud.utils.component.Manager;
 
 public interface AlertManager extends Manager, AlertService {
 

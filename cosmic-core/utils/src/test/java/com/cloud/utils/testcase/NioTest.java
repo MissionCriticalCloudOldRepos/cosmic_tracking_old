@@ -22,11 +22,6 @@ package com.cloud.utils.testcase;
 import java.nio.channels.ClosedChannelException;
 import java.util.Random;
 
-import junit.framework.TestCase;
-
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-
 import com.cloud.utils.exception.NioConnectionException;
 import com.cloud.utils.nio.HandlerFactory;
 import com.cloud.utils.nio.Link;
@@ -34,6 +29,12 @@ import com.cloud.utils.nio.NioClient;
 import com.cloud.utils.nio.NioServer;
 import com.cloud.utils.nio.Task;
 import com.cloud.utils.nio.Task.Type;
+
+import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import junit.framework.TestCase;
 
 /**
  *
@@ -44,7 +45,7 @@ import com.cloud.utils.nio.Task.Type;
 
 public class NioTest extends TestCase {
 
-    private static final Logger s_logger = Logger.getLogger(NioTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NioTest.class);
 
     private NioServer _server;
     private NioClient _client;

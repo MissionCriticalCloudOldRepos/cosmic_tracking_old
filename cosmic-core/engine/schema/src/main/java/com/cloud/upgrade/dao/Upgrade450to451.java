@@ -26,15 +26,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
-
 import com.cloud.utils.crypt.DBEncryptionUtil;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
+import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Upgrade450to451 implements DbUpgrade {
-        final static Logger s_logger = Logger.getLogger(Upgrade450to451.class);
+        final static Logger s_logger = LoggerFactory.getLogger(Upgrade450to451.class);
 
     @Override
     public String[] getUpgradableVersionRange() {

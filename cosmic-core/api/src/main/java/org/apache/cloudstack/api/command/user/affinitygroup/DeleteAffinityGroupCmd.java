@@ -16,9 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.affinitygroup;
 
+import com.cloud.event.EventTypes;
+import com.cloud.user.Account;
 
-import org.apache.cloudstack.api.response.ProjectResponse;
-import org.apache.log4j.Logger;
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.affinity.AffinityGroup;
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
@@ -31,16 +31,16 @@ import org.apache.cloudstack.api.BaseAsyncCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DomainResponse;
+import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteAffinityGroup", description = "Deletes affinity group", responseObject = SuccessResponse.class, entityType = {AffinityGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteAffinityGroupCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteAffinityGroupCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteAffinityGroupCmd.class.getName());
     private static final String s_name = "deleteaffinitygroupresponse";
 
     /////////////////////////////////////////////////////

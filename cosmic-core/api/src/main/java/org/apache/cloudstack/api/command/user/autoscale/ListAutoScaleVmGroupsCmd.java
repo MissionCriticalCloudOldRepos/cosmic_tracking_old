@@ -19,7 +19,8 @@ package org.apache.cloudstack.api.command.user.autoscale;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.as.AutoScaleVmGroup;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -32,14 +33,13 @@ import org.apache.cloudstack.api.response.AutoScaleVmProfileResponse;
 import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.as.AutoScaleVmGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listAutoScaleVmGroups", description = "Lists autoscale vm groups.", responseObject = AutoScaleVmGroupResponse.class, entityType = {AutoScaleVmGroup.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListAutoScaleVmGroupsCmd extends BaseListProjectAndAccountResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListAutoScaleVmGroupsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListAutoScaleVmGroupsCmd.class.getName());
 
     private static final String s_name = "listautoscalevmgroupsresponse";
 

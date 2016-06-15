@@ -20,8 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cloud.network.router.deployment.RouterDeploymentDefinition;
-
 import com.cloud.agent.api.to.NicTO;
 import com.cloud.agent.manager.Commands;
 import com.cloud.exception.AgentUnavailableException;
@@ -39,6 +37,8 @@ import com.cloud.user.User;
 import com.cloud.vm.DomainRouterVO;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.VirtualMachineProfile.Param;
+
+import org.cloud.network.router.deployment.RouterDeploymentDefinition;
 
 public interface NetworkHelper {
 

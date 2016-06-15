@@ -27,10 +27,11 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.WeakHashMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NioServer extends NioConnection {
-    private final static Logger s_logger = Logger.getLogger(NioServer.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(NioServer.class);
 
     protected InetSocketAddress _localAddr;
     private ServerSocketChannel _serverSocket;

@@ -21,10 +21,10 @@ package org.apache.cloudstack.engine.subsystem.api.storage.type;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 public class VolumeTypeHelperTest {
 

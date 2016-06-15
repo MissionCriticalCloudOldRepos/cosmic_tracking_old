@@ -16,10 +16,10 @@
 // under the License.
 package com.cloud.storage;
 
-import org.apache.commons.lang.NotImplementedException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.NotImplementedException;
 
 public class Storage {
   public static enum ImageFormat {

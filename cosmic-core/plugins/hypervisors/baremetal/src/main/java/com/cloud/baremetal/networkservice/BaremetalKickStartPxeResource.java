@@ -24,11 +24,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
-import com.trilead.ssh2.SCPClient;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.HostVmStateReportEntry;
@@ -38,9 +33,14 @@ import com.cloud.agent.api.routing.VmDataCommand;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 import com.cloud.utils.ssh.SSHCmdHelper;
+import com.trilead.ssh2.SCPClient;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaremetalKickStartPxeResource extends BaremetalPxeResourceBase {
-    private static final Logger s_logger = Logger.getLogger(BaremetalKickStartPxeResource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BaremetalKickStartPxeResource.class);
     private static final String Name = "BaremetalKickStartPxeResource";
     String _tftpDir;
 

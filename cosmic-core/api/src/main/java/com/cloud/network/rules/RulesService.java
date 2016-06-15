@@ -18,14 +18,14 @@ package com.cloud.network.rules;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.command.user.firewall.ListPortForwardingRulesCmd;
-
 import com.cloud.exception.InsufficientAddressCapacityException;
 import com.cloud.exception.NetworkRuleConflictException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.user.Account;
 import com.cloud.utils.Pair;
 import com.cloud.utils.net.Ip;
+
+import org.apache.cloudstack.api.command.user.firewall.ListPortForwardingRulesCmd;
 
 public interface RulesService {
     Pair<List<? extends FirewallRule>, Integer> searchStaticNatRules(Long ipId, Long id, Long vmId, Long start, Long size, String accountName, Long domainId,

@@ -16,10 +16,28 @@
 // under the License.
 package com.cloud.utils.db;
 
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Savepoint;
+import java.sql.Statement;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicLong;
+
+import javax.sql.DataSource;
+
 import com.cloud.utils.Pair;
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.mgmt.JmxUtil;
+
 import org.apache.commons.dbcp.ConnectionFactory;
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
@@ -27,18 +45,8 @@ import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.KeyedObjectPoolFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.commons.pool.impl.StackKeyedObjectPoolFactory;
-import org.apache.log4j.Logger;
-
-import javax.sql.DataSource;
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.sql.*;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.atomic.AtomicLong;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Transaction abstracts away the Connection object in JDBC. It allows the following things that the Connection object
@@ -52,10 +60,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * thread. Use appropriately.
  */
 public class TransactionLegacy implements Closeable {
-    private static final Logger s_logger = Logger.getLogger(Transaction.class.getName() + "." + "Transaction");
-    private static final Logger s_stmtLogger = Logger.getLogger(Transaction.class.getName() + "." + "Statement");
-    private static final Logger s_lockLogger = Logger.getLogger(Transaction.class.getName() + "." + "Lock");
-    private static final Logger s_connLogger = Logger.getLogger(Transaction.class.getName() + "." + "Connection");
+    private static final Logger s_logger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Transaction");
+    private static final Logger s_stmtLogger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Statement");
+    private static final Logger s_lockLogger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Lock");
+    private static final Logger s_connLogger = LoggerFactory.getLogger(Transaction.class.getName() + "." + "Connection");
 
     private static final String DB_CONNECTION_SCHEME = "jdbc:mariadb";
 

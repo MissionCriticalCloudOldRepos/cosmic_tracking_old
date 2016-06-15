@@ -16,7 +16,9 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.template;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.template.VirtualMachineTemplate;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -29,17 +31,15 @@ import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.template.VirtualMachineTemplate;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deleteTemplate",
             responseObject = SuccessResponse.class,
             description = "Deletes a template from the system. All virtual machines using the deleted template will not be affected.",
             requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class DeleteTemplateCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(DeleteTemplateCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeleteTemplateCmd.class.getName());
     private static final String s_name = "deletetemplateresponse";
 
     /////////////////////////////////////////////////////

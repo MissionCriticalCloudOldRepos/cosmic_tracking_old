@@ -24,9 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
-import org.apache.log4j.Logger;
-
 import com.cloud.cluster.ClusterInvalidSessionException;
 import com.cloud.cluster.ManagementServerHost;
 import com.cloud.cluster.ManagementServerHost.State;
@@ -40,8 +37,11 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ManagementServerHostDaoImpl extends GenericDaoBase<ManagementServerHostVO, Long> implements ManagementServerHostDao {
-    private static final Logger s_logger = Logger.getLogger(ManagementServerHostDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ManagementServerHostDaoImpl.class);
 
     private final SearchBuilder<ManagementServerHostVO> MsIdSearch;
     private final SearchBuilder<ManagementServerHostVO> ActiveSearch;

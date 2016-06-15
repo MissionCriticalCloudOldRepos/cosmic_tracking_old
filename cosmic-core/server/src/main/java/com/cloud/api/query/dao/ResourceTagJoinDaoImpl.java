@@ -21,12 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.api.response.ResourceTagResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.api.ApiResponseHelper;
 import com.cloud.api.query.vo.ResourceTagJoinVO;
 import com.cloud.server.ResourceTag;
@@ -36,9 +30,15 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
 
+import org.apache.cloudstack.api.response.ResourceTagResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class ResourceTagJoinDaoImpl extends GenericDaoBase<ResourceTagJoinVO, Long> implements ResourceTagJoinDao {
-    public static final Logger s_logger = Logger.getLogger(ResourceTagJoinDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ResourceTagJoinDaoImpl.class);
 
     @Inject
     private ConfigurationDao _configDao;

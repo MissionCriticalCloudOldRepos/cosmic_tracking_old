@@ -18,13 +18,12 @@ package com.cloud.secstorage;
 
 import java.util.Date;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class CommandExecLogDaoImpl extends GenericDaoBase<CommandExecLogVO, Long> implements CommandExecLogDao {

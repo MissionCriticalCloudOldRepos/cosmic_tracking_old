@@ -18,7 +18,7 @@ package org.apache.cloudstack.api.command.admin.region;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -29,13 +29,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.RegionResponse;
 import org.apache.cloudstack.region.Region;
 import org.apache.cloudstack.region.RegionService;
-
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "addRegion", description = "Adds a Region", responseObject = RegionResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class AddRegionCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(AddRegionCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AddRegionCmd.class.getName());
 
     private static final String s_name = "addregionresponse";
 

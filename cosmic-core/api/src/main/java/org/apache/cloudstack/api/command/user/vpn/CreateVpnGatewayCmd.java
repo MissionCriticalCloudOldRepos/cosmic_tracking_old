@@ -20,6 +20,7 @@ import com.cloud.event.EventTypes;
 import com.cloud.exception.ResourceAllocationException;
 import com.cloud.network.Site2SiteVpnGateway;
 import com.cloud.network.vpc.Vpc;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -31,12 +32,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.Site2SiteVpnGatewayResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createVpnGateway", description = "Creates site to site vpn local gateway", responseObject = Site2SiteVpnGatewayResponse.class, entityType = {Site2SiteVpnGateway.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateVpnGatewayCmd extends BaseAsyncCreateCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateVpnGatewayCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateVpnGatewayCmd.class.getName());
 
     private static final String s_name = "createvpngatewayresponse";
 

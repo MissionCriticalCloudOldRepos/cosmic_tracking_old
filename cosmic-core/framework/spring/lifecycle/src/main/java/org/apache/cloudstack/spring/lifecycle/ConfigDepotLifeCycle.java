@@ -20,11 +20,10 @@ package org.apache.cloudstack.spring.lifecycle;
 
 import javax.inject.Inject;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-
 import org.apache.cloudstack.framework.config.ConfigDepotAdmin;
 import org.apache.cloudstack.framework.config.Configurable;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 
 public class ConfigDepotLifeCycle implements BeanPostProcessor {
 

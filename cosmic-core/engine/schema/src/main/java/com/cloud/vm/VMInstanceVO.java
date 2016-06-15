@@ -37,9 +37,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.utils.db.Encrypt;
 import com.cloud.utils.db.GenericDao;
@@ -47,12 +44,16 @@ import com.cloud.utils.db.StateMachine;
 import com.cloud.utils.fsm.FiniteStateObject;
 import com.cloud.vm.VirtualMachine.State;
 
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 @Table(name = "vm_instance")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 32)
 public class VMInstanceVO implements VirtualMachine, FiniteStateObject<State, VirtualMachine.Event> {
-    private static final Logger s_logger = Logger.getLogger(VMInstanceVO.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VMInstanceVO.class);
     @Id
     @TableGenerator(name = "vm_instance_sq", table = "sequence", pkColumnName = "name", valueColumnName = "value", pkColumnValue = "vm_instance_seq", allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)

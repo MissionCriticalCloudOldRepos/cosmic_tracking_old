@@ -25,23 +25,24 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
-import junit.framework.TestCase;
+import com.cloud.alert.dao.AlertDao;
+import com.cloud.server.ManagementServerImpl;
+import com.cloud.user.Account;
+import com.cloud.user.AccountManager;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.cloud.alert.dao.AlertDao;
-import com.cloud.server.ManagementServerImpl;
-import com.cloud.user.Account;
-import com.cloud.user.AccountManager;
+import junit.framework.TestCase;
 
 public class AlertControlsUnitTest extends TestCase {
-    private static final Logger s_logger = Logger.getLogger(AlertControlsUnitTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AlertControlsUnitTest.class);
 
     @Spy
     ManagementServerImpl _mgmtServer = new ManagementServerImpl();

@@ -21,10 +21,6 @@ package com.cloud.network.vpc.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.vpc.NetworkACLItemCidrsDao;
 import com.cloud.network.vpc.NetworkACLItemCidrsVO;
 import com.cloud.utils.db.GenericDaoBase;
@@ -32,13 +28,17 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 /**
  * @author daan
  *
  */
 @Component
 public class NetworkACLItemCidrsDaoImpl extends GenericDaoBase<NetworkACLItemCidrsVO, Long> implements NetworkACLItemCidrsDao {
-    private static final Logger s_logger = Logger.getLogger(NetworkACLItemCidrsDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetworkACLItemCidrsDaoImpl.class);
     protected final SearchBuilder<NetworkACLItemCidrsVO> cidrsSearch;
 
     protected NetworkACLItemCidrsDaoImpl() {

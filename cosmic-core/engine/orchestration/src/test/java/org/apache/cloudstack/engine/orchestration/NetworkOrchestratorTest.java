@@ -27,11 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Matchers;
-
 import com.cloud.network.Network;
 import com.cloud.network.Network.GuestType;
 import com.cloud.network.Network.Service;
@@ -51,13 +46,19 @@ import com.cloud.vm.dao.NicDao;
 import com.cloud.vm.dao.NicIpAliasDao;
 import com.cloud.vm.dao.NicSecondaryIpDao;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Matchers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import junit.framework.TestCase;
 
 /**
  * NetworkManagerImpl implements NetworkManager.
  */
 public class NetworkOrchestratorTest extends TestCase {
-    static final Logger s_logger = Logger.getLogger(NetworkOrchestratorTest.class);
+    static final Logger s_logger = LoggerFactory.getLogger(NetworkOrchestratorTest.class);
 
     NetworkOrchestrator testOrchastrator = new NetworkOrchestrator();
 

@@ -19,14 +19,13 @@ package com.cloud.agent.manager.allocator.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.log4j.NDC;
-
 import com.cloud.deploy.DeploymentPlan;
 import com.cloud.deploy.DeploymentPlanner.ExcludeList;
 import com.cloud.host.Host;
 import com.cloud.host.Host.Type;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.log4j.NDC;
 
 public class FirstFitRoutingAllocator extends FirstFitAllocator {
     @Override

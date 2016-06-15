@@ -16,24 +16,23 @@
 // under the License.
 package com.cloud.server;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.user.Account;
 import com.cloud.user.SSHKeyPair;
+import com.cloud.user.SSHKeyPairVO;
+import com.cloud.user.dao.SSHKeyPairDao;
+
+import org.apache.cloudstack.api.command.user.ssh.RegisterSSHKeyPairCmd;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
-
-import org.apache.cloudstack.api.command.user.ssh.RegisterSSHKeyPairCmd;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.user.Account;
-import com.cloud.user.SSHKeyPairVO;
-import com.cloud.user.dao.SSHKeyPairDao;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ManagementServerImplTest {

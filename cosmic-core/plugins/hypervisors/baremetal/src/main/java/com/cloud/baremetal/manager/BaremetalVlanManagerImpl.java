@@ -17,6 +17,15 @@
 //
 package com.cloud.baremetal.manager;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.inject.Inject;
+
 import com.cloud.baremetal.database.BaremetalRctDao;
 import com.cloud.baremetal.database.BaremetalRctVO;
 import com.cloud.baremetal.networkservice.BaremetalRctResponse;
@@ -40,19 +49,12 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.VirtualMachineProfile;
 import com.google.gson.Gson;
+
 import org.apache.cloudstack.api.AddBaremetalRctCmd;
 import org.apache.cloudstack.api.DeleteBaremetalRctCmd;
 import org.apache.cloudstack.api.ListBaremetalRctCmd;
 import org.apache.cloudstack.utils.baremetal.BaremetalUtils;
 import org.springframework.web.client.RestTemplate;
-
-import javax.inject.Inject;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by frank on 5/8/14.

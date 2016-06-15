@@ -16,15 +16,15 @@
 // under the License.
 package com.cloud.api;
 
-import org.apache.cloudstack.acl.RoleType;
-import org.apache.cloudstack.api.ResponseObject;
-import org.apache.cloudstack.context.CallContext;
-
 import com.cloud.serializer.Param;
 import com.cloud.user.Account;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.GsonBuilder;
+
+import org.apache.cloudstack.acl.RoleType;
+import org.apache.cloudstack.api.ResponseObject;
+import org.apache.cloudstack.context.CallContext;
 
 /**
  * The ApiResonseGsonHelper is different from ApiGsonHelper - it registers one more adapter for String type required for api response encoding

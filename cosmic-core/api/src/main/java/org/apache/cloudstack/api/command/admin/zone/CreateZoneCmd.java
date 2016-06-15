@@ -16,7 +16,8 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.zone;
 
-import org.apache.log4j.Logger;
+import com.cloud.dc.DataCenter;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,14 +29,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.dc.DataCenter;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createZone", description = "Creates a Zone.", responseObject = ZoneResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateZoneCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateZoneCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateZoneCmd.class.getName());
 
     private static final String s_name = "createzoneresponse";
 

@@ -21,10 +21,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.DataCenterIpAddressVO;
 import com.cloud.utils.db.DB;
 import com.cloud.utils.db.GenericDaoBase;
@@ -36,10 +32,14 @@ import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.NetUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 @DB
 public class DataCenterIpAddressDaoImpl extends GenericDaoBase<DataCenterIpAddressVO, Long> implements DataCenterIpAddressDao {
-    private static final Logger s_logger = Logger.getLogger(DataCenterIpAddressDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(DataCenterIpAddressDaoImpl.class);
 
     private final SearchBuilder<DataCenterIpAddressVO> AllFieldsSearch;
     private final GenericSearchBuilder<DataCenterIpAddressVO, Integer> AllIpCount;

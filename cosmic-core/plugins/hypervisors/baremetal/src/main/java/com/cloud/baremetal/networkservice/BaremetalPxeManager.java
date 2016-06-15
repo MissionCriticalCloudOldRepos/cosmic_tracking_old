@@ -24,9 +24,6 @@ package com.cloud.baremetal.networkservice;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.AddBaremetalPxeCmd;
-import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
-
 import com.cloud.baremetal.database.BaremetalPxeVO;
 import com.cloud.deploy.DeployDestination;
 import com.cloud.host.HostVO;
@@ -38,6 +35,9 @@ import com.cloud.utils.component.PluggableService;
 import com.cloud.vm.NicProfile;
 import com.cloud.vm.ReservationContext;
 import com.cloud.vm.VirtualMachineProfile;
+
+import org.apache.cloudstack.api.AddBaremetalPxeCmd;
+import org.apache.cloudstack.api.ListBaremetalPxeServersCmd;
 
 public interface BaremetalPxeManager extends Manager, PluggableService {
     public enum BaremetalPxeType {

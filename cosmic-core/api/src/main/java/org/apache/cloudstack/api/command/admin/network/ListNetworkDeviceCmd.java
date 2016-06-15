@@ -22,7 +22,13 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.host.Host;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -33,19 +39,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.NetworkDeviceResponse;
 import org.apache.cloudstack.network.ExternalNetworkDeviceManager;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.host.Host;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listNetworkDevice", description = "List network devices", responseObject = NetworkDeviceResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ListNetworkDeviceCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListNetworkDeviceCmd.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(ListNetworkDeviceCmd.class);
     private static final String s_name = "listnetworkdevice";
 
     @Inject

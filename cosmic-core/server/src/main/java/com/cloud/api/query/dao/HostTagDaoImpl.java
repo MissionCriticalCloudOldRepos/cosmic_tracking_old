@@ -21,19 +21,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.cloudstack.api.response.HostTagResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.api.query.vo.HostTagVO;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 
+import org.apache.cloudstack.api.response.HostTagResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class HostTagDaoImpl extends GenericDaoBase<HostTagVO, Long> implements HostTagDao {
-    public static final Logger s_logger = Logger.getLogger(HostTagDaoImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(HostTagDaoImpl.class);
 
     @Inject
     private ConfigurationDao _configDao;

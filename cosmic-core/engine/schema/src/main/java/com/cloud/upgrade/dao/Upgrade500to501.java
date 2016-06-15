@@ -6,7 +6,8 @@ import java.sql.Connection;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Upgrade500to501 implements DbUpgrade {
 
@@ -15,7 +16,7 @@ public class Upgrade500to501 implements DbUpgrade {
   private static final String SCHEMA_SCRIPT = "db/schema-500to501.sql";
   private static final String SCHEMA_CLEANUP_SCRIPT = "db/schema-500to501-cleanup.sql";
 
-  final static Logger s_logger = Logger.getLogger(Upgrade500to501.class);
+  final static Logger s_logger = LoggerFactory.getLogger(Upgrade500to501.class);
 
   @Override
   public String[] getUpgradableVersionRange() {

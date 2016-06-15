@@ -16,13 +16,13 @@
 // under the License.
 package org.apache.cloudstack.engine.datacenter.entity.api;
 
+import com.cloud.utils.fsm.NoTransitionException;
+
 import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineClusterVO;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineDataCenterVO;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostVO;
-
-import com.cloud.utils.fsm.NoTransitionException;
 
 public interface DataCenterResourceManager {
 

@@ -29,8 +29,6 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.host.HostVO;
 import com.cloud.host.Status.Event;
@@ -47,13 +45,16 @@ import com.cloud.utils.component.ComponentContext;
 import com.cloud.utils.net.NfsUtils;
 import com.cloud.utils.script.Script;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * SecondaryStorageDiscoverer is used to discover secondary
  * storage servers and make sure everything it can do is
  * correct.
  */
 public class SecondaryStorageDiscoverer extends DiscovererBase implements Discoverer {
-    private static final Logger s_logger = Logger.getLogger(SecondaryStorageDiscoverer.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(SecondaryStorageDiscoverer.class);
 
     long _timeout = 2 * 60 * 1000; // 2 minutes
     String _mountParent;

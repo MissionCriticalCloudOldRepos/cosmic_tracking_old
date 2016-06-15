@@ -19,6 +19,9 @@ package org.apache.cloudstack.api.command.user.resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.configuration.ResourceCount;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.ApiErrorCode;
@@ -30,15 +33,13 @@ import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.ResourceCountResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
-import com.cloud.configuration.ResourceCount;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateResourceCount", description = "Recalculate and update resource count for an account or domain.", responseObject = ResourceCountResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpdateResourceCountCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdateResourceCountCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdateResourceCountCmd.class.getName());
 
     private static final String s_name = "updateresourcecountresponse";
 

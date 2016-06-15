@@ -28,19 +28,6 @@ import java.util.UUID;
 
 import javax.naming.ConfigurationException;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import org.apache.cloudstack.storage.command.CopyCmdAnswer;
-import org.apache.cloudstack.storage.command.CopyCommand;
-import org.apache.cloudstack.storage.command.DownloadCommand;
-import org.apache.cloudstack.storage.to.TemplateObjectTO;
-
 import com.cloud.agent.api.storage.DownloadAnswer;
 import com.cloud.agent.api.storage.ListTemplateAnswer;
 import com.cloud.agent.api.storage.ListTemplateCommand;
@@ -52,10 +39,23 @@ import com.cloud.storage.Storage;
 import com.cloud.utils.PropertiesUtil;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.cloudstack.storage.command.CopyCmdAnswer;
+import org.apache.cloudstack.storage.command.CopyCommand;
+import org.apache.cloudstack.storage.command.DownloadCommand;
+import org.apache.cloudstack.storage.to.TemplateObjectTO;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
 public class LocalNfsSecondaryStorageResourceTest extends TestCase {
     private static Map<String, Object> testParams;
 
-    private static final Logger s_logger = Logger.getLogger(LocalNfsSecondaryStorageResourceTest.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(LocalNfsSecondaryStorageResourceTest.class.getName());
 
     LocalNfsSecondaryStorageResource resource;
 

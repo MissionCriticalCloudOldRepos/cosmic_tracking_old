@@ -28,10 +28,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.ConfigurePublicIpsOnLogicalRouterCommand;
 import com.cloud.agent.api.CreateLogicalSwitchCommand;
@@ -46,6 +42,10 @@ import com.cloud.network.nicira.LogicalSwitch;
 import com.cloud.network.nicira.NiciraNvpApi;
 import com.cloud.network.nicira.NiciraNvpApiException;
 import com.cloud.network.nicira.VifAttachment;
+
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 public class NiciraNvpRequestWrapperTest {
 

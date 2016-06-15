@@ -21,9 +21,13 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import com.cloud.api.dispatch.DispatchChain;
+import com.cloud.api.dispatch.DispatchChainFactory;
+import com.cloud.api.dispatch.DispatchTask;
 import com.cloud.projects.Project;
+import com.cloud.user.Account;
+import com.cloud.user.AccountManager;
 import com.cloud.utils.db.EntityManager;
-import org.apache.log4j.Logger;
 
 import org.apache.cloudstack.acl.ControlledEntity;
 import org.apache.cloudstack.acl.InfrastructureEntity;
@@ -38,15 +42,11 @@ import org.apache.cloudstack.api.BaseCustomIdCmd;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.jobs.AsyncJob;
 import org.apache.cloudstack.framework.jobs.AsyncJobManager;
-
-import com.cloud.api.dispatch.DispatchChain;
-import com.cloud.api.dispatch.DispatchChainFactory;
-import com.cloud.api.dispatch.DispatchTask;
-import com.cloud.user.Account;
-import com.cloud.user.AccountManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ApiDispatcher {
-    private static final Logger s_logger = Logger.getLogger(ApiDispatcher.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(ApiDispatcher.class.getName());
 
     Long _createSnapshotQueueSizeLimit;
 

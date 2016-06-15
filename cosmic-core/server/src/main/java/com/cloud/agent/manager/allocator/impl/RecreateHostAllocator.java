@@ -26,11 +26,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
-
 import com.cloud.dc.ClusterVO;
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
@@ -53,9 +48,14 @@ import com.cloud.utils.Pair;
 import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class RecreateHostAllocator extends FirstFitRoutingAllocator {
-    private final static Logger s_logger = Logger.getLogger(RecreateHostAllocator.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(RecreateHostAllocator.class);
 
     @Inject
     HostPodDao _podDao;

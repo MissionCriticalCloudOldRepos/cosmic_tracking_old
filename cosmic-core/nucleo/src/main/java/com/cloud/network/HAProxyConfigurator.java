@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.routing.LoadBalancerConfigCommand;
 import com.cloud.agent.api.to.LoadBalancerTO;
 import com.cloud.agent.api.to.LoadBalancerTO.DestinationTO;
@@ -38,9 +36,12 @@ import com.cloud.network.rules.LbStickinessMethod.StickinessMethodType;
 import com.cloud.utils.Pair;
 import com.cloud.utils.net.NetUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class HAProxyConfigurator implements LoadBalancerConfigurator {
 
-    private static final Logger s_logger = Logger.getLogger(HAProxyConfigurator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(HAProxyConfigurator.class);
     private static final String blankLine = "\t ";
     private static String[] globalSection = {"global", "\tlog 127.0.0.1:3914   local0 warning", "\tmaxconn 4096", "\tmaxpipes 1024", "\tchroot /var/lib/haproxy",
         "\tuser haproxy", "\tgroup haproxy", "\tdaemon"};

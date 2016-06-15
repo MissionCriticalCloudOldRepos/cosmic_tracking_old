@@ -16,12 +16,10 @@
 // under the License.
 package com.cloud.vm.dao;
 
-
-import org.springframework.stereotype.Component;
+import com.cloud.vm.NicDetailVO;
 
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
-
-import com.cloud.vm.NicDetailVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class NicDetailsDaoImpl extends ResourceDetailsDaoBase<NicDetailVO> implements NicDetailsDao {

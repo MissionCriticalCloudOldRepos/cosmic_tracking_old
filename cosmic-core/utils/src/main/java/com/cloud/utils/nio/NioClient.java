@@ -30,10 +30,11 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
 import org.apache.cloudstack.utils.security.SSLUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NioClient extends NioConnection {
-    private static final Logger s_logger = Logger.getLogger(NioClient.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NioClient.class);
 
     protected String _host;
     protected String _bindAddress;

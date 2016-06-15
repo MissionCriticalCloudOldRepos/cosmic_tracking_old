@@ -27,17 +27,17 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.commons.collections.map.HashedMap;
-import org.junit.Before;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-
 import com.cloud.exception.ResourceAllocationException;
 import com.cloud.server.ResourceTag;
 import com.cloud.server.TaggedResourceService;
 import com.cloud.storage.dao.VolumeDetailsDao;
 import com.cloud.vm.dao.NicDetailsDao;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.junit.Before;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 public class ResourceMetaDataManagerTest {
 

@@ -16,12 +16,6 @@
 // under the License.
 package org.apache.cloudstack.api.response;
 
-import org.apache.cloudstack.acl.RoleType;
-import org.apache.cloudstack.affinity.AffinityGroupResponse;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.BaseResponse;
-import org.apache.cloudstack.api.EntityReference;
-
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -32,6 +26,12 @@ import com.cloud.serializer.Param;
 import com.cloud.uservm.UserVm;
 import com.cloud.vm.VirtualMachine;
 import com.google.gson.annotations.SerializedName;
+
+import org.apache.cloudstack.acl.RoleType;
+import org.apache.cloudstack.affinity.AffinityGroupResponse;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.BaseResponse;
+import org.apache.cloudstack.api.EntityReference;
 
 @SuppressWarnings("unused")
 @EntityReference(value = {VirtualMachine.class, UserVm.class, VirtualRouter.class})

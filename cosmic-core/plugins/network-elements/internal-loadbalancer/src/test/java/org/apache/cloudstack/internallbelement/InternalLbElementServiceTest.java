@@ -23,16 +23,6 @@ import static org.junit.Assert.assertTrue;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.apache.cloudstack.network.element.InternalLoadBalancerElementService;
-
 import com.cloud.exception.InvalidParameterValueException;
 import com.cloud.network.VirtualRouterProvider;
 import com.cloud.network.VirtualRouterProvider.Type;
@@ -42,6 +32,15 @@ import com.cloud.network.dao.VirtualRouterProviderDao;
 import com.cloud.network.element.VirtualRouterProviderVO;
 import com.cloud.user.AccountManager;
 import com.cloud.utils.component.ComponentContext;
+
+import org.apache.cloudstack.network.element.InternalLoadBalancerElementService;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/lb_element.xml")

@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
@@ -43,12 +41,15 @@ import com.cloud.host.Status;
 import com.cloud.network.security.SecurityGroupWork.Step;
 import com.cloud.network.security.dao.SecurityGroupWorkDao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Listens for answers to ingress rules modification commands
  *
  */
 public class SecurityGroupListener implements Listener {
-    public static final Logger s_logger = Logger.getLogger(SecurityGroupListener.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(SecurityGroupListener.class.getName());
 
     private static final int MAX_RETRIES_ON_FAILURE = 3;
     private static final int MIN_TIME_BETWEEN_CLEANUPS = 30 * 60;//30 minutes

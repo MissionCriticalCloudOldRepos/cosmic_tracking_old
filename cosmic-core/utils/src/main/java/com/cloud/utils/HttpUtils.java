@@ -19,17 +19,19 @@
 
 package com.cloud.utils;
 
-import org.apache.log4j.Logger;
+import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HttpUtils {
 
-    public static final Logger s_logger = Logger.getLogger(HttpUtils.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(HttpUtils.class);
 
     public static final String UTF_8 = "UTF-8";
     public static final String RESPONSE_TYPE_JSON = "json";

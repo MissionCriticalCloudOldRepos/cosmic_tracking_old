@@ -16,12 +16,10 @@
 // under the License.
 package com.cloud.vm.dao;
 
-
-import org.springframework.stereotype.Component;
+import com.cloud.vm.UserVmDetailVO;
 
 import org.apache.cloudstack.resourcedetail.ResourceDetailsDaoBase;
-
-import com.cloud.vm.UserVmDetailVO;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UserVmDetailsDaoImpl extends ResourceDetailsDaoBase<UserVmDetailVO> implements UserVmDetailsDao {

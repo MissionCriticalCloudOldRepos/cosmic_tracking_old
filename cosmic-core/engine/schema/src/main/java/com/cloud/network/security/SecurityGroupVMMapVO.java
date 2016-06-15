@@ -26,9 +26,9 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 
-import org.apache.cloudstack.api.InternalIdentity;
-
 import com.cloud.vm.VirtualMachine.State;
+
+import org.apache.cloudstack.api.InternalIdentity;
 
 @Entity
 @Table(name = ("security_group_vm_map"))

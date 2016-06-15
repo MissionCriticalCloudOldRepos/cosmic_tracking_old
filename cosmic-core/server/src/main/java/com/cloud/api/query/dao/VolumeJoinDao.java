@@ -18,12 +18,12 @@ package com.cloud.api.query.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.response.VolumeResponse;
-
 import com.cloud.api.query.vo.VolumeJoinVO;
 import com.cloud.storage.Volume;
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.response.VolumeResponse;
 
 public interface VolumeJoinDao extends GenericDao<VolumeJoinVO, Long> {
 

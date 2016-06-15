@@ -16,7 +16,6 @@
 // under the License.
 package com.cloud.network.router;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -25,10 +24,6 @@ import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.cloud.network.router.deployment.RouterDeploymentDefinition;
 
 import com.cloud.dc.dao.VlanDao;
 import com.cloud.exception.ConcurrentOperationException;
@@ -48,10 +43,15 @@ import com.cloud.service.ServiceOfferingVO;
 import com.cloud.storage.VMTemplateVO;
 import com.cloud.vm.NicProfile;
 
+import org.apache.commons.lang.StringUtils;
+import org.cloud.network.router.deployment.RouterDeploymentDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class VpcNetworkHelperImpl extends NetworkHelperImpl {
 
-    private static final Logger s_logger = Logger.getLogger(VpcNetworkHelperImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VpcNetworkHelperImpl.class);
 
     @Inject
     private VlanDao _vlanDao;

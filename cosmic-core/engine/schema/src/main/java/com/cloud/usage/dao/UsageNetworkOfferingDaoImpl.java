@@ -24,19 +24,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
 import com.cloud.exception.CloudException;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.usage.UsageNetworkOfferingVO;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class UsageNetworkOfferingDaoImpl extends GenericDaoBase<UsageNetworkOfferingVO, Long> implements UsageNetworkOfferingDao {
-    public static final Logger s_logger = Logger.getLogger(UsageNetworkOfferingDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UsageNetworkOfferingDaoImpl.class.getName());
 
     protected static final String UPDATE_DELETED =
         "UPDATE usage_network_offering SET deleted = ? WHERE account_id = ? AND vm_instance_id = ? AND network_offering_id = ? and deleted IS NULL";

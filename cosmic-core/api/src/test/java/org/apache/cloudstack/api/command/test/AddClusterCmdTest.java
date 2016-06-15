@@ -18,23 +18,22 @@ package org.apache.cloudstack.api.command.test;
 
 import java.util.Arrays;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import com.cloud.exception.DiscoveryException;
+import com.cloud.exception.ResourceInUseException;
+import com.cloud.org.Cluster;
+import com.cloud.resource.ResourceService;
 
+import org.apache.cloudstack.api.ResponseGenerator;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.command.admin.cluster.AddClusterCmd;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
-import org.apache.cloudstack.api.ResponseGenerator;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.command.admin.cluster.AddClusterCmd;
-
-import com.cloud.exception.DiscoveryException;
-import com.cloud.exception.ResourceInUseException;
-import com.cloud.org.Cluster;
-import com.cloud.resource.ResourceService;
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 public class AddClusterCmdTest extends TestCase {
 

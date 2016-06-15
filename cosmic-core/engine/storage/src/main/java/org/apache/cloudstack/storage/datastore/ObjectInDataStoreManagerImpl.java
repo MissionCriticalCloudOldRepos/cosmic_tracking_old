@@ -18,8 +18,20 @@ package org.apache.cloudstack.storage.datastore;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import com.cloud.agent.api.to.DataObjectType;
+import com.cloud.agent.api.to.S3TO;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.SnapshotVO;
+import com.cloud.storage.VMTemplateStoragePoolVO;
+import com.cloud.storage.dao.SnapshotDao;
+import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.storage.dao.VMTemplatePoolDao;
+import com.cloud.storage.dao.VolumeDao;
+import com.cloud.storage.template.TemplateConstants;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.fsm.NoTransitionException;
+import com.cloud.utils.fsm.StateMachine2;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObjectInStore;
@@ -40,25 +52,13 @@ import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreVO;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
 import org.apache.cloudstack.storage.db.ObjectInDataStoreDao;
-
-import com.cloud.agent.api.to.DataObjectType;
-import com.cloud.agent.api.to.S3TO;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.SnapshotVO;
-import com.cloud.storage.VMTemplateStoragePoolVO;
-import com.cloud.storage.dao.SnapshotDao;
-import com.cloud.storage.dao.VMTemplateDao;
-import com.cloud.storage.dao.VMTemplatePoolDao;
-import com.cloud.storage.dao.VolumeDao;
-import com.cloud.storage.template.TemplateConstants;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.fsm.NoTransitionException;
-import com.cloud.utils.fsm.StateMachine2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ObjectInDataStoreManagerImpl implements ObjectInDataStoreManager {
-    private static final Logger s_logger = Logger.getLogger(ObjectInDataStoreManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ObjectInDataStoreManagerImpl.class);
     @Inject
     TemplateDataFactory imageFactory;
     @Inject

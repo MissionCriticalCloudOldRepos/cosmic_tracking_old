@@ -18,7 +18,15 @@ package org.apache.cloudstack.api.command.admin.systemvm;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.ManagementServerException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.exception.VirtualMachineMigrationException;
+import com.cloud.offering.ServiceOffering;
+import com.cloud.user.Account;
+import com.cloud.vm.VirtualMachine;
 
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
 import org.apache.cloudstack.api.ACL;
@@ -32,22 +40,14 @@ import org.apache.cloudstack.api.command.user.vm.UpgradeVMCmd;
 import org.apache.cloudstack.api.response.ServiceOfferingResponse;
 import org.apache.cloudstack.api.response.SystemVmResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.ManagementServerException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.exception.VirtualMachineMigrationException;
-import com.cloud.offering.ServiceOffering;
-import com.cloud.user.Account;
-import com.cloud.vm.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "scaleSystemVm", responseObject = SystemVmResponse.class, description = "Scale the service offering for a system vm (console proxy or secondary storage). "
         + "The system vm must be in a \"Stopped\" state for " + "this command to take effect.", entityType = {VirtualMachine.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class ScaleSystemVMCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(UpgradeVMCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpgradeVMCmd.class.getName());
     private static final String s_name = "changeserviceforsystemvmresponse";
 
     /////////////////////////////////////////////////////

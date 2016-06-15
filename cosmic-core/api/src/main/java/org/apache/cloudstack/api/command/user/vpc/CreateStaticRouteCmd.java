@@ -24,6 +24,7 @@ import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.vpc.StaticRoute;
 import com.cloud.network.vpc.Vpc;
 import com.cloud.network.vpc.VpcGateway;
+
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
 import org.apache.cloudstack.api.ApiConstants;
@@ -36,13 +37,14 @@ import org.apache.cloudstack.api.response.PrivateGatewayResponse;
 import org.apache.cloudstack.api.response.StaticRouteResponse;
 import org.apache.cloudstack.api.response.VpcResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createStaticRoute", description = "Creates a static route", responseObject = StaticRouteResponse.class, entityType = {StaticRoute.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateStaticRouteCmd extends BaseAsyncCreateCmd {
     private static final String s_name = "createstaticrouteresponse";
-    public static final Logger s_logger = Logger.getLogger(CreateStaticRouteCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateStaticRouteCmd.class.getName());
 
     @Parameter(name = ApiConstants.VPC_ID,
                type = CommandType.UUID,

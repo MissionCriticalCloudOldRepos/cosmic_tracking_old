@@ -16,7 +16,11 @@
 // under the License.
 package org.apache.cloudstack.framework.jobs;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.user.Account;
+import com.cloud.user.User;
 
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.jobs.dao.AsyncJobJoinMapDao;
@@ -25,15 +29,11 @@ import org.apache.cloudstack.framework.jobs.impl.JobSerializerHelper;
 import org.apache.cloudstack.framework.jobs.impl.SyncQueueItem;
 import org.apache.cloudstack.jobs.JobInfo;
 import org.apache.cloudstack.managed.threadlocal.ManagedThreadLocal;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.user.Account;
-import com.cloud.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AsyncJobExecutionContext  {
-    private static final Logger s_logger = Logger.getLogger(AsyncJobExecutionContext.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AsyncJobExecutionContext.class);
 
     private AsyncJob _job;
 

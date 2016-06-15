@@ -16,19 +16,19 @@
 // under the License.
 package com.cloud.keystore;
 
-import junit.framework.TestCase;
-
-import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
+import com.cloud.api.ApiSerializerHelper;
 
 import org.apache.cloudstack.api.response.AlertResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
+import org.junit.After;
+import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.cloud.api.ApiSerializerHelper;
+import junit.framework.TestCase;
 
 public class KeystoreTest extends TestCase {
-    private final static Logger s_logger = Logger.getLogger(KeystoreTest.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(KeystoreTest.class);
 
     private final String keyContent = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBALV5vGlkiWwoZX4hTRplPXP8qtST\n"
         + "hwZhko8noeY5vf8ECwmd+vrCTw/JvnOtkx/8oYNbg/SeUt1EfOsk6gqJdBblGFBZRMcUJlIpqE9z\n"

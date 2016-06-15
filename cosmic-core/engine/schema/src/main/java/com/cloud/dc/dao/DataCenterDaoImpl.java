@@ -25,9 +25,6 @@ import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 import javax.persistence.TableGenerator;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.dc.DataCenterDetailVO;
 import com.cloud.dc.DataCenterIpAddressVO;
 import com.cloud.dc.DataCenterLinkLocalIpAddressVO;
@@ -47,6 +44,10 @@ import com.cloud.utils.db.SequenceFetcher;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.net.NetUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 /**
  * @config
  * {@table
@@ -56,7 +57,7 @@ import com.cloud.utils.net.NetUtils;
  **/
 @Component
 public class DataCenterDaoImpl extends GenericDaoBase<DataCenterVO, Long> implements DataCenterDao {
-    private static final Logger s_logger = Logger.getLogger(DataCenterDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(DataCenterDaoImpl.class);
 
     protected SearchBuilder<DataCenterVO> NameSearch;
     protected SearchBuilder<DataCenterVO> ListZonesByDomainIdSearch;

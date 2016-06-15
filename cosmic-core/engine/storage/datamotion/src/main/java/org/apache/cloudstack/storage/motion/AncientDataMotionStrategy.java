@@ -23,8 +23,25 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import com.cloud.agent.api.Answer;
+import com.cloud.agent.api.storage.MigrateVolumeAnswer;
+import com.cloud.agent.api.storage.MigrateVolumeCommand;
+import com.cloud.agent.api.to.DataObjectType;
+import com.cloud.agent.api.to.DataStoreTO;
+import com.cloud.agent.api.to.DataTO;
+import com.cloud.agent.api.to.NfsTO;
+import com.cloud.agent.api.to.VirtualMachineTO;
+import com.cloud.configuration.Config;
+import com.cloud.host.Host;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.Storage.StoragePoolType;
+import com.cloud.storage.StoragePool;
+import com.cloud.storage.VolumeVO;
+import com.cloud.storage.dao.VolumeDao;
+import com.cloud.utils.NumbersUtil;
+import com.cloud.utils.db.DB;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.vm.VirtualMachineManager;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.ClusterScope;
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
@@ -49,30 +66,13 @@ import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.cloudstack.storage.RemoteHostEndPoint;
 import org.apache.cloudstack.storage.command.CopyCommand;
 import org.apache.cloudstack.storage.image.datastore.ImageStoreEntity;
-
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.storage.MigrateVolumeAnswer;
-import com.cloud.agent.api.storage.MigrateVolumeCommand;
-import com.cloud.agent.api.to.DataObjectType;
-import com.cloud.agent.api.to.DataStoreTO;
-import com.cloud.agent.api.to.DataTO;
-import com.cloud.agent.api.to.NfsTO;
-import com.cloud.agent.api.to.VirtualMachineTO;
-import com.cloud.configuration.Config;
-import com.cloud.host.Host;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.StoragePool;
-import com.cloud.storage.VolumeVO;
-import com.cloud.storage.Storage.StoragePoolType;
-import com.cloud.storage.dao.VolumeDao;
-import com.cloud.utils.NumbersUtil;
-import com.cloud.utils.db.DB;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.vm.VirtualMachineManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class AncientDataMotionStrategy implements DataMotionStrategy {
-    private static final Logger s_logger = Logger.getLogger(AncientDataMotionStrategy.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AncientDataMotionStrategy.class);
     @Inject
     EndPointSelector selector;
     @Inject

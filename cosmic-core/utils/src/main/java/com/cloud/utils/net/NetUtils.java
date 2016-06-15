@@ -40,12 +40,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
-import org.apache.commons.net.util.SubnetUtils;
-import org.apache.commons.validator.routines.InetAddressValidator;
-import org.apache.log4j.Logger;
-
 import com.cloud.utils.IteratorUtil;
 import com.cloud.utils.Pair;
 import com.cloud.utils.exception.CloudRuntimeException;
@@ -54,8 +48,15 @@ import com.googlecode.ipv6.IPv6Address;
 import com.googlecode.ipv6.IPv6AddressRange;
 import com.googlecode.ipv6.IPv6Network;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.net.util.SubnetUtils;
+import org.apache.commons.validator.routines.InetAddressValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NetUtils {
-    protected final static Logger s_logger = Logger.getLogger(NetUtils.class);
+    protected final static Logger s_logger = LoggerFactory.getLogger(NetUtils.class);
 
     private static final int MAX_CIDR = 32;
     private static final int RFC_3021_31_BIT_CIDR = 31;

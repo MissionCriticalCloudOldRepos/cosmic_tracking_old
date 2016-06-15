@@ -19,7 +19,9 @@ package org.apache.cloudstack.api.command.user.autoscale;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.network.as.AutoScaleVmProfile;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.acl.SecurityChecker.AccessType;
@@ -35,15 +37,13 @@ import org.apache.cloudstack.api.response.AutoScaleVmProfileResponse;
 import org.apache.cloudstack.api.response.TemplateResponse;
 import org.apache.cloudstack.api.response.UserResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.network.as.AutoScaleVmProfile;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateAutoScaleVmProfile", description = "Updates an existing autoscale vm profile.", responseObject = AutoScaleVmProfileResponse.class, entityType = {AutoScaleVmProfile.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpdateAutoScaleVmProfileCmd extends BaseAsyncCustomIdCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdateAutoScaleVmProfileCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdateAutoScaleVmProfileCmd.class.getName());
 
     private static final String s_name = "updateautoscalevmprofileresponse";
 

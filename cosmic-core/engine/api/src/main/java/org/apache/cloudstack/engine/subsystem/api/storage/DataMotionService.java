@@ -20,10 +20,10 @@ package org.apache.cloudstack.engine.subsystem.api.storage;
 
 import java.util.Map;
 
-import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
-
 import com.cloud.agent.api.to.VirtualMachineTO;
 import com.cloud.host.Host;
+
+import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
 
 public interface DataMotionService {
     void copyAsync(DataObject srcData, DataObject destData, Host destHost, AsyncCompletionCallback<CopyCommandResult> callback);

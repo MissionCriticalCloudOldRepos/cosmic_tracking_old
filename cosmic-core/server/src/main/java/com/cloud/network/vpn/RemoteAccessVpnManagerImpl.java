@@ -24,16 +24,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.acl.SecurityChecker.AccessType;
-import org.apache.cloudstack.api.command.user.vpn.ListRemoteAccessVpnsCmd;
-import org.apache.cloudstack.api.command.user.vpn.ListVpnUsersCmd;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.framework.config.Configurable;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.configuration.Config;
 import com.cloud.domain.DomainVO;
 import com.cloud.domain.dao.DomainDao;
@@ -91,8 +81,18 @@ import com.cloud.utils.db.TransactionCallbackWithException;
 import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.net.NetUtils;
 
+import org.apache.cloudstack.acl.SecurityChecker.AccessType;
+import org.apache.cloudstack.api.command.user.vpn.ListRemoteAccessVpnsCmd;
+import org.apache.cloudstack.api.command.user.vpn.ListVpnUsersCmd;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.framework.config.Configurable;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RemoteAccessVpnManagerImpl extends ManagerBase implements RemoteAccessVpnService, Configurable {
-    private final static Logger s_logger = Logger.getLogger(RemoteAccessVpnManagerImpl.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(RemoteAccessVpnManagerImpl.class);
 
     static final ConfigKey<String> RemoteAccessVpnClientIpRange = new ConfigKey<String>("Network", String.class, RemoteAccessVpnClientIpRangeCK, "10.1.2.1-10.1.2.8",
         "The range of ips to be allocated to remote access vpn clients. The first ip in the range is used by the VPN server", false, ConfigKey.Scope.Account);

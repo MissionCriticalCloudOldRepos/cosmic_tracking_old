@@ -29,10 +29,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PropertiesUtil {
-    private static final Logger s_logger = Logger.getLogger(PropertiesUtil.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PropertiesUtil.class);
 
     /**
      * Searches the class path and local paths to find the config file.

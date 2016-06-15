@@ -18,9 +18,8 @@
  */
 package org.apache.cloudstack.storage.datastore.type;
 
-import org.springframework.stereotype.Component;
-
 import org.apache.cloudstack.storage.BaseType;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ISCSI extends BaseType implements DataStoreType {

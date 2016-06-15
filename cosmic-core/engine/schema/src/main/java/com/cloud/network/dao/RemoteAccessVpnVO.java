@@ -16,8 +16,7 @@
 // under the License.
 package com.cloud.network.dao;
 
-import com.cloud.network.RemoteAccessVpn;
-import com.cloud.utils.db.Encrypt;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +24,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.UUID;
+
+import com.cloud.network.RemoteAccessVpn;
+import com.cloud.utils.db.Encrypt;
 
 @Entity
 @Table(name = ("remote_access_vpn"))

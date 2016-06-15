@@ -20,15 +20,15 @@ package org.apache.cloudstack.storage.image.datastore;
 
 import java.util.Set;
 
+import com.cloud.storage.ImageStore;
+import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.Upload;
+
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObject;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.SnapshotInfo;
 import org.apache.cloudstack.engine.subsystem.api.storage.TemplateInfo;
 import org.apache.cloudstack.engine.subsystem.api.storage.VolumeInfo;
-
-import com.cloud.storage.ImageStore;
-import com.cloud.storage.Storage.ImageFormat;
 
 public interface ImageStoreEntity extends DataStore, ImageStore {
     TemplateInfo getTemplate(long templateId);

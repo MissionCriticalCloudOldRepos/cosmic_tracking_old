@@ -16,21 +16,6 @@
 // under the License.
 package org.apache.cloudstack.api.command.test;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
-import org.apache.cloudstack.api.ResponseGenerator;
-import org.apache.cloudstack.api.command.user.vm.AddIpToVmNicCmd;
-import org.apache.cloudstack.api.command.user.vm.RemoveIpFromVmNicCmd;
-import org.apache.cloudstack.api.response.NicSecondaryIpResponse;
-import org.apache.cloudstack.api.response.SuccessResponse;
-
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientAddressCapacityException;
 import com.cloud.exception.InsufficientCapacityException;
@@ -39,6 +24,19 @@ import com.cloud.exception.ResourceAllocationException;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.NetworkService;
 import com.cloud.vm.NicSecondaryIp;
+
+import org.apache.cloudstack.api.ResponseGenerator;
+import org.apache.cloudstack.api.command.user.vm.AddIpToVmNicCmd;
+import org.apache.cloudstack.api.command.user.vm.RemoveIpFromVmNicCmd;
+import org.apache.cloudstack.api.response.NicSecondaryIpResponse;
+import org.apache.cloudstack.api.response.SuccessResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
 
 public class AddIpToVmNicTest extends TestCase {
 

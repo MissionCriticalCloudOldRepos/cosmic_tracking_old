@@ -17,6 +17,8 @@
 //
 package org.apache.cloudstack.api;
 
+import javax.inject.Inject;
+
 import com.cloud.baremetal.manager.BaremetalVlanManager;
 import com.cloud.baremetal.networkservice.BaremetalRctResponse;
 import com.cloud.event.EventTypes;
@@ -25,11 +27,11 @@ import com.cloud.exception.InsufficientCapacityException;
 import com.cloud.exception.NetworkRuleConflictException;
 import com.cloud.exception.ResourceAllocationException;
 import com.cloud.exception.ResourceUnavailableException;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
-import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by frank on 5/8/14.
@@ -38,7 +40,7 @@ import javax.inject.Inject;
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false, authorized = {RoleType.Admin})
 public class AddBaremetalRctCmd extends BaseAsyncCmd {
     private static final String s_name = "addbaremetalrctresponse";
-    public static final Logger s_logger = Logger.getLogger(AddBaremetalRctCmd.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(AddBaremetalRctCmd.class);
 
     @Inject
     private BaremetalVlanManager vlanMgr;

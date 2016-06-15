@@ -18,9 +18,9 @@ package org.apache.cloudstack.engine.datacenter.entity.api.db.dao;
 
 import java.util.Map;
 
-import org.apache.cloudstack.engine.datacenter.entity.api.db.DcDetailVO;
-
 import com.cloud.utils.db.GenericDao;
+
+import org.apache.cloudstack.engine.datacenter.entity.api.db.DcDetailVO;
 
 public interface DcDetailsDao extends GenericDao<DcDetailVO, Long> {
     Map<String, String> findDetails(long dcId);

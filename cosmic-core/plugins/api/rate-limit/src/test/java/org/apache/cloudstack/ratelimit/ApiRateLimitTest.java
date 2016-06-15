@@ -29,13 +29,6 @@ import java.util.concurrent.Executors;
 
 import javax.naming.ConfigurationException;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import org.apache.cloudstack.api.response.ApiLimitResponse;
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.configuration.Config;
 import com.cloud.exception.RequestLimitException;
 import com.cloud.user.Account;
@@ -43,6 +36,12 @@ import com.cloud.user.AccountService;
 import com.cloud.user.AccountVO;
 import com.cloud.user.User;
 import com.cloud.user.UserVO;
+
+import org.apache.cloudstack.api.response.ApiLimitResponse;
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class ApiRateLimitTest {
 

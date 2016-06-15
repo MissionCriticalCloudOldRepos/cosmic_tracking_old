@@ -20,22 +20,33 @@ package com.cloud.network.firewall;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.spy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.IpAddressManager;
+import com.cloud.network.Network;
 import com.cloud.network.NetworkModel;
+import com.cloud.network.NetworkRuleApplier;
 import com.cloud.network.dao.FirewallRulesDao;
+import com.cloud.network.element.FirewallServiceProvider;
+import com.cloud.network.element.VirtualRouterElement;
+import com.cloud.network.element.VpcVirtualRouterElement;
+import com.cloud.network.rules.FirewallManager;
+import com.cloud.network.rules.FirewallRule;
+import com.cloud.network.rules.FirewallRule.Purpose;
+import com.cloud.network.rules.FirewallRuleVO;
 import com.cloud.network.vpc.VpcManager;
 import com.cloud.user.AccountManager;
 import com.cloud.user.DomainManager;
-import junit.framework.Assert;
+import com.cloud.utils.component.ComponentContext;
 
-import org.apache.log4j.Logger;
+import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -44,33 +55,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.cloudstack.engine.orchestration.service.NetworkOrchestrationService;
-
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.IpAddressManager;
-import com.cloud.network.Network;
-import com.cloud.network.NetworkRuleApplier;
-import com.cloud.network.element.FirewallServiceProvider;
-import com.cloud.network.element.VirtualRouterElement;
-import com.cloud.network.element.VpcVirtualRouterElement;
-import com.cloud.network.rules.FirewallManager;
-import com.cloud.network.rules.FirewallRule;
-import com.cloud.network.rules.FirewallRule.Purpose;
-import com.cloud.network.rules.FirewallRuleVO;
-import com.cloud.utils.component.ComponentContext;
+import junit.framework.Assert;
 
 //@Ignore("Requires database to be set up")
 @RunWith(MockitoJUnitRunner.class)
 //@ContextConfiguration(locations = "classpath:/testContext.xml")
 //@ComponentSetup(managerName="management-server", setupXml="network-mgr-component.xml")
 public class FirewallManagerTest {
-    private static final Logger s_logger = Logger.getLogger(FirewallManagerTest.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(FirewallManagerTest.class);
 
 //    @Before
 //    public void setUp() {
-//        Logger daoLogger = Logger.getLogger(GenericDaoBase.class);
-//        Logger cloudLogger = Logger.getLogger("com.cloud");
+//        Logger daoLogger = LoggerFactory.getLogger(GenericDaoBase.class);
+//        Logger cloudLogger = LoggerFactory.getLogger("com.cloud");
 //
 //        componentlogger.setLevel(Level.WARN);
 //        daoLogger.setLevel(Level.ERROR);

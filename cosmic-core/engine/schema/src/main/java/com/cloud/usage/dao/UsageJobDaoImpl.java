@@ -21,10 +21,6 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.usage.UsageJobVO;
 import com.cloud.utils.db.Filter;
 import com.cloud.utils.db.GenericDaoBase;
@@ -32,9 +28,13 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class UsageJobDaoImpl extends GenericDaoBase<UsageJobVO, Long> implements UsageJobDao {
-    private static final Logger s_logger = Logger.getLogger(UsageJobDaoImpl.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(UsageJobDaoImpl.class.getName());
 
     private static final String GET_LAST_JOB_SUCCESS_DATE_MILLIS =
         "SELECT end_millis FROM cloud_usage.usage_job WHERE end_millis > 0 and success = 1 ORDER BY end_millis DESC LIMIT 1";

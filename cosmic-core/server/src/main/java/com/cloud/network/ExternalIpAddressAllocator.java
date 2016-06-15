@@ -29,17 +29,17 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
-
 import com.cloud.dc.dao.VlanDao;
 import com.cloud.network.dao.IPAddressDao;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ExternalIpAddressAllocator extends AdapterBase implements IpAddrAllocator {
-    private static final Logger s_logger = Logger.getLogger(ExternalIpAddressAllocator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ExternalIpAddressAllocator.class);
     @Inject
     ConfigurationDao _configDao = null;
     @Inject

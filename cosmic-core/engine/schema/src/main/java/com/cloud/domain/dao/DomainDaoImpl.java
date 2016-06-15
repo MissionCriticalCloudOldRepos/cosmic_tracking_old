@@ -23,10 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.domain.Domain;
 import com.cloud.domain.DomainVO;
 import com.cloud.utils.db.DB;
@@ -36,9 +32,13 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class DomainDaoImpl extends GenericDaoBase<DomainVO, Long> implements DomainDao {
-    private static final Logger s_logger = Logger.getLogger(DomainDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(DomainDaoImpl.class);
 
     protected SearchBuilder<DomainVO> DomainNameLikeSearch;
     protected SearchBuilder<DomainVO> ParentDomainNameLikeSearch;

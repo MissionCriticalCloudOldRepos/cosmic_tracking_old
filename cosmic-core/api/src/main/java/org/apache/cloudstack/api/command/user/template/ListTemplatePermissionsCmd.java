@@ -16,15 +16,15 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.template;
 
-import org.apache.log4j.Logger;
+import com.cloud.storage.Storage.ImageFormat;
+import com.cloud.template.VirtualMachineTemplate;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseListTemplateOrIsoPermissionsCmd;
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
 import org.apache.cloudstack.api.response.TemplatePermissionsResponse;
-
-import com.cloud.storage.Storage.ImageFormat;
-import com.cloud.template.VirtualMachineTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listTemplatePermissions", description = "List template visibility and all accounts that have permissions to view this template.", responseObject = TemplatePermissionsResponse.class, responseView = ResponseView.Restricted,
             requestHasSensitiveInfo = false,
@@ -41,7 +41,7 @@ public class ListTemplatePermissionsCmd extends BaseListTemplateOrIsoPermissions
 
     @Override
     protected Logger getLogger() {
-        return Logger.getLogger(ListTemplatePermissionsCmd.class.getName());
+        return LoggerFactory.getLogger(ListTemplatePermissionsCmd.class.getName());
     }
 
     @Override

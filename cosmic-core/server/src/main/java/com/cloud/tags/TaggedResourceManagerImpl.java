@@ -24,16 +24,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import com.cloud.storage.SnapshotPolicyVO;
-import com.cloud.user.dao.AccountDao;
-import com.cloud.utils.exception.CloudRuntimeException;
-import org.apache.cloudstack.api.Identity;
-import org.apache.cloudstack.api.InternalIdentity;
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
 import com.cloud.api.query.dao.ResourceTagJoinDao;
 import com.cloud.dc.DataCenterVO;
 import com.cloud.domain.PartOf;
@@ -54,8 +44,8 @@ import com.cloud.network.dao.Site2SiteVpnConnectionVO;
 import com.cloud.network.dao.Site2SiteVpnGatewayVO;
 import com.cloud.network.rules.FirewallRuleVO;
 import com.cloud.network.rules.PortForwardingRuleVO;
-import com.cloud.network.security.SecurityGroupVO;
 import com.cloud.network.security.SecurityGroupRuleVO;
+import com.cloud.network.security.SecurityGroupVO;
 import com.cloud.network.vpc.NetworkACLItemVO;
 import com.cloud.network.vpc.NetworkACLVO;
 import com.cloud.network.vpc.StaticRouteVO;
@@ -66,6 +56,7 @@ import com.cloud.server.ResourceTag.ResourceObjectType;
 import com.cloud.server.TaggedResourceService;
 import com.cloud.service.ServiceOfferingVO;
 import com.cloud.storage.DiskOfferingVO;
+import com.cloud.storage.SnapshotPolicyVO;
 import com.cloud.storage.SnapshotVO;
 import com.cloud.storage.VMTemplateVO;
 import com.cloud.storage.VolumeVO;
@@ -75,6 +66,7 @@ import com.cloud.user.AccountManager;
 import com.cloud.user.DomainManager;
 import com.cloud.user.OwnedBy;
 import com.cloud.user.UserVO;
+import com.cloud.user.dao.AccountDao;
 import com.cloud.utils.Pair;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.db.DB;
@@ -84,12 +76,21 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.Transaction;
 import com.cloud.utils.db.TransactionCallbackNoReturn;
 import com.cloud.utils.db.TransactionStatus;
+import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.vm.NicVO;
 import com.cloud.vm.UserVmVO;
 import com.cloud.vm.snapshot.VMSnapshotVO;
 
+import org.apache.cloudstack.api.Identity;
+import org.apache.cloudstack.api.InternalIdentity;
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.storage.datastore.db.StoragePoolVO;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TaggedResourceManagerImpl extends ManagerBase implements TaggedResourceService {
-    public static final Logger s_logger = Logger.getLogger(TaggedResourceManagerImpl.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(TaggedResourceManagerImpl.class);
 
     private static final Map<ResourceObjectType, Class<?>> s_typeMap = new HashMap<ResourceObjectType, Class<?>>();
     static {

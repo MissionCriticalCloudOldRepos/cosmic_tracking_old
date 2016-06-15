@@ -18,9 +18,6 @@ package com.cloud.vm;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
@@ -28,6 +25,8 @@ import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.time.InaccurateClock;
 import com.cloud.vm.ItWorkVO.Step;
 import com.cloud.vm.VirtualMachine.State;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class ItWorkDaoImpl extends GenericDaoBase<ItWorkVO, String> implements ItWorkDao {

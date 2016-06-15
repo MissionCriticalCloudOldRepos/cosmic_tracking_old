@@ -17,7 +17,10 @@
 
 package org.apache.cloudstack.api.command.admin.region;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -29,11 +32,8 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.PortableIpRangeResponse;
 import org.apache.cloudstack.api.response.RegionResponse;
 import org.apache.cloudstack.region.PortableIpRange;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createPortableIpRange",
             responseObject = PortableIpRangeResponse.class,
@@ -43,7 +43,7 @@ import com.cloud.user.Account;
             responseHasSensitiveInfo = false)
 public class CreatePortableIpRangeCmd extends BaseAsyncCreateCmd {
 
-    public static final Logger s_logger = Logger.getLogger(CreatePortableIpRangeCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreatePortableIpRangeCmd.class.getName());
 
     private static final String s_name = "createportableiprangeresponse";
 

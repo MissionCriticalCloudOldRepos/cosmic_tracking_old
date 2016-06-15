@@ -20,10 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.vpc.NetworkACLItem.State;
 import com.cloud.network.vpc.NetworkACLItemCidrsDao;
 import com.cloud.network.vpc.NetworkACLItemDao;
@@ -35,11 +31,16 @@ import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Op;
 import com.cloud.utils.db.TransactionLegacy;
+import com.google.common.collect.Lists;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 @DB()
 public class NetworkACLItemDaoImpl extends GenericDaoBase<NetworkACLItemVO, Long> implements NetworkACLItemDao {
-    private static final Logger s_logger = Logger.getLogger(NetworkACLItemDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(NetworkACLItemDaoImpl.class);
 
     protected final SearchBuilder<NetworkACLItemVO> AllFieldsSearch;
     protected final SearchBuilder<NetworkACLItemVO> NotRevokedSearch;

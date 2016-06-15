@@ -23,11 +23,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.log4j.Logger;
-import org.apache.cloudstack.framework.config.ConfigKey;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.slf4j.MDC;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.CronCommand;
@@ -39,8 +34,14 @@ import com.cloud.exception.AgentUnavailableException;
 import com.cloud.host.Status;
 import com.cloud.resource.ServerResource;
 
+import org.apache.cloudstack.framework.config.ConfigKey;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
 public class DirectAgentAttache extends AgentAttache {
-    private final static Logger s_logger = Logger.getLogger(DirectAgentAttache.class);
+    private final static Logger s_logger = LoggerFactory.getLogger(DirectAgentAttache.class);
 
     protected final ConfigKey<Integer> _HostPingRetryCount = new ConfigKey<Integer>("Advanced", Integer.class, "host.ping.retry.count", "0",
             "Number of times retrying a host ping while waiting for check results", true);

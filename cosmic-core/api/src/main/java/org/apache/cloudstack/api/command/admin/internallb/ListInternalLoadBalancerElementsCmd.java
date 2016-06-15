@@ -21,7 +21,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.ConcurrentOperationException;
+import com.cloud.exception.InsufficientCapacityException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.VirtualRouterProvider;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -32,12 +36,8 @@ import org.apache.cloudstack.api.response.InternalLoadBalancerElementResponse;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ProviderResponse;
 import org.apache.cloudstack.network.element.InternalLoadBalancerElementService;
-
-import com.cloud.exception.ConcurrentOperationException;
-import com.cloud.exception.InsufficientCapacityException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.VirtualRouterProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listInternalLoadBalancerElements",
             description = "Lists all available Internal Load Balancer elements.",
@@ -46,7 +46,7 @@ import com.cloud.network.VirtualRouterProvider;
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = false)
 public class ListInternalLoadBalancerElementsCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListInternalLoadBalancerElementsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListInternalLoadBalancerElementsCmd.class.getName());
     private static final String s_name = "listinternalloadbalancerelementsresponse";
 
     @Inject

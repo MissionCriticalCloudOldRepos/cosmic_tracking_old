@@ -19,9 +19,6 @@ package com.cloud.network.rules;
 
 import java.util.List;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-import org.apache.log4j.Logger;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.RemoteAccessVpn;
@@ -31,9 +28,13 @@ import com.cloud.network.vpc.Vpc;
 import com.cloud.network.vpc.dao.VpcDao;
 import com.cloud.vm.VirtualMachine.State;
 
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AdvancedVpnRules extends BasicVpnRules {
 
-    private static final Logger s_logger = Logger.getLogger(AdvancedVpnRules.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AdvancedVpnRules.class);
 
     private final RemoteAccessVpn _remoteAccessVpn;
 

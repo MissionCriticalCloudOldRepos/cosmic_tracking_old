@@ -19,12 +19,11 @@ package org.apache.cloudstack.api.response;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloud.serializer.Param;
+import com.cloud.utils.exception.ExceptionProxyObject;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.BaseResponse;
-
-import com.cloud.serializer.Param;
-import com.cloud.utils.exception.ExceptionProxyObject;
 
 public class ExceptionResponse extends BaseResponse {
 

@@ -18,7 +18,9 @@ package org.apache.cloudstack.api.command.admin.network;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.network.PhysicalNetwork;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -26,15 +28,13 @@ import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.BaseAsyncCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
-
-import com.cloud.event.EventTypes;
-import com.cloud.network.PhysicalNetwork;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updatePhysicalNetwork", description = "Updates a physical network", responseObject = PhysicalNetworkResponse.class, since = "3.0.0",
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpdatePhysicalNetworkCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdatePhysicalNetworkCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdatePhysicalNetworkCmd.class.getName());
 
     private static final String s_name = "updatephysicalnetworkresponse";
 

@@ -16,10 +16,10 @@
 // under the License.
 package com.cloud.utils.net;
 
+import com.google.common.testing.EqualsTester;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.google.common.testing.EqualsTester;
 
 public class Ip4AddressTest {
 

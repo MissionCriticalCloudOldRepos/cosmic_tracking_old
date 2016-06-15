@@ -16,11 +16,11 @@
 // under the License.
 package com.cloud.network;
 
+import java.net.URI;
+
 import com.cloud.network.Networks.BroadcastDomainType;
 import com.cloud.network.Networks.Mode;
 import com.cloud.network.Networks.TrafficType;
-
-import java.net.URI;
 
 public class NetworkProfile implements Network {
     private final long id;

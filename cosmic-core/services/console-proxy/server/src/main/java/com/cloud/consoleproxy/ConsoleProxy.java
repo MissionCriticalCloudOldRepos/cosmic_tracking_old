@@ -33,14 +33,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.xml.DOMConfigurator;
-
+import com.cloud.consoleproxy.util.Logger;
+import com.cloud.utils.PropertiesUtil;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpServer;
 
-import com.cloud.consoleproxy.util.Logger;
-import com.cloud.utils.PropertiesUtil;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  *

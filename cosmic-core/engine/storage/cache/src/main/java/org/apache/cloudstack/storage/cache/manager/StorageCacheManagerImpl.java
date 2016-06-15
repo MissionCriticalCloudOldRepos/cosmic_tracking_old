@@ -32,7 +32,16 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
+import com.cloud.agent.api.to.DataObjectType;
+import com.cloud.configuration.Config;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.utils.NumbersUtil;
+import com.cloud.utils.component.Manager;
+import com.cloud.utils.concurrency.NamedThreadFactory;
+import com.cloud.utils.db.GlobalLock;
+import com.cloud.utils.db.QueryBuilder;
+import com.cloud.utils.db.SearchCriteria;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.CopyCommandResult;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataMotionService;
@@ -51,20 +60,11 @@ import org.apache.cloudstack.managed.context.ManagedContextRunnable;
 import org.apache.cloudstack.storage.cache.allocator.StorageCacheAllocator;
 import org.apache.cloudstack.storage.datastore.ObjectInDataStoreManager;
 import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
-
-import com.cloud.agent.api.to.DataObjectType;
-import com.cloud.configuration.Config;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.utils.NumbersUtil;
-import com.cloud.utils.component.Manager;
-import com.cloud.utils.concurrency.NamedThreadFactory;
-import com.cloud.utils.db.GlobalLock;
-import com.cloud.utils.db.QueryBuilder;
-import com.cloud.utils.db.SearchCriteria;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StorageCacheManagerImpl implements StorageCacheManager, Manager {
-    private static final Logger s_logger = Logger.getLogger(StorageCacheManagerImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(StorageCacheManagerImpl.class);
     @Inject
     List<StorageCacheAllocator> storageCacheAllocator;
     @Inject

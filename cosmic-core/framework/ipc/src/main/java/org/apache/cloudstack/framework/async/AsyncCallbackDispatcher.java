@@ -24,16 +24,17 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-import org.apache.log4j.Logger;
-
 @SuppressWarnings("rawtypes")
 public class AsyncCallbackDispatcher<T, R> implements AsyncCompletionCallback {
-    private static final Logger s_logger = Logger.getLogger(AsyncCallbackDispatcher.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(AsyncCallbackDispatcher.class);
 
     private Method _callbackMethod;
     private final T _targetObject;

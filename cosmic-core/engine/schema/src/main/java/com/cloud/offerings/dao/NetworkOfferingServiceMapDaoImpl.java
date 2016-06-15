@@ -18,9 +18,6 @@ package com.cloud.offerings.dao;
 
 import java.util.List;
 
-
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.Network.Provider;
 import com.cloud.network.Network.Service;
 import com.cloud.offerings.NetworkOfferingServiceMapVO;
@@ -30,6 +27,8 @@ import com.cloud.utils.db.GenericSearchBuilder;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.SearchCriteria.Func;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @DB()

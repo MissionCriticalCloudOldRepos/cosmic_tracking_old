@@ -16,6 +16,8 @@
 // under the License.
 package com.cloud.utils.db;
 
+import static com.cloud.utils.AutoCloseableUtil.closeAutoCloseable;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -41,12 +43,11 @@ import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.log4j.Logger;
-
-import static com.cloud.utils.AutoCloseableUtil.closeAutoCloseable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DbUtil {
-    protected final static Logger s_logger = Logger.getLogger(DbUtil.class);
+    protected final static Logger s_logger = LoggerFactory.getLogger(DbUtil.class);
 
     private static Map<String, Connection> s_connectionForGlobalLocks = new HashMap<String, Connection>();
 

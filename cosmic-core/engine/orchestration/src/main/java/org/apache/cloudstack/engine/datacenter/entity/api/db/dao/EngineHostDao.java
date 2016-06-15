@@ -18,12 +18,12 @@ package org.apache.cloudstack.engine.datacenter.entity.api.db.dao;
 
 import java.util.List;
 
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
-import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostVO;
-
 import com.cloud.host.Host;
 import com.cloud.utils.db.GenericDao;
 import com.cloud.utils.fsm.StateDao;
+
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
+import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostVO;
 
 /**
  * Data Access Object for server

@@ -25,7 +25,13 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.rules.LoadBalancer;
+import com.cloud.region.ha.GlobalLoadBalancerRule;
+import com.cloud.region.ha.GlobalLoadBalancingRulesService;
+import com.cloud.user.Account;
+import com.cloud.utils.StringUtils;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -37,14 +43,8 @@ import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.GlobalLoadBalancerResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.rules.LoadBalancer;
-import com.cloud.region.ha.GlobalLoadBalancerRule;
-import com.cloud.region.ha.GlobalLoadBalancingRulesService;
-import com.cloud.user.Account;
-import com.cloud.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "assignToGlobalLoadBalancerRule",
             description = "Assign load balancer rule or list of load " + "balancer rules to a global load balancer rules.",
@@ -53,7 +53,7 @@ import com.cloud.utils.StringUtils;
             responseHasSensitiveInfo = false)
 public class AssignToGlobalLoadBalancerRuleCmd extends BaseAsyncCmd {
 
-    public static final Logger s_logger = Logger.getLogger(AssignToGlobalLoadBalancerRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AssignToGlobalLoadBalancerRuleCmd.class.getName());
 
     private static final String s_name = "assigntogloballoadbalancerruleresponse";
 

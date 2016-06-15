@@ -23,13 +23,12 @@ import java.io.IOException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import org.apache.cloudstack.spring.module.factory.CloudStackSpringContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoaderListener;
-
-import org.apache.cloudstack.spring.module.factory.CloudStackSpringContext;
 
 public class CloudStackContextLoaderListener extends ContextLoaderListener {
 

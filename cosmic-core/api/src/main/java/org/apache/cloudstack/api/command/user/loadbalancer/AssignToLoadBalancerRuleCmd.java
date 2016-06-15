@@ -23,8 +23,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.rules.LoadBalancer;
+import com.cloud.user.Account;
+import com.cloud.utils.StringUtils;
 import com.cloud.utils.exception.CloudRuntimeException;
-import org.apache.log4j.Logger;
+import com.cloud.utils.net.NetUtils;
+import com.cloud.vm.VirtualMachine;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -36,14 +42,8 @@ import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.SuccessResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.rules.LoadBalancer;
-import com.cloud.user.Account;
-import com.cloud.utils.StringUtils;
-import com.cloud.utils.net.NetUtils;
-import com.cloud.vm.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "assignToLoadBalancerRule",
             description = "Assigns virtual machine or a list of virtual machines to a load balancer rule.",
@@ -51,7 +51,7 @@ import com.cloud.vm.VirtualMachine;
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = false)
 public class AssignToLoadBalancerRuleCmd extends BaseAsyncCmd {
-    public static final Logger s_logger = Logger.getLogger(AssignToLoadBalancerRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AssignToLoadBalancerRuleCmd.class.getName());
 
     private static final String s_name = "assigntoloadbalancerruleresponse";
 

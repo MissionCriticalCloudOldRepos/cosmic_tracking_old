@@ -29,15 +29,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.log4j.Logger;
+import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
+import com.cloud.utils.db.GenericDaoBase;
+import com.cloud.utils.fsm.StateObject;
 
 import org.apache.cloudstack.engine.subsystem.api.storage.DataObjectInStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine;
 import org.apache.cloudstack.engine.subsystem.api.storage.ObjectInDataStoreStateMachine.State;
-
-import com.cloud.storage.VMTemplateStorageResourceAssoc.Status;
-import com.cloud.utils.db.GenericDaoBase;
-import com.cloud.utils.fsm.StateObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Join table for image_data_store and volumes
@@ -46,7 +46,7 @@ import com.cloud.utils.fsm.StateObject;
 @Entity
 @Table(name = "volume_store_ref")
 public class VolumeDataStoreVO implements StateObject<ObjectInDataStoreStateMachine.State>, DataObjectInStore {
-    private static final Logger s_logger = Logger.getLogger(VolumeDataStoreVO.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VolumeDataStoreVO.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

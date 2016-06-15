@@ -17,15 +17,17 @@
 
 package com.cloud.upgrade.dao;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.script.Script;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.sql.Connection;
 
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.script.Script;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Upgrade460to461 implements DbUpgrade {
-    final static Logger s_logger = Logger.getLogger(Upgrade460to461.class);
+    final static Logger s_logger = LoggerFactory.getLogger(Upgrade460to461.class);
 
     @Override
     public String[] getUpgradableVersionRange() {

@@ -25,10 +25,33 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
+import com.cloud.agent.Listener;
+import com.cloud.agent.api.AgentControlAnswer;
+import com.cloud.agent.api.AgentControlCommand;
+import com.cloud.agent.api.Answer;
+import com.cloud.agent.api.Command;
+import com.cloud.agent.api.StartupCommand;
+import com.cloud.alert.AlertManager;
 import com.cloud.configuration.Resource;
+import com.cloud.exception.ConnectionException;
+import com.cloud.host.Host;
+import com.cloud.host.Status;
+import com.cloud.host.dao.HostDao;
+import com.cloud.storage.Volume.Event;
+import com.cloud.storage.dao.VMTemplateDao;
+import com.cloud.storage.dao.VMTemplateZoneDao;
+import com.cloud.storage.dao.VolumeDao;
+import com.cloud.template.VirtualMachineTemplate;
 import com.cloud.user.ResourceLimitService;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import com.cloud.utils.component.ManagerBase;
+import com.cloud.utils.concurrency.NamedThreadFactory;
+import com.cloud.utils.db.Transaction;
+import com.cloud.utils.db.TransactionCallbackNoReturn;
+import com.cloud.utils.db.TransactionStatus;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.fsm.NoTransitionException;
+import com.cloud.utils.fsm.StateMachine2;
+
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
 import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
@@ -46,31 +69,9 @@ import org.apache.cloudstack.storage.datastore.db.TemplateDataStoreVO;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreDao;
 import org.apache.cloudstack.storage.datastore.db.VolumeDataStoreVO;
 import org.apache.cloudstack.utils.identity.ManagementServerNode;
-
-import com.cloud.agent.Listener;
-import com.cloud.agent.api.AgentControlAnswer;
-import com.cloud.agent.api.AgentControlCommand;
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.Command;
-import com.cloud.agent.api.StartupCommand;
-import com.cloud.alert.AlertManager;
-import com.cloud.exception.ConnectionException;
-import com.cloud.host.Host;
-import com.cloud.host.Status;
-import com.cloud.host.dao.HostDao;
-import com.cloud.storage.Volume.Event;
-import com.cloud.storage.dao.VMTemplateDao;
-import com.cloud.storage.dao.VMTemplateZoneDao;
-import com.cloud.storage.dao.VolumeDao;
-import com.cloud.template.VirtualMachineTemplate;
-import com.cloud.utils.component.ManagerBase;
-import com.cloud.utils.concurrency.NamedThreadFactory;
-import com.cloud.utils.db.Transaction;
-import com.cloud.utils.db.TransactionCallbackNoReturn;
-import com.cloud.utils.db.TransactionStatus;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.fsm.NoTransitionException;
-import com.cloud.utils.fsm.StateMachine2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Monitors the progress of upload.
@@ -78,7 +79,7 @@ import com.cloud.utils.fsm.StateMachine2;
 @Component
 public class ImageStoreUploadMonitorImpl extends ManagerBase implements ImageStoreUploadMonitor, Listener, Configurable {
 
-    static final Logger s_logger = Logger.getLogger(ImageStoreUploadMonitorImpl.class);
+    static final Logger s_logger = LoggerFactory.getLogger(ImageStoreUploadMonitorImpl.class);
 
     @Inject
     private VolumeDao _volumeDao;

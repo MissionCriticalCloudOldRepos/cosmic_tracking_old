@@ -16,6 +16,13 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.firewall;
 
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.rules.FirewallRule;
+import com.cloud.network.rules.PortForwardingRule;
+import com.cloud.user.Account;
+import com.cloud.utils.net.Ip;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -24,21 +31,15 @@ import org.apache.cloudstack.api.BaseAsyncCustomIdCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
-import org.apache.log4j.Logger;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.rules.FirewallRule;
-import com.cloud.network.rules.PortForwardingRule;
-import com.cloud.user.Account;
-import com.cloud.utils.net.Ip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updatePortForwardingRule",
             responseObject = FirewallRuleResponse.class,
         description = "Updates a port forwarding rule. Only the private port and the virtual machine can be updated.", entityType = {PortForwardingRule.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpdatePortForwardingRuleCmd extends BaseAsyncCustomIdCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdatePortForwardingRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdatePortForwardingRuleCmd.class.getName());
     private static final String s_name = "updateportforwardingruleresponse";
 
     /////////////////////////////////////////////////////

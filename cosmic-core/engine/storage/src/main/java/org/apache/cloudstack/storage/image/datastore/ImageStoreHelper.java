@@ -26,7 +26,11 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.storage.DataStoreRole;
+import com.cloud.storage.ScopeType;
+import com.cloud.utils.crypt.DBEncryptionUtil;
+import com.cloud.utils.exception.CloudRuntimeException;
 
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
@@ -35,12 +39,7 @@ import org.apache.cloudstack.storage.datastore.db.ImageStoreDetailVO;
 import org.apache.cloudstack.storage.datastore.db.ImageStoreDetailsDao;
 import org.apache.cloudstack.storage.datastore.db.ImageStoreVO;
 import org.apache.cloudstack.storage.datastore.db.SnapshotDataStoreDao;
-
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.storage.DataStoreRole;
-import com.cloud.storage.ScopeType;
-import com.cloud.utils.crypt.DBEncryptionUtil;
-import com.cloud.utils.exception.CloudRuntimeException;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ImageStoreHelper {

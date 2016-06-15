@@ -21,14 +21,14 @@ package com.cloud.storage.template;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-
 import com.cloud.storage.StorageLayer;
 
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class TemplateDownloaderBase extends ManagedContextRunnable implements TemplateDownloader {
-    private static final Logger s_logger = Logger.getLogger(TemplateDownloaderBase.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(TemplateDownloaderBase.class);
 
     protected String _downloadUrl;
     protected String _toFile;

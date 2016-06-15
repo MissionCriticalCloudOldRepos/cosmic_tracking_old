@@ -24,21 +24,6 @@ import java.util.Timer;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.api.command.user.iso.ExtractIsoCmd;
-import org.apache.cloudstack.api.command.user.template.ExtractTemplateCmd;
-import org.apache.cloudstack.api.command.user.volume.ExtractVolumeCmd;
-import org.apache.cloudstack.api.response.ExtractResponse;
-import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
-import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
-import org.apache.cloudstack.engine.subsystem.api.storage.EndPointSelector;
-import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
-import org.apache.cloudstack.framework.jobs.AsyncJobManager;
-import org.apache.cloudstack.jobs.JobInfo;
-import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
-
 import com.cloud.agent.Listener;
 import com.cloud.agent.api.AgentControlAnswer;
 import com.cloud.agent.api.AgentControlCommand;
@@ -60,6 +45,20 @@ import com.cloud.storage.UploadVO;
 import com.cloud.storage.dao.UploadDao;
 import com.cloud.storage.upload.UploadState.UploadEvent;
 import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.apache.cloudstack.api.command.user.iso.ExtractIsoCmd;
+import org.apache.cloudstack.api.command.user.template.ExtractTemplateCmd;
+import org.apache.cloudstack.api.command.user.volume.ExtractVolumeCmd;
+import org.apache.cloudstack.api.response.ExtractResponse;
+import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
+import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
+import org.apache.cloudstack.engine.subsystem.api.storage.EndPointSelector;
+import org.apache.cloudstack.framework.async.AsyncCompletionCallback;
+import org.apache.cloudstack.framework.jobs.AsyncJobManager;
+import org.apache.cloudstack.jobs.JobInfo;
+import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 public class UploadListener implements Listener {
 

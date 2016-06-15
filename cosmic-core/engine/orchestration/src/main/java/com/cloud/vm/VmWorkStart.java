@@ -21,14 +21,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.cloudstack.context.CallContext;
-import org.apache.cloudstack.framework.jobs.impl.JobSerializerHelper;
-import org.apache.log4j.Logger;
-
 import com.cloud.deploy.DataCenterDeployment;
 import com.cloud.deploy.DeploymentPlan;
 import com.cloud.deploy.DeploymentPlanner.ExcludeList;
 import com.cloud.utils.Journal;
+
+import org.apache.cloudstack.context.CallContext;
+import org.apache.cloudstack.framework.jobs.impl.JobSerializerHelper;
+import org.apache.log4j.Logger;
 
 public class VmWorkStart extends VmWork {
     private static final long serialVersionUID = 9038937399817468894L;

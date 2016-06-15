@@ -30,27 +30,27 @@ import java.util.StringTokenizer;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.cloud.domain.DomainVO;
+import com.cloud.user.UserAccount;
+import com.cloud.user.UserAccountVO;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.log4j.Logger;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
-import com.cloud.domain.DomainVO;
-import com.cloud.user.UserAccount;
-import com.cloud.user.UserAccountVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for making API calls between peer Regions
  *
  */
 public class RegionsApiUtil {
-    public static final Logger s_logger = Logger.getLogger(RegionsApiUtil.class);
+    public static final Logger s_logger = LoggerFactory.getLogger(RegionsApiUtil.class);
 
     /**
      * Makes an api call using region service end_point, api command and params

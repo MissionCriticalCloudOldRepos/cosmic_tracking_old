@@ -19,8 +19,8 @@ package org.apache.cloudstack.api.command.admin.account;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import com.cloud.user.Account;
+import com.cloud.user.UserAccount;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -32,15 +32,15 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.AccountResponse;
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.user.Account;
-import com.cloud.user.UserAccount;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @APICommand(name = "createAccount", description = "Creates an account", responseObject = AccountResponse.class, entityType = {Account.class},
         requestHasSensitiveInfo = true, responseHasSensitiveInfo = true)
 public class CreateAccountCmd extends BaseCmd {
-    public static final Logger s_logger = Logger.getLogger(CreateAccountCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateAccountCmd.class.getName());
 
     private static final String s_name = "createaccountresponse";
 

@@ -27,8 +27,6 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.IAgentControl;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
@@ -43,8 +41,11 @@ import com.cloud.host.Host.Type;
 import com.cloud.resource.ServerResource;
 import com.cloud.utils.component.ManagerBase;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BaremetalDhcpResourceBase extends ManagerBase implements ServerResource {
-    private static final Logger s_logger = Logger.getLogger(BaremetalDhcpResourceBase.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(BaremetalDhcpResourceBase.class);
     String _name;
     String _guid;
     String _username;

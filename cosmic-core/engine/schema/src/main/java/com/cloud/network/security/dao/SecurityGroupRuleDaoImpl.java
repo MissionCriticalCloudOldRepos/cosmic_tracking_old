@@ -22,19 +22,19 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import com.cloud.server.ResourceTag.ResourceObjectType;
-import com.cloud.tags.dao.ResourceTagDao;
-import org.springframework.stereotype.Component;
-
 import com.cloud.network.security.SecurityGroupRuleVO;
 import com.cloud.network.security.SecurityGroupVO;
 import com.cloud.network.security.SecurityRule.SecurityRuleType;
+import com.cloud.server.ResourceTag.ResourceObjectType;
+import com.cloud.tags.dao.ResourceTagDao;
+import com.cloud.utils.db.DB;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.JoinBuilder;
 import com.cloud.utils.db.SearchBuilder;
 import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
-import com.cloud.utils.db.DB;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityGroupRuleDaoImpl extends GenericDaoBase<SecurityGroupRuleVO, Long> implements SecurityGroupRuleDao {

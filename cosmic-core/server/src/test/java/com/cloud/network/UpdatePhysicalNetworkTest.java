@@ -26,15 +26,15 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.dao.DataCenterDao;
 import com.cloud.dc.dao.DataCenterVnetDao;
 import com.cloud.network.dao.PhysicalNetworkDao;
 import com.cloud.network.dao.PhysicalNetworkVO;
 import com.cloud.utils.db.TransactionLegacy;
+
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 public class UpdatePhysicalNetworkTest {
     private PhysicalNetworkDao _physicalNetworkDao = mock(PhysicalNetworkDao.class);

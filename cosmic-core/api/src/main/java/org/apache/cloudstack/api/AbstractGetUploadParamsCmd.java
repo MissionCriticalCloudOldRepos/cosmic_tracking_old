@@ -18,18 +18,19 @@
  */
 package org.apache.cloudstack.api;
 
+import java.net.URL;
+import java.util.UUID;
+
 import org.apache.cloudstack.api.response.DomainResponse;
 import org.apache.cloudstack.api.response.GetUploadParamsResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
-import org.apache.log4j.Logger;
-
-import java.net.URL;
-import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractGetUploadParamsCmd extends BaseCmd {
 
-    public static final Logger s_logger = Logger.getLogger(AbstractGetUploadParamsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(AbstractGetUploadParamsCmd.class.getName());
 
     @Parameter(name = ApiConstants.NAME, type = CommandType.STRING, required = true, description = "the name of the volume/template")
     private String name;

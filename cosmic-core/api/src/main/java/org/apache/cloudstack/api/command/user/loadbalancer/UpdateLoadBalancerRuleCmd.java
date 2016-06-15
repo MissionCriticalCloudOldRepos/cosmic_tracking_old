@@ -16,6 +16,12 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.loadbalancer;
 
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.network.rules.FirewallRule;
+import com.cloud.network.rules.LoadBalancer;
+import com.cloud.user.Account;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -27,18 +33,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.FirewallRuleResponse;
 import org.apache.cloudstack.api.response.LoadBalancerResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.network.rules.FirewallRule;
-import com.cloud.network.rules.LoadBalancer;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateLoadBalancerRule", description = "Updates load balancer", responseObject = LoadBalancerResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class UpdateLoadBalancerRuleCmd extends BaseAsyncCustomIdCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdateLoadBalancerRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdateLoadBalancerRuleCmd.class.getName());
     private static final String s_name = "updateloadbalancerruleresponse";
 
     /////////////////////////////////////////////////////

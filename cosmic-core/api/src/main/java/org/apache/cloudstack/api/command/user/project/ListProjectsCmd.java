@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import com.cloud.exception.InvalidParameterValueException;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -29,8 +29,8 @@ import org.apache.cloudstack.api.BaseListAccountResourcesCmd;
 import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
-
-import com.cloud.exception.InvalidParameterValueException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listProjects",
             description = "Lists projects and provides detailed information for listed projects",
@@ -39,7 +39,7 @@ import com.cloud.exception.InvalidParameterValueException;
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = false)
 public class ListProjectsCmd extends BaseListAccountResourcesCmd {
-    public static final Logger s_logger = Logger.getLogger(ListProjectsCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListProjectsCmd.class.getName());
     private static final String s_name = "listprojectsresponse";
 
     /////////////////////////////////////////////////////

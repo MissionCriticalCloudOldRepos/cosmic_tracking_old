@@ -25,8 +25,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.configuration.Config;
 import com.cloud.exception.InsufficientServerCapacityException;
 import com.cloud.host.HostVO;
@@ -40,9 +38,12 @@ import com.cloud.utils.NumbersUtil;
 import com.cloud.vm.VMInstanceVO;
 import com.cloud.vm.VirtualMachineProfile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ImplicitDedicationPlanner extends FirstFitPlanner implements DeploymentClusterPlanner {
 
-    private static final Logger s_logger = Logger.getLogger(ImplicitDedicationPlanner.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ImplicitDedicationPlanner.class);
 
     @Inject
     private ServiceOfferingDao serviceOfferingDao;

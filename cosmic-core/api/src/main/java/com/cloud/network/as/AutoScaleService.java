@@ -18,6 +18,9 @@ package com.cloud.network.as;
 
 import java.util.List;
 
+import com.cloud.exception.ResourceInUseException;
+import com.cloud.exception.ResourceUnavailableException;
+
 import org.apache.cloudstack.api.command.admin.autoscale.CreateCounterCmd;
 import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScalePolicyCmd;
 import org.apache.cloudstack.api.command.user.autoscale.CreateAutoScaleVmGroupCmd;
@@ -31,9 +34,6 @@ import org.apache.cloudstack.api.command.user.autoscale.ListCountersCmd;
 import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScalePolicyCmd;
 import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScaleVmGroupCmd;
 import org.apache.cloudstack.api.command.user.autoscale.UpdateAutoScaleVmProfileCmd;
-
-import com.cloud.exception.ResourceInUseException;
-import com.cloud.exception.ResourceUnavailableException;
 
 public interface AutoScaleService {
 

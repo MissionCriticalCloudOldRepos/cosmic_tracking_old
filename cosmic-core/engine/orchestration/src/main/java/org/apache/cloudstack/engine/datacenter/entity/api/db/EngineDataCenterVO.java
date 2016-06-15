@@ -33,15 +33,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.cloudstack.api.Identity;
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
-import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
-
 import com.cloud.network.Network.Provider;
 import com.cloud.org.Grouping;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.db.GenericDao;
 import com.cloud.utils.db.StateMachine;
+
+import org.apache.cloudstack.api.Identity;
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State;
+import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity.State.Event;
 
 @Entity
 @Table(name = "data_center")

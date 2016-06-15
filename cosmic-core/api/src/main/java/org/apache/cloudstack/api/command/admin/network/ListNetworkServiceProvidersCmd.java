@@ -19,7 +19,9 @@ package org.apache.cloudstack.api.command.admin.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.network.PhysicalNetworkServiceProvider;
+import com.cloud.user.Account;
+import com.cloud.utils.Pair;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiConstants;
@@ -28,10 +30,8 @@ import org.apache.cloudstack.api.Parameter;
 import org.apache.cloudstack.api.response.ListResponse;
 import org.apache.cloudstack.api.response.PhysicalNetworkResponse;
 import org.apache.cloudstack.api.response.ProviderResponse;
-
-import com.cloud.network.PhysicalNetworkServiceProvider;
-import com.cloud.user.Account;
-import com.cloud.utils.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "listNetworkServiceProviders",
             description = "Lists network serviceproviders for a given physical network.",
@@ -40,7 +40,7 @@ import com.cloud.utils.Pair;
             requestHasSensitiveInfo = false,
             responseHasSensitiveInfo = false)
 public class ListNetworkServiceProvidersCmd extends BaseListCmd {
-    public static final Logger s_logger = Logger.getLogger(ListNetworkServiceProvidersCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(ListNetworkServiceProvidersCmd.class.getName());
     private static final String Name = "listnetworkserviceprovidersresponse";
 
     /////////////////////////////////////////////////////

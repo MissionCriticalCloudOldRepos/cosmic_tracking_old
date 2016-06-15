@@ -27,9 +27,6 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.agent.api.VgpuTypesInfo;
 import com.cloud.gpu.HostGpuGroupsVO;
 import com.cloud.gpu.VGPUTypesVO;
@@ -39,9 +36,13 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.db.TransactionLegacy;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class VGPUTypesDaoImpl extends GenericDaoBase<VGPUTypesVO, Long> implements VGPUTypesDao {
-    private static final Logger s_logger = Logger.getLogger(VGPUTypesDaoImpl.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VGPUTypesDaoImpl.class);
 
     private final SearchBuilder<VGPUTypesVO> _searchByGroupId;
     private final SearchBuilder<VGPUTypesVO> _searchByGroupIdVGPUType;

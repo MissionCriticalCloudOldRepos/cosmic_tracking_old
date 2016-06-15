@@ -16,18 +16,17 @@
 // under the License.
 package com.cloud.api.dispatch;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Test;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import org.apache.cloudstack.api.BaseCmd;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.cloud.exception.ResourceAllocationException;
+
+import org.apache.cloudstack.api.BaseCmd;
+import org.junit.Test;
 
 public class SpecificCmdValidationWorkerTest {
 

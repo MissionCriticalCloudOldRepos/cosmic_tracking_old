@@ -24,7 +24,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import com.cloud.user.AccountVO;
+import com.cloud.user.dao.AccountDao;
+import com.cloud.utils.component.AdapterBase;
+import com.cloud.vm.dao.VMInstanceDao;
 
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.jobs.AsyncJob;
@@ -34,11 +37,8 @@ import org.apache.cloudstack.framework.jobs.dao.AsyncJobJoinMapDao;
 import org.apache.cloudstack.framework.jobs.dao.VmWorkJobDao;
 import org.apache.cloudstack.framework.jobs.impl.AsyncJobJoinMapVO;
 import org.apache.cloudstack.framework.jobs.impl.VmWorkJobVO;
-
-import com.cloud.user.AccountVO;
-import com.cloud.user.dao.AccountDao;
-import com.cloud.utils.component.AdapterBase;
-import com.cloud.vm.dao.VMInstanceDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Please note: VmWorkJobWakeupDispatcher is not currently in use. It is designed for event-driven based
@@ -47,7 +47,7 @@ import com.cloud.vm.dao.VMInstanceDao;
  * Current code base uses blocking calls to wait for job completion
  */
 public class VmWorkJobWakeupDispatcher extends AdapterBase implements AsyncJobDispatcher {
-    private static final Logger s_logger = Logger.getLogger(VmWorkJobWakeupDispatcher.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(VmWorkJobWakeupDispatcher.class);
 
     @Inject
     private VmWorkJobDao _workjobDao;

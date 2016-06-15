@@ -20,8 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.host.Host;
 import com.cloud.host.HostVO;
 import com.cloud.host.Status;
@@ -31,8 +29,11 @@ import com.cloud.network.Networks.TrafficType;
 import com.cloud.vm.Nic;
 import com.cloud.vm.VirtualMachine;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ManagementIPSystemVMInvestigator extends AbstractInvestigatorImpl {
-    private static final Logger s_logger = Logger.getLogger(ManagementIPSystemVMInvestigator.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(ManagementIPSystemVMInvestigator.class);
 
     @Inject
     private final HostDao _hostDao = null;

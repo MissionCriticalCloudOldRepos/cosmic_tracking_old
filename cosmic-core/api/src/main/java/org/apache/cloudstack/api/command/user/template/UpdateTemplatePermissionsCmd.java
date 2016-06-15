@@ -16,14 +16,14 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.template;
 
-import org.apache.log4j.Logger;
+import com.cloud.template.VirtualMachineTemplate;
+import com.cloud.user.Account;
 
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.BaseUpdateTemplateOrIsoPermissionsCmd;
 import org.apache.cloudstack.api.response.SuccessResponse;
-
-import com.cloud.template.VirtualMachineTemplate;
-import com.cloud.user.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "updateTemplatePermissions", responseObject = SuccessResponse.class, description = "Updates a template visibility permissions. "
     + "A public template is visible to all accounts within the same domain. " + "A private template is visible only to the owner of the template. "
@@ -37,7 +37,7 @@ public class UpdateTemplatePermissionsCmd extends BaseUpdateTemplateOrIsoPermiss
 
     @Override
     protected Logger getLogger() {
-        return Logger.getLogger(UpdateTemplatePermissionsCmd.class.getName());
+        return LoggerFactory.getLogger(UpdateTemplatePermissionsCmd.class.getName());
     }
 
     @Override

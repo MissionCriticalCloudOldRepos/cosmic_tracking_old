@@ -17,8 +17,6 @@
 package org.apache.cloudstack.storage.template;
 
 import com.cloud.agent.api.Answer;
-import org.apache.cloudstack.storage.resource.SecondaryStorageResource;
-
 import com.cloud.agent.api.storage.CreateEntityDownloadURLAnswer;
 import com.cloud.agent.api.storage.CreateEntityDownloadURLCommand;
 import com.cloud.agent.api.storage.DeleteEntityDownloadURLCommand;
@@ -28,6 +26,8 @@ import com.cloud.storage.Storage.ImageFormat;
 import com.cloud.storage.Upload.Status;
 import com.cloud.storage.template.TemplateUploader;
 import com.cloud.utils.component.Manager;
+
+import org.apache.cloudstack.storage.resource.SecondaryStorageResource;
 
 public interface UploadManager extends Manager {
 

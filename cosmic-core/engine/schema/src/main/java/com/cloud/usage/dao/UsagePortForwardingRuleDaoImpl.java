@@ -24,19 +24,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
 import com.cloud.exception.CloudException;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.cloud.usage.UsagePortForwardingRuleVO;
 import com.cloud.utils.DateUtil;
 import com.cloud.utils.db.GenericDaoBase;
 import com.cloud.utils.db.TransactionLegacy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class UsagePortForwardingRuleDaoImpl extends GenericDaoBase<UsagePortForwardingRuleVO, Long> implements UsagePortForwardingRuleDao {
-    public static final Logger s_logger = Logger.getLogger(UsagePortForwardingRuleDaoImpl.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UsagePortForwardingRuleDaoImpl.class.getName());
 
     protected static final String REMOVE_BY_USERID_PFID = "DELETE FROM usage_port_forwarding WHERE account_id = ? AND id = ?";
     protected static final String UPDATE_DELETED = "UPDATE usage_port_forwarding SET deleted = ? WHERE account_id = ? AND id = ? and deleted IS NULL";

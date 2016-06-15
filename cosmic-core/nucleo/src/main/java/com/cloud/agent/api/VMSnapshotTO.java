@@ -21,9 +21,9 @@ package com.cloud.agent.api;
 
 import java.util.List;
 
-import org.apache.cloudstack.storage.to.VolumeObjectTO;
-
 import com.cloud.vm.snapshot.VMSnapshot;
+
+import org.apache.cloudstack.storage.to.VolumeObjectTO;
 
 public class VMSnapshotTO {
     private Long id;

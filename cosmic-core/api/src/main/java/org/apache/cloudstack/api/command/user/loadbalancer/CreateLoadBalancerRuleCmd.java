@@ -18,6 +18,20 @@ package org.apache.cloudstack.api.command.user.loadbalancer;
 
 import java.util.List;
 
+import com.cloud.dc.DataCenter;
+import com.cloud.dc.DataCenter.NetworkType;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InsufficientAddressCapacityException;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceAllocationException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.IpAddress;
+import com.cloud.network.Network;
+import com.cloud.network.rules.LoadBalancer;
+import com.cloud.user.Account;
+import com.cloud.utils.net.NetUtils;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiCommandJobType;
@@ -33,26 +47,13 @@ import org.apache.cloudstack.api.response.LoadBalancerResponse;
 import org.apache.cloudstack.api.response.NetworkResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
-import com.cloud.dc.DataCenter;
-import com.cloud.dc.DataCenter.NetworkType;
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InsufficientAddressCapacityException;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.NetworkRuleConflictException;
-import com.cloud.exception.ResourceAllocationException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.IpAddress;
-import com.cloud.network.Network;
-import com.cloud.network.rules.LoadBalancer;
-import com.cloud.user.Account;
-import com.cloud.utils.net.NetUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createLoadBalancerRule", description = "Creates a load balancer rule", responseObject = LoadBalancerResponse.class,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateLoadBalancerRuleCmd extends BaseAsyncCreateCmd /*implements LoadBalancer */{
-    public static final Logger s_logger = Logger.getLogger(CreateLoadBalancerRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateLoadBalancerRuleCmd.class.getName());
 
     private static final String s_name = "createloadbalancerruleresponse";
 

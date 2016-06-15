@@ -16,18 +16,6 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.address;
 
-import org.apache.log4j.Logger;
-
-import org.apache.cloudstack.acl.RoleType;
-import org.apache.cloudstack.api.APICommand;
-import org.apache.cloudstack.api.ApiConstants;
-import org.apache.cloudstack.api.BaseAsyncCustomIdCmd;
-import org.apache.cloudstack.api.Parameter;
-import org.apache.cloudstack.api.ResponseObject.ResponseView;
-import org.apache.cloudstack.api.ServerApiException;
-import org.apache.cloudstack.api.response.AccountResponse;
-import org.apache.cloudstack.api.response.IPAddressResponse;
-
 import com.cloud.event.EventTypes;
 import com.cloud.exception.ConcurrentOperationException;
 import com.cloud.exception.InsufficientCapacityException;
@@ -38,10 +26,22 @@ import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.IpAddress;
 import com.cloud.user.Account;
 
+import org.apache.cloudstack.acl.RoleType;
+import org.apache.cloudstack.api.APICommand;
+import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.BaseAsyncCustomIdCmd;
+import org.apache.cloudstack.api.Parameter;
+import org.apache.cloudstack.api.ResponseObject.ResponseView;
+import org.apache.cloudstack.api.ServerApiException;
+import org.apache.cloudstack.api.response.AccountResponse;
+import org.apache.cloudstack.api.response.IPAddressResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @APICommand(name = "updateIpAddress", description = "Updates an IP address", responseObject = IPAddressResponse.class,
  requestHasSensitiveInfo = false, responseHasSensitiveInfo = false, entityType = { IpAddress.class })
 public class UpdateIPAddrCmd extends BaseAsyncCustomIdCmd {
-    public static final Logger s_logger = Logger.getLogger(UpdateIPAddrCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(UpdateIPAddrCmd.class.getName());
     private static final String s_name = "updateipaddressresponse";
 
     /////////////////////////////////////////////////////

@@ -19,8 +19,6 @@ package com.cloud.network.rules;
 
 import java.util.List;
 
-import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
-
 import com.cloud.exception.ResourceUnavailableException;
 import com.cloud.network.Network;
 import com.cloud.network.NetworkModel;
@@ -35,6 +33,8 @@ import com.cloud.network.lb.LoadBalancingRulesManager;
 import com.cloud.network.router.VirtualRouter;
 import com.cloud.network.rules.LoadBalancerContainer.Scheme;
 import com.cloud.utils.net.Ip;
+
+import org.apache.cloudstack.network.topology.NetworkTopologyVisitor;
 
 public class LoadBalancingRules extends RuleApplier {
 

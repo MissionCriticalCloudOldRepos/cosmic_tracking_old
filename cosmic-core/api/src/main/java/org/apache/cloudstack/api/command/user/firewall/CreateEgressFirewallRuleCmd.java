@@ -20,7 +20,14 @@ package org.apache.cloudstack.api.command.user.firewall;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.cloud.event.EventTypes;
+import com.cloud.exception.InvalidParameterValueException;
+import com.cloud.exception.NetworkRuleConflictException;
+import com.cloud.exception.ResourceUnavailableException;
+import com.cloud.network.Network;
+import com.cloud.network.rules.FirewallRule;
+import com.cloud.user.Account;
+import com.cloud.utils.net.NetUtils;
 
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.api.APICommand;
@@ -34,20 +41,13 @@ import org.apache.cloudstack.api.ServerApiException;
 import org.apache.cloudstack.api.response.FirewallResponse;
 import org.apache.cloudstack.api.response.NetworkResponse;
 import org.apache.cloudstack.context.CallContext;
-
-import com.cloud.event.EventTypes;
-import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.NetworkRuleConflictException;
-import com.cloud.exception.ResourceUnavailableException;
-import com.cloud.network.Network;
-import com.cloud.network.rules.FirewallRule;
-import com.cloud.user.Account;
-import com.cloud.utils.net.NetUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "createEgressFirewallRule", description = "Creates a egress firewall rule for a given network ", responseObject = FirewallResponse.class, entityType = {FirewallRule.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
 public class CreateEgressFirewallRuleCmd extends BaseAsyncCreateCmd implements FirewallRule {
-    public static final Logger s_logger = Logger.getLogger(CreateEgressFirewallRuleCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(CreateEgressFirewallRuleCmd.class.getName());
 
     private static final String s_name = "createegressfirewallruleresponse";
 

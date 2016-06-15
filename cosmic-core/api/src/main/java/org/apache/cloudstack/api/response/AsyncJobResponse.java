@@ -18,6 +18,7 @@ package org.apache.cloudstack.api.response;
 
 import java.util.Date;
 
+import com.cloud.serializer.Param;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.cloudstack.api.ApiConstants;
@@ -25,8 +26,6 @@ import org.apache.cloudstack.api.BaseResponse;
 import org.apache.cloudstack.api.EntityReference;
 import org.apache.cloudstack.api.ResponseObject;
 import org.apache.cloudstack.jobs.JobInfo;
-
-import com.cloud.serializer.Param;
 
 @EntityReference(value = JobInfo.class)
 public class AsyncJobResponse extends BaseResponse {

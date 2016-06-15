@@ -16,6 +16,14 @@
 // under the License.
 package org.apache.cloudstack.api.command.user.vm;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenter.NetworkType;
 import com.cloud.event.EventTypes;
@@ -35,6 +43,7 @@ import com.cloud.user.Account;
 import com.cloud.uservm.UserVm;
 import com.cloud.utils.net.NetUtils;
 import com.cloud.vm.VirtualMachine;
+
 import org.apache.cloudstack.acl.RoleType;
 import org.apache.cloudstack.affinity.AffinityGroupResponse;
 import org.apache.cloudstack.api.ACL;
@@ -57,20 +66,13 @@ import org.apache.cloudstack.api.response.TemplateResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.ZoneResponse;
 import org.apache.cloudstack.context.CallContext;
-import org.apache.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @APICommand(name = "deployVirtualMachine", description = "Creates and automatically starts a virtual machine based on a service offering, disk offering, and template.", responseObject = UserVmResponse.class, responseView = ResponseView.Restricted, entityType = {VirtualMachine.class},
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = true)
 public class DeployVMCmd extends BaseAsyncCreateCustomIdCmd {
-    public static final Logger s_logger = Logger.getLogger(DeployVMCmd.class.getName());
+    public static final Logger s_logger = LoggerFactory.getLogger(DeployVMCmd.class.getName());
 
     private static final String s_name = "deployvirtualmachineresponse";
 
@@ -461,7 +463,7 @@ public class DeployVMCmd extends BaseAsyncCreateCustomIdCmd {
                         message.append(", Please check the affinity groups provided, there may not be sufficient capacity to follow them");
                     }
                 }
-                s_logger.info(ex);
+                s_logger.info(ex.toString());
                 s_logger.info(message.toString(), ex);
                 throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, message.toString());
             }
@@ -609,7 +611,7 @@ public class DeployVMCmd extends BaseAsyncCreateCustomIdCmd {
                 throw new ServerApiException(ApiErrorCode.INTERNAL_ERROR, "Failed to deploy vm");
             }
         } catch (InsufficientCapacityException ex) {
-            s_logger.info(ex);
+            s_logger.info(ex.toString());
             s_logger.trace(ex.getMessage(), ex);
             throw new ServerApiException(ApiErrorCode.INSUFFICIENT_CAPACITY_ERROR, ex.getMessage());
         } catch (ResourceUnavailableException ex) {

@@ -18,9 +18,8 @@
  */
 package org.apache.cloudstack.storage.image.format;
 
-import org.springframework.stereotype.Component;
-
 import org.apache.cloudstack.storage.BaseType;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Unknown extends BaseType implements ImageFormat {

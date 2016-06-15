@@ -19,16 +19,17 @@
 
 package org.apache.cloudstack.utils.hypervisor;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+
+import com.cloud.utils.exception.CloudRuntimeException;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HypervisorUtilsTest {
