@@ -1,14 +1,5 @@
 package org.apache.cloudstack.mom.rabbitmq;
 
-import com.cloud.utils.Ternary;
-import com.cloud.utils.component.ManagerBase;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.rabbitmq.client.*;
-import org.apache.cloudstack.framework.events.*;
-import org.apache.cloudstack.managed.context.ManagedContextRunnable;
-import org.apache.log4j.Logger;
-
-import javax.naming.ConfigurationException;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.security.KeyManagementException;
@@ -20,9 +11,35 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
+import javax.naming.ConfigurationException;
+
+import com.cloud.utils.Ternary;
+import com.cloud.utils.component.ManagerBase;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.AlreadyClosedException;
+import com.rabbitmq.client.BlockedListener;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.MessageProperties;
+import com.rabbitmq.client.ShutdownListener;
+import com.rabbitmq.client.ShutdownSignalException;
+
+import org.apache.cloudstack.framework.events.Event;
+import org.apache.cloudstack.framework.events.EventBus;
+import org.apache.cloudstack.framework.events.EventBusException;
+import org.apache.cloudstack.framework.events.EventSubscriber;
+import org.apache.cloudstack.framework.events.EventTopic;
+import org.apache.cloudstack.managed.context.ManagedContextRunnable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RabbitMQEventBus extends ManagerBase implements EventBus {
 
-    private static final Logger s_logger = Logger.getLogger(RabbitMQEventBus.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(RabbitMQEventBus.class);
     // details of AMQP server
     private static String amqpHost;
     private static Integer port;
