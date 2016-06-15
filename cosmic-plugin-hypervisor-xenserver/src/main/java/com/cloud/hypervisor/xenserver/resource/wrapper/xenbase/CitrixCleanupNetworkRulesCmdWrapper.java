@@ -19,8 +19,6 @@
 
 package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CleanupNetworkRulesCmd;
 import com.cloud.hypervisor.xenserver.resource.CitrixResourceBase;
@@ -28,10 +26,13 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.xensource.xenapi.Connection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  CleanupNetworkRulesCmd.class)
 public final class CitrixCleanupNetworkRulesCmdWrapper extends CommandWrapper<CleanupNetworkRulesCmd, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixCleanupNetworkRulesCmdWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixCleanupNetworkRulesCmdWrapper.class);
 
     @Override
     public Answer execute(final CleanupNetworkRulesCmd command, final CitrixResourceBase citrixResourceBase) {

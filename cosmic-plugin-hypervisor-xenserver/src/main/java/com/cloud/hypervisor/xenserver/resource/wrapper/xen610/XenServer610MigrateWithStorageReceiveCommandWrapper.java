@@ -21,11 +21,8 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xen610;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-
-import com.google.gson.Gson;
-import org.apache.log4j.Logger;
+import java.util.Map;
 
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.MigrateWithStorageReceiveAnswer;
@@ -40,17 +37,21 @@ import com.cloud.hypervisor.xenserver.resource.XsLocalNetwork;
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
-import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.Pair;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.google.gson.Gson;
 import com.xensource.xenapi.Connection;
 import com.xensource.xenapi.Host;
 import com.xensource.xenapi.Network;
 import com.xensource.xenapi.SR;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  MigrateWithStorageReceiveCommand.class)
 public final class XenServer610MigrateWithStorageReceiveCommandWrapper extends CommandWrapper<MigrateWithStorageReceiveCommand, Answer, XenServer610Resource> {
 
-    private static final Logger s_logger = Logger.getLogger(XenServer610MigrateWithStorageReceiveCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServer610MigrateWithStorageReceiveCommandWrapper.class);
 
     @Override
     public Answer execute(final MigrateWithStorageReceiveCommand command, final XenServer610Resource xenServer610Resource) {

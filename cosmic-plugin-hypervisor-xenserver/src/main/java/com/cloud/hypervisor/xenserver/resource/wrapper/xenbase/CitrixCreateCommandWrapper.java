@@ -21,8 +21,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.storage.CreateAnswer;
 import com.cloud.agent.api.storage.CreateCommand;
@@ -37,10 +35,13 @@ import com.xensource.xenapi.SR;
 import com.xensource.xenapi.Types;
 import com.xensource.xenapi.VDI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  CreateCommand.class)
 public final class CitrixCreateCommandWrapper extends CommandWrapper<CreateCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixCreateCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixCreateCommandWrapper.class);
 
     @Override
     public Answer execute(final CreateCommand command, final CitrixResourceBase citrixResourceBase) {

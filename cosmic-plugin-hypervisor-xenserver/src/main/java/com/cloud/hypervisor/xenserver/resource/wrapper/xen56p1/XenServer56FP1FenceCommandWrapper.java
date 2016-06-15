@@ -23,9 +23,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.apache.xmlrpc.XmlRpcException;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.FenceAnswer;
 import com.cloud.agent.api.FenceCommand;
@@ -38,10 +35,14 @@ import com.xensource.xenapi.VBD;
 import com.xensource.xenapi.VDI;
 import com.xensource.xenapi.VM;
 
+import org.apache.xmlrpc.XmlRpcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  FenceCommand.class)
 public final class XenServer56FP1FenceCommandWrapper extends CommandWrapper<FenceCommand, Answer, XenServer56Resource> {
 
-    private static final Logger s_logger = Logger.getLogger(XenServer56FP1FenceCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServer56FP1FenceCommandWrapper.class);
 
     @Override
     public Answer execute(final FenceCommand command, final XenServer56Resource xenServer56) {

@@ -17,11 +17,12 @@ package com.cloud.hypervisor.xenserver.resource;
 
 import java.io.File;
 import java.util.List;
+
+import com.cloud.utils.script.Script;
+
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
-
-import com.cloud.utils.script.Script;
 
 public abstract class CitrixResourceBaseTest {
 

@@ -22,9 +22,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.apache.xmlrpc.XmlRpcException;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.ScaleVmAnswer;
 import com.cloud.agent.api.ScaleVmCommand;
@@ -39,10 +36,14 @@ import com.xensource.xenapi.Types.VmPowerState;
 import com.xensource.xenapi.Types.XenAPIException;
 import com.xensource.xenapi.VM;
 
+import org.apache.xmlrpc.XmlRpcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  ScaleVmCommand.class)
 public final class CitrixScaleVmCommandWrapper extends CommandWrapper<ScaleVmCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixScaleVmCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixScaleVmCommandWrapper.class);
 
     @Override
     public Answer execute(final ScaleVmCommand command, final CitrixResourceBase citrixResourceBase) {

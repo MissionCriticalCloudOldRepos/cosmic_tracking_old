@@ -26,17 +26,18 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.Command;
 import com.cloud.agent.api.proxy.ConsoleProxyLoadAnswer;
 import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ServerResource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class CitrixConsoleProxyLoadCommandWrapper<T extends Command, A extends Answer, R extends ServerResource> extends CommandWrapper<Command, Answer, ServerResource> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixConsoleProxyLoadCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixConsoleProxyLoadCommandWrapper.class);
 
     protected Answer executeProxyLoadScan(final Command cmd, final long proxyVmId, final String proxyVmName, final String proxyManagementIp, final int cmdPort) {
         String result = null;

@@ -16,20 +16,21 @@
 // under the License.
 package com.cloud.hypervisor.xenserver.resource;
 
-import org.apache.log4j.Logger;
-import org.apache.xmlrpc.XmlRpcException;
-
 import com.xensource.xenapi.Connection;
 import com.xensource.xenapi.Network;
 import com.xensource.xenapi.PIF;
 import com.xensource.xenapi.Types.XenAPIException;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * XsNic represents a network and the host's specific PIF.
  */
 public class XsLocalNetwork {
 
-    private static final Logger s_logger = Logger.getLogger(XsLocalNetwork.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XsLocalNetwork.class);
 
     private final CitrixResourceBase _citrixResourceBase;
     private final Network _n;

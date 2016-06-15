@@ -21,8 +21,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckNetworkAnswer;
 import com.cloud.agent.api.CheckNetworkCommand;
@@ -32,10 +30,13 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.xensource.xenapi.Types.XenAPIException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  CheckNetworkCommand.class)
 public final class CitrixCheckNetworkCommandWrapper extends CommandWrapper<CheckNetworkCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixCheckNetworkCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixCheckNetworkCommandWrapper.class);
 
     @Override
     public Answer execute(final CheckNetworkCommand command, final CitrixResourceBase citrixResourceBase) {

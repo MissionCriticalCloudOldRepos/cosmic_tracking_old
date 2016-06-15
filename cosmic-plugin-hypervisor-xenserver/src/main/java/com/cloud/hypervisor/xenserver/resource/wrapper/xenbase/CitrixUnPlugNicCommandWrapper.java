@@ -21,8 +21,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.UnPlugNicAnswer;
 import com.cloud.agent.api.UnPlugNicCommand;
@@ -35,10 +33,13 @@ import com.xensource.xenapi.Network;
 import com.xensource.xenapi.VIF;
 import com.xensource.xenapi.VM;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  UnPlugNicCommand.class)
 public final class CitrixUnPlugNicCommandWrapper extends CommandWrapper<UnPlugNicCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixUnPlugNicCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixUnPlugNicCommandWrapper.class);
 
     @Override
     public Answer execute(final UnPlugNicCommand command, final CitrixResourceBase citrixResourceBase) {

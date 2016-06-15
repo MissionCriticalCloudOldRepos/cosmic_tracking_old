@@ -15,13 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 package com.cloud.hypervisor.xenserver.resource;
+
 import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Local;
-
-import org.apache.cloudstack.hypervisor.xenserver.XenserverConfigs;
-import org.apache.log4j.Logger;
 
 import com.cloud.agent.api.StartupRoutingCommand;
 import com.cloud.resource.ServerResource;
@@ -30,10 +28,14 @@ import com.xensource.xenapi.Host;
 import com.xensource.xenapi.HostPatch;
 import com.xensource.xenapi.PoolPatch;
 
+import org.apache.cloudstack.hypervisor.xenserver.XenserverConfigs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Local(value = ServerResource.class)
 public class XenServer620Resource extends XenServer610Resource {
 
-    private static final Logger s_logger = Logger.getLogger(XenServer620Resource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServer620Resource.class);
 
     protected boolean hostHasHotFix(final Connection conn, final String hotFixUuid) {
         try {

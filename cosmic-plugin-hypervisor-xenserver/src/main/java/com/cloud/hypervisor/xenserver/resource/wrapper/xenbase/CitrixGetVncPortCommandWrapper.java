@@ -21,8 +21,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.GetVncPortAnswer;
 import com.cloud.agent.api.GetVncPortCommand;
@@ -32,10 +30,13 @@ import com.cloud.resource.ResourceWrapper;
 import com.xensource.xenapi.Connection;
 import com.xensource.xenapi.VM;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  GetVncPortCommand.class)
 public final class CitrixGetVncPortCommandWrapper extends CommandWrapper<GetVncPortCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixGetVncPortCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixGetVncPortCommandWrapper.class);
 
     @Override
     public Answer execute(final GetVncPortCommand command, final CitrixResourceBase citrixResourceBase) {

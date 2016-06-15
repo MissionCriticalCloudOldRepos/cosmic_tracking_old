@@ -21,8 +21,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.MigrateAnswer;
 import com.cloud.agent.api.MigrateCommand;
@@ -35,10 +33,13 @@ import com.xensource.xenapi.Types;
 import com.xensource.xenapi.VBD;
 import com.xensource.xenapi.VM;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  MigrateCommand.class)
 public final class CitrixMigrateCommandWrapper extends CommandWrapper<MigrateCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixMigrateCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixMigrateCommandWrapper.class);
 
     @Override
     public Answer execute(final MigrateCommand command, final CitrixResourceBase citrixResourceBase) {

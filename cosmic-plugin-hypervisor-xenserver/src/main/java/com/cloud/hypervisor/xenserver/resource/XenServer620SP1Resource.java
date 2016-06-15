@@ -25,9 +25,6 @@ import java.util.Set;
 
 import javax.ejb.Local;
 
-import org.apache.log4j.Logger;
-import org.apache.xmlrpc.XmlRpcException;
-
 import com.cloud.agent.api.StartCommand;
 import com.cloud.agent.api.StartupRoutingCommand;
 import com.cloud.agent.api.VgpuTypesInfo;
@@ -43,10 +40,14 @@ import com.xensource.xenapi.VGPUType;
 import com.xensource.xenapi.VGPUType.Record;
 import com.xensource.xenapi.VM;
 
+import org.apache.xmlrpc.XmlRpcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Local(value=ServerResource.class)
 public class XenServer620SP1Resource extends XenServer620Resource {
 
-    private static final Logger s_logger = Logger.getLogger(XenServer620SP1Resource.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServer620SP1Resource.class);
 
     @Override
     protected void fillHostInfo(final Connection conn, final StartupRoutingCommand cmd) {

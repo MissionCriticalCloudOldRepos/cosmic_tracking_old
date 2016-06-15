@@ -19,8 +19,6 @@
 
 package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.check.CheckSshAnswer;
 import com.cloud.agent.api.check.CheckSshCommand;
@@ -29,10 +27,13 @@ import com.cloud.resource.CommandWrapper;
 import com.cloud.resource.ResourceWrapper;
 import com.xensource.xenapi.Connection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  CheckSshCommand.class)
 public final class CitrixCheckSshCommandWrapper extends CommandWrapper<CheckSshCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixCheckSshCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixCheckSshCommandWrapper.class);
 
     @Override
     public Answer execute(final CheckSshCommand command, final CitrixResourceBase citrixResourceBase) {

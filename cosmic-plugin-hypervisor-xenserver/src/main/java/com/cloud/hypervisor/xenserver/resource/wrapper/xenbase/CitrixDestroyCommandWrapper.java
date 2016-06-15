@@ -21,8 +21,6 @@ package com.cloud.hypervisor.xenserver.resource.wrapper.xenbase;
 
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.storage.DestroyCommand;
 import com.cloud.agent.api.to.VolumeTO;
@@ -33,10 +31,13 @@ import com.xensource.xenapi.Connection;
 import com.xensource.xenapi.VBD;
 import com.xensource.xenapi.VDI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @ResourceWrapper(handles =  DestroyCommand.class)
 public final class CitrixDestroyCommandWrapper extends CommandWrapper<DestroyCommand, Answer, CitrixResourceBase> {
 
-    private static final Logger s_logger = Logger.getLogger(CitrixDestroyCommandWrapper.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(CitrixDestroyCommandWrapper.class);
 
     @Override
     public Answer execute(final DestroyCommand command, final CitrixResourceBase citrixResourceBase) {

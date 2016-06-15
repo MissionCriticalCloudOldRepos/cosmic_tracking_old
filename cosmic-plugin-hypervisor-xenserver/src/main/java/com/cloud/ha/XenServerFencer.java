@@ -22,8 +22,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.naming.ConfigurationException;
 
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.AgentManager;
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.FenceAnswer;
@@ -39,8 +37,11 @@ import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class XenServerFencer extends AdapterBase implements FenceBuilder {
-    private static final Logger s_logger = Logger.getLogger(XenServerFencer.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(XenServerFencer.class);
 
     @Inject
     HostDao _hostDao;
