@@ -36,10 +36,11 @@ import com.cloud.network.PhysicalNetworkSetupInfo;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.net.NetUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3HypervisorNetwork {
-  private static final Logger LOGGER = Logger.getLogger(Ovm3HypervisorNetwork.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Ovm3HypervisorNetwork.class);
   private final Connection connection;
   private final Ovm3Configuration config;
 

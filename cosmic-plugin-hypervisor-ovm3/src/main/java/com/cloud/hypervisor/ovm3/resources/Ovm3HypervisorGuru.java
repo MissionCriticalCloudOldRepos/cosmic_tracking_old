@@ -40,11 +40,12 @@ import org.apache.cloudstack.engine.subsystem.api.storage.EndPointSelector;
 import org.apache.cloudstack.engine.subsystem.api.storage.ZoneScope;
 import org.apache.cloudstack.storage.command.CopyCommand;
 import org.apache.cloudstack.storage.command.StorageSubSystemCommand;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3HypervisorGuru extends HypervisorGuruBase implements HypervisorGuru {
 
-  private final Logger logger = Logger.getLogger(Ovm3HypervisorGuru.class);
+  private final Logger logger = LoggerFactory.getLogger(Ovm3HypervisorGuru.class);
   @Inject
   GuestOSDao guestOsDao;
   @Inject

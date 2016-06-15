@@ -17,6 +17,10 @@
 
 package com.cloud.hypervisor.ovm3.support;
 
+import java.util.Map;
+
+import javax.naming.ConfigurationException;
+
 import com.cloud.hypervisor.ovm3.objects.CloudStackPluginTest;
 import com.cloud.hypervisor.ovm3.objects.ConnectionTest;
 import com.cloud.hypervisor.ovm3.objects.LinuxTest;
@@ -27,10 +31,6 @@ import com.cloud.hypervisor.ovm3.resources.Ovm3HypervisorResource;
 import com.cloud.hypervisor.ovm3.resources.Ovm3VirtualRoutingResource;
 import com.cloud.hypervisor.ovm3.resources.helpers.Ovm3Configuration;
 import com.cloud.hypervisor.ovm3.resources.helpers.Ovm3ConfigurationTest;
-
-import java.util.Map;
-
-import javax.naming.ConfigurationException;
 
 public class Ovm3SupportTest {
   ConnectionTest con = new ConnectionTest();

@@ -54,12 +54,13 @@ import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.script.Script;
 import com.cloud.utils.ssh.SshHelper;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3StoragePool {
 
-  private final Logger logger = Logger.getLogger(Ovm3StoragePool.class);
+  private final Logger logger = LoggerFactory.getLogger(Ovm3StoragePool.class);
   private final Connection connection;
   private final Ovm3Configuration config;
   private final OvmObject ovmObject = new OvmObject();

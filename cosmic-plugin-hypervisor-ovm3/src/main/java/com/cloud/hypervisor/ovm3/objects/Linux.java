@@ -21,11 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 public class Linux extends OvmObject {
-  private static final Logger LOGGER = Logger.getLogger(Linux.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Linux.class);
   private static final String DEVICE = "Device";
   private static final String REMOTEDIR = "Remote_Dir";
   private static final String MOUNTPOINT = "Mount_Point";

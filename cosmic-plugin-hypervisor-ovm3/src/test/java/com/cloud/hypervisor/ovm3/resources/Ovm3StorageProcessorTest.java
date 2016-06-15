@@ -17,6 +17,8 @@
 
 package com.cloud.hypervisor.ovm3.resources;
 
+import javax.naming.ConfigurationException;
+
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.storage.CopyVolumeCommand;
 import com.cloud.agent.api.to.DiskTO;
@@ -32,8 +34,6 @@ import com.cloud.hypervisor.ovm3.resources.helpers.Ovm3ConfigurationTest;
 import com.cloud.hypervisor.ovm3.support.Ovm3SupportTest;
 import com.cloud.storage.Volume;
 import com.cloud.vm.DiskProfile;
-
-import javax.naming.ConfigurationException;
 
 import org.apache.cloudstack.storage.command.CopyCmdAnswer;
 import org.apache.cloudstack.storage.command.CopyCommand;

@@ -19,6 +19,8 @@ package com.cloud.hypervisor.ovm3.resources.helpers;
 
 import static org.junit.Assert.assertNull;
 
+import javax.naming.ConfigurationException;
+
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.CheckHealthCommand;
 import com.cloud.agent.api.CheckVirtualMachineCommand;
@@ -38,8 +40,6 @@ import com.cloud.hypervisor.ovm3.resources.Ovm3StorageProcessor;
 import com.cloud.hypervisor.ovm3.resources.Ovm3VirtualRoutingResource;
 import com.cloud.hypervisor.ovm3.support.Ovm3SupportTest;
 import com.cloud.vm.VirtualMachine.State;
-
-import javax.naming.ConfigurationException;
 
 import org.junit.Test;
 

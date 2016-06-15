@@ -28,13 +28,14 @@ import com.cloud.hypervisor.ovm3.objects.Connection;
 import com.cloud.hypervisor.ovm3.resources.Ovm3VirtualRoutingResource;
 import com.cloud.utils.ExecutionResult;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3VirtualRoutingSupport {
 
   private static final String CREATE = "create";
   private static final String SUCCESS = "success";
-  private final Logger logger = Logger.getLogger(Ovm3VirtualRoutingSupport.class);
+  private final Logger logger = LoggerFactory.getLogger(Ovm3VirtualRoutingSupport.class);
   private final Connection connection;
   private final Ovm3VirtualRoutingResource vrr;
   private final Ovm3Configuration config;

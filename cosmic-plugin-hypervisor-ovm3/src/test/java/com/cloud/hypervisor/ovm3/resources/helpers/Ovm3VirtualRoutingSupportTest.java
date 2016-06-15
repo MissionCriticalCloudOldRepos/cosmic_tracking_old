@@ -17,6 +17,8 @@
 
 package com.cloud.hypervisor.ovm3.resources.helpers;
 
+import javax.naming.ConfigurationException;
+
 import com.cloud.agent.api.Answer;
 import com.cloud.agent.api.NetworkUsageCommand;
 import com.cloud.agent.api.check.CheckSshCommand;
@@ -25,8 +27,6 @@ import com.cloud.hypervisor.ovm3.objects.ConnectionTest;
 import com.cloud.hypervisor.ovm3.objects.XmlTestResultTest;
 import com.cloud.hypervisor.ovm3.resources.Ovm3HypervisorResource;
 import com.cloud.hypervisor.ovm3.support.Ovm3SupportTest;
-
-import javax.naming.ConfigurationException;
 
 import org.junit.Test;
 

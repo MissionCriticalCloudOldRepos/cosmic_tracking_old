@@ -37,11 +37,12 @@ import com.cloud.resource.ResourceManager;
 import com.cloud.utils.component.AdapterBase;
 import com.cloud.vm.VirtualMachine;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3FenceBuilder extends AdapterBase implements FenceBuilder {
   Map<String, Object> fenceParams;
-  private static final Logger LOGGER = Logger.getLogger(Ovm3FenceBuilder.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Ovm3FenceBuilder.class);
   @Inject
   AgentManager agentMgr;
   @Inject

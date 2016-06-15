@@ -60,11 +60,12 @@ import com.cloud.vm.VirtualMachine.State;
 import com.trilead.ssh2.SCPClient;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3HypervisorSupport {
 
-  private final Logger logger = Logger.getLogger(Ovm3HypervisorSupport.class);
+  private final Logger logger = LoggerFactory.getLogger(Ovm3HypervisorSupport.class);
   private final Connection connection;
   private final Ovm3Configuration config;
 

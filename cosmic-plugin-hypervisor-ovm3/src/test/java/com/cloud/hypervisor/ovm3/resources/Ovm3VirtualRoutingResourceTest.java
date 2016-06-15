@@ -17,6 +17,11 @@
 
 package com.cloud.hypervisor.ovm3.resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.ConfigurationException;
+
 import com.cloud.agent.api.routing.IpAssocCommand;
 import com.cloud.agent.api.routing.IpAssocVpcCommand;
 import com.cloud.agent.api.routing.NetworkElementCommand;
@@ -32,11 +37,6 @@ import com.cloud.hypervisor.ovm3.resources.helpers.Ovm3Configuration;
 import com.cloud.hypervisor.ovm3.resources.helpers.Ovm3ConfigurationTest;
 import com.cloud.hypervisor.ovm3.support.Ovm3SupportTest;
 import com.cloud.utils.ExecutionResult;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.naming.ConfigurationException;
 
 import org.junit.Test;
 

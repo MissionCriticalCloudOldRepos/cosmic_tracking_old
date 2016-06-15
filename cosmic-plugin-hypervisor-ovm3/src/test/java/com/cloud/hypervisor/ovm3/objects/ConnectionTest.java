@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.common.XmlRpcHttpRequestConfigImpl;
@@ -32,6 +31,8 @@ import org.apache.xmlrpc.common.XmlRpcStreamRequestConfig;
 import org.apache.xmlrpc.parser.XmlRpcResponseParser;
 import org.apache.xmlrpc.util.SAXParsers;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -40,7 +41,7 @@ import org.xml.sax.XMLReader;
  * Connection
  */
 public class ConnectionTest extends Connection {
-  private final Logger LOGGER = Logger.getLogger(ConnectionTest.class);
+  private final Logger LOGGER = LoggerFactory.getLogger(ConnectionTest.class);
   XmlTestResultTest results = new XmlTestResultTest();
   String result;
   List<String> multiRes = new ArrayList<String>();

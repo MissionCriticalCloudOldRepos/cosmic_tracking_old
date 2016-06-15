@@ -62,10 +62,11 @@ import com.cloud.utils.db.SearchCriteria;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.ssh.SSHCmdHelper;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Ovm3Discoverer extends DiscovererBase implements Discoverer, Listener, ResourceStateAdapter {
-  private static final Logger LOGGER = Logger.getLogger(Ovm3Discoverer.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Ovm3Discoverer.class);
   protected String publicNetworkDevice;
   protected String privateNetworkDevice;
   protected String guestNetworkDevice;

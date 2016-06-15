@@ -22,15 +22,16 @@ import java.net.URL;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.TimingOutCallback;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.apache.xmlrpc.client.XmlRpcClientRequestImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Connection extends XmlRpcClient {
-  private static final Logger LOGGER = Logger.getLogger(Connection.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Connection.class);
   private final XmlRpcClientConfigImpl xmlClientConfig = new XmlRpcClientConfigImpl();
   private XmlRpcClient xmlClient;
   private String hostUser = null;
