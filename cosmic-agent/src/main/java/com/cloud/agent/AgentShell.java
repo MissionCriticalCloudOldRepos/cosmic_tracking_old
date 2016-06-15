@@ -32,13 +32,6 @@ import java.util.UUID;
 
 import javax.naming.ConfigurationException;
 
-import org.apache.commons.daemon.Daemon;
-import org.apache.commons.daemon.DaemonContext;
-import org.apache.commons.daemon.DaemonInitException;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
-
 import com.cloud.agent.Agent.ExitStatus;
 import com.cloud.agent.dao.StorageComponent;
 import com.cloud.agent.dao.impl.PropertiesStorage;
@@ -51,8 +44,16 @@ import com.cloud.utils.backoff.BackoffAlgorithm;
 import com.cloud.utils.backoff.impl.ConstantTimeBackoff;
 import com.cloud.utils.exception.CloudRuntimeException;
 
+import org.apache.commons.daemon.Daemon;
+import org.apache.commons.daemon.DaemonContext;
+import org.apache.commons.daemon.DaemonInitException;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.xml.DOMConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AgentShell implements IAgentShell, Daemon {
-    private static final Logger s_logger = Logger.getLogger(AgentShell.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(AgentShell.class.getName());
 
     private final Properties _properties = new Properties();
     private final Map<String, Object> _cmdLineProperties = new HashMap<String, Object>();

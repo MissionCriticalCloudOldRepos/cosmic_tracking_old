@@ -16,25 +16,6 @@
 // under the License.
 package com.cloud.agent;
 
-import com.cloud.agent.api.*;
-import com.cloud.agent.transport.Request;
-import com.cloud.agent.transport.Response;
-import com.cloud.exception.AgentControlChannelException;
-import com.cloud.resource.ServerResource;
-import com.cloud.utils.PropertiesUtil;
-import com.cloud.utils.backoff.BackoffAlgorithm;
-import com.cloud.utils.concurrency.NamedThreadFactory;
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.exception.NioConnectionException;
-import com.cloud.utils.exception.TaskExecutionException;
-import com.cloud.utils.nio.*;
-import com.cloud.utils.script.OutputInterpreter;
-import com.cloud.utils.script.Script;
-import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
-import org.apache.log4j.Logger;
-import org.slf4j.MDC;
-
-import javax.naming.ConfigurationException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -45,8 +26,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.naming.ConfigurationException;
+
+import com.cloud.agent.api.AgentControlAnswer;
+import com.cloud.agent.api.AgentControlCommand;
+import com.cloud.agent.api.Answer;
+import com.cloud.agent.api.Command;
+import com.cloud.agent.api.CronCommand;
+import com.cloud.agent.api.MaintainAnswer;
+import com.cloud.agent.api.MaintainCommand;
+import com.cloud.agent.api.PingCommand;
+import com.cloud.agent.api.ReadyCommand;
+import com.cloud.agent.api.ShutdownCommand;
+import com.cloud.agent.api.StartupAnswer;
+import com.cloud.agent.api.StartupCommand;
+import com.cloud.agent.transport.Request;
+import com.cloud.agent.transport.Response;
+import com.cloud.exception.AgentControlChannelException;
+import com.cloud.resource.ServerResource;
+import com.cloud.utils.PropertiesUtil;
+import com.cloud.utils.backoff.BackoffAlgorithm;
+import com.cloud.utils.concurrency.NamedThreadFactory;
+import com.cloud.utils.exception.CloudRuntimeException;
+import com.cloud.utils.exception.NioConnectionException;
+import com.cloud.utils.exception.TaskExecutionException;
+import com.cloud.utils.nio.HandlerFactory;
+import com.cloud.utils.nio.Link;
+import com.cloud.utils.nio.NioClient;
+import com.cloud.utils.nio.NioConnection;
+import com.cloud.utils.nio.Task;
+import com.cloud.utils.script.OutputInterpreter;
+import com.cloud.utils.script.Script;
+
+import org.apache.cloudstack.managed.context.ManagedContextTimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * @config {@table
@@ -60,7 +82,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * For more configuration options, see the individual types.
  **/
 public class Agent implements HandlerFactory, IAgentControl {
-    private static final Logger s_logger = Logger.getLogger(Agent.class.getName());
+    private static final Logger s_logger = LoggerFactory.getLogger(Agent.class.getName());
 
     public enum ExitStatus {
         Normal(0), // Normal status = 0.

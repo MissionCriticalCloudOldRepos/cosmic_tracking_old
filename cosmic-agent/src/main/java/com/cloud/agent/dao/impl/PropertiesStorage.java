@@ -25,11 +25,12 @@ import java.util.Properties;
 
 import javax.ejb.Local;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-
 import com.cloud.agent.dao.StorageComponent;
 import com.cloud.utils.PropertiesUtil;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Uses Properties to implement storage.
@@ -39,7 +40,7 @@ import com.cloud.utils.PropertiesUtil;
  **/
 @Local(value = {StorageComponent.class})
 public class PropertiesStorage implements StorageComponent {
-    private static final Logger s_logger = Logger.getLogger(PropertiesStorage.class);
+    private static final Logger s_logger = LoggerFactory.getLogger(PropertiesStorage.class);
     Properties _properties = new Properties();
     File _file;
     String _name;
