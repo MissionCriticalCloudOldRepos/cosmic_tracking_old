@@ -30,7 +30,7 @@
                if(isAdmin())
                    return ["serviceOfferings", "systemServiceOfferings", "diskOfferings", "networkOfferings", "vpcOfferings"];
                else if(isDomainAdmin())
-                   return ["serviceOfferings", "diskOfferings"];
+                   return [""];
                else
                    return null;
             },
