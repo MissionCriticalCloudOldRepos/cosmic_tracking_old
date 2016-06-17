@@ -135,9 +135,9 @@ updateGuestOsMapping=1
 removeGuestOsMapping=1
 
 #### service offering commands
-createServiceOffering=7
-deleteServiceOffering=7
-updateServiceOffering=7
+createServiceOffering=3
+deleteServiceOffering=3
+updateServiceOffering=3
 listServiceOfferings=15
 
 #### disk offering commands
