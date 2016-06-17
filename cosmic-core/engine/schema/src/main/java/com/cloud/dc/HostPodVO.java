@@ -16,21 +16,13 @@
 // under the License.
 package com.cloud.dc;
 
-import java.util.Date;
-import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import com.cloud.org.Grouping;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.db.GenericDao;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "host_pod_ref")
@@ -70,7 +62,7 @@ public class HostPodVO implements Pod {
     @Column(name = "uuid")
     private String uuid;
 
-    public HostPodVO(String name, long dcId, String gateway, String cidrAddress, int cidrSize, String description) {
+    public HostPodVO(final String name, final long dcId, final String gateway, final String cidrAddress, final int cidrSize, final String description) {
         this.name = name;
         this.dataCenterId = dcId;
         this.gateway = gateway;
@@ -85,7 +77,7 @@ public class HostPodVO implements Pod {
     /*
      * public HostPodVO(String name, long dcId) { this(null, name, dcId); }
      */
-    protected HostPodVO() {
+    public HostPodVO() {
         this.uuid = UUID.randomUUID().toString();
     }
 
@@ -99,7 +91,7 @@ public class HostPodVO implements Pod {
         return dataCenterId;
     }
 
-    public void setDataCenterId(long dataCenterId) {
+    public void setDataCenterId(final long dataCenterId) {
         this.dataCenterId = dataCenterId;
     }
 
@@ -108,7 +100,7 @@ public class HostPodVO implements Pod {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -117,7 +109,7 @@ public class HostPodVO implements Pod {
         return cidrAddress;
     }
 
-    public void setCidrAddress(String cidrAddress) {
+    public void setCidrAddress(final String cidrAddress) {
         this.cidrAddress = cidrAddress;
     }
 
@@ -126,7 +118,7 @@ public class HostPodVO implements Pod {
         return cidrSize;
     }
 
-    public void setCidrSize(int cidrSize) {
+    public void setCidrSize(final int cidrSize) {
         this.cidrSize = cidrSize;
     }
 
@@ -135,7 +127,7 @@ public class HostPodVO implements Pod {
         return gateway;
     }
 
-    public void setGateway(String gateway) {
+    public void setGateway(final String gateway) {
         this.gateway = gateway;
     }
 
@@ -144,7 +136,7 @@ public class HostPodVO implements Pod {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -153,12 +145,12 @@ public class HostPodVO implements Pod {
         return allocationState;
     }
 
-    public void setAllocationState(AllocationState allocationState) {
+    public void setAllocationState(final AllocationState allocationState) {
         this.allocationState = allocationState;
     }
 
     // Use for comparisons only.
-    public HostPodVO(Long id) {
+    public HostPodVO(final Long id) {
         this.id = id;
     }
 
@@ -172,14 +164,14 @@ public class HostPodVO implements Pod {
         return externalDhcp;
     }
 
-    public void setExternalDhcp(boolean use) {
+    public void setExternalDhcp(final boolean use) {
         externalDhcp = use;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof HostPodVO) {
-            return id == ((HostPodVO)obj).id;
+            return id == ((HostPodVO) obj).id;
         } else {
             return false;
         }
@@ -194,7 +186,11 @@ public class HostPodVO implements Pod {
         return this.uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(final String uuid) {
         this.uuid = uuid;
+    }
+
+    public boolean belongsToDataCenter(final long dataCenterId) {
+        return this.dataCenterId == dataCenterId;
     }
 }

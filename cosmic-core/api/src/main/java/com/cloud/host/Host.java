@@ -16,27 +16,26 @@
 // under the License.
 package com.cloud.host;
 
-import java.util.Date;
-
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.resource.ResourceState;
 import com.cloud.utils.fsm.StateObject;
-
 import org.apache.cloudstack.api.Identity;
 import org.apache.cloudstack.api.InternalIdentity;
 
+import java.util.Date;
+
 /**
- *  Host represents one particular host server.
+ * Host represents one particular host server.
  */
 public interface Host extends StateObject<Status>, Identity, InternalIdentity {
-    public enum Type {
+    enum Type {
         Storage(false), Routing(false), SecondaryStorage(false), SecondaryStorageCmdExecutor(false), ConsoleProxy(true), ExternalFirewall(false), ExternalLoadBalancer(
-                false), ExternalVirtualSwitchSupervisor(false), PxeServer(false), BaremetalPxe(false), BaremetalDhcp(false), TrafficMonitor(false),
+                false), ExternalVirtualSwitchSupervisor(false), TrafficMonitor(false),
 
         ExternalDhcp(false), SecondaryStorageVM(true), LocalSecondaryStorage(false), L2Networking(false);
         boolean _virtual;
 
-        private Type(boolean virtual) {
+        Type(final boolean virtual) {
             _virtual = virtual;
         }
 
@@ -44,8 +43,8 @@ public interface Host extends StateObject<Status>, Identity, InternalIdentity {
             return _virtual;
         }
 
-        public static String[] toStrings(Host.Type... types) {
-            String[] strs = new String[types.length];
+        public static String[] toStrings(final Host.Type... types) {
+            final String[] strs = new String[types.length];
             for (int i = 0; i < types.length; i++) {
                 strs[i] = types[i].toString();
             }

@@ -16,52 +16,24 @@
 // under the License.
 package com.cloud.event;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.cloud.dc.DataCenter;
 import com.cloud.dc.Pod;
 import com.cloud.dc.StorageNetworkIpRange;
 import com.cloud.dc.Vlan;
 import com.cloud.domain.Domain;
 import com.cloud.host.Host;
-import com.cloud.network.GuestVlan;
-import com.cloud.network.IpAddress;
-import com.cloud.network.Network;
-import com.cloud.network.PhysicalNetwork;
-import com.cloud.network.PhysicalNetworkServiceProvider;
-import com.cloud.network.PhysicalNetworkTrafficType;
-import com.cloud.network.RemoteAccessVpn;
-import com.cloud.network.Site2SiteCustomerGateway;
-import com.cloud.network.Site2SiteVpnConnection;
-import com.cloud.network.Site2SiteVpnGateway;
-import com.cloud.network.as.AutoScaleCounter;
-import com.cloud.network.as.AutoScalePolicy;
-import com.cloud.network.as.AutoScaleVmGroup;
-import com.cloud.network.as.AutoScaleVmProfile;
-import com.cloud.network.as.Condition;
+import com.cloud.network.*;
+import com.cloud.network.as.*;
 import com.cloud.network.router.VirtualRouter;
-import com.cloud.network.rules.FirewallRule;
-import com.cloud.network.rules.HealthCheckPolicy;
-import com.cloud.network.rules.LoadBalancer;
-import com.cloud.network.rules.StaticNat;
-import com.cloud.network.rules.StickinessPolicy;
+import com.cloud.network.rules.*;
 import com.cloud.network.security.SecurityGroup;
-import com.cloud.network.vpc.NetworkACL;
-import com.cloud.network.vpc.NetworkACLItem;
-import com.cloud.network.vpc.PrivateGateway;
-import com.cloud.network.vpc.StaticRoute;
-import com.cloud.network.vpc.Vpc;
+import com.cloud.network.vpc.*;
 import com.cloud.offering.DiskOffering;
 import com.cloud.offering.NetworkOffering;
 import com.cloud.offering.ServiceOffering;
 import com.cloud.projects.Project;
 import com.cloud.server.ResourceTag;
-import com.cloud.storage.GuestOS;
-import com.cloud.storage.GuestOSHypervisor;
-import com.cloud.storage.Snapshot;
-import com.cloud.storage.StoragePool;
-import com.cloud.storage.Volume;
+import com.cloud.storage.*;
 import com.cloud.storage.snapshot.SnapshotPolicy;
 import com.cloud.template.VirtualMachineTemplate;
 import com.cloud.user.Account;
@@ -69,9 +41,11 @@ import com.cloud.user.User;
 import com.cloud.vm.Nic;
 import com.cloud.vm.NicSecondaryIp;
 import com.cloud.vm.VirtualMachine;
-
 import org.apache.cloudstack.config.Configuration;
 import org.apache.cloudstack.usage.Usage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EventTypes {
 
@@ -452,14 +426,6 @@ public class EventTypes {
     public static final String EVENT_AUTOSCALEVMGROUP_ENABLE = "AUTOSCALEVMGROUP.ENABLE";
     public static final String EVENT_AUTOSCALEVMGROUP_DISABLE = "AUTOSCALEVMGROUP.DISABLE";
 
-    public static final String EVENT_BAREMETAL_DHCP_SERVER_ADD = "PHYSICAL.DHCP.ADD";
-    public static final String EVENT_BAREMETAL_DHCP_SERVER_DELETE = "PHYSICAL.DHCP.DELETE";
-    public static final String EVENT_BAREMETAL_PXE_SERVER_ADD = "PHYSICAL.PXE.ADD";
-    public static final String EVENT_BAREMETAL_PXE_SERVER_DELETE = "PHYSICAL.PXE.DELETE";
-    public static final String EVENT_BAREMETAL_RCT_ADD = "BAREMETAL.RCT.ADD";
-    public static final String EVENT_BAREMETAL_RCT_DELETE = "BAREMETAL.RCT.DELETE";
-    public static final String EVENT_BAREMETAL_PROVISION_DONE = "BAREMETAL.PROVISION.DONE";
-
     public static final String EVENT_AFFINITY_GROUP_CREATE = "AG.CREATE";
     public static final String EVENT_AFFINITY_GROUP_DELETE = "AG.DELETE";
     public static final String EVENT_AFFINITY_GROUP_ASSIGN = "AG.ASSIGN";
@@ -510,7 +476,7 @@ public class EventTypes {
 
         // TODO: need a way to force author adding event types to declare the entity details as well, with out braking
 
-        entityEventDetails = new HashMap<String, Object>();
+        entityEventDetails = new HashMap<>();
 
         entityEventDetails.put(EVENT_VM_CREATE, VirtualMachine.class);
         entityEventDetails.put(EVENT_VM_DESTROY, VirtualMachine.class);
@@ -823,8 +789,8 @@ public class EventTypes {
         entityEventDetails.put(EVENT_EXTERNAL_NVP_CONTROLLER_CONFIGURE, "NvpController");
 
         // external network mapping events
-        entityEventDetails.put(EVENT_EXTERNAL_VSP_VSD_ADD,  "NuageVsp");
-        entityEventDetails.put(EVENT_EXTERNAL_VSP_VSD_DELETE,  "NuageVsp");
+        entityEventDetails.put(EVENT_EXTERNAL_VSP_VSD_ADD, "NuageVsp");
+        entityEventDetails.put(EVENT_EXTERNAL_VSP_VSD_DELETE, "NuageVsp");
 
         // AutoScale
         entityEventDetails.put(EVENT_COUNTER_CREATE, AutoScaleCounter.class);
@@ -860,14 +826,14 @@ public class EventTypes {
         entityEventDetails.put(EVENT_USAGE_REMOVE_USAGE_RECORDS, Usage.class);
     }
 
-    public static String getEntityForEvent(String eventName) {
+    public static String getEntityForEvent(final String eventName) {
         final Object entityClass = entityEventDetails.get(eventName);
         if (entityClass == null) {
             return null;
-        } else if (entityClass instanceof String){
-            return (String)entityClass;
-        } else if (entityClass instanceof Class){
-            final String entityClassName = ((Class)entityClass).getName();
+        } else if (entityClass instanceof String) {
+            return (String) entityClass;
+        } else if (entityClass instanceof Class) {
+            final String entityClassName = ((Class) entityClass).getName();
             final int index = entityClassName.lastIndexOf(".");
             String entityName = entityClassName;
             if (index != -1) {
@@ -879,11 +845,11 @@ public class EventTypes {
         return null;
     }
 
-    public static Class getEntityClassForEvent(String eventName) {
+    public static Class getEntityClassForEvent(final String eventName) {
         final Object clz = entityEventDetails.get(eventName);
 
-        if(clz instanceof Class){
-            return (Class)entityEventDetails.get(eventName);
+        if (clz instanceof Class) {
+            return (Class) entityEventDetails.get(eventName);
         }
 
         return null;

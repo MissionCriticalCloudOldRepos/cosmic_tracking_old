@@ -16,10 +16,7 @@
 // under the License.
 package org.apache.cloudstack.api.command.admin.template;
 
-import java.util.List;
-
 import com.cloud.template.VirtualMachineTemplate;
-
 import org.apache.cloudstack.api.APICommand;
 import org.apache.cloudstack.api.ApiErrorCode;
 import org.apache.cloudstack.api.ResponseObject.ResponseView;
@@ -30,6 +27,8 @@ import org.apache.cloudstack.context.CallContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 @APICommand(name = "createTemplate", responseObject = TemplateResponse.class, description = "Creates a template of a virtual machine. " + "The virtual machine must be in a STOPPED state. "
         + "A template created from this command is automatically designated as a private template visible to the account that created it.", responseView = ResponseView.Full,
         requestHasSensitiveInfo = false, responseHasSensitiveInfo = false)
@@ -38,17 +37,12 @@ public class CreateTemplateCmdByAdmin extends CreateTemplateCmd {
 
     @Override
     public void execute() {
-        CallContext.current().setEventDetails("Template Id: "+getEntityId()+((getSnapshotId() == null) ? " from volume Id: " + getVolumeId() : " from snapshot Id: " + getSnapshotId()));
+        CallContext.current().setEventDetails("Template Id: " + getEntityId() + ((getSnapshotId() == null) ? " from volume Id: " + getVolumeId() : " from snapshot Id: " + getSnapshotId()));
         VirtualMachineTemplate template = null;
         template = _templateService.createPrivateTemplate(this);
 
-        if (template != null){
-            List<TemplateResponse> templateResponses;
-            if (isBareMetal()) {
-                templateResponses = _responseGenerator.createTemplateResponses(ResponseView.Full, template.getId(), vmId);
-            } else {
-                templateResponses = _responseGenerator.createTemplateResponses(ResponseView.Full, template.getId(), snapshotId, volumeId, false);
-            }
+        if (template != null) {
+            final List<TemplateResponse> templateResponses = _responseGenerator.createTemplateResponses(ResponseView.Full, template.getId(), snapshotId, volumeId, false);
             TemplateResponse response = new TemplateResponse();
             if (templateResponses != null && !templateResponses.isEmpty()) {
                 response = templateResponses.get(0);

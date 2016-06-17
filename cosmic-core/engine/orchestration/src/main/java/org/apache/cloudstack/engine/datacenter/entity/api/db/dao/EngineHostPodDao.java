@@ -16,22 +16,21 @@
 // under the License.
 package org.apache.cloudstack.engine.datacenter.entity.api.db.dao;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.cloud.utils.db.GenericDao;
 import com.cloud.utils.fsm.StateDao;
-
 import org.apache.cloudstack.engine.datacenter.entity.api.DataCenterResourceEntity;
 import org.apache.cloudstack.engine.datacenter.entity.api.db.EngineHostPodVO;
 
+import java.util.HashMap;
+import java.util.List;
+
 public interface EngineHostPodDao extends GenericDao<EngineHostPodVO, Long>,
         StateDao<DataCenterResourceEntity.State, DataCenterResourceEntity.State.Event, DataCenterResourceEntity> {
-    public List<EngineHostPodVO> listByDataCenterId(long id);
+    List<EngineHostPodVO> listByDataCenterId(long id);
 
-    public EngineHostPodVO findByName(String name, long dcId);
+    EngineHostPodVO findByName(String name, long dcId);
 
-    public HashMap<Long, List<Object>> getCurrentPodCidrSubnets(long zoneId, long podIdToSkip);
+    HashMap<Long, List<Object>> getCurrentPodCidrSubnets(long zoneId, long podIdToSkip);
 
-    public List<Long> listDisabledPods(long zoneId);
+    List<Long> listDisabledPods(long zoneId);
 }

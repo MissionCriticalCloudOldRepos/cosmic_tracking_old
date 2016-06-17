@@ -2563,11 +2563,8 @@ public class NetworkServiceImpl extends ManagerBase implements NetworkService {
                     // add security group provider to the physical network
                     addDefaultSecurityGroupProviderToPhysicalNetwork(pNetwork.getId());
 
-                    // add VPCVirtualRouter as the defualt network service provider
+                    // add VPCVirtualRouter as the default network service provider
                     addDefaultVpcVirtualRouterToPhysicalNetwork(pNetwork.getId());
-
-                    // add baremetal as the defualt network service provider
-                    addDefaultBaremetalProvidersToPhysicalNetwork(pNetwork.getId());
 
                     //Add Internal Load Balancer element as a default network service provider
                     addDefaultInternalLbProviderToPhysicalNetwork(pNetwork.getId());
@@ -3836,40 +3833,7 @@ public class NetworkServiceImpl extends ManagerBase implements NetworkService {
     }
 
     protected PhysicalNetworkServiceProvider addDefaultSecurityGroupProviderToPhysicalNetwork(final long physicalNetworkId) {
-
-        final PhysicalNetworkServiceProvider nsp = addProviderToPhysicalNetwork(physicalNetworkId, Network.Provider.SecurityGroupProvider.getName(), null, null);
-
-        return nsp;
-    }
-
-    private PhysicalNetworkServiceProvider addDefaultBaremetalProvidersToPhysicalNetwork(final long physicalNetworkId) {
-        final PhysicalNetworkVO pvo = _physicalNetworkDao.findById(physicalNetworkId);
-        final DataCenterVO dvo = _dcDao.findById(pvo.getDataCenterId());
-        if (dvo.getNetworkType() == NetworkType.Basic) {
-
-            final Provider provider = Network.Provider.getProvider("BaremetalDhcpProvider");
-            if (provider == null) {
-                // baremetal is not loaded
-                return null;
-            }
-
-            addProviderToPhysicalNetwork(physicalNetworkId, "BaremetalDhcpProvider", null, null);
-            addProviderToPhysicalNetwork(physicalNetworkId, "BaremetalPxeProvider", null, null);
-            addProviderToPhysicalNetwork(physicalNetworkId, "BaremetalUserdataProvider", null, null);
-        } else if (dvo.getNetworkType() == NetworkType.Advanced) {
-            addProviderToPhysicalNetwork(physicalNetworkId, "BaremetalPxeProvider", null, null);
-            enableBaremetalProvider("BaremetalPxeProvider");
-        }
-
-        return null;
-    }
-
-    private void enableBaremetalProvider(final String providerName) {
-        final QueryBuilder<PhysicalNetworkServiceProviderVO> q = QueryBuilder.create(PhysicalNetworkServiceProviderVO.class);
-        q.and(q.entity().getProviderName(), SearchCriteria.Op.EQ, providerName);
-        final PhysicalNetworkServiceProviderVO provider = q.find();
-        provider.setState(PhysicalNetworkServiceProvider.State.Enabled);
-        _pNSPDao.update(provider.getId(), provider);
+        return addProviderToPhysicalNetwork(physicalNetworkId, Provider.SecurityGroupProvider.getName(), null, null);
     }
 
     protected boolean isNetworkSystem(final Network network) {

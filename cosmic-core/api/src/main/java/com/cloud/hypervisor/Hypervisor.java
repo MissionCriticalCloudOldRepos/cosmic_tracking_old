@@ -26,7 +26,6 @@ public class Hypervisor {
         KVM,
         VirtualBox,
         Parralels,
-        BareMetal,
         Ovm3,
 
         Any; /*If you don't care about the hypervisor type*/
@@ -43,8 +42,6 @@ public class Hypervisor {
                 return HypervisorType.VirtualBox;
             } else if (hypervisor.equalsIgnoreCase("Parralels")) {
                 return HypervisorType.Parralels;
-            } else if (hypervisor.equalsIgnoreCase("BareMetal")) {
-                return HypervisorType.BareMetal;
             } else if (hypervisor.equalsIgnoreCase("Any")) {
                 return HypervisorType.Any;
             } else if (hypervisor.equalsIgnoreCase("Ovm3")) {

@@ -446,7 +446,7 @@ CREATE VIEW `cloud`.`template_view` AS
             and (resource_tags.resource_type = 'Template' or resource_tags.resource_type='ISO');
 
 
-UPDATE configuration SET value='KVM,XenServer,VMware,BareMetal,Ovm,LXC,Hyperv' WHERE name='hypervisor.list';
+UPDATE configuration SET value='KVM,XenServer,VMware,Ovm,LXC,Hyperv' WHERE name='hypervisor.list';
 UPDATE `cloud`.`configuration` SET description="If set to true, will set guest VM's name as it appears on the hypervisor, to its hostname. The flag is supported for VMware hypervisor only" WHERE name='vm.instancename.flag';
 INSERT IGNORE INTO `cloud`.`configuration`(category, instance, component, name, value, description, default_value) VALUES ('Advanced', 'DEFAULT', 'management-server', 'implicit.host.tags', 'GPU', 'Tag hosts at the time of host disovery based on the host properties/capabilities ', 'GPU');
 
@@ -958,14 +958,6 @@ INSERT IGNORE INTO `cloud`.`guest_os_hypervisor` (uuid,hypervisor_type, hypervis
 INSERT IGNORE INTO `cloud`.`hypervisor_capabilities`(uuid, hypervisor_type, hypervisor_version, max_guests_limit, security_group_enabled, max_data_volumes_limit, storage_motion_supported) VALUES (UUID(), 'XenServer', '6.5.0', 500, 1, 13, 1);
 
 update vlan set vlan_id=concat('vlan://', vlan_id) where vlan_type = "VirtualNetwork" and vlan_id not like "vlan://%";
-
-CREATE TABLE `cloud`.`baremetal_rct` (
-  `id` bigint unsigned UNIQUE AUTO_INCREMENT,
-  `uuid` varchar(40) UNIQUE NOT NULL,
-  `url` varchar(2048) NOT NULL,
-  `rct` text NOT NULL,
-   PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 --Remove duplicates from guest_os_hypervisor table
 DELETE t1 FROM guest_os_hypervisor t1, guest_os_hypervisor t2 WHERE (t1.hypervisor_type = t2.hypervisor_type AND t1.hypervisor_version = t2.hypervisor_version AND t1.guest_os_id = t2.guest_os_id AND t1.id > t2.id AND t1.is_user_defined=0);

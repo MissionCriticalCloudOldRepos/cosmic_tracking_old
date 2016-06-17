@@ -42,9 +42,10 @@ under the License.
 -->
 <components.xml>
     <interceptor library="com.cloud.configuration.DefaultInterceptorLibrary"/>
-    <management-server class="com.cloud.network.NetworkManagerImpl" library="com.cloud.network.NetworkManagerTestComponentLibrary">
+    <management-server class="com.cloud.network.NetworkManagerImpl"
+                       library="com.cloud.network.NetworkManagerTestComponentLibrary">
         <dao name="Configuration configuration server" class="com.cloud.configuration.dao.ConfigurationDaoImpl">
-             <param name="premium">true</param>
+            <param name="premium">true</param>
         </dao>
         <adapters key="com.cloud.network.guru.NetworkGuru">
             <!--
@@ -82,7 +83,6 @@ under the License.
         <adapters key="com.cloud.network.element.NetworkElement">
             <adapter name="VirtualRouter" class="com.cloud.network.element.VirtualRouterElement"/>
             <!--<adapter name="ExternalDhcpServer" class="com.cloud.network.element.ExternalDhcpElement"/>-->
-            <adapter name="BareMetal" class="com.cloud.network.element.BareMetalElement"/>
             <adapter name="SecurityGroupProvider" class="com.cloud.network.element.SecurityGroupElement"/>
             <adapter name="VpcVirtualRouter" class="com.cloud.network.element.VpcVirtualRouterElement"/>
             <!--<adapter name="NiciraNvp" class="com.cloud.network.element.NiciraNvpElement"/> -->
@@ -140,7 +140,8 @@ under the License.
             <adapter name="VpcVirtualRouter" class="com.cloud.network.element.VpcVirtualRouterElement"/>
         </adapters>
 
-        <pluggableservice name="VirtualRouterElementService" key="com.cloud.network.element.VirtualRouterElementService" class="com.cloud.network.element.VirtualRouterElement"/>
+        <pluggableservice name="VirtualRouterElementService" key="com.cloud.network.element.VirtualRouterElementService"
+                          class="com.cloud.network.element.VirtualRouterElement"/>
         <!-- <pluggableservice name="NiciraNvpElementService" key="com.cloud.network.element.NiciraNvpElementService" class="com.cloud.network.element.NiciraNvpElement"/> -->
         <!--<dao name="NiciraNvpDao" class="com.cloud.network.dao.NiciraNvpDaoImpl" singleton="false"/> -->
         <!--<dao name="NiciraNvpNicMappingDao" class="com.cloud.network.dao.NiciraNvpNicMappingDaoImpl" singleton="false"/> -->
@@ -148,29 +149,36 @@ under the License.
     </management-server>
 
     <configuration-server class="com.cloud.server.ConfigurationServerImpl">
-        <dao name="Configuration configuration server" class="com.cloud.configuration.dao.ConfigurationDaoImpl" singleton="false">
-             <param name="premium">true</param>
+        <dao name="Configuration configuration server" class="com.cloud.configuration.dao.ConfigurationDaoImpl"
+             singleton="false">
+            <param name="premium">true</param>
         </dao>
         <dao name="Snapshot policy defaults" class="com.cloud.storage.dao.SnapshotPolicyDaoImpl" singleton="false"/>
-        <dao name="DiskOffering configuration server" class="com.cloud.storage.dao.DiskOfferingDaoImpl" singleton="false"/>         
-        <dao name="ServiceOffering configuration server" class="com.cloud.service.dao.ServiceOfferingDaoImpl" singleton="false"/>
+        <dao name="DiskOffering configuration server" class="com.cloud.storage.dao.DiskOfferingDaoImpl"
+             singleton="false"/>
+        <dao name="ServiceOffering configuration server" class="com.cloud.service.dao.ServiceOfferingDaoImpl"
+             singleton="false"/>
         <dao name="host zone configuration server" class="com.cloud.dc.dao.DataCenterDaoImpl" singleton="false"/>
         <dao name="host pod configuration server" class="com.cloud.dc.dao.HostPodDaoImpl" singleton="false"/>
         <dao name="DomainDao" class="com.cloud.domain.dao.DomainDaoImpl" singleton="false"/>
         <dao name="NetworkOfferingDao" class="com.cloud.offerings.dao.NetworkOfferingDaoImpl" singleton="false"/>
         <dao name="DataCenterDao" class="com.cloud.dc.dao.DataCenterDaoImpl" singleton="false"/>
         <dao name="NetworkDao" class="com.cloud.network.dao.NetworkDaoImpl" singleton="false"/>
-        <dao name="IpAddressDao" class="com.cloud.network.dao.IPAddressDaoImpl" singleton="false"/>     
+        <dao name="IpAddressDao" class="com.cloud.network.dao.IPAddressDaoImpl" singleton="false"/>
         <dao name="VlanDao" class="com.cloud.dc.dao.VlanDaoImpl" singleton="false"/>
         <dao name="ResouceCountDao" class="com.cloud.configuration.dao.ResourceCountDaoImpl" singleton="false"/>
         <dao name="AccountDao" class="com.cloud.user.dao.AccountDaoImpl" singleton="false"/>
         <dao name="UserDao" class="com.cloud.user.dao.UserDaoImpl" singleton="false"/>
-        <dao name="NetworkOfferingServiceDao" class="com.cloud.offerings.dao.NetworkOfferingServiceMapDaoImpl" singleton="false"/>
-        <dao name="VirtualRouterProviderDao" class="com.cloud.network.dao.VirtualRouterProviderDaoImpl" singleton="false"/>
-        <dao name="Site2SiteCustomerGatewayDao" class="com.cloud.network.dao.Site2SiteCustomerGatewayDaoImpl" singleton="false"/>
+        <dao name="NetworkOfferingServiceDao" class="com.cloud.offerings.dao.NetworkOfferingServiceMapDaoImpl"
+             singleton="false"/>
+        <dao name="VirtualRouterProviderDao" class="com.cloud.network.dao.VirtualRouterProviderDaoImpl"
+             singleton="false"/>
+        <dao name="Site2SiteCustomerGatewayDao" class="com.cloud.network.dao.Site2SiteCustomerGatewayDaoImpl"
+             singleton="false"/>
         <dao name="Site2SiteVpnGatewayDao" class="com.cloud.network.dao.Site2SiteVpnGatewayDaoImpl" singleton="false"/>
-        <dao name="Site2SiteVpnConnectionDao" class="com.cloud.network.dao.Site2SiteVpnConnectionDaoImpl" singleton="false"/>
+        <dao name="Site2SiteVpnConnectionDao" class="com.cloud.network.dao.Site2SiteVpnConnectionDaoImpl"
+             singleton="false"/>
     </configuration-server>
-    
-    
+
+
 </components.xml>

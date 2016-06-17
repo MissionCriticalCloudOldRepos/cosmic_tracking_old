@@ -16,9 +16,6 @@
 // under the License.
 package com.cloud.vm;
 
-import java.util.List;
-import java.util.Map;
-
 import com.cloud.agent.api.to.DiskTO;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
 import com.cloud.offering.ServiceOffering;
@@ -26,11 +23,13 @@ import com.cloud.template.VirtualMachineTemplate;
 import com.cloud.template.VirtualMachineTemplate.BootloaderType;
 import com.cloud.user.Account;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * VirtualMachineProfile describes one virtual machine. This object
  * on what the virtual machine profile should look like before it is
  * actually started on the hypervisor.
- *
  */
 public interface VirtualMachineProfile {
 
@@ -50,19 +49,18 @@ public interface VirtualMachineProfile {
 
     void setConfigDriveIsoFile(String isoFile);
 
-    public static class Param {
+    class Param {
 
         public static final Param VmPassword = new Param("VmPassword");
         public static final Param VmSshPubKey = new Param("VmSshPubKey");
         public static final Param ControlNic = new Param("ControlNic");
         public static final Param ReProgramGuestNetworks = new Param("RestartNetwork");
-        public static final Param PxeSeverType = new Param("PxeSeverType");
         public static final Param HaTag = new Param("HaTag");
         public static final Param HaOperation = new Param("HaOperation");
 
-        private String name;
+        private final String name;
 
-        public Param(String name) {
+        public Param(final String name) {
             synchronized (Param.class) {
                 this.name = name;
             }
@@ -78,14 +76,14 @@ public interface VirtualMachineProfile {
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj)
                 return true;
             if (obj == null)
                 return false;
             if (getClass() != obj.getClass())
                 return false;
-            Param other = (Param) obj;
+            final Param other = (Param) obj;
             return (other.getName().equals(this.getName()));
         }
     }

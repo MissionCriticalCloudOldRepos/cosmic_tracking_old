@@ -16,25 +16,15 @@
 // under the License.
 package com.cloud.dc;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Transient;
-
 import com.cloud.network.Network.Provider;
 import com.cloud.org.Grouping;
 import com.cloud.utils.NumbersUtil;
 import com.cloud.utils.db.GenericDao;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.UUID;
 
 @Entity
 @Table(name = "data_center")
@@ -140,7 +130,7 @@ public class DataCenterVO implements DataCenter {
         return dnsProvider;
     }
 
-    public void setDnsProvider(String dnsProvider) {
+    public void setDnsProvider(final String dnsProvider) {
         this.dnsProvider = dnsProvider;
     }
 
@@ -149,7 +139,7 @@ public class DataCenterVO implements DataCenter {
         return dhcpProvider;
     }
 
-    public void setDhcpProvider(String dhcpProvider) {
+    public void setDhcpProvider(final String dhcpProvider) {
         this.dhcpProvider = dhcpProvider;
     }
 
@@ -158,7 +148,7 @@ public class DataCenterVO implements DataCenter {
         return gatewayProvider;
     }
 
-    public void setGatewayProvider(String gatewayProvider) {
+    public void setGatewayProvider(final String gatewayProvider) {
         this.gatewayProvider = gatewayProvider;
     }
 
@@ -167,7 +157,7 @@ public class DataCenterVO implements DataCenter {
         return loadBalancerProvider;
     }
 
-    public void setLoadBalancerProvider(String loadBalancerProvider) {
+    public void setLoadBalancerProvider(final String loadBalancerProvider) {
         this.loadBalancerProvider = loadBalancerProvider;
     }
 
@@ -176,20 +166,20 @@ public class DataCenterVO implements DataCenter {
         return firewallProvider;
     }
 
-    public void setFirewallProvider(String firewallProvider) {
+    public void setFirewallProvider(final String firewallProvider) {
         this.firewallProvider = firewallProvider;
     }
 
-    public DataCenterVO(long id, String name, String description, String dns1, String dns2, String dns3, String dns4, String guestCidr, String domain, Long domainId,
-            NetworkType zoneType, String zoneToken, String domainSuffix) {
+    public DataCenterVO(final long id, final String name, final String description, final String dns1, final String dns2, final String dns3, final String dns4, final String guestCidr, final String domain, final Long domainId,
+                        final NetworkType zoneType, final String zoneToken, final String domainSuffix) {
         this(name, description, dns1, dns2, dns3, dns4, guestCidr, domain, domainId, zoneType, zoneToken, domainSuffix, false, false, null, null);
         this.id = id;
         this.allocationState = Grouping.AllocationState.Enabled;
         this.uuid = UUID.randomUUID().toString();
     }
 
-    public DataCenterVO(String name, String description, String dns1, String dns2, String dns3, String dns4, String guestCidr, String domain, Long domainId,
-            NetworkType zoneType, String zoneToken, String domainSuffix, boolean securityGroupEnabled, boolean localStorageEnabled, String ip6Dns1, String ip6Dns2) {
+    public DataCenterVO(final String name, final String description, final String dns1, final String dns2, final String dns3, final String dns4, final String guestCidr, final String domain, final Long domainId,
+                        final NetworkType zoneType, final String zoneToken, final String domainSuffix, final boolean securityGroupEnabled, final boolean localStorageEnabled, final String ip6Dns1, final String ip6Dns2) {
         this.name = name;
         this.description = description;
         this.dns1 = dns1;
@@ -231,7 +221,7 @@ public class DataCenterVO implements DataCenter {
         return vpnProvider;
     }
 
-    public void setVpnProvider(String vpnProvider) {
+    public void setVpnProvider(final String vpnProvider) {
         this.vpnProvider = vpnProvider;
     }
 
@@ -240,7 +230,7 @@ public class DataCenterVO implements DataCenter {
         return userDataProvider;
     }
 
-    public void setUserDataProvider(String userDataProvider) {
+    public void setUserDataProvider(final String userDataProvider) {
         this.userDataProvider = userDataProvider;
     }
 
@@ -249,7 +239,7 @@ public class DataCenterVO implements DataCenter {
         return guestNetworkCidr;
     }
 
-    public void setGuestNetworkCidr(String guestNetworkCidr) {
+    public void setGuestNetworkCidr(final String guestNetworkCidr) {
         this.guestNetworkCidr = guestNetworkCidr;
     }
 
@@ -258,7 +248,7 @@ public class DataCenterVO implements DataCenter {
         return domainId;
     }
 
-    public void setDomainId(Long domainId) {
+    public void setDomainId(final Long domainId) {
         this.domainId = domainId;
     }
 
@@ -291,7 +281,7 @@ public class DataCenterVO implements DataCenter {
         return internalDns2;
     }
 
-    protected DataCenterVO() {
+    public DataCenterVO() {
     }
 
     @Override
@@ -299,32 +289,36 @@ public class DataCenterVO implements DataCenter {
         return id;
     }
 
+    public void setId(final long id) {
+        this.id = id;
+    }
+
     @Override
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setDns1(String dns1) {
+    public void setDns1(final String dns1) {
         this.dns1 = dns1;
     }
 
-    public void setDns2(String dns2) {
+    public void setDns2(final String dns2) {
         this.dns2 = dns2;
     }
 
-    public void setInternalDns1(String dns3) {
+    public void setInternalDns1(final String dns3) {
         this.internalDns1 = dns3;
     }
 
-    public void setInternalDns2(String dns4) {
+    public void setInternalDns2(final String dns4) {
         this.internalDns2 = dns4;
     }
 
-    public void setRouterMacAddress(String routerMacAddress) {
+    public void setRouterMacAddress(final String routerMacAddress) {
         this.routerMacAddress = routerMacAddress;
     }
 
@@ -333,11 +327,11 @@ public class DataCenterVO implements DataCenter {
         return domain;
     }
 
-    public void setDomain(String domain) {
+    public void setDomain(final String domain) {
         this.domain = domain;
     }
 
-    public void setNetworkType(NetworkType zoneNetworkType) {
+    public void setNetworkType(final NetworkType zoneNetworkType) {
         this.networkType = zoneNetworkType;
     }
 
@@ -351,7 +345,7 @@ public class DataCenterVO implements DataCenter {
         return securityGroupEnabled;
     }
 
-    public void setSecurityGroupEnabled(boolean enabled) {
+    public void setSecurityGroupEnabled(final boolean enabled) {
         this.securityGroupEnabled = enabled;
     }
 
@@ -360,7 +354,7 @@ public class DataCenterVO implements DataCenter {
         return localStorageEnabled;
     }
 
-    public void setLocalStorageEnabled(boolean enabled) {
+    public void setLocalStorageEnabled(final boolean enabled) {
         this.localStorageEnabled = enabled;
     }
 
@@ -370,15 +364,15 @@ public class DataCenterVO implements DataCenter {
     }
 
     @Override
-    public void setDetails(Map<String, String> details2) {
+    public void setDetails(final Map<String, String> details2) {
         details = details2;
     }
 
-    public String getDetail(String name) {
-        return details != null ? details.get(name) : null ;
+    public String getDetail(final String name) {
+        return details != null ? details.get(name) : null;
     }
 
-    public void setDetail(String name, String value) {
+    public void setDetail(final String name, final String value) {
         assert (details != null) : "Did you forget to load the details?";
 
         details.put(name, value);
@@ -389,7 +383,7 @@ public class DataCenterVO implements DataCenter {
         return allocationState;
     }
 
-    public void setAllocationState(AllocationState allocationState) {
+    public void setAllocationState(final AllocationState allocationState) {
         this.allocationState = allocationState;
     }
 
@@ -399,11 +393,11 @@ public class DataCenterVO implements DataCenter {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof DataCenterVO)) {
             return false;
         }
-        DataCenterVO that = (DataCenterVO)obj;
+        final DataCenterVO that = (DataCenterVO) obj;
         return this.id == that.id;
     }
 
@@ -412,7 +406,7 @@ public class DataCenterVO implements DataCenter {
         return zoneToken;
     }
 
-    public void setZoneToken(String zoneToken) {
+    public void setZoneToken(final String zoneToken) {
         this.zoneToken = zoneToken;
     }
 
@@ -425,7 +419,7 @@ public class DataCenterVO implements DataCenter {
         return this.uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(final String uuid) {
         this.uuid = uuid;
     }
 
@@ -433,7 +427,7 @@ public class DataCenterVO implements DataCenter {
         return macAddress;
     }
 
-    public void setMacAddress(long macAddress) {
+    public void setMacAddress(final long macAddress) {
         this.macAddress = macAddress;
     }
 
@@ -442,7 +436,7 @@ public class DataCenterVO implements DataCenter {
         return ip6Dns1;
     }
 
-    public void setIp6Dns1(String ip6Dns1) {
+    public void setIp6Dns1(final String ip6Dns1) {
         this.ip6Dns1 = ip6Dns1;
     }
 
@@ -451,7 +445,7 @@ public class DataCenterVO implements DataCenter {
         return ip6Dns2;
     }
 
-    public void setIp6Dns2(String ip6Dns2) {
+    public void setIp6Dns2(final String ip6Dns2) {
         this.ip6Dns2 = ip6Dns2;
     }
 }

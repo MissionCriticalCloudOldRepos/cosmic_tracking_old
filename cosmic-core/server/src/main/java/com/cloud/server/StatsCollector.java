@@ -16,31 +16,8 @@
 // under the License.
 package com.cloud.server;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import com.cloud.agent.AgentManager;
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.GetStorageStatsCommand;
-import com.cloud.agent.api.HostStatsEntry;
-import com.cloud.agent.api.PerformanceMonitorCommand;
-import com.cloud.agent.api.VgpuTypesInfo;
-import com.cloud.agent.api.VmDiskStatsEntry;
-import com.cloud.agent.api.VmStatsEntry;
+import com.cloud.agent.api.*;
 import com.cloud.cluster.ManagementServerHostVO;
 import com.cloud.cluster.dao.ManagementServerHostDao;
 import com.cloud.exception.StorageUnavailableException;
@@ -51,25 +28,9 @@ import com.cloud.host.HostVO;
 import com.cloud.host.Status;
 import com.cloud.host.dao.HostDao;
 import com.cloud.hypervisor.Hypervisor.HypervisorType;
-import com.cloud.network.as.AutoScaleManager;
-import com.cloud.network.as.AutoScalePolicyConditionMapVO;
-import com.cloud.network.as.AutoScalePolicyVO;
-import com.cloud.network.as.AutoScaleVmGroupPolicyMapVO;
-import com.cloud.network.as.AutoScaleVmGroupVO;
-import com.cloud.network.as.AutoScaleVmGroupVmMapVO;
-import com.cloud.network.as.AutoScaleVmProfileVO;
+import com.cloud.network.as.*;
 import com.cloud.network.as.Condition.Operator;
-import com.cloud.network.as.ConditionVO;
-import com.cloud.network.as.Counter;
-import com.cloud.network.as.CounterVO;
-import com.cloud.network.as.dao.AutoScalePolicyConditionMapDao;
-import com.cloud.network.as.dao.AutoScalePolicyDao;
-import com.cloud.network.as.dao.AutoScaleVmGroupDao;
-import com.cloud.network.as.dao.AutoScaleVmGroupPolicyMapDao;
-import com.cloud.network.as.dao.AutoScaleVmGroupVmMapDao;
-import com.cloud.network.as.dao.AutoScaleVmProfileDao;
-import com.cloud.network.as.dao.ConditionDao;
-import com.cloud.network.as.dao.CounterDao;
+import com.cloud.network.as.dao.*;
 import com.cloud.resource.ResourceManager;
 import com.cloud.resource.ResourceState;
 import com.cloud.service.ServiceOfferingVO;
@@ -87,21 +48,11 @@ import com.cloud.utils.Pair;
 import com.cloud.utils.component.ComponentMethodInterceptable;
 import com.cloud.utils.component.ManagerBase;
 import com.cloud.utils.concurrency.NamedThreadFactory;
-import com.cloud.utils.db.Filter;
-import com.cloud.utils.db.GlobalLock;
-import com.cloud.utils.db.SearchCriteria;
-import com.cloud.utils.db.Transaction;
-import com.cloud.utils.db.TransactionCallbackNoReturn;
-import com.cloud.utils.db.TransactionStatus;
+import com.cloud.utils.db.*;
 import com.cloud.utils.net.MacAddress;
-import com.cloud.vm.UserVmManager;
-import com.cloud.vm.UserVmVO;
-import com.cloud.vm.VMInstanceVO;
-import com.cloud.vm.VirtualMachine;
-import com.cloud.vm.VmStats;
+import com.cloud.vm.*;
 import com.cloud.vm.dao.UserVmDao;
 import com.cloud.vm.dao.VMInstanceDao;
-
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStore;
 import org.apache.cloudstack.engine.subsystem.api.storage.DataStoreManager;
 import org.apache.cloudstack.engine.subsystem.api.storage.EndPoint;
@@ -118,18 +69,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Provides real time stats for various agent resources up to x seconds
- *
  */
 @Component
 public class StatsCollector extends ManagerBase implements ComponentMethodInterceptable {
 
-    public static enum ExternalStatsProtocol {
+    public enum ExternalStatsProtocol {
         NONE("none"), GRAPHITE("graphite");
         String _type;
 
-        ExternalStatsProtocol(String type) {
+        ExternalStatsProtocol(final String type) {
             _type = type;
         }
 
@@ -199,11 +158,11 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
     @Inject
     private HostGpuGroupsDao _hostGpuGroupsDao;
 
-    private ConcurrentHashMap<Long, HostStats> _hostStats = new ConcurrentHashMap<Long, HostStats>();
-    private final ConcurrentHashMap<Long, VmStats> _VmStats = new ConcurrentHashMap<Long, VmStats>();
-    private final ConcurrentHashMap<Long, VolumeStats> _volumeStats = new ConcurrentHashMap<Long, VolumeStats>();
-    private ConcurrentHashMap<Long, StorageStats> _storageStats = new ConcurrentHashMap<Long, StorageStats>();
-    private ConcurrentHashMap<Long, StorageStats> _storagePoolStats = new ConcurrentHashMap<Long, StorageStats>();
+    private ConcurrentHashMap<Long, HostStats> _hostStats = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, VmStats> _VmStats = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, VolumeStats> _volumeStats = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, StorageStats> _storageStats = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, StorageStats> _storagePoolStats = new ConcurrentHashMap<>();
 
     long hostStatsInterval = -1L;
     long hostAndVmStatsInterval = -1L;
@@ -212,7 +171,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
     long autoScaleStatsInterval = -1L;
     int vmDiskStatsInterval = 0;
     List<Long> hostIds = null;
-    private double _imageStoreCapacityThreshold = 0.90;
+    private final double _imageStoreCapacityThreshold = 0.90;
 
     String externalStatsPrefix = "";
     String externalStatsHost = null;
@@ -233,7 +192,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
         return s_instance;
     }
 
-    public static StatsCollector getInstance(Map<String, String> configs) {
+    public static StatsCollector getInstance(final Map<String, String> configs) {
         s_instance.init(configs);
         return s_instance;
     }
@@ -248,7 +207,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
         return true;
     }
 
-    private void init(Map<String, String> configs) {
+    private void init(final Map<String, String> configs) {
         _executor = Executors.newScheduledThreadPool(4, new NamedThreadFactory("StatsCollector"));
 
         hostStatsInterval = NumbersUtil.parseLong(configs.get("host.stats.interval"), 60000L);
@@ -259,15 +218,15 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
         vmDiskStatsInterval = NumbersUtil.parseInt(configs.get("vm.disk.stats.interval"), 0);
 
         /* URI to send statistics to. Currently only Graphite is supported */
-        String externalStatsUri = configs.get("stats.output.uri");
+        final String externalStatsUri = configs.get("stats.output.uri");
         if (externalStatsUri != null && !externalStatsUri.equals("")) {
             try {
-                URI uri = new URI(externalStatsUri);
-                String scheme = uri.getScheme();
+                final URI uri = new URI(externalStatsUri);
+                final String scheme = uri.getScheme();
 
                 try {
                     externalStatsType = ExternalStatsProtocol.valueOf(scheme.toUpperCase());
-                } catch (IllegalArgumentException e) {
+                } catch (final IllegalArgumentException e) {
                     s_logger.info(scheme + " is not a valid protocol for external statistics. No statistics will be send.");
                 }
 
@@ -283,7 +242,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                 }
 
                 externalStatsEnabled = true;
-            } catch (URISyntaxException e) {
+            } catch (final URISyntaxException e) {
                 s_logger.debug("Failed to parse external statistics URI: " + e.getMessage());
             }
         }
@@ -312,17 +271,17 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
 
         //Schedule disk stats update task
         _diskStatsUpdateExecutor = Executors.newScheduledThreadPool(1, new NamedThreadFactory("DiskStatsUpdater"));
-        String aggregationRange = configs.get("usage.stats.job.aggregation.range");
+        final String aggregationRange = configs.get("usage.stats.job.aggregation.range");
         _usageAggregationRange = NumbersUtil.parseInt(aggregationRange, 1440);
         _usageTimeZone = configs.get("usage.aggregation.timezone");
         if (_usageTimeZone == null) {
             _usageTimeZone = "GMT";
         }
-        TimeZone usageTimezone = TimeZone.getTimeZone(_usageTimeZone);
-        Calendar cal = Calendar.getInstance(usageTimezone);
+        final TimeZone usageTimezone = TimeZone.getTimeZone(_usageTimeZone);
+        final Calendar cal = Calendar.getInstance(usageTimezone);
         cal.setTime(new Date());
         long endDate = 0;
-        int HOURLY_TIME = 60;
+        final int HOURLY_TIME = 60;
         final int DAILY_TIME = 60 * 24;
         if (_usageAggregationRange == DAILY_TIME) {
             cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -360,7 +319,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
             try {
                 s_logger.debug("HostStatsCollector is running...");
 
-                SearchCriteria<HostVO> sc = _hostDao.createSearchCriteria();
+                final SearchCriteria<HostVO> sc = _hostDao.createSearchCriteria();
                 sc.addAnd("status", SearchCriteria.Op.EQ, Status.Up.toString());
                 sc.addAnd("resourceState", SearchCriteria.Op.NIN, ResourceState.Maintenance, ResourceState.PrepareForMaintenance, ResourceState.ErrorInMaintenance);
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.Storage.toString());
@@ -372,12 +331,10 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.ExternalFirewall.toString());
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.ExternalLoadBalancer.toString());
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.L2Networking.toString());
-                sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.BaremetalDhcp.toString());
-                sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.BaremetalPxe.toString());
-                ConcurrentHashMap<Long, HostStats> hostStats = new ConcurrentHashMap<Long, HostStats>();
-                List<HostVO> hosts = _hostDao.search(sc, null);
-                for (HostVO host : hosts) {
-                    HostStatsEntry stats = (HostStatsEntry)_resourceMgr.getHostStatistics(host.getId());
+                final ConcurrentHashMap<Long, HostStats> hostStats = new ConcurrentHashMap<>();
+                final List<HostVO> hosts = _hostDao.search(sc, null);
+                for (final HostVO host : hosts) {
+                    final HostStatsEntry stats = (HostStatsEntry) _resourceMgr.getHostStatistics(host.getId());
                     if (stats != null) {
                         hostStats.put(host.getId(), stats);
                     } else {
@@ -386,9 +343,9 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                 }
                 _hostStats = hostStats;
                 // Get a subset of hosts with GPU support from the list of "hosts"
-                List<HostVO> gpuEnabledHosts = new ArrayList<HostVO>();
+                List<HostVO> gpuEnabledHosts = new ArrayList<>();
                 if (hostIds != null) {
-                    for (HostVO host : hosts) {
+                    for (final HostVO host : hosts) {
                         if (hostIds.contains(host.getId())) {
                             gpuEnabledHosts.add(host);
                         }
@@ -397,14 +354,14 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                     // Check for all the hosts managed by CloudStack.
                     gpuEnabledHosts = hosts;
                 }
-                for (HostVO host : gpuEnabledHosts) {
-                    HashMap<String, HashMap<String, VgpuTypesInfo>> groupDetails = _resourceMgr.getGPUStatistics(host);
+                for (final HostVO host : gpuEnabledHosts) {
+                    final HashMap<String, HashMap<String, VgpuTypesInfo>> groupDetails = _resourceMgr.getGPUStatistics(host);
                     if (groupDetails != null) {
                         _resourceMgr.updateGPUDetails(host.getId(), groupDetails);
                     }
                 }
                 hostIds = _hostGpuGroupsDao.listHostIds();
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 s_logger.error("Error trying to retrieve host stats", t);
             }
         }
@@ -416,7 +373,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
             try {
                 s_logger.debug("VmStatsCollector is running...");
 
-                SearchCriteria<HostVO> sc = _hostDao.createSearchCriteria();
+                final SearchCriteria<HostVO> sc = _hostDao.createSearchCriteria();
                 sc.addAnd("status", SearchCriteria.Op.EQ, Status.Up.toString());
                 sc.addAnd("resourceState", SearchCriteria.Op.NIN, ResourceState.Maintenance, ResourceState.PrepareForMaintenance, ResourceState.ErrorInMaintenance);
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.Storage.toString());
@@ -425,29 +382,29 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.LocalSecondaryStorage.toString());
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.TrafficMonitor.toString());
                 sc.addAnd("type", SearchCriteria.Op.NEQ, Host.Type.SecondaryStorageVM.toString());
-                List<HostVO> hosts = _hostDao.search(sc, null);
+                final List<HostVO> hosts = _hostDao.search(sc, null);
 
                 /* HashMap for metrics to be send to Graphite */
-                HashMap metrics = new HashMap<String, Integer>();
+                final HashMap metrics = new HashMap<>();
 
-                for (HostVO host : hosts) {
-                    List<UserVmVO> vms = _userVmDao.listRunningByHostId(host.getId());
-                    List<Long> vmIds = new ArrayList<Long>();
+                for (final HostVO host : hosts) {
+                    final List<UserVmVO> vms = _userVmDao.listRunningByHostId(host.getId());
+                    final List<Long> vmIds = new ArrayList<>();
 
-                    for (UserVmVO vm : vms) {
+                    for (final UserVmVO vm : vms) {
                         vmIds.add(vm.getId());
                     }
 
                     try {
-                        HashMap<Long, VmStatsEntry> vmStatsById = _userVmMgr.getVirtualMachineStatistics(host.getId(), host.getName(), vmIds);
+                        final HashMap<Long, VmStatsEntry> vmStatsById = _userVmMgr.getVirtualMachineStatistics(host.getId(), host.getName(), vmIds);
 
                         if (vmStatsById != null) {
                             VmStatsEntry statsInMemory = null;
 
-                            Set<Long> vmIdSet = vmStatsById.keySet();
-                            for (Long vmId : vmIdSet) {
-                                VmStatsEntry statsForCurrentIteration = vmStatsById.get(vmId);
-                                statsInMemory = (VmStatsEntry)_VmStats.get(vmId);
+                            final Set<Long> vmIdSet = vmStatsById.keySet();
+                            for (final Long vmId : vmIdSet) {
+                                final VmStatsEntry statsForCurrentIteration = vmStatsById.get(vmId);
+                                statsInMemory = (VmStatsEntry) _VmStats.get(vmId);
 
                                 if (statsInMemory == null) {
                                     //no stats exist for this vm, directly persist
@@ -471,8 +428,8 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                                  * Performance wise it seems best to only append to the HashMap when needed
                                  */
                                 if (externalStatsEnabled) {
-                                    VMInstanceVO vmVO = _vmInstance.findById(vmId);
-                                    String vmName = vmVO.getUuid();
+                                    final VMInstanceVO vmVO = _vmInstance.findById(vmId);
+                                    final String vmName = vmVO.getUuid();
 
                                     metrics.put(externalStatsPrefix + "cloudstack.stats.instances." + vmName + ".cpu.num", statsForCurrentIteration.getNumCPUs());
                                     metrics.put(externalStatsPrefix + "cloudstack.stats.instances." + vmName + ".cpu.utilization", statsForCurrentIteration.getCPUUtilization());
@@ -501,9 +458,9 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                                     s_logger.debug("Sending VmStats of host " + host.getId() + " to Graphite host " + externalStatsHost + ":" + externalStatsPort);
 
                                     try {
-                                        GraphiteClient g = new GraphiteClient(externalStatsHost, externalStatsPort);
+                                        final GraphiteClient g = new GraphiteClient(externalStatsHost, externalStatsPort);
                                         g.sendMetrics(metrics);
-                                    } catch (GraphiteException e) {
+                                    } catch (final GraphiteException e) {
                                         s_logger.debug("Failed sending VmStats to Graphite host " + externalStatsHost + ":" + externalStatsPort + ": " + e.getMessage());
                                     }
 
@@ -512,31 +469,31 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                             }
                         }
 
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         s_logger.debug("Failed to get VM stats for host with ID: " + host.getId());
                         continue;
                     }
                 }
 
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 s_logger.error("Error trying to retrieve VM stats", t);
             }
         }
     }
 
-    public VmStats getVmStats(long id) {
+    public VmStats getVmStats(final long id) {
         return _VmStats.get(id);
     }
 
     class VmDiskStatsUpdaterTask extends ManagedContextRunnable {
         @Override
         protected void runInContext() {
-            GlobalLock scanLock = GlobalLock.getInternLock("vm.disk.stats");
+            final GlobalLock scanLock = GlobalLock.getInternLock("vm.disk.stats");
             try {
                 if (scanLock.lock(ACQUIRE_GLOBAL_LOCK_TIMEOUT_FOR_COOPERATION)) {
                     //Check for ownership
                     //msHost in UP state with min id should run the job
-                    ManagementServerHostVO msHost = _msHostDao.findOneInUpState(new Filter(ManagementServerHostVO.class, "id", true, 0L, 1L));
+                    final ManagementServerHostVO msHost = _msHostDao.findOneInUpState(new Filter(ManagementServerHostVO.class, "id", true, 0L, 1L));
                     if (msHost == null || (msHost.getMsid() != mgmtSrvrId)) {
                         s_logger.debug("Skipping aggregate disk stats update");
                         scanLock.unlock();
@@ -545,10 +502,10 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                     try {
                         Transaction.execute(new TransactionCallbackNoReturn() {
                             @Override
-                            public void doInTransactionWithoutResult(TransactionStatus status) {
+                            public void doInTransactionWithoutResult(final TransactionStatus status) {
                                 //get all stats with delta > 0
-                                List<VmDiskStatisticsVO> updatedVmNetStats = _vmDiskStatsDao.listUpdatedStats();
-                                for (VmDiskStatisticsVO stat : updatedVmNetStats) {
+                                final List<VmDiskStatisticsVO> updatedVmNetStats = _vmDiskStatsDao.listUpdatedStats();
+                                for (final VmDiskStatisticsVO stat : updatedVmNetStats) {
                                     if (_dailyOrHourly) {
                                         //update agg bytes
                                         stat.setAggBytesRead(stat.getCurrentBytesRead() + stat.getNetBytesRead());
@@ -561,13 +518,13 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                                 s_logger.debug("Successfully updated aggregate vm disk stats");
                             }
                         });
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         s_logger.debug("Failed to update aggregate disk stats", e);
                     } finally {
                         scanLock.unlock();
                     }
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 s_logger.debug("Exception while trying to acquire disk stats lock", e);
             } finally {
                 scanLock.releaseRef();
@@ -582,44 +539,44 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
             try {
                 Transaction.execute(new TransactionCallbackNoReturn() {
                     @Override
-                    public void doInTransactionWithoutResult(TransactionStatus status) {
-                        SearchCriteria<HostVO> sc = _hostDao.createSearchCriteria();
+                    public void doInTransactionWithoutResult(final TransactionStatus status) {
+                        final SearchCriteria<HostVO> sc = _hostDao.createSearchCriteria();
                         sc.addAnd("status", SearchCriteria.Op.EQ, Status.Up.toString());
                         sc.addAnd("resourceState", SearchCriteria.Op.NIN, ResourceState.Maintenance, ResourceState.PrepareForMaintenance,
                                 ResourceState.ErrorInMaintenance);
                         sc.addAnd("type", SearchCriteria.Op.EQ, Host.Type.Routing.toString());
                         sc.addAnd("hypervisorType", SearchCriteria.Op.EQ, HypervisorType.KVM); // support KVM only util 2013.06.25
-                        List<HostVO> hosts = _hostDao.search(sc, null);
+                        final List<HostVO> hosts = _hostDao.search(sc, null);
 
-                        for (HostVO host : hosts) {
-                            List<UserVmVO> vms = _userVmDao.listRunningByHostId(host.getId());
-                            List<Long> vmIds = new ArrayList<Long>();
+                        for (final HostVO host : hosts) {
+                            final List<UserVmVO> vms = _userVmDao.listRunningByHostId(host.getId());
+                            final List<Long> vmIds = new ArrayList<>();
 
-                            for (UserVmVO vm : vms) {
+                            for (final UserVmVO vm : vms) {
                                 if (vm.getType() == VirtualMachine.Type.User) // user vm
                                     vmIds.add(vm.getId());
                             }
 
-                            HashMap<Long, List<VmDiskStatsEntry>> vmDiskStatsById = _userVmMgr.getVmDiskStatistics(host.getId(), host.getName(), vmIds);
+                            final HashMap<Long, List<VmDiskStatsEntry>> vmDiskStatsById = _userVmMgr.getVmDiskStatistics(host.getId(), host.getName(), vmIds);
                             if (vmDiskStatsById == null)
                                 continue;
 
-                            Set<Long> vmIdSet = vmDiskStatsById.keySet();
-                            for (Long vmId : vmIdSet) {
-                                List<VmDiskStatsEntry> vmDiskStats = vmDiskStatsById.get(vmId);
+                            final Set<Long> vmIdSet = vmDiskStatsById.keySet();
+                            for (final Long vmId : vmIdSet) {
+                                final List<VmDiskStatsEntry> vmDiskStats = vmDiskStatsById.get(vmId);
                                 if (vmDiskStats == null)
                                     continue;
-                                UserVmVO userVm = _userVmDao.findById(vmId);
-                                for (VmDiskStatsEntry vmDiskStat : vmDiskStats) {
-                                    SearchCriteria<VolumeVO> sc_volume = _volsDao.createSearchCriteria();
+                                final UserVmVO userVm = _userVmDao.findById(vmId);
+                                for (final VmDiskStatsEntry vmDiskStat : vmDiskStats) {
+                                    final SearchCriteria<VolumeVO> sc_volume = _volsDao.createSearchCriteria();
                                     sc_volume.addAnd("path", SearchCriteria.Op.EQ, vmDiskStat.getPath());
-                                    List<VolumeVO> volumes = _volsDao.search(sc_volume, null);
+                                    final List<VolumeVO> volumes = _volsDao.search(sc_volume, null);
                                     if ((volumes == null) || (volumes.size() == 0))
                                         break;
-                                    VolumeVO volume = volumes.get(0);
-                                    VmDiskStatisticsVO previousVmDiskStats =
+                                    final VolumeVO volume = volumes.get(0);
+                                    final VmDiskStatisticsVO previousVmDiskStats =
                                             _vmDiskStatsDao.findBy(userVm.getAccountId(), userVm.getDataCenterId(), vmId, volume.getId());
-                                    VmDiskStatisticsVO vmDiskStat_lock = _vmDiskStatsDao.lock(userVm.getAccountId(), userVm.getDataCenterId(), vmId, volume.getId());
+                                    final VmDiskStatisticsVO vmDiskStat_lock = _vmDiskStatsDao.lock(userVm.getAccountId(), userVm.getDataCenterId(), vmId, volume.getId());
 
                                     if ((vmDiskStat.getBytesRead() == 0) && (vmDiskStat.getBytesWrite() == 0) && (vmDiskStat.getIORead() == 0) &&
                                             (vmDiskStat.getIOWrite() == 0)) {
@@ -694,7 +651,7 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                         }
                     }
                 });
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 s_logger.warn("Error while collecting vm disk stats from hosts", e);
             }
         }
@@ -708,57 +665,57 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                     s_logger.debug("StorageCollector is running...");
                 }
 
-                List<DataStore> stores = _dataStoreMgr.listImageStores();
-                ConcurrentHashMap<Long, StorageStats> storageStats = new ConcurrentHashMap<Long, StorageStats>();
-                for (DataStore store : stores) {
+                final List<DataStore> stores = _dataStoreMgr.listImageStores();
+                final ConcurrentHashMap<Long, StorageStats> storageStats = new ConcurrentHashMap<>();
+                for (final DataStore store : stores) {
                     if (store.getUri() == null) {
                         continue;
                     }
 
-                    GetStorageStatsCommand command = new GetStorageStatsCommand(store.getTO());
-                    EndPoint ssAhost = _epSelector.select(store);
+                    final GetStorageStatsCommand command = new GetStorageStatsCommand(store.getTO());
+                    final EndPoint ssAhost = _epSelector.select(store);
                     if (ssAhost == null) {
                         s_logger.debug("There is no secondary storage VM for secondary storage host " + store.getName());
                         continue;
                     }
-                    long storeId = store.getId();
-                    Answer answer = ssAhost.sendMessage(command);
+                    final long storeId = store.getId();
+                    final Answer answer = ssAhost.sendMessage(command);
                     if (answer != null && answer.getResult()) {
-                        storageStats.put(storeId, (StorageStats)answer);
-                        s_logger.trace("HostId: " + storeId + " Used: " + ((StorageStats)answer).getByteUsed() + " Total Available: " +
-                                ((StorageStats)answer).getCapacityBytes());
+                        storageStats.put(storeId, (StorageStats) answer);
+                        s_logger.trace("HostId: " + storeId + " Used: " + ((StorageStats) answer).getByteUsed() + " Total Available: " +
+                                ((StorageStats) answer).getCapacityBytes());
                     }
                 }
                 _storageStats = storageStats;
-                ConcurrentHashMap<Long, StorageStats> storagePoolStats = new ConcurrentHashMap<Long, StorageStats>();
+                final ConcurrentHashMap<Long, StorageStats> storagePoolStats = new ConcurrentHashMap<>();
 
-                List<StoragePoolVO> storagePools = _storagePoolDao.listAll();
-                for (StoragePoolVO pool : storagePools) {
+                final List<StoragePoolVO> storagePools = _storagePoolDao.listAll();
+                for (final StoragePoolVO pool : storagePools) {
                     // check if the pool has enabled hosts
-                    List<Long> hostIds = _storageManager.getUpHostsInPool(pool.getId());
+                    final List<Long> hostIds = _storageManager.getUpHostsInPool(pool.getId());
                     if (hostIds == null || hostIds.isEmpty())
                         continue;
-                    GetStorageStatsCommand command = new GetStorageStatsCommand(pool.getUuid(), pool.getPoolType(), pool.getPath());
-                    long poolId = pool.getId();
+                    final GetStorageStatsCommand command = new GetStorageStatsCommand(pool.getUuid(), pool.getPoolType(), pool.getPath());
+                    final long poolId = pool.getId();
                     try {
-                        Answer answer = _storageManager.sendToPool(pool, command);
+                        final Answer answer = _storageManager.sendToPool(pool, command);
                         if (answer != null && answer.getResult()) {
-                            storagePoolStats.put(pool.getId(), (StorageStats)answer);
+                            storagePoolStats.put(pool.getId(), (StorageStats) answer);
 
                             // Seems like we have dynamically updated the pool size since the prev. size and the current do not match
-                            if (_storagePoolStats.get(poolId) != null && _storagePoolStats.get(poolId).getCapacityBytes() != ((StorageStats)answer).getCapacityBytes()) {
-                                pool.setCapacityBytes(((StorageStats)answer).getCapacityBytes());
+                            if (_storagePoolStats.get(poolId) != null && _storagePoolStats.get(poolId).getCapacityBytes() != ((StorageStats) answer).getCapacityBytes()) {
+                                pool.setCapacityBytes(((StorageStats) answer).getCapacityBytes());
                                 _storagePoolDao.update(pool.getId(), pool);
                             }
                         }
-                    } catch (StorageUnavailableException e) {
+                    } catch (final StorageUnavailableException e) {
                         s_logger.info("Unable to reach " + pool, e);
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         s_logger.warn("Unable to get stats for " + pool, e);
                     }
                 }
                 _storagePoolStats = storagePoolStats;
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 s_logger.error("Error trying to retrieve storage stats", t);
             }
         }
@@ -772,19 +729,19 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                     s_logger.debug("AutoScaling Monitor is running...");
                 }
                 // list all AS VMGroups
-                List<AutoScaleVmGroupVO> asGroups = _asGroupDao.listAll();
-                for (AutoScaleVmGroupVO asGroup : asGroups) {
+                final List<AutoScaleVmGroupVO> asGroups = _asGroupDao.listAll();
+                for (final AutoScaleVmGroupVO asGroup : asGroups) {
                     // check group state
                     if ((asGroup.getState().equals("enabled")) && (is_native(asGroup.getId()))) {
                         // check minimum vm of group
-                        Integer currentVM = _asGroupVmDao.countByGroup(asGroup.getId());
+                        final Integer currentVM = _asGroupVmDao.countByGroup(asGroup.getId());
                         if (currentVM < asGroup.getMinMembers()) {
                             _asManager.doScaleUp(asGroup.getId(), asGroup.getMinMembers() - currentVM);
                             continue;
                         }
 
                         //check interval
-                        long now = (new Date()).getTime();
+                        final long now = (new Date()).getTime();
                         if (asGroup.getLastInterval() != null)
                             if ((now - asGroup.getLastInterval().getTime()) < asGroup
                                     .getInterval()) {
@@ -799,31 +756,31 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                         if (s_logger.isDebugEnabled()) {
                             s_logger.debug("[AutoScale] Collecting RRDs data...");
                         }
-                        Map<String, String> params = new HashMap<String, String>();
-                        List<AutoScaleVmGroupVmMapVO> asGroupVmVOs = _asGroupVmDao.listByGroup(asGroup.getId());
+                        final Map<String, String> params = new HashMap<>();
+                        final List<AutoScaleVmGroupVmMapVO> asGroupVmVOs = _asGroupVmDao.listByGroup(asGroup.getId());
                         params.put("total_vm", String.valueOf(asGroupVmVOs.size()));
                         for (int i = 0; i < asGroupVmVOs.size(); i++) {
-                            long vmId = asGroupVmVOs.get(i).getInstanceId();
-                            VMInstanceVO vmVO = _vmInstance.findById(vmId);
+                            final long vmId = asGroupVmVOs.get(i).getInstanceId();
+                            final VMInstanceVO vmVO = _vmInstance.findById(vmId);
                             //xe vm-list | grep vmname -B 1 | head -n 1 | awk -F':' '{print $2}'
                             params.put("vmname" + String.valueOf(i + 1), vmVO.getInstanceName());
                             params.put("vmid" + String.valueOf(i + 1), String.valueOf(vmVO.getId()));
 
                         }
                         // get random hostid because all vms are in a cluster
-                        long vmId = asGroupVmVOs.get(0).getInstanceId();
-                        VMInstanceVO vmVO = _vmInstance.findById(vmId);
-                        Long receiveHost = vmVO.getHostId();
+                        final long vmId = asGroupVmVOs.get(0).getInstanceId();
+                        final VMInstanceVO vmVO = _vmInstance.findById(vmId);
+                        final Long receiveHost = vmVO.getHostId();
 
                         // setup parameters phase: duration and counter
                         // list pair [counter, duration]
-                        List<Pair<String, Integer>> lstPair = getPairofCounternameAndDuration(asGroup.getId());
+                        final List<Pair<String, Integer>> lstPair = getPairofCounternameAndDuration(asGroup.getId());
                         int total_counter = 0;
-                        String[] lstCounter = new String[lstPair.size()];
+                        final String[] lstCounter = new String[lstPair.size()];
                         for (int i = 0; i < lstPair.size(); i++) {
-                            Pair<String, Integer> pair = lstPair.get(i);
-                            String strCounterNames = pair.first();
-                            Integer duration = pair.second();
+                            final Pair<String, Integer> pair = lstPair.get(i);
+                            final String strCounterNames = pair.first();
+                            final Integer duration = pair.second();
 
                             lstCounter[i] = strCounterNames.split(",")[0];
                             total_counter++;
@@ -833,27 +790,27 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                         }
                         params.put("total_counter", String.valueOf(total_counter));
 
-                        PerformanceMonitorCommand perfMon = new PerformanceMonitorCommand(params, 20);
+                        final PerformanceMonitorCommand perfMon = new PerformanceMonitorCommand(params, 20);
 
                         try {
-                            Answer answer = _agentMgr.send(receiveHost, perfMon);
+                            final Answer answer = _agentMgr.send(receiveHost, perfMon);
                             if (answer == null || !answer.getResult()) {
                                 s_logger.debug("Failed to send data to node !");
                             } else {
-                                String result = answer.getDetails();
+                                final String result = answer.getDetails();
                                 s_logger.debug("[AutoScale] RRDs collection answer: " + result);
-                                HashMap<Long, Double> avgCounter = new HashMap<Long, Double>();
+                                final HashMap<Long, Double> avgCounter = new HashMap<>();
 
                                 // extract data
-                                String[] counterElements = result.split(",");
+                                final String[] counterElements = result.split(",");
                                 if ((counterElements != null) && (counterElements.length > 0)) {
-                                    for (String string : counterElements) {
+                                    for (final String string : counterElements) {
                                         try {
-                                            String[] counterVals = string.split(":");
-                                            String[] counter_vm = counterVals[0].split("\\.");
+                                            final String[] counterVals = string.split(":");
+                                            final String[] counter_vm = counterVals[0].split("\\.");
 
-                                            Long counterId = Long.parseLong(counter_vm[1]);
-                                            Long conditionId = Long.parseLong(params.get("con" + counter_vm[1]));
+                                            final Long counterId = Long.parseLong(counter_vm[1]);
+                                            final Long conditionId = Long.parseLong(params.get("con" + counter_vm[1]));
                                             Double coVal = Double.parseDouble(counterVals[1]);
 
                                             // Summary of all counter by counterId key
@@ -862,13 +819,13 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                                                 avgCounter.put(counterId, new Double(0));
                                             }
 
-                                            String counterName = getCounternamebyCondition(conditionId.longValue());
+                                            final String counterName = getCounternamebyCondition(conditionId.longValue());
                                             if (Counter.Source.memory.toString().equals(counterName)) {
                                                 // calculate memory in percent
-                                                Long profileId = asGroup.getProfileId();
-                                                AutoScaleVmProfileVO profileVo = _asProfileDao.findById(profileId);
-                                                ServiceOfferingVO serviceOff = _serviceOfferingDao.findById(profileVo.getServiceOfferingId());
-                                                int maxRAM = serviceOff.getRamSize();
+                                                final Long profileId = asGroup.getProfileId();
+                                                final AutoScaleVmProfileVO profileVo = _asProfileDao.findById(profileId);
+                                                final ServiceOfferingVO serviceOff = _serviceOfferingDao.findById(profileVo.getServiceOfferingId());
+                                                final int maxRAM = serviceOff.getRamSize();
 
                                                 // get current RAM percent
                                                 coVal = coVal / maxRAM;
@@ -880,12 +837,12 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                                             // update data entry
                                             avgCounter.put(counterId, avgCounter.get(counterId) + coVal);
 
-                                        } catch (Exception e) {
+                                        } catch (final Exception e) {
                                             e.printStackTrace();
                                         }
                                     }
 
-                                    String scaleAction = getAutoscaleAction(avgCounter, asGroup.getId(), currentVM, params);
+                                    final String scaleAction = getAutoscaleAction(avgCounter, asGroup.getId(), currentVM, params);
                                     if (scaleAction != null) {
                                         s_logger.debug("[AutoScale] Doing scale action: " + scaleAction + " for group " + asGroup.getId());
                                         if (scaleAction.equals("scaleup")) {
@@ -897,26 +854,26 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
                                 }
                             }
 
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             e.printStackTrace();
                         }
 
                     }
                 }
 
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 s_logger.error("Error trying to monitor autoscaling", t);
             }
 
         }
 
-        private boolean is_native(long groupId) {
-            List<AutoScaleVmGroupPolicyMapVO> vos = _asGroupPolicyDao.listByVmGroupId(groupId);
-            for (AutoScaleVmGroupPolicyMapVO vo : vos) {
-                List<AutoScalePolicyConditionMapVO> ConditionPolicies = _asConditionMapDao.findByPolicyId(vo.getPolicyId());
-                for (AutoScalePolicyConditionMapVO ConditionPolicy : ConditionPolicies) {
-                    ConditionVO condition = _asConditionDao.findById(ConditionPolicy.getConditionId());
-                    CounterVO counter = _asCounterDao.findById(condition.getCounterid());
+        private boolean is_native(final long groupId) {
+            final List<AutoScaleVmGroupPolicyMapVO> vos = _asGroupPolicyDao.listByVmGroupId(groupId);
+            for (final AutoScaleVmGroupPolicyMapVO vo : vos) {
+                final List<AutoScalePolicyConditionMapVO> ConditionPolicies = _asConditionMapDao.findByPolicyId(vo.getPolicyId());
+                for (final AutoScalePolicyConditionMapVO ConditionPolicy : ConditionPolicies) {
+                    final ConditionVO condition = _asConditionDao.findById(ConditionPolicy.getConditionId());
+                    final CounterVO counter = _asCounterDao.findById(condition.getCounterid());
                     if (counter.getSource() == Counter.Source.cpu || counter.getSource() == Counter.Source.memory)
                         return true;
                 }
@@ -924,48 +881,48 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
             return false;
         }
 
-        private String getAutoscaleAction(HashMap<Long, Double> avgCounter, long groupId, long currentVM, Map<String, String> params) {
+        private String getAutoscaleAction(final HashMap<Long, Double> avgCounter, final long groupId, final long currentVM, final Map<String, String> params) {
 
-            List<AutoScaleVmGroupPolicyMapVO> listMap = _asGroupPolicyDao.listByVmGroupId(groupId);
+            final List<AutoScaleVmGroupPolicyMapVO> listMap = _asGroupPolicyDao.listByVmGroupId(groupId);
             if ((listMap == null) || (listMap.size() == 0))
                 return null;
-            for (AutoScaleVmGroupPolicyMapVO asVmgPmap : listMap) {
-                AutoScalePolicyVO policyVO = _asPolicyDao.findById(asVmgPmap.getPolicyId());
+            for (final AutoScaleVmGroupPolicyMapVO asVmgPmap : listMap) {
+                final AutoScalePolicyVO policyVO = _asPolicyDao.findById(asVmgPmap.getPolicyId());
                 if (policyVO != null) {
-                    Integer quitetime = policyVO.getQuietTime();
-                    Date quitetimeDate = policyVO.getLastQuiteTime();
+                    final Integer quitetime = policyVO.getQuietTime();
+                    final Date quitetimeDate = policyVO.getLastQuiteTime();
                     long last_quitetime = 0L;
                     if (quitetimeDate != null) {
                         last_quitetime = policyVO.getLastQuiteTime().getTime();
                     }
-                    long current_time = (new Date()).getTime();
+                    final long current_time = (new Date()).getTime();
 
                     // check quite time for this policy
-                    if ((current_time - last_quitetime) >= (long)quitetime) {
+                    if ((current_time - last_quitetime) >= (long) quitetime) {
 
                         // list all condition of this policy
                         boolean bValid = true;
-                        List<ConditionVO> lstConditions = getConditionsbyPolicyId(policyVO.getId());
+                        final List<ConditionVO> lstConditions = getConditionsbyPolicyId(policyVO.getId());
                         if ((lstConditions != null) && (lstConditions.size() > 0)) {
                             // check whole conditions of this policy
-                            for (ConditionVO conditionVO : lstConditions) {
-                                long thresholdValue = conditionVO.getThreshold();
-                                Double thresholdPercent = (double)thresholdValue / 100;
-                                CounterVO counterVO = _asCounterDao.findById(conditionVO.getCounterid());
+                            for (final ConditionVO conditionVO : lstConditions) {
+                                final long thresholdValue = conditionVO.getThreshold();
+                                final Double thresholdPercent = (double) thresholdValue / 100;
+                                final CounterVO counterVO = _asCounterDao.findById(conditionVO.getCounterid());
 //Double sum = avgCounter.get(conditionVO.getCounterid());
                                 long counter_count = 1;
                                 do {
-                                    String counter_param = params.get("counter" + String.valueOf(counter_count));
-                                    Counter.Source counter_source = counterVO.getSource();
+                                    final String counter_param = params.get("counter" + String.valueOf(counter_count));
+                                    final Counter.Source counter_source = counterVO.getSource();
                                     if (counter_param.equals(counter_source.toString()))
                                         break;
                                     counter_count++;
                                 } while (1 == 1);
 
-                                Double sum = avgCounter.get(counter_count);
-                                Double avg = sum / currentVM;
-                                Operator op = conditionVO.getRelationalOperator();
-                                boolean bConditionCheck = ((op == com.cloud.network.as.Condition.Operator.EQ) && (thresholdPercent.equals(avg)))
+                                final Double sum = avgCounter.get(counter_count);
+                                final Double avg = sum / currentVM;
+                                final Operator op = conditionVO.getRelationalOperator();
+                                final boolean bConditionCheck = ((op == com.cloud.network.as.Condition.Operator.EQ) && (thresholdPercent.equals(avg)))
                                         || ((op == com.cloud.network.as.Condition.Operator.GE) && (avg.doubleValue() >= thresholdPercent.doubleValue()))
                                         || ((op == com.cloud.network.as.Condition.Operator.GT) && (avg.doubleValue() > thresholdPercent.doubleValue()))
                                         || ((op == com.cloud.network.as.Condition.Operator.LE) && (avg.doubleValue() <= thresholdPercent.doubleValue()))
@@ -986,13 +943,13 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
             return null;
         }
 
-        private List<ConditionVO> getConditionsbyPolicyId(long policyId) {
-            List<AutoScalePolicyConditionMapVO> conditionMap = _asConditionMapDao.findByPolicyId(policyId);
+        private List<ConditionVO> getConditionsbyPolicyId(final long policyId) {
+            final List<AutoScalePolicyConditionMapVO> conditionMap = _asConditionMapDao.findByPolicyId(policyId);
             if ((conditionMap == null) || (conditionMap.size() == 0))
                 return null;
 
-            List<ConditionVO> lstResult = new ArrayList<ConditionVO>();
-            for (AutoScalePolicyConditionMapVO asPCmap : conditionMap) {
+            final List<ConditionVO> lstResult = new ArrayList<>();
+            for (final AutoScalePolicyConditionMapVO asPCmap : conditionMap) {
                 lstResult.add(_asConditionDao.findById(asPCmap.getConditionId()));
             }
 
@@ -1000,45 +957,45 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
         }
 
         public List<Pair<String, Integer>> getPairofCounternameAndDuration(
-                long groupId) {
-            AutoScaleVmGroupVO groupVo = _asGroupDao.findById(groupId);
+                final long groupId) {
+            final AutoScaleVmGroupVO groupVo = _asGroupDao.findById(groupId);
             if (groupVo == null)
                 return null;
-            List<Pair<String, Integer>> result = new ArrayList<Pair<String, Integer>>();
+            final List<Pair<String, Integer>> result = new ArrayList<>();
             //list policy map
-            List<AutoScaleVmGroupPolicyMapVO> groupPolicymap = _asGroupPolicyDao.listByVmGroupId(groupVo.getId());
+            final List<AutoScaleVmGroupPolicyMapVO> groupPolicymap = _asGroupPolicyDao.listByVmGroupId(groupVo.getId());
             if (groupPolicymap == null)
                 return null;
-            for (AutoScaleVmGroupPolicyMapVO gpMap : groupPolicymap) {
+            for (final AutoScaleVmGroupPolicyMapVO gpMap : groupPolicymap) {
                 //get duration
-                AutoScalePolicyVO policyVo = _asPolicyDao.findById(gpMap.getPolicyId());
-                Integer duration = policyVo.getDuration();
+                final AutoScalePolicyVO policyVo = _asPolicyDao.findById(gpMap.getPolicyId());
+                final Integer duration = policyVo.getDuration();
                 //get collection of counter name
 
-                StringBuffer buff = new StringBuffer();
-                List<AutoScalePolicyConditionMapVO> lstPCmap = _asConditionMapDao.findByPolicyId(policyVo.getId());
-                for (AutoScalePolicyConditionMapVO pcMap : lstPCmap) {
-                    String counterName = getCounternamebyCondition(pcMap.getConditionId());
+                final StringBuffer buff = new StringBuffer();
+                final List<AutoScalePolicyConditionMapVO> lstPCmap = _asConditionMapDao.findByPolicyId(policyVo.getId());
+                for (final AutoScalePolicyConditionMapVO pcMap : lstPCmap) {
+                    final String counterName = getCounternamebyCondition(pcMap.getConditionId());
                     buff.append(counterName);
                     buff.append(",");
                     buff.append(pcMap.getConditionId());
                 }
                 // add to result
-                Pair<String, Integer> pair = new Pair<String, Integer>(buff.toString(), duration);
+                final Pair<String, Integer> pair = new Pair<>(buff.toString(), duration);
                 result.add(pair);
             }
 
             return result;
         }
 
-        public String getCounternamebyCondition(long conditionId) {
+        public String getCounternamebyCondition(final long conditionId) {
 
-            ConditionVO condition = _asConditionDao.findById(conditionId);
+            final ConditionVO condition = _asConditionDao.findById(conditionId);
             if (condition == null)
                 return "";
 
-            long counterId = condition.getCounterid();
-            CounterVO counter = _asCounterDao.findById(counterId);
+            final long counterId = condition.getCounterid();
+            final CounterVO counter = _asCounterDao.findById(counterId);
             if (counter == null)
                 return "";
 
@@ -1046,23 +1003,23 @@ public class StatsCollector extends ManagerBase implements ComponentMethodInterc
         }
     }
 
-    public boolean imageStoreHasEnoughCapacity(DataStore imageStore) {
-        StorageStats imageStoreStats = _storageStats.get(imageStore.getId());
-        if (imageStoreStats != null && (imageStoreStats.getByteUsed()/(imageStoreStats.getCapacityBytes()*1.0)) <= _imageStoreCapacityThreshold) {
+    public boolean imageStoreHasEnoughCapacity(final DataStore imageStore) {
+        final StorageStats imageStoreStats = _storageStats.get(imageStore.getId());
+        if (imageStoreStats != null && (imageStoreStats.getByteUsed() / (imageStoreStats.getCapacityBytes() * 1.0)) <= _imageStoreCapacityThreshold) {
             return true;
         }
         return false;
     }
 
-    public StorageStats getStorageStats(long id) {
+    public StorageStats getStorageStats(final long id) {
         return _storageStats.get(id);
     }
 
-    public HostStats getHostStats(long hostId) {
+    public HostStats getHostStats(final long hostId) {
         return _hostStats.get(hostId);
     }
 
-    public StorageStats getStoragePoolStats(long id) {
+    public StorageStats getStoragePoolStats(final long id) {
         return _storagePoolStats.get(id);
     }
 }

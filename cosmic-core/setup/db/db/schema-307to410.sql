@@ -1528,41 +1528,6 @@ ALTER TABLE `cloud`.`network_offerings` CHANGE COLUMN `eip_associate_public_ip` 
 
 
 #302->307
-#create (if not exists) and rename the tables that are missing in upgraded 307 setups
-CREATE TABLE IF NOT EXISTS `cloud`.`baremetal_dhcp_devices`(
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `uuid` varchar(40) UNIQUE,
-  `nsp_id` bigint unsigned DEFAULT NULL COMMENT 'Network Service Provider ID',
-  `pod_id` bigint unsigned DEFAULT NULL COMMENT 'Pod id where this dhcp server in',
-  `device_type` varchar(255) DEFAULT NULL COMMENT 'type of the external device',
-  `physical_network_id` bigint unsigned DEFAULT NULL COMMENT 'id of the physical network in to which external dhcp device is added',
-  `host_id` bigint unsigned DEFAULT NULL COMMENT 'host id coresponding to the external dhcp device',
-  PRIMARY KEY  (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `cloud`.`baremetal_dhcp_devices` CHANGE COLUMN `nsp_id` `nsp_id` bigint unsigned DEFAULT NULL COMMENT 'Network Service Provider ID';
-ALTER TABLE `cloud`.`baremetal_dhcp_devices` CHANGE COLUMN `pod_id` `pod_id` bigint unsigned DEFAULT NULL COMMENT 'Pod id where this dhcp server in';
-ALTER TABLE `cloud`.`baremetal_dhcp_devices` CHANGE COLUMN `device_type` `device_type` varchar(255) DEFAULT NULL COMMENT 'type of the external device';
-ALTER TABLE `cloud`.`baremetal_dhcp_devices` CHANGE COLUMN `physical_network_id` `physical_network_id` bigint unsigned DEFAULT NULL COMMENT 'id of the physical network in to which external dhcp device is added';
-ALTER TABLE `cloud`.`baremetal_dhcp_devices` CHANGE COLUMN `host_id` `host_id` bigint unsigned DEFAULT NULL COMMENT 'host id coresponding to the external dhcp device';
-
-CREATE TABLE IF NOT EXISTS `cloud`.`baremetal_pxe_devices` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `uuid` varchar(40) UNIQUE,
-  `nsp_id` bigint unsigned DEFAULT NULL COMMENT 'Network Service Provider ID',
-  `pod_id` bigint unsigned DEFAULT NULL COMMENT 'Pod id where this pxe server in, for pxe per zone this field is null',
-  `device_type` varchar(255) DEFAULT NULL COMMENT 'type of the pxe device',
-  `physical_network_id` bigint unsigned DEFAULT NULL COMMENT 'id of the physical network in to which external pxe device is added',
-  `host_id` bigint unsigned DEFAULT NULL COMMENT 'host id coresponding to the external pxe device',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `cloud`.`baremetal_pxe_devices` CHANGE COLUMN `nsp_id` `nsp_id` bigint unsigned DEFAULT NULL COMMENT 'Network Service Provider ID';
-ALTER TABLE `cloud`.`baremetal_pxe_devices` CHANGE COLUMN `pod_id` `pod_id` bigint unsigned DEFAULT NULL COMMENT 'Pod id where this pxe server in, for pxe per zone this field is null';
-ALTER TABLE `cloud`.`baremetal_pxe_devices` CHANGE COLUMN `device_type` `device_type` varchar(255) DEFAULT NULL COMMENT 'type of the pxe device';
-ALTER TABLE `cloud`.`baremetal_pxe_devices` CHANGE COLUMN `physical_network_id` `physical_network_id` bigint unsigned DEFAULT NULL COMMENT 'id of the physical network in to which external pxe device is added';
-ALTER TABLE `cloud`.`baremetal_pxe_devices` CHANGE COLUMN `host_id` `host_id` bigint unsigned DEFAULT NULL COMMENT 'host id coresponding to the external pxe device';
-
 #drop tables as the feature is not a part of 4.2
 DROP TABLE IF EXISTS `cloud`.`host_updates`;
 DROP TABLE IF EXISTS `cloud`.`host_updates_ref`;

@@ -16,34 +16,8 @@
 // under the License.
 package com.cloud.resource;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.naming.ConfigurationException;
-
 import com.cloud.agent.AgentManager;
-import com.cloud.agent.api.Answer;
-import com.cloud.agent.api.Command;
-import com.cloud.agent.api.GetGPUStatsAnswer;
-import com.cloud.agent.api.GetGPUStatsCommand;
-import com.cloud.agent.api.GetHostStatsAnswer;
-import com.cloud.agent.api.GetHostStatsCommand;
-import com.cloud.agent.api.MaintainAnswer;
-import com.cloud.agent.api.MaintainCommand;
-import com.cloud.agent.api.PropagateResourceEventCommand;
-import com.cloud.agent.api.StartupCommand;
-import com.cloud.agent.api.StartupRoutingCommand;
-import com.cloud.agent.api.UnsupportedAnswer;
-import com.cloud.agent.api.UpdateHostPasswordCommand;
-import com.cloud.agent.api.VgpuTypesInfo;
+import com.cloud.agent.api.*;
 import com.cloud.agent.api.to.GPUDeviceTO;
 import com.cloud.agent.transport.Request;
 import com.cloud.capacity.Capacity;
@@ -54,21 +28,9 @@ import com.cloud.capacity.dao.CapacityDao;
 import com.cloud.cluster.ClusterManager;
 import com.cloud.configuration.Config;
 import com.cloud.configuration.ConfigurationManager;
-import com.cloud.dc.ClusterDetailsDao;
-import com.cloud.dc.ClusterDetailsVO;
-import com.cloud.dc.ClusterVO;
+import com.cloud.dc.*;
 import com.cloud.dc.DataCenter.NetworkType;
-import com.cloud.dc.DataCenterIpAddressVO;
-import com.cloud.dc.DataCenterVO;
-import com.cloud.dc.DedicatedResourceVO;
-import com.cloud.dc.HostPodVO;
-import com.cloud.dc.PodCluster;
-import com.cloud.dc.dao.ClusterDao;
-import com.cloud.dc.dao.ClusterVSMMapDao;
-import com.cloud.dc.dao.DataCenterDao;
-import com.cloud.dc.dao.DataCenterIpAddressDao;
-import com.cloud.dc.dao.DedicatedResourceDao;
-import com.cloud.dc.dao.HostPodDao;
+import com.cloud.dc.dao.*;
 import com.cloud.deploy.PlannerHostReservationVO;
 import com.cloud.deploy.dao.PlannerHostReservationDao;
 import com.cloud.event.ActionEvent;
@@ -78,7 +40,6 @@ import com.cloud.event.EventVO;
 import com.cloud.exception.AgentUnavailableException;
 import com.cloud.exception.DiscoveryException;
 import com.cloud.exception.InvalidParameterValueException;
-import com.cloud.exception.PermissionDeniedException;
 import com.cloud.exception.ResourceInUseException;
 import com.cloud.gpu.GPU;
 import com.cloud.gpu.HostGpuGroupsVO;
@@ -87,12 +48,8 @@ import com.cloud.gpu.dao.HostGpuGroupsDao;
 import com.cloud.gpu.dao.VGPUTypesDao;
 import com.cloud.ha.HighAvailabilityManager;
 import com.cloud.ha.HighAvailabilityManager.WorkType;
-import com.cloud.host.DetailVO;
-import com.cloud.host.Host;
+import com.cloud.host.*;
 import com.cloud.host.Host.Type;
-import com.cloud.host.HostStats;
-import com.cloud.host.HostVO;
-import com.cloud.host.Status;
 import com.cloud.host.Status.Event;
 import com.cloud.host.dao.HostDao;
 import com.cloud.host.dao.HostDetailsDao;
@@ -107,13 +64,7 @@ import com.cloud.org.Grouping;
 import com.cloud.org.Managed;
 import com.cloud.serializer.GsonHelper;
 import com.cloud.service.dao.ServiceOfferingDetailsDao;
-import com.cloud.storage.GuestOSCategoryVO;
-import com.cloud.storage.StorageManager;
-import com.cloud.storage.StoragePool;
-import com.cloud.storage.StoragePoolHostVO;
-import com.cloud.storage.StoragePoolStatus;
-import com.cloud.storage.StorageService;
-import com.cloud.storage.VMTemplateVO;
+import com.cloud.storage.*;
 import com.cloud.storage.dao.GuestOSCategoryDao;
 import com.cloud.storage.dao.StoragePoolHostDao;
 import com.cloud.storage.dao.VMTemplateDao;
@@ -123,21 +74,9 @@ import com.cloud.utils.StringUtils;
 import com.cloud.utils.UriUtils;
 import com.cloud.utils.component.Manager;
 import com.cloud.utils.component.ManagerBase;
-import com.cloud.utils.db.DB;
-import com.cloud.utils.db.Filter;
-import com.cloud.utils.db.GenericSearchBuilder;
-import com.cloud.utils.db.GlobalLock;
-import com.cloud.utils.db.JoinBuilder;
-import com.cloud.utils.db.QueryBuilder;
-import com.cloud.utils.db.SearchBuilder;
-import com.cloud.utils.db.SearchCriteria;
+import com.cloud.utils.db.*;
 import com.cloud.utils.db.SearchCriteria.Func;
 import com.cloud.utils.db.SearchCriteria.Op;
-import com.cloud.utils.db.Transaction;
-import com.cloud.utils.db.TransactionCallback;
-import com.cloud.utils.db.TransactionCallbackNoReturn;
-import com.cloud.utils.db.TransactionLegacy;
-import com.cloud.utils.db.TransactionStatus;
 import com.cloud.utils.exception.CloudRuntimeException;
 import com.cloud.utils.fsm.NoTransitionException;
 import com.cloud.utils.net.Ip;
@@ -149,17 +88,10 @@ import com.cloud.vm.VirtualMachine.State;
 import com.cloud.vm.VirtualMachineManager;
 import com.cloud.vm.dao.VMInstanceDao;
 import com.google.gson.Gson;
-
 import org.apache.cloudstack.api.ApiConstants;
 import org.apache.cloudstack.api.command.admin.cluster.AddClusterCmd;
 import org.apache.cloudstack.api.command.admin.cluster.DeleteClusterCmd;
-import org.apache.cloudstack.api.command.admin.host.AddHostCmd;
-import org.apache.cloudstack.api.command.admin.host.AddSecondaryStorageCmd;
-import org.apache.cloudstack.api.command.admin.host.CancelMaintenanceCmd;
-import org.apache.cloudstack.api.command.admin.host.PrepareForMaintenanceCmd;
-import org.apache.cloudstack.api.command.admin.host.ReconnectHostCmd;
-import org.apache.cloudstack.api.command.admin.host.UpdateHostCmd;
-import org.apache.cloudstack.api.command.admin.host.UpdateHostPasswordCmd;
+import org.apache.cloudstack.api.command.admin.host.*;
 import org.apache.cloudstack.context.CallContext;
 import org.apache.cloudstack.framework.config.dao.ConfigurationDao;
 import org.apache.cloudstack.storage.datastore.db.PrimaryDataStoreDao;
@@ -169,6 +101,13 @@ import org.apache.commons.lang.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
+import javax.naming.ConfigurationException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.util.*;
 
 @Component
 public class ResourceManagerImpl extends ManagerBase implements ResourceManager, ResourceService, Manager {
@@ -362,6 +301,11 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
     @DB
     @Override
     public List<? extends Cluster> discoverCluster(final AddClusterCmd cmd) throws IllegalArgumentException, DiscoveryException, ResourceInUseException {
+        final ResourceChecker resourceChecker = ResourceChecker.builder()
+                .dataCenterDao(_dcDao)
+                .accountManager(_accountMgr)
+                .hostPodDao(_podDao)
+                .build();
         final long dcId = cmd.getZoneId();
         final long podId = cmd.getPodId();
         final String clusterName = cmd.getClusterName();
@@ -375,20 +319,9 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
 
         URI uri = null;
 
-        // Check if the zone exists in the system
-        final DataCenterVO zone = _dcDao.findById(dcId);
-        if (zone == null) {
-            final InvalidParameterValueException ex = new InvalidParameterValueException("Can't find zone by the id specified");
-            ex.addProxyObject(String.valueOf(dcId), "dcId");
-            throw ex;
-        }
-
+        final DataCenterVO zone = resourceChecker.checkIfDataCenterExists(dcId);
         final Account account = CallContext.current().getCallingAccount();
-        if (Grouping.AllocationState.Disabled == zone.getAllocationState() && !_accountMgr.isRootAdmin(account.getId())) {
-            final PermissionDeniedException ex = new PermissionDeniedException("Cannot perform this operation, Zone with specified id is currently disabled");
-            ex.addProxyObject(zone.getUuid(), "dcId");
-            throw ex;
-        }
+        resourceChecker.checkIfDataCenterIsUsable(zone, account);
 
         final HostPodVO pod = _podDao.findById(podId);
         if (pod == null) {
@@ -601,104 +534,22 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
     private List<HostVO> discoverHostsFull(final Long dcId, final Long podId, Long clusterId, final String clusterName, final String url, final String username, final String password,
                                            final String hypervisorType, final List<String> hostTags, final Map<String, String> params, final boolean deferAgentCreation) throws IllegalArgumentException, DiscoveryException,
             InvalidParameterValueException {
-        URI uri = null;
-
-        // Check if the zone exists in the system
-        final DataCenterVO zone = _dcDao.findById(dcId);
-        if (zone == null) {
-            throw new InvalidParameterValueException("Can't find zone by id " + dcId);
-        }
-
+        final ResourceChecker resourceChecker = ResourceChecker.builder()
+                .dataCenterDao(_dcDao)
+                .accountManager(_accountMgr)
+                .hostPodDao(_podDao)
+                .build();
+        s_logger.info("Trying to discover host for " + hypervisorType);
+        final DataCenterVO zone = resourceChecker.checkIfDataCenterExists(dcId);
         final Account account = CallContext.current().getCallingAccount();
-        if (Grouping.AllocationState.Disabled == zone.getAllocationState() && !_accountMgr.isRootAdmin(account.getId())) {
-            final PermissionDeniedException ex = new PermissionDeniedException("Cannot perform this operation, Zone with specified id is currently disabled");
-            ex.addProxyObject(zone.getUuid(), "dcId");
-            throw ex;
-        }
+        resourceChecker.checkIfDataCenterIsUsable(zone, account);
+        final HostPodVO pod = resourceChecker.checkIfPodExists(podId);
+        resourceChecker.checkIfPodIsUsable(zone, pod);
 
-        // Check if the pod exists in the system
-        if (podId != null) {
-            final HostPodVO pod = _podDao.findById(podId);
-            if (pod == null) {
-                throw new InvalidParameterValueException("Can't find pod by id " + podId);
-            }
-            // check if pod belongs to the zone
-            if (!Long.valueOf(pod.getDataCenterId()).equals(dcId)) {
-                final InvalidParameterValueException ex =
-                        new InvalidParameterValueException("Pod with specified podId" + podId + " doesn't belong to the zone with specified zoneId" + dcId);
-                ex.addProxyObject(pod.getUuid(), "podId");
-                ex.addProxyObject(zone.getUuid(), "dcId");
-                throw ex;
-            }
-        }
+        verifyClusterInfo(podId, clusterId, clusterName, hypervisorType);
+        clusterId = getOrCreateCluster(zone, pod, clusterId, clusterName, hypervisorType);
 
-        // Verify cluster information and create a new cluster if needed
-        if (clusterName != null && clusterId != null) {
-            throw new InvalidParameterValueException("Can't specify cluster by both id and name");
-        }
-
-        if (hypervisorType == null || hypervisorType.isEmpty()) {
-            throw new InvalidParameterValueException("Need to specify Hypervisor Type");
-        }
-
-        if ((clusterName != null || clusterId != null) && podId == null) {
-            throw new InvalidParameterValueException("Can't specify cluster without specifying the pod");
-        }
-
-        if (clusterId != null) {
-            if (_clusterDao.findById(clusterId) == null) {
-                throw new InvalidParameterValueException("Can't find cluster by id " + clusterId);
-            }
-        }
-
-        if (clusterName != null) {
-            final HostPodVO pod = _podDao.findById(podId);
-            if (pod == null) {
-                throw new InvalidParameterValueException("Can't find pod by id " + podId);
-            }
-            ClusterVO cluster = new ClusterVO(dcId, podId, clusterName);
-            cluster.setHypervisorType(hypervisorType);
-            try {
-                cluster = _clusterDao.persist(cluster);
-            } catch (final Exception e) {
-                cluster = _clusterDao.findBy(clusterName, podId);
-                if (cluster == null) {
-                    final CloudRuntimeException ex =
-                            new CloudRuntimeException("Unable to create cluster " + clusterName + " in pod with specified podId and data center with specified dcID", e);
-                    ex.addProxyObject(pod.getUuid(), "podId");
-                    ex.addProxyObject(zone.getUuid(), "dcId");
-                    throw ex;
-                }
-            }
-            clusterId = cluster.getId();
-            if (_clusterDetailsDao.findDetail(clusterId, "cpuOvercommitRatio") == null) {
-                final ClusterDetailsVO cluster_cpu_detail = new ClusterDetailsVO(clusterId, "cpuOvercommitRatio", "1");
-                final ClusterDetailsVO cluster_memory_detail = new ClusterDetailsVO(clusterId, "memoryOvercommitRatio", "1");
-                _clusterDetailsDao.persist(cluster_cpu_detail);
-                _clusterDetailsDao.persist(cluster_memory_detail);
-            }
-
-        }
-
-        try {
-            uri = new URI(UriUtils.encodeURIComponent(url));
-            if (uri.getScheme() == null) {
-                throw new InvalidParameterValueException("uri.scheme is null " + url + ", add nfs:// (or cifs://) as a prefix");
-            } else if (uri.getScheme().equalsIgnoreCase("nfs")) {
-                if (uri.getHost() == null || uri.getHost().equalsIgnoreCase("") || uri.getPath() == null || uri.getPath().equalsIgnoreCase("")) {
-                    throw new InvalidParameterValueException("Your host and/or path is wrong.  Make sure it's of the format nfs://hostname/path");
-                }
-            } else if (uri.getScheme().equalsIgnoreCase("cifs")) {
-                // Don't validate against a URI encoded URI.
-                final URI cifsUri = new URI(url);
-                final String warnMsg = UriUtils.getCifsUriParametersProblems(cifsUri);
-                if (warnMsg != null) {
-                    throw new InvalidParameterValueException(warnMsg);
-                }
-            }
-        } catch (final URISyntaxException e) {
-            throw new InvalidParameterValueException(url + " is not a valid uri");
-        }
+        final URI uri = generateUri(url);
 
         final List<HostVO> hosts = new ArrayList<>();
         s_logger.info("Trying to add a new host at " + url + " in data center " + dcId);
@@ -709,8 +560,10 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
             }
 
             if (!discoverer.matchHypervisor(hypervisorType)) {
+                s_logger.debug("Discoverer " + discoverer.getName() + " for " + discoverer.getHypervisorType() + " is not a match for " + hypervisorType);
                 continue;
             }
+            s_logger.debug("Discoverer " + discoverer.getName() + " for " + discoverer.getHypervisorType() + " is a match for " + hypervisorType);
             isHypervisorTypeSupported = true;
             Map<? extends ServerResource, Map<String, String>> resources = null;
 
@@ -773,6 +626,57 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
         }
         s_logger.warn("Unable to find the server resources at " + url);
         throw new DiscoveryException("Unable to add the host");
+    }
+
+    private Long getOrCreateCluster(final DataCenterVO zone, final HostPodVO pod, Long clusterId, final String clusterName, final String hypervisorType) {
+        final Long dcId = zone.getId();
+        final Long podId = pod.getId();
+        if (clusterName != null) {
+            ClusterVO cluster = new ClusterVO(dcId, podId, clusterName);
+            cluster.setHypervisorType(hypervisorType);
+            try {
+                cluster = _clusterDao.persist(cluster);
+            } catch (final Exception e) {
+                cluster = _clusterDao.findBy(clusterName, podId);
+                if (cluster == null) {
+                    final CloudRuntimeException ex =
+                            new CloudRuntimeException("Unable to create cluster " + clusterName + " in pod with specified podId and data center with specified dcID", e);
+                    ex.addProxyObject(pod.getUuid(), "podId");
+                    ex.addProxyObject(zone.getUuid(), "dcId");
+                    throw ex;
+                }
+            }
+            clusterId = cluster.getId();
+            if (_clusterDetailsDao.findDetail(clusterId, "cpuOvercommitRatio") == null) {
+                final ClusterDetailsVO cluster_cpu_detail = new ClusterDetailsVO(clusterId, "cpuOvercommitRatio", "1");
+                final ClusterDetailsVO cluster_memory_detail = new ClusterDetailsVO(clusterId, "memoryOvercommitRatio", "1");
+                _clusterDetailsDao.persist(cluster_cpu_detail);
+                _clusterDetailsDao.persist(cluster_memory_detail);
+            }
+
+        }
+        return clusterId;
+    }
+
+
+    private void verifyClusterInfo(final Long podId, final Long clusterId, final String clusterName, final String hypervisorType) {
+        if (clusterName != null && clusterId != null) {
+            throw new InvalidParameterValueException("Can't specify cluster by both id and name");
+        }
+
+        if (hypervisorType == null || hypervisorType.isEmpty()) {
+            throw new InvalidParameterValueException("Need to specify Hypervisor Type");
+        }
+
+        if ((clusterName != null || clusterId != null) && podId == null) {
+            throw new InvalidParameterValueException("Can't specify cluster without specifying the pod");
+        }
+
+        if (clusterId != null) {
+            if (_clusterDao.findById(clusterId) == null) {
+                throw new InvalidParameterValueException("Can't find cluster by id " + clusterId);
+            }
+        }
     }
 
     @Override
@@ -1351,7 +1255,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
 
         for (final ClusterVO cluster : clustersForZone) {
             final HypervisorType hType = cluster.getHypervisorType();
-            if (!forVirtualRouter || forVirtualRouter && hType != HypervisorType.BareMetal) {
+            if (!forVirtualRouter || forVirtualRouter) {
                 hypervisorTypes.add(hType);
             }
         }
@@ -1528,10 +1432,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
         final String cidrNetmask = NetUtils.getCidrSubNet("255.255.255.255", cidrSize);
         final long cidrNetmaskNumeric = NetUtils.ip2Long(cidrNetmask);
         final long serverNetmaskNumeric = NetUtils.ip2Long(serverPrivateNetmask);
-        if (serverNetmaskNumeric > cidrNetmaskNumeric) {
-            return false;
-        }
-        return true;
+        return serverNetmaskNumeric <= cidrNetmaskNumeric;
     }
 
     protected HostVO createHostVO(final StartupCommand[] cmds, final ServerResource resource, final Map<String, String> details, List<String> hostTags,
@@ -1589,7 +1490,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
     /*
      * ResourceStateAdapter is responsible for throwing Exception if Pod is
      * null and non-null is required. for example, XcpServerDiscoever.
-     * Others, like PxeServer, ExternalFireware don't require Pod
+     * Others, like ExternalFireware don't require Pod
      */
         final Long podId = p == null ? null : p.getId();
 
@@ -2537,7 +2438,7 @@ public class ResourceManagerImpl extends ManagerBase implements ResourceManager,
     public boolean isHostGpuEnabled(final long hostId) {
         final SearchCriteria<HostGpuGroupsVO> sc = _gpuAvailability.create();
         sc.setParameters("hostId", hostId);
-        return _hostGpuGroupsDao.customSearch(sc, null).size() > 0 ? true : false;
+        return _hostGpuGroupsDao.customSearch(sc, null).size() > 0;
     }
 
     @Override

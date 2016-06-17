@@ -253,12 +253,6 @@ dhcp-hostsfile=/etc/dhcphosts.txt
 # address is 11:22:33:44:55:66
 #dhcp-host=11:22:33:44:55:66,ignore
 
-# Ignore any client-id presented by the machine with Ethernet
-# address 11:22:33:44:55:66. This is useful to prevent a machine
-# being treated differently when running under different OS's or
-# between PXE boot and OS boot.
-#dhcp-host=11:22:33:44:55:66,id:*
-
 # Send extra options which are tagged as "red" to
 # the machine with Ethernet address 11:22:33:44:55:66
 #dhcp-host=11:22:33:44:55:66,set:red
@@ -380,14 +374,6 @@ dhcp-option=15,"2.vmops-test.vmops.com"
 # Send RFC-3442 classless static routes (note the netmask encoding)
 #dhcp-option=121,192.168.1.0/24,1.2.3.4,10.0.0.0/8,5.6.7.8
 
-# Send vendor-class specific options encapsulated in DHCP option 43.
-# The meaning of the options is defined by the vendor-class so
-# options are sent only when the client supplied vendor class
-# matches the class given here. (A substring match is OK, so "MSFT"
-# matches "MSFT" and "MSFT 5.0"). This example sets the
-# mtftp address to 0.0.0.0 for PXEClients.
-#dhcp-option=vendor:PXEClient,1,0.0.0.0
-
 # Send microsoft-specific option to tell windows to release the DHCP lease
 # when it shuts down. Note the "i" flag, to tell dnsmasq to send the
 # value as a four-byte integer - that's what microsoft wants. See
@@ -397,79 +383,6 @@ dhcp-option=vendor:MSFT,2,1i
 # Send the Encapsulated-vendor-class ID needed by some configurations of
 # Etherboot to allow is to recognise the DHCP server.
 #dhcp-option=vendor:Etherboot,60,"Etherboot"
-
-# Send options to PXELinux. Note that we need to send the options even
-# though they don't appear in the parameter request list, so we need
-# to use dhcp-option-force here.
-# See http://syslinux.zytor.com/pxe.php#special for details.
-# Magic number - needed before anything else is recognised
-#dhcp-option-force=208,f1:00:74:7e
-# Configuration file name
-#dhcp-option-force=209,configs/common
-# Path prefix
-#dhcp-option-force=210,/tftpboot/pxelinux/files/
-# Reboot time. (Note 'i' to send 32-bit value)
-#dhcp-option-force=211,30i
-
-# Set the boot filename for netboot/PXE. You will only need
-# this is you want to boot machines over the network and you will need
-# a TFTP server; either dnsmasq's built in TFTP server or an
-# external one. (See below for how to enable the TFTP server.)
-dhcp-boot=pxelinux.0
-
-# The same as above, but use custom tftp-server instead machine running dnsmasq
-#dhcp-boot=pxelinux,server.name,192.168.1.100
-
-# Boot for Etherboot gPXE. The idea is to send two different
-# filenames, the first loads gPXE, and the second tells gPXE what to
-# load. The dhcp-match sets the gpxe tag for requests from gPXE.
-#dhcp-match=set:gpxe,175 # gPXE sends a 175 option.
-#dhcp-boot=tag:!gpxe,undionly.kpxe
-#dhcp-boot=mybootimage
-
-# Encapsulated options for Etherboot gPXE. All the options are
-# encapsulated within option 175
-#dhcp-option=encap:175, 1, 5b         # priority code
-#dhcp-option=encap:175, 176, 1b       # no-proxydhcp
-#dhcp-option=encap:175, 177, string   # bus-id
-#dhcp-option=encap:175, 189, 1b       # BIOS drive code
-#dhcp-option=encap:175, 190, user     # iSCSI username
-#dhcp-option=encap:175, 191, pass     # iSCSI password
-
-# Test for the architecture of a netboot client. PXE clients are
-# supposed to send their architecture as option 93. (See RFC 4578)
-#dhcp-match=peecees, option:client-arch, 0 #x86-32
-#dhcp-match=itanics, option:client-arch, 2 #IA64
-#dhcp-match=hammers, option:client-arch, 6 #x86-64
-#dhcp-match=mactels, option:client-arch, 7 #EFI x86-64
-
-# Do real PXE, rather than just booting a single file, this is an
-# alternative to dhcp-boot.
-#pxe-prompt="What system shall I netboot?"
-# or with timeout before first available action is taken:
-#pxe-prompt="Press F8 for menu.", 60
-
-# Available boot services. for PXE.
-#pxe-service=x86PC, "Boot from local disk"
-
-# Loads <tftp-root>/pxelinux.0 from dnsmasq TFTP server.
-#pxe-service=x86PC, "Install Linux", pxelinux
-
-# Loads <tftp-root>/pxelinux.0 from TFTP server at 1.2.3.4.
-# Beware this fails on old PXE ROMS.
-#pxe-service=x86PC, "Install Linux", pxelinux, 1.2.3.4
-
-# Use bootserver on network, found my multicast or broadcast.
-#pxe-service=x86PC, "Install windows from RIS server", 1
-
-# Use bootserver at a known IP address.
-#pxe-service=x86PC, "Install windows from RIS server", 1, 1.2.3.4
-
-# If you have multicast-FTP available,
-# information for that can be passed in a similar way using options 1
-# to 5. See page 19 of
-# http://download.intel.com/design/archives/wfm/downloads/pxespec.pdf
-
 
 # Enable dnsmasq's built-in TFTP server
 enable-tftp
@@ -485,22 +398,6 @@ tftp-root=/opt/tftpboot
 # transfers. It will slow things down, but may rescue some broken TFTP
 # clients.
 #tftp-no-blocksize
-
-# Set the boot file name only when the "red" tag is set.
-#dhcp-boot=net:red,pxelinux.red-net
-
-# An example of dhcp-boot with an external TFTP server: the name and IP
-# address of the server are given after the filename.
-# Can fail with old PXE ROMS. Overridden by --pxe-service.
-#dhcp-boot=/var/ftpd/pxelinux.0,boothost,192.168.0.3
-
-# If there are multiple external tftp servers having a same name
-# (using /etc/hosts) then that name can be specified as the
-# tftp_servername (the third option to dhcp-boot) and in that
-# case dnsmasq resolves this name and returns the resultant IP
-# addresses in round robin fasion. This facility can be used to
-# load balance the tftp load among a set of servers.
-#dhcp-boot=/var/ftpd/pxelinux.0,boothost,tftp_server_name
 
 # Set the limit on DHCP leases, the default is 150
 dhcp-lease-max=2100
