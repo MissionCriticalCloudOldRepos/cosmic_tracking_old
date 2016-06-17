@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-(function(cloudStack) {
+(function (cloudStack) {
     cloudStack.sections['global-settings'] = {
         title: 'label.menu.global.settings',
         id: 'global-settings',
@@ -31,7 +31,7 @@
                     actions: {
                         edit: {
                             label: 'label.change.value',
-                            action: function(args) {
+                            action: function (args) {
                                 var data = {
                                     name: args.data.jsonObj.name,
                                     value: args.data.value
@@ -39,7 +39,7 @@
                                 $.ajax({
                                     url: createURL('updateConfiguration'),
                                     data: data,
-                                    success: function(json) {
+                                    success: function (json) {
                                         var item = json.updateconfigurationresponse.configuration;
                                         if (item.category == "Usage")
                                             cloudStack.dialog.notice({
@@ -53,7 +53,7 @@
                                             data: item
                                         });
                                     },
-                                    error: function(json) {
+                                    error: function (json) {
                                         args.response.error(parseXMLHttpResponse(json));
                                     }
                                 });
@@ -75,7 +75,7 @@
                             truncate: true
                         }
                     },
-                    dataProvider: function(args) {
+                    dataProvider: function (args) {
                         var data = {
                             page: args.page,
                             pagesize: pageSize
@@ -90,7 +90,7 @@
                             data: data,
                             dataType: "json",
                             async: true,
-                            success: function(json) {
+                            success: function (json) {
                                 var items = json.listconfigurationsresponse.configuration;
                                 args.response.success({
                                     data: items
@@ -114,19 +114,19 @@
                             label: 'label.ldap.port'
                         }
                     },
-                    dataProvider: function(args) {
+                    dataProvider: function (args) {
                         var data = {};
                         listViewDataProvider(args, data);
                         $.ajax({
                             url: createURL('listLdapConfigurations'),
                             data: data,
-                            success: function(json) {
+                            success: function (json) {
                                 var items = json.ldapconfigurationresponse.LdapConfiguration;
                                 args.response.success({
                                     data: items
                                 });
                             },
-                            error: function(data) {
+                            error: function (data) {
                                 args.response.error(parseXMLHttpResponse(data));
                             }
                         });
@@ -137,17 +137,17 @@
                             remove: {
                                 label: 'label.remove.ldap',
                                 messages: {
-                                    notification: function(args) {
+                                    notification: function (args) {
                                         return 'label.remove.ldap';
                                     },
-                                    confirm: function() {
+                                    confirm: function () {
                                         return 'message.remove.ldap';
                                     }
                                 },
-                                action: function(args) {
+                                action: function (args) {
                                     $.ajax({
                                         url: createURL("deleteLdapConfiguration&hostname=" + args.context.ldapConfiguration[0].hostname),
-                                        success: function(json) {
+                                        success: function (json) {
                                             args.response.success();
                                         }
                                     });
@@ -166,14 +166,14 @@
                                         label: 'label.port'
                                     }
                                 }],
-                                dataProvider: function(args) {
+                                dataProvider: function (args) {
                                     var items = [];
                                     console.log(args);
                                     $.ajax({
                                         url: createURL("listLdapConfigurations&hostname=" + args.context.ldapConfiguration[0].hostname),
                                         dataType: "json",
                                         async: true,
-                                        success: function(json) {
+                                        success: function (json) {
                                             var item = json.ldapconfigurationresponse.LdapConfiguration;
                                             args.response.success({
                                                 data: item[0]
@@ -188,10 +188,10 @@
                         add: {
                             label: 'label.configure.ldap',
                             messages: {
-                                confirm: function(args) {
+                                confirm: function (args) {
                                     return 'message.configure.ldap';
                                 },
-                                notification: function(args) {
+                                notification: function (args) {
                                     return 'label.configure.ldap';
                                 }
                             },
@@ -212,157 +212,25 @@
                                     }
                                 }
                             },
-                            action: function(args) {
+                            action: function (args) {
                                 var array = [];
                                 array.push("&hostname=" + todb(args.data.hostname));
-                                array.push("&port=" + todb(args.data.port));;
+                                array.push("&port=" + todb(args.data.port));
+                                ;
                                 $.ajax({
                                     url: createURL("addLdapConfiguration" + array.join("")),
                                     dataType: "json",
                                     async: true,
-                                    success: function(json) {
+                                    success: function (json) {
                                         var items = json.ldapconfigurationresponse.LdapAddConfiguration;
                                         args.response.success({
                                             data: items
                                         });
                                     },
-                                    error: function(json) {
+                                    error: function (json) {
                                         args.response.error(parseXMLHttpResponse(json));
                                     }
                                 });
-                            }
-                        }
-                    }
-                }
-            },
-            baremetalRct: {
-                type: 'select',
-                title: 'label.baremetal.rack.configuration',
-                listView: {
-                    id: 'baremetalRct',
-                    label: 'label.baremetal.rack.configuration',
-                    fields: {
-                        id: {
-                            label: 'label.id'
-                        },
-                        url: {
-                            label: 'label.url'
-                        }
-                    },
-                    dataProvider: function(args) {
-                        var data = {};
-                        listViewDataProvider(args, data);
-
-                        $.ajax({
-                            url: createURL("listBaremetalRct"),
-                            data: data,
-                            success: function(json) {
-                                args.response.success({ data: json.listbaremetalrctresponse.baremetalrct });
-                            }
-                        });
-                    },
-                    actions: {
-                        add: {
-                            label: 'label.add.baremetal.rack.configuration',
-                            messages: {
-                                notification: function(args) {
-                                    return 'label.add.baremetal.rack.configuration';
-                                }
-                            },
-                            createForm: {
-                                title: 'label.add.baremetal.rack.configuration',
-                                fields: {
-                                    url: {
-                                        label: 'label.url',
-                                        validation: {
-                                            required: true
-                                        }
-                                    }
-                                }
-                            },
-                            action: function(args) {
-                                $.ajax({
-                                    url: createURL("addBaremetalRct"),
-                                    data: {
-                                        baremetalrcturl: args.data.url
-                                    },
-                                    success: function(json) {
-                                        var jid = json.addbaremetalrctresponse.jobid
-                                        args.response.success({
-                                            _custom: {
-                                                jobId: jid,
-                                                getUpdatedItem: function(json) {
-                                                    return json.queryasyncjobresultresponse.jobresult.baremetalrct;
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-                            },
-                            notification: {
-                                poll: pollAsyncJobResult
-                            }
-                        }
-                    },
-
-                    detailView: {
-                        name: "details",
-                        actions: {
-                            remove: {
-                                label: 'label.delete.baremetal.rack.configuration',
-                                messages: {
-                                    confirm: function(args) {
-                                        return 'message.confirm.delete.baremetal.rack.configuration';
-                                    },
-                                    notification: function(args) {
-                                        return 'label.delete.baremetal.rack.configuration';
-                                    }
-                                },
-                                action: function(args) {
-                                    var data = {
-                                        id: args.context.baremetalRct[0].id
-                                    };
-                                    $.ajax({
-                                        url: createURL('deleteBaremetalRct'),
-                                        data: data,
-                                        success: function(json) {
-                                            var jid = json.deletebaremetalrctresponse.jobid;
-                                            args.response.success({
-                                                _custom: {
-                                                    jobId: jid
-                                                }
-                                            });
-                                        }
-                                    });
-                                },
-                                notification: {
-                                    poll: pollAsyncJobResult
-                                }
-                            }
-                        },
-                        tabs: {
-                            details: {
-                                title: 'label.details',
-                                fields: [{
-                                    id: {
-                                        label: 'label.id'
-                                    },
-                                    url: {
-                                        label: 'label.url'
-                                    }
-                                }],
-                                dataProvider: function(args) {
-                                    var data = {
-                                        id: args.context.baremetalRct[0].id
-                                    };
-                                    $.ajax({
-                                        url: createURL("listBaremetalRct"),
-                                        data: data,
-                                        success: function(json) {
-                                            args.response.success({ data: json.listbaremetalrctresponse.baremetalrct[0] });
-                                        }
-                                    });
-                                }
                             }
                         }
                     }
@@ -385,20 +253,20 @@
                             label: 'label.max.guest.limit'
                         }
                     },
-                    dataProvider: function(args) {
+                    dataProvider: function (args) {
                         var data = {};
                         listViewDataProvider(args, data);
 
                         $.ajax({
                             url: createURL('listHypervisorCapabilities'),
                             data: data,
-                            success: function(json) {
+                            success: function (json) {
                                 var items = json.listhypervisorcapabilitiesresponse.hypervisorCapabilities;
                                 args.response.success({
                                     data: items
                                 });
                             },
-                            error: function(data) {
+                            error: function (data) {
                                 args.response.error(parseXMLHttpResponse(data));
                             }
                         });
@@ -409,7 +277,7 @@
                         actions: {
                             edit: {
                                 label: 'label.edit',
-                                action: function(args) {
+                                action: function (args) {
                                     var data = {
                                         id: args.context.hypervisorCapabilities[0].id,
                                         maxguestslimit: args.data.maxguestslimit
@@ -418,13 +286,13 @@
                                     $.ajax({
                                         url: createURL('updateHypervisorCapabilities'),
                                         data: data,
-                                        success: function(json) {
+                                        success: function (json) {
                                             var item = json.updatehypervisorcapabilitiesresponse['null'];
                                             args.response.success({
                                                 data: item
                                             });
                                         },
-                                        error: function(data) {
+                                        error: function (data) {
                                             args.response.error(parseXMLHttpResponse(data));
                                         }
                                     });
@@ -450,7 +318,7 @@
                                         isEditable: true
                                     }
                                 }],
-                                dataProvider: function(args) {
+                                dataProvider: function (args) {
                                     args.response.success({
                                         data: args.context.hypervisorCapabilities[0]
                                     });

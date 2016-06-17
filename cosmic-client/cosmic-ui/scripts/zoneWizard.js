@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-(function(cloudStack, $) {
+(function (cloudStack, $) {
     var selectedNetworkOfferingHavingSG = false;
     var selectedNetworkOfferingHavingEIP = false;
     var selectedNetworkOfferingHavingELB = false;
@@ -23,11 +23,9 @@
     var configurationUseLocalStorage = false;
     var skipGuestTrafficStep = false;
     var selectedNetworkOfferingObj = {};
-    var baremetalProviders = ["BaremetalDhcpProvider", "BaremetalPxeProvider", "BaremetalUserdataProvider"];
-    var selectedBaremetalProviders = [];
 
     // Makes URL string for traffic label
-    var trafficLabelParam = function(trafficTypeID, data, physicalNetworkID) {
+    var trafficLabelParam = function (trafficTypeID, data, physicalNetworkID) {
         var zoneType = data.zone.networkType;
         var hypervisor = data.zone.hypervisor;
         physicalNetworkID = zoneType == 'Advanced' ? physicalNetworkID : 0;
@@ -59,7 +57,7 @@
                 if (trafficLabel.length == 0) { //trafficLabel == ''
                     trafficLabel = null;
                 } else if (trafficLabel.length >= 1) {
-                    if (trafficLabel.charAt(trafficLabel.length-1) == ',') { //if last character is comma
+                    if (trafficLabel.charAt(trafficLabel.length - 1) == ',') { //if last character is comma
                         trafficLabel = trafficLabel.substring(0, trafficLabel.length - 1); //remove the last character (which is comma)
                     }
                 }
@@ -75,9 +73,6 @@
             case 'KVM':
                 hypervisorAttr = 'kvmnetworklabel';
                 break;
-            case 'BareMetal':
-                hypervisorAttr = 'baremetalnetworklabel';
-                break;
             case 'Ovm3':
                 hypervisorAttr = 'ovm3networklabel';
                 break;
@@ -90,7 +85,7 @@
 
     cloudStack.zoneWizard = {
         // Return required traffic types, for configure physical network screen
-        requiredTrafficTypes: function(args) {
+        requiredTrafficTypes: function (args) {
             if (args.data.zone.networkType == 'Basic') {
                 if (selectedNetworkOfferingHavingEIP || selectedNetworkOfferingHavingELB) {
                     return [
@@ -120,7 +115,7 @@
             }
         },
 
-        disabledTrafficTypes: function(args) {
+        disabledTrafficTypes: function (args) {
             if (args.data.zone.networkType == 'Basic') {
                 if (selectedNetworkOfferingHavingEIP || selectedNetworkOfferingHavingELB)
                     return [];
@@ -135,7 +130,7 @@
             }
         },
 
-        cloneTrafficTypes: function(args) {
+        cloneTrafficTypes: function (args) {
             if (args.data.zone.networkType == 'Advanced') {
                 return ['guest'];
             } else {
@@ -144,7 +139,7 @@
         },
 
         customUI: {
-            publicTrafficIPRange: function(args) {
+            publicTrafficIPRange: function (args) {
                 var multiEditData = [];
                 var totalIndex = 0;
 
@@ -186,7 +181,7 @@
                     },
                     add: {
                         label: 'label.add',
-                        action: function(args) {
+                        action: function (args) {
                             multiEditData.push($.extend(args.data, {
                                 index: totalIndex
                             }));
@@ -198,15 +193,15 @@
                     actions: {
                         destroy: {
                             label: 'label.remove.rule',
-                            action: function(args) {
-                                multiEditData = $.grep(multiEditData, function(item) {
+                            action: function (args) {
+                                multiEditData = $.grep(multiEditData, function (item) {
                                     return item.index != args.context.multiRule[0].index;
                                 });
                                 args.response.success();
                             }
                         }
                     },
-                    dataProvider: function(args) {
+                    dataProvider: function (args) {
                         args.response.success({
                             data: multiEditData
                         });
@@ -214,7 +209,7 @@
                 });
             },
 
-            storageTrafficIPRange: function(args) {
+            storageTrafficIPRange: function (args) {
 
                 var multiEditData = [];
                 var totalIndex = 0;
@@ -251,7 +246,7 @@
                     },
                     add: {
                         label: 'label.add',
-                        action: function(args) {
+                        action: function (args) {
                             multiEditData.push($.extend(args.data, {
                                 index: totalIndex
                             }));
@@ -263,15 +258,15 @@
                     actions: {
                         destroy: {
                             label: 'label.remove.rule',
-                            action: function(args) {
-                                multiEditData = $.grep(multiEditData, function(item) {
+                            action: function (args) {
+                                multiEditData = $.grep(multiEditData, function (item) {
                                     return item.index != args.context.multiRule[0].index;
                                 });
                                 args.response.success();
                             }
                         }
                     },
-                    dataProvider: function(args) {
+                    dataProvider: function (args) {
                         args.response.success({
                             data: multiEditData
                         });
@@ -281,7 +276,7 @@
         },
 
         preFilters: {
-            addPublicNetwork: function(args) {
+            addPublicNetwork: function (args) {
                 var isShown;
                 var $publicTrafficDesc = $('.zone-wizard:visible').find('#add_zone_public_traffic_desc');
                 if (args.data['network-model'] == 'Basic') {
@@ -305,7 +300,7 @@
                 return isShown;
             },
 
-            setupPhysicalNetwork: function(args) {
+            setupPhysicalNetwork: function (args) {
                 if (args.data['network-model'] == 'Basic' && !(selectedNetworkOfferingHavingELB && selectedNetworkOfferingHavingEIP)) {
                     $('.setup-physical-network .info-desc.conditional.basic').show();
                     $('.setup-physical-network .info-desc.conditional.advanced').hide();
@@ -318,7 +313,7 @@
                 return true; // Both basic & advanced zones show physical network UI
             },
 
-            configureGuestTraffic: function(args) {
+            configureGuestTraffic: function (args) {
                 if ((args.data['network-model'] == 'Basic') || (args.data['network-model'] == 'Advanced' && args.data["zone-advanced-sg-enabled"] == "on")) {
                     $('.setup-guest-traffic').addClass('basic');
                     $('.setup-guest-traffic').removeClass('advanced');
@@ -333,18 +328,18 @@
                 return !skipGuestTrafficStep;
             },
 
-            configureStorageTraffic: function(args) {
-                return $.grep(args.groupedData.physicalNetworks, function(network) {
+            configureStorageTraffic: function (args) {
+                return $.grep(args.groupedData.physicalNetworks, function (network) {
                     return $.inArray('storage', network.trafficTypes) > -1;
                 }).length;
             },
 
-            addHost: function(args) {
+            addHost: function (args) {
                 return true;
             },
 
-            addPrimaryStorage: function(args) {
-                if(args.data.localstorageenabled == 'on' && args.data.localstorageenabledforsystemvm == 'on') {
+            addPrimaryStorage: function (args) {
+                if (args.data.localstorageenabled == 'on' && args.data.localstorageenabledforsystemvm == 'on') {
                     return false; //skip step only when both localstorage and localstorage for system vm are checked
                 }
                 return true;
@@ -353,7 +348,7 @@
 
         forms: {
             zone: {
-                preFilter: function(args) {
+                preFilter: function (args) {
                     var $form = args.$form;
 
                     if (args.data['network-model'] == 'Basic') { //Basic zone
@@ -415,7 +410,7 @@
                         validation: {
                             ipv6: true
                         }
-                   },
+                    },
 
                     internaldns1: {
                         label: 'label.internal.dns.1',
@@ -437,14 +432,14 @@
                         validation: {
                             required: true
                         },
-                        select: function(args) {
+                        select: function (args) {
                             $.ajax({
                                 url: createURL('listHypervisors'),
                                 async: false,
                                 data: {
                                     listAll: true
                                 },
-                                success: function(json) {
+                                success: function (json) {
                                     var items = json.listhypervisorsresponse.hypervisor;
                                     var array1 = [];
 
@@ -452,13 +447,8 @@
                                     var nonSupportedHypervisors = {};
                                     if (args.context.zones[0]['network-model'] == "Advanced" && args.context.zones[0]['zone-advanced-sg-enabled'] == "on") {
                                         firstOption = "KVM";
-                                        nonSupportedHypervisors["BareMetal"] = 1;
                                         nonSupportedHypervisors["Ovm"] = 1;
                                         nonSupportedHypervisors["Ovm3"] = 1;
-                                    }
-
-                                    if (args.context.zones[0]['network-model'] == "Advanced") { //CLOUDSTACK-7681: UI > zone wizard > Advanced zone > hypervisor => do not support BareMetal
-                                        nonSupportedHypervisors["BareMetal"] = 1;
                                     }
 
                                     if (items != null) {
@@ -488,18 +478,18 @@
                     networkOfferingId: {
                         label: 'label.network.offering',
                         dependsOn: 'hypervisor',
-                        select: function(args) {
+                        select: function (args) {
                             var selectedNetworkOfferingObj = {};
                             var networkOfferingObjs = [];
 
-                            args.$select.unbind("change").bind("change", function() {
+                            args.$select.unbind("change").bind("change", function () {
                                 //reset when different network offering is selected
                                 selectedNetworkOfferingHavingSG = false;
                                 selectedNetworkOfferingHavingEIP = false;
                                 selectedNetworkOfferingHavingELB = false;
 
                                 var selectedNetworkOfferingId = $(this).val();
-                                $(networkOfferingObjs).each(function() {
+                                $(networkOfferingObjs).each(function () {
                                     if (this.id == selectedNetworkOfferingId) {
                                         selectedNetworkOfferingObj = this;
                                         return false; //break $.each() loop
@@ -519,31 +509,25 @@
                                 url: createURL("listNetworkOfferings&state=Enabled&guestiptype=Shared"),
                                 dataType: "json",
                                 async: false,
-                                success: function(json) {
+                                success: function (json) {
                                     networkOfferingObjs = json.listnetworkofferingsresponse.networkoffering;
                                     var availableNetworkOfferingObjs = [];
-                                    $(networkOfferingObjs).each(function() {
+                                    $(networkOfferingObjs).each(function () {
                                         var thisNetworkOffering = this;
-                                        $(this.service).each(function() {
+                                        $(this.service).each(function () {
                                             var thisService = this;
-
-                                            $(thisService.provider).each(function() {
-                                                if ($.inArray(this.name, baremetalProviders) != -1) {
-                                                    selectedBaremetalProviders.push(this.name);
-                                                }
-                                            });
 
                                             if (thisService.name == "SecurityGroup") {
                                                 thisNetworkOffering.havingSG = true;
                                             } else if (thisService.name == "StaticNat") {
-                                                $(thisService.capability).each(function() {
+                                                $(thisService.capability).each(function () {
                                                     if (this.name == "ElasticIp" && this.value == "true") {
                                                         thisNetworkOffering.havingEIP = true;
                                                         return false; //break $.each() loop
                                                     }
                                                 });
                                             } else if (thisService.name == "Lb") {
-                                                $(thisService.capability).each(function() {
+                                                $(thisService.capability).each(function () {
                                                     if (this.name == "ElasticLb" && this.value == "true") {
                                                         thisNetworkOffering.havingELB = true;
                                                         return false; //break $.each() loop
@@ -568,7 +552,7 @@
                                     });
 
                                     args.response.success({
-                                        data: $.map(availableNetworkOfferingObjs, function(offering) {
+                                        data: $.map(availableNetworkOfferingObjs, function (offering) {
                                             return {
                                                 id: offering.id,
                                                 description: offering.name
@@ -600,7 +584,7 @@
                         label: 'label.domain',
                         dependsOn: 'isdedicated',
                         isHidden: true,
-                        select: function(args) {
+                        select: function (args) {
                             $.ajax({
                                 url: createURL("listDomains&listAll=true"),
                                 data: {
@@ -608,10 +592,10 @@
                                 },
                                 dataType: "json",
                                 async: false,
-                                success: function(json) {
+                                success: function (json) {
                                     domainObjs = json.listdomainsresponse.domain;
                                     args.response.success({
-                                        data: $.map(domainObjs, function(domain) {
+                                        data: $.map(domainObjs, function (domain) {
                                             return {
                                                 id: domain.id,
                                                 description: domain.path
@@ -637,7 +621,7 @@
                     localstorageenabled: {
                         label: 'label.local.storage.enabled',
                         isBoolean: true,
-                        onChange: function(args) {
+                        onChange: function (args) {
 
                         }
                     },
@@ -645,7 +629,7 @@
                     localstorageenabledforsystemvm: {
                         label: 'label.local.storage.enabled.system.vms',
                         isBoolean: true,
-                        onChange: function(args) {
+                        onChange: function (args) {
 
                         }
                     }
@@ -693,12 +677,13 @@
             },
 
             basicPhysicalNetwork: {
-                preFilter: function(args) {
+                preFilter: function (args) {
                     if (args.data['network-model'] == 'Basic' && (selectedNetworkOfferingHavingELB || selectedNetworkOfferingHavingEIP)) {
                         args.$form.find('[rel=dedicated]').hide();
                     } else {
                         args.$form.find('[rel=dedicated]').show();
-                    };
+                    }
+                    ;
                     cloudStack.preFilter.addLoadBalancerDevice
                 },
                 fields: {
@@ -749,7 +734,7 @@
             },
 
             guestTraffic: {
-                preFilter: function(args) {
+                preFilter: function (args) {
                     var $guestTrafficDesc = $('.zone-wizard:visible').find('#add_zone_guest_traffic_desc');
                     if ((args.data['network-model'] == 'Basic') || (args.data['network-model'] == 'Advanced' && args.data["zone-advanced-sg-enabled"] == "on")) {
                         $guestTrafficDesc.find('#for_basic_zone').css('display', 'inline');
@@ -818,7 +803,7 @@
                 fields: {
                     hypervisor: {
                         label: 'label.hypervisor',
-                        select: function(args) {
+                        select: function (args) {
                             // Disable select -- selection is made on zone setup step
                             args.$select.attr('disabled', 'disabled');
 
@@ -826,10 +811,10 @@
                                 url: createURL("listHypervisors"),
                                 dataType: "json",
                                 async: false,
-                                success: function(json) {
+                                success: function (json) {
                                     var hypervisors = json.listhypervisorsresponse.hypervisor;
                                     var items = [];
-                                    $(hypervisors).each(function() {
+                                    $(hypervisors).each(function () {
                                         items.push({
                                             id: this.name,
                                             description: this.name
@@ -846,9 +831,9 @@
                             var vSwitchEnabled = false;
                             var dvSwitchEnabled = false;
 
-                            args.$select.bind("change", function(event) {
+                            args.$select.bind("change", function (event) {
                                 var $form = $(this).closest('form');
-                                var $vsmFields = $form.find('[rel]').filter(function() {
+                                var $vsmFields = $form.find('[rel]').filter(function () {
                                     var vsmFields = [
                                         'vsmipaddress',
                                         'vsmusername',
@@ -886,45 +871,19 @@
                 }
             },
             host: {
-                preFilter: function(args) {
+                preFilter: function (args) {
                     var selectedClusterObj = {
                         hypervisortype: args.data.hypervisor
                     };
 
                     var $form = args.$form;
 
-                    if (selectedClusterObj.hypervisortype == "BareMetal") {
-                        $form.find('[rel=hostname]').css('display', 'block');
-                        $form.find('[rel=username]').css('display', 'block');
-                        $form.find('[rel=password]').css('display', 'block');
-
-                        $form.find('[rel=baremetalCpuCores]').css('display', 'block');
-                        $form.find('[rel=baremetalCpu]').css('display', 'block');
-                        $form.find('[rel=baremetalMemory]').css('display', 'block');
-                        $form.find('[rel=baremetalMAC]').css('display', 'block');
-
-                        $form.find('[rel=vcenterHost]').hide();
-
-                        $form.find('[rel=agentUsername]').hide();
-                        $form.find('[rel=agentPassword]').hide();
-
-                        $form.find('.form-item[rel=agentUsername]').hide();
-                        $form.find('.form-item[rel=agentPassword]').hide();
-                        $form.find('.form-item[rel=agentPort]').hide();
-                        $form.find('.form-item[rel=ovm3vip]').hide();
-                        $form.find('.form-item[rel=ovm3pool]').hide();
-                        $form.find('.form-item[rel=ovm3cluster]').hide();
-                   } else if (selectedClusterObj.hypervisortype == "Ovm3") {
+                    if (selectedClusterObj.hypervisortype == "Ovm3") {
                         $form.find('.form-item[rel=hostname]').css('display', 'inline-block');
                         $form.find('.form-item[rel=username]').css('display', 'inline-block');
                         $form.find('.form-item[rel=password]').css('display', 'inline-block');
 
                         $form.find('.form-item[rel=vcenterHost]').hide();
-
-                        $form.find('.form-item[rel=baremetalCpuCores]').hide();
-                        $form.find('.form-item[rel=baremetalCpu]').hide();
-                        $form.find('.form-item[rel=baremetalMemory]').hide();
-                        $form.find('.form-item[rel=baremetalMAC]').hide();
 
                         $form.find('.form-item[rel=agentUsername]').css('display', 'inline-block');
                         $form.find('.form-item[rel=agentUsername]').find('input').val("oracle");
@@ -940,11 +899,6 @@
                         $form.find('[rel=password]').css('display', 'block');
 
                         $form.find('[rel=vcenterHost]').hide();
-
-                        $form.find('[rel=baremetalCpuCores]').hide();
-                        $form.find('[rel=baremetalCpu]').hide();
-                        $form.find('[rel=baremetalMemory]').hide();
-                        $form.find('[rel=baremetalMAC]').hide();
 
                         $form.find('[rel=agentUsername]').hide();
                         $form.find('[rel=agentPassword]').hide();
@@ -982,37 +936,6 @@
                     },
                     //input_group="general" ends here
 
-                    //input_group="BareMetal" starts here
-                    baremetalCpuCores: {
-                        label: 'label.num.cpu.cores',
-                        validation: {
-                            required: true
-                        },
-                        isHidden: true
-                    },
-                    baremetalCpu: {
-                        label: 'label.cpu.mhz',
-                        validation: {
-                            required: true
-                        },
-                        isHidden: true
-                    },
-                    baremetalMemory: {
-                        label: 'label.memory.mb',
-                        validation: {
-                            required: true
-                        },
-                        isHidden: true
-                    },
-                    baremetalMAC: {
-                        label: 'label.host.MAC',
-                        validation: {
-                            required: true
-                        },
-                        isHidden: true
-                    },
-                    //input_group="BareMetal" ends here
-
                     //input_group="OVM3" starts here
                     agentPort: {
                         label: 'label.agent.port',
@@ -1034,7 +957,8 @@
                 }
             },
             primaryStorage: {
-                preFilter: function(args) {},
+                preFilter: function (args) {
+                },
 
                 fields: {
                     name: {
@@ -1046,12 +970,12 @@
 
                     scope: {
                         label: 'label.scope',
-                        select: function(args) {
+                        select: function (args) {
 
                             var selectedHypervisorObj = {
                                 hypervisortype: $.isArray(args.context.zones[0].hypervisor) ?
-                                // We want the cluster's hypervisor type
-                                args.context.zones[0].hypervisor[1] : args.context.zones[0].hypervisor
+                                    // We want the cluster's hypervisor type
+                                    args.context.zones[0].hypervisor[1] : args.context.zones[0].hypervisor
                             };
 
                             if (selectedHypervisorObj == null) {
@@ -1090,11 +1014,11 @@
                         validation: {
                             required: true
                         },
-                        select: function(args) {
+                        select: function (args) {
                             var selectedClusterObj = {
                                 hypervisortype: $.isArray(args.context.zones[0].hypervisor) ?
-                                // We want the cluster's hypervisor type
-                                args.context.zones[0].hypervisor[1] : args.context.zones[0].hypervisor
+                                    // We want the cluster's hypervisor type
+                                    args.context.zones[0].hypervisor[1] : args.context.zones[0].hypervisor
                             };
 
                             if (selectedClusterObj == null) {
@@ -1171,7 +1095,7 @@
                                 });
                             }
 
-                            args.$select.change(function() {
+                            args.$select.change(function () {
                                 var $form = $(this).closest('form');
 
                                 var protocol = $(this).val();
@@ -1258,7 +1182,7 @@
                                     $form.find('[rel=server]').find(".value").find("input").val("localhost");
 
                                     $form.find('[rel=path]').css('display', 'block');
-                                    $form.find('[rel=path]').find(".name").find("label").html('<span class=\"field-required\">*</span>'+_l('label.SR.name')+':');
+                                    $form.find('[rel=path]').find(".name").find("label").html('<span class=\"field-required\">*</span>' + _l('label.SR.name') + ':');
 
                                     $form.find('[rel=smbUsername]').hide();
                                     $form.find('[rel=smbPassword]').hide();
@@ -1592,9 +1516,9 @@
                 fields: {
                     provider: {
                         label: 'label.provider',
-                        select: function(args) {
+                        select: function (args) {
                             var storageproviders = [];
-                            storageproviders.push({ id: '', description: ''});
+                            storageproviders.push({id: '', description: ''});
 
                             $.ajax({
                                 url: createURL('listImageStores'),
@@ -1602,21 +1526,21 @@
                                     provider: 'S3'
                                 },
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var s3stores = json.listimagestoresresponse.imagestore;
-                                    if(s3stores != null && s3stores.length > 0) {
-                                        storageproviders.push({ id: 'S3', description: 'S3'}); //if (region-wide) S3 store exists already, only "S3" option should be included here. Any other type of store is not allowed to be created since cloudstack doesn't support multiple types of store at this point.
+                                    if (s3stores != null && s3stores.length > 0) {
+                                        storageproviders.push({id: 'S3', description: 'S3'}); //if (region-wide) S3 store exists already, only "S3" option should be included here. Any other type of store is not allowed to be created since cloudstack doesn't support multiple types of store at this point.
                                     } else {
-                                        storageproviders.push({ id: 'NFS', description: 'NFS'});
-                                        storageproviders.push({ id: 'SMB', description: 'SMB/CIFS'});
-                                        storageproviders.push({ id: 'S3', description: 'S3'});
-                                        storageproviders.push({ id: 'Swift', description: 'Swift'});
+                                        storageproviders.push({id: 'NFS', description: 'NFS'});
+                                        storageproviders.push({id: 'SMB', description: 'SMB/CIFS'});
+                                        storageproviders.push({id: 'S3', description: 'S3'});
+                                        storageproviders.push({id: 'Swift', description: 'Swift'});
                                     }
                                     args.response.success({
                                         data: storageproviders
                                     });
 
-                                    args.$select.change(function() {
+                                    args.$select.change(function () {
                                         var $form = $(this).closest('form');
                                         var $fields = $form.find('.field');
 
@@ -1722,7 +1646,7 @@
                                         } else if ($(this).val() == "S3") {
                                             $fields.filter('[rel=name]').css('display', 'inline-block');
 
-                                            if(s3stores != null && s3stores.length > 0) {
+                                            if (s3stores != null && s3stores.length > 0) {
                                                 $fields.filter('[rel=name]').find('input').val(s3stores[0].name);
                                                 $fields.filter('[rel=name]').find('input').attr("disabled", "disabled");
                                             } else {
@@ -1741,24 +1665,24 @@
                                             $fields.filter('[rel=smbDomain]').hide();
 
                                             //S3
-                                            if(s3stores != null && s3stores.length > 0) {
-                                                 $fields.filter('[rel=accesskey]').hide();
-                                                 $fields.filter('[rel=secretkey]').hide();
-                                                 $fields.filter('[rel=bucket]').hide();
-                                                 $fields.filter('[rel=endpoint]').hide();
-                                                 $fields.filter('[rel=usehttps]').hide();
-                                                 $fields.filter('[rel=connectiontimeout]').hide();
-                                                 $fields.filter('[rel=maxerrorretry]').hide();
-                                                 $fields.filter('[rel=sockettimeout]').hide();
+                                            if (s3stores != null && s3stores.length > 0) {
+                                                $fields.filter('[rel=accesskey]').hide();
+                                                $fields.filter('[rel=secretkey]').hide();
+                                                $fields.filter('[rel=bucket]').hide();
+                                                $fields.filter('[rel=endpoint]').hide();
+                                                $fields.filter('[rel=usehttps]').hide();
+                                                $fields.filter('[rel=connectiontimeout]').hide();
+                                                $fields.filter('[rel=maxerrorretry]').hide();
+                                                $fields.filter('[rel=sockettimeout]').hide();
                                             } else {
-                                                 $fields.filter('[rel=accesskey]').css('display', 'inline-block');
-                                                 $fields.filter('[rel=secretkey]').css('display', 'inline-block');
-                                                 $fields.filter('[rel=bucket]').css('display', 'inline-block');
-                                                 $fields.filter('[rel=endpoint]').css('display', 'inline-block');
-                                                 $fields.filter('[rel=usehttps]').css('display', 'inline-block');
-                                                 $fields.filter('[rel=connectiontimeout]').css('display', 'inline-block');
-                                                 $fields.filter('[rel=maxerrorretry]').css('display', 'inline-block');
-                                                 $fields.filter('[rel=sockettimeout]').css('display', 'inline-block');
+                                                $fields.filter('[rel=accesskey]').css('display', 'inline-block');
+                                                $fields.filter('[rel=secretkey]').css('display', 'inline-block');
+                                                $fields.filter('[rel=bucket]').css('display', 'inline-block');
+                                                $fields.filter('[rel=endpoint]').css('display', 'inline-block');
+                                                $fields.filter('[rel=usehttps]').css('display', 'inline-block');
+                                                $fields.filter('[rel=connectiontimeout]').css('display', 'inline-block');
+                                                $fields.filter('[rel=maxerrorretry]').css('display', 'inline-block');
+                                                $fields.filter('[rel=sockettimeout]').css('display', 'inline-block');
                                             }
                                             $fields.filter('[rel=createNfsCache]').find('input').attr('checked', 'checked');
                                             $fields.filter('[rel=createNfsCache]').find('input').attr("disabled", "disabled");  //Create NFS staging is required for S3 at this moment. So, disallow user to uncheck "Create NFS Secondary Staging" checkbox
@@ -1950,7 +1874,7 @@
             }
         },
 
-        action: function(args) {
+        action: function (args) {
             var $wizard = args.wizard;
             var formData = args.data;
             var advZoneConfiguredVirtualRouterCount = 0; //for multiple physical networks in advanced zone. Each physical network has 2 virtual routers: regular one and VPC one.
@@ -1963,7 +1887,7 @@
             var data = args.data;
 
             var stepFns = {
-                addZone: function() {
+                addZone: function () {
                     message(dictionary['message.creating.zone']);
 
                     var array1 = [];
@@ -2018,9 +1942,9 @@
                         url: createURL("createZone" + array1.join("")),
                         dataType: "json",
                         async: false,
-                        success: function(json) {
+                        success: function (json) {
                             if (args.data.pluginFrom == null) { //from zone wizard, not from quick instsaller(args.data.pluginFrom != null && args.data.pluginFrom.name == 'installWizard') who doesn't have public checkbox
-                                if(args.data.zone.isdedicated == 'on'){ //dedicated checkbox in zone wizard is checked
+                                if (args.data.zone.isdedicated == 'on') { //dedicated checkbox in zone wizard is checked
                                     message(dictionary['message.dedicate.zone']);
                                     var data = {
                                         zoneid: json.createzoneresponse.zone.id
@@ -2036,7 +1960,8 @@
                                     $.ajax({
                                         url: createURL('dedicateZone'),
                                         data: data,
-                                        success: function(json) {}
+                                        success: function (json) {
+                                        }
                                     });
                                 }
                             }
@@ -2047,7 +1972,7 @@
                                 })
                             });
                         },
-                        error: function(XMLHttpResponse) {
+                        error: function (XMLHttpResponse) {
                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                             error('addZone', errorMsg, {
                                 fn: 'addZone',
@@ -2057,7 +1982,7 @@
                     });
                 },
 
-                addPhysicalNetworks: function(args) {
+                addPhysicalNetworks: function (args) {
                     message(_l('message.creating.physical.networks'));
 
                     var returnedPhysicalNetworks = [];
@@ -2078,13 +2003,13 @@
                         $.ajax({
                             url: createURL("createPhysicalNetwork&zoneid=" + args.data.returnedZone.id + array1.join("")),
                             dataType: "json",
-                            success: function(json) {
+                            success: function (json) {
                                 var jobId = json.createphysicalnetworkresponse.jobid;
-                                var createPhysicalNetworkIntervalID = setInterval(function() {
+                                var createPhysicalNetworkIntervalID = setInterval(function () {
                                     $.ajax({
                                         url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                         dataType: "json",
-                                        success: function(json) {
+                                        success: function (json) {
                                             var result = json.queryasyncjobresultresponse;
                                             if (result.jobstatus == 0) {
                                                 return; //Job has not completed
@@ -2099,13 +2024,13 @@
                                                     $.ajax({
                                                         url: createURL("addTrafficType&trafficType=Guest&physicalnetworkid=" + label),
                                                         dataType: "json",
-                                                        success: function(json) {
+                                                        success: function (json) {
                                                             var jobId = json.addtraffictyperesponse.jobid;
-                                                            var addGuestTrafficTypeIntervalID = setInterval(function() {
+                                                            var addGuestTrafficTypeIntervalID = setInterval(function () {
                                                                 $.ajax({
                                                                     url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                                                     dataType: "json",
-                                                                    success: function(json) {
+                                                                    success: function (json) {
                                                                         var result = json.queryasyncjobresultresponse;
                                                                         if (result.jobstatus == 0) {
                                                                             return; //Job has not completed
@@ -2129,7 +2054,7 @@
                                                                             }
                                                                         }
                                                                     },
-                                                                    error: function(XMLHttpResponse) {
+                                                                    error: function (XMLHttpResponse) {
                                                                         var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                         alert("Failed to add Guest traffic type to basic zone. Error: " + errorMsg);
                                                                     }
@@ -2143,13 +2068,13 @@
                                                     $.ajax({
                                                         url: createURL("addTrafficType&trafficType=Management&physicalnetworkid=" + returnedBasicPhysicalNetwork.id + label),
                                                         dataType: "json",
-                                                        success: function(json) {
+                                                        success: function (json) {
                                                             var jobId = json.addtraffictyperesponse.jobid;
-                                                            var addManagementTrafficTypeIntervalID = setInterval(function() {
+                                                            var addManagementTrafficTypeIntervalID = setInterval(function () {
                                                                 $.ajax({
                                                                     url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                                                     dataType: "json",
-                                                                    success: function(json) {
+                                                                    success: function (json) {
                                                                         var result = json.queryasyncjobresultresponse;
                                                                         if (result.jobstatus == 0) {
                                                                             return; //Job has not completed
@@ -2173,7 +2098,7 @@
                                                                             }
                                                                         }
                                                                     },
-                                                                    error: function(XMLHttpResponse) {
+                                                                    error: function (XMLHttpResponse) {
                                                                         var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                         alert("Failed to add Management traffic type to basic zone. Error: " + errorMsg);
                                                                     }
@@ -2189,13 +2114,13 @@
                                                         $.ajax({
                                                             url: createURL('addTrafficType&physicalnetworkid=' + returnedBasicPhysicalNetwork.id + '&trafficType=Storage' + label),
                                                             dataType: "json",
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var jobId = json.addtraffictyperesponse.jobid;
-                                                                var addStorageTrafficTypeIntervalID = setInterval(function() {
+                                                                var addStorageTrafficTypeIntervalID = setInterval(function () {
                                                                     $.ajax({
                                                                         url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                                                         dataType: "json",
-                                                                        success: function(json) {
+                                                                        success: function (json) {
                                                                             var result = json.queryasyncjobresultresponse;
                                                                             if (result.jobstatus == 0) {
                                                                                 return; //Job has not completed
@@ -2219,7 +2144,7 @@
                                                                                 }
                                                                             }
                                                                         },
-                                                                        error: function(XMLHttpResponse) {
+                                                                        error: function (XMLHttpResponse) {
                                                                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                             alert("Failed to add Management traffic type to basic zone. Error: " + errorMsg);
                                                                         }
@@ -2234,13 +2159,13 @@
                                                         $.ajax({
                                                             url: createURL("addTrafficType&trafficType=Public&physicalnetworkid=" + returnedBasicPhysicalNetwork.id + label),
                                                             dataType: "json",
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var jobId = json.addtraffictyperesponse.jobid;
-                                                                var addPublicTrafficTypeIntervalID = setInterval(function() {
+                                                                var addPublicTrafficTypeIntervalID = setInterval(function () {
                                                                     $.ajax({
                                                                         url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                                                         dataType: "json",
-                                                                        success: function(json) {
+                                                                        success: function (json) {
                                                                             var result = json.queryasyncjobresultresponse;
                                                                             if (result.jobstatus == 0) {
                                                                                 return; //Job has not completed
@@ -2264,7 +2189,7 @@
                                                                                 }
                                                                             }
                                                                         },
-                                                                        error: function(XMLHttpResponse) {
+                                                                        error: function (XMLHttpResponse) {
                                                                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                             alert("Failed to add Public traffic type to basic zone. Error: " + errorMsg);
                                                                         }
@@ -2278,7 +2203,7 @@
                                                 }
                                             }
                                         },
-                                        error: function(XMLHttpResponse) {
+                                        error: function (XMLHttpResponse) {
                                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                             alert("createPhysicalNetwork failed. Error: " + errorMsg);
                                         }
@@ -2288,7 +2213,7 @@
                             }
                         });
                     } else if (args.data.zone.networkType == "Advanced") {
-                        $(args.data.physicalNetworks).each(function(index) {
+                        $(args.data.physicalNetworks).each(function (index) {
                             var thisPhysicalNetwork = this;
                             var array1 = [];
                             array1.push("&name=" + todb(thisPhysicalNetwork.name));
@@ -2297,13 +2222,13 @@
                             $.ajax({
                                 url: createURL("createPhysicalNetwork&zoneid=" + args.data.returnedZone.id + array1.join("")),
                                 dataType: "json",
-                                success: function(json) {
+                                success: function (json) {
                                     var jobId = json.createphysicalnetworkresponse.jobid;
-                                    var createPhysicalNetworkIntervalID = setInterval(function() {
+                                    var createPhysicalNetworkIntervalID = setInterval(function () {
                                         $.ajax({
                                             url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                             dataType: "json",
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var result = json.queryasyncjobresultresponse;
                                                 if (result.jobstatus == 0) {
                                                     return; //Job has not completed
@@ -2316,7 +2241,7 @@
 
                                                         var returnedTrafficTypes = [];
                                                         var label; // Traffic type label
-                                                        $(thisPhysicalNetwork.trafficTypes).each(function() {
+                                                        $(thisPhysicalNetwork.trafficTypes).each(function () {
                                                             var thisTrafficType = this;
                                                             var apiCmd = "addTrafficType&physicalnetworkid=" + returnedPhysicalNetwork.id;
                                                             if (thisTrafficType == "public") {
@@ -2336,13 +2261,13 @@
                                                             $.ajax({
                                                                 url: createURL(apiCmd + label),
                                                                 dataType: "json",
-                                                                success: function(json) {
+                                                                success: function (json) {
                                                                     var jobId = json.addtraffictyperesponse.jobid;
-                                                                    var addTrafficTypeIntervalID = setInterval(function() {
+                                                                    var addTrafficTypeIntervalID = setInterval(function () {
                                                                         $.ajax({
                                                                             url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                                                             dataType: "json",
-                                                                            success: function(json) {
+                                                                            success: function (json) {
                                                                                 var result = json.queryasyncjobresultresponse;
                                                                                 if (result.jobstatus == 0) {
                                                                                     return; //Job has not completed
@@ -2369,7 +2294,7 @@
                                                                                     }
                                                                                 }
                                                                             },
-                                                                            error: function(XMLHttpResponse) {
+                                                                            error: function (XMLHttpResponse) {
                                                                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                                 alert(apiCmd + " failed. Error: " + errorMsg);
                                                                             }
@@ -2383,7 +2308,7 @@
                                                     }
                                                 }
                                             },
-                                            error: function(XMLHttpResponse) {
+                                            error: function (XMLHttpResponse) {
                                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                 alert("createPhysicalNetwork failed. Error: " + errorMsg);
                                             }
@@ -2396,19 +2321,19 @@
                 },
 
                 //afterCreateZonePhysicalNetworkTrafficTypes: enable physical network, enable virtual router element, enable network service provider
-                configurePhysicalNetwork: function(args) {
+                configurePhysicalNetwork: function (args) {
                     message(_l('message.configuring.physical.networks'));
 
                     if (args.data.zone.networkType == "Basic") {
                         $.ajax({
                             url: createURL("updatePhysicalNetwork&state=Enabled&id=" + args.data.returnedBasicPhysicalNetwork.id),
                             dataType: "json",
-                            success: function(json) {
-                                var enablePhysicalNetworkIntervalID = setInterval(function() {
+                            success: function (json) {
+                                var enablePhysicalNetworkIntervalID = setInterval(function () {
                                     $.ajax({
                                         url: createURL("queryAsyncJobResult&jobId=" + json.updatephysicalnetworkresponse.jobid),
                                         dataType: "json",
-                                        success: function(json) {
+                                        success: function (json) {
                                             var result = json.queryasyncjobresultresponse;
                                             if (result.jobstatus == 0) {
                                                 return; //Job has not completed
@@ -2424,7 +2349,7 @@
                                                         url: createURL("listNetworkServiceProviders&name=VirtualRouter&physicalNetworkId=" + args.data.returnedBasicPhysicalNetwork.id),
                                                         dataType: "json",
                                                         async: false,
-                                                        success: function(json) {
+                                                        success: function (json) {
                                                             var items = json.listnetworkserviceprovidersresponse.networkserviceprovider;
                                                             if (items != null && items.length > 0) {
                                                                 virtualRouterProviderId = items[0].id;
@@ -2441,7 +2366,7 @@
                                                         url: createURL("listVirtualRouterElements&nspid=" + virtualRouterProviderId),
                                                         dataType: "json",
                                                         async: false,
-                                                        success: function(json) {
+                                                        success: function (json) {
                                                             var items = json.listvirtualrouterelementsresponse.virtualrouterelement;
                                                             if (items != null && items.length > 0) {
                                                                 virtualRouterElementId = items[0].id;
@@ -2457,12 +2382,12 @@
                                                         url: createURL("configureVirtualRouterElement&enabled=true&id=" + virtualRouterElementId),
                                                         dataType: "json",
                                                         async: false,
-                                                        success: function(json) {
-                                                            var enableVirtualRouterElementIntervalID = setInterval(function() {
+                                                        success: function (json) {
+                                                            var enableVirtualRouterElementIntervalID = setInterval(function () {
                                                                 $.ajax({
                                                                     url: createURL("queryAsyncJobResult&jobId=" + json.configurevirtualrouterelementresponse.jobid),
                                                                     dataType: "json",
-                                                                    success: function(json) {
+                                                                    success: function (json) {
                                                                         var result = json.queryasyncjobresultresponse;
                                                                         if (result.jobstatus == 0) {
                                                                             return; //Job has not completed
@@ -2485,12 +2410,12 @@
                                                                                     url: createURL("updateNetworkServiceProvider"),
                                                                                     data: data,
                                                                                     async: false,
-                                                                                    success: function(json) {
-                                                                                        var enableVirtualRouterProviderIntervalID = setInterval(function() {
+                                                                                    success: function (json) {
+                                                                                        var enableVirtualRouterProviderIntervalID = setInterval(function () {
                                                                                             $.ajax({
                                                                                                 url: createURL("queryAsyncJobResult&jobId=" + json.updatenetworkserviceproviderresponse.jobid),
                                                                                                 dataType: "json",
-                                                                                                success: function(json) {
+                                                                                                success: function (json) {
                                                                                                     var result = json.queryasyncjobresultresponse;
                                                                                                     if (result.jobstatus == 0) {
                                                                                                         return; //Job has not completed
@@ -2499,54 +2424,6 @@
 
                                                                                                         if (result.jobstatus == 1) {
                                                                                                             //alert("Virtual Router Provider is enabled");
-                                                                                                            for (var i = 0; i < selectedBaremetalProviders.length; i++) {
-                                                                                                                $.ajax({
-                                                                                                                    url: createURL("listNetworkServiceProviders"),
-                                                                                                                    data: {
-                                                                                                                        name: selectedBaremetalProviders[i],
-                                                                                                                        physicalNetworkId: args.data.returnedBasicPhysicalNetwork.id
-                                                                                                                    },
-                                                                                                                    async: false,
-                                                                                                                    success: function(json) {
-                                                                                                                        var items = json.listnetworkserviceprovidersresponse.networkserviceprovider;
-                                                                                                                        if (items != null && items.length > 0) {
-                                                                                                                            var providerId = items[0].id;
-                                                                                                                            $.ajax({
-                                                                                                                                url: createURL("updateNetworkServiceProvider"),
-                                                                                                                                data: {
-                                                                                                                                    id: providerId,
-                                                                                                                                    state: 'Enabled'
-                                                                                                                                },
-                                                                                                                                async: false,
-                                                                                                                                success: function(json) {
-                                                                                                                                    var updateNetworkServiceProviderIntervalID = setInterval(function() {
-                                                                                                                                        $.ajax({
-                                                                                                                                            url: createURL("queryAsyncJobResult&jobId=" + json.updatenetworkserviceproviderresponse.jobid),
-                                                                                                                                            dataType: "json",
-                                                                                                                                            success: function(json) {
-                                                                                                                                                var result = json.queryasyncjobresultresponse;
-                                                                                                                                                if (result.jobstatus == 0) {
-                                                                                                                                                    return; //Job has not completed
-                                                                                                                                                } else {
-                                                                                                                                                    clearInterval(updateNetworkServiceProviderIntervalID);
-                                                                                                                                                    if (result.jobstatus == 1) { //baremetal provider has been enabled successfully
-
-                                                                                                                                                    } else if (result.jobstatus == 2) {
-                                                                                                                                                        alert(_s(result.jobresult.errortext));
-                                                                                                                                                    }
-                                                                                                                                                }
-                                                                                                                                            },
-                                                                                                                                            error: function(XMLHttpResponse) {
-                                                                                                                                                alert(parseXMLHttpResponse(XMLHttpResponse));
-                                                                                                                                            }
-                                                                                                                                        });
-                                                                                                                                    }, g_queryAsyncJobResultInterval);
-                                                                                                                                }
-                                                                                                                            });
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                });
-                                                                                                            }
 
                                                                                                             if (args.data.pluginFrom != null && args.data.pluginFrom.name == "installWizard") {
                                                                                                                 selectedNetworkOfferingHavingSG = args.data.pluginFrom.selectedNetworkOfferingHavingSG;
@@ -2560,7 +2437,7 @@
                                                                                                                     url: createURL("listNetworkServiceProviders&name=SecurityGroupProvider&physicalNetworkId=" + args.data.returnedBasicPhysicalNetwork.id),
                                                                                                                     dataType: "json",
                                                                                                                     async: false,
-                                                                                                                    success: function(json) {
+                                                                                                                    success: function (json) {
                                                                                                                         var items = json.listnetworkserviceprovidersresponse.networkserviceprovider;
                                                                                                                         if (items != null && items.length > 0) {
                                                                                                                             securityGroupProviderId = items[0].id;
@@ -2576,12 +2453,12 @@
                                                                                                                     url: createURL("updateNetworkServiceProvider&state=Enabled&id=" + securityGroupProviderId),
                                                                                                                     dataType: "json",
                                                                                                                     async: false,
-                                                                                                                    success: function(json) {
-                                                                                                                        var enableSecurityGroupProviderIntervalID = setInterval(function() {
+                                                                                                                    success: function (json) {
+                                                                                                                        var enableSecurityGroupProviderIntervalID = setInterval(function () {
                                                                                                                             $.ajax({
                                                                                                                                 url: createURL("queryAsyncJobResult&jobId=" + json.updatenetworkserviceproviderresponse.jobid),
                                                                                                                                 dataType: "json",
-                                                                                                                                success: function(json) {
+                                                                                                                                success: function (json) {
                                                                                                                                     var result = json.queryasyncjobresultresponse;
                                                                                                                                     if (result.jobstatus == 0) {
                                                                                                                                         return; //Job has not completed
@@ -2593,7 +2470,7 @@
                                                                                                                                         }
                                                                                                                                     }
                                                                                                                                 },
-                                                                                                                                error: function(XMLHttpResponse) {
+                                                                                                                                error: function (XMLHttpResponse) {
                                                                                                                                     var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                                                                                     alert("failed to enable security group provider. Error: " + errorMsg);
                                                                                                                                 }
@@ -2607,7 +2484,7 @@
                                                                                                         }
                                                                                                     }
                                                                                                 },
-                                                                                                error: function(XMLHttpResponse) {
+                                                                                                error: function (XMLHttpResponse) {
                                                                                                     var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                                                     alert("failed to enable Virtual Router Provider. Error: " + errorMsg);
                                                                                                 }
@@ -2620,7 +2497,7 @@
                                                                             }
                                                                         }
                                                                     },
-                                                                    error: function(XMLHttpResponse) {
+                                                                    error: function (XMLHttpResponse) {
                                                                         var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                         alert("configureVirtualRouterElement failed. Error: " + errorMsg);
                                                                     }
@@ -2633,7 +2510,7 @@
                                                 }
                                             }
                                         },
-                                        error: function(XMLHttpResponse) {
+                                        error: function (XMLHttpResponse) {
                                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                             alert("updatePhysicalNetwork failed. Error: " + errorMsg);
                                         }
@@ -2642,18 +2519,18 @@
                             }
                         });
                     } else if (args.data.zone.networkType == "Advanced") {
-                        $(args.data.returnedPhysicalNetworks).each(function() {
+                        $(args.data.returnedPhysicalNetworks).each(function () {
                             var thisPhysicalNetwork = this;
                             $.ajax({
                                 url: createURL("updatePhysicalNetwork&state=Enabled&id=" + thisPhysicalNetwork.id),
                                 dataType: "json",
-                                success: function(json) {
+                                success: function (json) {
                                     var jobId = json.updatephysicalnetworkresponse.jobid;
-                                    var enablePhysicalNetworkIntervalID = setInterval(function() {
+                                    var enablePhysicalNetworkIntervalID = setInterval(function () {
                                         $.ajax({
                                             url: createURL("queryAsyncJobResult&jobId=" + jobId),
                                             dataType: "json",
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var result = json.queryasyncjobresultresponse;
                                                 if (result.jobstatus == 0) {
                                                     return; //Job has not completed
@@ -2669,7 +2546,7 @@
                                                             url: createURL("listNetworkServiceProviders&name=VirtualRouter&physicalNetworkId=" + thisPhysicalNetwork.id),
                                                             dataType: "json",
                                                             async: false,
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var items = json.listnetworkserviceprovidersresponse.networkserviceprovider;
                                                                 if (items != null && items.length > 0) {
                                                                     virtualRouterProviderId = items[0].id;
@@ -2686,7 +2563,7 @@
                                                             url: createURL("listVirtualRouterElements&nspid=" + virtualRouterProviderId),
                                                             dataType: "json",
                                                             async: false,
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var items = json.listvirtualrouterelementsresponse.virtualrouterelement;
                                                                 if (items != null && items.length > 0) {
                                                                     virtualRouterElementId = items[0].id;
@@ -2702,13 +2579,13 @@
                                                             url: createURL("configureVirtualRouterElement&enabled=true&id=" + virtualRouterElementId),
                                                             dataType: "json",
                                                             async: false,
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var jobId = json.configurevirtualrouterelementresponse.jobid;
-                                                                var enableVirtualRouterElementIntervalID = setInterval(function() {
+                                                                var enableVirtualRouterElementIntervalID = setInterval(function () {
                                                                     $.ajax({
                                                                         url: createURL("queryAsyncJobResult&jobId=" + jobId),
                                                                         dataType: "json",
-                                                                        success: function(json) {
+                                                                        success: function (json) {
                                                                             var result = json.queryasyncjobresultresponse;
                                                                             if (result.jobstatus == 0) {
                                                                                 return; //Job has not completed
@@ -2720,13 +2597,13 @@
                                                                                         url: createURL("updateNetworkServiceProvider&state=Enabled&id=" + virtualRouterProviderId),
                                                                                         dataType: "json",
                                                                                         async: false,
-                                                                                        success: function(json) {
+                                                                                        success: function (json) {
                                                                                             var jobId = json.updatenetworkserviceproviderresponse.jobid;
-                                                                                            var enableVirtualRouterProviderIntervalID = setInterval(function() {
+                                                                                            var enableVirtualRouterProviderIntervalID = setInterval(function () {
                                                                                                 $.ajax({
                                                                                                     url: createURL("queryAsyncJobResult&jobId=" + jobId),
                                                                                                     dataType: "json",
-                                                                                                    success: function(json) {
+                                                                                                    success: function (json) {
                                                                                                         var result = json.queryasyncjobresultresponse;
                                                                                                         if (result.jobstatus == 0) {
                                                                                                             return; //Job has not completed
@@ -2752,7 +2629,7 @@
                                                                                                             }
                                                                                                         }
                                                                                                     },
-                                                                                                    error: function(XMLHttpResponse) {
+                                                                                                    error: function (XMLHttpResponse) {
                                                                                                         var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                                                         alert("updateNetworkServiceProvider failed. Error: " + errorMsg);
                                                                                                     }
@@ -2765,7 +2642,7 @@
                                                                                 }
                                                                             }
                                                                         },
-                                                                        error: function(XMLHttpResponse) {
+                                                                        error: function (XMLHttpResponse) {
                                                                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                             alert("configureVirtualRouterElement failed. Error: " + errorMsg);
                                                                         }
@@ -2781,7 +2658,7 @@
                                                             url: createURL("listNetworkServiceProviders&name=Internallbvm&physicalNetworkId=" + thisPhysicalNetwork.id),
                                                             dataType: "json",
                                                             async: false,
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var items = json.listnetworkserviceprovidersresponse.networkserviceprovider;
                                                                 if (items != null && items.length > 0) {
                                                                     internalLbProviderId = items[0].id;
@@ -2798,7 +2675,7 @@
                                                             url: createURL("listInternalLoadBalancerElements&nspid=" + internalLbProviderId),
                                                             dataType: "json",
                                                             async: false,
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var items = json.listinternalloadbalancerelementsresponse.internalloadbalancerelement;
                                                                 if (items != null && items.length > 0) {
                                                                     internalLbElementId = items[0].id;
@@ -2815,13 +2692,13 @@
                                                             url: createURL("configureInternalLoadBalancerElement&enabled=true&id=" + internalLbElementId),
                                                             dataType: "json",
                                                             async: false,
-                                                            success: function(json) {
+                                                            success: function (json) {
                                                                 var jobId = json.configureinternalloadbalancerelementresponse.jobid;
-                                                                var enableInternalLbElementIntervalID = setInterval(function() {
+                                                                var enableInternalLbElementIntervalID = setInterval(function () {
                                                                     $.ajax({
                                                                         url: createURL("queryAsyncJobResult&jobId=" + jobId),
                                                                         dataType: "json",
-                                                                        success: function(json) {
+                                                                        success: function (json) {
                                                                             var result = json.queryasyncjobresultresponse;
                                                                             if (result.jobstatus == 0) {
                                                                                 return; //Job has not completed
@@ -2833,13 +2710,13 @@
                                                                                         url: createURL("updateNetworkServiceProvider&state=Enabled&id=" + internalLbProviderId),
                                                                                         dataType: "json",
                                                                                         async: false,
-                                                                                        success: function(json) {
+                                                                                        success: function (json) {
                                                                                             var jobId = json.updatenetworkserviceproviderresponse.jobid;
-                                                                                            var enableInternalLbProviderIntervalID = setInterval(function() {
+                                                                                            var enableInternalLbProviderIntervalID = setInterval(function () {
                                                                                                 $.ajax({
                                                                                                     url: createURL("queryAsyncJobResult&jobId=" + jobId),
                                                                                                     dataType: "json",
-                                                                                                    success: function(json) {
+                                                                                                    success: function (json) {
                                                                                                         var result = json.queryasyncjobresultresponse;
                                                                                                         if (result.jobstatus == 0) {
                                                                                                             return; //Job has not completed
@@ -2853,7 +2730,7 @@
                                                                                                             }
                                                                                                         }
                                                                                                     },
-                                                                                                    error: function(XMLHttpResponse) {
+                                                                                                    error: function (XMLHttpResponse) {
                                                                                                         var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                                                         alert("failed to enable Internal LB Provider. Error: " + errorMsg);
                                                                                                     }
@@ -2866,7 +2743,7 @@
                                                                                 }
                                                                             }
                                                                         },
-                                                                        error: function(XMLHttpResponse) {
+                                                                        error: function (XMLHttpResponse) {
                                                                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                             alert("configureVirtualRouterElement failed. Error: " + errorMsg);
                                                                         }
@@ -3101,12 +2978,12 @@
                                                                 url: createURL("updateNetworkServiceProvider&state=Enabled&id=" + securityGroupProviderId),
                                                                 dataType: "json",
                                                                 async: false,
-                                                                success: function(json) {
-                                                                    var enableSecurityGroupProviderIntervalID = setInterval(function() {
+                                                                success: function (json) {
+                                                                    var enableSecurityGroupProviderIntervalID = setInterval(function () {
                                                                         $.ajax({
                                                                             url: createURL("queryAsyncJobResult&jobId=" + json.updatenetworkserviceproviderresponse.jobid),
                                                                             dataType: "json",
-                                                                            success: function(json) {
+                                                                            success: function (json) {
                                                                                 var result = json.queryasyncjobresultresponse;
                                                                                 if (result.jobstatus == 0) {
                                                                                     return; //Job has not completed
@@ -3120,7 +2997,7 @@
                                                                                     }
                                                                                 }
                                                                             },
-                                                                            error: function(XMLHttpResponse) {
+                                                                            error: function (XMLHttpResponse) {
                                                                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                                                 alert("failed to enable security group provider. Error: " + errorMsg);
                                                                             }
@@ -3134,7 +3011,7 @@
                                                     }
                                                 }
                                             },
-                                            error: function(XMLHttpResponse) {
+                                            error: function (XMLHttpResponse) {
                                                 alert("failed to enable physical network. Error: " + parseXMLHttpResponse(XMLHttpResponse));
                                             }
                                         });
@@ -3145,7 +3022,7 @@
                     }
                 },
 
-                addGuestNetwork: function(args) { //create a guest network for Basic zone or Advanced zone with SG
+                addGuestNetwork: function (args) { //create a guest network for Basic zone or Advanced zone with SG
                     message(_l('message.creating.guest.network'));
 
                     var data = {
@@ -3174,7 +3051,7 @@
                         url: createURL('createNetwork'),
                         data: data,
                         async: false,
-                        success: function(json) {
+                        success: function (json) {
                             //basic zone has only one physical network => addPod() will be called only once => so don't need to double-check before calling addPod()
                             stepFns.addPod({
                                 data: $.extend(args.data, {
@@ -3182,14 +3059,14 @@
                                 })
                             });
                         },
-                        error: function(XMLHttpResponse) {
+                        error: function (XMLHttpResponse) {
                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                             alert("failed to create a guest network for basic zone. Error: " + errorMsg);
                         }
                     });
                 },
 
-                addPod: function(args) {
+                addPod: function (args) {
                     message(_l('message.creating.pod'));
 
                     var array3 = [];
@@ -3207,14 +3084,14 @@
                         url: createURL("createPod" + array3.join("")),
                         dataType: "json",
                         async: false,
-                        success: function(json) {
+                        success: function (json) {
                             stepFns.configurePublicTraffic({
                                 data: $.extend(args.data, {
                                     returnedPod: json.createpodresponse.pod
                                 })
                             });
                         },
-                        error: function(XMLHttpResponse) {
+                        error: function (XMLHttpResponse) {
                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                             error('addPod', errorMsg, {
                                 fn: 'addPod',
@@ -3224,19 +3101,19 @@
                     });
                 },
 
-                configurePublicTraffic: function(args) {
+                configurePublicTraffic: function (args) {
                     if ((args.data.zone.networkType == "Basic" && (selectedNetworkOfferingHavingSG == true && selectedNetworkOfferingHavingEIP == true && selectedNetworkOfferingHavingELB == true)) || (args.data.zone.networkType == "Advanced" && args.data.zone.sgEnabled != true)) {
 
                         message(_l('message.configuring.public.traffic'));
 
                         var stopNow = false;
 
-                        $(args.data.publicTraffic).each(function() {
+                        $(args.data.publicTraffic).each(function () {
                             var thisPublicVlanIpRange = this;
 
                             //check whether the VlanIpRange exists or not (begin)
                             var isExisting = false;
-                            $(returnedPublicVlanIpRanges).each(function() {
+                            $(returnedPublicVlanIpRanges).each(function () {
                                 if (this.vlan == thisPublicVlanIpRange.vlanid && this.startip == thisPublicVlanIpRange.startip && this.netmask == thisPublicVlanIpRange.netmask && this.gateway == thisPublicVlanIpRange.gateway) {
                                     isExisting = true;
                                     return false; //break each loop
@@ -3275,11 +3152,11 @@
                                 url: createURL("createVlanIpRange" + array1.join("")),
                                 dataType: "json",
                                 async: false,
-                                success: function(json) {
+                                success: function (json) {
                                     var item = json.createvlaniprangeresponse.vlan;
                                     returnedPublicVlanIpRanges.push(item);
                                 },
-                                error: function(XMLHttpResponse) {
+                                error: function (XMLHttpResponse) {
                                     var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                     error('configurePublicTraffic', errorMsg, {
                                         fn: 'configurePublicTraffic',
@@ -3318,14 +3195,14 @@
                     }
                 },
 
-                configureStorageTraffic: function(args) {
-                    var complete = function(data) {
+                configureStorageTraffic: function (args) {
+                    var complete = function (data) {
                         stepFns.configureGuestTraffic({
                             data: $.extend(args.data, data)
                         });
                     };
 
-                    var targetNetwork = $.grep(args.data.physicalNetworks, function(net) {
+                    var targetNetwork = $.grep(args.data.physicalNetworks, function (net) {
                         return $.inArray('storage', net.trafficTypes) > -1;
                     });
 
@@ -3339,7 +3216,7 @@
                     var tasks = [];
                     var taskTimer;
 
-                    $(storageIPRanges).each(function() {
+                    $(storageIPRanges).each(function () {
                         var item = this;
                         if ('vlan' in item && (item.vlan == null || item.vlan.length == 0))
                             delete item.vlan;
@@ -3349,13 +3226,13 @@
                                 zoneid: args.data.returnedZone.id,
                                 podid: args.data.returnedPod.id
                             }),
-                            success: function(json) {
+                            success: function (json) {
                                 tasks.push({
                                     jobid: json.createstoragenetworkiprangeresponse.jobid,
                                     complete: false
                                 });
                             },
-                            error: function(json) {
+                            error: function (json) {
                                 tasks.push({
                                     error: true,
                                     message: parseXMLHttpResponse(json)
@@ -3364,12 +3241,12 @@
                         });
                     });
 
-                    taskTimer = setInterval(function() {
-                        var completedTasks = $.grep(tasks, function(task) {
+                    taskTimer = setInterval(function () {
+                        var completedTasks = $.grep(tasks, function (task) {
                             return task.complete || task.error;
                         });
 
-                        var errorTasks = $.grep(tasks, function(task) {
+                        var errorTasks = $.grep(tasks, function (task) {
                             return task.error;
                         });
 
@@ -3387,7 +3264,7 @@
                         }
 
                         if (tasks.length == storageIPRanges.length) {
-                            $(tasks).each(function() {
+                            $(tasks).each(function () {
                                 var task = this;
 
                                 if (task.error) return true;
@@ -3396,10 +3273,10 @@
                                     _custom: {
                                         jobId: task.jobid
                                     },
-                                    complete: function() {
+                                    complete: function () {
                                         task.complete = true;
                                     },
-                                    error: function(args) {
+                                    error: function (args) {
                                         task.error = true;
                                         task.message = args.message;
                                     }
@@ -3415,7 +3292,7 @@
                     return true;
                 },
 
-                configureGuestTraffic: function(args) {
+                configureGuestTraffic: function (args) {
                     if (skipGuestTrafficStep == true) {
                         stepFns.addCluster({
                             data: args.data
@@ -3439,20 +3316,13 @@
                         $.ajax({
                             url: createURL("createVlanIpRange" + array1.join("")),
                             dataType: "json",
-                            success: function(json) {
+                            success: function (json) {
                                 args.data.returnedGuestNetwork.returnedVlanIpRange = json.createvlaniprangeresponse.vlan;
-
-                                if (args.data.zone.hypervisor == "BareMetal") { //if hypervisor is BareMetal, zone creation is completed at this point.
-                                    complete({
-                                        data: args.data
-                                    });
-                                } else {
-                                    stepFns.addCluster({
-                                        data: args.data
-                                    });
-                                }
+                                stepFns.addCluster({
+                                    data: args.data
+                                });
                             },
-                            error: function(XMLHttpResponse) {
+                            error: function (XMLHttpResponse) {
                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                 error('configureGuestTraffic', errorMsg, {
                                     fn: 'configureGuestTraffic',
@@ -3462,7 +3332,7 @@
                         });
                     } else if (args.data.returnedZone.networktype == "Advanced") { //update VLAN in physical network(s) in advanced zone
                         var physicalNetworksHavingGuestIncludingVlan = [];
-                        $(args.data.physicalNetworks).each(function() {
+                        $(args.data.physicalNetworks).each(function () {
                             if (this.guestConfiguration != null && this.guestConfiguration.vlanRangeStart != null && this.guestConfiguration.vlanRangeStart.length > 0) {
                                 physicalNetworksHavingGuestIncludingVlan.push(this);
                             }
@@ -3474,7 +3344,7 @@
                             });
                         } else {
                             var updatedCount = 0;
-                            $(physicalNetworksHavingGuestIncludingVlan).each(function() {
+                            $(physicalNetworksHavingGuestIncludingVlan).each(function () {
                                 var vlan;
                                 if (this.guestConfiguration.vlanRangeEnd == null || this.guestConfiguration.vlanRangeEnd.length == 0)
                                     vlan = this.guestConfiguration.vlanRangeStart;
@@ -3483,7 +3353,7 @@
 
                                 var originalId = this.id;
                                 var returnedId;
-                                $(args.data.returnedPhysicalNetworks).each(function() {
+                                $(args.data.returnedPhysicalNetworks).each(function () {
                                     if (this.originalId == originalId) {
                                         returnedId = this.id;
                                         return false; //break the loop
@@ -3493,13 +3363,13 @@
                                 $.ajax({
                                     url: createURL("updatePhysicalNetwork&id=" + returnedId + "&vlan=" + todb(vlan)),
                                     dataType: "json",
-                                    success: function(json) {
+                                    success: function (json) {
                                         var jobId = json.updatephysicalnetworkresponse.jobid;
-                                        var updatePhysicalNetworkVlanIntervalID = setInterval(function() {
+                                        var updatePhysicalNetworkVlanIntervalID = setInterval(function () {
                                             $.ajax({
                                                 url: createURL("queryAsyncJobResult&jobid=" + jobId),
                                                 dataType: "json",
-                                                success: function(json) {
+                                                success: function (json) {
                                                     var result = json.queryasyncjobresultresponse;
                                                     if (result.jobstatus == 0) {
                                                         return;
@@ -3523,7 +3393,7 @@
                                                         }
                                                     }
                                                 },
-                                                error: function(XMLHttpResponse) {
+                                                error: function (XMLHttpResponse) {
                                                     var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                                     error('configureGuestTraffic', errorMsg, {
                                                         fn: 'configureGuestTraffic',
@@ -3539,7 +3409,7 @@
                     }
                 },
 
-                addCluster: function(args) {
+                addCluster: function (args) {
                     message(_l('message.creating.cluster'));
 
                     // Have cluster use zone's hypervisor
@@ -3562,14 +3432,14 @@
                         url: createURL("addCluster" + array1.join("")),
                         dataType: "json",
                         type: "POST",
-                        success: function(json) {
+                        success: function (json) {
                             stepFns.addHost({
                                 data: $.extend(args.data, {
                                     returnedCluster: json.addclusterresponse.cluster[0]
                                 })
                             });
                         },
-                        error: function(XMLHttpResponse) {
+                        error: function (XMLHttpResponse) {
                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                             error('addCluster', errorMsg, {
                                 fn: 'addCluster',
@@ -3579,7 +3449,7 @@
                     });
                 },
 
-                addHost: function(args) {
+                addHost: function (args) {
                     message(_l('message.adding.host'));
 
                     var data = {
@@ -3604,33 +3474,26 @@
                         url: url
                     });
 
-                    if (args.data.cluster.hypervisor == "BareMetal") {
-                        $.extend(data, {
-                            cpunumber: args.data.host.baremetalCpuCores,
-                            cpuspeed: args.data.host.baremetalCpu,
-                            memory: args.data.host.baremetalMemory,
-                            hostmac: args.data.host.baremetalMAC
-                        });
-                    } else if (args.data.cluster.hypervisor == "Ovm") {
+                    if (args.data.cluster.hypervisor == "Ovm") {
                         $.extend(data, {
                             agentusername: args.data.host.agentUsername,
                             agentpassword: args.data.host.agentPassword
                         });
                     }
 
-                    var addHostAjax = function() {
+                    var addHostAjax = function () {
                         $.ajax({
                             url: createURL("addHost"),
                             type: "POST",
                             data: data,
-                            success: function(json) {
+                            success: function (json) {
                                 stepFns.addPrimaryStorage({
                                     data: $.extend(args.data, {
                                         returnedHost: json.addhostresponse.host[0]
                                     })
                                 });
                             },
-                            error: function(XMLHttpResponse) {
+                            error: function (XMLHttpResponse) {
                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                 error('addHost', errorMsg, {
                                     fn: 'addHost',
@@ -3640,19 +3503,19 @@
                         });
                     };
 
-                    if(args.data.zone.localstorageenabledforsystemvm == 'on') {
+                    if (args.data.zone.localstorageenabledforsystemvm == 'on') {
                         $.ajax({
                             url: createURL("updateConfiguration&name=system.vm.use.local.storage&value=true&zoneid=" + args.data.returnedZone.id),
                             dataType: "json",
-                            success: function(json) {
+                            success: function (json) {
                                 addHostAjax();
                             },
-                            error: function(XMLHttpResponse) {
-                               var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
-                               error('addHost', errorMsg, {
-                                   fn: 'addHost',
-                                   args: args
-                               });
+                            error: function (XMLHttpResponse) {
+                                var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
+                                error('addHost', errorMsg, {
+                                    fn: 'addHost',
+                                    args: args
+                                });
                             }
                         });
                     } else {
@@ -3660,7 +3523,7 @@
                     }
                 },
 
-                addPrimaryStorage: function(args) {
+                addPrimaryStorage: function (args) {
                     if (args.data.zone.localstorageenabled == 'on' && args.data.zone.localstorageenabledforsystemvm == 'on') { //use local storage, don't need primary storage. So, skip this step.
                         stepFns.addSecondaryStorage({
                             data: args.data
@@ -3679,9 +3542,9 @@
 
                     //zone-wide-primary-storage is supported only for KVM
                     if (args.data.primaryStorage.scope == "zone") { //hypervisor type of the hosts in zone that will be attached to this storage pool. KVM supported as of now.
-                        if(args.data.cluster.hypervisor != undefined) {
+                        if (args.data.cluster.hypervisor != undefined) {
                             array1.push("&hypervisor=" + todb(args.data.cluster.hypervisor));
-                        } else if(args.data.returnedCluster.hypervisortype != undefined) {
+                        } else if (args.data.returnedCluster.hypervisortype != undefined) {
                             array1.push("&hypervisor=" + todb(args.data.returnedCluster.hypervisortype));
                         } else {
                             cloudStack.dialog.notice({
@@ -3752,14 +3615,14 @@
                     $.ajax({
                         url: createURL("createStoragePool" + array1.join("")),
                         dataType: "json",
-                        success: function(json) {
+                        success: function (json) {
                             stepFns.addSecondaryStorage({
                                 data: $.extend(args.data, {
                                     returnedPrimaryStorage: json.createstoragepoolresponse.storagepool
                                 })
                             });
                         },
-                        error: function(XMLHttpResponse) {
+                        error: function (XMLHttpResponse) {
                             var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                             error('addPrimaryStorage', errorMsg, {
                                 fn: 'addPrimaryStorage',
@@ -3769,7 +3632,7 @@
                     });
                 },
 
-                addSecondaryStorage: function(args) {
+                addSecondaryStorage: function (args) {
                     if (args.data.secondaryStorage.provider == '') {
                         complete({
                             data: args.data
@@ -3801,14 +3664,14 @@
                         $.ajax({
                             url: createURL('addImageStore'),
                             data: data,
-                            success: function(json) {
+                            success: function (json) {
                                 complete({
                                     data: $.extend(args.data, {
                                         returnedSecondaryStorage: json.addimagestoreresponse.secondarystorage
                                     })
                                 });
                             },
-                            error: function(XMLHttpResponse) {
+                            error: function (XMLHttpResponse) {
                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                 error('addSecondaryStorage', errorMsg, {
                                     fn: 'addSecondaryStorage',
@@ -3836,14 +3699,14 @@
                         $.ajax({
                             url: createURL('addImageStore'),
                             data: data,
-                            success: function(json) {
+                            success: function (json) {
                                 complete({
                                     data: $.extend(args.data, {
                                         returnedSecondaryStorage: json.addimagestoreresponse.secondarystorage
                                     })
                                 });
                             },
-                            error: function(XMLHttpResponse) {
+                            error: function (XMLHttpResponse) {
                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                 error('addSecondaryStorage', errorMsg, {
                                     fn: 'addSecondaryStorage',
@@ -3852,7 +3715,7 @@
                             }
                         });
                     } else if (args.data.secondaryStorage.provider == 'S3') {
-                        if($wizard.find('form[rel=secondaryStorage]').find('div[rel=name]').find('input').attr("disabled") == "disabled") { //Name textbox is disabled (and populated with S3 image setore name) when S3 image store exists. In this case, do not call addImageStore to create S3 image store.
+                        if ($wizard.find('form[rel=secondaryStorage]').find('div[rel=name]').find('input').attr("disabled") == "disabled") { //Name textbox is disabled (and populated with S3 image setore name) when S3 image store exists. In this case, do not call addImageStore to create S3 image store.
                             complete({
                                 data: args.data
                             });
@@ -3893,7 +3756,7 @@
                             $.ajax({
                                 url: createURL('addImageStore'),
                                 data: data,
-                                success: function(json) {
+                                success: function (json) {
                                     g_regionsecondaryenabled = true;
 
                                     complete({
@@ -3902,7 +3765,7 @@
                                         })
                                     });
                                 },
-                                error: function(XMLHttpResponse) {
+                                error: function (XMLHttpResponse) {
                                     var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                     error('addSecondaryStorage', errorMsg, {
                                         fn: 'addSecondaryStorage',
@@ -3928,10 +3791,10 @@
                             $.ajax({
                                 url: createURL('createSecondaryStagingStore'),
                                 data: nfsCacheData,
-                                success: function(json) {
+                                success: function (json) {
                                     //do nothing
                                 },
-                                error: function(XMLHttpResponse) {
+                                error: function (XMLHttpResponse) {
                                     var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                     error('addSecondaryStorage', errorMsg, {
                                         fn: 'addSecondaryStorage',
@@ -3965,7 +3828,7 @@
                         $.ajax({
                             url: createURL('addImageStore'),
                             data: data,
-                            success: function(json) {
+                            success: function (json) {
                                 g_regionsecondaryenabled = true;
 
                                 complete({
@@ -3974,7 +3837,7 @@
                                     })
                                 });
                             },
-                            error: function(XMLHttpResponse) {
+                            error: function (XMLHttpResponse) {
                                 var errorMsg = parseXMLHttpResponse(XMLHttpResponse);
                                 error('addSecondaryStorage', errorMsg, {
                                     fn: 'addSecondaryStorage',
@@ -3986,7 +3849,7 @@
                 }
             };
 
-            var complete = function(args) {
+            var complete = function (args) {
                 message(_l('message.Zone.creation.complete'));
                 success(args);
             };
@@ -4000,11 +3863,11 @@
             }
         },
 
-        enableZoneAction: function(args) {
+        enableZoneAction: function (args) {
             $.ajax({
                 url: createURL("updateZone&allocationstate=Enabled&id=" + args.launchData.returnedZone.id),
                 dataType: "json",
-                success: function(json) {
+                success: function (json) {
                     args.formData.returnedZone = json.updatezoneresponse.zone;
                     args.response.success();
                 }

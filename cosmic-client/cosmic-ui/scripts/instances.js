@@ -14,13 +14,13 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-(function($, cloudStack) {
+(function ($, cloudStack) {
     var vmMigrationHostObjs, ostypeObjs;
 
-    var vmSnapshotAction = function(args) {
+    var vmSnapshotAction = function (args) {
         var action = {
             messages: {
-                notification: function(args) {
+                notification: function (args) {
                     return 'label.action.vmsnapshot.create';
                 }
             },
@@ -44,7 +44,7 @@
                         docID: 'helpCreateInstanceSnapshotMemory',
                         isBoolean: true,
                         isChecked: false,
-                        isHidden: function(args) {
+                        isHidden: function (args) {
                             if (args.context.instances[0].vgpu != undefined) {
                                 return true;
                             }
@@ -55,16 +55,16 @@
                         label: 'label.quiesce.vm',
                         isBoolean: true,
                         isChecked: false,
-                        isHidden: function(args) {
+                        isHidden: function (args) {
                             return true;
                         }
                     }
                 }
             },
-            action: function(args) {
+            action: function (args) {
                 var instances = args.context.instances;
 
-                $(instances).map(function(index, instance) {
+                $(instances).map(function (index, instance) {
                     var array1 = [];
                     array1.push("&snapshotmemory=" + (args.data.snapshotMemory == "on"));
                     array1.push("&quiescevm=" + (args.data.quiescevm == "on"));
@@ -80,21 +80,21 @@
                         url: createURL("createVMSnapshot&virtualmachineid=" + instance.id + array1.join("")),
                         dataType: "json",
                         async: true,
-                        success: function(json) {
+                        success: function (json) {
                             var jid = json.createvmsnapshotresponse.jobid;
                             args.response.success({
                                 _custom: {
                                     jobId: jid,
-                                    getUpdatedItem: function(json) {
+                                    getUpdatedItem: function (json) {
                                         return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                     },
-                                    getActionFilter: function() {
+                                    getActionFilter: function () {
                                         return vmActionfilter;
                                     }
                                 }
                             });
                         },
-                        error: function(json) {
+                        error: function (json) {
                             args.response.error(parseXMLHttpResponse(json));
                         }
                     });
@@ -136,7 +136,7 @@
                     label: 'state.Stopped'
                 },
                 destroyed: {
-                    preFilter: function(args) {
+                    preFilter: function (args) {
                         if (isAdmin() || isDomainAdmin())
                             return true;
                         else
@@ -145,7 +145,7 @@
                     label: 'state.Destroyed'
                 }
             },
-            preFilter: function(args) {
+            preFilter: function (args) {
                 var hiddenFields = [];
                 if (!isAdmin()) {
                     hiddenFields.push('instancename');
@@ -187,17 +187,17 @@
                 },
                 zoneid: {
                     label: 'label.zone',
-                    select: function(args) {
+                    select: function (args) {
                         $.ajax({
                             url: createURL('listZones'),
                             data: {
                                 listAll: true
                             },
-                            success: function(json) {
+                            success: function (json) {
                                 var zones = json.listzonesresponse.zone ? json.listzonesresponse.zone : [];
 
                                 args.response.success({
-                                    data: $.map(zones, function(zone) {
+                                    data: $.map(zones, function (zone) {
                                         return {
                                             id: zone.id,
                                             description: zone.name
@@ -211,7 +211,7 @@
 
                 domainid: {
                     label: 'label.domain',
-                    select: function(args) {
+                    select: function (args) {
                         if (isAdmin() || isDomainAdmin()) {
                             $.ajax({
                                 url: createURL('listDomains'),
@@ -219,7 +219,7 @@
                                     listAll: true,
                                     details: 'min'
                                 },
-                                success: function(json) {
+                                success: function (json) {
                                     var array1 = [{
                                         id: '',
                                         description: ''
@@ -233,7 +233,7 @@
                                             });
                                         }
                                     }
-                                    array1.sort(function(a, b) {
+                                    array1.sort(function (a, b) {
                                         return a.description.localeCompare(b.description);
                                     });
                                     args.response.success({
@@ -247,7 +247,7 @@
                             });
                         }
                     },
-                    isHidden: function(args) {
+                    isHidden: function (args) {
                         if (isAdmin() || isDomainAdmin())
                             return false;
                         else
@@ -256,7 +256,7 @@
                 },
                 account: {
                     label: 'label.account',
-                    isHidden: function(args) {
+                    isHidden: function (args) {
                         if (isAdmin() || isDomainAdmin())
                             return false;
                         else
@@ -283,7 +283,7 @@
                     },
 
                     messages: {
-                        notification: function(args) {
+                        notification: function (args) {
                             return 'label.vm.add';
                         }
                     },
@@ -291,7 +291,7 @@
                         poll: pollAsyncJobResult
                     }
                 },
-                snapshot: vmSnapshotAction({ listView: true }),
+                snapshot: vmSnapshotAction({listView: true}),
                 viewMetrics: {
                     label: 'label.metrics',
                     isHeader: true,
@@ -307,7 +307,7 @@
                 }
             },
 
-            dataProvider: function(args) {
+            dataProvider: function (args) {
                 var data = {};
                 listViewDataProvider(args, data);
 
@@ -389,10 +389,10 @@
                 $.ajax({
                     url: createURL('listVirtualMachines'),
                     data: data,
-                    success: function(json) {
+                    success: function (json) {
                         var items = json.listvirtualmachinesresponse.virtualmachine;
                         if (items) {
-                            $.each(items, function(idx, vm) {
+                            $.each(items, function (idx, vm) {
                                 if (vm.nic && vm.nic.length > 0 && vm.nic[0].ipaddress) {
                                     items[idx].ipaddress = vm.nic[0].ipaddress;
                                 }
@@ -402,12 +402,12 @@
                             data: items
                         });
                     },
-                    error: function(XMLHttpResponse) {
+                    error: function (XMLHttpResponse) {
                         cloudStack.dialog.notice({
                             message: parseXMLHttpResponse(XMLHttpResponse)
                         });
                         args.response.error();
-                     }
+                    }
                 });
             },
 
@@ -425,10 +425,10 @@
                 }, {
                     path: '_zone.hosts',
                     label: 'label.host',
-                    preFilter: function(args) {
+                    preFilter: function (args) {
                         return isAdmin() && args.context.instances[0].hostid;
                     },
-                    updateContext: function(args) {
+                    updateContext: function (args) {
                         var instance = args.context.instances[0];
                         var zone;
 
@@ -438,7 +438,7 @@
                                 id: instance.zoneid
                             },
                             async: false,
-                            success: function(json) {
+                            success: function (json) {
                                 zone = json.listzonesresponse.zone[0]
                             }
                         });
@@ -448,7 +448,7 @@
                         };
                     }
                 }],
-                tabFilter: function(args) {
+                tabFilter: function (args) {
                     var hiddenTabs = [];
 
                     var zoneObj;
@@ -456,7 +456,7 @@
                         url: createURL("listZones&id=" + args.context.instances[0].zoneid),
                         dataType: "json",
                         async: false,
-                        success: function(json) {
+                        success: function (json) {
                             zoneObj = json.listzonesresponse.zone[0];
                         }
                     });
@@ -467,7 +467,7 @@
                             url: createURL("listNetworks&id=" + args.context.instances[0].nic[0].networkid),
                             dataType: "json",
                             async: false,
-                            success: function(json) {
+                            success: function (json) {
                                 var items = json.listnetworksresponse.network;
                                 if (items != null && items.length > 0) {
                                     var networkObj = items[0]; //Basic zone has only one guest network (only one NIC)
@@ -497,20 +497,20 @@
                 actions: {
                     start: {
                         label: 'label.action.start.instance',
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("startVirtualMachine&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.startvirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -519,13 +519,13 @@
                             });
                         },
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.action.start.instance';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.start.instance';
                             },
-                            complete: function(args) {
+                            complete: function (args) {
                                 if (args.password != null) {
                                     return 'label.vm.password' + ' ' + args.password;
                                 }
@@ -545,26 +545,26 @@
                             fields: {
                                 hostId: {
                                     label: 'label.host',
-                                    isHidden: function(args) {
+                                    isHidden: function (args) {
                                         if (isAdmin())
                                             return false;
                                         else
                                             return true;
                                     },
-                                    select: function(args) {
+                                    select: function (args) {
                                         if (isAdmin()) {
                                             $.ajax({
                                                 url: createURL("listHosts&state=Up&type=Routing&zoneid=" + args.context.instances[0].zoneid),
                                                 dataType: "json",
                                                 async: true,
-                                                success: function(json) {
+                                                success: function (json) {
                                                     if (json.listhostsresponse.host != undefined) {
                                                         hostObjs = json.listhostsresponse.host;
                                                         var items = [{
                                                             id: -1,
                                                             description: 'Default'
                                                         }];
-                                                        $(hostObjs).each(function() {
+                                                        $(hostObjs).each(function () {
                                                             items.push({
                                                                 id: this.id,
                                                                 description: this.name
@@ -589,7 +589,7 @@
                                 }
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             var data = {
                                 id: args.context.instances[0].id
                             }
@@ -603,15 +603,15 @@
                                 data: data,
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.startvirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -620,13 +620,13 @@
                             });
                         },
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.action.start.instance';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.start.instance';
                             },
-                            complete: function(args) {
+                            complete: function (args) {
                                 if (args.password != null) {
                                     return 'label.vm.password' + ' ' + args.password;
                                 }
@@ -652,22 +652,22 @@
                                 }
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             var array1 = [];
                             array1.push("&forced=" + (args.data.forced == "on"));
                             $.ajax({
                                 url: createURL("stopVirtualMachine&id=" + args.context.instances[0].id + array1.join("")),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.stopvirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
-                                                return $.extend(json.queryasyncjobresultresponse.jobresult.virtualmachine, { hostid: null });
+                                            getUpdatedItem: function (json) {
+                                                return $.extend(json.queryasyncjobresultresponse.jobresult.virtualmachine, {hostid: null});
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -676,10 +676,10 @@
                             });
                         },
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.action.stop.instance';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.stop.instance';
                             }
                         },
@@ -690,20 +690,20 @@
                     restart: {
                         label: 'label.action.reboot.instance',
                         compactLabel: 'label.reboot',
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("rebootVirtualMachine&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.rebootvirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -712,13 +712,13 @@
                             });
                         },
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.action.reboot.instance';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.reboot.instance';
                             },
-                            complete: function(args) {
+                            complete: function (args) {
                                 if (args.password != null && args.password.length > 0)
                                     return _l('message.password.has.been.reset.to') + ' ' + args.password;
                                 else
@@ -737,8 +737,8 @@
                             title: 'label.action.destroy.instance',
                             desc: 'label.action.destroy.instance',
                             isWarning: true,
-                            preFilter: function(args) {
-                                if (! g_allowUserExpungeRecoverVm) {
+                            preFilter: function (args) {
+                                if (!g_allowUserExpungeRecoverVm) {
                                     args.$form.find('.form-item[rel=expunge]').hide();
                                 }
                             },
@@ -751,11 +751,11 @@
                             }
                         },
                         messages: {
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.destroy.instance';
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             var data = {
                                 id: args.context.instances[0].id
                             };
@@ -767,18 +767,18 @@
                             $.ajax({
                                 url: createURL('destroyVirtualMachine'),
                                 data: data,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.destroyvirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 if ('virtualmachine' in json.queryasyncjobresultresponse.jobresult) //destroy without expunge
                                                     return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                                 else //destroy with expunge
-                                                    return { 'toRemove': true };
+                                                    return {'toRemove': true};
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -794,25 +794,25 @@
                         label: 'label.action.expunge.instance',
                         compactLabel: 'label.expunge',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.action.expunge.instance';
                             },
                             isWarning: true,
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.expunge.instance';
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("expungeVirtualMachine&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.expungevirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -828,19 +828,19 @@
                         label: 'label.recover.vm',
                         compactLabel: 'label.recover.vm',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.recover.vm';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.recover.vm';
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("recoverVirtualMachine&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var item = json.recovervirtualmachineresponse.virtualmachine;
                                     args.response.success({
                                         data: item
@@ -849,7 +849,7 @@
                             });
                         },
                         notification: {
-                            poll: function(args) {
+                            poll: function (args) {
                                 args.complete({
                                     data: {
                                         state: 'Stopped'
@@ -861,14 +861,14 @@
                     reinstall: {
                         label: 'label.reinstall.vm',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.reinstall.vm';
                             },
                             isWarning: true,
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.reinstall.vm';
                             },
-                            complete: function(args) {
+                            complete: function (args) {
                                 if (args.password != null && args.password.length > 0)
                                     return _l('label.password.reset.confirm') + args.password;
                                 else
@@ -882,7 +882,7 @@
                             fields: {
                                 template: {
                                     label: 'label.select.a.template',
-                                    select: function(args) {
+                                    select: function (args) {
                                         var data = {
                                             templatefilter: 'featured'
                                         };
@@ -890,13 +890,13 @@
                                             url: createURL('listTemplates'),
                                             data: data,
                                             async: false,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var templates = json.listtemplatesresponse.template;
                                                 var items = [{
                                                     id: -1,
                                                     description: ''
                                                 }];
-                                                $(templates).each(function() {
+                                                $(templates).each(function () {
                                                     items.push({
                                                         id: this.id,
                                                         description: this.name
@@ -912,7 +912,7 @@
                             }
                         },
 
-                        action: function(args) {
+                        action: function (args) {
                             var dataObj = {
                                 virtualmachineid: args.context.instances[0].id
                             };
@@ -927,15 +927,15 @@
                                 data: dataObj,
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.restorevmresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -956,7 +956,7 @@
 
                         action: {
                             custom: cloudStack.uiCustom.affinity({
-                                tierSelect: function(args) {
+                                tierSelect: function (args) {
                                     if ('vpc' in args.context) { //from VPC section
                                         args.$tierSelect.show(); //show tier dropdown
 
@@ -970,13 +970,13 @@
                                                 account: args.context.vpc[0].account,
                                                 supportedservices: 'StaticNat'
                                             },
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var networks = json.listnetworksresponse.network;
                                                 var items = [{
                                                     id: -1,
                                                     description: 'message.select.tier'
                                                 }];
-                                                $(networks).each(function() {
+                                                $(networks).each(function () {
                                                     items.push({
                                                         id: this.id,
                                                         description: this.displaytext
@@ -991,7 +991,7 @@
                                         args.$tierSelect.hide();
                                     }
 
-                                    args.$tierSelect.change(function() {
+                                    args.$tierSelect.change(function () {
                                         args.$tierSelect.closest('.list-view').listView('refresh');
                                     });
                                     args.$tierSelect.closest('.list-view').listView('refresh');
@@ -1008,7 +1008,7 @@
                                                 label: 'label.type'
                                             }
                                         },
-                                        dataProvider: function(args) {
+                                        dataProvider: function (args) {
                                             var data = {
                                                 domainid: args.context.instances[0].domainid,
                                                 account: args.context.instances[0].account
@@ -1017,7 +1017,7 @@
                                                 url: createURL('listAffinityGroups'),
                                                 data: data,
                                                 async: false, //make it sync to avoid dataProvider() being called twice which produces duplicate data
-                                                success: function(json) {
+                                                success: function (json) {
                                                     var items = [];
                                                     var allAffinityGroups = json.listaffinitygroupsresponse.affinitygroup;
                                                     var previouslySelectedAffinityGroups = args.context.instances[0].affinitygroup;
@@ -1045,7 +1045,7 @@
                                         }
                                     }
                                 },
-                                action: function(args) {
+                                action: function (args) {
                                     var affinityGroupIdArray = [];
                                     if (args.context.affinityGroups != null) {
                                         for (var i = 0; i < args.context.affinityGroups.length; i++) {
@@ -1061,15 +1061,15 @@
                                     $.ajax({
                                         url: createURL('updateVMAffinityGroup'),
                                         data: data,
-                                        success: function(json) {
+                                        success: function (json) {
                                             var jid = json.updatevirtualmachineresponse.jobid;
                                             args.response.success({
                                                 _custom: {
                                                     jobId: jid,
-                                                    getUpdatedItem: function(json) {
+                                                    getUpdatedItem: function (json) {
                                                         return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                                     },
-                                                    getActionFilter: function() {
+                                                    getActionFilter: function () {
                                                         return vmActionfilter;
                                                     }
                                                 }
@@ -1080,7 +1080,7 @@
                             })
                         },
                         messages: {
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.change.affinity';
                             }
                         },
@@ -1091,7 +1091,7 @@
 
                     edit: {
                         label: 'label.edit',
-                        action: function(args) {
+                        action: function (args) {
                             var data = {
                                 id: args.context.instances[0].id,
                                 group: args.data.group,
@@ -1106,7 +1106,7 @@
                             $.ajax({
                                 url: createURL('updateVirtualMachine'),
                                 data: data,
-                                success: function(json) {
+                                success: function (json) {
                                     var item = json.updatevirtualmachineresponse.virtualmachine;
                                     args.response.success({
                                         data: item
@@ -1117,7 +1117,7 @@
 
                             //***** addResourceDetail *****
                             //XenServer only (starts here)
-                            if(args.$detailView.find('form').find('div .detail-group').find('.xenserverToolsVersion61plus').length > 0) {
+                            if (args.$detailView.find('form').find('div .detail-group').find('.xenserverToolsVersion61plus').length > 0) {
                                 $.ajax({
                                     url: createURL('addResourceDetail'),
                                     data: {
@@ -1126,36 +1126,36 @@
                                         'details[0].key': 'hypervisortoolsversion',
                                         'details[0].value': (args.data.xenserverToolsVersion61plus == "on") ? 'xenserver61' : 'xenserver56'
                                     },
-                                    success: function(json) {
-                                         var jobId = json.addResourceDetailresponse.jobid;
-                                         var addResourceDetailIntervalID = setInterval(function() {
-                                             $.ajax({
-                                                 url: createURL("queryAsyncJobResult&jobid=" + jobId),
-                                                 dataType: "json",
-                                                 success: function(json) {
-                                                     var result = json.queryasyncjobresultresponse;
+                                    success: function (json) {
+                                        var jobId = json.addResourceDetailresponse.jobid;
+                                        var addResourceDetailIntervalID = setInterval(function () {
+                                            $.ajax({
+                                                url: createURL("queryAsyncJobResult&jobid=" + jobId),
+                                                dataType: "json",
+                                                success: function (json) {
+                                                    var result = json.queryasyncjobresultresponse;
 
-                                                     if (result.jobstatus == 0) {
-                                                         return; //Job has not completed
-                                                     } else {
-                                                         clearInterval(addResourceDetailIntervalID);
+                                                    if (result.jobstatus == 0) {
+                                                        return; //Job has not completed
+                                                    } else {
+                                                        clearInterval(addResourceDetailIntervalID);
 
-                                                         if (result.jobstatus == 1) {
-                                                             //do nothing
-                                                         } else if (result.jobstatus == 2) {
-                                                             cloudStack.dialog.notice({
-                                                                 message: _s(result.jobresult.errortext)
-                                                             });
-                                                         }
-                                                     }
-                                                 },
-                                                 error: function(XMLHttpResponse) {
-                                                     cloudStack.dialog.notice({
-                                                         message: parseXMLHttpResponse(XMLHttpResponse)
-                                                     });
-                                                 }
-                                             });
-                                         }, g_queryAsyncJobResultInterval);
+                                                        if (result.jobstatus == 1) {
+                                                            //do nothing
+                                                        } else if (result.jobstatus == 2) {
+                                                            cloudStack.dialog.notice({
+                                                                message: _s(result.jobresult.errortext)
+                                                            });
+                                                        }
+                                                    }
+                                                },
+                                                error: function (XMLHttpResponse) {
+                                                    cloudStack.dialog.notice({
+                                                        message: parseXMLHttpResponse(XMLHttpResponse)
+                                                    });
+                                                }
+                                            });
+                                        }, g_queryAsyncJobResultInterval);
                                     }
                                 });
                             }
@@ -1171,7 +1171,7 @@
                             fields: {
                                 iso: {
                                     label: 'label.iso',
-                                    select: function(args) {
+                                    select: function (args) {
                                         var items = [];
                                         var map = {};
                                         $.ajax({
@@ -1182,9 +1182,9 @@
                                                 zoneid: args.context.instances[0].zoneid
                                             },
                                             async: false,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var isos = json.listisosresponse.iso;
-                                                $(isos).each(function() {
+                                                $(isos).each(function () {
                                                     items.push({
                                                         id: this.id,
                                                         description: this.displaytext
@@ -1201,9 +1201,9 @@
                                                 zoneid: args.context.instances[0].zoneid
                                             },
                                             async: false,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var isos = json.listisosresponse.iso;
-                                                $(isos).each(function() {
+                                                $(isos).each(function () {
                                                     if (!(this.id in map)) {
                                                         items.push({
                                                             id: this.id,
@@ -1222,9 +1222,9 @@
                                                 zoneid: args.context.instances[0].zoneid
                                             },
                                             async: false,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var isos = json.listisosresponse.iso;
-                                                $(isos).each(function() {
+                                                $(isos).each(function () {
                                                     if (!(this.id in map)) {
                                                         items.push({
                                                             id: this.id,
@@ -1243,20 +1243,20 @@
                                 }
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("attachIso&virtualmachineid=" + args.context.instances[0].id + "&id=" + args.data.iso),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.attachisoresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -1265,7 +1265,7 @@
                             });
                         },
                         messages: {
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.attach.iso';
                             }
                         },
@@ -1277,27 +1277,27 @@
                     detachISO: {
                         label: 'label.action.detach.iso',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.detach.iso.confirm';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.action.detach.iso';
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("detachIso&virtualmachineid=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.detachisoresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -1313,18 +1313,18 @@
                     resetPassword: {
                         label: 'label.action.reset.password',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.action.instance.reset.password';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return _l('label.action.reset.password');
                             },
-                            complete: function(args) {
+                            complete: function (args) {
                                 return _l('message.password.has.been.reset.to') + ' ' + args.password;
                             }
                         },
 
-                        preAction: function(args) {
+                        preAction: function (args) {
                             var jsonObj = args.context.instances[0];
                             if (jsonObj.passwordenabled == false) {
                                 cloudStack.dialog.notice({
@@ -1340,20 +1340,20 @@
                             return true;
                         },
 
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("resetPasswordForVirtualMachine&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.resetpasswordforvirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -1369,10 +1369,10 @@
                     createTemplate: {
                         label: 'label.create.template',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.create.template';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.create.template';
                             }
                         },
@@ -1395,19 +1395,19 @@
                                 },
                                 osTypeId: {
                                     label: 'label.os.type',
-                                    select: function(args) {
+                                    select: function (args) {
                                         if (ostypeObjs == undefined) {
                                             $.ajax({
                                                 url: createURL("listOsTypes"),
                                                 dataType: "json",
                                                 async: false,
-                                                success: function(json) {
+                                                success: function (json) {
                                                     ostypeObjs = json.listostypesresponse.ostype;
                                                 }
                                             });
                                         }
                                         var items = [];
-                                        $(ostypeObjs).each(function() {
+                                        $(ostypeObjs).each(function () {
                                             items.push({
                                                 id: this.id,
                                                 description: this.description
@@ -1430,7 +1430,7 @@
                                 }
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             var data = {
                                 virtualmachineid: args.context.instances[0].id,
                                 name: args.data.name,
@@ -1443,15 +1443,15 @@
                             $.ajax({
                                 url: createURL('createTemplate'),
                                 data: data,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.createtemplateresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return {}; //no properties in this VM needs to be updated
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -1468,10 +1468,10 @@
                         label: 'label.migrate.instance.to.host',
                         compactLabel: 'label.migrate.to.host',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.migrate.instance.to.host';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.migrate.instance.to.host';
                             }
                         },
@@ -1484,16 +1484,16 @@
                                     validation: {
                                         required: true
                                     },
-                                    select: function(args) {
+                                    select: function (args) {
                                         $.ajax({
                                             url: createURL("findHostsForMigration&VirtualMachineId=" + args.context.instances[0].id),
                                             dataType: "json",
                                             async: true,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 if (json.findhostsformigrationresponse.host != undefined) {
                                                     vmMigrationHostObjs = json.findhostsformigrationresponse.host;
                                                     var items = [];
-                                                    $(vmMigrationHostObjs).each(function() {
+                                                    $(vmMigrationHostObjs).each(function () {
                                                         if (this.requiresStorageMotion == true) {
                                                             items.push({
                                                                 id: this.id,
@@ -1521,7 +1521,7 @@
                                 }
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             var selectedHostObj;
                             if (vmMigrationHostObjs != null) {
                                 for (var i = 0; i < vmMigrationHostObjs.length; i++) {
@@ -1539,15 +1539,15 @@
                                     url: createURL("migrateVirtualMachineWithVolume&hostid=" + args.data.hostId + "&virtualmachineid=" + args.context.instances[0].id),
                                     dataType: "json",
                                     async: true,
-                                    success: function(json) {
+                                    success: function (json) {
                                         var jid = json.migratevirtualmachinewithvolumeresponse.jobid;
                                         args.response.success({
                                             _custom: {
                                                 jobId: jid,
-                                                getUpdatedItem: function(json) {
+                                                getUpdatedItem: function (json) {
                                                     return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                                 },
-                                                getActionFilter: function() {
+                                                getActionFilter: function () {
                                                     return vmActionfilter;
                                                 }
                                             }
@@ -1559,15 +1559,15 @@
                                     url: createURL("migrateVirtualMachine&hostid=" + args.data.hostId + "&virtualmachineid=" + args.context.instances[0].id),
                                     dataType: "json",
                                     async: true,
-                                    success: function(json) {
+                                    success: function (json) {
                                         var jid = json.migratevirtualmachineresponse.jobid;
                                         args.response.success({
                                             _custom: {
                                                 jobId: jid,
-                                                getUpdatedItem: function(json) {
+                                                getUpdatedItem: function (json) {
                                                     return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                                 },
-                                                getActionFilter: function() {
+                                                getActionFilter: function () {
                                                     return vmActionfilter;
                                                 }
                                             }
@@ -1585,10 +1585,10 @@
                         label: 'label.migrate.instance.to.ps',
                         compactLabel: 'label.migrate.to.storage',
                         messages: {
-                            confirm: function(args) {
+                            confirm: function (args) {
                                 return 'message.migrate.instance.to.ps';
                             },
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.migrate.instance.to.ps';
                             }
                         },
@@ -1601,15 +1601,15 @@
                                     validation: {
                                         required: true
                                     },
-                                    select: function(args) {
+                                    select: function (args) {
                                         $.ajax({
                                             url: createURL("listStoragePools&zoneid=" + args.context.instances[0].zoneid),
                                             dataType: "json",
                                             async: true,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var pools = json.liststoragepoolsresponse.storagepool;
                                                 var items = [];
-                                                $(pools).each(function() {
+                                                $(pools).each(function () {
                                                     items.push({
                                                         id: this.id,
                                                         description: this.name
@@ -1624,20 +1624,20 @@
                                 }
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL("migrateVirtualMachine&storageid=" + args.data.storageId + "&virtualmachineid=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.migratevirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -1653,7 +1653,7 @@
                         label: 'label.change.service.offering',
                         createForm: {
                             title: 'label.change.service.offering',
-                            desc: function(args) {
+                            desc: function (args) {
                                 var description = '';
                                 var vmObj = args.jsonObj;
                                 if (vmObj.state == 'Running' && vmObj.hypervisor == 'VMware') {
@@ -1664,13 +1664,13 @@
                             fields: {
                                 serviceofferingid: {
                                     label: 'label.compute.offering',
-                                    select: function(args) {
+                                    select: function (args) {
                                         var serviceofferingObjs;
                                         $.ajax({
                                             url: createURL("listServiceOfferings&VirtualMachineId=" + args.context.instances[0].id),
                                             dataType: "json",
                                             async: true,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 serviceofferingObjs = json.listserviceofferingsresponse.serviceoffering;
                                                 var items = [];
                                                 if (serviceofferingObjs != null) {
@@ -1687,7 +1687,7 @@
                                             }
                                         });
 
-                                        args.$select.change(function(){
+                                        args.$select.change(function () {
                                             var $form = $(this).closest('form');
 
                                             var serviceofferingid = $(this).val();
@@ -1746,7 +1746,7 @@
                             }
                         },
 
-                        action: function(args) {
+                        action: function (args) {
                             var data = {
                                 id: args.context.instances[0].id,
                                 serviceofferingid: args.data.serviceofferingid
@@ -1771,29 +1771,29 @@
                             $.ajax({
                                 url: createURL('scaleVirtualMachine'),
                                 data: data,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.scalevirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
                                     });
 
                                 },
-                                error: function(json) {
+                                error: function (json) {
                                     args.response.error(parseXMLHttpResponse(json));
                                 }
 
                             });
                         },
                         messages: {
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.change.service.offering';  //CLOUDSTACK-7744
                             }
                         },
@@ -1812,7 +1812,7 @@
                                     validation: {
                                         required: true
                                     },
-                                    select: function(args) {
+                                    select: function (args) {
                                         var data = {
                                             domainid: args.context.instances[0].domainid,
                                             account: args.context.instances[0].account,
@@ -1823,7 +1823,7 @@
                                             url: createURL("listSSHKeyPairs"),
                                             data: data,
                                             async: false,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var items = [];
                                                 var sshkeypairs = json.listsshkeypairsresponse.sshkeypair;
                                                 if (sshkeypairs == null) {
@@ -1848,7 +1848,7 @@
                             }
                         },
 
-                        action: function(args) {
+                        action: function (args) {
                             var data = {
                                 domainid: args.context.instances[0].domainid,
                                 account: args.context.instances[0].account,
@@ -1860,15 +1860,15 @@
                                 url: createURL("resetSSHKeyForVirtualMachine"),
                                 data: data,
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jid = json.resetSSHKeyforvirtualmachineresponse.jobid;
                                     args.response.success({
                                         _custom: {
                                             jobId: jid,
-                                            getUpdatedItem: function(json) {
+                                            getUpdatedItem: function (json) {
                                                 return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                             },
-                                            getActionFilter: function() {
+                                            getActionFilter: function () {
                                                 return vmActionfilter;
                                             }
                                         }
@@ -1877,10 +1877,10 @@
                             });
                         },
                         messages: {
-                            notification: function(args) {
+                            notification: function (args) {
                                 return _l('label.reset.ssh.key.pair.on.vm');
                             },
-                            complete: function(args) {
+                            complete: function (args) {
                                 if (args.password != null) {
                                     return _l('message.password.of.the.vm.has.been.reset.to') + ' ' + args.password;
                                 }
@@ -1903,14 +1903,14 @@
                                     validation: {
                                         required: true
                                     },
-                                    select: function(args) {
+                                    select: function (args) {
                                         $.ajax({
                                             url: createURL('listDomains'),
                                             data: {
                                                 listAll: true,
                                                 details: 'min'
                                             },
-                                            success: function(json) {
+                                            success: function (json) {
                                                 var array1 = [];
                                                 var domains = json.listdomainsresponse.domain;
                                                 if (domains != null && domains.length > 0) {
@@ -1921,9 +1921,9 @@
                                                         });
                                                     }
                                                 }
-                                                            array1.sort(function(a, b) {
-                                                                return a.description.localeCompare(b.description);
-                                                            });
+                                                array1.sort(function (a, b) {
+                                                    return a.description.localeCompare(b.description);
+                                                });
                                                 args.response.success({
                                                     data: array1
                                                 });
@@ -1939,7 +1939,7 @@
                                 }
                             }
                         },
-                        action: function(args) {
+                        action: function (args) {
                             $.ajax({
                                 url: createURL('assignVirtualMachine'),
                                 data: {
@@ -1947,7 +1947,7 @@
                                     domainid: args.data.domainid,
                                     account: args.data.account
                                 },
-                                success: function(json) {
+                                success: function (json) {
                                     var item = json.assignvirtualmachineresponse.virtualmachine;
                                     args.response.success({
                                         data: item
@@ -1956,12 +1956,12 @@
                             });
                         },
                         messages: {
-                            notification: function(args) {
+                            notification: function (args) {
                                 return 'label.assign.instance.another';
                             }
                         },
                         notification: {
-                            poll: function(args) {
+                            poll: function (args) {
                                 args.complete();
                             }
                         }
@@ -1971,10 +1971,10 @@
                         label: 'label.view.console',
                         action: {
                             externalLink: {
-                                url: function(args) {
+                                url: function (args) {
                                     return clientConsoleUrl + '?cmd=access&vm=' + args.context.instances[0].id;
                                 },
-                                title: function(args) {
+                                title: function (args) {
                                     return args.context.instances[0].id.substr(0, 8); //title in window.open() can't have space nor longer than 8 characters. Otherwise, IE browser will have error.
                                 },
                                 width: 820,
@@ -1988,7 +1988,7 @@
                     details: {
                         title: 'label.details',
 
-                        preFilter: function(args) {
+                        preFilter: function (args) {
                             var hiddenFields;
                             if (isAdmin()) {
                                 hiddenFields = [];
@@ -1997,7 +1997,7 @@
                             }
 
                             if ('instances' in args.context && args.context.instances[0].hypervisor != 'XenServer') {
-                                  hiddenFields.push('xenserverToolsVersion61plus');
+                                hiddenFields.push('xenserverToolsVersion61plus');
                             }
 
                             if ('instances' in args.context && args.context.instances[0].guestosid != undefined) {
@@ -2006,7 +2006,7 @@
                                         url: createURL("listOsTypes"),
                                         dataType: "json",
                                         async: false,
-                                        success: function(json) {
+                                        success: function (json) {
                                             ostypeObjs = json.listostypesresponse.ostype;
                                         }
                                     });
@@ -2050,13 +2050,13 @@
                                     'Starting': 1,
                                     'Stopping': 1
                                 },
-                                pollAgainFn: function(context) {
+                                pollAgainFn: function (context) {
                                     var toClearInterval = false;
                                     $.ajax({
                                         url: createURL("listVirtualMachines&id=" + context.instances[0].id),
                                         dataType: "json",
                                         async: false,
-                                        success: function(json) {
+                                        success: function (json) {
                                             var jsonObj = json.listvirtualmachinesresponse.virtualmachine[0];
                                             if (jsonObj.state != context.instances[0].state) {
                                                 toClearInterval = true; //to clear interval
@@ -2080,19 +2080,19 @@
                             guestosid: {
                                 label: 'label.os.type',
                                 isEditable: true,
-                                select: function(args) {
+                                select: function (args) {
                                     if (ostypeObjs == undefined) {
                                         $.ajax({
                                             url: createURL("listOsTypes"),
                                             dataType: "json",
                                             async: false,
-                                            success: function(json) {
+                                            success: function (json) {
                                                 ostypeObjs = json.listostypesresponse.ostype;
                                             }
                                         });
                                     }
                                     var items = [];
-                                    $(ostypeObjs).each(function() {
+                                    $(ostypeObjs).each(function () {
                                         items.push({
                                             id: this.id,
                                             description: this.description
@@ -2187,12 +2187,12 @@
                             contextId: 'instances'
                         }),
 
-                        dataProvider: function(args) {
+                        dataProvider: function (args) {
                             $.ajax({
                                 url: createURL("listVirtualMachines&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jsonObj;
                                     if (json.listvirtualmachinesresponse.virtualmachine != null && json.listvirtualmachinesresponse.virtualmachine.length > 0)
                                         jsonObj = json.listvirtualmachinesresponse.virtualmachine[0];
@@ -2236,10 +2236,10 @@
                             add: {
                                 label: 'label.network.addVM',
                                 messages: {
-                                    confirm: function(args) {
+                                    confirm: function (args) {
                                         return 'message.network.addVMNIC';
                                     },
-                                    notification: function(args) {
+                                    notification: function (args) {
                                         return 'label.network.addVM';
                                     }
                                 },
@@ -2249,7 +2249,7 @@
                                     fields: {
                                         networkid: {
                                             label: 'label.network',
-                                            select: function(args) {
+                                            select: function (args) {
                                                 var data1 = {
                                                     zoneid: args.context.instances[0].zoneid
                                                 };
@@ -2266,7 +2266,7 @@
                                                 $.ajax({
                                                     url: createURL('listNetworks'),
                                                     data: data1,
-                                                    success: function(json) {
+                                                    success: function (json) {
                                                         var networkObjs = json.listnetworksresponse.network;
                                                         var nicObjs = args.context.instances[0].nic;
                                                         var items = [];
@@ -2279,7 +2279,7 @@
                                                                 if (nicObjs[j].networkid == networkObj.id) {
                                                                     isNetworkExists = true;
                                                                     break;
-                                                               }
+                                                                }
                                                             }
 
                                                             if (!isNetworkExists) {
@@ -2298,18 +2298,18 @@
                                         }
                                     }
                                 },
-                                action: function(args) {
+                                action: function (args) {
                                     $.ajax({
                                         url: createURL('addNicToVirtualMachine'),
                                         data: {
                                             virtualmachineid: args.context.instances[0].id,
                                             networkid: args.data.networkid
                                         },
-                                        success: function(json) {
+                                        success: function (json) {
                                             args.response.success({
                                                 _custom: {
                                                     jobId: json.addnictovirtualmachineresponse.jobid,
-                                                    getUpdatedItem: function(json) {
+                                                    getUpdatedItem: function (json) {
                                                         return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                                     }
                                                 }
@@ -2325,21 +2325,21 @@
                             makeDefault: {
                                 label: 'label.set.default.NIC',
                                 messages: {
-                                    confirm: function() {
+                                    confirm: function () {
                                         return 'message.set.default.NIC';
                                     },
-                                    notification: function(args) {
+                                    notification: function (args) {
                                         return 'label.set.default.NIC'
                                     }
                                 },
-                                action: function(args) {
+                                action: function (args) {
                                     $.ajax({
                                         url: createURL('updateDefaultNicForVirtualMachine'),
                                         data: {
                                             virtualmachineid: args.context.instances[0].id,
                                             nicid: args.context.nics[0].id
                                         },
-                                        success: function(json) {
+                                        success: function (json) {
                                             args.response.success({
                                                 _custom: {
                                                     jobId: json.updatedefaultnicforvirtualmachineresponse.jobid
@@ -2359,17 +2359,17 @@
                             updateIpaddr: {
                                 label: 'label.change.ipaddress',
                                 messages: {
-                                    confirm: function() {
+                                    confirm: function () {
                                         return 'message.change.ipaddress';
                                     },
-                                    notification: function(args) {
+                                    notification: function (args) {
                                         return 'label.change.ipaddress';
                                     }
                                 },
                                 createForm: {
                                     title: 'label.change.ipaddress',
                                     desc: 'message.change.ipaddress',
-                                    preFilter: function(args) {
+                                    preFilter: function (args) {
                                         if (args.context.nics != null && args.context.nics[0].type == 'Isolated') {
                                             args.$form.find('.form-item[rel=ipaddress1]').css('display', 'inline-block'); //shown text
                                             args.$form.find('.form-item[rel=ipaddress2]').hide();
@@ -2384,7 +2384,7 @@
                                         },
                                         ipaddress2: {
                                             label: 'label.ip.address',
-                                            select: function(args) {
+                                            select: function (args) {
                                                 if (args.context.nics != null && args.context.nics[0].type == 'Shared') {
                                                     $.ajax({
                                                         url: createURL('listPublicIpAddresses'),
@@ -2393,13 +2393,13 @@
                                                             networkid: args.context.nics[0].networkid,
                                                             forvirtualnetwork: false
                                                         },
-                                                        success: function(json) {
+                                                        success: function (json) {
                                                             var ips = json.listpublicipaddressesresponse.publicipaddress;
                                                             var items = [{
                                                                 id: -1,
                                                                 description: ''
                                                             }];
-                                                            $(ips).each(function() {
+                                                            $(ips).each(function () {
                                                                 if (this.state == "Free") {
                                                                     items.push({
                                                                         id: this.ipaddress,
@@ -2421,7 +2421,7 @@
                                         }
                                     }
                                 },
-                                action: function(args) {
+                                action: function (args) {
                                     var dataObj = {
                                         nicId: args.context.nics[0].id
                                     };
@@ -2435,11 +2435,11 @@
                                     $.ajax({
                                         url: createURL('updateVmNicIp'),
                                         data: dataObj,
-                                        success: function(json) {
+                                        success: function (json) {
                                             args.response.success({
                                                 _custom: {
                                                     jobId: json.updatevmnicipresponse.jobid,
-                                                    getUpdatedItem: function(json) {
+                                                    getUpdatedItem: function (json) {
                                                         return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                                     }
                                                 }
@@ -2457,25 +2457,25 @@
                             remove: {
                                 label: 'label.action.delete.nic',
                                 messages: {
-                                    confirm: function(args) {
+                                    confirm: function (args) {
                                         return 'message.action.delete.nic';
                                     },
-                                    notification: function(args) {
+                                    notification: function (args) {
                                         return 'label.action.delete.nic';
                                     }
                                 },
-                                action: function(args) {
+                                action: function (args) {
                                     $.ajax({
                                         url: createURL('removeNicFromVirtualMachine'),
                                         data: {
                                             virtualmachineid: args.context.instances[0].id,
                                             nicid: args.context.nics[0].id
                                         },
-                                        success: function(json) {
+                                        success: function (json) {
                                             args.response.success({
                                                 _custom: {
                                                     jobId: json.removenicfromvirtualmachineresponse.jobid,
-                                                    getUpdatedItem: function(json) {
+                                                    getUpdatedItem: function (json) {
                                                         return json.queryasyncjobresultresponse.jobresult.virtualmachine;
                                                     }
                                                 }
@@ -2527,7 +2527,7 @@
 
                             isdefault: {
                                 label: 'label.is.default',
-                                converter: function(data) {
+                                converter: function (data) {
                                     return data ? _l('label.yes') : _l('label.no');
                                 }
                             }
@@ -2536,28 +2536,28 @@
                             path: 'network.secondaryNicIps',
                             attachTo: 'secondaryips',
                             label: 'label.edit.secondary.ips',
-                            title: function(args) {
+                            title: function (args) {
                                 var title = _l('label.menu.ipaddresses') + ' - ' + args.context.nics[0].name;
 
                                 return title;
                             }
                         },
-                        dataProvider: function(args) {
+                        dataProvider: function (args) {
                             $.ajax({
                                 url: createURL("listVirtualMachines&details=nics&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     // Handling the display of network name for a VM under the NICS tabs
                                     args.response.success({
-                                        actionFilter: function(args) {
+                                        actionFilter: function (args) {
                                             if (args.context.item.isdefault) {
                                                 return ['updateIpaddr'];
                                             } else {
                                                 return ['remove', 'makeDefault', 'updateIpaddr'];
                                             }
                                         },
-                                        data: $.map(json.listvirtualmachinesresponse.virtualmachine[0].nic, function(nic, index) {
+                                        data: $.map(json.listvirtualmachinesresponse.virtualmachine[0].nic, function (nic, index) {
                                             if (nic.secondaryip != null) {
                                                 var secondaryips = "";
                                                 for (var i = 0; i < nic.secondaryip.length; i++) {
@@ -2602,13 +2602,13 @@
                                 label: 'label.description'
                             }
                         }],
-                        dataProvider: function(args) {
+                        dataProvider: function (args) {
                             // args.response.success({data: args.context.instances[0].securitygroup});
                             $.ajax({
                                 url: createURL("listVirtualMachines&details=secgrp&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     args.response.success({
                                         data: json.listvirtualmachinesresponse.virtualmachine[0].securitygroup
                                     });
@@ -2649,12 +2649,12 @@
                                 label: 'label.disk.write.io'
                             }
                         },
-                        dataProvider: function(args) {
+                        dataProvider: function (args) {
                             $.ajax({
                                 url: createURL("listVirtualMachines&details=stats&id=" + args.context.instances[0].id),
                                 dataType: "json",
                                 async: true,
-                                success: function(json) {
+                                success: function (json) {
                                     var jsonObj = json.listvirtualmachinesresponse.virtualmachine[0];
                                     args.response.success({
                                         data: {
@@ -2677,7 +2677,7 @@
         }
     };
 
-    var vmActionfilter = cloudStack.actionFilter.vmActionFilter = function(args) {
+    var vmActionfilter = cloudStack.actionFilter.vmActionFilter = function (args) {
         var jsonObj = args.context.item;
         var allowedActions = [];
 
@@ -2715,10 +2715,6 @@
 
             allowedActions.push("resetPassword");
 
-            if (jsonObj.hypervisor == "BareMetal") {
-                allowedActions.push("createTemplate");
-            }
-
             allowedActions.push("viewConsole");
         } else if (jsonObj.state == 'Stopped') {
             allowedActions.push("edit");
@@ -2745,9 +2741,6 @@
                 allowedActions.push("detachISO");
             }
             allowedActions.push("resetPassword");
-            if (jsonObj.hypervisor == "BareMetal") {
-                allowedActions.push("createTemplate");
-            }
 
             if (isAdmin() || isDomainAdmin()) {
                 allowedActions.push("assignVmToAnotherAccount");

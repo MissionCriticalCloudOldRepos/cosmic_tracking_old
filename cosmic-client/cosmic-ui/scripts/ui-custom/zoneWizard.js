@@ -14,14 +14,14 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-(function($, cloudStack) {
+(function ($, cloudStack) {
     /**
      * Serialize form data as object
      */
-    var getData = function($wizard, options) {
+    var getData = function ($wizard, options) {
         if (!options) options = {};
 
-        var $forms = $wizard.find('form').filter(function() {
+        var $forms = $wizard.find('form').filter(function () {
             return !options.all ? !$(this).closest('.multi-edit').size() : true;
         });
         var $physicalNetworkItems = $wizard.find(
@@ -46,7 +46,7 @@
         }
 
         // Group form fields together, by form ID
-        $forms.each(function() {
+        $forms.each(function () {
             var $form = $(this);
             var id = $form.attr('rel');
 
@@ -62,12 +62,12 @@
         // Get physical network data
         groupedForms.physicalNetworks = $.map(
             $physicalNetworkItems,
-            function(network) {
+            function (network) {
                 var $network = $(network);
                 var $guestForm = $wizard.find('form[guest-network-id=' + $network.index() + ']');
                 var trafficTypeConfiguration = {};
 
-                $network.find('.traffic-type-draggable').each(function() {
+                $network.find('.traffic-type-draggable').each(function () {
                     var $trafficType = $(this);
                     var trafficTypeID = $trafficType.attr('traffic-type-id');
 
@@ -83,7 +83,7 @@
                     // Traffic type list
                     trafficTypes: $.map(
                         $network.find('.traffic-type-draggable'),
-                        function(trafficType) {
+                        function (trafficType) {
                             var $trafficType = $(trafficType);
 
                             return $trafficType.attr('traffic-type-id');
@@ -101,7 +101,7 @@
         // Get public traffic data (multi-edit)
         groupedForms.publicTraffic = $.map(
             $publicTrafficItems,
-            function(publicTrafficItem) {
+            function (publicTrafficItem) {
                 var $publicTrafficItem = $(publicTrafficItem);
                 var publicTrafficData = {};
                 var fields = [
@@ -112,7 +112,7 @@
                     'endip'
                 ];
 
-                $(fields).each(function() {
+                $(fields).each(function () {
                     publicTrafficData[this] =
                         $publicTrafficItem.find('td.' + this + ' span').html();
                 });
@@ -124,7 +124,7 @@
         // Get storage traffic data (multi-edit)
         groupedForms.storageTraffic = $.map(
             $storageTrafficItems,
-            function(storageTrafficItem) {
+            function (storageTrafficItem) {
                 var $storageTrafficItem = $(storageTrafficItem);
                 var storageTrafficData = {};
                 var fields = [
@@ -135,7 +135,7 @@
                     'endip'
                 ];
 
-                $(fields).each(function() {
+                $(fields).each(function () {
                     storageTrafficData[this] =
                         $storageTrafficItem.find('td.' + this + ' span').html();
                 });
@@ -145,8 +145,8 @@
         );
 
         // Hack to fix forward slash JS error
-        $.each(groupedForms, function(key1, value1) {
-            $.each(value1, function(key2, value2) {
+        $.each(groupedForms, function (key1, value1) {
+            $.each(value1, function (key2, value2) {
                 if (typeof value2 == 'string') {
                     groupedForms[key1][key2] = value2.replace(/__forwardSlash__/g, '\/');
                 }
@@ -171,7 +171,7 @@
      * Handles validation for custom UI components
      */
     var customValidation = {
-        networkRanges: function($form) {
+        networkRanges: function ($form) {
             if ($form.closest('.multi-edit').find('.data-item').size()) {
                 return true;
             }
@@ -182,12 +182,12 @@
             return false;
         },
 
-        physicalNetworks: function($form) {
-            var $enabledPhysicalNetworks = $form.filter(':not(.disabled)').filter(function() {
+        physicalNetworks: function ($form) {
+            var $enabledPhysicalNetworks = $form.filter(':not(.disabled)').filter(function () {
                 return $(this).find('.traffic-type-draggable').size();
             });
             var $trafficTypes = $enabledPhysicalNetworks.find('.traffic-type-draggable');
-            var $configuredTrafficTypes = $trafficTypes.filter(function() {
+            var $configuredTrafficTypes = $trafficTypes.filter(function () {
                 var $trafficType = $(this);
 
                 return ($trafficType.data('traffic-type-data') != null);
@@ -210,7 +210,7 @@
      * Determine if UI components in step should be custom-validated
      * (i.e., not a standard form)
      */
-    var checkCustomValidation = function($step) {
+    var checkCustomValidation = function ($step) {
         var $multiEditForm = $step.find('.multi-edit form');
         var $physicalNetworks = $step.find('.select-container.multi');
         var isCustomValidated;
@@ -226,24 +226,24 @@
         return isCustomValidated;
     };
 
-    var isAdvancedNetwork = function($wizard) {
+    var isAdvancedNetwork = function ($wizard) {
         return getData($wizard, {
-            all: true
-        })['network-model'] == 'Advanced';
+                all: true
+            })['network-model'] == 'Advanced';
     };
 
     /**
      * Setup physical network wizard UI
      */
     var physicalNetwork = {
-        init: function($wizard) {
+        init: function ($wizard) {
             var $existingPhysicalNetworks = physicalNetwork.getNetworks($wizard);
 
             // Initialize physical networks
             if (!$existingPhysicalNetworks.size()) {
                 physicalNetwork.add($wizard);
             } else if (!isAdvancedNetwork($wizard)) {
-                $existingPhysicalNetworks.filter(':first').siblings().each(function() {
+                $existingPhysicalNetworks.filter(':first').siblings().each(function () {
                     physicalNetwork.remove($(this));
                 });
             }
@@ -253,35 +253,35 @@
             $wizard.find('.traffic-types-drag-area ul li').removeClass('required disabled clone');
 
             // Setup clone traffic types
-            $(physicalNetwork.cloneTrafficTypes($wizard)).each(function() {
+            $(physicalNetwork.cloneTrafficTypes($wizard)).each(function () {
                 var trafficTypeID = this;
 
-                $wizard.find('.traffic-types-drag-area ul li').filter(function() {
+                $wizard.find('.traffic-types-drag-area ul li').filter(function () {
                     return $(this).hasClass(trafficTypeID);
                 }).addClass('clone');
             });
 
             // Setup required traffic types
-            $(physicalNetwork.requiredTrafficTypes($wizard)).each(function() {
+            $(physicalNetwork.requiredTrafficTypes($wizard)).each(function () {
                 var trafficTypeID = this;
                 var $firstPhysicalNetwork = physicalNetwork.getNetworks($wizard).filter(':first');
 
                 // First physical network gets required traffic types
                 physicalNetwork.assignTrafficType(trafficTypeID, $firstPhysicalNetwork);
 
-                $wizard.find('.traffic-types-drag-area ul li').filter(function() {
+                $wizard.find('.traffic-types-drag-area ul li').filter(function () {
                     return $(this).hasClass(trafficTypeID);
                 }).addClass('required');
             });
 
             // Setup disabled traffic types
-            $(physicalNetwork.disabledTrafficTypes($wizard)).each(function() {
+            $(physicalNetwork.disabledTrafficTypes($wizard)).each(function () {
                 var trafficTypeID = this;
                 var $trafficType = physicalNetwork.getTrafficType(this, $wizard);
 
                 physicalNetwork.unassignTrafficType($trafficType);
 
-                $wizard.find('.traffic-types-drag-area ul li').filter(function() {
+                $wizard.find('.traffic-types-drag-area ul li').filter(function () {
                     return $(this).hasClass(trafficTypeID);
                 }).addClass('disabled');
             });
@@ -290,7 +290,7 @@
         /**
          * Traffic type edit dialog
          */
-        editTrafficTypeDialog: function($trafficType) {
+        editTrafficTypeDialog: function ($trafficType) {
             var trafficData = $trafficType.data('traffic-type-data') ?
                 $trafficType.data('traffic-type-data') : {};
             var hypervisor = getData($trafficType.closest('.zone-wizard')).zone.hypervisor;
@@ -312,7 +312,7 @@
                     fields: fields
                 },
 
-                after: function(args) {
+                after: function (args) {
                     $trafficType.data('traffic-type-data', args.data);
                 }
             });
@@ -321,7 +321,7 @@
         /**
          * Get required traffic type IDs for proper validation
          */
-        requiredTrafficTypes: function($wizard) {
+        requiredTrafficTypes: function ($wizard) {
             return cloudStack.zoneWizard.requiredTrafficTypes({
                 data: getData($wizard)
             });
@@ -330,7 +330,7 @@
         /**
          * Get required traffic type IDs for proper validation
          */
-        disabledTrafficTypes: function($wizard) {
+        disabledTrafficTypes: function ($wizard) {
             return cloudStack.zoneWizard.disabledTrafficTypes({
                 data: getData($wizard)
             });
@@ -339,7 +339,7 @@
         /**
          * Get clone-type traffic type IDs for proper validation
          */
-        cloneTrafficTypes: function($wizard) {
+        cloneTrafficTypes: function ($wizard) {
             return cloudStack.zoneWizard.cloneTrafficTypes({
                 data: getData($wizard)
             });
@@ -348,10 +348,10 @@
         /**
          * Physical network step: Renumber network form items
          */
-        renumberFormItems: function($container) {
+        renumberFormItems: function ($container) {
             var $items = $container.find('.select-container.multi');
 
-            $items.each(function() {
+            $items.each(function () {
                 var $item = $(this);
                 var $networkName = $item.find('.field.name input[type=text]');
                 var $networkId = $item.find('input[name=id]');
@@ -369,7 +369,7 @@
          *
          * @param $elem Any elem within the container
          */
-        getMainContainer: function($elem) {
+        getMainContainer: function ($elem) {
             return $elem.closest('.steps .setup-physical-network');
         },
 
@@ -378,14 +378,14 @@
          *
          * @param trafficTypeID ID of desired traffic type
          */
-        getTrafficType: function(trafficTypeID, $container) {
-            var $trafficType = $container.find('li.traffic-type-draggable').filter(function() {
+        getTrafficType: function (trafficTypeID, $container) {
+            var $trafficType = $container.find('li.traffic-type-draggable').filter(function () {
                 return $(this).attr('traffic-type-id') == trafficTypeID;
             });
 
             if (physicalNetwork.isTrafficTypeClone($trafficType) && !$container.closest('.select-container.multi').size()) {
                 // Get traffic type from original container
-                return $trafficType.filter(function() {
+                return $trafficType.filter(function () {
                     return $(this).closest(
                         physicalNetwork.getOriginalTrafficContainer($trafficType)
                     ).size();
@@ -400,10 +400,10 @@
          *
          * @param $trafficType Traffic type elem
          */
-        getOriginalTrafficContainer: function($trafficType) {
+        getOriginalTrafficContainer: function ($trafficType) {
             var $dragContainer = physicalNetwork.getMainContainer($trafficType)
                 .find('.traffic-types-drag-area ul > li')
-                .filter(function() {
+                .filter(function () {
                     return $(this).hasClass($trafficType.attr('traffic-type-id'));
                 })
                 .find('ul');
@@ -416,7 +416,7 @@
          *
          * @param $container Physical network step - main container
          */
-        getNetworks: function($container) {
+        getNetworks: function ($container) {
             return $container.find('.select-container.multi');
         },
 
@@ -425,7 +425,7 @@
          *
          * @param $trafficType
          */
-        isTrafficTypeClone: function($trafficType) {
+        isTrafficTypeClone: function ($trafficType) {
             return physicalNetwork.getOriginalTrafficContainer($trafficType).parent().hasClass('clone');
         },
 
@@ -435,7 +435,7 @@
          * @param trafficTypeID ID of desired traffic type
          * @param $physicalNetwork Physical network elem
          */
-        assignTrafficType: function(trafficTypeID, $physicalNetwork, data) {
+        assignTrafficType: function (trafficTypeID, $physicalNetwork, data) {
             var $container = physicalNetwork.getMainContainer($physicalNetwork);
             var $trafficType = physicalNetwork.getTrafficType(trafficTypeID, $container);
             var $dropArea = $physicalNetwork.find('.drop-container ul');
@@ -471,7 +471,7 @@
          * @param $container Physical network wizard step container
          * @param $physicalNetwork (optional) Specific physical network to remove from -- only for clones
          */
-        unassignTrafficType: function($trafficType) {
+        unassignTrafficType: function ($trafficType) {
             var $wizard = $trafficType.closest('.zone-wizard');
             var $originalContainer = physicalNetwork.getOriginalTrafficContainer($trafficType);
             var $physicalNetworks = physicalNetwork.getNetworks($wizard);
@@ -498,12 +498,12 @@
         /**
          * Returns true if new physical network item needs to be added
          */
-        needsNewNetwork: function($containers) {
+        needsNewNetwork: function ($containers) {
             // Basic zones do not have multiple physical networks
             if (!isAdvancedNetwork($containers.closest('.zone-wizard')))
                 return false;
 
-            var $emptyContainers = $containers.filter(function() {
+            var $emptyContainers = $containers.filter(function () {
                 return !$(this).find('li').size();
             });
 
@@ -513,13 +513,13 @@
         /**
          * Cleanup physical network containers
          */
-        updateNetworks: function($containers) {
+        updateNetworks: function ($containers) {
             var $mainContainer = physicalNetwork.getMainContainer($containers);
             var $allPhysicalNetworks = physicalNetwork.getNetworks($mainContainer);
             var containerTotal = isAdvancedNetwork($containers.closest('.zone-wizard')) ?
                 2 : 1;
 
-            $allPhysicalNetworks.each(function() {
+            $allPhysicalNetworks.each(function () {
                 var $ul = $(this).find('.drop-container ul');
 
                 if (!$(this).find('li').size()) {
@@ -531,7 +531,7 @@
                 }
             });
 
-            $containers.each(function() {
+            $containers.each(function () {
                 var $currentContainer = $(this);
                 if (!$currentContainer.find('li').size() &&
                     $containers.size() > containerTotal) {
@@ -554,17 +554,17 @@
         /**
          * Default options for initializing traffic type draggables
          */
-        draggableOptions: function($wizard) {
+        draggableOptions: function ($wizard) {
             return {
                 appendTo: $wizard,
                 helper: 'clone',
 
                 // Events
-                start: function(event, ui) {
+                start: function (event, ui) {
                     $(this).addClass('disabled');
                 },
 
-                stop: function(event, ui) {
+                stop: function (event, ui) {
                     $(this).removeClass('disabled');
                 },
 
@@ -575,7 +575,7 @@
         /**
          * Physical network step: Generate new network element
          */
-        add: function($wizard) {
+        add: function ($wizard) {
             var $container = $wizard.find('.setup-physical-network .content.input-area form');
             var $physicalNetworkItem = $('<div>').addClass('select-container multi');
             var $deleteButton = $('<div>').addClass('button remove physical-network')
@@ -640,7 +640,7 @@
                 ),
                 $('<ul>').hide()
             ).droppable({
-                over: function(event, ui) {
+                over: function (event, ui) {
                     var $ul = $(this).find('ul');
 
                     $ul.addClass('active');
@@ -651,14 +651,14 @@
                     }
                 },
 
-                out: function(event, ui) {
+                out: function (event, ui) {
                     var $ul = $(this).find('ul');
 
                     $ul.removeClass('active');
                     physicalNetwork.updateNetworks($(this).closest('.select-container.multi'));
                 },
 
-                drop: function(event, ui) {
+                drop: function (event, ui) {
                     var trafficTypeID = ui.draggable.attr('traffic-type-id');
                     var $physicalNetwork = $(this).closest('.select-container.multi');
                     var trafficTypeData = ui.draggable.data('traffic-type-data');
@@ -696,7 +696,7 @@
             physicalNetwork.renumberFormItems($container);
 
             // Remove network action
-            $physicalNetworkItem.find('.button.remove.physical-network').click(function() {
+            $physicalNetworkItem.find('.button.remove.physical-network').click(function () {
                 physicalNetwork.remove($physicalNetworkItem);
             });
 
@@ -710,11 +710,11 @@
          *
          * @param $physicalNetworkItem Physical network container to remove
          */
-        remove: function($physicalNetworkItem) {
+        remove: function ($physicalNetworkItem) {
             var $container = $physicalNetworkItem.closest('.setup-physical-network .content.input-area form');
             var $trafficTypes = $physicalNetworkItem.find('li.traffic-type-draggable');
 
-            $trafficTypes.each(function() {
+            $trafficTypes.each(function () {
                 var trafficTypeID = $(this).attr('traffic-type-id');
 
                 physicalNetwork.assignTrafficType(
@@ -733,7 +733,7 @@
      * Configure guest traffic UI
      */
     var guestTraffic = {
-        init: function($wizard, args) {
+        init: function ($wizard, args) {
             var $physicalNetworks = physicalNetwork.getNetworks($wizard);
             var $tabs = guestTraffic.makeTabs($physicalNetworks, args);
             var $container = guestTraffic.getMainContainer($wizard);
@@ -753,7 +753,7 @@
         /**
          * Cleanup
          */
-        remove: function($wizard) {
+        remove: function ($wizard) {
             var $container = guestTraffic.getMainContainer($wizard);
 
             // Cleanup
@@ -762,22 +762,20 @@
             $container.find('.content form').show();
         },
 
-        getMainContainer: function($wizard) {
+        getMainContainer: function ($wizard) {
             return $wizard.find('.steps .setup-guest-traffic');
         },
 
-        makeTabs: function($physicalNetworks, args) {
+        makeTabs: function ($physicalNetworks, args) {
             var $tabs = $('<ul></ul>').addClass('physical-network-item');
             var $content = $();
 
             // Only use networks w/ guest traffic type
-            $physicalNetworks = $physicalNetworks.filter(function() {
+            $physicalNetworks = $physicalNetworks.filter(function () {
                 return $(this).find('li.guest').size();
-
-                return true;
             });
 
-            $physicalNetworks.each(function() {
+            $physicalNetworks.each(function () {
                 var $network = $(this);
                 var $form = makeForm(args, 'guestTraffic', {});
                 var refID = $network.find('input[name=id]').val();
@@ -787,19 +785,19 @@
 
                 $tabs.append($('<li></li>').append(
                     $('<a></a>')
-                    .attr({
-                        href: '#' + networkID
-                    })
-                    .html($network.find('.field.name input').val())
+                        .attr({
+                            href: '#' + networkID
+                        })
+                        .html($network.find('.field.name input').val())
                 ));
                 $.merge(
                     $content,
                     $('<div></div>')
-                    .addClass('physical-network-item')
-                    .attr({
-                        id: networkID
-                    })
-                    .append($form)
+                        .addClass('physical-network-item')
+                        .attr({
+                            id: networkID
+                        })
+                        .append($form)
                 );
 
                 $form.validate();
@@ -815,7 +813,7 @@
     /**
      * Generate dynamic form, based on ID of form object given
      */
-    var makeForm = function(args, id, formState) {
+    var makeForm = function (args, id, formState) {
         var form = cloudStack.dialog.createForm({
             noDialog: true,
             context: $.extend(true, {}, cloudStack.context, {
@@ -826,7 +824,8 @@
                 desc: '',
                 fields: args.forms[id].fields
             },
-            after: function(args) {}
+            after: function (args) {
+            }
         });
 
         var $form = form.$formContainer.find('form');
@@ -836,21 +835,21 @@
         $form.find('input[type=submit]').remove();
         $form.find('.form-item').addClass('field').removeClass('form-item');
         $form.find('label.error').hide();
-        $form.find('.form-item .name').each(function() {
+        $form.find('.form-item .name').each(function () {
             $(this).html($(this).find('label'));
         });
-        $form.find('label[for]').each(function() {
+        $form.find('label[for]').each(function () {
             var forAttr = $(this).attr('for');
             $form.find('#' + forAttr).attr('id', id + '_' + forAttr);
             $(this).attr('for', id + '_' + forAttr)
         });
 
-        $form.find('select, input').change(function() {
+        $form.find('select, input').change(function () {
             cloudStack.evenOdd($form, '.field:visible', {
-                even: function($row) {
+                even: function ($row) {
                     $row.removeClass('odd');
                 },
-                odd: function($row) {
+                odd: function ($row) {
                     $row.addClass('odd');
                 }
             });
@@ -859,8 +858,8 @@
         return $form;
     };
 
-    cloudStack.uiCustom.zoneWizard = function(args) {
-        return function() {
+    cloudStack.uiCustom.zoneWizard = function (args) {
+        return function () {
             var $wizard = $('#template').find('div.zone-wizard').clone();
             var $progress = $wizard.find('div.progress ul li');
             var $steps = $wizard.find('div.steps').children().hide().filter(':not(.disabled)');
@@ -868,15 +867,15 @@
             $wizard.data('startfn', null);
 
             // Close wizard
-            var close = function() {
+            var close = function () {
                 $wizard.dialog('destroy');
-                $('div.overlay').fadeOut(function() {
+                $('div.overlay').fadeOut(function () {
                     $('div.overlay').remove();
                 });
             };
 
             // Save and close wizard
-            var completeAction = function() {
+            var completeAction = function () {
                 var $launchStep = $wizard.find('.steps .review');
                 var data = getData($wizard);
                 var enableZoneAction = args.enableZoneAction;
@@ -889,13 +888,13 @@
                 $wizard.find('.buttons').hide();
                 $wizard.find('.button.previous').remove();
 
-                var makeMessage = function(message, isError) {
+                var makeMessage = function (message, isError) {
                     var $li = $('<li>')
                         .addClass(!isError ? 'loading' : 'info')
                         .append(
                             $('<span>').addClass('icon').html('&nbsp;'),
                             $('<span>').addClass('text').html(message)
-                    );
+                        );
                     var $launchContainer = $launchStep.find('.launch-container');
 
                     $launchStep.find('ul').append($li);
@@ -914,20 +913,20 @@
                     startFn: $wizard.data('startfn'),
                     uiSteps: $.map(
                         $wizard.find('.steps > div'),
-                        function(step) {
+                        function (step) {
                             return $(step).attr('zone-wizard-step-id');
                         }
                     ),
                     response: {
-                        success: function(args) {
+                        success: function (args) {
                             $launchStep.find('ul li').removeClass('loading');
 
-                            var closeWindow = function() {
+                            var closeWindow = function () {
                                 close();
                                 $(window).trigger('cloudStack.fullRefresh');
                             };
 
-                            var enableZone = function() {
+                            var enableZone = function () {
                                 makeMessage(_l('message.enabling.zone'));
 
                                 enableZoneAction({
@@ -935,11 +934,11 @@
                                     data: data,
                                     launchData: args.data,
                                     response: {
-                                        success: function(args) {
+                                        success: function (args) {
                                             closeWindow();
                                         },
 
-                                        error: function(message) {
+                                        error: function (message) {
                                             cloudStack.dialog.notice({
                                                 message: _l('error.could.not.enable.zone') + ':</br>' + message
                                             });
@@ -950,16 +949,16 @@
 
                             cloudStack.dialog.confirm({
                                 message: _l('message.zone.creation.complete.would.you.like.to.enable.this.zone'),
-                                action: function() {
+                                action: function () {
                                     enableZone();
                                 },
-                                cancelAction: function() {
+                                cancelAction: function () {
                                     closeWindow();
                                 }
                             });
                         },
-                        error: function(stepID, message, start) {
-                            var goNextOverride = function(event) {
+                        error: function (stepID, message, start) {
+                            var goNextOverride = function (event) {
                                 $(this).unbind('click', goNextOverride);
                                 showStep(stepID, false, {
                                     nextStep: 'launch'
@@ -983,7 +982,7 @@
 
             // Go to specified step in wizard,
             // updating nav items and diagram
-            var showStep = function(index, goBack, options) {
+            var showStep = function (index, goBack, options) {
                 if (!options) options = {};
 
                 if (typeof index == 'string') {
@@ -1009,13 +1008,13 @@
                 var formID = $targetStep.attr('zone-wizard-form');
                 var stepPreFilter = cloudStack.zoneWizard.preFilters[
                     $targetStep.attr('zone-wizard-prefilter')
-                ];
+                    ];
 
                 // Bypass step check
                 if (stepPreFilter && !stepPreFilter({
-                    data: formState,
-                    groupedData: groupedFormState
-                })) {
+                        data: formState,
+                        groupedData: groupedFormState
+                    })) {
                     return showStep(!goBack ? index + 1 : index - 1,
                         goBack
                     );
@@ -1025,17 +1024,18 @@
                     if (!$targetStep.find('form').size()) {
                         makeForm(args, formID, formState).appendTo($targetStep.find('.content.input-area .select-container'));
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             cloudStack.evenOdd($targetStep, '.field:visible', {
-                                even: function() {},
-                                odd: function($row) {
+                                even: function () {
+                                },
+                                odd: function ($row) {
                                     $row.addClass('odd');
                                 }
                             });
                         }, 50);
                     } else {
                         // Always re-activate selects
-                        $targetStep.find('form select').each(function() {
+                        $targetStep.find('form select').each(function () {
                             var $select = $(this);
                             var selectFn = $select.data('dialog-select-fn');
                             var originalVal = $select.val();
@@ -1076,7 +1076,7 @@
                 }
 
                 if ($uiCustom.size()) {
-                    $uiCustom.each(function() {
+                    $uiCustom.each(function () {
                         var $item = $(this);
                         var id = $item.attr('ui-custom');
 
@@ -1110,11 +1110,11 @@
                 }
 
                 // Update progress bar
-                var $targetProgress = $progress.removeClass('active').filter(function() {
+                var $targetProgress = $progress.removeClass('active').filter(function () {
                     return $(this).index() <= targetIndex;
                 }).toggleClass('active');
 
-                setTimeout(function() {
+                setTimeout(function () {
                     if (!$targetStep.find('input[type=radio]:checked').size()) {
                         $targetStep.find('input[type=radio]:first').click();
                     }
@@ -1124,7 +1124,7 @@
             };
 
             // Events
-            $wizard.find('select').change(function(event) {
+            $wizard.find('select').change(function (event) {
                 // Conditional selects (on step 4 mainly)
                 var $target = $(this);
                 var $tagged = $wizard.find('.conditional.vlan-type-tagged');
@@ -1148,11 +1148,11 @@
                     $.merge($tagged, $untagged).find('select:visible').trigger('change');
 
                     cloudStack.evenOdd($wizard, '.field:visible', {
-                        even: function($elem) {
+                        even: function ($elem) {
                             $elem.removeClass('odd');
                             $elem.addClass('even');
                         },
-                        odd: function($elem) {
+                        odd: function ($elem) {
                             $elem.removeClass('even');
                             $elem.addClass('odd');
                         }
@@ -1167,11 +1167,11 @@
                     if ($target.val() == 'account-specific') $accountSpecific.show();
 
                     cloudStack.evenOdd($wizard, '.field:visible', {
-                        even: function($elem) {
+                        even: function ($elem) {
                             $elem.removeClass('odd');
                             $elem.addClass('even');
                         },
-                        odd: function($elem) {
+                        odd: function ($elem) {
                             $elem.removeClass('even');
                             $elem.addClass('odd');
                         }
@@ -1181,7 +1181,7 @@
                 return true;
             });
 
-            $wizard.click(function(event) {
+            $wizard.click(function (event) {
                 var $target = $(event.target);
 
                 // Radio button
@@ -1222,7 +1222,7 @@
                 if ($target.closest('div.button.next').size()) {
                     var $step = $steps.filter(':visible');
                     // Validation
-                    var $form = $('form:visible').filter(function() {
+                    var $form = $('form:visible').filter(function () {
                         // Don't include multi-edit (validation happens separately)
                         return !$(this).closest('.multi-edit').size();
                     });
@@ -1232,95 +1232,85 @@
                     if (($form.size() && !$form.valid()) || !isCustomValidated) {
                         if (($form && $form.find('.error:visible').size()) || !isCustomValidated)
                             return false;
-                    }
 
-                    //when hypervisor is BareMetal (begin)
-                    var data = getData($wizard);
-                    if (('zone' in data) && (data.zone.hypervisor == 'BareMetal')) {
-                        if ($('.zone-wizard:visible').find('#add_zone_guest_traffic_desc:visible').size() > 0) { //$steps.filter(':visible').index() == 6
-                            showStep('launch');
+                        if (!$target.closest('.button.next.final').size())
+                            showStep($steps.filter(':visible').index() + 2);
+                        else {
+                            if ($target.closest('.button.next.final.post-launch').size()) {
+                                showStep('launch');
+                            }
+
                             completeAction();
-                            return false;
-                        }
-                    }
-                    //when hypervisor is BareMetal (end)
-
-                    if (!$target.closest('.button.next.final').size())
-                        showStep($steps.filter(':visible').index() + 2);
-                    else {
-                        if ($target.closest('.button.next.final.post-launch').size()) {
-                            showStep('launch');
                         }
 
-                        completeAction();
+                        return false;
                     }
 
-                    return false;
-                }
+                    // Previous button
+                    if ($target.closest('div.button.previous').size()) {
+                        showStep($steps.filter(':visible').index(), true);
 
-                // Previous button
-                if ($target.closest('div.button.previous').size()) {
-                    showStep($steps.filter(':visible').index(), true);
+                        return false;
+                    }
 
-                    return false;
-                }
+                    // Close button
+                    if ($target.closest('div.button.cancel').size()) {
+                        close();
 
-                // Close button
-                if ($target.closest('div.button.cancel').size()) {
-                    close();
+                        return false;
+                    }
 
-                    return false;
-                }
+                    // Edit link
+                    if ($target.closest('div.edit').size()) {
+                        var $edit = $target.closest('div.edit');
 
-                // Edit link
-                if ($target.closest('div.edit').size()) {
-                    var $edit = $target.closest('div.edit');
+                        showStep($edit.find('a').attr('href'));
 
-                    showStep($edit.find('a').attr('href'));
+                        return false;
+                    }
 
-                    return false;
-                }
+                    // Edit traffic type button
+                    var $editTrafficTypeButton = $target.closest('.drop-container .traffic-type-draggable .edit-traffic-type');
+                    var $trafficType = $editTrafficTypeButton.closest('.traffic-type-draggable');
 
-                // Edit traffic type button
-                var $editTrafficTypeButton = $target.closest('.drop-container .traffic-type-draggable .edit-traffic-type');
-                var $trafficType = $editTrafficTypeButton.closest('.traffic-type-draggable');
+                    if ($editTrafficTypeButton.size()) {
+                        physicalNetwork.editTrafficTypeDialog($trafficType);
 
-                if ($editTrafficTypeButton.size()) {
-                    physicalNetwork.editTrafficTypeDialog($trafficType);
-
-                    return false;
-                }
-
-                return true;
-            });
-
-            // Add/remove network action
-            $wizard.find('.button.add.new-physical-network').click(function() {
-                addPhysicalNetwork($wizard);
-            });
-
-            // Traffic type draggables
-            $wizard.find('.traffic-type-draggable').draggable(physicalNetwork.draggableOptions($wizard));
-
-            // For removing traffic types from physical network
-            $wizard.find('.traffic-types-drag-area').droppable({
-                drop: function(event, ui) {
-                    physicalNetwork.unassignTrafficType(ui.draggable);
+                        return false;
+                    }
 
                     return true;
                 }
+
+                // Add/remove network action
+                $wizard.find('.button.add.new-physical-network').click(function () {
+                    addPhysicalNetwork($wizard);
+                });
+
+                // Traffic type draggables
+                $wizard.find('.traffic-type-draggable').draggable(physicalNetwork.draggableOptions($wizard));
+
+                // For removing traffic types from physical network
+                $wizard.find('.traffic-types-drag-area').droppable({
+                    drop: function (event, ui) {
+                        physicalNetwork.unassignTrafficType(ui.draggable);
+
+                        return true;
+                    }
+                });
+
+                showStep(1);
+
+                return $wizard.dialog({
+                    title: _l('label.installWizard.addZone.title'),
+                    closeOnEscape: false,
+                    width: 750,
+                    height: 665,
+                    zIndex: 5000,
+                    resizable: false
+                }).closest('.ui-dialog').overlay();
             });
 
-            showStep(1);
-
-            return $wizard.dialog({
-                title: _l('label.installWizard.addZone.title'),
-                closeOnEscape: false,
-                width: 750,
-                height: 665,
-                zIndex: 5000,
-                resizable: false
-            }).closest('.ui-dialog').overlay();
         };
     };
 })(jQuery, cloudStack);
