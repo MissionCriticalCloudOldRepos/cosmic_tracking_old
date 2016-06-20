@@ -1,7 +1,3 @@
-[submodule "cosmic-plugin-hypervisor-xenserver"]
-        path = cosmic-plugin-hypervisor-xenserver
-        url = git@github.com:MissionCriticalCloud/cosmic-plugin-hypervisor-xenserver.git
-        branch = master
 [submodule "cosmic-plugin-user-authenticator-ldap"]
 	path = cosmic-plugin-user-authenticator-ldap
 	url = git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-ldap.git
