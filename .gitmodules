@@ -1,4 +1,0 @@
-[submodule "cosmic-plugin-user-authenticator-sha256salted"]
-	path = cosmic-plugin-user-authenticator-sha256salted
-	url = git@github.com:MissionCriticalCloud/cosmic-plugin-user-authenticator-sha256salted.git
-        branch = master
