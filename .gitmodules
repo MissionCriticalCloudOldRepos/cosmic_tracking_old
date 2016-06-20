@@ -1,7 +1,3 @@
-[submodule "cosmic-agent"]
-        path = cosmic-agent
-        url = git@github.com:MissionCriticalCloud/cosmic-agent.git
-        branch = master
 [submodule "cosmic-client"]
         path = cosmic-client
         url = git@github.com:MissionCriticalCloud/cosmic-client.git
